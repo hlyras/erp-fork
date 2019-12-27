@@ -11,9 +11,9 @@
 
 module.exports = {
     'connection': {
-        'host': 'localhost',
-        'port': '3306',
-        'user': 'root',
+        'host': 'mysql669.umbler.com',
+        'port': '41890',
+        'user': 'hlyras',
         'password': 'root1234'
     }
 };
