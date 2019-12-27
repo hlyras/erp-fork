@@ -1,0 +1,47 @@
+This file should be always updated.
+The sql files will be on /config
+
+DATABASE
+	hl_company_db
+
+		users
+			id
+			name
+			email
+			password
+			access
+
+----------------------------------
+
+		products
+			id
+			code
+			name
+			value
+
+		product_category
+			id
+			product_id
+			category_id
+
+----------------------------------
+
+		customers
+			id
+			name
+			password
+			access
+
+		customer_adress
+			id
+			user_id
+			street
+			number
+			complement
+			nbhd
+			city
+			state
+			country
+			postal_code
+
+----------------------------------

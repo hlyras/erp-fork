@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <% include ./../partials/head %>
+  </head>
+  <body>
+    <header>
+      <div onclick="window.location.href='/'" href="#default" class="favicon"><img class="image" src="/images/favicon.png"></div>
+      <div class="right">
+        <a class="active" href="/signup">Novo colaborador</a>
+        <a onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
+      </div>
+    </header>
+    <% include ./../partials/nav %>
+    <section>
+      <div class="container">
+        <div class="box-2">
+          <div class="menu-box">
+            <strong class="underline-title">Menu administrativo</strong>
+            <span class="span-menu" onclick="window.location.href='/product/index'">Produtos</span>
+            <span class="span-menu" onclick="window.location.href='/seamstress/index'">Costureiras</span>
+          </div>
+        </div>
+        
+        <!-- <div class="box-2">
+          <div class="menu-box">
+            <strong class="underline-title">Cadastrar nova Fábrica</strong>
+            <form id="factory-create-form">
+              <input type="text" class="btn-generic-big" name="city">
+              <input type="text" class="btn-generic-big" name="state">
+              <input type="submit" value="Cadastrar">
+            </form>
+          </div>
+        </div> -->
+
+        <!-- <div class="box-2">
+          <div class="menu-box">
+            <strong class="underline-title">Suporte</strong>
+            <span class="span-menu" onclick="window.location.href='/admin/support'">Acessar</span>
+          </div>
+        </div> -->
+      </div>
+    </section>
+  </body>
+  <footer>
+    <% include ./../partials/footer %>
+  </footer>
+</html>

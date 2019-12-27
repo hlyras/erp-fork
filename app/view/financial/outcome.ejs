@@ -1,0 +1,79 @@
+<html>
+	<head>
+        <% include ./../partials/head %>
+	</head>
+	<body>
+		<header>
+			<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="image" src="/images/favicon.png"></div>
+			<div class="right">
+			<a onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
+			</div>
+		</header>
+        <% include ./../partials/nav %>
+		<section>
+			<div class="container">
+				<div class="box-2">
+                    <h3 class="underline-title">Cadastrar Categoria de Despesa</h3><br>
+					<form id="outcome-category-create-form" class="box-1">
+						<input type="hidden" name="category_id" value="0" autocomplete="off">
+						<input type="text" class="btn-generic-medium" name="category_name" placeholder="Nome da categoria" autocomplete="off" maxlength="20">
+						<input type="submit" class="btn-generic-small" id="outcome-category-create-submit" value="Cadastrar">
+					</form>
+	                <div id="outcome-category-filter-div" style="display:none">
+						<form id="outcome-category-filter-form" class="box-1">
+	                    	<h4 class="underline-title">Filtrar Categorias de Despesa</h4><br>
+							<input type="text" name="category_name" class="btn-generic-medium" placeholder="Nome da categoria" autocomplete="off">
+							<input type="submit" class="btn-generic-small" id="outcome-category-filter-submit" value="Filtrar">
+						</form>
+						<div id="outcome-category-div">
+							<table class="tbl-info" id="outcome-category-tbl"></table>
+							<br>
+							<button id="outcomeCategoryPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
+		                    <span id="outcomeCategoryPageNumber"></span>
+		                    <button id="outcomeCategoryNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button><br><br>
+						</div>
+	                </div>
+	                <button class="btn-generic-medium" onclick="displayFinancialForms('outcome-category-filter-div', this)" id="displayOutcomeCategoryBtn" autocomplete="off">Mostrar &dArr;&dArr;</button>
+				</div>
+
+				<div class="box-2">
+                    <h3 class="underline-title">Origem da despesa</h3><br>
+					<form id="outcome-origin-create-form" class="box-1">
+						<select class="btn-generic-medium" name="category_id" id="outcome-origin-create-select">
+							<option value="">Categoria</option>
+							<% for(i in outcomeCategories){ %>
+								<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
+							<% }%>
+						</select>
+						<input type="text" class="btn-generic-medium" name="origin_name" placeholder="Origem da Despesa" autocomplete="off" maxlength="20">
+						<input type="submit" class="btn-generic-small" id="outcome-origin-create-submit" value="Cadastrar">
+					</form>
+					<div id="outcome-origin-filter-div" style="display:none">
+						<form id="outcome-origin-filter-form" class="box-1">
+	                    	<h4 class="underline-title">Filtrar Origens de Despesa</h4><br>
+	                    	<select class="btn-generic-medium" name="category_id" id="outcome-category-filter-select">
+							    <option value="">Categoria</option>
+								<% for(i in outcomeCategories){ %>
+									<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
+								<% }%>
+							</select>
+							<input type="submit" class="btn-generic-small" id="outcome-origin-filter-submit" value="Filtrar">
+						</form>
+						<div id="outcome-origin-div">
+							<table class="tbl-info" id="outcome-origin-tbl"></table>
+							<br>
+							<button id="outcomeOriginPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
+		                    <span id="outcomeOriginPageNumber"></span>
+		                    <button id="outcomeOriginNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button><br><br>
+						</div>
+					</div>
+					<button class="btn-generic-medium" onclick="displayFinancialForms('outcome-origin-filter-div', this)" autocomplete="off">Mostrar &dArr;&dArr;</button>
+				</div>
+			</div>
+		</section>
+	</body>
+	<footer>
+        <% include ./../partials/footer %>
+        <% include ./partial %>
+	</footer>
+</html>

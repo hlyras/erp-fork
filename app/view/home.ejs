@@ -1,0 +1,30 @@
+<html>
+	<head>
+        <% include ./partials/head %>
+	</head>
+	<body>
+		<header>
+			<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="image" src="/images/favicon.png"></div>
+			<div class="right">
+				<a class="active" href="/user">Perfil</a>
+				<a onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
+			</div>
+		</header>
+        <% include ./partials/nav %>
+		<section>
+            <div class="container">
+                <!-- <div class="box-2">
+                    <div class="menu-box">
+                    	<h5 class="underline-title">MENU</h5>
+                        <h3 class="span-menu underline-title" onclick="window.location.href='/criar costura externa'">CMS Costura externa</h3>
+                        <h3 class="span-menu underline-title" onclick="window.location.href='/customer'">Clientes</h3>
+                    </div>
+                </div> -->
+            </div>
+        </section>
+	</body>
+	<footer>
+        <% include ./partials/footer %>
+        <% include ./partials/product %>
+	</footer>
+</html>
