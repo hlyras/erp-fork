@@ -272,6 +272,8 @@ const financialController = {
 			category_name: req.body.category_name,		
 			origin_id: req.body.origin_id,		
 			origin_name: req.body.origin_name,		
+			payment_id: req.body.payment_id,		
+			payment_name: req.body.payment_name,		
 			value: req.body.value,
 			obs: req.body.obs,
 			user_id: req.user.id,
@@ -286,7 +288,6 @@ const financialController = {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao cadastrar a receita, favor contatar o suporte" });
 			});
-
 	},
 	outcomeFindById: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){

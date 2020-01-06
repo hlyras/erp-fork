@@ -5,6 +5,7 @@ $(function(){
 
 		const category = document.getElementById("outcome-create-form").elements.namedItem('outcome_category');
 		const origin = document.getElementById("outcome-create-form").elements.namedItem('outcome_origin');
+		const payment = document.getElementById("outcome-create-form").elements.namedItem('outcome_payment');
 		const value = document.getElementById("outcome-create-form").elements.namedItem('outcome_value').value;
 		const obs = document.getElementById("outcome-create-form").elements.namedItem('outcome_obs').value;
 
@@ -13,6 +14,9 @@ $(function(){
 
 		const origin_id = origin.options[origin.selectedIndex].value;
 		const origin_name = origin.options[origin.selectedIndex].text;
+
+		const payment_id = payment.options[payment.selectedIndex].value;
+		const payment_name = payment.options[payment.selectedIndex].text;
 
 		if(category_id == "0"){
 			alert("É necessário selecionar uma categoria!");
@@ -24,8 +28,13 @@ $(function(){
 			return document.getElementById('outcome-create-submit').disabled = false;
 		};
 
+		if(payment_id == "0"){
+			alert("É necessário selecionar um método de pagamento!");
+			return document.getElementById('outcome-create-submit').disabled = false;
+		};
+
 		if(value < 0.01){
-			alert("É necessário cadastrar o valor da receita!");
+			alert("É necessário cadastrar o valor da despesa!");
 			return document.getElementById('outcome-create-submit').disabled = false;	
 		};
 
@@ -37,6 +46,8 @@ $(function(){
 				category_name: category_name,
 				origin_id: origin_id,
 				origin_name: origin_name,
+				payment_id: payment_id,
+				payment_name: payment_name,
 				value: value,
 				obs: obs
 			},
@@ -57,6 +68,7 @@ $(function(){
 
 				document.getElementById("outcome-create-form").elements.namedItem('outcome_category').value = "0";
 				document.getElementById("outcome-create-form").elements.namedItem('outcome_origin').value = "0";
+				document.getElementById("outcome-create-form").elements.namedItem('outcome_payment').value = "0";
 				document.getElementById("outcome-create-form").elements.namedItem('outcome_value').value = "0.00";
 				document.getElementById("outcome-create-form").elements.namedItem('outcome_obs').value = "";
 
@@ -349,6 +361,7 @@ function showFinancialOutcome(id){
 			html += "<td>Data<td>";
 			html += "<td>Categoria<td>";
 			html += "<td>Origem<td>";
+			html += "<td>Método de pagamento<td>";
 			html += "<td>Valor<td>";
 			html += "<td>Usuário<td>";
 			html += "</tr>";
@@ -358,6 +371,7 @@ function showFinancialOutcome(id){
 			html += "<td>"+outcome[0].date+"<td>";
 			html += "<td>"+outcome[0].category_name+"<td>";
 			html += "<td>"+outcome[0].origin_name+"<td>";
+			html += "<td>"+outcome[0].payment_name+"<td>";
 			html += "<td>"+outcome[0].value+"<td>";
 			html += "<td>"+outcome[0].user_name+"<td>";
 			html += "</tr>";

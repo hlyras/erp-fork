@@ -42,9 +42,14 @@
 						<select class="btn-generic-big" name="outcome_origin" id="outcome-create-origin-select">
 							<option value="0">Despesa</option>
 						</select>
+						<select class="btn-generic-big" name="outcome_payment">
+						    <option value="0">Método de pagamento</option>
+							<% for(i in incomeCategories){ %>
+								<option value="<%= incomeCategories[i].id %>"><%= incomeCategories[i].name %></option>
+							<% } %>
+						</select>
 						<input type="number" class="btn-generic-big price" name="outcome_value" step="0.01" value="0.00"/>
 						<input type="text" class="btn-generic-big" name="outcome_obs" placeholder="Observação" />
-						<br>
 						<input type="submit" class="btn-generic-big" id="outcome-create-submit" value="Cadastrar">
 					</form>
 				</div>

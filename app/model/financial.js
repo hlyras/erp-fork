@@ -85,12 +85,14 @@ Financial.incomeOriginRemoveByCategory = async (id) => {
 // --------------
 
 Financial.outcomeSave = async (outcome) => {
-	let query = "INSERT INTO cms_wt_erp.financial_outcome (date, category_id, category_name, origin_id, origin_name, value, obs, user_id, user_name) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.financial_outcome (date, category_id, category_name, origin_id, origin_name, payment_id, payment_name, value, obs, user_id, user_name) VALUES ('"
 	+outcome.date+"', '"
 	+outcome.category_id+"', '"
 	+outcome.category_name+"', '"
 	+outcome.origin_id+"', '"
 	+outcome.origin_name+"', '"
+	+outcome.payment_id+"', '"
+	+outcome.payment_name+"', '"
 	+outcome.value+"', '"
 	+outcome.obs+"', '"
 	+outcome.user_id+"', '"
