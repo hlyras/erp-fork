@@ -122,7 +122,9 @@ function showProduct(id, admin){
 			html += "<td>"+product[0].name+"</td>";
 			html += "<td>"+product[0].size+"</td>";
 			html += "<td>"+product[0].color+"</td>";
-			html += "<td><a class='tbl-show-link' onclick='productAddImage("+product[0].id+")'>add img</a></td>";
+			if(admin){
+				html += "<td><a class='tbl-show-link' onclick='productAddImage("+product[0].id+")'>add img</a></td>";
+			};
 			html += "<td><a class='tbl-show-link' onclick='hideProduct()'>Esconder</a></td>";
 			html += "</tr>";
 
