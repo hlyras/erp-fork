@@ -143,7 +143,7 @@ const productController = {
 		res.send({ done: 'Imagem excluída!' });
 	},
 	options: (req, res, next) => {
-		res.status(204).send(""); // no content
+		res.status(204).send("");
 	},
 
 	/////////////////////////////////////////////

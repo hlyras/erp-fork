@@ -44,7 +44,7 @@ function productRemoveImage(image_id, product_id){
 					return;
 				};
 
-				showProduct(product_id);
+				showProduct(product_id, true);
 				alert(response.done);
 			}
 		});
@@ -61,7 +61,6 @@ function productImagePagination(images, product_id, admin){
 			htmlImage += "<img class='image' src='"+images[i].url+"'>";
 			htmlImage += "<div clas='box-1'>";
 			htmlImage += "<br>";
-			//if admin
 			if(admin){
 				htmlImage += "<button class='btn-generic-big' onclick='productRemoveImage("+images[i].id+", "+product_id+")'>Excluir</button>";
 			};

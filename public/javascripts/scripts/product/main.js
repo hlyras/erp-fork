@@ -219,7 +219,6 @@ function removeProduct(id){
 		$.ajax({
 			url: '/product/remove?id='+id,
 			method: 'delete',
-
 			// url: '/product/remove',
 			// method: 'post',
 			// data: {
