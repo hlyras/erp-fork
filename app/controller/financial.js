@@ -329,6 +329,11 @@ const financialController = {
 			values.push(req.body.outcome_origin);
 		};
 
+		if(parseInt(req.body.outcome_payment)){
+			params.push("payment_id");
+			values.push(req.body.outcome_payment);
+		};
+
 		Financial.outcomeFilter(periodStart, periodEnd, params, values)
 			.then(outcomes => {
 				res.send(outcomes);

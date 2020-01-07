@@ -84,8 +84,8 @@ $(function(){
 					return document.getElementById('product-create-submit').disabled = false;
 				};
 
-				const pageSize = 10;
-				const page = 0;
+				var pageSize = 15;
+				var page = 0;
 
 				var totalValue = 0;
 				for(i in incomes){
@@ -188,8 +188,8 @@ $(function(){
 					return window.location.href = '/login';
 				};
 
-				let pageSize = 10;
-				let page = 0;
+				var pageSize = 10;
+				var page = 0;
 
 				function paging(){
 					if(incomeCategories.length){
@@ -283,8 +283,8 @@ $(function(){
 						return window.location.href = '/login';
 					};
 
-					const pageSize = 10;
-					const page = 0;
+					var pageSize = 10;
+					var page = 0;
 
 					function paging(){
 						if(incomeOrigins.length){

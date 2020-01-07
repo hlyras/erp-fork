@@ -24,7 +24,7 @@ function renderAdminProducts(products, pageSize, page){
 	};
 	document.getElementById('product-admin-filter-tbl').innerHTML = html;
 	document.getElementById('product-admin-filter-div').style.display = 'block';
-	$('#productAdminFilterPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(products.length / pageSize));
+	$('#productAdminPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(products.length / pageSize));
 };
 
 function renderCatalogProducts(products, pageSize, page){
@@ -42,9 +42,9 @@ function renderCatalogProducts(products, pageSize, page){
 		html += "<td id='src_product_color'>"+products[i].color+"</td>";
 		html += "</tr>";
 	};
-	document.getElementById('product-tbl').innerHTML = html;
-	document.getElementById('product-div').style.display = 'block';
-	$('#ProductPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(products.length / pageSize));
+	document.getElementById('product-catalog-filter-tbl').innerHTML = html;
+	document.getElementById('product-catalog-filter-div').style.display = 'block';
+	$('#productCatalogPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(products.length / pageSize));
 };
 
 function renderKartProducts(location, products, pageSize, page){

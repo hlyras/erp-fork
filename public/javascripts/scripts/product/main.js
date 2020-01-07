@@ -56,37 +56,41 @@ $(function(){
 					return window.location.href = '/login';
 				};
 
-				let pageSize = 10;
-				let page = 0;
+				var pageSize = 10;
+				var page = 0;
 
 				function paging(){
 					if(products.length){
-						if(location==="admin"){
-							renderAdminProducts(products, pageSize, page);
-						} else if (location==="catalog"){
-							renderCatalogProducts(products, pageSize, page);
-						}
+						if(location==="productAdmin"){
+							renderAdminProducts(products, pageSize, page, location);
+						} else if (location==="productCatalog"){
+							renderCatalogProducts(products, pageSize, page, location);
+						};
 					} else {
-						lib.clearTable('product-admin-filter-tbl','productAdminFilter');
+						if(location==="productAdmin"){
+							lib.clearTable('product-admin-filter-tbl', location);
+						} else if (location==="productCatalog"){
+							lib.clearTable('product-catalog-filter-tbl', location);
+						};
 					};
 				};
 
 				btn.attr('disabled', false);
 
 				function buttonsPaging(){
-					$('#productNext').prop('disabled', products.length <= pageSize || page >= products.length / pageSize - 1);
-					$('#productPrevious').prop('disabled', products.length <= pageSize || page == 0);
+					$("#"+location+"Next").prop('disabled', products.length <= pageSize || page >= products.length / pageSize - 1);
+					$("#"+location+"Previous").prop('disabled', products.length <= pageSize || page == 0);
 				};
 
 				$(function(){
-				    $('#productNext').click(function(){
+				    $("#"+location+"Next").click(function(){
 				        if(page < products.length / pageSize - 1){
 				            page++;
 				            paging();
 				            buttonsPaging();
 				        };
 				    });
-				    $('#productPrevious').click(function(){
+				    $("#"+location+"Previous").click(function(){
 				        if(page > 0){
 				            page--;
 				            paging();
@@ -146,8 +150,8 @@ function filterProduct(name, code, color, session){
 				return window.location.href = '/login';
 			};
 
-			let pageSize = 10;
-			let page = 0;
+			var pageSize = 10;
+			var page = 0;
 
 			function paging(){
 				if(products.length){
