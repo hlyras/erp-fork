@@ -5,14 +5,11 @@ const Product = require('../model/product');
 const homeController = {
 	index: async (req, res) => {
 		if(req.user){
-			const colors = await Product.colorList();
-			
-			return res.render('home', { user: req.user, productColors: colors });
+			const productColors = await Product.colorList();
+			return res.render('home', { user: req.user, productColors: productColors });
 		};
-
-		const colors = await Product.colorList();
-		
-		res.render('index', { productColors: colors });
+		const productColors = await Product.colorList();
+		res.render('index', { productColors: productColors });
 	},
 	login: (req, res) => {
 		if(req.user){

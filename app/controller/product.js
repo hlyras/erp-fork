@@ -28,9 +28,9 @@ const productController = {
 			});
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
-			return res.redirect('/');
-		};
+		// if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
+		// 	return res.redirect('/');
+		// };
 
 		Product.findById(req.params.id)
 			.then(async (product) => {
@@ -69,9 +69,9 @@ const productController = {
 		res.send(products);
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
-			return res.redirect('/');
-		};
+		// if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
+		// 	return res.redirect('/');
+		// };
 
 		if(isNaN(req.query.code) || req.query.code < 0 || req.query.code > 9999){
 			req.query.code = "";
