@@ -19,7 +19,7 @@ function productAddImage(product_id){
 						return;
 					};
 
-					showProduct(product_id);
+					showProduct(product_id, true);
 					alert(response.done);
 				}
 			});
