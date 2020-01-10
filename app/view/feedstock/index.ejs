@@ -1,0 +1,56 @@
+<html>
+	<head>
+        <% include ./../partials/head %>
+	</head>
+	<body>
+		<header>
+			<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="image" src="/images/favicon.png"></div>
+			<div class="right">
+			<a onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
+			</div>
+		</header>
+        <% include ./../partials/nav %>
+		<section>
+			<div class="container">
+				<div class="box-2">
+					<h4>Cadastrar Matéria Prima</h4>
+					<form id="feedstock-create-form" class="box-1">
+						<input type="hidden" name="feedstock_id" id="feedstock-create-id" value="0" autocomplete="off">
+						<input type="number" name="feedstock_code" id="feedstock-create-code" class="btn-generic-small" placeholder="Código" min="1" max="9999" autocomplete="off">
+						<input type="text" name="feedstock_name" class="btn-generic-big" id="feedstock-create-name" placeholder="Nome da matéria-prima" autocomplete="off" maxlength="15">
+						<select name="feedstock_color" class="btn-generic-small">
+							<option value="">Cor</option>
+						</select>
+						<br>
+						<input type="number" name="feedstock_standard" id="feedstock-create-code" class="btn-generic-small" placeholder="Padrão em Cm ou Un" min="1" max="99999" autocomplete="off">
+						<select name="feedstock_uom" class="btn-generic-medium">
+							<option value="">Unidade de Medida</option>
+							<option value="cm">Centímetros</option>
+							<option value="un">Unidade</option>
+						</select>
+						<input type="submit" class="btn-submit" id="feedstock-create-submit" value="Cadastrar">
+					</form>
+				</div>
+				<div class="box-2">
+					<form id="feedstock-filter-form" class="box-1">
+						<input type="hidden" name="location" value="feedstockAdmin">
+						<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
+						<input type="text" name="code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
+						<input type="submit" class="btn-submit" value="Filtrar">
+					</form>
+					<div id="feedstock-admin-filter-div" style="display:none">
+						<table class="tbl-info" id="feedstock-admin-filter-tbl"></table>
+						<br>
+						<button id="feedstockAdminPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
+	                    <span id="feedstockAdminPageNumber"></span>
+	                    <button id="feedstockAdminNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+	<footer>
+        <% include ./../partials/footer %>
+        <% include ./partial %>
+	</footer>
+</html>

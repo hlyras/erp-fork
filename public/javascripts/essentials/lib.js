@@ -40,6 +40,9 @@ const lib = {
 		};
 		return date;
 	},
+	fillDateInput: function(input){
+		return input.valueAsDate = new Date();
+	},
 	colectByMonth: function(month, dates){
 		let array = [];
 		let str = [];

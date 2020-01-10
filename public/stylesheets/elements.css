@@ -107,6 +107,18 @@ a {
 	border-radius: 5px;
 }
 
+.btn-submit {
+	background-color: #c2c4f6;
+	font-size: 12px;
+	width:130px;
+	height: 30px;
+	margin: 3px;
+	font-weight: bold;
+	font-family: "HelveticaNeue-Light";
+	text-align: center;
+	border-radius: 5px;
+}
+
 .btn-generic-date-day {
 	font-size: 12px;
 	width: 50px;
