@@ -1,13 +1,59 @@
-# CMS_JA
+# J.A Rio Militar - MONOLITIC ERP SYSTEM
 
-To do
+1 - Ferramentas que estão sendo utilizadas no projeto:
 
-include admin add image product function
+Para o Front End
 
-finish seamstress functions (remove)
+	EJS, CSS, JAVASCRIPT e JQUERY.
 
-fix product list
+Para o Back End
 
-use two boxes in a box-1
+	NodeJS
 
-Show income/outcome function
+Para Banco de Dados
+	
+	MySQL
+
+Nenhum Framework está sendo utilizado, as funções genéricas estão sendo desenvolvidas
+conforme necessidade de reutilização dos códigos, isto para manter a aplicação mais enxuta possível e com evolução 
+constante baseada no modelo de negócios.
+
+A arquitetura do Front-end está sendo desenvolvida baseada em partials, para evitar carregamento de código desnecessário para cada parte da aplicação.
+
+A arquitetura do Back-end está sendo desenvolvida no modelo MVC, com sistema monolíto com estrutura baseada em API's REST para desacoplamento conforme evolução do projeto.
+
+--------------------------------------------------
+
+Entendendo a estrutura
+
+View - Route - Controller - Model - Controller - View
+
+---
+
+Caminho para 'Home Page'
+
+Rota: /
+
+Função: homeController.index
+
+render: view/index
+
+---
+
+Caminho para 'Listar Produtos'
+
+Clica em listar produtos na página de produtos (view)
+
+Chama a Rota /product/list que chama (route)
+
+A função productController.list que irá realizar todas as solicitações aos models (controller)
+
+no caso buscará no model Product.list que irá retornar ao controller os produtos (model)
+
+O controller irá enviar para o view os produtos retornados (controller)
+
+Recebe a solicitação do Controller 'view/product/index' (view)
+
+---
+
+---------------------------------------------------
