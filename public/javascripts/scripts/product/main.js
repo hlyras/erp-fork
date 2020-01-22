@@ -1,5 +1,3 @@
-var product_array = [];
-
 $(function(){
 	$("#product-create-form").on('submit', (event) => {
 		event.preventDefault();
@@ -22,7 +20,6 @@ $(function(){
 					return;
 				};
 
-
 				alert(response.done);
 				
 				filterProduct(document.getElementById('product-create-name').value, "", "", "admin");
@@ -44,7 +41,7 @@ $(function(){
 
 		let location = document.getElementById("product-filter-form").elements.namedItem('location').value;
 		let name = document.getElementById("product-filter-form").elements.namedItem('name').value;
-		let code = document.getElementById("product-filter-form").elements.namedItem('code').value;
+		let code = document.getElementById("product-filter-form").elements.namedItem('product_code').value;
 		let color = document.getElementById("product-filter-form").elements.namedItem('color').value;
 
 		$.ajax({
@@ -219,11 +216,6 @@ function removeProduct(id){
 		$.ajax({
 			url: '/product/remove?id='+id,
 			method: 'delete',
-			// url: '/product/remove',
-			// method: 'post',
-			// data: {
-			// 	product_id: id
-			// },
 			success: function(response){
 				if(response.unauthorized){
 					alert(response.unauthorized);

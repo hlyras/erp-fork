@@ -117,6 +117,7 @@ var lib = {
 			};
 		};
 		query += "ORDER BY "+orderParam+" "+order+";";
+
 		return query;
 	},
 	sumByPeriod: function(periodStart, periodEnd, value, params, values, db, tbl, orderParam, order){
