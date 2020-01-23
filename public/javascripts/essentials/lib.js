@@ -61,16 +61,12 @@ const lib = {
 // -------------------
 // html/css lib
 // -------------------
-
-	displayForm: (form, table) => {
-		let productForm = document.getElementById(form);
-		let productTable = document.getElementById(table);
-		if(productForm.style.display == "none"){
-			productForm.style.display = "block";	
-			productTable.style.display = "block";	
-		} else if(productForm.style.display == "block"){
-			productForm.style.display = "none";	
-			productTable.style.display = "none";	
+	displayDiv: (div) => {
+		let selectedDiv = document.getElementById(div);
+		if(selectedDiv.style.display == "none"){
+			selectedDiv.style.display = "block";	
+		} else if(selectedDiv.style.display == "block"){
+			selectedDiv.style.display = "none";	
 		};
 	},
 	clearTable(table, location){
@@ -92,5 +88,9 @@ const lib = {
 				};
 			}
 		});
+	},
+	clearSelect(select){
+		select.innerHTML = "";
+		select.innerHTML += "<option value='0'>Sem resultados</option>"
 	}
 };

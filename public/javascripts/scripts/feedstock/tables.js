@@ -18,11 +18,18 @@ function renderAdminFeedstocks(feedstocks, pageSize, page){
 		html += "<td>"+feedstocks[i].color+"</td>";
 		html += "<td>"+feedstocks[i].standard+"</td>";
 		html += "<td>"+feedstocks[i].uom+"</td>";
-		html += "<td ><a class='tbl-show-link' onclick='editFeedstock("+feedstocks[i].id+")'>Edit</a></td>";
-		html += "<td><a class='tbl-show-link' onclick='removeFeedstock("+feedstocks[i].id+")'>Rem</a></td>";
+		html += "<td ><a onclick='editFeedstock("+feedstocks[i].id+")'>Edit</a></td>";
+		html += "<td><a onclick='removeFeedstock("+feedstocks[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('feedstock-admin-filter-tbl').innerHTML = html;
 	document.getElementById('feedstock-admin-filter-div').style.display = 'block';
 	$('#feedstockAdminPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(feedstocks.length / pageSize));
+};
+
+function fillFeedstockSelect(feedstocks, select){
+	select.innerHTML = "";
+	for(i in feedstocks){
+		select.innerHTML += "<option value='"+feedstocks[i].id+"'>"+feedstocks[i].code+" | "+feedstocks[i].name+" | "+feedstocks[i].color+"</option>"
+	};
 };

@@ -121,12 +121,22 @@ function showProduct(id, admin){
 			html += "<td>"+product[0].color+"</td>";
 			if(admin){
 				html += "<td><a class='tbl-show-link' onclick='productAddImage("+product[0].id+")'>add img</a></td>";
+				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-div')">add Matéria Prima</a></td>`;
 			};
-			html += "<td><a class='tbl-show-link' onclick='hideProduct()'>Esconder</a></td>";
+			html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-show-box')">Esconder</a></td>`;
 			html += "</tr>";
 
 			document.getElementById('product-show-tbody').innerHTML = html;
-			document.getElementById('product-show-box').style.display = 'block';
+			document.getElementById('product-show-box').style.display = "block";
+
+			if(admin){
+				document.getElementById("product-addFeedstock-form").elements.namedItem('product_id').value = product[0].id;
+				if(product[0].feedstocks.length){
+					productFeedstockRender(product[0].feedstocks, 'product-feedstock-tbl');
+				} else {
+					productFeedstockClear('product-feedstock-tbl');
+				};
+			};
 
 			if(product[0].images.length){
 				productImagePagination(product[0].images, product[0].id, admin);
@@ -162,7 +172,7 @@ function filterProduct(name, code, color, session){
 
 					}
 				} else {
-					clearProductTable(products.location);
+					lib.clearTable('product-admin-filter-tbl', products.location);
 				};
 			};
 
@@ -223,7 +233,7 @@ function removeProduct(id){
 					return;
 				};
 
-				hideProduct();
+				lib.displayDiv('product-show-box');
 				alert(response.done);
 				$("#product-filter-form").submit();
 			}

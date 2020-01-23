@@ -1,10 +1,3 @@
-function hideProduct(){
-	document.getElementById('product-show-box').style.display = "none";
-};
-
-//
-	// Mostrar a tabela de produtos na área de administração
-//
 function renderAdminProducts(products, pageSize, page){
 	var html = "<tr>";
 	html += "<td>Cód</td>";

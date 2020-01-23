@@ -69,6 +69,35 @@
 						</tr>
 						<tbody id="product-show-tbody"></tbody>
 					</table>
+					<div class="box-1" id="product-feedstock-div" style="display:none">
+						<div id="product-addFeedstock-div">
+							<!-- Feedstock filter form -->
+							<form id="feedstock-filter-form" class="box-1">
+								<input type="hidden" name="location" value="productAddFeedstock">
+								<input type="text" name="feedstock_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
+								<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
+								<select name="color" class="btn-generic-small">
+									<option value="">Cor</option>
+									<% for(i in feedstockColors){ %>
+										<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
+									<% } %>
+								</select>
+								<input type="submit" class="btn-submit" value="Filtrar">
+							</form>
+
+							<!-- Feedstock  -->
+							<form class="box-1" id="product-addFeedstock-form">
+								<input type="hidden" name="product_id">
+								<select name="feedstock_id" class="btn-generic-big"></select>
+								<input type="number" name="feedstock_amount" class="btn-generic-small" placeholder="Qtd">
+								<input type="submit" class="btn-submit" id="product-addFeedstock-submit" value="Cadastrar">
+							</form>
+						</div>
+					</div>
+					<div id="product-feedstock-box" class="box-1" style="display:none">
+                        <h4 class="underline-title">Matérias Primas</h4>
+						<table id="product-feedstock-tbl" class="tbl-info"></table>
+					</div>
 					<div class="box-1" id="product-image-show"></div>
 					<button id="imagePrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
                     <span id="imagePageNumber"></span>

@@ -32,6 +32,19 @@ Product.addImage = async (image) => {
 	return db(query);
 };
 
+Product.addFeedstock = async (insertion) => {
+	let query = "INSERT INTO cms_wt_erp.product_feedstock (product_id, feedstock_id, amount) VALUES ('"
+		+insertion.product_id+"', '"
+		+insertion.feedstock_id+"', '"
+		+insertion.amount+"');";
+	return db(query);
+};
+
+Product.removeFeedstock = async (product_feedstock_id) => {
+	let query = "DELETE FROM cms_wt_erp.product_feedstock WHERE id='"+product_feedstock_id+"';";
+	return db(query);
+};
+
 Product.list = async () => {
 	let query = "SELECT * FROM cms_wt_erp.products ORDER BY code ASC;";
 	return db(query);
@@ -39,6 +52,11 @@ Product.list = async () => {
 
 Product.getImages = async (id) => {
 	let query = "SELECT * FROM cms_wt_erp.product_image WHERE product_id='"+id+"';";
+	return db(query);
+};
+
+Product.getFeedstocks = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.product_feedstock WHERE product_id='"+id+"';";
 	return db(query);
 };
 
@@ -73,6 +91,11 @@ Product.remove = async (id) => {
 
 Product.removeProductImages = async (id) => {
 	let query = "DELETE FROM cms_wt_erp.product_image WHERE product_id='"+id+"';";
+	return db(query);
+};
+
+Product.removeProductFeedstocks = async (id) => {
+	let query = "DELETE FROM cms_wt_erp.product_feedstock WHERE product_id='"+id+"';";
 	return db(query);
 };
 
