@@ -121,9 +121,9 @@ function showProduct(id, admin){
 			html += "<td>"+product[0].color+"</td>";
 			if(admin){
 				html += "<td><a class='tbl-show-link' onclick='productAddImage("+product[0].id+")'>add img</a></td>";
-				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-div')">add Matéria Prima</a></td>`;
+				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-div')">add M-P</a></td>`;
 			};
-			html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-show-box')">Esconder</a></td>`;
+			html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-show-box')">X</a></td>`;
 			html += "</tr>";
 
 			document.getElementById('product-show-tbody').innerHTML = html;
