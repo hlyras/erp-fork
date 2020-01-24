@@ -23,7 +23,7 @@ app.use(session({
     secret: 'vidyapathaisalwaysrunning',
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 1000 * 60 * 5 },
+    cookie: { maxAge: 1000 * 60 * 30 },
     rolling: true
 }));
 

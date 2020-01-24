@@ -78,7 +78,6 @@ function renderOutcomeTable(outcomes, pageSize, page){
 	for (let i = page * pageSize; i < outcomes.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
 		html += "<td><a class='tbl-show-link' onclick='showFinancialOutcome("+outcomes[i].id+")'>"+outcomes[i].id+"</a></td>";
-		html += "<td>"+outcomes[i].id+"</td>";
 		html += "<td>"+lib.convertDate(outcomes[i].date)+"</td>";
 		html += "<td>"+outcomes[i].category_name+"</td>";
 		html += "<td>"+outcomes[i].origin_name+"</td>";

@@ -53,7 +53,7 @@ $(function(){
 					return window.location.href = '/login';
 				};
 
-				var pageSize = 10;
+				var pageSize = 15;
 				var page = 0;
 
 				function paging(){
@@ -119,11 +119,18 @@ function showProduct(id, admin){
 			html += "<td>"+product[0].name+"</td>";
 			html += "<td>"+product[0].size+"</td>";
 			html += "<td>"+product[0].color+"</td>";
+			html += "</tr>";
+			html += "<tr>";
 			if(admin){
-				html += "<td><a class='tbl-show-link' onclick='productAddImage("+product[0].id+")'>add img</a></td>";
-				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-div')">add M-P</a></td>`;
-			};
-			html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-show-box')">X</a></td>`;
+				html += "<td><a class='tbl-show-link' onclick='productAddImage("+product[0].id+")'>Incluir Imagem</a></td>";
+				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-div')">Incluir Matéria-prima</a></td>`;
+				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-box')">Exibir Matérias-primas</a></td>`;
+			} else {
+				html += "<td></td>";
+				html += "<td></td>";
+				html += "<td></td>";
+			}
+			html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-show-box')">Esconder</a></td>`;
 			html += "</tr>";
 
 			document.getElementById('product-show-tbody').innerHTML = html;

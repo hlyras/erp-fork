@@ -46,8 +46,6 @@ $(() => {
 });
 
 function productFeedstockRender(product_feedstocks, tbl){
-	document.getElementById('product-feedstock-box').style.display = "block";
-
 	var html = "";
 
 	html += "<tr>";
@@ -77,8 +75,7 @@ function productFeedstockRender(product_feedstocks, tbl){
 };
 
 function productFeedstockClear(tbl){
-	document.getElementById('product-feedstock-box').style.display = "none";
-	document.getElementById(tbl).innerHTML = "";
+	document.getElementById(tbl).innerHTML = "Sem registros";
 };
 
 function removeProductFeedstock(id, product_id){
