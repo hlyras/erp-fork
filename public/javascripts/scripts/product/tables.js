@@ -30,7 +30,7 @@ function renderCatalogProducts(products, pageSize, page){
 	for (let i = page * pageSize; i < products.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+products[i].id+", "+false+")'>"+products[i].code+"</a></td>";
-		html += "<td id='src_product_name'>"+products[i].id+"</td>";
+		html += "<td id='src_product_name'>"+products[i].code+"</td>";
 		html += "<td id='src_product_name'>"+products[i].name+"</td>";
 		html += "<td id='src_product_size'>"+products[i].size+"</td>";
 		html += "<td id='src_product_color'>"+products[i].color+"</td>";
