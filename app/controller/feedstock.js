@@ -10,8 +10,7 @@ const feedstockController = {
 		};
 		
 		const feedstockColors = await Feedstock.colorList();
-
-		res.render('feedstock/index', { feedstockColors: feedstockColors});
+		res.render('feedstock/index', { feedstockColors: feedstockColors, user: req.user });
 	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
@@ -47,6 +46,23 @@ const feedstockController = {
 			};
 			
 			var row = await Feedstock.update(feedstock);
+		};
+
+		try {
+			var storages = await Feedstock.listStorages();
+
+			for(i in storages){
+				var insert = {
+					storage_id: storages[i].id,
+					feedstock_id: feedstock.id,
+					amount: 0
+				};
+
+				await Feedstock.insertInStorage(insert);
+			};
+		} catch (err) {
+			console.log(err);
+			return res.send({ msg: 'Ocorreu um erro ao registrar a matéria-prima ao estoque, favor contatar o suporte.' });
 		};
 
 		// let newFeedstock = await Feedstock.findById(row.insertId);
@@ -112,6 +128,47 @@ const feedstockController = {
 		await Feedstock.remove(req.query.id);
 		
 		res.send({ done: 'Matéria Prima excluída com sucesso!' });
+	},
+	storage: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		const feedstockColors = await Feedstock.colorList();
+		res.render('feedstock/storage', { feedstockColors: feedstockColors, user: req.user });
+	},
+	createStorage: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		if(req.body.name.length < 3 || req.body.name.length > 20){return res.send({ msg: 'Nome de Estoque inválido!' })};
+
+		try {
+			var result = await Feedstock.createStorage(req.body.name);	
+		} catch (err){
+			console.log(err);
+			return res.send({ msg: 'Ocorreu um erro ao criar este banco de dados favor entrar em contato com o suporte.' });
+		};
+
+		try {
+			const feedstocks = await Feedstock.list();
+
+			for(i in feedstocks){
+				var insert = {
+					storage_id: result.insertId,
+					feedstock_id: feedstocks[i].id,
+					amount: 0
+				};
+
+				await Feedstock.insertInStorage(insert);
+			};
+		} catch (err){
+			console.log(err);
+			return res.send({ msg: 'Ocorreu um erro ao registrar uma matéria-prima ao estoque, favor contatar o suporte.' });
+		};
+
+		res.send({ done: 'Estoque criado e produtos cadastrados com sucesso!' });
 	}
 };
 

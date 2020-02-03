@@ -13,7 +13,7 @@ const productController = {
 		const feedstockColors = await Feedstock.colorList();
 		const productColors = await Product.colorList();
 
-		res.render('product/index', { productColors, feedstockColors });
+		res.render('product/index', { productColors, feedstockColors, user: req.user });
 	},
 	// API CONTROLLERS
 	list: async (req, res) => {

@@ -124,7 +124,7 @@ function showProduct(id, admin){
 			if(admin){
 				html += "<td><a class='tbl-show-link' onclick='productAddImage("+product[0].id+")'>Incluir Imagem</a></td>";
 				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-div')">Incluir Matéria-prima</a></td>`;
-				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-box')">Exibir Matérias-primas</a></td>`;
+				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-box')">Matérias-primas</a>`;
 			} else {
 				html += "<td></td>";
 				html += "<td></td>";

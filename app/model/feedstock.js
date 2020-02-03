@@ -29,6 +29,11 @@ Feedstock.update = async (feedstock) => {
 	return db(query);
 };
 
+Feedstock.list = async () => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock ORDER BY code ASC;";
+	return db(query);
+};
+
 Feedstock.filter = async (params, values) => {
 	let query = lib.filterQuery(params, values, "cms_wt_erp", "feedstock", "code", "ASC");
 	return db(query);
@@ -56,6 +61,24 @@ Feedstock.colorList = async () => {
 
 Feedstock.remove = async (id) => {
 	let query = "DELETE FROM cms_wt_erp.feedstock WHERE id='"+id+"';";
+	return db(query);
+};
+
+Feedstock.createStorage = async (name) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_storage_instances (name) VALUES ('"+name+"');";
+	return db(query);
+};
+
+Feedstock.insertInStorage = async (insert) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_storage (storage_id, feedstock_id, amount) VALUES ('"
+		+insert.storage_id+"','"
+		+insert.feedstock_id+"','"
+		+insert.amount+"');";
+	return db(query);
+};
+
+Feedstock.listStorages = async () => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_storage_instances ORDER BY id ASC;";
 	return db(query);
 };
 

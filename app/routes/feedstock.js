@@ -9,4 +9,7 @@ router.get('/id/:id', feedstockController.findById);
 router.get('/filter', feedstockController.filter);
 router.delete('/remove', feedstockController.remove);
 
+router.get('/storage', feedstockController.storage);
+router.post('/storage/create', feedstockController.createStorage);
+
 module.exports = router;

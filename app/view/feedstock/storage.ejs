@@ -1,0 +1,32 @@
+<html>
+	<head>
+        <% include ./../partials/head %>
+	</head>
+	<body>
+		<header>
+			<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="image" src="/images/favicon.png"></div>
+			<div class="right">
+				<% if (user.access == 'adm') { %>
+	            	<a class="active" href="/admin">Admin</a>
+	            <% } %>
+				<a onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
+			</div>
+		</header>
+        <% include ./../partials/nav %>
+		<section>
+			<div class="container">
+				<div class="box-2">
+					<form id="feedstock-storage-create-form">
+						<input type="text" class="btn-generic-big" name="name" placeholder="Nome do Estoque">
+						<input type="submit" id="feedstock-storage-create-submit" class="btn-submit" value="Novo Estoque">
+					</form>
+				</div>
+			</div>
+		</section>
+	</body>
+	<footer>
+        <% include ./../partials/footer %>
+        <% include ./partial %>
+		<script src="/javascripts/scripts/feedstock/storage.js"></script>
+	</footer>
+</html>
