@@ -16,6 +16,8 @@ $(() => {
 			return document.getElementById('product-addFeedstock-submit').disabled = false;
 		};
 
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+
 		$.ajax({
 			url: '/product/addfeedstock',
 			method: 'post',
@@ -29,9 +31,12 @@ $(() => {
 				
 				if(response.msg){
 					alert(response.msg);
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					document.getElementById('product-addFeedstock-submit').disabled = false;
 					return;
 				};
+
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 				alert(response.done);
 
@@ -82,6 +87,7 @@ function removeProductFeedstock(id, product_id){
 	let r = confirm('Deseja realmente excluir a matéria prima?');
 
 	if(r){
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
 			url: '/product/removefeedstock?id='+id,
 			method: 'delete',
@@ -91,6 +97,8 @@ function removeProductFeedstock(id, product_id){
 					window.location.href = '/login';
 					return;
 				};
+
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 				showProduct(product_id, true);
 				alert(response.done);

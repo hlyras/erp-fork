@@ -9,6 +9,7 @@ function productAddImage(product_id){
 		};
 		let img = '<img src="'+ image_url +'" />';
 		$(img).on("load", () =>  {
+			document.getElementById('ajax-loader').style.visibility = 'visible';
 			$.ajax({
 				url: '/product/addimage?product_id='+product_id+'&image_url='+image_url,
 				method: 'post',
@@ -18,6 +19,8 @@ function productAddImage(product_id){
 						window.location.href = '/login';
 						return;
 					};
+
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 					showProduct(product_id, true);
 					alert(response.done);
@@ -34,6 +37,7 @@ function productAddImage(product_id){
 function productRemoveImage(image_id, product_id){
 	let r = confirm("Deseja realmente excluir a image?");
 	if(r){
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
 			url: '/product/removeimage?id='+image_id,
 			method: 'delete',
@@ -43,6 +47,8 @@ function productRemoveImage(image_id, product_id){
 					window.location.href = '/login';
 					return;
 				};
+
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 				showProduct(product_id, true);
 				alert(response.done);

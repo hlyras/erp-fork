@@ -199,22 +199,27 @@ footer .copyright {
 	left: 0;
 	height: 100vh; /* to make it responsive */
 	width: 100vw; /* to make it responsive */
-	text-align:center;
-	overflow: hidden; /*to remove scrollbars */
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	/*overflow: hidden;*/
 	z-index: 99999; /*to make it appear on topmost part of the page */
-	display: none; /*to make it visible only on fadeIn() function */
+	/*display: none;*/
+	visibility: hidden;
 }
 
 .loader {
-  border: 16px solid #ffffff;
-  border-radius: 50%;
-  border-top: 16px solid #003380;
-  margin: auto;
-  margin-top: 20%;
-  width: 50px;
-  height: 50px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
+	border: 16px solid #ffffff;
+	border-radius: 50%;
+	border-top: 16px solid #003380;
+	/*margin: auto;*/
+	/*margin-top: 20%;*/
+	width: 50px;
+	height: 50px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
 }
 
 /* Safari */

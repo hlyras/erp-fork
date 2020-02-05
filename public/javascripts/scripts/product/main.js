@@ -3,7 +3,7 @@ $(function(){
 		event.preventDefault();
 		document.getElementById('product-create-submit').disabled = true;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: '/product/save',
@@ -17,13 +17,13 @@ $(function(){
 				};
 				
 				if(response.msg){
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 				
@@ -49,7 +49,7 @@ $(function(){
 		let code = document.getElementById("product-filter-form").elements.namedItem('product_code').value;
 		let color = document.getElementById("product-filter-form").elements.namedItem('color').value;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 
 		$.ajax({
 			url: "/product/filter?name="+name+"&code="+code+"&color="+color,
@@ -60,7 +60,7 @@ $(function(){
 					return window.location.href = '/login';
 				};
 				
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 				var pageSize = 15;
 				var page = 0;
@@ -112,7 +112,7 @@ $(function(){
 });
 
 function showProduct(id, admin){
-	document.getElementById('ajax-loader').style.display = 'block';
+	document.getElementById('ajax-loader').style.visibility = 'visible';
 	$.ajax({
 		url: '/product/id/'+id,
 		method: 'get',
@@ -123,7 +123,7 @@ function showProduct(id, admin){
 				return;
 			};
 
-			document.getElementById('ajax-loader').style.display = 'none';
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 			let html = "";
 			html += "<tr>";
@@ -170,7 +170,7 @@ function showProduct(id, admin){
 };
 
 function filterProduct(name, code, color, session){
-	document.getElementById('ajax-loader').style.display = 'block';
+	document.getElementById('ajax-loader').style.visibility = 'visible';
 	$.ajax({
 		url: "/product/filter?name="+name+"&code="+code+"&color="+color,
 		method: 'get',
@@ -180,7 +180,7 @@ function filterProduct(name, code, color, session){
 				return window.location.href = '/login';
 			};
 
-			document.getElementById('ajax-loader').style.display = 'none';
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 			var pageSize = 10;
 			var page = 0;
@@ -226,12 +226,12 @@ function filterProduct(name, code, color, session){
 };
 
 function editProduct(id){
-	document.getElementById('ajax-loader').style.display = 'block';
+	document.getElementById('ajax-loader').style.visibility = 'visible';
 	$.ajax({
 		url: '/product/id/'+id,
 		method: 'get',
 		success: (product) => {
-			document.getElementById('product-create-form').style.display = "block";
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 			document.getElementById('product-create-id').value = product[0].id;
 			document.getElementById('product-create-code').value = product[0].code;
@@ -239,7 +239,7 @@ function editProduct(id){
 			document.getElementById('product-create-color').value = product[0].color;
 			document.getElementById('product-create-size').value = product[0].size;
 
-			document.getElementById('ajax-loader').style.display = 'none';
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
 	});
 };
@@ -248,7 +248,7 @@ function removeProduct(id){
 	let r = confirm('Deseja realmente excluir o produto?');
 
 	if(r){
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
 			url: '/product/remove?id='+id,
 			method: 'delete',
@@ -259,7 +259,7 @@ function removeProduct(id){
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 				lib.displayDiv('product-show-box');
 				alert(response.done);

@@ -20,9 +20,6 @@
 						<input type="text" class="btn-generic-big" name="name" placeholder="Nome do Estoque">
 						<input type="submit" id="feedstock-storage-create-submit" class="btn-submit" value="Novo Estoque">
 					</form>
-					<form id="feedstock-storages-filter-form" class="box-1">
-						
-					</form>
 				</div>
 				<div class="box-2">
 					<form id="feedstock-storage-filter-form" class="box-1">
@@ -41,9 +38,9 @@
 								<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
 							<% } %>
 						</select>
-						<input type="submit" class="btn-submit" value="Filtrar">
+						<input type="submit" id="feedstock-storage-filter-submit" class="btn-submit" value="Filtrar">
 					</form>
-					<div id="feedstock-storage-admin-filter-div" style="display:none">
+					<div id="feedstock-storage-admin-filter-div">
 						<table class="tbl-info box-1" id="feedstock-storage-admin-filter-tbl"></table>
 						<br>
 						<button id="feedstockStorageAdminPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>

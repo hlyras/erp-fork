@@ -38,7 +38,7 @@ $(function(){
 			return document.getElementById('outcome-create-submit').disabled = false;	
 		};
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: '/financial/outcome/save',
@@ -61,13 +61,13 @@ $(function(){
 				};
 				
 				if(response.msg){
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
 					document.getElementById('outcome-create-submit').disabled = false;
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				alert(response.done);
 
 				document.getElementById("outcome-create-form").elements.namedItem('outcome_category').value = "0";
@@ -85,7 +85,7 @@ $(function(){
 		event.preventDefault();
 		document.getElementById('outcome-report-submit').disabled = true;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: '/financial/outcome/filter',
@@ -98,12 +98,12 @@ $(function(){
 				};
 				
 				if(outcomes.msg){
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(outcomes.msg);
 					return document.getElementById('product-create-submit').disabled = false;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				var pageSize = 15;
 				var page = 0;
@@ -165,7 +165,7 @@ $(function(){
 			return document.getElementById('outcome-category-create-submit').disabled = false;
 		};
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: '/financial/outcomecategory/save',
@@ -179,13 +179,13 @@ $(function(){
 				};
 				
 				if(response.msg){
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 
@@ -205,7 +205,7 @@ $(function(){
 		let btn = $(this);btn.attr('disabled', true);
 		let category_name = document.getElementById("outcome-category-filter-form").elements.namedItem('category_name').value;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: "/financial/outcomecategory/filter?name="+category_name,
@@ -216,7 +216,7 @@ $(function(){
 					return window.location.href = '/login';
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				var pageSize = 20;
 				var page = 0;
@@ -275,7 +275,7 @@ $(function(){
 			return document.getElementById('outcome-origin-create-submit').disabled = false;
 		};
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: '/financial/outcomeorigin/save',
@@ -288,12 +288,12 @@ $(function(){
 				};
 				
 				if(response.msg){
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
 					return document.getElementById('outcome-origin-create-submit').disabled = false;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 
@@ -309,8 +309,7 @@ $(function(){
 		let category_id = document.getElementById("outcome-origin-filter-form").elements.namedItem('category_id').value;
 
 		if(category_id){
-			document.getElementById('ajax-loader').style.display = 'block';
-			
+			document.getElementById('ajax-loader').style.visibility = 'visible';
 			$.ajax({
 				url: "/financial/outcomeorigin/filterbycategory?id="+category_id,
 				method: 'get',
@@ -320,7 +319,7 @@ $(function(){
 						return window.location.href = '/login';
 					};
 
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					
 					var pageSize = 10;
 					var page = 0;
@@ -413,7 +412,7 @@ function removeOutcomeCategory(id){
 	let r = confirm('Deseja realmente excluir esta categoria?');
 	
 	if(r){
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
 			url: '/financial/outcomecategory/remove?id='+id,
 			method: 'delete',
@@ -425,13 +424,13 @@ function removeOutcomeCategory(id){
 				};
 				
 				if(response.msg){
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 
@@ -450,7 +449,7 @@ function removeOutcomeOrigin(id){
 	let r = confirm('Deseja realmente excluir esta origem?');
 	
 	if(r){
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
 			url: '/financial/outcomeorigin/remove?id='+id,
 			method: 'delete',
@@ -462,13 +461,13 @@ function removeOutcomeOrigin(id){
 				};
 				
 				if(response.msg){
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 

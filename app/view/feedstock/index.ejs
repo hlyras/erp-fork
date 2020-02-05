@@ -15,8 +15,26 @@
         <% include ./../partials/nav %>
 		<section>
 			<div class="container">
-				<div class="box-2">
-					<h4>Index Matéria Prima</h4>
+				<div class="box-1">
+					<h4>Comprar Matéria-Prima</h4>
+					<form id="feedstock-filter-form" class="box-1">
+						<input type="hidden" name="location" value="buyFeedstock">
+						<input type="text" name="feedstock_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
+						<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
+						<select name="color" class="btn-generic-small">
+							<option value="">Cor</option>
+							<% for(i in feedstockColors){ %>
+								<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
+							<% } %>
+						</select>
+						<input type="submit" class="btn-submit" value="Filtrar">
+					</form>
+					<form class="box-1" id="buy-feedstock-form">
+						<select name="feedstock_id" class="btn-generic-big"></select>
+						<input type="number" name="feedstock_amount" class="btn-generic-small" placeholder="Qtd">
+						<input type="submit" class="btn-submit" id="product-addFeedstock-submit" value="Adicionar">
+					</form>
+					<table id="buy-feedstock-tbl" class=""></table>
 				</div>
 			</div>
 		</section>

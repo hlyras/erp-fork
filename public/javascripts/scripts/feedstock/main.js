@@ -3,7 +3,7 @@ $(function(){
 		event.preventDefault();
 		document.getElementById('feedstock-create-submit').disabled = true;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: '/feedstock/save',
@@ -17,12 +17,12 @@ $(function(){
 				};
 				
 				if(response.msg){
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
 					return document.getElementById('feedstock-create-submit').disabled = false;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 				
@@ -50,7 +50,7 @@ $(function(){
 		let name = document.getElementById("feedstock-filter-form").elements.namedItem('name').value;
 		let color = document.getElementById("feedstock-filter-form").elements.namedItem('color').value;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 
 		$.ajax({
 			url: "/feedstock/filter?name="+name+"&code="+code+"&color="+color,
@@ -61,7 +61,7 @@ $(function(){
 					return window.location.href = '/login';
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				var pageSize = 10;
 				var page = 0;
@@ -74,6 +74,8 @@ $(function(){
 							renderFeedstocks(feedstocks, pageSize, page, location);
 						} else if (location==="productAddFeedstock"){
 							fillFeedstockSelect(feedstocks, document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id'));
+						} else if (location==="buyFeedstock"){
+							fillFeedstockSelect(feedstocks, document.getElementById("buy-feedstock-form").elements.namedItem('feedstock_id'));
 						};
 					} else {
 						if(location==="feedstockAdmin"){
@@ -82,6 +84,8 @@ $(function(){
 							lib.clearTable('feedstock-catalog-filter-tbl', location);
 						} else if (location==="productAddFeedstock"){
 							lib.clearSelect(document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id'));
+						} else if (location==="buyFeedstock"){
+							lib.clearSelect(document.getElementById("buy-feedstock-form").elements.namedItem('feedstock_id'));
 						};
 					};
 				};
@@ -117,7 +121,7 @@ $(function(){
 });
 
 function editFeedstock(id){
-	document.getElementById('ajax-loader').style.display = 'block';
+	document.getElementById('ajax-loader').style.visibility = 'visible';
 	$.ajax({
 		url: '/feedstock/id/'+id,
 		method: 'get',
@@ -131,7 +135,7 @@ function editFeedstock(id){
 			document.getElementById("feedstock-create-form").elements.namedItem('standard').value = feedstock[0].standard;
 			document.getElementById("feedstock-create-form").elements.namedItem('uom').value = feedstock[0].uom;
 			
-			document.getElementById('ajax-loader').style.display = 'none';
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
 	});
 };
@@ -140,7 +144,7 @@ function removeFeedstock(id){
 	let r = confirm('Deseja realmente excluir a matéria prima?');
 
 	if(r){
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
 			url: '/feedstock/remove?id='+id,
 			method: 'delete',
@@ -151,7 +155,7 @@ function removeFeedstock(id){
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 				$("#feedstock-filter-form").submit();

@@ -29,7 +29,7 @@ $(function(){
 			return document.getElementById('income-create-submit').disabled = false;	
 		};
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: '/financial/income/save',
@@ -51,14 +51,13 @@ $(function(){
 				
 				if(response.msg){
 					alert(response.msg);
-					document.getElementById('income-create-submit').disabled = false;
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					document.getElementById('ajax-loader').style.display = 'none';
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
-
 				alert(response.done);
 
 				document.getElementById("income-create-form").elements.namedItem('income_category').value = "0";
@@ -75,7 +74,7 @@ $(function(){
 		event.preventDefault();
 		document.getElementById('income-report-submit').disabled = true;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 
 		$.ajax({
 			url: '/financial/income/filter',
@@ -89,11 +88,11 @@ $(function(){
 				
 				if(incomes.msg){
 					alert(incomes.msg);
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					return document.getElementById('product-create-submit').disabled = false;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				var pageSize = 15;
 				var page = 0;
@@ -155,7 +154,7 @@ $(function(){
 			return document.getElementById('income-category-create-submit').disabled = false;
 		};
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: '/financial/incomecategory/save',
@@ -170,12 +169,12 @@ $(function(){
 				
 				if(response.msg){
 					alert(response.msg);
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 
@@ -195,7 +194,7 @@ $(function(){
 		let btn = $(this);btn.attr('disabled', true);
 		let category_name = document.getElementById("income-category-filter-form").elements.namedItem('category_name').value;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: "/financial/incomecategory/filter?name="+category_name,
@@ -209,7 +208,7 @@ $(function(){
 				var pageSize = 10;
 				var page = 0;
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				function paging(){
 					if(incomeCategories.length){
@@ -265,7 +264,7 @@ $(function(){
 			return document.getElementById('income-origin-create-submit').disabled = false;
 		};
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: '/financial/incomeorigin/save',
@@ -279,11 +278,11 @@ $(function(){
 				
 				if(response.msg){
 					alert(response.msg);
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					return document.getElementById('income-origin-create-submit').disabled = false;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 
@@ -298,7 +297,7 @@ $(function(){
 		const btn = $(this);btn.attr('disabled', true);
 		const category_id = document.getElementById("income-origin-filter-form").elements.namedItem('category_id').value;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		if(category_id){
 			$.ajax({
@@ -310,7 +309,7 @@ $(function(){
 						return window.location.href = '/login';
 					};
 
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					
 					var pageSize = 10;
 					var page = 0;
@@ -400,7 +399,7 @@ function removeIncomeCategory(id){
 	const r = confirm('Deseja realmente excluir esta categoria?');
 	
 	if(r){
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
 			url: '/financial/incomecategory/remove?id='+id,
 			method: 'delete',
@@ -413,12 +412,12 @@ function removeIncomeCategory(id){
 				
 				if(response.msg){
 					alert(response.msg);
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 
@@ -436,7 +435,7 @@ function removeIncomeOrigin(id){
 	const r = confirm('Deseja realmente excluir esta origem?');
 	
 	if(r){
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
 			url: '/financial/incomeorigin/remove?id='+id,
 			method: 'delete',
@@ -449,12 +448,12 @@ function removeIncomeOrigin(id){
 				
 				if(response.msg){
 					alert(response.msg);
-					document.getElementById('ajax-loader').style.display = 'none';
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 

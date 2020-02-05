@@ -3,7 +3,7 @@ $(function(){
 		event.preventDefault();
 		document.getElementById('balance-report-submit').disabled = true;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 
 		$.ajax({
 			url: '/financial/balance',
@@ -17,10 +17,11 @@ $(function(){
 				
 				if(response.msg){
 					alert(response.msg);
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					return document.getElementById('product-create-submit').disabled = false;
 				};
 
-				document.getElementById('ajax-loader').style.display = 'none';
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				document.getElementById('balance_value').innerHTML = "$"+lib.roundValue(response.incomeValue[0].totalValue)+" - $"+lib.roundValue(response.outcomeValue[0].totalValue)+" = $"+lib.roundValue(response.incomeValue[0].totalValue-response.outcomeValue[0].totalValue);
 

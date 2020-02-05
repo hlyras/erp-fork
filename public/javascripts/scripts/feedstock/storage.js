@@ -14,6 +14,7 @@ $(() => {
 		let r = confirm('Realmente deseja criar um novo estoque para as matérias-primas?');
 
 		if(r){
+			document.getElementById('ajax-loader').style.visibility = 'visible';
 			$.ajax({
 				url: '/feedstock/storage/create',
 				method: 'post',
@@ -26,9 +27,12 @@ $(() => {
 					};
 					
 					if(response.msg){
+						document.getElementById('ajax-loader').style.visibility = 'hidden';
 						alert(response.msg);
 						return document.getElementById('feedstock-storage-create-submit').disabled = false;
 					};
+
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 					alert(response.done);
 					document.getElementById('feedstock-storage-create-form').elements.namedItem("name").value = "";
@@ -42,7 +46,7 @@ $(() => {
 
 	$("#feedstock-storage-filter-form").on('submit', (event) => {
 		event.preventDefault();
-		let btn = $(this);btn.attr('disabled', true);
+		document.getElementById('feedstock-storage-filter-submit').disabled = true;
 
 		let location = document.getElementById("feedstock-storage-filter-form").elements.namedItem('location').value;
 		let storage = document.getElementById("feedstock-storage-filter-form").elements.namedItem('storage').value;
@@ -50,7 +54,7 @@ $(() => {
 		let name = document.getElementById("feedstock-storage-filter-form").elements.namedItem('name').value;
 		let color = document.getElementById("feedstock-storage-filter-form").elements.namedItem('color').value;
 
-		document.getElementById('ajax-loader').style.display = 'block';
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 
 		$.ajax({
 			url: "/feedstock/storage/filter?storage="+storage+"&name="+name+"&code="+code+"&color="+color,
@@ -60,8 +64,6 @@ $(() => {
 					alert(response.unauthorized);
 					return window.location.href = '/login';
 				};
-
-				document.getElementById('ajax-loader').style.display = 'none';
 
 				for(i in response.storageFeedstocks){
 					for(j in response.feedstocks){
@@ -89,7 +91,8 @@ $(() => {
 					};
 				};
 
-				btn.attr('disabled', false);
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+				document.getElementById('feedstock-storage-filter-submit').disabled = false;
 
 				function buttonsPaging(){
 					$("#"+location+"Next").prop('disabled', response.storageFeedstocks.length <= pageSize || page >= response.storageFeedstocks.length / pageSize - 1);
@@ -117,68 +120,9 @@ $(() => {
 			}
 		});
 	});
-
-	$("#feedstock-storages-list-form").on('submit', (event) => {
-		event.preventDefault();
-		let btn = $(this);btn.attr('disabled', true);
-
-		let location = document.getElementById("feedstock-storages-filter-form").elements.namedItem('location').value;
-
-		$.ajax({
-			url: "/feedstock/storage/list",
-			method: 'get',
-			success: (response) => {
-				if(response.unauthorized){
-					alert(response.unauthorized);
-					return window.location.href = '/login';
-				};
-
-				var pageSize = 10;
-				var page = 0;
-
-				function paging(){
-					if(response.storages.length){
-						if(location==="feedstockStorageAdmin"){
-							renderFeedstockStorages(response.storages, pageSize, page, location);
-						};
-					} else {
-						if(location==="feedstockStorageAdmin"){
-							lib.clearTable('feedstock-storage-admin-filter-tbl', location);
-						};
-					};
-				};
-
-				btn.attr('disabled', false);
-
-				function buttonsPaging(){
-					$("#"+location+"Next").prop('disabled', response.storages.length <= pageSize || page >= response.storages.length / pageSize - 1);
-					$("#"+location+"Previous").prop('disabled', response.storages.length <= pageSize || page == 0);
-				};
-
-				$(function(){
-				    $("#"+location+"Next").click(function(){
-				        if(page < response.storages.length / pageSize - 1){
-				            page++;
-				            paging();
-				            buttonsPaging();
-				        };
-				    });
-				    $("#"+location+"Previous").click(function(){
-				        if(page > 0){
-				            page--;
-				            paging();
-				            buttonsPaging();
-				        };
-				    });
-				    paging();
-				    buttonsPaging();
-				});
-			}
-		});
-	});
 });
 
-function renderAdminFeedstockStorage(feedstocks, pageSize, page){
+function renderAdminFeedstockStorage(feedstocks, pageSize, page, location){
 	var html = "<tr>";
 	html += "<td>Estoque</td>";
 	html += "<td>Cód</td>";
@@ -199,8 +143,7 @@ function renderAdminFeedstockStorage(feedstocks, pageSize, page){
 		html += "</tr>";
 	};
 	document.getElementById('feedstock-storage-admin-filter-tbl').innerHTML = html;
-	document.getElementById('feedstock-storage-admin-filter-div').style.display = 'block';
-	$('#feedstockStorageAdminPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(feedstocks.length / pageSize));
+	$('#'+location+'PageNumber').text('' + (page + 1) + ' de ' + Math.ceil(feedstocks.length / pageSize));
 };
 
 function renderFeedstockStorages(feedstocks, pageSize, page){

@@ -89,6 +89,8 @@ $(function(){
 			// return alert('É necessário preencher algum campo.');
 		// };
 
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+
 		$.ajax({
 			url: '/user/updateInfo',
 			method: 'post',
@@ -104,10 +106,13 @@ $(function(){
 				};
 
 				if(response.msg){
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
 					btn.attr('disabled', false);
 					return;
 				};
+
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 				alert(response.done);
 				// document.getElementById('day').value = "";
@@ -132,6 +137,8 @@ $(function(){
 			return alert("Senhas não conferem.");
 		};
 
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+
 		$.ajax({
 			url: '/user/updatePassword',
 			method: 'post',
@@ -146,10 +153,13 @@ $(function(){
 				};
 
 				if(response.msg){
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
 					btn.attr('disabled', false);
 					return;
 				};
+
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 				document.getElementById('password').value = "";
 				document.getElementById('confirmPassword').value = "";
