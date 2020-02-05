@@ -39,6 +39,10 @@ $(() => {
 
 		feedstock_buy_kart.push(feedstock);
 
+		feedstock_buy_kart.sort((a, b) => {
+		  return a.code - b.code;
+		});
+
 		renderFeedstockBuyKart(feedstock_buy_kart);
 
 		document.getElementById("feedstock-buy-form").elements.namedItem('feedstock_amount').value = "";
