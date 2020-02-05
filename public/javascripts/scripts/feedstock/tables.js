@@ -30,6 +30,6 @@ function renderAdminFeedstocks(feedstocks, pageSize, page){
 function fillFeedstockSelect(feedstocks, select){
 	select.innerHTML = "";
 	for(i in feedstocks){
-		select.innerHTML += "<option value='"+feedstocks[i].id+"'>"+feedstocks[i].code+" | "+feedstocks[i].name+" | "+feedstocks[i].color+"</option>"
+		select.innerHTML += "<option value='"+feedstocks[i].id+"'>"+feedstocks[i].code+" | "+feedstocks[i].name+" | "+feedstocks[i].color+" | "+feedstocks[i].uom+"</option>"
 	};
 };

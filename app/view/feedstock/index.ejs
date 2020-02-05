@@ -29,12 +29,12 @@
 						</select>
 						<input type="submit" class="btn-submit" value="Filtrar">
 					</form>
-					<form class="box-1" id="buy-feedstock-form">
+					<form class="box-1" id="feedstock-buy-form">
 						<select name="feedstock_id" class="btn-generic-big"></select>
 						<input type="number" name="feedstock_amount" class="btn-generic-small" placeholder="Qtd">
-						<input type="submit" class="btn-submit" id="product-addFeedstock-submit" value="Adicionar">
+						<input type="submit" class="btn-submit" id="feedstock-buy-submit" value="Adicionar">
 					</form>
-					<table id="buy-feedstock-tbl" class=""></table>
+					<table id="feedstock-buy-tbl" class="tbl-info box-1"></table>
 				</div>
 			</div>
 		</section>
@@ -45,5 +45,6 @@
 	<footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
+		<script src="/javascripts/scripts/feedstock/buy.js"></script>
 	</footer>
 </html>

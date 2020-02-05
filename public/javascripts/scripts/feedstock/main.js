@@ -75,7 +75,7 @@ $(function(){
 						} else if (location==="productAddFeedstock"){
 							fillFeedstockSelect(feedstocks, document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id'));
 						} else if (location==="buyFeedstock"){
-							fillFeedstockSelect(feedstocks, document.getElementById("buy-feedstock-form").elements.namedItem('feedstock_id'));
+							fillFeedstockSelect(feedstocks, document.getElementById("feedstock-buy-form").elements.namedItem('feedstock_id'));
 						};
 					} else {
 						if(location==="feedstockAdmin"){
@@ -85,7 +85,7 @@ $(function(){
 						} else if (location==="productAddFeedstock"){
 							lib.clearSelect(document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id'));
 						} else if (location==="buyFeedstock"){
-							lib.clearSelect(document.getElementById("buy-feedstock-form").elements.namedItem('feedstock_id'));
+							lib.clearSelect(document.getElementById("feedstock-buy-form").elements.namedItem('feedstock_id'));
 						};
 					};
 				};
