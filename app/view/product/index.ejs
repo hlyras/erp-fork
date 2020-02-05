@@ -16,97 +16,13 @@
 		<section>
 			<div class="container">
 				<div class="box-2">
-					<form id="product-create-form" class="box-1">
-						<input type="hidden" name="product_id" id="product-create-id" value="0" autocomplete="off">
-						<input type="number" name="product_code" id="product-create-code" class="btn-generic-big" placeholder="Cód do produto" min="1" max="9999" autocomplete="off">
-						<input type="text" name="product_name" class="btn-generic-big" id="product-create-name" placeholder="Nome do produto" autocomplete="off" maxlength="15">
-						<br>
-						<select name="product_color" id="product-create-color" class="btn-generic-big" autocomplete="off">
-							<option value="">Cor</option>
-							<% for(i in productColors){ %>
-								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
-							<% } %>
-						</select>
-						<select name="product_size" id="product-create-size" class="btn-generic-big" autocomplete="off">
-							<option value="">Tamanho</option>
-							<option value="ST">Sem tamanho</option>
-							<option value="PP">PP</option>
-							<option value="P">P</option>
-							<option value="M">M</option>
-							<option value="G">G</option>
-							<option value="GG">GG</option>
-						</select>
-						<br>
-						<input type="submit" class="btn-submit" id="product-create-submit" value="Cadastrar">
-					</form>
-				</div>
-				<div class="box-2">
-					<form id="product-filter-form" class="box-1">
-						<input type="hidden" name="location" value="productAdmin" autocomplete="off">
-						<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
-						<input type="number" name="product_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
-						<select name="color" id="product-admin-color" class="btn-generic-small" autocomplete="off">
-							<option value="">Cor</option>
-							<% for(i in productColors){ %>
-								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
-							<% } %>
-						</select>
-						<input type="submit" class="btn-submit" value="Filtrar">
-					</form>
-					<div id="product-admin-filter-div" style="display:none">
-						<table class="tbl-info box-1" id="product-admin-filter-tbl"></table>
-						<br>
-						<button id="productAdminPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-	                    <span id="productAdminPageNumber"></span>
-	                    <button id="productAdminNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
-					</div>
-				</div>
-				
-				<div class="box-1" id="product-show-box" style="display:none;">
-					<table class="tbl-info box-1" id="product-show-tbl">
-						<tr>
-							<td>Cód</td>
-							<td>Nome</td>
-							<td>Tamanho</td>
-							<td>Cor</td>
-						</tr>
-						<tbody id="product-show-tbody"></tbody>
-					</table>
-					<div class="box-1" id="product-feedstock-div" style="display:none">
-						<div id="product-addFeedstock-div">
-							<!-- Feedstock filter form -->
-							<form id="feedstock-filter-form" class="box-1">
-								<input type="hidden" name="location" value="productAddFeedstock">
-								<input type="text" name="feedstock_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
-								<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
-								<select name="color" class="btn-generic-small">
-									<option value="">Cor</option>
-									<% for(i in feedstockColors){ %>
-										<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
-									<% } %>
-								</select>
-								<input type="submit" class="btn-submit" value="Filtrar">
-							</form>
-
-							<!-- Feedstock  -->
-							<form class="box-1" id="product-addFeedstock-form">
-								<input type="hidden" name="product_id">
-								<select name="feedstock_id" class="btn-generic-big"></select>
-								<input type="number" name="feedstock_amount" class="btn-generic-small" placeholder="Qtd">
-								<input type="submit" class="btn-submit" id="product-addFeedstock-submit" value="Cadastrar">
-							</form>
-						</div>
-					</div>
-					<div id="product-feedstock-box" class="box-1" style="display:none">
-						<table id="product-feedstock-tbl" class="tbl-info box-1"></table>
-					</div>
-					<div class="box-1" id="product-image-show"></div>
-					<button id="imagePrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-                    <span id="imagePageNumber"></span>
-                    <button id="imageNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
+					INDEX	
 				</div>
 			</div>
 		</section>
+		<div id="ajax-loader" class="ajax-loader">
+			<div class="loader"></div>
+		</div>
 	</body>
 	<footer>
         <% include ./../partials/footer %>

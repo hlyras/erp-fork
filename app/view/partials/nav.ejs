@@ -13,4 +13,15 @@
 	    <option value="/financial/income">Configurar Receitas</option>
 	    <option value="/financial/outcome">Configurar Despesas</option>
 	</select>
+	<select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="">Matéria-Prima</option>
+	    <option value="/feedstock/index">Relatórios</option>
+	    <option value="/feedstock/request">Solicitar p/ produção</option>
+	    <option value="/feedstock/admin">Gerir Materias-Primas</option>
+	    <option value="/feedstock/storage">Gerir Estoque</option>
+	</select>
+	<select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="">Produtos</option>
+	    <option value="/product/admin">Gerir Produtos</option>
+	</select>
 </header>

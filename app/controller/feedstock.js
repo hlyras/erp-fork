@@ -12,6 +12,14 @@ const feedstockController = {
 		const feedstockColors = await Feedstock.colorList();
 		res.render('feedstock/index', { feedstockColors: feedstockColors, user: req.user });
 	},
+	admin: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+		
+		const feedstockColors = await Feedstock.colorList();
+		res.render('feedstock/admin', { feedstockColors: feedstockColors, user: req.user });
+	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
@@ -135,7 +143,8 @@ const feedstockController = {
 		};
 
 		const feedstockColors = await Feedstock.colorList();
-		res.render('feedstock/storage', { feedstockColors: feedstockColors, user: req.user });
+		const feedstockStorages = await Feedstock.listStorages();
+		res.render('feedstock/storage', { feedstockColors: feedstockColors, feedstockStorages: feedstockStorages, user: req.user });
 	},
 	createStorage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
@@ -169,6 +178,95 @@ const feedstockController = {
 		};
 
 		res.send({ done: 'Estoque criado e produtos cadastrados com sucesso!' });
+	},
+	listStorages: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		const storages = await Feedstock.listStorages();
+
+		res.send(storages);
+	},
+	storageFilter: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		let params = [];
+		let values = [];
+
+		if(req.query.name){
+			Feedstock.findByName(req.query.name)
+				.then(async feedstocks => {
+					var storageFeedstocks = [];
+					
+					for(i in feedstocks){
+						params = [];
+						values = [];
+
+						if(req.query.storage){
+							params.push('storage_id');
+							values.push(req.query.storage);
+						};
+
+						params.push('feedstock_id');
+						values.push(feedstocks[i].id);
+
+						var storageRows = await Feedstock.findInStorage(params, values);
+
+						for(j in storageRows){
+							storageFeedstocks.push(storageRows[j]);
+						}
+					};
+
+					res.send({ feedstocks, storageFeedstocks });
+				})
+				.catch(err => {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao filtrar as matérias primas, favor contatar o suporte" });
+				});
+		} else {
+			if(parseInt(req.query.code)){
+				params.push("code");
+				values.push(req.query.code);
+			};
+
+			if(req.query.color){
+				params.push("color");
+				values.push(req.query.color);
+			};
+
+			Feedstock.filter(params, values)
+				.then(async feedstocks => {
+					var storageFeedstocks = [];
+					
+					for(i in feedstocks){
+						params = [];
+						values = [];
+
+						if(req.query.storage){
+							params.push('storage_id');
+							values.push(req.query.storage);
+						};
+
+						params.push('feedstock_id');
+						values.push(feedstocks[i].id);
+
+						var storageRows = await Feedstock.findInStorage(params, values);
+
+						for(j in storageRows){
+							storageFeedstocks.push(storageRows[j]);
+						}
+					};
+
+					res.send({ feedstocks, storageFeedstocks });
+				})
+				.catch(err => {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao filtrar as matérias primas, favor contatar o suporte" });
+				});
+		};
 	}
 };
 

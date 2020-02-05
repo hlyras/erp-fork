@@ -3,6 +3,8 @@ $(function(){
 		event.preventDefault();
 		document.getElementById('feedstock-create-submit').disabled = true;
 
+		document.getElementById('ajax-loader').style.display = 'block';
+		
 		$.ajax({
 			url: '/feedstock/save',
 			method: 'post',
@@ -15,11 +17,16 @@ $(function(){
 				};
 				
 				if(response.msg){
+					document.getElementById('ajax-loader').style.display = 'none';
 					alert(response.msg);
 					return document.getElementById('feedstock-create-submit').disabled = false;
 				};
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				alert(response.done);
+				
+				document.getElementById("feedstock-filter-form").elements.namedItem('name').value = document.getElementById("feedstock-create-form").elements.namedItem('name').value;
 				
 				document.getElementById("feedstock-create-form").elements.namedItem('id').value = "";
 				document.getElementById("feedstock-create-form").elements.namedItem('feedstock_code').value = "";
@@ -43,6 +50,8 @@ $(function(){
 		let name = document.getElementById("feedstock-filter-form").elements.namedItem('name').value;
 		let color = document.getElementById("feedstock-filter-form").elements.namedItem('color').value;
 
+		document.getElementById('ajax-loader').style.display = 'block';
+
 		$.ajax({
 			url: "/feedstock/filter?name="+name+"&code="+code+"&color="+color,
 			method: 'get',
@@ -52,6 +61,8 @@ $(function(){
 					return window.location.href = '/login';
 				};
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				var pageSize = 10;
 				var page = 0;
 
@@ -106,13 +117,12 @@ $(function(){
 });
 
 function editFeedstock(id){
+	document.getElementById('ajax-loader').style.display = 'block';
 	$.ajax({
 		url: '/feedstock/id/'+id,
 		method: 'get',
 		success: (feedstock) => {
 			document.getElementById('feedstock-create-form').style.display = "block";
-
-			console.log(feedstock);
 
 			document.getElementById("feedstock-create-form").elements.namedItem('id').value = feedstock[0].id;
 			document.getElementById("feedstock-create-form").elements.namedItem('feedstock_code').value = feedstock[0].code;
@@ -120,6 +130,8 @@ function editFeedstock(id){
 			document.getElementById("feedstock-create-form").elements.namedItem('color').value = feedstock[0].color;
 			document.getElementById("feedstock-create-form").elements.namedItem('standard').value = feedstock[0].standard;
 			document.getElementById("feedstock-create-form").elements.namedItem('uom').value = feedstock[0].uom;
+			
+			document.getElementById('ajax-loader').style.display = 'none';
 		}
 	});
 };
@@ -128,6 +140,7 @@ function removeFeedstock(id){
 	let r = confirm('Deseja realmente excluir a matéria prima?');
 
 	if(r){
+		document.getElementById('ajax-loader').style.display = 'block';
 		$.ajax({
 			url: '/feedstock/remove?id='+id,
 			method: 'delete',
@@ -138,6 +151,8 @@ function removeFeedstock(id){
 					return;
 				};
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				alert(response.done);
 				$("#feedstock-filter-form").submit();
 			}

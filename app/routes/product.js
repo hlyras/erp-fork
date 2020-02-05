@@ -4,6 +4,7 @@ const productController = require('../controller/product');
 
 //API ROUTES
 router.get('/index', productController.index);
+router.get('/admin', productController.admin);
 
 router.get('/', productController.list);
 router.get('/id/:id', productController.findById);

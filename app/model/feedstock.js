@@ -82,4 +82,9 @@ Feedstock.listStorages = async () => {
 	return db(query);
 };
 
+Feedstock.findInStorage = async (params, values) => {
+	let query = lib.filterQuery(params, values, "cms_wt_erp", "feedstock_storage", "feedstock_id", "ASC");
+	return db(query);
+};
+
 module.exports = Feedstock;

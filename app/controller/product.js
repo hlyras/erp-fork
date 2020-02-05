@@ -15,6 +15,16 @@ const productController = {
 
 		res.render('product/index', { productColors, feedstockColors, user: req.user });
 	},
+	admin: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		const feedstockColors = await Feedstock.colorList();
+		const productColors = await Product.colorList();
+
+		res.render('product/admin', { productColors, feedstockColors, user: req.user });
+	},
 	// API CONTROLLERS
 	list: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){

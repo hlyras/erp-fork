@@ -29,6 +29,8 @@ $(function(){
 			return document.getElementById('income-create-submit').disabled = false;	
 		};
 
+		document.getElementById('ajax-loader').style.display = 'block';
+		
 		$.ajax({
 			url: '/financial/income/save',
 			method: 'post',
@@ -50,8 +52,12 @@ $(function(){
 				if(response.msg){
 					alert(response.msg);
 					document.getElementById('income-create-submit').disabled = false;
+					document.getElementById('ajax-loader').style.display = 'none';
 					return;
 				};
+
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 
 				alert(response.done);
 
@@ -69,6 +75,8 @@ $(function(){
 		event.preventDefault();
 		document.getElementById('income-report-submit').disabled = true;
 
+		document.getElementById('ajax-loader').style.display = 'block';
+
 		$.ajax({
 			url: '/financial/income/filter',
 			method: 'post',
@@ -81,9 +89,12 @@ $(function(){
 				
 				if(incomes.msg){
 					alert(incomes.msg);
+					document.getElementById('ajax-loader').style.display = 'none';
 					return document.getElementById('product-create-submit').disabled = false;
 				};
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				var pageSize = 15;
 				var page = 0;
 
@@ -144,6 +155,8 @@ $(function(){
 			return document.getElementById('income-category-create-submit').disabled = false;
 		};
 
+		document.getElementById('ajax-loader').style.display = 'block';
+		
 		$.ajax({
 			url: '/financial/incomecategory/save',
 			method: 'post',
@@ -157,10 +170,13 @@ $(function(){
 				
 				if(response.msg){
 					alert(response.msg);
+					document.getElementById('ajax-loader').style.display = 'none';
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				alert(response.done);
 
 				document.getElementById("income-category-create-form").elements.namedItem('category_name').value = "";
@@ -179,6 +195,8 @@ $(function(){
 		let btn = $(this);btn.attr('disabled', true);
 		let category_name = document.getElementById("income-category-filter-form").elements.namedItem('category_name').value;
 
+		document.getElementById('ajax-loader').style.display = 'block';
+		
 		$.ajax({
 			url: "/financial/incomecategory/filter?name="+category_name,
 			method: 'get',
@@ -191,6 +209,8 @@ $(function(){
 				var pageSize = 10;
 				var page = 0;
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				function paging(){
 					if(incomeCategories.length){
 						renderIncomeCategoryTable(incomeCategories, pageSize, page);
@@ -245,6 +265,8 @@ $(function(){
 			return document.getElementById('income-origin-create-submit').disabled = false;
 		};
 
+		document.getElementById('ajax-loader').style.display = 'block';
+		
 		$.ajax({
 			url: '/financial/incomeorigin/save',
 			method: 'post',
@@ -257,9 +279,12 @@ $(function(){
 				
 				if(response.msg){
 					alert(response.msg);
+					document.getElementById('ajax-loader').style.display = 'none';
 					return document.getElementById('income-origin-create-submit').disabled = false;
 				};
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				alert(response.done);
 
 				document.getElementById("income-origin-create-form").elements.namedItem('origin_name').value = "";
@@ -273,6 +298,8 @@ $(function(){
 		const btn = $(this);btn.attr('disabled', true);
 		const category_id = document.getElementById("income-origin-filter-form").elements.namedItem('category_id').value;
 
+		document.getElementById('ajax-loader').style.display = 'block';
+		
 		if(category_id){
 			$.ajax({
 				url: "/financial/incomeorigin/filterbycategory?id="+category_id,
@@ -283,6 +310,8 @@ $(function(){
 						return window.location.href = '/login';
 					};
 
+					document.getElementById('ajax-loader').style.display = 'none';
+					
 					var pageSize = 10;
 					var page = 0;
 
@@ -371,6 +400,7 @@ function removeIncomeCategory(id){
 	const r = confirm('Deseja realmente excluir esta categoria?');
 	
 	if(r){
+		document.getElementById('ajax-loader').style.display = 'block';
 		$.ajax({
 			url: '/financial/incomecategory/remove?id='+id,
 			method: 'delete',
@@ -383,10 +413,13 @@ function removeIncomeCategory(id){
 				
 				if(response.msg){
 					alert(response.msg);
+					document.getElementById('ajax-loader').style.display = 'none';
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				alert(response.done);
 
 				lib.fillSelect('Categoria','income-origin-create-select','/financial/incomecategory/list', 'get');
@@ -403,6 +436,7 @@ function removeIncomeOrigin(id){
 	const r = confirm('Deseja realmente excluir esta origem?');
 	
 	if(r){
+		document.getElementById('ajax-loader').style.display = 'block';
 		$.ajax({
 			url: '/financial/incomeorigin/remove?id='+id,
 			method: 'delete',
@@ -415,10 +449,13 @@ function removeIncomeOrigin(id){
 				
 				if(response.msg){
 					alert(response.msg);
+					document.getElementById('ajax-loader').style.display = 'none';
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				alert(response.done);
 
 				$("#income-origin-filter-form").submit();

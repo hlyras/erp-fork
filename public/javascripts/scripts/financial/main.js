@@ -3,6 +3,8 @@ $(function(){
 		event.preventDefault();
 		document.getElementById('balance-report-submit').disabled = true;
 
+		document.getElementById('ajax-loader').style.display = 'block';
+
 		$.ajax({
 			url: '/financial/balance',
 			method: 'post',
@@ -18,6 +20,8 @@ $(function(){
 					return document.getElementById('product-create-submit').disabled = false;
 				};
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				document.getElementById('balance_value').innerHTML = "$"+lib.roundValue(response.incomeValue[0].totalValue)+" - $"+lib.roundValue(response.outcomeValue[0].totalValue)+" = $"+lib.roundValue(response.incomeValue[0].totalValue-response.outcomeValue[0].totalValue);
 
 				document.getElementById('balance-report-submit').disabled = false;

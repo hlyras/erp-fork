@@ -3,6 +3,8 @@ $(function(){
 		event.preventDefault();
 		document.getElementById('product-create-submit').disabled = true;
 
+		document.getElementById('ajax-loader').style.display = 'block';
+		
 		$.ajax({
 			url: '/product/save',
 			method: 'post',
@@ -15,11 +17,14 @@ $(function(){
 				};
 				
 				if(response.msg){
+					document.getElementById('ajax-loader').style.display = 'none';
 					alert(response.msg);
 					document.getElementById('product-create-submit').disabled = false;
 					return;
 				};
 
+				document.getElementById('ajax-loader').style.display = 'none';
+				
 				alert(response.done);
 				
 				filterProduct(document.getElementById('product-create-name').value, "", "", "admin");
@@ -44,6 +49,8 @@ $(function(){
 		let code = document.getElementById("product-filter-form").elements.namedItem('product_code').value;
 		let color = document.getElementById("product-filter-form").elements.namedItem('color').value;
 
+		document.getElementById('ajax-loader').style.display = 'block';
+
 		$.ajax({
 			url: "/product/filter?name="+name+"&code="+code+"&color="+color,
 			method: 'get',
@@ -52,6 +59,8 @@ $(function(){
 					alert(products.unauthorized);
 					return window.location.href = '/login';
 				};
+				
+				document.getElementById('ajax-loader').style.display = 'none';
 
 				var pageSize = 15;
 				var page = 0;
@@ -103,6 +112,7 @@ $(function(){
 });
 
 function showProduct(id, admin){
+	document.getElementById('ajax-loader').style.display = 'block';
 	$.ajax({
 		url: '/product/id/'+id,
 		method: 'get',
@@ -112,6 +122,8 @@ function showProduct(id, admin){
 				window.location.href = '/login';
 				return;
 			};
+
+			document.getElementById('ajax-loader').style.display = 'none';
 
 			let html = "";
 			html += "<tr>";
@@ -158,6 +170,7 @@ function showProduct(id, admin){
 };
 
 function filterProduct(name, code, color, session){
+	document.getElementById('ajax-loader').style.display = 'block';
 	$.ajax({
 		url: "/product/filter?name="+name+"&code="+code+"&color="+color,
 		method: 'get',
@@ -166,6 +179,8 @@ function filterProduct(name, code, color, session){
 				alert(products.unauthorized);
 				return window.location.href = '/login';
 			};
+
+			document.getElementById('ajax-loader').style.display = 'none';
 
 			var pageSize = 10;
 			var page = 0;
@@ -211,6 +226,7 @@ function filterProduct(name, code, color, session){
 };
 
 function editProduct(id){
+	document.getElementById('ajax-loader').style.display = 'block';
 	$.ajax({
 		url: '/product/id/'+id,
 		method: 'get',
@@ -222,6 +238,8 @@ function editProduct(id){
 			document.getElementById('product-create-name').value = product[0].name;
 			document.getElementById('product-create-color').value = product[0].color;
 			document.getElementById('product-create-size').value = product[0].size;
+
+			document.getElementById('ajax-loader').style.display = 'none';
 		}
 	});
 };
@@ -230,6 +248,7 @@ function removeProduct(id){
 	let r = confirm('Deseja realmente excluir o produto?');
 
 	if(r){
+		document.getElementById('ajax-loader').style.display = 'block';
 		$.ajax({
 			url: '/product/remove?id='+id,
 			method: 'delete',
@@ -239,6 +258,8 @@ function removeProduct(id){
 					window.location.href = '/login';
 					return;
 				};
+
+				document.getElementById('ajax-loader').style.display = 'none';
 
 				lib.displayDiv('product-show-box');
 				alert(response.done);

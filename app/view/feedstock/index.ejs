@@ -16,50 +16,13 @@
 		<section>
 			<div class="container">
 				<div class="box-2">
-					<h4>Cadastrar Matéria Prima</h4>
-					<form id="feedstock-create-form" class="box-1">
-						<input type="hidden" name="id" value="0" autocomplete="off">
-						<input type="number" name="feedstock_code" min="1" max="9999" class="btn-generic-small" placeholder="Código" autocomplete="off">
-						<input type="text" name="name" class="btn-generic-big" placeholder="Nome da matéria-prima" autocomplete="off" maxlength="20">
-						<select name="color" class="btn-generic-small">
-							<option value="">Cor</option>
-							<% for(i in feedstockColors){ %>
-								<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
-							<% } %>
-						</select>
-						<br>
-						<input type="number" name="standard" class="btn-generic-small" placeholder="Padrão" min="1" max="99999" autocomplete="off">
-						<select name="uom" class="btn-generic-medium">
-							<option value="">Un de Medida</option>
-							<option value="cm">Centímetros</option>
-							<option value="un">Unidade</option>
-						</select>
-						<input type="submit" class="btn-submit" id="feedstock-create-submit" value="Cadastrar">
-					</form>
-				</div>
-				<div class="box-2">
-					<form id="feedstock-filter-form" class="box-1">
-						<input type="hidden" name="location" value="feedstockAdmin">
-						<input type="text" name="feedstock_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
-						<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
-						<select name="color" class="btn-generic-small">
-							<option value="">Cor</option>
-							<% for(i in feedstockColors){ %>
-								<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
-							<% } %>
-						</select>
-						<input type="submit" class="btn-submit" value="Filtrar">
-					</form>
-					<div id="feedstock-admin-filter-div" style="display:none">
-						<table class="tbl-info box-1" id="feedstock-admin-filter-tbl"></table>
-						<br>
-						<button id="feedstockAdminPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-	                    <span id="feedstockAdminPageNumber"></span>
-	                    <button id="feedstockAdminNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
-					</div>
+					<h4>Index Matéria Prima</h4>
 				</div>
 			</div>
 		</section>
+		<div id="ajax-loader" class="ajax-loader">
+			<div class="loader"></div>
+		</div>
 	</body>
 	<footer>
         <% include ./../partials/footer %>
