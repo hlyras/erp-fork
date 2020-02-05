@@ -10,7 +10,8 @@ const feedstockController = {
 		};
 		
 		const feedstockColors = await Feedstock.colorList();
-		res.render('feedstock/index', { feedstockColors: feedstockColors, user: req.user });
+		const feedstockStorages = await Feedstock.listStorages();
+		res.render('feedstock/index', { feedstockColors, feedstockStorages, user: req.user });
 	},
 	admin: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
@@ -18,7 +19,7 @@ const feedstockController = {
 		};
 		
 		const feedstockColors = await Feedstock.colorList();
-		res.render('feedstock/admin', { feedstockColors: feedstockColors, user: req.user });
+		res.render('feedstock/admin', { feedstockColors, user: req.user });
 	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){

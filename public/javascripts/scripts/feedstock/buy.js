@@ -1,21 +1,21 @@
 var feedstock_buy_kart = [];
 
 $(() => {
-	$("#feedstock-buy-form").on('submit', (event)=>{
+	$("#feedstock-buy-kart-form").on('submit', (event)=>{
 		event.preventDefault();
-		document.getElementById("feedstock-buy-submit").disabled = true;
+		document.getElementById("feedstock-buy-kart-submit").disabled = true;
 
-		var feedstock_id = document.getElementById("feedstock-buy-form").elements.namedItem('feedstock_id');
-		var amount = document.getElementById("feedstock-buy-form").elements.namedItem('feedstock_amount').value;
+		var feedstock_id = document.getElementById("feedstock-buy-kart-form").elements.namedItem('feedstock_id');
+		var amount = document.getElementById("feedstock-buy-kart-form").elements.namedItem('feedstock_amount').value;
 
 		if(feedstock_id.value < 1 || !feedstock_id.value){
 			alert("É necessário selecionar a matéria-prima");
-			return document.getElementById('feedstock-buy-submit').disabled = false;
+			return document.getElementById('feedstock-buy-kart-submit').disabled = false;
 		};
 
 		if(amount < 1 || !amount){
 			alert("É necessário preencher a quantidade de matéria-prima que será comprada.");
-			return document.getElementById('feedstock-buy-submit').disabled = false;
+			return document.getElementById('feedstock-buy-kart-submit').disabled = false;
 		};
 
 		var row = feedstock_id.options[feedstock_id.selectedIndex].text;
@@ -32,7 +32,7 @@ $(() => {
 
 		for(i in feedstock_buy_kart){
 			if(feedstock_buy_kart[i].id == feedstock.id){
-				document.getElementById('feedstock-buy-submit').disabled = false;
+				document.getElementById('feedstock-buy-kart-submit').disabled = false;
 				return alert("Você já incluiu esta matéria-prima na lista de compras.");
 			};
 		};
@@ -45,8 +45,8 @@ $(() => {
 
 		renderFeedstockBuyKart(feedstock_buy_kart);
 
-		document.getElementById("feedstock-buy-form").elements.namedItem('feedstock_amount').value = "";
-		document.getElementById("feedstock-buy-submit").disabled = false;
+		document.getElementById("feedstock-buy-kart-form").elements.namedItem('feedstock_amount').value = "";
+		document.getElementById("feedstock-buy-kart-submit").disabled = false;
 	});
 });
 
@@ -70,7 +70,7 @@ function renderFeedstockBuyKart(feedstocks){
 		html += "</tr>";
 	};
 
-	document.getElementById("feedstock-buy-tbl").innerHTML = html;
+	document.getElementById("feedstock-buy-kart-tbl").innerHTML = html;
 }
 
 function removeFeedstockFromBuyKart(id){

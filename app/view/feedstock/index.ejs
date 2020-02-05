@@ -29,12 +29,24 @@
 						</select>
 						<input type="submit" class="btn-submit" value="Filtrar">
 					</form>
-					<form class="box-1" id="feedstock-buy-form">
+					<form class="box-1" id="feedstock-buy-kart-form">
 						<select name="feedstock_id" class="btn-generic-big"></select>
 						<input type="number" name="feedstock_amount" class="btn-generic-small" placeholder="Qtd">
-						<input type="submit" class="btn-submit" id="feedstock-buy-submit" value="Adicionar">
+						<input type="submit" class="btn-submit" id="feedstock-buy-kart-submit" value="Adicionar">
 					</form>
-					<table id="feedstock-buy-tbl" class="tbl-info box-1"></table>
+					<table id="feedstock-buy-kart-tbl" class="tbl-info box-1"></table>
+				</div>
+				<div class="box-1">
+					<form id="feedstock-buy-form" class="box-1">
+						<h3>Incluir Compra em</h3>
+						<select name="storage_id" class="btn-generic-medium">
+							<option value="">Estoque</option>
+							<% for(i in feedstockStorages){ %>
+								<option value="<%= feedstockStorages[i].id %>"><%= feedstockStorages[i].name %></option>
+							<% } %>
+						</select>
+						<input type="submit" class="btn-submit" id="feedstock-buy-submit" value="Confirmar">
+					</form>
 				</div>
 			</div>
 		</section>
