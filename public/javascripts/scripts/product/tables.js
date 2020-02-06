@@ -7,12 +7,12 @@ function renderAdminProducts(products, pageSize, page){
 	html += "</tr>";
 	for (let i = page * pageSize; i < products.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
-		html += "<td><a class='tbl-show-link' onclick='showProduct("+products[i].id+", "+true+")'>"+products[i].code+"</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='showProduct("+products[i].id+", "+true+")'>"+products[i].code+"</a></td>";
 		html += "<td>"+products[i].name+"</td>";
 		html += "<td>"+products[i].size+"</td>";
 		html += "<td>"+products[i].color+"</td>";
-		html += "<td ><a class='tbl-show-link' onclick='editProduct("+products[i].id+")'>Edit</a></td>";
-		html += "<td><a class='tbl-show-link' onclick='removeProduct("+products[i].id+")'>Rem</a></td>";
+		html += "<td ><a class='tbl-show-link nowrap' onclick='editProduct("+products[i].id+")'>Edit</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='removeProduct("+products[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('product-admin-filter-tbl').innerHTML = html;
@@ -33,7 +33,7 @@ function renderCatalogProducts(products, pageSize, page){
 		html += "<td>"+products[i].name+"</td>";
 		html += "<td>"+products[i].size+"</td>";
 		html += "<td>"+products[i].color+"</td>";
-		html += "<td><a class='tbl-show-link' onclick='showProduct("+products[i].id+", "+false+")'>Exibir</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='showProduct("+products[i].id+", "+false+")'>Exibir</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('product-catalog-filter-tbl').innerHTML = html;

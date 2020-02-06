@@ -83,7 +83,7 @@ function renderFeedstockBuyKart(feedstocks){
 		html += "<td>"+feedstocks[i].color+"</td>";
 		html += "<td class='nowrap'>"+feedstocks[i].amount+"</td>";
 		html += "<td>"+feedstocks[i].uom+"</td>";
-		html += "<td><a class='tbl-show-link' onclick='removeFeedstockFromBuyKart("+feedstocks[i].id+")'>Rem</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='removeFeedstockFromBuyKart("+feedstocks[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 

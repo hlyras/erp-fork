@@ -13,7 +13,7 @@ function renderIncomeTable(incomes, pageSize, page){
 	html += "</tr>";
 	for (let i = page * pageSize; i < incomes.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
-		html += "<td><a class='tbl-show-link' onclick='showFinancialIncome("+incomes[i].id+")'>"+incomes[i].id+"</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='showFinancialIncome("+incomes[i].id+")'>"+incomes[i].id+"</a></td>";
 		html += "<td>"+lib.convertDate(incomes[i].date)+"</td>";
 		html += "<td>"+incomes[i].category_name+"</td>";
 		html += "<td>"+incomes[i].origin_name+"</td>";
@@ -36,7 +36,7 @@ function renderIncomeCategoryTable(incomeCategories, pageSize, page){
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+incomeCategories[i].id+")'>"+incomeCategories[i].code+"</a></td>";
 		html += "<td class='nowrap'>"+incomeCategories[i].id+"</td>";
 		html += "<td>"+incomeCategories[i].name+"</td>";
-		html += "<td><a class='tbl-show-link' onclick='removeIncomeCategory("+incomeCategories[i].id+")'>Rem</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='removeIncomeCategory("+incomeCategories[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('income-category-tbl').innerHTML = html;
@@ -54,7 +54,7 @@ function renderIncomeOriginTable(incomeOrigins, pageSize, page){
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+incomeOrigins[i].id+")'>"+incomeOrigins[i].code+"</a></td>";
 		html += "<td class='nowrap'>"+incomeOrigins[i].id+"</td>";
 		html += "<td>"+incomeOrigins[i].name+"</td>";
-		html += "<td><a class='tbl-show-link' onclick='removeIncomeOrigin("+incomeOrigins[i].id+")'>Rem</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='removeIncomeOrigin("+incomeOrigins[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('income-origin-tbl').innerHTML = html;
@@ -77,7 +77,7 @@ function renderOutcomeTable(outcomes, pageSize, page){
 	html += "</tr>";
 	for (let i = page * pageSize; i < outcomes.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
-		html += "<td><a class='tbl-show-link' onclick='showFinancialOutcome("+outcomes[i].id+")'>"+outcomes[i].id+"</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='showFinancialOutcome("+outcomes[i].id+")'>"+outcomes[i].id+"</a></td>";
 		html += "<td>"+lib.convertDate(outcomes[i].date)+"</td>";
 		html += "<td>"+outcomes[i].category_name+"</td>";
 		html += "<td>"+outcomes[i].origin_name+"</td>";
@@ -100,7 +100,7 @@ function renderOutcomeCategoryTable(outcomeCategories, pageSize, page){
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+outcomeCategories[i].id+")'>"+outcomeCategories[i].code+"</a></td>";
 		html += "<td class='nowrap'>"+outcomeCategories[i].id+"</td>";
 		html += "<td>"+outcomeCategories[i].name+"</td>";
-		html += "<td><a class='tbl-show-link' onclick='removeOutcomeCategory("+outcomeCategories[i].id+")'>Rem</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='removeOutcomeCategory("+outcomeCategories[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('outcome-category-tbl').innerHTML = html;
@@ -118,7 +118,7 @@ function renderOutcomeOriginTable(outcomeOrigins, pageSize, page){
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+outcomeOrigins[i].id+")'>"+outcomeOrigins[i].code+"</a></td>";
 		html += "<td class='nowrap'>"+outcomeOrigins[i].id+"</td>";
 		html += "<td>"+outcomeOrigins[i].name+"</td>";
-		html += "<td><a class='tbl-show-link' onclick='removeOutcomeOrigin("+outcomeOrigins[i].id+")'>Rem</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='removeOutcomeOrigin("+outcomeOrigins[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('outcome-origin-tbl').innerHTML = html;

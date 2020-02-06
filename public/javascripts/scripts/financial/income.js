@@ -381,11 +381,11 @@ function showFinancialIncome(id){
 			html += "</tr>";
 
 			html += "<tr>";
-			html += "<td>"+income[0].id+"<td>";
+			html += "<td class='nowrap'>"+income[0].id+"<td>";
 			html += "<td>"+income[0].date+"<td>";
 			html += "<td>"+income[0].category_name+"<td>";
 			html += "<td>"+income[0].origin_name+"<td>";
-			html += "<td>"+income[0].value+"<td>";
+			html += "<td class='nowrap'>"+income[0].value+"<td>";
 			html += "<td>"+income[0].user_name+"<td>";
 			html += "</tr>";
 			

@@ -18,8 +18,8 @@ function renderAdminFeedstocks(feedstocks, pageSize, page){
 		html += "<td>"+feedstocks[i].color+"</td>";
 		html += "<td class='nowrap'>"+feedstocks[i].standard+"</td>";
 		html += "<td>"+feedstocks[i].uom+"</td>";
-		html += "<td ><a onclick='editFeedstock("+feedstocks[i].id+")'>Edit</a></td>";
-		html += "<td><a onclick='removeFeedstock("+feedstocks[i].id+")'>Rem</a></td>";
+		html += "<td ><a class='tbl-show-link nowrap' onclick='editFeedstock("+feedstocks[i].id+")'>Edit</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='removeFeedstock("+feedstocks[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('feedstock-admin-filter-tbl').innerHTML = html;

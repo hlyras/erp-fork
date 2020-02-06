@@ -72,7 +72,7 @@ function productFeedstockRender(product_feedstocks, tbl){
 		html += "<td>"+product_feedstocks[i].color+"</td>";
 		html += "<td class='nowrap'>"+product_feedstocks[i].amount+"</td>";
 		html += "<td>"+product_feedstocks[i].uom+"</td>";
-		html += "<td><a onclick='removeProductFeedstock("+product_feedstocks[i].id+", "+product_feedstocks[i].product_id+")'>Rem</a></td>";
+		html += "<td><a class='nowrap' onclick='removeProductFeedstock("+product_feedstocks[i].id+", "+product_feedstocks[i].product_id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 
