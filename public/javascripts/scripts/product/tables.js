@@ -11,8 +11,8 @@ function renderAdminProducts(products, pageSize, page){
 		html += "<td>"+products[i].name+"</td>";
 		html += "<td>"+products[i].size+"</td>";
 		html += "<td>"+products[i].color+"</td>";
-		html += "<td ><a onclick='editProduct("+products[i].id+")'>Edit</a></td>";
-		html += "<td><a onclick='removeProduct("+products[i].id+")'>Rem</a></td>";
+		html += "<td ><a class='tbl-show-link' onclick='editProduct("+products[i].id+")'>Edit</a></td>";
+		html += "<td><a class='tbl-show-link' onclick='removeProduct("+products[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('product-admin-filter-tbl').innerHTML = html;
@@ -29,10 +29,10 @@ function renderCatalogProducts(products, pageSize, page){
 	html += "</tr>";
 	for (let i = page * pageSize; i < products.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
-		html += "<td id='src_product_name'>"+products[i].code+"</td>";
-		html += "<td id='src_product_name'>"+products[i].name+"</td>";
-		html += "<td id='src_product_size'>"+products[i].size+"</td>";
-		html += "<td id='src_product_color'>"+products[i].color+"</td>";
+		html += "<td class='nowrap'>"+products[i].code+"</td>";
+		html += "<td>"+products[i].name+"</td>";
+		html += "<td>"+products[i].size+"</td>";
+		html += "<td>"+products[i].color+"</td>";
 		html += "<td><a class='tbl-show-link' onclick='showProduct("+products[i].id+", "+false+")'>Exibir</a></td>";
 		html += "</tr>";
 	};

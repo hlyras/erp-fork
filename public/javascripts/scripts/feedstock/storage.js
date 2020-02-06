@@ -134,11 +134,11 @@ function renderAdminFeedstockStorage(feedstocks, pageSize, page, location){
 	for (let i = page * pageSize; i < feedstocks.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+feedstocks[i].id+", "+true+")'>"+feedstocks[i].code+"</a></td>";
-		html += "<td>"+feedstocks[i].storage_id+"</td>";
-		html += "<td>"+feedstocks[i].code+"</td>";
+		html += "<td class='nowrap'>"+feedstocks[i].storage_id+"</td>";
+		html += "<td class='nowrap'>"+feedstocks[i].code+"</td>";
 		html += "<td>"+feedstocks[i].name+"</td>";
 		html += "<td>"+feedstocks[i].color+"</td>";
-		html += "<td>"+feedstocks[i].amount+"</td>";
+		html += "<td class='nowrap'>"+feedstocks[i].amount+"</td>";
 		html += "<td>"+feedstocks[i].uom+"</td>";
 		html += "</tr>";
 	};

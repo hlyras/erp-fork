@@ -17,7 +17,7 @@ function renderIncomeTable(incomes, pageSize, page){
 		html += "<td>"+lib.convertDate(incomes[i].date)+"</td>";
 		html += "<td>"+incomes[i].category_name+"</td>";
 		html += "<td>"+incomes[i].origin_name+"</td>";
-		html += "<td>"+incomes[i].value+"</td>";
+		html += "<td class='nowrap'>"+incomes[i].value+"</td>";
 		html += "<td>"+incomes[i].user_name+"</td>";
 		html += "</tr>";
 	};
@@ -34,9 +34,9 @@ function renderIncomeCategoryTable(incomeCategories, pageSize, page){
 	for (let i = page * pageSize; i < incomeCategories.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+incomeCategories[i].id+")'>"+incomeCategories[i].code+"</a></td>";
-		html += "<td id='src_product_size'>"+incomeCategories[i].id+"</td>";
-		html += "<td id='src_product_name'>"+incomeCategories[i].name+"</td>";
-		html += "<td><a onclick='removeIncomeCategory("+incomeCategories[i].id+")'>Rem</a></td>";
+		html += "<td class='nowrap'>"+incomeCategories[i].id+"</td>";
+		html += "<td>"+incomeCategories[i].name+"</td>";
+		html += "<td><a class='tbl-show-link' onclick='removeIncomeCategory("+incomeCategories[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('income-category-tbl').innerHTML = html;
@@ -52,9 +52,9 @@ function renderIncomeOriginTable(incomeOrigins, pageSize, page){
 	for (let i = page * pageSize; i < incomeOrigins.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+incomeOrigins[i].id+")'>"+incomeOrigins[i].code+"</a></td>";
-		html += "<td id='src_product_size'>"+incomeOrigins[i].id+"</td>";
-		html += "<td id='src_product_name'>"+incomeOrigins[i].name+"</td>";
-		html += "<td><a onclick='removeIncomeOrigin("+incomeOrigins[i].id+")'>Rem</a></td>";
+		html += "<td class='nowrap'>"+incomeOrigins[i].id+"</td>";
+		html += "<td>"+incomeOrigins[i].name+"</td>";
+		html += "<td><a class='tbl-show-link' onclick='removeIncomeOrigin("+incomeOrigins[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('income-origin-tbl').innerHTML = html;
@@ -81,7 +81,7 @@ function renderOutcomeTable(outcomes, pageSize, page){
 		html += "<td>"+lib.convertDate(outcomes[i].date)+"</td>";
 		html += "<td>"+outcomes[i].category_name+"</td>";
 		html += "<td>"+outcomes[i].origin_name+"</td>";
-		html += "<td>"+outcomes[i].value+"</td>";
+		html += "<td class='nowrap'>"+outcomes[i].value+"</td>";
 		html += "<td>"+outcomes[i].user_name+"</td>";
 		html += "</tr>";
 	};
@@ -98,9 +98,9 @@ function renderOutcomeCategoryTable(outcomeCategories, pageSize, page){
 	for (let i = page * pageSize; i < outcomeCategories.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+outcomeCategories[i].id+")'>"+outcomeCategories[i].code+"</a></td>";
-		html += "<td id='src_product_size'>"+outcomeCategories[i].id+"</td>";
-		html += "<td id='src_product_name'>"+outcomeCategories[i].name+"</td>";
-		html += "<td><a onclick='removeOutcomeCategory("+outcomeCategories[i].id+")'>Rem</a></td>";
+		html += "<td class='nowrap'>"+outcomeCategories[i].id+"</td>";
+		html += "<td>"+outcomeCategories[i].name+"</td>";
+		html += "<td><a class='tbl-show-link' onclick='removeOutcomeCategory("+outcomeCategories[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('outcome-category-tbl').innerHTML = html;
@@ -116,9 +116,9 @@ function renderOutcomeOriginTable(outcomeOrigins, pageSize, page){
 	for (let i = page * pageSize; i < outcomeOrigins.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+outcomeOrigins[i].id+")'>"+outcomeOrigins[i].code+"</a></td>";
-		html += "<td id='src_product_size'>"+outcomeOrigins[i].id+"</td>";
-		html += "<td id='src_product_name'>"+outcomeOrigins[i].name+"</td>";
-		html += "<td><a onclick='removeOutcomeOrigin("+outcomeOrigins[i].id+")'>Rem</a></td>";
+		html += "<td class='nowrap'>"+outcomeOrigins[i].id+"</td>";
+		html += "<td>"+outcomeOrigins[i].name+"</td>";
+		html += "<td><a class='tbl-show-link' onclick='removeOutcomeOrigin("+outcomeOrigins[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	document.getElementById('outcome-origin-tbl').innerHTML = html;

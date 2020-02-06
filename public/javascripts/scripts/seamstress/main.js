@@ -101,11 +101,11 @@ function showSeamstress(id){
 
 			let html = "";
 			html += "<tr>";
-			html += "<td>"+seamstress[0].code+"</td>";
+			html += "<td class='nowrap'>"+seamstress[0].code+"</td>";
 			html += "<td>"+seamstress[0].name+"</td>";
 			html += "<td>"+seamstress[0].size+"</td>";
 			html += "<td>"+seamstress[0].color+"</td>";
-			html += "<td><a onclick='hideSeamstress()'>Esconder</a></td>";
+			html += "<td><a class='tbl-show-link' onclick='hideSeamstress()'>Esconder</a></td>";
 			html += "</tr>";
 
 			document.getElementById('seamstress-show-tbody').innerHTML = html;

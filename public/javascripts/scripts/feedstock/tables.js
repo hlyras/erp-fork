@@ -13,10 +13,10 @@ function renderAdminFeedstocks(feedstocks, pageSize, page){
 	for (let i = page * pageSize; i < feedstocks.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
 		// html += "<td><a class='tbl-show-link' onclick='showProduct("+feedstocks[i].id+", "+true+")'>"+feedstocks[i].code+"</a></td>";
-		html += "<td>"+feedstocks[i].code+"</td>";
+		html += "<td class='nowrap'>"+feedstocks[i].code+"</td>";
 		html += "<td>"+feedstocks[i].name+"</td>";
 		html += "<td>"+feedstocks[i].color+"</td>";
-		html += "<td>"+feedstocks[i].standard+"</td>";
+		html += "<td class='nowrap'>"+feedstocks[i].standard+"</td>";
 		html += "<td>"+feedstocks[i].uom+"</td>";
 		html += "<td ><a onclick='editFeedstock("+feedstocks[i].id+")'>Edit</a></td>";
 		html += "<td><a onclick='removeFeedstock("+feedstocks[i].id+")'>Rem</a></td>";

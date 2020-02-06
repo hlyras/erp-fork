@@ -48,6 +48,23 @@ $(() => {
 		document.getElementById("feedstock-buy-kart-form").elements.namedItem('feedstock_amount').value = "";
 		document.getElementById("feedstock-buy-kart-submit").disabled = false;
 	});
+
+	$("#feedstock-buy-form").on('submit', (event)=>{
+		event.preventDefault();
+		document.getElementById("feedstock-buy-submit").disabled = true;
+
+		var storage_id = document.getElementById("feedstock-buy-form").elements.namedItem("storage_id").value;
+
+		if(storage_id < 1 || !storage_id){
+			alert("É necessário selecionar a matéria-prima");
+			return document.getElementById('feedstock-buy-kart-submit').disabled = false;
+		};
+
+		console.log(storage_id);
+		console.log(feedstock_buy_kart);
+
+		document.getElementById("feedstock-buy-submit").disabled = false;
+	});
 });
 
 function renderFeedstockBuyKart(feedstocks){
@@ -61,10 +78,10 @@ function renderFeedstockBuyKart(feedstocks){
 	html += "</tr>";
 	for(i in feedstocks){
 		html += "<tr>";
-		html += "<td>"+feedstocks[i].code+"</td>";
+		html += "<td class='nowrap'>"+feedstocks[i].code+"</td>";
 		html += "<td>"+feedstocks[i].name+"</td>";
 		html += "<td>"+feedstocks[i].color+"</td>";
-		html += "<td>"+feedstocks[i].amount+"</td>";
+		html += "<td class='nowrap'>"+feedstocks[i].amount+"</td>";
 		html += "<td>"+feedstocks[i].uom+"</td>";
 		html += "<td><a class='tbl-show-link' onclick='removeFeedstockFromBuyKart("+feedstocks[i].id+")'>Rem</a></td>";
 		html += "</tr>";

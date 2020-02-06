@@ -67,10 +67,10 @@ function productFeedstockRender(product_feedstocks, tbl){
 
 	for(i in product_feedstocks){
 		html += "<tr>";
-		html += "<td>"+product_feedstocks[i].code+"</td>";
+		html += "<td class='nowrap'>"+product_feedstocks[i].code+"</td>";
 		html += "<td>"+product_feedstocks[i].name+"</td>";
 		html += "<td>"+product_feedstocks[i].color+"</td>";
-		html += "<td>"+product_feedstocks[i].amount+"</td>";
+		html += "<td class='nowrap'>"+product_feedstocks[i].amount+"</td>";
 		html += "<td>"+product_feedstocks[i].uom+"</td>";
 		html += "<td><a onclick='removeProductFeedstock("+product_feedstocks[i].id+", "+product_feedstocks[i].product_id+")'>Rem</a></td>";
 		html += "</tr>";

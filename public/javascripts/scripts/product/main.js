@@ -127,7 +127,7 @@ function showProduct(id, admin){
 
 			let html = "";
 			html += "<tr>";
-			html += "<td>"+product[0].code+"</td>";
+			html += "<td class='nowrap'>"+product[0].code+"</td>";
 			html += "<td>"+product[0].name+"</td>";
 			html += "<td>"+product[0].size+"</td>";
 			html += "<td>"+product[0].color+"</td>";

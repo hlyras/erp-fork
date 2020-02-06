@@ -393,12 +393,12 @@ function showFinancialOutcome(id){
 			html += "</tr>";
 
 			html += "<tr>";
-			html += "<td>"+outcome[0].id+"<td>";
+			html += "<td class='nowrap'>"+outcome[0].id+"<td>";
 			html += "<td>"+outcome[0].date+"<td>";
 			html += "<td>"+outcome[0].category_name+"<td>";
 			html += "<td>"+outcome[0].origin_name+"<td>";
 			html += "<td>"+outcome[0].payment_name+"<td>";
-			html += "<td>"+outcome[0].value+"<td>";
+			html += "<td class='nowrap'>"+outcome[0].value+"<td>";
 			html += "<td>"+outcome[0].user_name+"<td>";
 			html += "</tr>";
 			
