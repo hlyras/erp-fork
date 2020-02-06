@@ -134,15 +134,15 @@ function showProduct(id, admin){
 			html += "</tr>";
 			html += "<tr>";
 			if(admin){
-				html += "<td><a class='tbl-show-link' onclick='productAddImage("+product[0].id+")'>Incluir Imagem</a></td>";
-				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-div')">Incluir Matéria-prima</a></td>`;
-				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-box')">Matérias-primas</a>`;
+				html += "<td><a class='tbl-show-link nowrap' onclick='productAddImage("+product[0].id+")'>+ Img</a></td>";
+				html += `<td><a class="tbl-show-link nowrap" onclick="lib.displayDiv('product-feedstock-div')">+ M-P</a></td>`;
+				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-box')">Matérias-Primas</a>`;
 			} else {
 				html += "<td></td>";
 				html += "<td></td>";
 				html += "<td></td>";
 			}
-			html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-show-box')">Esconder</a></td>`;
+			html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-show-box')">Fechar</a></td>`;
 			html += "</tr>";
 
 			document.getElementById('product-show-tbody').innerHTML = html;
