@@ -4,10 +4,6 @@ a {
 	color: black;
 }
 
-.link-generic {
-	text-decoration: underline;
-}
-
 .favicon {
 	border-radius: 3px;
 	width: 70px;
@@ -31,36 +27,12 @@ a {
 	padding: 10px;
 }
 
-.underline-title {
-	display: inline-block;
-	position: relative;
-	margin-bottom: 5px;
-}
-
-.underline-title::after {
-	content: '';
-	height: 1px;
-	width: 100%;
-	background-color: #e1e1e1;
-	position: absolute;
-	left: 0;
-	bottom: -2;
-}
-
-.underline-generic {
-	display: inline-block;
-	position: relative;
-	margin-bottom: 10px;
-}
-
-.underline-generic::after {
-	content: '';
-	height: 1px;
-	width: 50%;
-	background-color: #e1e1e1;
-	position: absolute;
-	left: 25%;
-	bottom: -5;
+.underline {
+	margin: auto;
+	border-bottom: 1px solid #e1e1e1;
+	width: 90%;
+	padding-bottom: 5px;
+	margin-bottom: 10px
 }
 
 .btn-table {

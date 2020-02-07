@@ -11,9 +11,13 @@ router.get('/id/:id', feedstockController.findById);
 router.get('/filter', feedstockController.filter);
 router.delete('/remove', feedstockController.remove);
 
+router.get('/supplier', feedstockController.supplier);
+router.post('/supplier/create', feedstockController.supplierCreate);
+router.get('/supplier/filter', feedstockController.supplierFilter);
+
 router.get('/storage', feedstockController.storage);
-router.post('/storage/create', feedstockController.createStorage);
-// router.get('/storage/list', feedstockController.listStorage);
+router.post('/storage/create', feedstockController.storageCreate);
+// router.get('/storage/list', feedstockController.storageList);
 router.get('/storage/filter', feedstockController.storageFilter);
 
 module.exports = router;

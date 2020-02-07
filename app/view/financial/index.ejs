@@ -13,7 +13,7 @@
 		<section>
 			<div class="container">
 				<div class="box-2">
-                    <h3 class="underline-title">Nova Receita</h3><br>
+                    <h3 class="underline">Nova Receita</h3>
 					<form id="income-create-form" class="box-1">
 						<select class="btn-generic-big" name="income_category" onchange="this.options[this.selectedIndex].value && lib.fillSelect('Origem', 'income-create-origin-select', '/financial/incomeorigin/filterbycategory?id='+this.options[this.selectedIndex].value, 'get');">
 						    <option value="0">Categoria</option>
@@ -31,7 +31,7 @@
 					</form>
 				</div>
 				<div class="box-2">
-                    <h3 class="underline-title">Nova Despesa</h3><br>
+                    <h3 class="underline">Nova Despesa</h3>
 					<form id="outcome-create-form" class="box-1">
 						<select class="btn-generic-big" name="outcome_category" id="outcome-create-category-select" onchange="this.options[this.selectedIndex].value && lib.fillSelect('Origem', 'outcome-create-origin-select', '/financial/outcomeorigin/filterbycategory?id='+this.options[this.selectedIndex].value, 'get');">
 							<option value="0">Categoria</option>
@@ -57,7 +57,7 @@
 				<!-- BALANCE DIV -->
 
 				<div class="box-1">
-                    <h3 class="underline-title">Balanço</h3><br>
+                    <h3 class="underline">Balanço</h3>
                     <h1 id="balance_value"></h1>
                     <form id="balance-report-form" class="box-1">
 						<input type="date" class="btn-generic-medium" name="balance_periodStart">
@@ -69,7 +69,7 @@
 				<!-- INCOME DIV -->
 
 				<div class="box-2">
-                    <h3 class="underline-title">Relatório de Entradas</h3><br>
+                    <h3 class="underline">Relatório de Entradas</h3>
                     <h1 id="income_totalValue"></h1>
 					<form id="income-report-form" class="box-1">
 						<input type="date" class="btn-generic-big" name="income_periodStart">
@@ -97,7 +97,7 @@
 				<!-- INCOME DIV -->
 
 				<div class="box-2">
-                    <h3 class="underline-title">Relatório de Saídas</h3><br>
+                    <h3 class="underline">Relatório de Saídas</h3>
                     <h1 id="outcome_totalValue"></h1>
 					<form id="outcome-report-form" class="box-1">
 						<input type="date" class="btn-generic-big" name="outcome_periodStart">

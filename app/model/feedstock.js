@@ -64,7 +64,24 @@ Feedstock.remove = async (id) => {
 	return db(query);
 };
 
-Feedstock.createStorage = async (name) => {
+Feedstock.supplierCreate = async (supplier) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_supplier (name, phone) VALUES ('"
+		+supplier.name+"','"
+		+supplier.phone+"');";
+	return db(query);
+};
+
+Feedstock.findSupplierByName = async (name) => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_supplier WHERE name like '%"+name+"%' ORDER BY id ASC;";
+	return db(query);
+};
+
+Feedstock.supplierList = async () => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_supplier ORDER BY id ASC;";
+	return db(query);
+};
+
+Feedstock.storageCreate = async (name) => {
 	let query = "INSERT INTO cms_wt_erp.feedstock_storage_instances (name) VALUES ('"+name+"');";
 	return db(query);
 };
@@ -77,7 +94,7 @@ Feedstock.insertInStorage = async (insert) => {
 	return db(query);
 };
 
-Feedstock.listStorages = async () => {
+Feedstock.storageList = async () => {
 	let query = "SELECT * FROM cms_wt_erp.feedstock_storage_instances ORDER BY id ASC;";
 	return db(query);
 };

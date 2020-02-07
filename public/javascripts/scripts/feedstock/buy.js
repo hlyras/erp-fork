@@ -54,14 +54,17 @@ $(() => {
 		document.getElementById("feedstock-buy-submit").disabled = true;
 
 		var storage_id = document.getElementById("feedstock-buy-form").elements.namedItem("storage_id").value;
+		var supplier_id = document.getElementById("feedstock-buy-form").elements.namedItem("supplier_id").value;
 
-		if(storage_id < 1 || !storage_id){
+		if(supplier_id < 1 || !supplier_id){
 			alert("É necessário selecionar a matéria-prima");
 			return document.getElementById('feedstock-buy-kart-submit').disabled = false;
 		};
 
-		console.log(storage_id);
-		console.log(feedstock_buy_kart);
+		if(storage_id < 1 || !storage_id){
+			alert("É necessário selecionar o fornecedor");
+			return document.getElementById('feedstock-buy-kart-submit').disabled = false;
+		};
 
 		document.getElementById("feedstock-buy-submit").disabled = false;
 	});

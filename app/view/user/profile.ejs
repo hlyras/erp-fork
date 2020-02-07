@@ -16,7 +16,7 @@
 		<section>
 			<div class="container">
 				<div id="show-user-box" class="box-2">
-					<h1 class='underline-title'>Bem vindo <%= user.name %></h1>
+					<h1 class='underline'>Bem vindo <%= user.name %></h1>
 					<table class="tbl-info box-1" id="show-user-tbl" border='1'>
 						<tr>
 							<td>Id</td>
@@ -32,14 +32,14 @@
 					</table>
 					<br>
 					<div class="menu-box">
-						<span class="span-menu underline-title" id="user-edit-btn">Atualizar</span>
+						<span class="span-menu underline" id="user-edit-btn">Atualizar</span>
 					</div>
 					<div class="box-1" id="user-edit-box" style="display:none">
 						<button class="btn-generic-small" id="user-editInfo-btn">Dados</button>
 						<button class="btn-generic-small" id="user-editPassword-btn">Senha</button>
 						<div class="box-1" id="user-editInfo-frm" style="display:none">
 							<div class="menu-box">
-								<h6 class="underline-title">Atualizar informações</h6><br>
+								<h6 class="underline">Atualizar informações</h6><br>
 								<p>E-mail</p>
 								<input type="text" class="btn-generic-menu-big" id="email" onblur="validateEmail()">
 								<p class="underline-generic"></p>
@@ -55,7 +55,7 @@
 						</div>
 						<div class="box-1" id="user-editPassword-frm" style="display:none">
 							<div class="menu-box" >
-								<h6 class="underline-title">Redefinir senha</h6><br>
+								<h6 class="underline">Redefinir senha</h6><br>
 								Senha
 								<input type="password" class="btn-generic-menu-big" id="password" maxlength="45" autocomplete="off">
 								<p class="underline-generic"></p>

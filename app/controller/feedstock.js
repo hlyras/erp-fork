@@ -9,9 +9,10 @@ const feedstockController = {
 			return res.redirect('/');
 		};
 		
+		const feedstockSuppliers = await Feedstock.supplierList();
 		const feedstockColors = await Feedstock.colorList();
-		const feedstockStorages = await Feedstock.listStorages();
-		res.render('feedstock/index', { feedstockColors, feedstockStorages, user: req.user });
+		const feedstockStorages = await Feedstock.storageList();
+		res.render('feedstock/index', { feedstockColors, feedstockStorages, feedstockSuppliers, user: req.user });
 	},
 	admin: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
@@ -58,7 +59,7 @@ const feedstockController = {
 		};
 
 		try {
-			var storages = await Feedstock.listStorages();
+			var storages = await Feedstock.storageList();
 
 			for(i in storages){
 				var insert = {
@@ -138,16 +139,77 @@ const feedstockController = {
 		
 		res.send({ done: 'Matéria Prima excluída com sucesso!' });
 	},
+	supplier: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+		
+		res.render('feedstock/supplier', { user: req.user });
+	},
+	supplierCreate: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		const supplier = {
+			id: req.body.supplier_id,
+			name: req.body.supplier_name,
+			phone: req.body.supplier_phone
+		};
+
+		if(supplier.id){
+			return res.send({ msg: "função ainda não implementada." });
+		};
+
+		if(!supplier.name || supplier.name.length < 3){
+			return res.send({ msg: "O nome do fornecedor é inválido." });
+		};
+
+		if(!supplier.phone || supplier.phone.length < 11){
+			return res.send({ msg: "O telefone do fornecedor é inválido." });
+		};
+
+		try {
+			await Feedstock.supplierCreate(supplier);
+			res.send({ done: "Fornecedor cadastrado com sucesso!" });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: err });
+		};
+	},
+	supplierFilter: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		if(req.query.supplier_name){
+			try {
+				const suppliers = await Feedstock.findSupplierByName(req.query.supplier_name);
+				res.send({ suppliers });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: err });
+			};
+		} else {
+			try {
+				const suppliers = await Feedstock.supplierList();
+				res.send({ suppliers });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: err });
+			};
+		};
+	},
 	storage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
 
 		const feedstockColors = await Feedstock.colorList();
-		const feedstockStorages = await Feedstock.listStorages();
+		const feedstockStorages = await Feedstock.storageList();
 		res.render('feedstock/storage', { feedstockColors: feedstockColors, feedstockStorages: feedstockStorages, user: req.user });
 	},
-	createStorage: async (req, res) => {
+	storageCreate: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
@@ -155,7 +217,7 @@ const feedstockController = {
 		if(req.body.name.length < 3 || req.body.name.length > 20){return res.send({ msg: 'Nome de Estoque inválido!' })};
 
 		try {
-			var result = await Feedstock.createStorage(req.body.name);	
+			var result = await Feedstock.storageCreate(req.body.name);	
 		} catch (err){
 			console.log(err);
 			return res.send({ msg: 'Ocorreu um erro ao criar este banco de dados favor entrar em contato com o suporte.' });
@@ -180,12 +242,12 @@ const feedstockController = {
 
 		res.send({ done: 'Estoque criado e produtos cadastrados com sucesso!' });
 	},
-	listStorages: async (req, res) => {
+	storageList: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
 
-		const storages = await Feedstock.listStorages();
+		const storages = await Feedstock.storageList();
 
 		res.send(storages);
 	},
