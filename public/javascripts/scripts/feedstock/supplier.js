@@ -81,7 +81,7 @@ function renderFeedstockSupplier(suppliers, pageSize, page){
 	html += "</tr>";
 	for (let i = page * pageSize; i < suppliers.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
-		html += "<td><a class='tbl-show-link nowrap' onclick='showSupplier("+suppliers[i].id+")'>"+suppliers[i].id+"</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='showSupplier("+suppliers[i].id+", "+true+")'>"+suppliers[i].id+"</a></td>";
 		html += "<td>"+suppliers[i].name+"</td>";
 		html += "<td class='nowrap'>"+suppliers[i].phone+"</td>";
 		// html += "<td><a class='tbl-show-link nowrap' onclick='editFeedstock("+suppliers[i].id+")'>Edit</a></td>";
@@ -92,14 +92,15 @@ function renderFeedstockSupplier(suppliers, pageSize, page){
 	$('#feedstockSupplierPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(suppliers.length / pageSize));
 };
 
-function showSupplier(){
+function showSupplier(id, admin){
+	console.log(id);
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 	$.ajax({
-		url: '/supplier/id/'+id,
+		url: '/feedstock/supplier/id/'+id,
 		method: 'get',
 		success: (response) => {
 			if(response.unauthorized){
-				alert(response.suppliers.unauthorized);
+				alert(response.unauthorized);
 				window.location.href = '/login';
 				return;
 			};
@@ -108,19 +109,27 @@ function showSupplier(){
 
 			let html = "";
 			html += "<tr>";
-			html += "<td class='nowrap'>"+response.suppliers[0].id+"</td>";
-			html += "<td>"+response.suppliers[0].name+"</td>";
-			html += "<td>"+response.suppliers[0].phone+"</td>";
+			html += "<td>Id</td>";
+			html += "<td>Nome</td>";
+			html += "<td>Telefone</td>";
 			html += "</tr>";
 
 			html += "<tr>";
-			html += `<td><a class="tbl-show-link nowrap" onclick="lib.displayDiv('supplier-feedstock-div')">+ M-P</a></td>`;
-			html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('supplier-feedstock-box')">Matérias-Primas</a>`;
-			html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('supplier-show-box')">Fechar</a></td>`;
+			html += "<td class='nowrap'>"+response.supplier[0].id+"</td>";
+			html += "<td>"+response.supplier[0].name+"</td>";
+			html += "<td>"+response.supplier[0].phone+"</td>";
 			html += "</tr>";
 
-			document.getElementById('supplier-show-tbody').innerHTML = html;
-			document.getElementById('supplier-show-box').style.display = "block";
+			html += "<tr>";
+			if(admin){
+				html += `<td><a class="tbl-show-link nowrap" onclick="lib.displayDiv('feedstock-supplier-feedstock-div')">+ M-P</a></td>`;
+				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('feedstock-supplier-feedstock-box')">Matérias-Primas</a>`;
+				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('feedstock-supplier-show-box')">Fechar</a></td>`;
+			};
+			html += "</tr>";
+
+			document.getElementById('feedstock-supplier-show-tbl').innerHTML = html;
+			document.getElementById('feedstock-supplier-show-box').style.display = "block";
 		}
 	});
 };

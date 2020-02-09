@@ -71,7 +71,12 @@ Feedstock.supplierCreate = async (supplier) => {
 	return db(query);
 };
 
-Feedstock.findSupplierByName = async (name) => {
+Feedstock.supplierFindById = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_supplier WHERE id='"+id+"';";
+	return db(query);
+};
+
+Feedstock.supplierFindByName = async (name) => {
 	let query = "SELECT * FROM cms_wt_erp.feedstock_supplier WHERE name like '%"+name+"%' ORDER BY id ASC;";
 	return db(query);
 };

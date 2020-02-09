@@ -141,7 +141,9 @@ const feedstockController = {
 			return res.redirect('/');
 		};
 		
-		res.render('feedstock/supplier', { user: req.user });
+		const feedstockColors = await Feedstock.colorList();
+
+		res.render('feedstock/supplier', { user: req.user, feedstockColors });
 	},
 	supplierCreate: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
@@ -174,6 +176,15 @@ const feedstockController = {
 			res.send({ msg: err });
 		};
 	},
+	supplierFindById: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		const supplier = await Feedstock.supplierFindById(req.params.id);
+
+		res.send({ done: 'OK', supplier });
+	},
 	supplierFilter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
@@ -181,7 +192,7 @@ const feedstockController = {
 
 		if(req.query.supplier_name){
 			try {
-				const suppliers = await Feedstock.findSupplierByName(req.query.supplier_name);
+				const suppliers = await Feedstock.supplierFindByName(req.query.supplier_name);
 				res.send({ suppliers });
 			} catch (err) {
 				console.log(err);

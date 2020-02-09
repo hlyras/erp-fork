@@ -30,6 +30,43 @@
 					</form>
 					<table id="feedstock-supplier-filter-tbl" class="tbl-info box-1"></table>
 				</div>
+
+				<div class="box-1" id="feedstock-supplier-show-box" style="display:none;">
+					
+					<table class="tbl-info box-1" id="feedstock-supplier-show-tbl"></table>
+
+					<div class="box-1" id="feedstock-supplier-feedstock-div" style="display:none">
+						<div id="feedstock-supplier-addFeedstock-div">
+							<!-- Feedstock filter form -->
+							<form id="feedstock-filter-form" class="box-1">
+								<input type="hidden" name="location" value="feedstockSupplierFeedstockFeedstock">
+								<input type="text" name="feedstock_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
+								<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
+								<select name="color" class="btn-generic-small">
+									<option value="">Cor</option>
+									<% for(i in feedstockColors){ %>
+										<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
+									<% } %>
+								</select>
+								<input type="submit" class="btn-submit" value="Filtrar">
+							</form>
+
+							<!-- Feedstock  -->
+							<form class="box-1" id="feedstock-supplier-addFeedstock-form">
+								<input type="hidden" name="supplier_id">
+								<select name="feedstock_id" class="btn-generic-big"></select>
+								<input type="number" name="feedstock_amount" class="btn-generic-small" placeholder="Qtd">
+								<input type="submit" class="btn-submit" id="feedstock-supplier-addFeedstock-submit" value="Cadastrar">
+							</form>
+						</div>
+					</div>
+					<div id="feedstock-supplier-feedstock-box" class="box-1" style="display:none">
+						<table id="feedstock-supplier-feedstock-tbl" class="tbl-info box-1"></table>
+					</div>
+					<button id="feedstockSupplierFeedstockPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
+                    <span id="feedstockSupplierFeedstockPageNumber"></span>
+                    <button id="feedstockSupplierFeedstockNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
+				</div>
 			</div>
 		</section>
 		<div id="ajax-loader" class="ajax-loader">
