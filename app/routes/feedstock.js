@@ -15,7 +15,7 @@ router.delete('/remove', feedstockController.remove);
 router.get('/supplier', feedstockController.supplier);
 router.post('/supplier/create', feedstockController.supplierCreate);
 router.get('/supplier/filter', feedstockController.supplierFilter);
-router.get('/supplier/:id', feedstockController.supplierFindById);
+// router.get('/supplier/:id', feedstockController.supplierFindById);
 
 router.get('/purchase', feedstockController.purchase);
 
