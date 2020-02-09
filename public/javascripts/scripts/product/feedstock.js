@@ -58,7 +58,6 @@ function productFeedstockRender(product_feedstocks, tbl){
 	html += "<td>Nome</td>";
 	html += "<td>Cor</td>";
 	html += "<td>Qtd</td>";
-	html += "<td>Un.Med</td>";
 	html += "</tr>";
 
 	product_feedstocks.sort((a, b) => {
@@ -70,8 +69,7 @@ function productFeedstockRender(product_feedstocks, tbl){
 		html += "<td class='nowrap'>"+product_feedstocks[i].code+"</td>";
 		html += "<td>"+product_feedstocks[i].name+"</td>";
 		html += "<td>"+product_feedstocks[i].color+"</td>";
-		html += "<td class='nowrap'>"+product_feedstocks[i].amount+"</td>";
-		html += "<td>"+product_feedstocks[i].uom+"</td>";
+		html += "<td class='nowrap'>"+product_feedstocks[i].amount+""+product_feedstocks[i].uom+"</td>";
 		html += "<td><a class='tbl-show-link nowrap' onclick='removeProductFeedstock("+product_feedstocks[i].id+", "+product_feedstocks[i].product_id+")'>Rem</a></td>";
 		html += "</tr>";
 	};

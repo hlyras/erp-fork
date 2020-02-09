@@ -9,10 +9,7 @@ const feedstockController = {
 			return res.redirect('/');
 		};
 		
-		const feedstockSuppliers = await Feedstock.supplierList();
-		const feedstockColors = await Feedstock.colorList();
-		const feedstockStorages = await Feedstock.storageList();
-		res.render('feedstock/index', { feedstockColors, feedstockStorages, feedstockSuppliers, user: req.user });
+		res.render('feedstock/index', { user: req.user });
 	},
 	admin: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
@@ -199,6 +196,16 @@ const feedstockController = {
 				res.send({ msg: err });
 			};
 		};
+	},
+	purchase: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+		
+		const feedstockSuppliers = await Feedstock.supplierList();
+		const feedstockColors = await Feedstock.colorList();
+		const feedstockStorages = await Feedstock.storageList();
+		res.render('feedstock/purchase', { feedstockColors, feedstockStorages, feedstockSuppliers, user: req.user });
 	},
 	storage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){

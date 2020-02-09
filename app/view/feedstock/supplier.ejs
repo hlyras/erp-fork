@@ -22,12 +22,14 @@
 					<input type="text" name="supplier_phone" class="btn-generic-big" maxlength="11" placeholder="Telefone">
 					<input type="submit" id="feedstock-supplier-create-submit" class="btn-submit" value="Cadastrar">
 				</form>
-				<form id="feedstock-supplier-filter-form" class="box-2">
-					<h3 class="underline">Buscar Fornecedor</h3>
-					<input type="text" name="supplier_name" class="btn-generic-big" placeholder="Nome">
-					<input type="submit" id="feedstock-supplier-filter-submit" class="btn-submit" value="Filtrar">
-				</form>
-				<table id="feedstock-supplier-filter-tbl" class="tbl-info box-1"></table>
+				<div class="box-2">
+					<form id="feedstock-supplier-filter-form" class="box-1">
+						<h3 class="underline">Buscar Fornecedor</h3>
+						<input type="text" name="supplier_name" class="btn-generic-big" placeholder="Nome">
+						<input type="submit" id="feedstock-supplier-filter-submit" class="btn-submit" value="Filtrar">
+					</form>
+					<table id="feedstock-supplier-filter-tbl" class="tbl-info box-1"></table>
+				</div>
 			</div>
 		</section>
 		<div id="ajax-loader" class="ajax-loader">

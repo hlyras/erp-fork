@@ -29,8 +29,6 @@ function productAddImage(product_id){
 		}).bind('error', () =>  {
 			return alert('URL inválida!');
 		});
-	} else {
-		return;
 	};
 };
 
