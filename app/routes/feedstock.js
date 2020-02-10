@@ -11,11 +11,11 @@ router.get('/id/:id', feedstockController.findById);
 router.get('/filter', feedstockController.filter);
 router.delete('/remove', feedstockController.remove);
 
-
 router.get('/supplier', feedstockController.supplier);
 router.post('/supplier/create', feedstockController.supplierCreate);
 router.get('/supplier/filter', feedstockController.supplierFilter);
 router.get('/supplier/id/:id', feedstockController.supplierFindById);
+router.post('/supplier/addfeedstock', feedstockController.supplierAddFeedstock);
 
 router.get('/purchase', feedstockController.purchase);
 

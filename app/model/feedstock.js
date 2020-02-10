@@ -86,6 +86,14 @@ Feedstock.supplierList = async () => {
 	return db(query);
 };
 
+Feedstock.supplierAddFeedstock = async (insertion) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_supplier_storage (supplier_id, feedstock_id, value) VALUES ('"
+		+insertion.supplier_id+"', '"
+		+insertion.feedstock_id+"', '"
+		+insertion.value+"');";
+	return db(query);
+};
+
 Feedstock.storageCreate = async (name) => {
 	let query = "INSERT INTO cms_wt_erp.feedstock_storage_instances (name) VALUES ('"+name+"');";
 	return db(query);

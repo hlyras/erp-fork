@@ -208,6 +208,25 @@ const feedstockController = {
 			};
 		};
 	},
+	supplierAddFeedstock: async(req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		const insert = {
+			supplier_id: req.body.supplier_id,
+			feedstock_id: req.body.feedstock_id,
+			value: req.body.feedstock_value
+		};
+
+		try {
+			await Feedstock.supplierAddFeedstock(insert);
+			res.send({ done: 'Matéria-prima incluída com sucesso!' });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: 'Erro ao incluir matéria-prima!' });
+		};
+	},
 	purchase: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
