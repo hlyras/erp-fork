@@ -72,8 +72,6 @@ const feedstockController = {
 			return res.send({ msg: 'Ocorreu um erro ao registrar a matéria-prima ao estoque, favor contatar o suporte.' });
 		};
 
-		// let newFeedstock = await Feedstock.findById(row.insertId);
-
 		res.send({ done: 'Produto cadastrado com sucesso!' });
 	},
 	findById: async (req, res) => {
@@ -225,6 +223,38 @@ const feedstockController = {
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: 'Erro ao incluir matéria-prima!' });
+		};
+	},
+	supplierRemoveFeedstock: async(req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		try {
+			await Feedstock.supplierRemoveFeedstock(req.params.id);
+			res.send({ done: "Matéria-Prima removida com sucesso." })
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: 'Erro ao remover matéria-prima' });
+		};
+	},
+	supplierListStorage: async(req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		try {
+			var feedstocks = [];
+			const supplier_storage = await Feedstock.supplierListStorage(req.params.id);
+			for(i in supplier_storage){
+				var feedstock = await Feedstock.findById(supplier_storage[i].feedstock_id);
+				feedstocks.push(feedstock[0]);
+			};
+
+			res.send({ supplier_storage, feedstocks });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: 'Erro ao listar os produtos!' });
 		};
 	},
 	purchase: async (req, res) => {

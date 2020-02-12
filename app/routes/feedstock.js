@@ -15,7 +15,9 @@ router.get('/supplier', feedstockController.supplier);
 router.post('/supplier/create', feedstockController.supplierCreate);
 router.get('/supplier/filter', feedstockController.supplierFilter);
 router.get('/supplier/id/:id', feedstockController.supplierFindById);
-router.post('/supplier/addfeedstock', feedstockController.supplierAddFeedstock);
+router.post('/supplier/storage/add', feedstockController.supplierAddFeedstock);
+router.get('/supplier/storage/remove/id/:id', feedstockController.supplierRemoveFeedstock);
+router.get('/supplier/storage/list/id/:id', feedstockController.supplierListStorage);
 
 router.get('/purchase', feedstockController.purchase);
 
