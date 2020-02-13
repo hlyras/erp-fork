@@ -2,6 +2,7 @@ const User = require('../model/user');
 const userController = require('./user');
 
 const Feedstock = require('../model/feedstock');
+const Product = require('../model/product');
 
 const feedstockController = {
 	index: async (req, res) => {
@@ -130,9 +131,15 @@ const feedstockController = {
 			return res.redirect('/');
 		};
 
-		await Feedstock.remove(req.query.id);
-		
-		res.send({ done: 'Matéria Prima excluída com sucesso!' });
+		try {
+			await Feedstock.remove(req.query.id);
+			await Feedstock.supplierFeedstockClear(req.query.id);
+			await Product.feedstockClear(req.query.id);
+			res.send({ done: "Matéria Prima excluída com sucesso." });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: err });
+		};
 	},
 	supplier: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
@@ -238,14 +245,14 @@ const feedstockController = {
 			res.send({ msg: 'Erro ao remover matéria-prima' });
 		};
 	},
-	supplierListStorage: async(req, res) => {
+	supplierStorageList: async(req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
 
 		try {
 			var feedstocks = [];
-			const supplier_storage = await Feedstock.supplierListStorage(req.params.id);
+			const supplier_storage = await Feedstock.supplierStorageList(req.params.id);
 			for(i in supplier_storage){
 				var feedstock = await Feedstock.findById(supplier_storage[i].feedstock_id);
 				feedstocks.push(feedstock[0]);
@@ -265,7 +272,17 @@ const feedstockController = {
 		const feedstockSuppliers = await Feedstock.supplierList();
 		const feedstockColors = await Feedstock.colorList();
 		const feedstockStorages = await Feedstock.storageList();
-		res.render('feedstock/purchase', { feedstockColors, feedstockStorages, feedstockSuppliers, user: req.user });
+		res.render('feedstock/purchase', { user: req.user, feedstockColors, feedstockStorages, feedstockSuppliers });
+	},
+	production: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+		
+		const feedstockSuppliers = await Feedstock.supplierList();
+		const feedstockColors = await Feedstock.colorList();
+		const feedstockStorages = await Feedstock.storageList();
+		res.render('feedstock/purchase', { user: req.user, feedstockColors, feedstockStorages, feedstockSuppliers });
 	},
 	storage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){

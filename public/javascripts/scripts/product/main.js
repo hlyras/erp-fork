@@ -116,9 +116,9 @@ function showProduct(id, admin){
 	$.ajax({
 		url: '/product/id/'+id,
 		method: 'get',
-		success: (product) => {
-			if(product.unauthorized){
-				alert(product.unauthorized);
+		success: (response) => {
+			if(response.unauthorized){
+				alert(response.unauthorized);
 				window.location.href = '/login';
 				return;
 			};
@@ -127,38 +127,38 @@ function showProduct(id, admin){
 
 			let html = "";
 			html += "<tr>";
-			html += "<td class='nowrap'>"+product[0].code+"</td>";
-			html += "<td>"+product[0].name+"</td>";
-			html += "<td>"+product[0].size+"</td>";
-			html += "<td>"+product[0].color+"</td>";
+			html += "<td class='nowrap'>"+response.product[0].code+"</td>";
+			html += "<td>"+response.product[0].name+"</td>";
+			html += "<td>"+response.product[0].size+"</td>";
+			html += "<td>"+response.product[0].color+"</td>";
 			html += "</tr>";
 			html += "<tr>";
 			if(admin){
-				html += "<td><a class='tbl-show-link nowrap' onclick='productAddImage("+product[0].id+")'>+ Img</a></td>";
+				document.getElementById("product-addFeedstock-form").elements.namedItem('product_id').value = response.product[0].id;
+				document.getElementById('product-feedstock-box').style.display = "none";
+
+				html += "<td><a class='tbl-show-link nowrap' onclick='productAddImage("+response.product[0].id+")'>+ Img</a></td>";
 				html += `<td><a class="tbl-show-link nowrap" onclick="lib.displayDiv('product-feedstock-div')">+ M-P</a></td>`;
-				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-feedstock-box')">Matérias-Primas</a>`;
+				html += `<td><a class="tbl-show-link" onclick="\
+							if(document.getElementById('product-feedstock-box').style.display == 'none'){\
+								productFeedstockRender(`+response.product[0].id+`)\
+							} else { \
+								document.getElementById('product-feedstock-box').style.display = 'none' \
+							}">Matérias</a>`;
 			} else {
 				html += "<td></td>";
 				html += "<td></td>";
 				html += "<td></td>";
-			}
+			};
 			html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('product-show-box')">Fechar</a></td>`;
 			html += "</tr>";
 
 			document.getElementById('product-show-tbody').innerHTML = html;
 			document.getElementById('product-show-box').style.display = "block";
 
-			if(admin){
-				document.getElementById("product-addFeedstock-form").elements.namedItem('product_id').value = product[0].id;
-				if(product[0].feedstocks.length){
-					productFeedstockRender(product[0].feedstocks, 'product-feedstock-tbl');
-				} else {
-					productFeedstockClear('product-feedstock-tbl');
-				};
-			};
 
-			if(product[0].images.length){
-				productImagePagination(product[0].images, product[0].id, admin);
+			if(response.product[0].images.length){
+				productImagePagination(response.product[0].images, response.product[0].id, admin);
 			} else {
 				document.getElementById('product-image-show').innerHTML = "SEM IMAGENS";
 				document.getElementById('imagePageNumber').innerHTML = '0';

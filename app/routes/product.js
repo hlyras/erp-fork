@@ -18,10 +18,14 @@ router.delete('/remove', productController.remove);
 router.post('/save', productController.save);
 router.post('/addimage', productController.addImage);
 router.delete('/removeimage', productController.removeImage);
-router.post('/addfeedstock', productController.addFeedstock);
-router.delete('/removefeedstock', productController.removeFeedstock);
+
+router.post('/feedstock/add', productController.feedstockAdd);
+router.delete('/feedstock/remove', productController.feedstockRemove);
+router.get('/feedstock/list/id/:id', productController.feedstockList);
+
 router.post('/categorySave', productController.categorySave);
 router.get('/categoryList', productController.categoryList);
+
 router.post('/colorSave', productController.colorSave);
 router.get('/colorList', productController.colorList);
 

@@ -213,14 +213,20 @@ function showFeedstockSupplier(id, admin){
 
 			html += "<tr>";
 			if(admin){
-				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('supplier_id').value = response.supplier[0].id;
+				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('supplier_id').value = response.supplier[0].id;	
+				document.getElementById('feedstock-supplier-storage-box').style.display = "none";
+				
 				html += `<td><a class="tbl-show-link nowrap" onclick="lib.displayDiv('feedstock-supplier-addFeedstock-div')">Incluir</a></td>`;
-				html += `<td><a class="tbl-show-link nowrap" onclick="if(document.getElementById('feedstock-supplier-storage-box').style.display == 'none'){feedstockSupplierStorageRender(`+response.supplier[0].id+`)} else { document.getElementById('feedstock-supplier-storage-box').style.display = 'none' }">Tabela</a>`;
+				html += `<td><a class="tbl-show-link nowrap" onclick="\
+							if(document.getElementById('feedstock-supplier-storage-box').style.display == 'none'){\
+								feedstockSupplierStorageRender(`+response.supplier[0].id+`)\
+							} else { \
+								document.getElementById('feedstock-supplier-storage-box').style.display = 'none' \
+							}">Tabela</a>`;
 				html += `<td><a class="tbl-show-link" onclick="lib.displayDiv('feedstock-supplier-show-box')">Fechar</a></td>`;
 			};
 			html += "</tr>";
 
-			document.getElementById('feedstock-supplier-storage-box').style.display = "none";
 
 			document.getElementById('feedstock-supplier-show-tbl').innerHTML = html;
 			document.getElementById('feedstock-supplier-show-box').style.display = "block";

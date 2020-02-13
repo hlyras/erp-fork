@@ -9,7 +9,7 @@ const Product = function(){
 };
 
 Product.save = async (product) => {
-	let query = "INSERT INTO cms_wt_erp.products (code, name, color, size) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size) VALUES ('"
 		+product.code+"', '"
 		+product.name+"','"
 		+product.color+"','"
@@ -18,7 +18,7 @@ Product.save = async (product) => {
 };
 
 Product.update = async (product) => {
-	let query = "UPDATE cms_wt_erp.products SET code='"+product.code
+	let query = "UPDATE cms_wt_erp.product SET code='"+product.code
 		+"', name='"+product.name
 		+"', color='"+product.color
 		+"', size='"+product.size+"' WHERE id='"+product.id+"';";
@@ -45,8 +45,13 @@ Product.removeFeedstock = async (product_feedstock_id) => {
 	return db(query);
 };
 
+Product.feedstockList = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.product_feedstock WHERE product_id='"+id+"';";
+	return db(query);
+};
+
 Product.list = async () => {
-	let query = "SELECT * FROM cms_wt_erp.products ORDER BY code ASC;";
+	let query = "SELECT * FROM cms_wt_erp.product ORDER BY code ASC;";
 	return db(query);
 };
 
@@ -55,37 +60,32 @@ Product.getImages = async (id) => {
 	return db(query);
 };
 
-Product.getFeedstocks = async (id) => {
-	let query = "SELECT * FROM cms_wt_erp.product_feedstock WHERE product_id='"+id+"';";
-	return db(query);
-};
-
 Product.findById = async (id) => {
-	let query = "SELECT * FROM cms_wt_erp.products WHERE id='"+id+"';";
+	let query = "SELECT * FROM cms_wt_erp.product WHERE id='"+id+"';";
 	return db(query);
 };
 
 Product.findByCode = async (code) => {
-	let query = "SELECT * FROM cms_wt_erp.products WHERE code='"+code+"';";
+	let query = "SELECT * FROM cms_wt_erp.product WHERE code='"+code+"';";
 	return db(query);
 };
 
 Product.findByName = async (name) => {
-	let query = "SELECT * FROM cms_wt_erp.products WHERE name like '%"+name+"%' ORDER BY code ASC;";
+	let query = "SELECT * FROM cms_wt_erp.product WHERE name like '%"+name+"%' ORDER BY code ASC;";
 	return db(query);
 };
 
 Product.filter = async (product) => {
 	if(product.color){
-		var query = "SELECT * FROM cms_wt_erp.products WHERE color='"+product.color+"' ORDER BY code ASC;";
+		var query = "SELECT * FROM cms_wt_erp.product WHERE color='"+product.color+"' ORDER BY code ASC;";
 	} else {
-		var query = "SELECT * FROM cms_wt_erp.products ORDER BY code ASC;";
+		var query = "SELECT * FROM cms_wt_erp.product ORDER BY code ASC;";
 	};
 	return db(query);
 };
 
 Product.remove = async (id) => {
-	let query = "DELETE FROM cms_wt_erp.products WHERE id='"+id+"';";
+	let query = "DELETE FROM cms_wt_erp.product WHERE id='"+id+"';";
 	return db(query);
 };
 
@@ -96,6 +96,11 @@ Product.removeProductImages = async (id) => {
 
 Product.removeProductFeedstocks = async (id) => {
 	let query = "DELETE FROM cms_wt_erp.product_feedstock WHERE product_id='"+id+"';";
+	return db(query);
+};
+
+Product.feedstockClear = async (id) => {
+	let query = "DELETE FROM cms_wt_erp.product_feedstock WHERE feedstock_id='"+id+"';";
 	return db(query);
 };
 

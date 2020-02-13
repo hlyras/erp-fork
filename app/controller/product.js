@@ -44,26 +44,16 @@ const productController = {
 		// 	return res.redirect('/');
 		// };
 
-		Product.findById(req.params.id)
-			.then(async (product) => {
-				if(product.length){
-					product[0].images = await Product.getImages(product[0].id);
-					product[0].feedstocks = await Product.getFeedstocks(product[0].id);
-					if(product[0].feedstocks.length){
-						for(i in product[0].feedstocks){
-							var feedstock = await Feedstock.findById(product[0].feedstocks[i].feedstock_id);
-							product[0].feedstocks[i].code = feedstock[0].code;
-							product[0].feedstocks[i].name = feedstock[0].name;
-							product[0].feedstocks[i].color = feedstock[0].color;
-							product[0].feedstocks[i].uom = feedstock[0].uom;
-						};
-					};
-				};
-				res.send(product);
-			})
-			.catch(err => {
-				return console.log(err);
-			});
+		try {
+			const product = await Product.findById(req.params.id);
+			if(product.length){
+				product[0].images = await Product.getImages(product[0].id);
+			};
+			res.send({ product });
+		} catch (err){
+			console.log(err);
+			res.send({ msg: err });
+		};
 	},
 	findByCode: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
@@ -167,7 +157,7 @@ const productController = {
 
 		res.send({ done: 'Imagem excluída!' });
 	},
-	addFeedstock: async(req, res) => {
+	feedstockAdd: async(req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
@@ -178,22 +168,15 @@ const productController = {
 			amount: req.body.feedstock_amount
 		};
 
-		await Product.addFeedstock(insert);
-
-		var product_feedstocks = await Product.getFeedstocks(insert.product_id);
-		if(product_feedstocks.length){
-			for(i in product_feedstocks){
-				var feedstock = await Feedstock.findById(product_feedstocks[i].feedstock_id);
-				product_feedstocks[i].code = feedstock[0].code;
-				product_feedstocks[i].name = feedstock[0].name;
-				product_feedstocks[i].color = feedstock[0].color;
-				product_feedstocks[i].uom = feedstock[0].uom;
-			};
+		try {
+			await Product.addFeedstock(insert);
+			res.send({ done: "Matéria-Prima adicionada com sucesso." });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: err });
 		};
-
-		res.send({ done: 'Matéria-prima incluída com sucesso!', product_feedstocks });
 	},
-	removeFeedstock: async (req, res) => {
+	feedstockRemove: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
@@ -201,6 +184,24 @@ const productController = {
 		await Product.removeFeedstock(req.query.id);
 
 		res.send({ done: 'Matéria-prima excluída!' });
+	},
+	feedstockList: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		try {
+			var feedstocks = [];
+			const product_feedstocks = await Product.feedstockList(req.params.id);
+			for(i in product_feedstocks){
+				var feedstock = await Feedstock.findById(product_feedstocks[i].feedstock_id);
+				feedstocks.push(feedstock[0]);
+			};
+			res.send({ product_feedstocks, feedstocks });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: err });
+		};
 	},
 	options: (req, res, next) => {
 		res.status(204).send("");

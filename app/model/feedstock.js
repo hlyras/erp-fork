@@ -99,8 +99,13 @@ Feedstock.supplierRemoveFeedstock = async (id) => {
 	return db(query);
 };
 
-Feedstock.supplierListStorage = async (id) => {
+Feedstock.supplierStorageList = async (id) => {
 	let query = "SELECT * FROM cms_wt_erp.feedstock_supplier_storage WHERE supplier_id='"+id+"';";
+	return db(query);
+};
+
+Feedstock.supplierFeedstockClear = async (id) => {
+	let query = "DELETE FROM cms_wt_erp.feedstock_supplier_storage WHERE feedstock_id='"+id+"';";
 	return db(query);
 };
 
