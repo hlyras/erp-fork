@@ -109,6 +109,27 @@ Feedstock.supplierFeedstockClear = async (id) => {
 	return db(query);
 };
 
+Feedstock.purchaseSave = async (purchase) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_purchase (date, full_date, supplier_id, supplier_name, value) VALUES ('"
+		+purchase.date+"', '"
+		+purchase.full_date+"', '"
+		+purchase.supplier_id+"', '"
+		+purchase.supplier_name+"', '"
+		+purchase.value+"');";
+	return db(query);
+};
+
+Feedstock.purchaseSaveProduct = async (option) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_purchase_product (purchase_id, feedstock_id, feedstock_info, amount, feedstock_uom, feedstock_value) VALUES ('"
+		+option.purchase_id+"', '"
+		+option.feedstock_id+"', '"
+		+option.feedstock_info+"', '"
+		+option.amount+"', '"
+		+option.feedstock_uom+"', '"
+		+option.feedstock_value+"');";
+	return db(query);
+};
+
 Feedstock.storageCreate = async (name) => {
 	let query = "INSERT INTO cms_wt_erp.feedstock_storage_instances (name) VALUES ('"+name+"');";
 	return db(query);

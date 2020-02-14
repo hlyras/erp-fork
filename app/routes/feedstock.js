@@ -20,6 +20,7 @@ router.get('/supplier/storage/remove/id/:id', feedstockController.supplierRemove
 router.get('/supplier/storage/list/id/:id', feedstockController.supplierStorageList);
 
 router.get('/purchase', feedstockController.purchase);
+router.post('/purchase/save', feedstockController.purchaseSave);
 
 router.get('/storage', feedstockController.storage);
 router.post('/storage/create', feedstockController.storageCreate);

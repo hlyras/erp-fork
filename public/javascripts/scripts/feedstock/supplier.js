@@ -153,7 +153,7 @@ $(() => {
 				alert(response.done);
 				
 				if(document.getElementById('feedstock-supplier-storage-box').style.display == "block"){
-					feedstockSupplierStorageRender(document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('supplier_id').value);
+					listFeedstockSupplierStorage(document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('supplier_id').value);
 				};
 
 				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_value').value = "0.00";
@@ -161,6 +161,90 @@ $(() => {
 				document.getElementById('feedstock-supplier-addFeedstock-submit').disabled = false;
 			}
 		});
+	});
+
+	$("#feedstock-supplier-filter-form").on("submit", (event) => {
+		event.preventDefault();
+		document.getElementById("feedstock-supplier-filter-submit").disabled = true;
+
+		const location = document.getElementById("feedstock-supplier-filter-form").elements.namedItem("location").value;
+		
+		const supplier_name = document.getElementById("feedstock-supplier-filter-form").elements.namedItem("supplier_name").value;
+		
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+
+		$.ajax({
+			url: "/feedstock/supplier/filter?supplier_name="+supplier_name,
+			method: "get",
+			success: (response) => {
+				if(response.unauthorized){
+					alert(response.unauthorized);
+					window.location.href = '/login';
+					return;
+				};
+				
+				if(response.msg){
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
+					alert(response.msg);
+					return document.getElementById('feedstock-supplier-filter-submit').disabled = false;
+				};
+
+				var pageSize = 10;
+				var page = 0;
+
+				function paging(){
+					if(response.suppliers.length){
+						renderFeedstockSupplier(response.suppliers, pageSize, page, location);
+					} else {
+						lib.clearTable('feedstock-supplier-filter-tbl', location);
+					};
+				};
+
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+
+				function buttonsPaging(){
+					$("#"+location+"Next").prop('disabled', response.suppliers.length <= pageSize || page >= response.suppliers.length / pageSize - 1);
+					$("#"+location+"Previous").prop('disabled', response.suppliers.length <= pageSize || page == 0);
+				};
+
+				$(function(){
+				    $("#"+location+"Next").click(function(){
+				        if(page < response.suppliers.length / pageSize - 1){
+				            page++;
+				            paging();
+				            buttonsPaging();
+				        };
+				    });
+				    $("#"+location+"Previous").click(function(){
+				        if(page > 0){
+				            page--;
+				            paging();
+				            buttonsPaging();
+				        };
+				    });
+				    paging();
+				    buttonsPaging();
+				});
+
+				document.getElementById("feedstock-supplier-filter-submit").disabled = false;
+			}
+		});
+	});
+
+	$("#feedstock-supplier-storage-filter-form").on("submit", (event) => {
+		event.preventDefault();
+		document.getElementById("feedstock-supplier-storage-filter-submit").disabled = true;
+
+		const supplier_id = document.getElementById("feedstock-supplier-storage-filter-form").elements.namedItem("supplier_id").value;
+		
+		if(!supplier_id || supplier_id < 1){
+			alert("É necessário selecionar um fornecedor");
+			return document.getElementById("feedstock-supplier-storage-filter-submit").disabled = false;
+		};
+
+		listFeedstockSupplierStorage(supplier_id, "select", false);
+
+		document.getElementById("feedstock-supplier-storage-filter-submit").disabled = false;
 	});
 });
 
@@ -219,7 +303,7 @@ function showFeedstockSupplier(id, admin){
 				html += `<td><a class="tbl-show-link nowrap" onclick="lib.displayDiv('feedstock-supplier-addFeedstock-div')">Incluir</a></td>`;
 				html += `<td><a class="tbl-show-link nowrap" onclick="\
 							if(document.getElementById('feedstock-supplier-storage-box').style.display == 'none'){\
-								feedstockSupplierStorageRender(`+response.supplier[0].id+`)\
+								listFeedstockSupplierStorage(`+response.supplier[0].id+`, 'table', `+true+`)\
 							} else { \
 								document.getElementById('feedstock-supplier-storage-box').style.display = 'none' \
 							}">Tabela</a>`;
@@ -227,17 +311,14 @@ function showFeedstockSupplier(id, admin){
 			};
 			html += "</tr>";
 
-
 			document.getElementById('feedstock-supplier-show-tbl').innerHTML = html;
 			document.getElementById('feedstock-supplier-show-box').style.display = "block";
 		}
 	});
 };
 
-function feedstockSupplierStorageRender(supplier_id){
+function listFeedstockSupplierStorage(supplier_id, target, admin){
 	document.getElementById('ajax-loader').style.visibility = 'visible';
-
-	document.getElementById("feedstock-supplier-storage-box").style.display = "block";
 	
 	$.ajax({
 		url: "/feedstock/supplier/storage/list/id/"+supplier_id,
@@ -266,42 +347,68 @@ function feedstockSupplierStorageRender(supplier_id){
 				};
 			};
 
+			response.supplier_storage.sort((a, b) => {
+			  return a.feedstock_code - b.feedstock_code;
+			});
+
 			if(response.supplier_storage.length){
-				var html = "";
-
-				html += "<tr>";
-				html += "<td>Cód</td>";
-				html += "<td>Nome</td>";
-				html += "<td>Cor</td>";
-				html += "<td>Valor</td>";
-				html += "</tr>";
-
-				response.supplier_storage.sort((a, b) => {
-				  return a.feedstock_code - b.feedstock_code;
-				});
-
-				for(i in response.supplier_storage){
-					html += "<tr>";
-					html += "<td class='nowrap'>"+response.supplier_storage[i].feedstock_code+"</td>";
-					html += "<td>"+response.supplier_storage[i].feedstock_name+"</td>";
-					html += "<td>"+response.supplier_storage[i].feedstock_color+"</td>";
-					if(response.supplier_storage[i].feedstock_uom == "cm"){
-						html += "<td class='nowrap'>$"+response.supplier_storage[i].value+"/m</td>";
-					} else {
-						html += "<td class='nowrap'>$"+response.supplier_storage[i].value+"/"+response.supplier_storage[i].feedstock_uom+"</td>";
-					};
-					html += "<td><a class='tbl-show-link nowrap' onclick='removeSupplierFeedstock("+response.supplier_storage[i].id+", "+response.supplier_storage[i].supplier_id+")'>Rem</a></td>";
-					html += "</tr>";
+				if(target == "table"){
+					renderFeedstockSupplierStorage(response.supplier_storage, admin);
+				} else if(target == "select"){
+					fillFeedstockSupplierStorage(response.supplier_storage);
 				};
-
-				document.getElementById("feedstock-supplier-storage-tbl").innerHTML = html;
 			} else {
-				document.getElementById("feedstock-supplier-storage-tbl").innerHTML = "Sem registros!";
+				if(target == "table"){
+					document.getElementById("feedstock-supplier-storage-tbl").innerHTML = "Sem registros!";
+				} else if(target == "select"){
+					document.getElementById("feedstock-purchase-kart-form").elements.namedItem("feedstock_id").innerHTML = "<option value=''>Sem registros</option>";
+				};
 			};
 
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
 	});
+};
+
+function renderFeedstockSupplierStorage(feedstocks, admin){
+	document.getElementById("feedstock-supplier-storage-box").style.display = "block";
+
+	var html = "";
+
+	html += "<tr>";
+	html += "<td>Cód</td>";
+	html += "<td>Nome</td>";
+	html += "<td>Cor</td>";
+	html += "<td>Valor</td>";
+	html += "</tr>";
+
+	for(i in feedstocks){
+		html += "<tr>";
+		html += "<td class='nowrap'>"+feedstocks[i].feedstock_code+"</td>";
+		html += "<td>"+feedstocks[i].feedstock_name+"</td>";
+		html += "<td>"+feedstocks[i].feedstock_color+"</td>";
+		if(feedstocks[i].feedstock_uom == "cm"){
+			html += "<td class='nowrap'>$"+feedstocks[i].value+"/m</td>";
+		} else {
+			html += "<td class='nowrap'>$"+feedstocks[i].value+"/"+feedstocks[i].feedstock_uom+"</td>";
+		};
+		if(admin){
+			html += "<td><a class='tbl-show-link nowrap' onclick='removeSupplierFeedstock("+feedstocks[i].id+", "+feedstocks[i].supplier_id+")'>Rem</a></td>";
+		}
+		html += "</tr>";
+	};
+
+	document.getElementById("feedstock-supplier-storage-tbl").innerHTML = html;
+};
+
+function fillFeedstockSupplierStorage(feedstocks){
+	var html = "";
+
+	for(i in feedstocks){
+		html += "<option value="+feedstocks[i].feedstock_id+">"+feedstocks[i].feedstock_code+" | "+feedstocks[i].feedstock_name+" | "+feedstocks[i].feedstock_color+" | "+feedstocks[i].feedstock_uom+" | "+feedstocks[i].value+"</option>";
+	};
+
+	document.getElementById("feedstock-purchase-kart-form").elements.namedItem("feedstock_id").innerHTML = html;
 };
 
 function removeSupplierFeedstock(id, supplier_id){
@@ -327,7 +434,7 @@ function removeSupplierFeedstock(id, supplier_id){
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 			if(document.getElementById('feedstock-supplier-storage-box').style.display == "block"){
-				feedstockSupplierStorageRender(supplier_id);
+				listFeedstockSupplierStorage(supplier_id);
 			};
 		}
 	});

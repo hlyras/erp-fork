@@ -69,7 +69,7 @@ function productFeedstockRender(product_id){
 			
 			if(response.msg){
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
-				document.getElementById("feedstock-supplier-storage-box").style.display = "none";
+				document.getElementById("product-feedstock-box").style.display = "none";
 				return alert(response.msg);
 			};
 
@@ -97,8 +97,6 @@ function productFeedstockRender(product_id){
 				response.product_feedstocks.sort((a, b) => {
 				  return a.feedstock_code - b.feedstock_code;
 				});
-
-				console.log(response.product_feedstocks);
 
 				for(i in response.product_feedstocks){
 					html += "<tr>";

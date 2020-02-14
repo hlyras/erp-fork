@@ -1,6 +1,8 @@
 const User = require('../model/user');
 const userController = require('./user');
 
+const lib = require('../../config/lib');
+
 const Feedstock = require('../model/feedstock');
 const Product = require('../model/product');
 
@@ -273,6 +275,44 @@ const feedstockController = {
 		const feedstockColors = await Feedstock.colorList();
 		const feedstockStorages = await Feedstock.storageList();
 		res.render('feedstock/purchase', { user: req.user, feedstockColors, feedstockStorages, feedstockSuppliers });
+	},
+	purchaseSave: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		const feedstocks = JSON.parse(req.body.feedstocks);
+
+		console.log(feedstocks);
+
+		const purchase = {
+			date: lib.genPatternDate(),
+			full_date: lib.genFullDate(),
+			supplier_id: req.body.supplier_id,
+			supplier_name: req.body.supplier_name,
+			value: req.body.total_value,
+			storage_id: req.body.storage_id
+		};
+
+		try {
+			const purchase_row = await Feedstock.purchaseSave(purchase);
+			for(i in feedstocks){
+				var option = {
+					purchase_id: purchase_row.insertId,
+					feedstock_id: feedstocks[i].id,
+					feedstock_info: feedstocks[i].code+" | "+feedstocks[i].name+" | "+feedstocks[i].color,
+					amount: feedstocks[i].amount,
+					feedstock_uom: feedstocks[i].uom,
+					feedstock_value: feedstocks[i].feedstock_value
+				};
+
+				await Feedstock.purchaseSaveProduct(option);
+			};
+			res.send({ done: "Compra cadastrada com sucesso." });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Erro ao cadastrar a compra." });
+		};
 	},
 	production: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
