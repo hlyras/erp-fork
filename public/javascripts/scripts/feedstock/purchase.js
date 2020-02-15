@@ -132,6 +132,7 @@ $(() => {
 					feedstock_purchase_kart = [];
 					updatePurchaseLocalStorage(feedstock_purchase_kart);
 					renderFeedstockpurchaseKart(feedstock_purchase_kart);
+					document.getElementById("feedstock-supplier-storage-filter-form").elements.namedItem("supplier_id").disabled = false;
 
 					document.getElementById('ajax-loader').style.visibility = 'hidden';
 
