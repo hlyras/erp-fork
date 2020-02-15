@@ -306,7 +306,8 @@ const feedstockController = {
 
 				await Feedstock.purchaseSaveProduct(option);
 			};
-			res.send({ done: "Compra de código:#"+purchase_row.insertId+" cadastrada com sucesso,\n Confirme após conferência para efetivar entrada no estoque." });
+			res.send({ done: "Compra de código: "+purchase_row.insertId+" cadastrada com sucesso.\
+						   \n Confirme após conferência para efetivar entrada no estoque." });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Erro ao cadastrar a compra." });
