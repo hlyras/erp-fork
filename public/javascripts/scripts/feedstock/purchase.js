@@ -93,48 +93,54 @@ $(() => {
 
 		for(i in feedstock_purchase_kart){
 			if(feedstock_purchase_kart[i].uom == "cm"){
-				total_value += (feedstock_purchase_kart[i].value / 100) * feedstock_purchase_kart[i].amount;
+				total_value += lib.roundValue((feedstock_purchase_kart[i].value / 100) * feedstock_purchase_kart[i].amount);
 			} else if(feedstock_purchase_kart[i].uom == "un"){
-				total_value += feedstock_purchase_kart[i].value * feedstock_purchase_kart[i].amount;
+				total_value += lib.roundValue(feedstock_purchase_kart[i].value * feedstock_purchase_kart[i].amount);
 			};
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
+		const r = confirm("Deseja realmente cadastrar esta venda?");
 
-		$.ajax({
-			url: "/feedstock/purchase/save",
-			method: "post",
-			data: {
-				supplier_id: supplier_id.value,
-				supplier_name: supplier_name,
-				feedstocks: JSON.stringify(feedstock_purchase_kart),
-				total_value: lib.roundValue(total_value),
-				storage_id: storage_id
-			},
-			success: (response) => {
-				if(response.unauthorized){
-					alert(response.unauthorized);
-					window.location.href = '/login';
-					return;
-				};
-				
-				if(response.msg){
+		if(r){
+			document.getElementById('ajax-loader').style.visibility = 'visible';
+
+			$.ajax({
+				url: "/feedstock/purchase/save",
+				method: "post",
+				data: {
+					supplier_id: supplier_id.value,
+					supplier_name: supplier_name,
+					feedstocks: JSON.stringify(feedstock_purchase_kart),
+					total_value: lib.roundValue(total_value),
+					storage_id: storage_id
+				},
+				success: (response) => {
+					if(response.unauthorized){
+						alert(response.unauthorized);
+						window.location.href = '/login';
+						return;
+					};
+					
+					if(response.msg){
+						document.getElementById('ajax-loader').style.visibility = 'hidden';
+						document.getElementById("feedstock-purchase-submit").disabled = false;
+						return alert(response.msg);
+					};
+
+					alert(response.done);
+
+					feedstock_purchase_kart = [];
+					updatePurchaseLocalStorage(feedstock_purchase_kart);
+					renderFeedstockpurchaseKart(feedstock_purchase_kart);
+
 					document.getElementById('ajax-loader').style.visibility = 'hidden';
+
 					document.getElementById("feedstock-purchase-submit").disabled = false;
-					return alert(response.msg);
-				};
-
-				console.log(response);
-
-				feedstock_purchase_kart = [];
-				updatePurchaseLocalStorage(feedstock_purchase_kart);
-				renderFeedstockpurchaseKart(feedstock_purchase_kart);
-
-				document.getElementById('ajax-loader').style.visibility = 'visible';
-
-				document.getElementById("feedstock-purchase-submit").disabled = false;
-			}
-		});
+				}
+			});
+		} else {
+			document.getElementById("feedstock-purchase-submit").disabled = false;
+		};
 	});
 });
 
@@ -159,14 +165,13 @@ function renderFeedstockpurchaseKart(feedstocks){
 		html += "<td class='nowrap'>$"+feedstocks[i].value+"</td>";
 		if(feedstocks[i].uom == "cm"){
 			html += "<td class='nowrap'>$"+lib.roundValue((feedstocks[i].value / 100) * feedstocks[i].amount)+"</td>";
+			total_value += lib.roundValue((feedstocks[i].value / 100) * feedstocks[i].amount);
 		} else if(feedstocks[i].uom == "un"){
 			html += "<td class='nowrap'>$"+lib.roundValue(feedstocks[i].value * feedstocks[i].amount)+"</td>";
+			total_value += lib.roundValue(feedstocks[i].value * feedstocks[i].amount);
 		};
 		html += "<td><a class='tbl-show-link nowrap' onclick='removeFeedstockFrompurchaseKart("+feedstocks[i].id+")'>Rem</a></td>";
 		html += "</tr>";
-
-		// sum of values
-		total_value += feedstocks[i].value;
 	};
 	html += "<tr>";
 	html += "<td>---</td>";

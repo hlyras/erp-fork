@@ -283,8 +283,6 @@ const feedstockController = {
 
 		const feedstocks = JSON.parse(req.body.feedstocks);
 
-		console.log(feedstocks);
-
 		const purchase = {
 			date: lib.genPatternDate(),
 			full_date: lib.genFullDate(),
@@ -303,12 +301,12 @@ const feedstockController = {
 					feedstock_info: feedstocks[i].code+" | "+feedstocks[i].name+" | "+feedstocks[i].color,
 					amount: feedstocks[i].amount,
 					feedstock_uom: feedstocks[i].uom,
-					feedstock_value: feedstocks[i].feedstock_value
+					feedstock_value: feedstocks[i].value
 				};
 
 				await Feedstock.purchaseSaveProduct(option);
 			};
-			res.send({ done: "Compra cadastrada com sucesso." });
+			res.send({ done: "Compra de código:#"+purchase_row.insertId+" cadastrada com sucesso,\n Confirme após conferência para efetivar entrada no estoque." });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Erro ao cadastrar a compra." });
