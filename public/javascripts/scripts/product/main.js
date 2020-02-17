@@ -232,14 +232,16 @@ function editProduct(id){
 	$.ajax({
 		url: '/product/id/'+id,
 		method: 'get',
-		success: (product) => {
+		success: (response) => {
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 
-			document.getElementById('product-create-id').value = product[0].id;
-			document.getElementById('product-create-code').value = product[0].code;
-			document.getElementById('product-create-name').value = product[0].name;
-			document.getElementById('product-create-color').value = product[0].color;
-			document.getElementById('product-create-size').value = product[0].size;
+			console.log(response.product);
+
+			document.getElementById('product-create-id').value = response.product[0].id;
+			document.getElementById('product-create-code').value = response.product[0].code;
+			document.getElementById('product-create-name').value = response.product[0].name;
+			document.getElementById('product-create-color').value = response.product[0].color;
+			document.getElementById('product-create-size').value = response.product[0].size;
 
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
@@ -263,7 +265,7 @@ function removeProduct(id){
 
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
 
-				lib.displayDiv('product-show-box');
+				document.getElementById('product-show-box').style.display = "none";
 				alert(response.done);
 				$("#product-filter-form").submit();
 			}

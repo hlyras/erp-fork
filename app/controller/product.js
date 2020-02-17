@@ -169,12 +169,8 @@ const productController = {
 			amount: req.body.feedstock_amount
 		};
 
-		console.log('insertion');
-		console.log(insertion);
-
 		if(!insertion.id || insertion.id < 1){
 			try {
-				console.log('insert');
 				await Product.addFeedstock(insertion);
 				res.send({ done: "Matéria-Prima adicionada com sucesso." });
 			} catch (err) {
@@ -183,7 +179,6 @@ const productController = {
 			};
 		} else {
 			try {
-				console.log('update');
 				await Product.updateFeedstock(insertion);
 				res.send({ done: "Matéria-Prima atualizada com sucesso." });
 			} catch (err) {
@@ -250,6 +245,8 @@ const productController = {
 			if(row.length){return res.send({ msg: 'Este código de produto já está cadastrado.' })};
 			
 			var row = await Product.save(product);
+			let newProduct = await Product.findById(row.insertId);
+			res.send({ done: 'Produto cadastrado com sucesso!', product: newProduct });
 		} else {
 			var row = await Product.findByCode(product.code);
 			if(row.length){
@@ -259,11 +256,9 @@ const productController = {
 			};
 			
 			var row = await Product.update(product);
+			let newProduct = await Product.findById(row.insertId);
+			res.send({ done: 'Produto atualizado com sucesso!', product: newProduct });
 		};
-
-		let newProduct = await Product.findById(row.insertId);
-
-		res.send({ done: 'Produto cadastrado com sucesso!', product: newProduct });
 	},
 	
 	categorySave: async (req, res) => {
