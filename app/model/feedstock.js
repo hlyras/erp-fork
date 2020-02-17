@@ -110,12 +110,13 @@ Feedstock.supplierFeedstockClear = async (id) => {
 };
 
 Feedstock.purchaseSave = async (purchase) => {
-	let query = "INSERT INTO cms_wt_erp.feedstock_purchase (date, full_date, supplier_id, supplier_name, value) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.feedstock_purchase (date, full_date, supplier_id, supplier_name, value, user) VALUES ('"
 		+purchase.date+"', '"
 		+purchase.full_date+"', '"
 		+purchase.supplier_id+"', '"
 		+purchase.supplier_name+"', '"
-		+purchase.value+"');";
+		+purchase.value+"', '"
+		+purchase.user+"');";
 	return db(query);
 };
 
@@ -127,6 +128,11 @@ Feedstock.purchaseSaveProduct = async (option) => {
 		+option.amount+"', '"
 		+option.feedstock_uom+"', '"
 		+option.feedstock_value+"');";
+	return db(query);
+};
+
+Feedstock.purchaseFilter = async (periodStart, periodEnd, params, values) => {
+	let query = lib.filterByPeriod(periodStart, periodEnd, params, values, "cms_wt_erp", "feedstock_purchase", "id", "DESC");
 	return db(query);
 };
 

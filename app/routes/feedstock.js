@@ -21,6 +21,7 @@ router.get('/supplier/storage/list/id/:id', feedstockController.supplierStorageL
 
 router.get('/purchase', feedstockController.purchase);
 router.post('/purchase/save', feedstockController.purchaseSave);
+router.post('/purchase/filter', feedstockController.purchaseFilter);
 
 router.get('/storage', feedstockController.storage);
 router.post('/storage/create', feedstockController.storageCreate);

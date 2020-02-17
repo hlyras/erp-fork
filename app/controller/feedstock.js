@@ -289,6 +289,7 @@ const feedstockController = {
 			supplier_id: req.body.supplier_id,
 			supplier_name: req.body.supplier_name,
 			value: req.body.total_value,
+			user: req.user.name,
 			storage_id: req.body.storage_id
 		};
 
@@ -311,6 +312,37 @@ const feedstockController = {
 			console.log(err);
 			res.send({ msg: "Erro ao cadastrar a compra." });
 		};
+	},
+	purchaseFilter: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		let params = [];
+		let values = [];
+
+		if(req.body.feedstock_purchase_periodStart && req.body.feedstock_purchase_periodEnd){
+			var periodStart = req.body.feedstock_purchase_periodStart;
+			var periodEnd = req.body.feedstock_purchase_periodEnd;
+		} else {
+			var periodStart = "";
+			var periodEnd = "";
+		};
+
+		if(req.body.feedstock_purchase_status){
+			params.push("status");
+			values.push(req.body.feedstock_purchase_status);
+		};
+
+		const purchases = await Feedstock.purchaseFilter(periodStart, periodEnd, params, values);
+
+		console.log(periodStart);
+		console.log(periodEnd);
+
+		console.log(params);
+		console.log(values);
+
+		res.send({ purchases });
 	},
 	production: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){

@@ -184,6 +184,8 @@ function filterProduct(name, code, color, session){
 
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 
+			console.log(products);
+
 			var pageSize = 10;
 			var page = 0;
 
@@ -234,8 +236,6 @@ function editProduct(id){
 		method: 'get',
 		success: (response) => {
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
-
-			console.log(response.product);
 
 			document.getElementById('product-create-id').value = response.product[0].id;
 			document.getElementById('product-create-code').value = response.product[0].code;

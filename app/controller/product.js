@@ -166,7 +166,7 @@ const productController = {
 			id: req.body.id,
 			product_id: req.body.product_id,
 			feedstock_id: req.body.feedstock_id,
-			amount: req.body.feedstock_amount
+			amount: parseFloat(req.body.feedstock_amount)
 		};
 
 		if(!insertion.id || insertion.id < 1){

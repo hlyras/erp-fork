@@ -26,7 +26,7 @@ $(() => {
 			return document.getElementById('feedstock-purchase-kart-submit').disabled = false;
 		};
 
-		if(amount < 1 || !amount){
+		if(amount < 0.01 || !amount){
 			alert("É necessário preencher a quantidade de matéria-prima que será comprada.");
 			return document.getElementById('feedstock-purchase-kart-submit').disabled = false;
 		};
@@ -40,7 +40,7 @@ $(() => {
 			name: splitedFeedstock[1],
 			color: splitedFeedstock[2],
 			uom: splitedFeedstock[3],
-			amount: amount,
+			amount: parseFloat(amount),
 			value: splitedFeedstock[4]
 		};
 
@@ -172,7 +172,7 @@ function renderFeedstockpurchaseKart(feedstocks){
 			html += "<td class='nowrap'>$"+lib.roundValue(feedstocks[i].value * feedstocks[i].amount)+"</td>";
 			total_value += lib.roundValue(feedstocks[i].value * feedstocks[i].amount);
 		};
-		html += "<td><a class='tbl-show-link nowrap' onclick='removeFeedstockFrompurchaseKart("+feedstocks[i].id+")'>Rem</a></td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='removeFeedstockFromPurchaseKart("+feedstocks[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
 	html += "<tr>";
@@ -203,9 +203,9 @@ function renderFeedstockpurchaseKart(feedstocks){
 	html += "</tr>";
 
 	document.getElementById("feedstock-purchase-kart-tbl").innerHTML = html;
-}
+};
 
-function removeFeedstockFrompurchaseKart(id){
+function removeFeedstockFromPurchaseKart(id){
 	var kart_backup = [];
 	for(i in feedstock_purchase_kart){
 		if(feedstock_purchase_kart[i].id != id){

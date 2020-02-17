@@ -153,7 +153,8 @@ $(() => {
 				alert(response.done);
 				
 				if(document.getElementById('feedstock-supplier-storage-box').style.display == "block"){
-					listFeedstockSupplierStorage(document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('supplier_id').value);
+					listFeedstockSupplierStorage(document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('supplier_id').value, "table", true);
+					
 				};
 
 				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_value').value = "0.00";
@@ -434,7 +435,7 @@ function removeSupplierFeedstock(id, supplier_id){
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 			if(document.getElementById('feedstock-supplier-storage-box').style.display == "block"){
-				listFeedstockSupplierStorage(supplier_id);
+				listFeedstockSupplierStorage(supplier_id, "table", true);
 			};
 		}
 	});

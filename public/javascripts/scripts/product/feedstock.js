@@ -11,7 +11,7 @@ $(() => {
 			return document.getElementById('product-addFeedstock-submit').disabled = false;
 		};
 
-		if(amount < 1 || !amount){
+		if(amount < 0.01 || !amount){
 			alert("É necessário preencher a quantidade de matéria-prima");
 			return document.getElementById('product-addFeedstock-submit').disabled = false;
 		};
