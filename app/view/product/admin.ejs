@@ -94,7 +94,7 @@
 							<form class="box-1" id="product-addFeedstock-form">
 								<input type="hidden" name="product_id">
 								<select name="feedstock_id" class="btn-generic-big"></select>
-								<input type="number" name="feedstock_amount" class="btn-generic-small" placeholder="Qtd">
+								<input type="number" class="btn-generic-small price" name="feedstock_amount" step="0.01" placeholder="Qtd" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}"/>
 								<input type="submit" class="btn-submit" id="product-addFeedstock-submit" value="Cadastrar">
 							</form>
 						</div>
