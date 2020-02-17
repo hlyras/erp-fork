@@ -134,7 +134,9 @@ function showProduct(id, admin){
 			html += "</tr>";
 			html += "<tr>";
 			if(admin){
+				document.getElementById("product-addFeedstock-form").elements.namedItem('id').value = "";
 				document.getElementById("product-addFeedstock-form").elements.namedItem('product_id').value = response.product[0].id;
+				document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id').disabled = false;
 				document.getElementById('product-feedstock-box').style.display = "none";
 
 				html += "<td><a class='tbl-show-link nowrap' onclick='productAddImage("+response.product[0].id+")'>+ Img</a></td>";
