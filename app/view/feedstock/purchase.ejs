@@ -29,7 +29,7 @@
 					</form>
 					<form class="box-1" id="feedstock-purchase-kart-form">
 						<select name="feedstock_id" class="btn-generic-big"></select>
-						<input type="number" name="feedstock_amount" class="btn-generic-small" placeholder="Qtd">
+						<input type="number" name="feedstock_amount" class="btn-generic-small price" step="0.01" placeholder="cm/un" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}"/>
 						<input type="submit" class="btn-submit" id="feedstock-purchase-kart-submit" value="Adicionar">
 					</form>
 					<table id="feedstock-purchase-kart-tbl" class="tbl-info box-1"></table>

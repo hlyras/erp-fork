@@ -162,19 +162,36 @@ const productController = {
 			return res.redirect('/');
 		};
 
-		const insert = {
+		const insertion = {
+			id: req.body.id,
 			product_id: req.body.product_id,
 			feedstock_id: req.body.feedstock_id,
 			amount: req.body.feedstock_amount
 		};
 
-		try {
-			await Product.addFeedstock(insert);
-			res.send({ done: "Matéria-Prima adicionada com sucesso." });
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: err });
+		console.log('insertion');
+		console.log(insertion);
+
+		if(!insertion.id || insertion.id < 1){
+			try {
+				console.log('insert');
+				await Product.addFeedstock(insertion);
+				res.send({ done: "Matéria-Prima adicionada com sucesso." });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: err });
+			};
+		} else {
+			try {
+				console.log('update');
+				await Product.updateFeedstock(insertion);
+				res.send({ done: "Matéria-Prima atualizada com sucesso." });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: err });
+			};
 		};
+
 	},
 	feedstockRemove: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){

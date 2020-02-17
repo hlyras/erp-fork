@@ -43,7 +43,9 @@ $(() => {
 				productFeedstockRender(document.getElementById("product-addFeedstock-form").elements.namedItem('product_id').value);
 
 				document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_amount').value = "";
-					
+
+				document.getElementById("product-addFeedstock-form").elements.namedItem('id').value = "";
+				document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id').disabled = false;
 				document.getElementById('product-addFeedstock-submit').disabled = false;
 			}
 		});
@@ -104,6 +106,7 @@ function productFeedstockRender(product_id){
 					html += "<td>"+response.product_feedstocks[i].feedstock_name+"</td>";
 					html += "<td>"+response.product_feedstocks[i].feedstock_color+"</td>";
 					html += "<td>"+response.product_feedstocks[i].amount+""+response.product_feedstocks[i].feedstock_uom+"</td>";
+					html += "<td><a class='tbl-show-link nowrap' onclick='editProductFeedstock("+response.product_feedstocks[i].id+", "+response.product_feedstocks[i].feedstock_id+", "+response.product_feedstocks[i].amount+", "+response.product_feedstocks[i].product_id+")'>Edit</a></td>";
 					html += "<td><a class='tbl-show-link nowrap' onclick='removeProductFeedstock("+response.product_feedstocks[i].id+", "+response.product_feedstocks[i].product_id+")'>Rem</a></td>";
 					html += "</tr>";
 				};
@@ -120,6 +123,26 @@ function productFeedstockRender(product_id){
 
 function productFeedstockClear(tbl){
 	document.getElementById(tbl).innerHTML = "Sem registros";
+};
+
+function editProductFeedstock(id, feedstock_id, feedstock_amount, product_id){
+	document.getElementById('ajax-loader').style.visibility = 'visible';
+	
+	$.ajax({
+		url: '/feedstock/id/'+feedstock_id,
+		method: 'get',
+		success: function(feedstock){
+			document.getElementById("product-feedstock-div").style.display = "block";
+
+			document.getElementById("product-addFeedstock-form").elements.namedItem('id').value = id;
+			document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id').innerHTML = "<option value="+feedstock[0].id+">"+feedstock[0].code+" | "+feedstock[0].name+" | "+feedstock[0].color+" | "+feedstock[0].color+"</option>";
+			document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id').disabled = true;
+			document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_amount').value = feedstock_amount;
+
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
+		}
+	});
+
 };
 
 function removeProductFeedstock(id, product_id){

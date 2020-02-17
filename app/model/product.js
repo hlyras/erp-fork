@@ -40,6 +40,11 @@ Product.addFeedstock = async (insertion) => {
 	return db(query);
 };
 
+Product.updateFeedstock = async (insertion) => {
+	let query = "UPDATE cms_wt_erp.product_feedstock SET amount='"+insertion.amount+"' WHERE id='"+insertion.id+"';";
+	return db(query);
+};
+
 Product.removeFeedstock = async (product_feedstock_id) => {
 	let query = "DELETE FROM cms_wt_erp.product_feedstock WHERE id='"+product_feedstock_id+"';";
 	return db(query);
