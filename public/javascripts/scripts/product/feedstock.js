@@ -135,7 +135,7 @@ function editProductFeedstock(id, feedstock_id, feedstock_amount, product_id){
 			document.getElementById("product-feedstock-div").style.display = "block";
 
 			document.getElementById("product-addFeedstock-form").elements.namedItem('id').value = id;
-			document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id').innerHTML = "<option value="+feedstock[0].id+">"+feedstock[0].code+" | "+feedstock[0].name+" | "+feedstock[0].color+" | "+feedstock[0].color+"</option>";
+			document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id').innerHTML = "<option value="+feedstock[0].id+">"+feedstock[0].code+" | "+feedstock[0].name+" | "+feedstock[0].color+" | "+feedstock[0].uom+"</option>";
 			document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id').disabled = true;
 			document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_amount').value = feedstock_amount;
 
