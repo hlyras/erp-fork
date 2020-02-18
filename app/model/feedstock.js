@@ -131,13 +131,23 @@ Feedstock.purchaseSaveProduct = async (option) => {
 	return db(query);
 };
 
+Feedstock.purchaseFindById = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_purchase WHERE id='"+id+"';";
+	return db(query);
+};
+
+Feedstock.purchaseListProducts = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_purchase_product WHERE purchase_id='"+id+"';";
+	return db(query);
+};
+
 Feedstock.purchaseFilter = async (periodStart, periodEnd, params, values) => {
 	let query = lib.filterByPeriod(periodStart, periodEnd, params, values, "cms_wt_erp", "feedstock_purchase", "id", "DESC");
 	return db(query);
 };
 
 Feedstock.storageCreate = async (name) => {
-	let query = "INSERT INTO cms_wt_erp.feedstock_storage_instances (name) VALUES ('"+name+"');";
+	let query = "INSERT INTO cms_wt_erp.feedstock_storage_instance (name) VALUES ('"+name+"');";
 	return db(query);
 };
 
@@ -150,7 +160,7 @@ Feedstock.insertInStorage = async (insert) => {
 };
 
 Feedstock.storageList = async () => {
-	let query = "SELECT * FROM cms_wt_erp.feedstock_storage_instances ORDER BY id ASC;";
+	let query = "SELECT * FROM cms_wt_erp.feedstock_storage_instance ORDER BY id ASC;";
 	return db(query);
 };
 

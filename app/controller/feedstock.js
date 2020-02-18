@@ -7,20 +7,13 @@ const Feedstock = require('../model/feedstock');
 const Product = require('../model/product');
 
 const feedstockController = {
-	index: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
-		};
-		
-		res.render('feedstock/index', { user: req.user });
-	},
-	admin: async (req, res) => {
+	manage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
 		
 		const feedstockColors = await Feedstock.colorList();
-		res.render('feedstock/admin', { feedstockColors, user: req.user });
+		res.render('feedstock/manage', { feedstockColors, user: req.user });
 	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
@@ -42,40 +35,42 @@ const feedstockController = {
 		if(!feedstock.standard || feedstock.standard.length > 5){return res.send({ msg: 'Preencha a medida padrão.' })};
 		if(!feedstock.uom || feedstock.uom.length > 2){return res.send({ msg: 'Preencha a unidade de medida.' })};
 
-		if(!feedstock.id){
-			var row = await Feedstock.findByCode(feedstock.code);
-			if(row.length){return res.send({ msg: 'Este código de produto já está cadastrado.' })};
-			
-			var row = await Feedstock.save(feedstock);
-		} else {
-			var row = await Feedstock.findByCode(feedstock.code);
-			if(row.length){
-				if(row[0].id != feedstock.id){
-					return res.send({ msg: 'Este código de produto já está cadastrado.' });
-				};
-			};
-			
-			var row = await Feedstock.update(feedstock);
-		};
-
 		try {
-			var storages = await Feedstock.storageList();
+			if(!feedstock.id){
+				const feedstocks = await Feedstock.findByCode(feedstock.code);
+				if(feedstocks.length){return res.send({ msg: 'Este código de produto já está cadastrado.' })};
+				
+				await Feedstock.save(feedstock);
+				
+				//INSERT CREATED FEEDSTOCK IN STORAGES
+				const storages = await Feedstock.storageList();
 
-			for(i in storages){
-				var insert = {
-					storage_id: storages[i].id,
-					feedstock_id: feedstock.id,
-					amount: 0
+				for(i in storages){
+					const insert = {
+						storage_id: storages[i].id,
+						feedstock_id: feedstock.id,
+						amount: 0
+					};
+					await Feedstock.insertInStorage(insert);
 				};
-
-				await Feedstock.insertInStorage(insert);
+				
+				res.send({ done: 'Matéria prima cadastrada com sucesso!' });
+			} else {
+				const feedstocks = await Feedstock.findByCode(feedstock.code);
+				if(feedstocks.length){
+					if(feedstocks[0].id != feedstock.id){
+						return res.send({ msg: 'Este código de produto já está cadastrado.' });
+					};
+				};
+				
+				await Feedstock.update(feedstock);
+				
+				res.send({ done: 'Matéria prima atualizada com sucesso!' });
 			};
 		} catch (err) {
 			console.log(err);
-			return res.send({ msg: 'Ocorreu um erro ao registrar a matéria-prima ao estoque, favor contatar o suporte.' });
+			res.send({ msg: "Ocorreu um erro ao cadastrar a matéria-prima, favor contatar o suporte" });
 		};
-
-		res.send({ done: 'Produto cadastrado com sucesso!' });
 	},
 	findById: async (req, res) => {
 		// if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
@@ -276,6 +271,15 @@ const feedstockController = {
 		const feedstockStorages = await Feedstock.storageList();
 		res.render('feedstock/purchase', { user: req.user, feedstockColors, feedstockStorages, feedstockSuppliers });
 	},
+	purchaseManage: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		const feedstockSuppliers = await Feedstock.supplierList();
+
+		res.render('feedstock/purchase_manage', { user: req.user, feedstockSuppliers });
+	},
 	purchaseSave: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
@@ -313,6 +317,16 @@ const feedstockController = {
 			res.send({ msg: "Erro ao cadastrar a compra." });
 		};
 	},
+	purchaseFindById: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		const purchase = await Feedstock.purchaseFindById(req.params.id);
+		const purchase_feedstocks = await Feedstock.purchaseListProducts(req.params.id)
+
+		res.send({ purchase, purchase_feedstocks });
+	},
 	purchaseFilter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
@@ -329,18 +343,17 @@ const feedstockController = {
 			var periodEnd = "";
 		};
 
+		if(req.body.feedstock_purchase_supplier_id){
+			params.push("supplier_id");
+			values.push(req.body.feedstock_purchase_supplier_id);
+		};
+
 		if(req.body.feedstock_purchase_status){
 			params.push("status");
 			values.push(req.body.feedstock_purchase_status);
 		};
 
 		const purchases = await Feedstock.purchaseFilter(periodStart, periodEnd, params, values);
-
-		console.log(periodStart);
-		console.log(periodEnd);
-
-		console.log(params);
-		console.log(values);
 
 		res.send({ purchases });
 	},
@@ -359,9 +372,16 @@ const feedstockController = {
 			return res.redirect('/');
 		};
 
+		res.render('feedstock/storage', { user: req.user });
+	},
+	storageManage: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
 		const feedstockColors = await Feedstock.colorList();
 		const feedstockStorages = await Feedstock.storageList();
-		res.render('feedstock/storage', { feedstockColors: feedstockColors, feedstockStorages: feedstockStorages, user: req.user });
+		res.render('feedstock/storage_manage', { feedstockColors: feedstockColors, feedstockStorages: feedstockStorages, user: req.user });
 	},
 	storageCreate: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
@@ -389,12 +409,12 @@ const feedstockController = {
 
 				await Feedstock.insertInStorage(insert);
 			};
+			
+			res.send({ done: 'Estoque criado e matérias-primas inseridas com sucesso!' });
 		} catch (err){
 			console.log(err);
 			return res.send({ msg: 'Ocorreu um erro ao registrar uma matéria-prima ao estoque, favor contatar o suporte.' });
 		};
-
-		res.send({ done: 'Estoque criado e produtos cadastrados com sucesso!' });
 	},
 	storageList: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){

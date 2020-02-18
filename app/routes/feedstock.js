@@ -3,8 +3,7 @@ const router = require("express").Router();
 const feedstockController = require('../controller/feedstock');
 
 //API ROUTES
-router.get('/index', feedstockController.index);
-router.get('/admin', feedstockController.admin);
+router.get('/manage', feedstockController.manage);
 
 router.post('/save', feedstockController.save);
 router.get('/id/:id', feedstockController.findById);
@@ -20,10 +19,13 @@ router.get('/supplier/storage/remove/id/:id', feedstockController.supplierRemove
 router.get('/supplier/storage/list/id/:id', feedstockController.supplierStorageList);
 
 router.get('/purchase', feedstockController.purchase);
+router.get('/purchase/manage', feedstockController.purchaseManage);
 router.post('/purchase/save', feedstockController.purchaseSave);
+router.get('/purchase/id/:id', feedstockController.purchaseFindById);
 router.post('/purchase/filter', feedstockController.purchaseFilter);
 
 router.get('/storage', feedstockController.storage);
+router.get('/storage/manage', feedstockController.storageManage);
 router.post('/storage/create', feedstockController.storageCreate);
 // router.get('/storage/list', feedstockController.storageList);
 router.get('/storage/filter', feedstockController.storageFilter);

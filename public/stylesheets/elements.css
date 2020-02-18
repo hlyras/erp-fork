@@ -35,6 +35,10 @@ a {
 	margin-bottom: 10px
 }
 
+.bold {
+	font-weight: bold;
+}
+
 .btn-table {
      background:none;
      color:inherit;

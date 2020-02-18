@@ -19,21 +19,34 @@
                     <h3 class="underline">Relatório de Compras</h3>
                     <!-- <h1 id="income_totalValue"></h1> -->
 					<form id="feedstock-purchase-filter-form" class="box-1">
+						<input type="hidden" name="location" value="feedstockPurchaseAdmin">
 						<input type="date" class="btn-generic-big" name="feedstock_purchase_periodStart">
 						<input type="date" class="btn-generic-big" name="feedstock_purchase_periodEnd">
-						<select class="btn-generic-big" name="feedstock_purchase_status">
+						<select name="feedstock_purchase_supplier_id" class="btn-generic-medium">
+							<option value="">Fornecedor</option>
+							<% for(i in feedstockSuppliers){ %>
+								<option value="<%= feedstockSuppliers[i].id %>"><%= feedstockSuppliers[i].name %></option>
+							<% } %>
+						</select>
+						<select class="btn-generic-medium" name="feedstock_purchase_status">
 							<option value="Pedido solicitado">Pedidos solicitados</option>
 							<option value="Pedido confirmado">Pedidos confirmados</option>
 						</select>
 						<input type="submit" class="btn-submit" id="feedstock-purchase-filter-form-submit" value="Filtrar">
 					</form>
-					<div id="feedstock-purchase-div">
-						<table class="tbl-info box-1" id="feedstock-purchase-tbl"></table>
+					<div id="feedstock-purchase-filter-div">
+						<table class="tbl-info box-1" id="feedstock-purchase-filter-tbl"></table>
 						<br>
-						<button id="feedstockPurchasePrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-	                    <span id="feedstockPurchasePageNumber"></span>
-	                    <button id="feedstockPurchaseNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button><br><br>
+						<button id="feedstockPurchaseAdminPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
+	                    <span id="feedstockPurchaseAdminPageNumber"></span>
+	                    <button id="feedstockPurchaseAdminNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button><br><br>
 					</div>
+				</div>
+				<div id="feedstock-purchase-show-box" class="box-1" style="display:none">
+					<h3 class="underline" id="feedstock-purchase-show-info"></h3>
+					<table class="tbl-info box-1" id="feedstock-purchase-show-tbl"></table>
+					<h3 class="underline">Matérias-Primas</h3>
+					<table class="tbl-info box-1" id="feedstock-purchase-product-show-tbl"></table>
 				</div>
 			</div>
 		</section>
