@@ -110,13 +110,19 @@ Feedstock.supplierFeedstockClear = async (id) => {
 };
 
 Feedstock.purchaseSave = async (purchase) => {
-	let query = "INSERT INTO cms_wt_erp.feedstock_purchase (date, full_date, supplier_id, supplier_name, value, user) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.feedstock_purchase (date, full_date, supplier_id, supplier_name, value, user, storage_id) VALUES ('"
 		+purchase.date+"', '"
 		+purchase.full_date+"', '"
 		+purchase.supplier_id+"', '"
 		+purchase.supplier_name+"', '"
 		+purchase.value+"', '"
-		+purchase.user+"');";
+		+purchase.user+"', '"
+		+purchase.storage_id+"');";
+	return db(query);
+};
+
+Feedstock.purchaseConfirm = async (option) => {
+	let query = "UPDATE cms_wt_erp.feedstock_purchase SET status='Pedido confirmado', confirmation_user='"+option.user+"' WHERE id='"+option.purchase_id+"';";
 	return db(query);
 };
 
@@ -156,6 +162,16 @@ Feedstock.insertInStorage = async (insert) => {
 		+insert.storage_id+"','"
 		+insert.feedstock_id+"','"
 		+insert.amount+"');";
+	return db(query);
+};
+
+Feedstock.increaseStorageFeedstockAmount = async (option) => {
+	let query = "UPDATE cms_wt_erp.feedstock_storage SET amount=amount + '"+option.amount+"' WHERE storage_id='"+option.storage_id+"' and feedstock_id='"+option.feedstock_id+"';";
+	return db(query);
+};
+
+Feedstock.decreaseStorageFeedstockAmount = async (option) => {
+	let query = "UPDATE cms_wt_erp.feedstock_storage SET amount=amount - '"+option.amount+"' WHERE storage_id='"+option.storage_id+"' and feedstock_id='"+option.feedstock_id+"';"
 	return db(query);
 };
 

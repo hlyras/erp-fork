@@ -317,15 +317,47 @@ const feedstockController = {
 			res.send({ msg: "Erro ao cadastrar a compra." });
 		};
 	},
+	purchaseConfirm: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		var option = {
+			purchase_id: req.body.purchase_id,
+			storage_id: req.body.storage_id,
+			user: req.user.name
+		};
+
+		try {
+			await Feedstock.purchaseConfirm(option);
+			const purchase_feedstocks = await Feedstock.purchaseListProducts(option.purchase_id);
+			for(i in purchase_feedstocks){
+				var option = {
+					feedstock_id: purchase_feedstocks[i].feedstock_id,
+					storage_id: req.body.storage_id,
+					amount: purchase_feedstocks[i].amount
+				};
+				await Feedstock.increaseStorageFeedstockAmount(option);
+			};
+			res.send({ done: "Compra confirmada com sucesso." });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Erro ao confirmar a compra, favor contatar o suporte," });
+		};
+	},
 	purchaseFindById: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
 
-		const purchase = await Feedstock.purchaseFindById(req.params.id);
-		const purchase_feedstocks = await Feedstock.purchaseListProducts(req.params.id)
-
-		res.send({ purchase, purchase_feedstocks });
+		try {
+			const purchase = await Feedstock.purchaseFindById(req.params.id);
+			const purchase_feedstocks = await Feedstock.purchaseListProducts(req.params.id)
+			res.send({ purchase, purchase_feedstocks });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Erro ao encontrar a compra" });
+		};
 	},
 	purchaseFilter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
