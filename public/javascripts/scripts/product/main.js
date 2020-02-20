@@ -65,6 +65,8 @@ $(function(){
 				var pageSize = 15;
 				var page = 0;
 
+				console.log(response);
+
 				function paging(){
 					if(response.products.length){
 						if(location==="productManage"){

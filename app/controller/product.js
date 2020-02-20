@@ -92,9 +92,9 @@ const productController = {
 		res.send(products);
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
-			return res.redirect('/');
-		};
+		// if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
+		// 	return res.redirect('/');
+		// };
 
 		var params = [];
 		var values = [];
@@ -115,9 +115,11 @@ const productController = {
 
 		if(req.query.name){
 			const products = await Product.filter(req.query.name, params, values);
+			console.log(products);
 			res.send({ products });
 		} else {
 			const products = await Product.filter(false, params, values);
+			console.log(products);
 			res.send({ products });
 		};
 	},
