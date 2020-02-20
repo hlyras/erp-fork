@@ -27,13 +27,14 @@ $(function(){
 				
 				alert(response.done);
 				
-				filterProduct(document.getElementById('product-create-name').value, "", "", "admin");
+				document.getElementById("product-filter-form").elements.namedItem("name").value = document.getElementById("product-create-form").elements.namedItem("name").value;
+				$("#product-filter-form").submit();
 
-				document.getElementById('product-create-id').value = "";
-				document.getElementById('product-create-code').value = "";
-				document.getElementById('product-create-color').value = "";
-				document.getElementById('product-create-name').value = "";
-				document.getElementById('product-create-size').value = "";
+				document.getElementById("product-create-form").elements.namedItem("id").value = "";
+				document.getElementById("product-create-form").elements.namedItem("code").value = "";
+				document.getElementById("product-create-form").elements.namedItem("name").value = "";
+				document.getElementById("product-create-form").elements.namedItem("color").value = "";
+				document.getElementById("product-create-form").elements.namedItem("size").value = "";
 
 				document.getElementById('product-create-submit').disabled = false;
 			}
@@ -42,11 +43,10 @@ $(function(){
 	
 	$("#product-filter-form").on('submit', (event) => {
 		event.preventDefault();
-		let btn = $(this);btn.attr('disabled', true);
 
 		let location = document.getElementById("product-filter-form").elements.namedItem('location').value;
 		let name = document.getElementById("product-filter-form").elements.namedItem('name').value;
-		let code = document.getElementById("product-filter-form").elements.namedItem('product_code').value;
+		let code = document.getElementById("product-filter-form").elements.namedItem('code').value;
 		let color = document.getElementById("product-filter-form").elements.namedItem('color').value;
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
@@ -54,9 +54,9 @@ $(function(){
 		$.ajax({
 			url: "/product/filter?name="+name+"&code="+code+"&color="+color,
 			method: 'get',
-			success: (products) => {
-				if(products.unauthorized){
-					alert(products.unauthorized);
+			success: (response) => {
+				if(response.unauthorized){
+					alert(response.unauthorized);
 					return window.location.href = '/login';
 				};
 				
@@ -66,31 +66,33 @@ $(function(){
 				var page = 0;
 
 				function paging(){
-					if(products.length){
-						if(location==="productAdmin"){
-							renderAdminProducts(products, pageSize, page, location);
+					if(response.products.length){
+						if(location==="productManage"){
+							renderManageProducts(response.products, pageSize, page, location);
 						} else if (location==="productCatalog"){
-							renderCatalogProducts(products, pageSize, page, location);
+							renderCatalogProducts(response.products, pageSize, page, location);
+						} else if (location==="productProduction"){
+							fillProductSelect(response.products, document.getElementById("product-production-kart-form").elements.namedItem('product_id'));
 						};
 					} else {
-						if(location==="productAdmin"){
-							lib.clearTable('product-admin-filter-tbl', location);
+						if(location==="productManage"){
+							lib.clearTable('product-manage-filter-tbl', location);
 						} else if (location==="productCatalog"){
 							lib.clearTable('product-catalog-filter-tbl', location);
+						} else if (location==="productProduction"){
+							document.getElementById("product-production-kart-form").elements.namedItem("product_id").innerHTML = "<option value=''>Sem registros</option>";
 						};
 					};
 				};
 
-				btn.attr('disabled', false);
-
 				function buttonsPaging(){
-					$("#"+location+"Next").prop('disabled', products.length <= pageSize || page >= products.length / pageSize - 1);
-					$("#"+location+"Previous").prop('disabled', products.length <= pageSize || page == 0);
+					$("#"+location+"Next").prop('disabled', response.products.length <= pageSize || page >= response.products.length / pageSize - 1);
+					$("#"+location+"Previous").prop('disabled', response.products.length <= pageSize || page == 0);
 				};
 
 				$(function(){
 				    $("#"+location+"Next").click(function(){
-				        if(page < products.length / pageSize - 1){
+				        if(page < response.products.length / pageSize - 1){
 				            page++;
 				            paging();
 				            buttonsPaging();
@@ -171,64 +173,6 @@ function showProduct(id, admin){
 	});
 };
 
-function filterProduct(name, code, color, session){
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	$.ajax({
-		url: "/product/filter?name="+name+"&code="+code+"&color="+color,
-		method: 'get',
-		success: (products) => {
-			if(products.unauthorized){
-				alert(products.unauthorized);
-				return window.location.href = '/login';
-			};
-
-			document.getElementById('ajax-loader').style.visibility = 'hidden';
-
-			console.log(products);
-
-			var pageSize = 10;
-			var page = 0;
-
-			function paging(){
-				if(products.length){
-					if(session==="admin"){
-						renderAdminProducts(products, pageSize, page);
-					} else if (session==="catalog"){
-						renderCatalogProducts(products, pageSize, page);
-
-					}
-				} else {
-					lib.clearTable('product-admin-filter-tbl', products.location);
-				};
-			};
-
-			function buttonsPaging(){
-				$('#productNext').prop('disabled', products.length <= pageSize || page >= products.length / pageSize - 1);
-				$('#productPrevious').prop('disabled', products.length <= pageSize || page == 0);
-			};
-
-			$(function(){
-			    $('#productNext').click(function(){
-			        if(page < products.length / pageSize - 1){
-			            page++;
-			            paging();
-			            buttonsPaging();
-			        };
-			    });
-			    $('#productPrevious').click(function(){
-			        if(page > 0){
-			            page--;
-			            paging();
-			            buttonsPaging();
-			        };
-			    });
-			    paging();
-			    buttonsPaging();
-			});
-		}
-	});
-};
-
 function editProduct(id){
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 	$.ajax({
@@ -237,11 +181,11 @@ function editProduct(id){
 		success: (response) => {
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 
-			document.getElementById('product-create-id').value = response.product[0].id;
-			document.getElementById('product-create-code').value = response.product[0].code;
-			document.getElementById('product-create-name').value = response.product[0].name;
-			document.getElementById('product-create-color').value = response.product[0].color;
-			document.getElementById('product-create-size').value = response.product[0].size;
+			document.getElementById('product-create-form').elements.namedItem("id").value = response.product[0].id;
+			document.getElementById('product-create-form').elements.namedItem("name").value = response.product[0].name;
+			document.getElementById('product-create-form').elements.namedItem("code").value = response.product[0].code;
+			document.getElementById('product-create-form').elements.namedItem("color").value = response.product[0].color;
+			document.getElementById('product-create-form').elements.namedItem("size").value = response.product[0].size;
 
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}

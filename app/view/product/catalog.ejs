@@ -20,7 +20,7 @@
 						<select name="color" id="product-catalog-color" class="btn-generic-small" autocomplete="off">
 							<option value="">Cor</option>
 							<% for(i in productColors){ %>
-								<option value="<%= productColors[i].id %>"><%= productColors[i].name %></option>
+								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
 							<% } %>
 						</select>
 						<input type="submit" class="btn-submit" value="Filtrar">

@@ -1,4 +1,5 @@
 const db = require('../../config/connection');
+const lib = require('../../config/lib');
 
 const Product = function(){
 	this.id;
@@ -80,12 +81,8 @@ Product.findByName = async (name) => {
 	return db(query);
 };
 
-Product.filter = async (product) => {
-	if(product.color){
-		var query = "SELECT * FROM cms_wt_erp.product WHERE color='"+product.color+"' ORDER BY code ASC;";
-	} else {
-		var query = "SELECT * FROM cms_wt_erp.product ORDER BY code ASC;";
-	};
+Product.filter = async (name, params, values) => {
+	let query = lib.filterQueryName(name, params, values, "cms_wt_erp", "product", "code", "ASC");
 	return db(query);
 };
 

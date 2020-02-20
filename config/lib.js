@@ -90,6 +90,30 @@ var lib = {
 
 		return query;
 	},
+	filterQueryName: function(name, params, values, db, tbl, orderParam, order){
+		if(name){
+			var query = "SELECT * FROM "+db+"."+tbl+" WHERE name like '%"+name+"%' ";
+			if(params.length){
+				query += "AND ";
+			};
+		} else {
+			if(params.length){
+				var query = "SELECT * FROM "+db+"."+tbl+" WHERE ";
+			} else {
+				var query = "SELECT * FROM "+db+"."+tbl+" ";
+			};
+		};
+		for(i in params){
+			if(i == params.length - 1){
+				query += params[i]+"='"+values[i]+"' ";
+			} else {
+				query += params[i]+"='"+values[i]+"' AND ";
+			};
+		};
+		query += "ORDER BY "+orderParam+" "+order+";";
+
+		return query;
+	},
 	filterByPeriod: function(periodStart, periodEnd, params, values, db, tbl, orderParam, order){
 		if(periodStart && periodEnd){
 			var query = "SELECT * FROM "+db+"."+tbl+" WHERE date>='"+periodStart+"' AND date<='"+periodEnd+"' ";

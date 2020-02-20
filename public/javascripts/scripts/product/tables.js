@@ -1,4 +1,4 @@
-function renderAdminProducts(products, pageSize, page){
+function renderManageProducts(products, pageSize, page, location){
 	var html = "<tr>";
 	html += "<td>Cód</td>";
 	html += "<td>Nome</td>";
@@ -15,12 +15,13 @@ function renderAdminProducts(products, pageSize, page){
 		html += "<td><a class='tbl-show-link nowrap' onclick='removeProduct("+products[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
-	document.getElementById('product-admin-filter-tbl').innerHTML = html;
-	document.getElementById('product-admin-filter-div').style.display = 'block';
-	$('#productAdminPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(products.length / pageSize));
+	
+	document.getElementById("product-manage-filter-tbl").innerHTML = html;
+	document.getElementById("product-manage-filter-div").style.display = "block";
+	$("#"+location+"PageNumber").text("" + (page + 1) + " de " + Math.ceil(products.length / pageSize));
 };
 
-function renderCatalogProducts(products, pageSize, page){
+function renderCatalogProducts(products, pageSize, page, location){
 	var html = "<tr>";
 	html += "<td>Cód</td>";
 	html += "<td>Nome</td>";
@@ -36,9 +37,16 @@ function renderCatalogProducts(products, pageSize, page){
 		html += "<td><a class='tbl-show-link nowrap' onclick='showProduct("+products[i].id+", "+false+")'>Exibir</a></td>";
 		html += "</tr>";
 	};
-	document.getElementById('product-catalog-filter-tbl').innerHTML = html;
-	document.getElementById('product-catalog-filter-div').style.display = 'block';
-	$('#productCatalogPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(products.length / pageSize));
+	document.getElementById("product-catalog-filter-tbl").innerHTML = html;
+	document.getElementById("product-catalog-filter-div").style.display = "block";
+	$("#"+location+"PageNumber").text("" + (page + 1) + " de " + Math.ceil(products.length / pageSize));
+};
+
+function fillProductSelect(products, select){
+	select.innerHTML = "";
+	for(i in products){
+		select.innerHTML += "<option value='"+products[i].id+"'>"+products[i].code+" | "+products[i].name+" | "+products[i].color+" | "+products[i].size+"</option>"
+	};
 };
 
 function renderKartProducts(location, products, pageSize, page){

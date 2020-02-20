@@ -29,4 +29,6 @@ router.get('/categoryList', productController.categoryList);
 router.post('/colorSave', productController.colorSave);
 router.get('/colorList', productController.colorList);
 
+router.get('/production', productController.production);
+
 module.exports = router;

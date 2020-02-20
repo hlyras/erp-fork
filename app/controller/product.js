@@ -25,6 +25,15 @@ const productController = {
 
 		res.render('product/admin', { productColors, feedstockColors, user: req.user });
 	},
+	production: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		const productColors = await Product.colorList();
+
+		res.render('product/production', { user: req.user, productColors });
+	},
 	// API CONTROLLERS
 	list: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
@@ -83,44 +92,33 @@ const productController = {
 		res.send(products);
 	},
 	filter: async (req, res) => {
-		// if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
-		// 	return res.redirect('/');
-		// };
+		if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
+			return res.redirect('/');
+		};
+
+		var params = [];
+		var values = [];
 
 		if(isNaN(req.query.code) || req.query.code < 0 || req.query.code > 9999){
 			req.query.code = "";
 		};
 
+		if(req.query.code){
+			params.push("code");
+			values.push(req.query.code);
+		};
+
+		if(req.query.color){
+			params.push("color");
+			values.push(req.query.color);
+		};
+
 		if(req.query.name){
-			Product.findByName(req.query.name)
-				.then(products => {
-					res.send(products);
-				})
-				.catch(err => {
-					console.log(err);
-				});
+			const products = await Product.filter(req.query.name, params, values);
+			res.send({ products });
 		} else {
-			if(req.query.code){
-				Product.findByCode(req.query.code)
-					.then(products => {
-						res.send(products);
-					})
-					.catch(err => {
-						console.log(err);
-					});
-			} else {
-				const product = {
-					color: req.query.color
-				};
-				
-				Product.filter(product)
-					.then(products => {
-						res.send(products);
-					})
-					.catch(err => {
-						console.log(err);
-					});
-			};
+			const products = await Product.filter(false, params, values);
+			res.send({ products });
 		};
 	},
 	remove: async (req, res) => {
@@ -228,11 +226,11 @@ const productController = {
 		};
 
 		const product = {
-			id: parseInt(req.body.product_id),
-			code: parseInt(req.body.product_code),
-			name: req.body.product_name,
-			color: req.body.product_color,
-			size: req.body.product_size,
+			id: parseInt(req.body.id),
+			code: parseInt(req.body.code),
+			name: req.body.name,
+			color: req.body.color,
+			size: req.body.size
 		};
 
 		if(!product.code || product.code < 1 || product.code > 9999){return res.send({ msg: 'Código de produto inválido.' })};
