@@ -54,8 +54,79 @@ $(() => {
 		updateProductProductionLocalStorage(product_production_kart);
 		renderProductProductionKart(product_production_kart);
 
+		document.getElementById("product-production-simulation-box").style.display = "none";
+		
 		document.getElementById("product-production-kart-form").elements.namedItem('product_amount').value = "";
 		document.getElementById("product-production-kart-submit").disabled = false;
+	});
+
+	$("#product-production-simulation").on('submit', (event)=>{
+		event.preventDefault();
+		document.getElementById("product-production-simulation").elements.namedItem("submit").disabled = true;
+
+		const storage_id = document.getElementById("product-production-simulation").elements.namedItem("storage_id").value;
+
+		if(storage_id < 1 || !storage_id){
+			alert("É necessário selecionar o estoque que irá suprir os materiais.");
+			return document.getElementById("product-production-simulation").elements.namedItem("submit").disabled = false;
+		};
+
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		$.ajax({
+			url: "/product/production/simulate",
+			method: "post",
+			data: {
+				storage_id: storage_id,
+				products: JSON.stringify(product_production_kart)
+			},
+			success: (response) => {
+				console.log(response);
+				response.feedstocks = response.production_feedstocks.reduce((array, production_feedstock) => {
+					for(i in array){
+						if(array[i].id == production_feedstock.feedstock_id){
+							array[i].amount = production_feedstock.amount;
+						};
+					}
+					return array;
+				}, response.feedstocks);
+
+				var html = "";
+				html += "<tr>";
+				html += "<td>Cód</td>";
+				html += "<td>Nome</td>";
+				html += "<td>Cor</td>";
+				html += "<td>Metragem</td>";
+				html += "<td>Qtd</td>";
+				html += "</tr>";
+				for(i in response.feedstocks){
+					html += "<tr>";
+					html += "<td>"+response.feedstocks[i].code+"</td>";
+					html += "<td>"+response.feedstocks[i].name+"</td>";
+					html += "<td>"+response.feedstocks[i].color+"</td>";
+					html += "<td>"+response.feedstocks[i].amount+""+response.feedstocks[i].uom+"</td>";
+					html += "<td>"+lib.roundValue(response.feedstocks[i].amount/response.feedstocks[i].standard)+"</td>";
+					html += "</tr>";
+				};
+
+				document.getElementById("product-production-simulation-box").style.display = "block";
+				document.getElementById("product-production-simulation-tbl").innerHTML = html;
+
+				document.getElementById("product-production-simulation").elements.namedItem("submit").disabled = false;
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+			}
+		});
+	});
+
+	$("#product-production-form").on('submit', (event)=>{
+		event.preventDefault();
+
+		const storage_id = document.getElementById("product-production-form").elements.namedItem("storage_id").value;
+
+		if(storage_id < 1 || !storage_id){
+			alert("É necessário selecionar o estoque que irá suprir os materiais.");
+			return document.getElementById('product-production-submit').disabled = false;
+		};
+
 	});
 });
 
@@ -94,6 +165,7 @@ function removeProductFromProductionKart(id){
 
 	updateProductProductionLocalStorage(product_production_kart);
 	renderProductProductionKart(product_production_kart);
+	document.getElementById("product-production-simulation-box").style.display = "none";
 };
 
 function updateProductProductionLocalStorage(kart){

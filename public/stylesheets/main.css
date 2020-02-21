@@ -158,7 +158,11 @@ tr td {
 	border: 1px solid #e1e1e1;
 }
 
-tr:nth-child(even) {background-color: #f0f0f0;}
+tr:hover {
+	background-color: #f2f2f2;
+}
+
+/*tr:nth-child(even) {background-color: #f0f0f0;}*/
 
 table input, select, button {
 	width: 50px;

@@ -31,8 +31,62 @@ const productController = {
 		};
 
 		const productColors = await Product.colorList();
+		const feedstockStorages = await Feedstock.storageList();
 
-		res.render('product/production', { user: req.user, productColors });
+		res.render('product/production', { user: req.user, productColors, feedstockStorages });
+	},
+	productionSimulate: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		const production = {
+			storage_id: req.body.storage_id,
+			products: JSON.parse(req.body.products)
+		};
+
+		var product_feedstocks_array = [];
+
+		for(i in production.products){
+			var product_feedstocks = await Product.feedstockList(production.products[i].id);
+			
+			for(i in product_feedstocks){
+				product_feedstocks_array.push(product_feedstocks[i]);
+			};
+		};
+
+		product_feedstocks_array = production.products.reduce((array, production_product) => {
+			for(i in array){
+				if(array[i].product_id == production_product.id){
+					array[i].amount = array[i].amount * production_product.amount;
+				};
+			};
+			return array;
+		}, product_feedstocks_array);
+
+		var production_feedstocks = [];
+
+		production_feedstocks = product_feedstocks_array.reduce((array, feedstock) => {
+			for(i in array){
+				if(array[i].feedstock_id == feedstock.feedstock_id){
+					array[i].amount += feedstock.amount;
+					return array;
+				};
+			};
+			array.push(feedstock);
+			return array;
+		}, production_feedstocks);
+
+		console.log('---------------')
+		console.log(production_feedstocks);
+
+		var feedstocks = [];
+		for(i in production_feedstocks){
+			var feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
+			feedstocks.push(feedstock[0]);
+		};
+		
+		res.send({ production_feedstocks, feedstocks });
 	},
 	// API CONTROLLERS
 	list: async (req, res) => {
@@ -115,11 +169,9 @@ const productController = {
 
 		if(req.query.name){
 			const products = await Product.filter(req.query.name, params, values);
-			console.log(products);
 			res.send({ products });
 		} else {
 			const products = await Product.filter(false, params, values);
-			console.log(products);
 			res.send({ products });
 		};
 	},
