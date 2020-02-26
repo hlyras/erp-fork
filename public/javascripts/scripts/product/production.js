@@ -83,12 +83,26 @@ $(() => {
 				console.log(response);
 				response.feedstocks = response.production_feedstocks.reduce((array, production_feedstock) => {
 					for(i in array){
-						if(array[i].id == production_feedstock.feedstock_id){
-							array[i].amount = production_feedstock.amount;
+						for(j in response.storage_feedstocks){
+							if(array[i].id == production_feedstock.feedstock_id && array[i].id == response.storage_feedstocks[j].feedstock_id){
+								array[i].amount = production_feedstock.amount;
+								array[i].amountInStorage = response.storage_feedstocks[j].amount;
+							};
 						};
-					}
+					};
 					return array;
 				}, response.feedstocks);
+
+				function verifyStorage(request, param, storage, param){
+					console.log(request, param, storage, param);
+
+					
+					
+				};
+
+				const result = verifyStorage(response.feedstocks, 'amount', response.storage_feedstocks, 'amount');
+				
+				console.log(result);
 
 				var html = "";
 				html += "<tr>";
@@ -96,6 +110,7 @@ $(() => {
 				html += "<td>Nome</td>";
 				html += "<td>Cor</td>";
 				html += "<td>Metragem</td>";
+				html += "<td>Estoque</td>";
 				html += "<td>Qtd</td>";
 				html += "</tr>";
 				for(i in response.feedstocks){
@@ -104,6 +119,7 @@ $(() => {
 					html += "<td>"+response.feedstocks[i].name+"</td>";
 					html += "<td>"+response.feedstocks[i].color+"</td>";
 					html += "<td>"+response.feedstocks[i].amount+""+response.feedstocks[i].uom+"</td>";
+					html += "<td>"+response.feedstocks[i].amountInStorage+""+response.feedstocks[i].uom+"</td>";
 					html += "<td>"+lib.roundValue(response.feedstocks[i].amount/response.feedstocks[i].standard)+"</td>";
 					html += "</tr>";
 				};
@@ -126,7 +142,6 @@ $(() => {
 			alert("É necessário selecionar o estoque que irá suprir os materiais.");
 			return document.getElementById('product-production-submit').disabled = false;
 		};
-
 	});
 });
 

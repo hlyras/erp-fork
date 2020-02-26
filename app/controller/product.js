@@ -77,16 +77,19 @@ const productController = {
 			return array;
 		}, production_feedstocks);
 
-		console.log('---------------')
-		console.log(production_feedstocks);
-
 		var feedstocks = [];
 		for(i in production_feedstocks){
 			var feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
 			feedstocks.push(feedstock[0]);
 		};
+
+		var storage_feedstocks = [];
+		for(i in feedstocks){
+			var storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [production.storage_id, feedstocks[i].id]);
+			storage_feedstocks.push(storage_feedstock[0]);
+		};
 		
-		res.send({ production_feedstocks, feedstocks });
+		res.send({ production_feedstocks, feedstocks, storage_feedstocks });
 	},
 	// API CONTROLLERS
 	list: async (req, res) => {

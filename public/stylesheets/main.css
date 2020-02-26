@@ -5,7 +5,8 @@
 }
 
 header {
-	background-image: linear-gradient(to right, #e6e6e6, #c8c8c8, #aaaaaa);
+	background-color: transparent;
+	/*background-image: linear-gradient(to right, #e6e6e6, #c8c8c8, #aaaaaa);*/
 	overflow: hidden;
 	padding: 5px 5px;
 }
@@ -79,7 +80,9 @@ header .right {
 }
 
 body {
-	background-color: #f0f0f0;
+	/*background-color: #f0f0f0;*/ 
+	/*background-image: url("https://images.fashioninteriors.co.uk/cache/nproducts/morris_and_co_wallpaper/melsetter/middlemore/_optimized/dmsw216696_antique_gold__1366_1366.jpg");*/
+	background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
 }
 
 section {
