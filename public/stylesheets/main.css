@@ -30,8 +30,8 @@ header a {
 
 header select {
 	cursor: pointer;
-	background-color: #adbdb2;
-	color: #000;
+	background-color: #000;
+	color: #d5e5da;
 	max-width: 130px;
 	width: 31.1%;
 	text-align: center;
@@ -45,7 +45,7 @@ header select {
 }
 
 header select:hover {
-	background-color: #c1d1c6;
+	background-color: #35453a;
 }
 
 header .favicon {
@@ -72,8 +72,8 @@ header a:hover {
 }
 
 header a.active {
-  background-color: #67776c;
-  color: white;
+  background-color: #000;
+  color: #d5e5da;
 }
 
 header a.active:hover {
