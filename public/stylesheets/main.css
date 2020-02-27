@@ -61,8 +61,7 @@ header .favicon {
 }
 
 header .favicon:hover {
-	max-width:110px;
-	max-height:110px;
+	border: 2px outset #dfefe4;
 	/*background-image: linear-gradient(to right, #dcece1, #cbdbd0, #adbdb2);*/
 	font-size: 25px;
 	font-weight: bold;
