@@ -174,7 +174,7 @@ a {
 }
 
 .tbl-show-link {
-	background-color: #adbdb2;
+	background-color: #dbe0d9;
 	width: 100%;
 	height: 100%;
 	border-radius: 2px;
@@ -188,10 +188,6 @@ a {
 
 .tbl-show-link:hover {
 	background-color: #dfefe4;
-}
-
-.span-generic {
-
 }
 
 .span-menu {
