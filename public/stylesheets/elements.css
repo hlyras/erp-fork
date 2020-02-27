@@ -24,12 +24,12 @@ a {
 
 .title-soft {
 	font-size: 16px;
-	padding: 10px;
+	font-family: "Lucida Sans", Gadget, sans-serif;
 }
 
 .underline {
 	margin: auto;
-	border-bottom: 1px solid #e5ddd5;
+	border-bottom: 1px solid #d5e5da;
 	width: 90%;
 	padding-bottom: 5px;
 	margin-bottom: 10px
@@ -46,7 +46,7 @@ a {
      padding:5px;
      font: inherit;
      /*border is optional*/
-     border:1px solid #e5ddd5;
+     border:1px solid #d5e5da;
      cursor: pointer;
 }
 
@@ -59,7 +59,7 @@ a {
 	text-align: center;
 	background-color: #fff;
 	border-radius: 5px;
-	border: 1px solid #a29b93;
+	border: 1px solid #8f9f94;
 }
 
 .btn-generic-medium {
@@ -71,7 +71,7 @@ a {
 	text-align: center;
 	background-color: #fff;
 	border-radius: 5px;
-	border: 1px solid #a29b93;
+	border: 1px solid #8f9f94;
 }
 
 .btn-generic-big {
@@ -83,11 +83,11 @@ a {
 	text-align: center;
 	background-color: #fff;
 	border-radius: 5px;
-	border: 1px solid #a29b93;
+	border: 1px solid #8f9f94;
 }
 
 .btn-submit {
-	background-color: #e6ded6;
+	background-color: #adbdb2;
 	font-size: 12px;
 	width:130px;
 	height: 30px;
@@ -96,7 +96,11 @@ a {
 	font-family: "HelveticaNeue-Light";
 	text-align: center;
 	border-radius: 5px;
-	border: 2px outset #e5ddd5;
+	border: 2px outset #d5e5da;
+}
+
+.btn-submit:hover {
+	background-color: #c1d1c6;
 }
 
 .btn-generic-date-day {
@@ -169,7 +173,7 @@ a {
 }
 
 .tbl-show-link {
-	background-color: #e6ded6;
+	background-color: #adbdb2;
 	width: 100%;
 	height: 100%;
 	border-radius: 2px;
@@ -178,11 +182,11 @@ a {
 	padding-top: 2px;
 	padding-bottom: 2px;
 	/*border: 1px solid #c8c8c8;*/
-	border: 1px solid #a29b93;
+	border: 1px solid #8f9f94;
 }
 
 .tbl-show-link:hover {
-	background-color: #b9b1a9;
+	background-color: #dfefe4;
 }
 
 .span-generic {
@@ -196,32 +200,32 @@ a {
 	margin: 5px;
 	cursor: pointer;
 	background-color: #f0f0f0;
-	border: 1px solid #e5ddd5;
+	border: 1px solid #d5e5da;
 }
 
 .span-menu:hover {
 	background-color: #f9f9f9;
 	border-radius: 3px;
-	border: 1px solid #e5ddd5;
+	border: 1px solid #d5e5da;
 }
 
 .tbl-generic {
-	border: 1px solid #e5ddd5;
+	border: 1px solid #d5e5da;
 	font-size: 12px;
 }
 
 .tbl-generic tr td {
-	border: 1px solid #e5ddd5;
+	border: 1px solid #d5e5da;
 	padding: 5px;
 }
 
 .tbl-info {
-	border: 1px solid #e5ddd5;
+	border: 1px solid #d5e5da;
 	font-size: 12px;
 }
 
 .tbl-info tr td {
-	border: 1px solid #e5ddd5;
+	border: 1px solid #d5e5da;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	padding-left: 5px;
