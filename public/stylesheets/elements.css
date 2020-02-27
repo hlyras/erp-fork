@@ -29,7 +29,7 @@ a {
 
 .underline {
 	margin: auto;
-	border-bottom: 1px solid #d5e5da;
+	border-bottom: 1px solid #dbe0d9;
 	width: 90%;
 	padding-bottom: 5px;
 	margin-bottom: 10px
@@ -46,7 +46,7 @@ a {
      padding:5px;
      font: inherit;
      /*border is optional*/
-     border:1px solid #d5e5da;
+     border:1px solid #dbe0d9;
      cursor: pointer;
 }
 
@@ -88,7 +88,7 @@ a {
 
 .btn-submit {
 	background-color: #000;
-	color: #d5e5da;
+	color: #dbe0d9;
 	font-size: 12px;
 	width:130px;
 	height: 30px;
@@ -97,7 +97,7 @@ a {
 	font-family: "HelveticaNeue-Light";
 	text-align: center;
 	border-radius: 5px;
-	border: 2px outset #d5e5da;
+	border: 2px outset #dbe0d9;
 }
 
 .btn-submit:hover {
@@ -201,32 +201,32 @@ a {
 	margin: 5px;
 	cursor: pointer;
 	background-color: #f0f0f0;
-	border: 1px solid #d5e5da;
+	border: 1px solid #dbe0d9;
 }
 
 .span-menu:hover {
 	background-color: #f9f9f9;
 	border-radius: 3px;
-	border: 1px solid #d5e5da;
+	border: 1px solid #dbe0d9;
 }
 
 .tbl-generic {
-	border: 1px solid #d5e5da;
+	border: 1px solid #dbe0d9;
 	font-size: 12px;
 }
 
 .tbl-generic tr td {
-	border: 1px solid #d5e5da;
+	border: 1px solid #dbe0d9;
 	padding: 5px;
 }
 
 .tbl-info {
-	border: 1px solid #d5e5da;
+	border: 1px solid #dbe0d9;
 	font-size: 12px;
 }
 
 .tbl-info tr td {
-	border: 1px solid #d5e5da;
+	border: 1px solid #dbe0d9;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	padding-left: 5px;
