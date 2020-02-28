@@ -42,8 +42,17 @@ const productController = {
 
 		const production = {
 			storage_id: req.body.storage_id,
-			products: JSON.parse(req.body.products)
+			products: JSON.parse(req.body.products),
+			feedstocks: []
 		};
+
+		//gettin feedstocks used by every production.products
+		// for(i in production.products){
+		// 	var product_feedstocks = await Product.feedstockList(production.products[i].id);
+		// 	for(j in product_feedstocks){
+		// 		production.products[i].feedstocks.push(product_feedstocks[j]);
+		// 	};
+		// };
 
 		var product_feedstocks_array = [];
 

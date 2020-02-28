@@ -35,7 +35,8 @@ $(() => {
 			name: splitedProduct[1],
 			color: splitedProduct[2],
 			size: splitedProduct[3],
-			amount: parseInt(amount)
+			amount: parseInt(amount),
+			feedstocks: []
 		};
 
 		for(i in product_production_kart){
@@ -92,17 +93,6 @@ $(() => {
 					};
 					return array;
 				}, response.feedstocks);
-
-				function verifyStorage(request, param, storage, param){
-					console.log(request, param, storage, param);
-
-					
-					
-				};
-
-				const result = verifyStorage(response.feedstocks, 'amount', response.storage_feedstocks, 'amount');
-				
-				console.log(result);
 
 				var html = "";
 				html += "<tr>";
