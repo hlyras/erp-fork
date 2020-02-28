@@ -111,6 +111,24 @@ Product.removeImage = async (image_id) => {
 	return db(query);
 };
 
+Product.productionSave = async (production) => {
+	let query = "INSERT INTO cms_wt_erp.product_production (date, full_date, storage_id, user) VALUES ('"
+		+production.date+"', '"
+		+production.full_date+"', '"
+		+production.storage_id+"', '"
+		+production.user+"');";
+	return db(query);
+};
+
+Product.productionSaveProduct = async (production_id, product) => {
+	let query = "INSERT INTO cms_wt_erp.product_production_product (production_id, product_id, product_info, amount) VALUES ('"
+		+production_id+"', '"
+		+product.id+"', '"
+		+product.info+"', '"
+		+product.amount+"');";
+	return db(query);
+};
+
 Product.categorySave = async (category) => {
 	let query = "INSERT INTO backup.product_category (name, shortcut) VALUES ('"+category.name+"','"+category.shortcut+"');";
 	return db(query);

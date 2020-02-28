@@ -293,8 +293,8 @@ const feedstockController = {
 			supplier_id: req.body.supplier_id,
 			supplier_name: req.body.supplier_name,
 			value: req.body.total_value,
-			user: req.user.name,
-			storage_id: req.body.storage_id
+			storage_id: req.body.storage_id,
+			user: req.user.name
 		};
 
 		try {

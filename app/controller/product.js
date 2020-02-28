@@ -1,6 +1,8 @@
 const User = require('../model/user');
 const userController = require('./user');
 
+const lib = require('../../config/lib');
+
 const Product = require('../model/product');
 const Feedstock = require('../model/feedstock');
 
@@ -43,24 +45,18 @@ const productController = {
 		const production = {
 			storage_id: req.body.storage_id,
 			products: JSON.parse(req.body.products),
-			feedstocks: []
+			feedstocks: {
+				enough: [],
+				notEnough: []
+			}
 		};
 
-		//gettin feedstocks used by every production.products
-		// for(i in production.products){
-		// 	var product_feedstocks = await Product.feedstockList(production.products[i].id);
-		// 	for(j in product_feedstocks){
-		// 		production.products[i].feedstocks.push(product_feedstocks[j]);
-		// 	};
-		// };
-
-		var product_feedstocks_array = [];
-
+		let product_feedstocks_array = [];
 		for(i in production.products){
-			var product_feedstocks = await Product.feedstockList(production.products[i].id);
-			
-			for(i in product_feedstocks){
-				product_feedstocks_array.push(product_feedstocks[i]);
+			let product_feedstocks = await Product.feedstockList(production.products[i].id);
+			for(j in product_feedstocks){
+				product_feedstocks_array.push(product_feedstocks[j]);
+				production.products[i].feedstocks.push(product_feedstocks[j])
 			};
 		};
 
@@ -73,8 +69,7 @@ const productController = {
 			return array;
 		}, product_feedstocks_array);
 
-		var production_feedstocks = [];
-
+		let production_feedstocks = [];
 		production_feedstocks = product_feedstocks_array.reduce((array, feedstock) => {
 			for(i in array){
 				if(array[i].feedstock_id == feedstock.feedstock_id){
@@ -86,19 +81,112 @@ const productController = {
 			return array;
 		}, production_feedstocks);
 
-		var feedstocks = [];
 		for(i in production_feedstocks){
-			var feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
-			feedstocks.push(feedstock[0]);
+			// needed to create a variable to handle async problem down in next coment
+			let feedstockAmount = production_feedstocks[i].amount;
+			let feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
+			let storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [production.storage_id, feedstock[0].id]);
+			// if use production_feedstocks[i].amount instead variable the value is broken
+			feedstock[0].amount = feedstockAmount;
+			feedstock[0].amountInStorage = storage_feedstock[0].amount;
+			if(feedstock[0].amount > feedstock[0].amountInStorage){
+				production.feedstocks.notEnough.push(feedstock[0]);
+			} else {
+				production.feedstocks.enough.push(feedstock[0]);
+			};
 		};
 
-		var storage_feedstocks = [];
-		for(i in feedstocks){
-			var storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [production.storage_id, feedstocks[i].id]);
-			storage_feedstocks.push(storage_feedstock[0]);
+		res.send({ production });
+	},
+	productionSave: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
-		
-		res.send({ production_feedstocks, feedstocks, storage_feedstocks });
+
+		const production = {
+			date: lib.genPatternDate(),
+			full_date: lib.genFullDate(),
+			storage_id: req.body.storage_id,
+			user: req.user.name,
+			products: JSON.parse(req.body.products),
+			feedstocks: {
+				enough: [],
+				notEnough: []
+			}
+		};
+
+		let product_feedstocks_array = [];
+		for(i in production.products){
+			let product_feedstocks = await Product.feedstockList(production.products[i].id);
+			for(j in product_feedstocks){
+				product_feedstocks_array.push(product_feedstocks[j]);
+				production.products[i].feedstocks.push(product_feedstocks[j])
+			};
+		};
+
+		product_feedstocks_array = production.products.reduce((array, production_product) => {
+			for(i in array){
+				if(array[i].product_id == production_product.id){
+					array[i].amount = array[i].amount * production_product.amount;
+				};
+			};
+			return array;
+		}, product_feedstocks_array);
+
+		let production_feedstocks = [];
+		production_feedstocks = product_feedstocks_array.reduce((array, feedstock) => {
+			for(i in array){
+				if(array[i].feedstock_id == feedstock.feedstock_id){
+					array[i].amount += feedstock.amount;
+					return array;
+				};
+			};
+			array.push(feedstock);
+			return array;
+		}, production_feedstocks);
+
+		for(i in production_feedstocks){
+			// needed to create a variable to handle async problem down in next coment
+			let feedstockAmount = production_feedstocks[i].amount;
+			let feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
+			let storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [production.storage_id, feedstock[0].id]);
+			// if use production_feedstocks[i].amount instead variable the value is broken
+			feedstock[0].amount = feedstockAmount;
+			feedstock[0].amountInStorage = storage_feedstock[0].amount;
+			if(feedstock[0].amount > feedstock[0].amountInStorage){
+				production.feedstocks.notEnough.push(feedstock[0]);
+			} else {
+				production.feedstocks.enough.push(feedstock[0]);
+			};
+		};
+
+		if(production.feedstocks.notEnough.length){
+			return res.send({ msg: "Não há matéria-prima suficiente para produzir todos os produtos.", production });
+		} else if(!production.products.length){
+			return res.send({ msg: "É necessário incluir ao menos 1 produto para solicitar produção." });
+		} else {
+			try {
+				const production_saved = await Product.productionSave(production);
+				for(i in production.products){
+					let product = {
+						id: production.products[i].id,
+						info: production.products[i].name +" | "+ production.products[i].color +" | "+ production.products[i].size,
+						amount: production.products[i].amount
+					};
+					await Product.productionSaveProduct(production_saved.insertId, product);
+				};
+				for(i in production.feedstocks){
+					console.log(production.feedstocks[i]);
+					// let feedstock = {
+					// 	id: production.feedstocks[i].
+					// };
+				};
+				res.send({ done: "Produção solicitada com sucesso, vá em 'Feedstock > Estoque' para confirmar a saída." })
+			} catch (err){
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao solicitar produção." });
+			};
+		};
 	},
 	// API CONTROLLERS
 	list: async (req, res) => {

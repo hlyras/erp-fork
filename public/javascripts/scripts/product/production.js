@@ -42,7 +42,7 @@ $(() => {
 		for(i in product_production_kart){
 			if(product_production_kart[i].id == product.id){
 				document.getElementById('product-production-kart-submit').disabled = false;
-				return alert("Você já incluiu esta matéria-prima na lista de compras.");
+				return alert("Você já incluiu este produto na lista de produção.");
 			};
 		};
 
@@ -56,6 +56,7 @@ $(() => {
 		renderProductProductionKart(product_production_kart);
 
 		document.getElementById("product-production-simulation-box").style.display = "none";
+		document.getElementById("product-production-form").style.display = "none";
 		
 		document.getElementById("product-production-kart-form").elements.namedItem('product_amount').value = "";
 		document.getElementById("product-production-kart-submit").disabled = false;
@@ -81,19 +82,6 @@ $(() => {
 				products: JSON.stringify(product_production_kart)
 			},
 			success: (response) => {
-				console.log(response);
-				response.feedstocks = response.production_feedstocks.reduce((array, production_feedstock) => {
-					for(i in array){
-						for(j in response.storage_feedstocks){
-							if(array[i].id == production_feedstock.feedstock_id && array[i].id == response.storage_feedstocks[j].feedstock_id){
-								array[i].amount = production_feedstock.amount;
-								array[i].amountInStorage = response.storage_feedstocks[j].amount;
-							};
-						};
-					};
-					return array;
-				}, response.feedstocks);
-
 				var html = "";
 				html += "<tr>";
 				html += "<td>Cód</td>";
@@ -103,19 +91,40 @@ $(() => {
 				html += "<td>Estoque</td>";
 				html += "<td>Qtd</td>";
 				html += "</tr>";
-				for(i in response.feedstocks){
+				for(i in response.production.feedstocks.enough){
 					html += "<tr>";
-					html += "<td>"+response.feedstocks[i].code+"</td>";
-					html += "<td>"+response.feedstocks[i].name+"</td>";
-					html += "<td>"+response.feedstocks[i].color+"</td>";
-					html += "<td>"+response.feedstocks[i].amount+""+response.feedstocks[i].uom+"</td>";
-					html += "<td>"+response.feedstocks[i].amountInStorage+""+response.feedstocks[i].uom+"</td>";
-					html += "<td>"+lib.roundValue(response.feedstocks[i].amount/response.feedstocks[i].standard)+"</td>";
+					html += "<td>"+response.production.feedstocks.enough[i].code+"</td>";
+					html += "<td>"+response.production.feedstocks.enough[i].name+"</td>";
+					html += "<td>"+response.production.feedstocks.enough[i].color+"</td>";
+					html += "<td>"+response.production.feedstocks.enough[i].amount+""+response.production.feedstocks.enough[i].uom+"</td>";
+					html += "<td>"+response.production.feedstocks.enough[i].amountInStorage+""+response.production.feedstocks.enough[i].uom+"</td>";
+					html += "<td>"+lib.roundValue(response.production.feedstocks.enough[i].amount/response.production.feedstocks.enough[i].standard)+"</td>";
+					html += "</tr>";
+				};
+				if(response.production.feedstocks.notEnough.length){
+					html += "<tr><td>---</td><td>ESTOQUE INSUFICIENTE</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
+				};
+				for(i in response.production.feedstocks.notEnough){
+					html += "<tr>";
+					html += "<td>"+response.production.feedstocks.notEnough[i].code+"</td>";
+					html += "<td>"+response.production.feedstocks.notEnough[i].name+"</td>";
+					html += "<td>"+response.production.feedstocks.notEnough[i].color+"</td>";
+					html += "<td>"+response.production.feedstocks.notEnough[i].amount+""+response.production.feedstocks.notEnough[i].uom+"</td>";
+					html += "<td>"+response.production.feedstocks.notEnough[i].amountInStorage+""+response.production.feedstocks.notEnough[i].uom+"</td>";
+					html += "<td>"+lib.roundValue(response.production.feedstocks.notEnough[i].amount/response.production.feedstocks.notEnough[i].standard)+"</td>";
 					html += "</tr>";
 				};
 
 				document.getElementById("product-production-simulation-box").style.display = "block";
 				document.getElementById("product-production-simulation-tbl").innerHTML = html;
+
+				if(!response.production.feedstocks.notEnough.length){
+					document.getElementById("product-production-form").style.display = "block";
+					document.getElementById("product-production-form").elements.namedItem("storage_id").value = storage_id;
+					document.getElementById("product-production-form").elements.namedItem("storage_id").disabled = true;
+				} else {
+					document.getElementById("product-production-form").style.display = "none";
+				};
 
 				document.getElementById("product-production-simulation").elements.namedItem("submit").disabled = false;
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
@@ -132,6 +141,20 @@ $(() => {
 			alert("É necessário selecionar o estoque que irá suprir os materiais.");
 			return document.getElementById('product-production-submit').disabled = false;
 		};
+
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		$.ajax({
+			url: "/product/production/save",
+			method: "post",
+			data: {
+				storage_id: storage_id,
+				products: JSON.stringify(product_production_kart)
+			},
+			success: (response) => {
+				console.log(response);
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+			}
+		});
 	});
 });
 
@@ -171,6 +194,8 @@ function removeProductFromProductionKart(id){
 	updateProductProductionLocalStorage(product_production_kart);
 	renderProductProductionKart(product_production_kart);
 	document.getElementById("product-production-simulation-box").style.display = "none";
+	document.getElementById("product-production-form").style.display = "none";
+
 };
 
 function updateProductProductionLocalStorage(kart){
