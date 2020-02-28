@@ -96,12 +96,12 @@ a {
 	font-weight: bold;
 	font-family: "HelveticaNeue-Light";
 	text-align: center;
-	border-radius: 5px;
+	border-radius: 20px;
 	border: 2px outset #f0f0f0;
 }
 
 .btn-submit:hover {
-	background-color: #35453a;
+	background-color: #000;
 }
 
 .btn-generic-date-day {
@@ -187,7 +187,7 @@ a {
 }
 
 .tbl-show-link:hover {
-	background-color: #dfefe4;
+	background-color: #cfcfcf;
 }
 
 .span-menu {
