@@ -129,6 +129,36 @@ Product.productionSaveProduct = async (production_id, product) => {
 	return db(query);
 };
 
+Product.productionSaveFeedstock = async (production_id, feedstock) => {
+	let query = "INSERT INTO cms_wt_erp.product_production_feedstock (production_id, feedstock_id, feedstock_info, feedstock_uom, amount) VALUES ('"
+		+production_id+"', '"
+		+feedstock.id+"', '"
+		+feedstock.info+"', '"
+		+feedstock.uom+"', '"
+		+feedstock.amount+"');";
+	return db(query);
+};
+
+Product.productionFilter = async (periodStart, periodEnd, params, values) => {
+	let query = lib.filterByPeriod(periodStart, periodEnd, params, values, "cms_wt_erp", "product_production", "id", "DESC");
+	return db(query);
+};
+
+Product.productionFindById = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.product_production WHERE id='"+id+"';";
+	return db(query);
+};
+
+Product.productionListProducts = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.product_production_product WHERE production_id='"+id+"';";
+	return db(query);
+};
+
+Product.productionListFeedstocks = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.product_production_feedstock WHERE production_id='"+id+"';";
+	return db(query);
+};
+
 Product.categorySave = async (category) => {
 	let query = "INSERT INTO backup.product_category (name, shortcut) VALUES ('"+category.name+"','"+category.shortcut+"');";
 	return db(query);

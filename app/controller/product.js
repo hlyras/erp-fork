@@ -175,17 +175,64 @@ const productController = {
 					};
 					await Product.productionSaveProduct(production_saved.insertId, product);
 				};
-				for(i in production.feedstocks){
-					console.log(production.feedstocks[i]);
-					// let feedstock = {
-					// 	id: production.feedstocks[i].
-					// };
+				for(i in production.feedstocks.enough){
+					let feedstock = {
+						id: production.feedstocks.enough[i].id,
+						info: production.feedstocks.enough[i].name +" | "+ production.feedstocks.enough[i].color,
+						uom: production.feedstocks.enough[i].uom,
+						amount: production.feedstocks.enough[i].amount
+					};
+					await Product.productionSaveFeedstock(production_saved.insertId, feedstock);
 				};
 				res.send({ done: "Produção solicitada com sucesso, vá em 'Feedstock > Estoque' para confirmar a saída." })
 			} catch (err){
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao solicitar produção." });
 			};
+		};
+	},
+	productionFindById: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		try {
+			const production = await Product.productionFindById(req.params.id);
+			const production_products = await Product.productionListProducts(req.params.id)
+			const production_feedstocks = await Product.productionListFeedstocks(req.params.id)
+			res.send({ production, production_products, production_feedstocks });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Erro ao encontrar a produção" });
+		};
+	},
+	productionFilter: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		let params = [];
+		let values = [];
+
+		if(req.body.product_production_periodStart && req.body.product_production_periodEnd){
+			var periodStart = req.body.product_production_periodStart;
+			var periodEnd = req.body.product_production_periodEnd;
+		} else {
+			var periodStart = "";
+			var periodEnd = "";
+		};
+
+		if(req.body.product_production_status){
+			params.push("status");
+			values.push(req.body.product_production_status);
+		};
+
+		try{
+			const productions = await Product.productionFilter(periodStart, periodEnd, params, values);
+			res.send({ productions });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao filtrar as produções, favor contatar o suporte." });
 		};
 	},
 	// API CONTROLLERS

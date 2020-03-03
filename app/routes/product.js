@@ -32,5 +32,7 @@ router.get('/colorList', productController.colorList);
 router.get('/production', productController.production);
 router.post('/production/simulate', productController.productionSimulate);
 router.post('/production/save', productController.productionSave);
+router.post('/production/filter', productController.productionFilter);
+router.get('/production/id/:id', productController.productionFindById);
 
 module.exports = router;

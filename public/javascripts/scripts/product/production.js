@@ -17,12 +17,12 @@ $(() => {
 		var amount = document.getElementById("product-production-kart-form").elements.namedItem('product_amount').value;
 
 		if(product_id.value < 1 || !product_id.value){
-			alert("É necessário selecionar a matéria-prima");
+			alert("É necessário selecionar um produto.");
 			return document.getElementById('product-production-kart-submit').disabled = false;
 		};
 
 		if(amount < 0.01 || !amount){
-			alert("É necessário preencher a quantidade de matéria-prima que será comprada.");
+			alert("É necessário preencher a quantidade de produtos que serão produzidos.");
 			return document.getElementById('product-production-kart-submit').disabled = false;
 		};
 
@@ -70,6 +70,11 @@ $(() => {
 
 		if(storage_id < 1 || !storage_id){
 			alert("É necessário selecionar o estoque que irá suprir os materiais.");
+			return document.getElementById("product-production-simulation").elements.namedItem("submit").disabled = false;
+		};
+
+		if(!product_production_kart.length){
+			alert("É necessário selecionar algum produto para solicitar produção.");
 			return document.getElementById("product-production-simulation").elements.namedItem("submit").disabled = false;
 		};
 
@@ -134,6 +139,7 @@ $(() => {
 
 	$("#product-production-form").on('submit', (event)=>{
 		event.preventDefault();
+		document.getElementById('product-production-submit').disabled = true;
 
 		const storage_id = document.getElementById("product-production-form").elements.namedItem("storage_id").value;
 
@@ -142,7 +148,13 @@ $(() => {
 			return document.getElementById('product-production-submit').disabled = false;
 		};
 
+		if(!product_production_kart.length){
+			alert("É necessário selecionar algum produto para solicitar produção.");
+			return document.getElementById("product-production-simulation").elements.namedItem("submit").disabled = false;
+		};
+
 		document.getElementById('ajax-loader').style.visibility = 'visible';
+		
 		$.ajax({
 			url: "/product/production/save",
 			method: "post",
@@ -151,7 +163,31 @@ $(() => {
 				products: JSON.stringify(product_production_kart)
 			},
 			success: (response) => {
-				console.log(response);
+				if(response.unauthorized){
+					alert(response.unauthorized);
+					window.location.href = '/login';
+					return;
+				};
+
+				if(response.msg){
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
+					alert(response.msg);
+					return document.getElementById('product-production-submit').disabled = false;
+				};
+
+				alert(response.done);
+
+				product_production_kart = [];
+
+				document.getElementById("product-production-simulation-box").style.display = "block";
+				document.getElementById("product-production-simulation-tbl").innerHTML = "";
+
+				updateProductProductionLocalStorage(product_production_kart);
+				renderProductProductionKart(product_production_kart);
+			
+				document.getElementById('product-production-submit').disabled = false;
+				
+				document.getElementById("product-production-form").style.display = "none";
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
 			}
 		});

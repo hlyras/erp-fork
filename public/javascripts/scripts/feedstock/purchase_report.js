@@ -114,6 +114,7 @@ function renderFeedstockPurchasesStorage(purchases, pageSize, page, location, ad
 };
 
 function showFeedstockPurchase(id, admin){
+	document.getElementById("product-production-show-box").style.display = "none";
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 
 	$.ajax({
@@ -176,7 +177,7 @@ function showFeedstockPurchase(id, admin){
 				html += "</tr>";
 			};
 
-			document.getElementById("feedstock-purchase-product-show-tbl").innerHTML = html;
+			document.getElementById("feedstock-purchase-feedstock-show-tbl").innerHTML = html;
 
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
