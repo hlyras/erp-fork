@@ -154,11 +154,12 @@ $(() => {
 				
 				if(document.getElementById('feedstock-supplier-storage-box').style.display == "block"){
 					listFeedstockSupplierStorage(document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('supplier_id').value, "table", true);
-					
 				};
 
+				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('id').value = "";
+				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id').disabled = false;
 				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_value').value = "0.00";
-					
+
 				document.getElementById('feedstock-supplier-addFeedstock-submit').disabled = false;
 			}
 		});
@@ -326,6 +327,7 @@ function renderFeedstockSupplierStorage(feedstocks, admin){
 			html += "<td class='nowrap'>$"+feedstocks[i].value+"/"+feedstocks[i].feedstock_uom+"</td>";
 		};
 		if(admin){
+			html += "<td><a class='tbl-show-link nowrap' onclick='editSupplierFeedstock("+feedstocks[i].id+", "+feedstocks[i].feedstock_id+", "+feedstocks[i].value+", "+feedstocks[i].supplier_id+")'>Edit</a></td>";
 			html += "<td><a class='tbl-show-link nowrap' onclick='removeSupplierFeedstock("+feedstocks[i].id+", "+feedstocks[i].supplier_id+")'>Rem</a></td>";
 		}
 		html += "</tr>";
@@ -344,31 +346,52 @@ function fillFeedstockSupplierStorage(feedstocks){
 	document.getElementById("feedstock-purchase-kart-form").elements.namedItem("feedstock_id").innerHTML = html;
 };
 
-function removeSupplierFeedstock(id, supplier_id){
+function editSupplierFeedstock(id, feedstock_id, feedstock_value, supplier_id){
 	document.getElementById('ajax-loader').style.visibility = 'visible';
-	
+		
 	$.ajax({
-		url: "/feedstock/supplier/storage/remove/id/"+id,
-		method: "get",
-		success: (response) => {
-			if(response.unauthorized){
-				alert(response.unauthorized);
-				window.location.href = '/login';
-				return;
-			};
-			
-			if(response.msg){
-				document.getElementById('ajax-loader').style.visibility = 'hidden';
-				return alert(response.msg);
-			};
+		url: '/feedstock/id/'+feedstock_id,
+		method: 'get',
+		success: function(feedstock){
+			document.getElementById("feedstock-supplier-addFeedstock-div").style.display = "block";
 
-			alert(response.done);
+			document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('id').value = id;
+			document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id').innerHTML = "<option value="+feedstock[0].id+">"+feedstock[0].code+" | "+feedstock[0].name+" | "+feedstock[0].color+" | "+feedstock[0].uom+"</option>";
+			document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id').disabled = true;
+			document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_value').value = feedstock_value;
 
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
-
-			if(document.getElementById('feedstock-supplier-storage-box').style.display == "block"){
-				listFeedstockSupplierStorage(supplier_id, "table", true);
-			};
 		}
 	});
+};
+
+function removeSupplierFeedstock(id, supplier_id){
+	let r = confirm("Deseja realmente remover esta matéria-prima? Não será possível recupera-lá.");
+	if(r){
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		$.ajax({
+			url: "/feedstock/supplier/storage/remove/id/"+id,
+			method: "get",
+			success: (response) => {
+				if(response.unauthorized){
+					alert(response.unauthorized);
+					window.location.href = '/login';
+					return;
+				};
+				
+				if(response.msg){
+					document.getElementById('ajax-loader').style.visibility = 'hidden';
+					return alert(response.msg);
+				};
+
+				alert(response.done);
+
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+
+				if(document.getElementById('feedstock-supplier-storage-box').style.display == "block"){
+					listFeedstockSupplierStorage(supplier_id, "table", true);
+				};
+			}
+		});
+	};
 };

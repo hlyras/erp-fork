@@ -215,18 +215,29 @@ const feedstockController = {
 			return res.redirect('/');
 		};
 
-		const insert = {
+		const insertion = {
+			id: req.body.id,
 			supplier_id: req.body.supplier_id,
 			feedstock_id: req.body.feedstock_id,
 			value: req.body.feedstock_value
 		};
 
-		try {
-			await Feedstock.supplierAddFeedstock(insert);
-			res.send({ done: 'Matéria-prima incluída com sucesso!' });
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: 'Erro ao incluir matéria-prima!' });
+		if(insertion.id){
+			try {
+				await Feedstock.supplierUpdateFeedstock(insertion);
+				res.send({ done: 'Matéria-prima atualizada com sucesso!' });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: 'Erro ao incluir matéria-prima!' });
+			};
+		} else {
+			try {
+				await Feedstock.supplierAddFeedstock(insertion);
+				res.send({ done: 'Matéria-prima incluída com sucesso!' });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: 'Erro ao incluir matéria-prima!' });
+			};
 		};
 	},
 	supplierRemoveFeedstock: async(req, res) => {

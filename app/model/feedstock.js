@@ -94,6 +94,11 @@ Feedstock.supplierAddFeedstock = async (insertion) => {
 	return db(query);
 };
 
+Feedstock.supplierUpdateFeedstock = async (insertion) => {
+	let query = "UPDATE cms_wt_erp.feedstock_supplier_storage SET value='"+insertion.value+"' WHERE id='"+insertion.id+"';";
+	return db(query);
+};
+
 Feedstock.supplierRemoveFeedstock = async (id) => {
 	let query = "DELETE FROM cms_wt_erp.feedstock_supplier_storage WHERE id='"+id+"';";
 	return db(query);

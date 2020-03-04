@@ -142,7 +142,6 @@ function editProductFeedstock(id, feedstock_id, feedstock_amount, product_id){
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
 	});
-
 };
 
 function removeProductFeedstock(id, product_id){

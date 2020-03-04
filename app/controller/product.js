@@ -205,7 +205,6 @@ const productController = {
 		try {
 			await Product.productionConfirm(option);
 			const production_feedstocks = await Product.productionListFeedstocks(option.production_id);
-			console.log(production_feedstocks);
 			for(i in production_feedstocks){
 				var option = {
 					feedstock_id: production_feedstocks[i].feedstock_id,
@@ -396,6 +395,8 @@ const productController = {
 			feedstock_id: req.body.feedstock_id,
 			amount: parseFloat(req.body.feedstock_amount)
 		};
+
+		console.log(insertion);
 
 		if(!insertion.id || insertion.id < 1){
 			try {
