@@ -139,6 +139,11 @@ Product.productionSaveFeedstock = async (production_id, feedstock) => {
 	return db(query);
 };
 
+Product.productionConfirm = async (option) => {
+	let query = "UPDATE cms_wt_erp.product_production SET status='Pedido confirmado', confirmation_user='"+option.user+"' WHERE id='"+option.production_id+"';";
+	return db(query);
+};
+
 Product.productionFilter = async (periodStart, periodEnd, params, values) => {
 	let query = lib.filterByPeriod(periodStart, periodEnd, params, values, "cms_wt_erp", "product_production", "id", "DESC");
 	return db(query);

@@ -121,11 +121,6 @@ Feedstock.purchaseSave = async (purchase) => {
 	return db(query);
 };
 
-Feedstock.purchaseConfirm = async (option) => {
-	let query = "UPDATE cms_wt_erp.feedstock_purchase SET status='Pedido confirmado', confirmation_user='"+option.user+"' WHERE id='"+option.purchase_id+"';";
-	return db(query);
-};
-
 Feedstock.purchaseSaveProduct = async (option) => {
 	let query = "INSERT INTO cms_wt_erp.feedstock_purchase_product (purchase_id, feedstock_id, feedstock_info, amount, feedstock_uom, feedstock_value) VALUES ('"
 		+option.purchase_id+"', '"
@@ -134,6 +129,11 @@ Feedstock.purchaseSaveProduct = async (option) => {
 		+option.amount+"', '"
 		+option.feedstock_uom+"', '"
 		+option.feedstock_value+"');";
+	return db(query);
+};
+
+Feedstock.purchaseConfirm = async (option) => {
+	let query = "UPDATE cms_wt_erp.feedstock_purchase SET status='Pedido confirmado', confirmation_user='"+option.user+"' WHERE id='"+option.purchase_id+"';";
 	return db(query);
 };
 
@@ -166,12 +166,12 @@ Feedstock.insertInStorage = async (insert) => {
 };
 
 Feedstock.increaseStorageFeedstockAmount = async (option) => {
-	let query = "UPDATE cms_wt_erp.feedstock_storage SET amount=amount + '"+option.amount+"' WHERE storage_id='"+option.storage_id+"' and feedstock_id='"+option.feedstock_id+"';";
+	let query = "UPDATE cms_wt_erp.feedstock_storage SET amount=amount + '"+option.amount+"' WHERE storage_id='"+option.storage_id+"' AND feedstock_id='"+option.feedstock_id+"';";
 	return db(query);
 };
 
 Feedstock.decreaseStorageFeedstockAmount = async (option) => {
-	let query = "UPDATE cms_wt_erp.feedstock_storage SET amount=amount - '"+option.amount+"' WHERE storage_id='"+option.storage_id+"' and feedstock_id='"+option.feedstock_id+"';"
+	let query = "UPDATE cms_wt_erp.feedstock_storage SET amount=amount - '"+option.amount+"' WHERE storage_id='"+option.storage_id+"' AND feedstock_id='"+option.feedstock_id+"';";
 	return db(query);
 };
 

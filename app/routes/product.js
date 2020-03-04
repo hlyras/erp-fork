@@ -14,7 +14,6 @@ router.get('/filter', productController.filter);
 router.options('/filter', productController.options);
 router.delete('/remove', productController.remove);
 
-// APPLICATION ROUTES
 router.post('/save', productController.save);
 router.post('/addimage', productController.addImage);
 router.delete('/removeimage', productController.removeImage);
@@ -32,6 +31,7 @@ router.get('/colorList', productController.colorList);
 router.get('/production', productController.production);
 router.post('/production/simulate', productController.productionSimulate);
 router.post('/production/save', productController.productionSave);
+router.put('/production/confirm', productController.productionConfirm);
 router.post('/production/filter', productController.productionFilter);
 router.get('/production/id/:id', productController.productionFindById);
 

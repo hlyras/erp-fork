@@ -77,7 +77,7 @@ function renderProductProductionFeedstockStorage(productions, pageSize, page, lo
 		html += "<td>"+productions[i].user+"</td>";
 		html += "<td>"+productions[i].status+"</td>";
 		if(productions[i].status == "Pedido solicitado"){
-			html += "<td><a class='tbl-show-link nowrap' onclick='confirmFeedstockPurchase("+productions[i].id+","+productions[i].storage_id+")'>Confirmar</td>";
+			html += "<td><a class='tbl-show-link nowrap' onclick='confirmProductProduction("+productions[i].id+","+productions[i].storage_id+")'>Confirmar</td>";
 		} else if(productions[i].status == "Pedido confirmado"){
 			html += "<td>"+productions[i].confirmation_user+"</td>";
 		};
@@ -154,9 +154,28 @@ function showProductProduction(id, admin){
 
 			document.getElementById("product-production-feedstock-show-tbl").innerHTML = html;
 
-			// console.log(response);
-
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
 	});
+};
+
+function confirmProductProduction(production_id, storage_id){
+	const r = confirm("Deseja confirmar a saída do estoque?");
+
+	if(r){
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		$.ajax({
+			url: "/product/production/confirm",
+			method: "put",
+			data: {
+				production_id: production_id,
+				storage_id: storage_id
+			},
+			success: (response) => {
+				$("#product-production-filter-form").submit();
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+				alert(response.done);
+			}
+		});
+	}
 };

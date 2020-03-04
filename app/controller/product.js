@@ -191,6 +191,35 @@ const productController = {
 			};
 		};
 	},
+	productionConfirm: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		var option = {
+			production_id: req.body.production_id,
+			storage_id: req.body.storage_id,
+			user: req.user.name
+		};
+
+		try {
+			await Product.productionConfirm(option);
+			const production_feedstocks = await Product.productionListFeedstocks(option.production_id);
+			console.log(production_feedstocks);
+			for(i in production_feedstocks){
+				var option = {
+					feedstock_id: production_feedstocks[i].feedstock_id,
+					storage_id: req.body.storage_id,
+					amount: production_feedstocks[i].amount
+				};
+				await Feedstock.decreaseStorageFeedstockAmount(option);
+			};
+			res.send({ done: "Produção confirmada com sucesso." });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Erro ao confirmar a produção, favor contatar o suporte," });
+		};
+	},
 	productionFindById: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
