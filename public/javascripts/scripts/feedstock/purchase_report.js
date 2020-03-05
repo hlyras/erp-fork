@@ -168,10 +168,10 @@ function showFeedstockPurchase(id, admin){
 			for(i in response.purchase_feedstocks){
 				html += "<tr>";
 				html += "<td>"+response.purchase_feedstocks[i].feedstock_info+"</td>";
-				html += "<td>"+response.purchase_feedstocks[i].amount+""+response.purchase_feedstocks[i].feedstock_uom+"</td>";
-				html += "<td>"+lib.roundValue(response.purchase_feedstocks[i].amount / response.purchase_feedstocks[i].feedstock_standard)+"</td>";
+				html += "<td class='nowrap'>"+response.purchase_feedstocks[i].amount+""+response.purchase_feedstocks[i].feedstock_uom+"</td>";
+				html += "<td class='nowrap'>"+lib.roundValue(response.purchase_feedstocks[i].amount / response.purchase_feedstocks[i].feedstock_standard)+"</td>";
 				if(admin){
-					html += "<td>"+response.purchase_feedstocks[i].feedstock_value+"</td>";
+					html += "<td class='nowrap'>"+response.purchase_feedstocks[i].feedstock_value+"</td>";
 					if(response.purchase_feedstocks[i].feedstock_uom == "cm"){
 						html += "<td class='nowrap'>$"+lib.roundValue((response.purchase_feedstocks[i].feedstock_value / 100) * response.purchase_feedstocks[i].amount)+"</td>";
 					} else if(response.purchase_feedstocks[i].feedstock_uom == "un"){

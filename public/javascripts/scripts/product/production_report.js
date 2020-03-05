@@ -162,7 +162,7 @@ function showProductProduction(id, admin){
 			for(i in response.production_products){
 				html += "<tr>";
 				html += "<td>"+response.production_products[i].product_info+"</td>";
-				html += "<td>"+response.production_products[i].amount+"</td>";
+				html += "<td class='nowrap'>"+response.production_products[i].amount+"</td>";
 				html += "</tr>";
 			};
 
@@ -177,8 +177,8 @@ function showProductProduction(id, admin){
 			for(i in response.production_feedstocks){
 				html += "<tr>";
 				html += "<td>"+response.production_feedstocks[i].feedstock_info+"</td>";
-				html += "<td>"+response.production_feedstocks[i].amount+""+response.production_feedstocks[i].feedstock_uom+"</td>";
-				html += "<td>"+lib.roundValue(response.production_feedstocks[i].amount / response.production_feedstocks[i].feedstock_standard)+"</td>";
+				html += "<td class='nowrap'>"+response.production_feedstocks[i].amount+""+response.production_feedstocks[i].feedstock_uom+"</td>";
+				html += "<td class='nowrap'>"+lib.roundValue(response.production_feedstocks[i].amount / response.production_feedstocks[i].feedstock_standard)+"</td>";
 				html += "</tr>";
 			};
 
