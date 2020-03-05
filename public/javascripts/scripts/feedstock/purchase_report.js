@@ -71,7 +71,7 @@ function renderFeedstockPurchasesAdmin(purchases, pageSize, page, location){
 		html += "<td><a class='tbl-show-link nowrap' onclick='showFeedstockPurchase("+purchases[i].id+", "+true+")'>"+purchases[i].id+"</td>";
 		html += "<td>"+purchases[i].full_date+"</td>";
 		html += "<td>"+purchases[i].supplier_name+"</td>";
-		html += "<td>$"+purchases[i].value+"</td>";
+		html += "<td class='nowrap'>$"+purchases[i].value+"</td>";
 		html += "<td>"+purchases[i].user+"</td>";
 		html += "<td>"+purchases[i].status+"</td>";
 		html += "</tr>"

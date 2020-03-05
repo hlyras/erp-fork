@@ -98,12 +98,12 @@ $(() => {
 				html += "</tr>";
 				for(i in response.production.feedstocks.enough){
 					html += "<tr>";
-					html += "<td>"+response.production.feedstocks.enough[i].code+"</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].code+"</td>";
 					html += "<td>"+response.production.feedstocks.enough[i].name+"</td>";
 					html += "<td>"+response.production.feedstocks.enough[i].color+"</td>";
-					html += "<td>"+response.production.feedstocks.enough[i].amount+""+response.production.feedstocks.enough[i].uom+"</td>";
-					html += "<td>"+lib.roundValue(response.production.feedstocks.enough[i].amount/response.production.feedstocks.enough[i].standard)+"</td>";
-					html += "<td>"+response.production.feedstocks.enough[i].amountInStorage+""+response.production.feedstocks.enough[i].uom+"</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].amount+""+response.production.feedstocks.enough[i].uom+"</td>";
+					html += "<td class='nowrap'>"+lib.roundValue(response.production.feedstocks.enough[i].amount/response.production.feedstocks.enough[i].standard)+"</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].amountInStorage+""+response.production.feedstocks.enough[i].uom+"</td>";
 					html += "</tr>";
 				};
 				if(response.production.feedstocks.notEnough.length){
@@ -111,12 +111,12 @@ $(() => {
 				};
 				for(i in response.production.feedstocks.notEnough){
 					html += "<tr>";
-					html += "<td>"+response.production.feedstocks.notEnough[i].code+"</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].code+"</td>";
 					html += "<td>"+response.production.feedstocks.notEnough[i].name+"</td>";
 					html += "<td>"+response.production.feedstocks.notEnough[i].color+"</td>";
-					html += "<td>"+response.production.feedstocks.notEnough[i].amount+""+response.production.feedstocks.notEnough[i].uom+"</td>";
-					html += "<td>"+lib.roundValue(response.production.feedstocks.notEnough[i].amount/response.production.feedstocks.notEnough[i].standard)+"</td>";
-					html += "<td>"+response.production.feedstocks.notEnough[i].amountInStorage+""+response.production.feedstocks.notEnough[i].uom+"</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].amount+""+response.production.feedstocks.notEnough[i].uom+"</td>";
+					html += "<td class='nowrap'>"+lib.roundValue(response.production.feedstocks.notEnough[i].amount/response.production.feedstocks.notEnough[i].standard)+"</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].amountInStorage+""+response.production.feedstocks.notEnough[i].uom+"</td>";
 					html += "</tr>";
 				};
 
