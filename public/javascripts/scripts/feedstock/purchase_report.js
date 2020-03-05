@@ -114,7 +114,9 @@ function renderFeedstockPurchasesStorage(purchases, pageSize, page, location, ad
 };
 
 function showFeedstockPurchase(id, admin){
-	document.getElementById("product-production-show-box").style.display = "none";
+	if(!admin){
+		document.getElementById("product-production-show-box").style.display = "none";
+	};
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 
 	$.ajax({
@@ -157,6 +159,7 @@ function showFeedstockPurchase(id, admin){
 			html += "<tr>";
 			html += "<td>Matéria-Prima</td>";
 			html += "<td>Qtd</td>";
+			html += "<td>Rolo/Caixa</td>";
 			if(admin){
 				html += "<td>Valor</td>";
 				html += "<td>Valor Total</td>";
@@ -166,8 +169,9 @@ function showFeedstockPurchase(id, admin){
 				html += "<tr>";
 				html += "<td>"+response.purchase_feedstocks[i].feedstock_info+"</td>";
 				html += "<td>"+response.purchase_feedstocks[i].amount+""+response.purchase_feedstocks[i].feedstock_uom+"</td>";
+				html += "<td>"+lib.roundValue(response.purchase_feedstocks[i].amount / response.purchase_feedstocks[i].feedstock_standard)+"</td>";
 				if(admin){
-				html += "<td>"+response.purchase_feedstocks[i].feedstock_value+"</td>";
+					html += "<td>"+response.purchase_feedstocks[i].feedstock_value+"</td>";
 					if(response.purchase_feedstocks[i].feedstock_uom == "cm"){
 						html += "<td class='nowrap'>$"+lib.roundValue((response.purchase_feedstocks[i].feedstock_value / 100) * response.purchase_feedstocks[i].amount)+"</td>";
 					} else if(response.purchase_feedstocks[i].feedstock_uom == "un"){

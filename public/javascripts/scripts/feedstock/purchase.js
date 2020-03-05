@@ -41,7 +41,8 @@ $(() => {
 			color: splitedFeedstock[2],
 			uom: splitedFeedstock[3],
 			amount: parseFloat(amount),
-			value: splitedFeedstock[4]
+			value: splitedFeedstock[4],
+			standard: splitedFeedstock[5]
 		};
 
 		for(i in feedstock_purchase_kart){
@@ -155,6 +156,7 @@ function renderFeedstockpurchaseKart(feedstocks){
 	html += "<td>Nome</td>";
 	html += "<td>Cor</td>";
 	html += "<td>Qtd</td>";
+	html += "<td>Rolo/Caixa</td>";
 	html += "<td>Valor un</td>";
 	html += "<td>Valor</td>";
 	html += "</tr>";
@@ -164,6 +166,7 @@ function renderFeedstockpurchaseKart(feedstocks){
 		html += "<td>"+feedstocks[i].name+"</td>";
 		html += "<td>"+feedstocks[i].color+"</td>";
 		html += "<td class='nowrap'>"+feedstocks[i].amount+""+feedstocks[i].uom+"</td>";
+		html += "<td class='nowrap'>"+lib.roundValue(feedstocks[i].amount / feedstocks[i].standard)+"</td>";
 		html += "<td class='nowrap'>$"+feedstocks[i].value+"</td>";
 		if(feedstocks[i].uom == "cm"){
 			html += "<td class='nowrap'>$"+lib.roundValue((feedstocks[i].value / 100) * feedstocks[i].amount)+"</td>";

@@ -71,6 +71,7 @@ $(() => {
 							response.storageFeedstocks[i].code = response.feedstocks[j].code;
 							response.storageFeedstocks[i].name = response.feedstocks[j].name;
 							response.storageFeedstocks[i].color = response.feedstocks[j].color;
+							response.storageFeedstocks[i].standard = response.feedstocks[j].standard;
 							response.storageFeedstocks[i].uom = response.feedstocks[j].uom;
 						};
 					};
@@ -129,6 +130,7 @@ function renderAdminFeedstockStorage(feedstocks, pageSize, page, location){
 	html += "<td>Nome</td>";
 	html += "<td>Cor</td>";
 	html += "<td>Qtd</td>";
+	html += "<td>Rolo/Caixa</td>";
 	html += "<td>Un.med</td>";
 	html += "</tr>";
 	for (let i = page * pageSize; i < feedstocks.length && i < (page + 1) * pageSize;i++){
@@ -139,6 +141,7 @@ function renderAdminFeedstockStorage(feedstocks, pageSize, page, location){
 		html += "<td>"+feedstocks[i].name+"</td>";
 		html += "<td>"+feedstocks[i].color+"</td>";
 		html += "<td class='nowrap'>"+feedstocks[i].amount+"</td>";
+		html += "<td class='nowrap'>"+lib.roundValue(feedstocks[i].amount / feedstocks[i].standard)+"</td>";
 		html += "<td>"+feedstocks[i].uom+"</td>";
 		html += "</tr>";
 	};

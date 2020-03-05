@@ -363,7 +363,13 @@ const feedstockController = {
 
 		try {
 			const purchase = await Feedstock.purchaseFindById(req.params.id);
-			const purchase_feedstocks = await Feedstock.purchaseListProducts(req.params.id)
+			const purchase_feedstocks = await Feedstock.purchaseListProducts(req.params.id);
+			const feedstocks = [];
+			for(i in purchase_feedstocks){
+				let feedstock = await Feedstock.findById(purchase_feedstocks[i].feedstock_id);
+				// feedstocks.push(feedstock);
+				purchase_feedstocks[i].feedstock_standard = feedstock[0].standard;
+			};
 			res.send({ purchase, purchase_feedstocks });
 		} catch (err) {
 			console.log(err);

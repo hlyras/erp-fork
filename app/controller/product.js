@@ -37,6 +37,13 @@ const productController = {
 
 		res.render('product/production', { user: req.user, productColors, feedstockStorages });
 	},
+	productionManage: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		res.render('product/production_manage', { user: req.user });
+	},
 	productionSimulate: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
@@ -228,6 +235,10 @@ const productController = {
 			const production = await Product.productionFindById(req.params.id);
 			const production_products = await Product.productionListProducts(req.params.id)
 			const production_feedstocks = await Product.productionListFeedstocks(req.params.id)
+			for(i in production_feedstocks){
+				let feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
+				production_feedstocks[i].feedstock_standard = feedstock[0].standard;
+			};
 			res.send({ production, production_products, production_feedstocks });
 		} catch (err) {
 			console.log(err);

@@ -93,8 +93,8 @@ $(() => {
 				html += "<td>Nome</td>";
 				html += "<td>Cor</td>";
 				html += "<td>Metragem</td>";
-				html += "<td>Estoque</td>";
 				html += "<td>Qtd</td>";
+				html += "<td>Estoque</td>";
 				html += "</tr>";
 				for(i in response.production.feedstocks.enough){
 					html += "<tr>";
@@ -102,8 +102,8 @@ $(() => {
 					html += "<td>"+response.production.feedstocks.enough[i].name+"</td>";
 					html += "<td>"+response.production.feedstocks.enough[i].color+"</td>";
 					html += "<td>"+response.production.feedstocks.enough[i].amount+""+response.production.feedstocks.enough[i].uom+"</td>";
-					html += "<td>"+response.production.feedstocks.enough[i].amountInStorage+""+response.production.feedstocks.enough[i].uom+"</td>";
 					html += "<td>"+lib.roundValue(response.production.feedstocks.enough[i].amount/response.production.feedstocks.enough[i].standard)+"</td>";
+					html += "<td>"+response.production.feedstocks.enough[i].amountInStorage+""+response.production.feedstocks.enough[i].uom+"</td>";
 					html += "</tr>";
 				};
 				if(response.production.feedstocks.notEnough.length){
@@ -115,8 +115,8 @@ $(() => {
 					html += "<td>"+response.production.feedstocks.notEnough[i].name+"</td>";
 					html += "<td>"+response.production.feedstocks.notEnough[i].color+"</td>";
 					html += "<td>"+response.production.feedstocks.notEnough[i].amount+""+response.production.feedstocks.notEnough[i].uom+"</td>";
-					html += "<td>"+response.production.feedstocks.notEnough[i].amountInStorage+""+response.production.feedstocks.notEnough[i].uom+"</td>";
 					html += "<td>"+lib.roundValue(response.production.feedstocks.notEnough[i].amount/response.production.feedstocks.notEnough[i].standard)+"</td>";
+					html += "<td>"+response.production.feedstocks.notEnough[i].amountInStorage+""+response.production.feedstocks.notEnough[i].uom+"</td>";
 					html += "</tr>";
 				};
 

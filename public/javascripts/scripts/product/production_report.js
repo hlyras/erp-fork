@@ -18,8 +18,8 @@ $(() => {
 
 				function paging(){
 					if(response.productions.length){
-						if(location == "productProductionAdmin"){
-							renderProductProductionAdmin(response.productions, pageSize, page, location);
+						if(location == "productProductionManage"){
+							renderProductProductionAdmin(response.productions, pageSize, page, location, true);
 						} else if(location == "productProductionFeedstockStorage"){
 							renderProductProductionFeedstockStorage(response.productions, pageSize, page, location);
 						};
@@ -58,6 +58,36 @@ $(() => {
 	});
 })
 
+function renderProductProductionAdmin(productions, pageSize, page, location, admin){
+	var html = "";
+	html += "<tr>"
+	html += "<td>Id</td>";
+	html += "<td>Data</td>";
+	// html += "<td class='nowrap'>Valor</td>";
+	html += "<td>Usuário</td>";
+	html += "<td>Status</td>";
+	if(document.getElementById("product-production-filter-form").elements.namedItem("product_production_status").value == "Pedido confirmado"){
+		html += "<td>Confirmação</td>";
+	};
+	html += "</tr>"
+	for (let i = page * pageSize; i < productions.length && i < (page + 1) * pageSize;i++){
+		html += "<tr>"
+		html += "<td><a class='tbl-show-link nowrap' onclick='showProductProduction("+productions[i].id+", "+admin+")'>"+productions[i].id+"</td>";
+		html += "<td>"+productions[i].full_date+"</td>";
+		html += "<td>"+productions[i].user+"</td>";
+		html += "<td>"+productions[i].status+"</td>";
+		if(productions[i].status == "Pedido solicitado"){
+			html += "<td><a class='tbl-show-link nowrap' onclick='confirmProductProduction("+productions[i].id+","+productions[i].storage_id+")'>Confirmar</td>";
+		} else if(productions[i].status == "Pedido confirmado"){
+			html += "<td>"+productions[i].confirmation_user+"</td>";
+		};
+		html += "</tr>"
+	};
+
+	$("#"+location+"PageNumber").text('' + (page + 1) + ' de ' + Math.ceil(productions.length / pageSize));
+	document.getElementById("product-production-filter-tbl").innerHTML = html;
+};
+
 function renderProductProductionFeedstockStorage(productions, pageSize, page, location, admin){
 	var html = "";
 	html += "<tr>"
@@ -72,7 +102,7 @@ function renderProductProductionFeedstockStorage(productions, pageSize, page, lo
 	html += "</tr>"
 	for (let i = page * pageSize; i < productions.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>"
-		html += "<td><a class='tbl-show-link nowrap' onclick='showProductProduction("+productions[i].id+", "+false+")'>"+productions[i].id+"</td>";
+		html += "<td><a class='tbl-show-link nowrap' onclick='showProductProduction("+productions[i].id+", "+admin+")'>"+productions[i].id+"</td>";
 		html += "<td>"+productions[i].full_date+"</td>";
 		html += "<td>"+productions[i].user+"</td>";
 		html += "<td>"+productions[i].status+"</td>";
@@ -89,7 +119,9 @@ function renderProductProductionFeedstockStorage(productions, pageSize, page, lo
 };
 
 function showProductProduction(id, admin){
-	document.getElementById("feedstock-purchase-show-box").style.display = "none";
+	if(!admin){
+		document.getElementById("feedstock-purchase-show-box").style.display = "none";
+	};
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 
 	$.ajax({
@@ -113,16 +145,10 @@ function showProductProduction(id, admin){
 			html += "<tr>";
 			html += "<td class='bold'>Usuário</td>";
 			html += "<td class='bold'>Confirmação</td>";
-			if(admin){
-				html += "<td class='bold'>Valor</td>";
-			};
 			html += "</tr>";
 			html += "<tr>";
 			html += "<td>"+response.production[0].user+"</td>";
 			html += "<td class='nowrap'>"+response.production[0].confirmation_user+"</td>";
-			if(admin){
-				html += "<td>$"+response.production[0].value+"</td>";
-			};
 			html += "</tr>";
 
 			document.getElementById("product-production-show-box").style.display = "block";
@@ -130,25 +156,29 @@ function showProductProduction(id, admin){
 
 			html = "";
 			html += "<tr>";
+			html += "<td>Produtos</td>";
+			html += "<td>Qtd</td>";
+			html += "</tr>";
+			for(i in response.production_products){
+				html += "<tr>";
+				html += "<td>"+response.production_products[i].product_info+"</td>";
+				html += "<td>"+response.production_products[i].amount+"</td>";
+				html += "</tr>";
+			};
+
+			document.getElementById("product-production-product-show-tbl").innerHTML = html;
+
+			html = "";
+			html += "<tr>";
 			html += "<td>Matéria-Prima</td>";
 			html += "<td>Qtd</td>";
-			if(admin){
-				html += "<td>Valor</td>";
-				html += "<td>Valor Total</td>";
-			};
+			html += "<td>Rolo/Caixa</td>";
 			html += "</tr>";
 			for(i in response.production_feedstocks){
 				html += "<tr>";
 				html += "<td>"+response.production_feedstocks[i].feedstock_info+"</td>";
 				html += "<td>"+response.production_feedstocks[i].amount+""+response.production_feedstocks[i].feedstock_uom+"</td>";
-				if(admin){
-				html += "<td>"+response.production_feedstocks[i].feedstock_value+"</td>";
-					if(response.production_feedstocks[i].feedstock_uom == "cm"){
-						html += "<td class='nowrap'>$"+lib.roundValue((response.production_feedstocks[i].feedstock_value / 100) * response.production_feedstocks[i].amount)+"</td>";
-					} else if(response.production_feedstocks[i].feedstock_uom == "un"){
-						html += "<td class='nowrap'>$"+lib.roundValue(response.production_feedstocks[i].feedstock_value * response.production_feedstocks[i].amount)+"</td>";
-					};
-				};
+				html += "<td>"+lib.roundValue(response.production_feedstocks[i].amount / response.production_feedstocks[i].feedstock_standard)+"</td>";
 				html += "</tr>";
 			};
 

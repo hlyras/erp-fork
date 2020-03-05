@@ -277,6 +277,7 @@ function listFeedstockSupplierStorage(supplier_id, target, admin){
 						response.supplier_storage[i].feedstock_name = response.feedstocks[j].name;
 						response.supplier_storage[i].feedstock_color = response.feedstocks[j].color;
 						response.supplier_storage[i].feedstock_uom = response.feedstocks[j].uom;
+						response.supplier_storage[i].feedstock_standard = response.feedstocks[j].standard;
 					};
 				};
 			};
@@ -338,9 +339,8 @@ function renderFeedstockSupplierStorage(feedstocks, admin){
 
 function fillFeedstockSupplierStorage(feedstocks){
 	var html = "";
-
 	for(i in feedstocks){
-		html += "<option value="+feedstocks[i].feedstock_id+">"+feedstocks[i].feedstock_code+" | "+feedstocks[i].feedstock_name+" | "+feedstocks[i].feedstock_color+" | "+feedstocks[i].feedstock_uom+" | "+feedstocks[i].value+"</option>";
+		html += "<option value="+feedstocks[i].feedstock_id+">"+feedstocks[i].feedstock_code+" | "+feedstocks[i].feedstock_name+" | "+feedstocks[i].feedstock_color+" | "+feedstocks[i].feedstock_uom+" | "+feedstocks[i].value+" | "+feedstocks[i].feedstock_standard+"</option>";
 	};
 
 	document.getElementById("feedstock-purchase-kart-form").elements.namedItem("feedstock_id").innerHTML = html;
