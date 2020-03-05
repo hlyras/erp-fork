@@ -54,5 +54,9 @@
         <% include ./../partials/footer %>
         <% include ./partial %>
 		<script src="/javascripts/scripts/product/production_report.js"></script>
+		<script type="text/javascript">
+			lib.fillDateInput(document.getElementById("product-production-filter-form").elements.namedItem('product_production_periodStart'));
+        	lib.fillDateInput(document.getElementById("product-production-filter-form").elements.namedItem('product_production_periodEnd'));
+		</script>
 	</footer>
 </html>
