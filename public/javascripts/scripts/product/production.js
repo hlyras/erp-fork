@@ -11,6 +11,7 @@ if(JSON.parse(localStorage.getItem("productProductionKart")) != null){
 $(() => {
 	$("#product-production-kart-form").on('submit', (event)=>{
 		event.preventDefault();
+
 		document.getElementById("product-production-kart-submit").disabled = true;
 
 		var product_id = document.getElementById("product-production-kart-form").elements.namedItem('product_id');
@@ -87,6 +88,8 @@ $(() => {
 				products: JSON.stringify(product_production_kart)
 			},
 			success: (response) => {
+				if(API.verifyResponse(response, "product-production-simulation")){return};
+				
 				var html = "";
 				html += "<tr>";
 				html += "<td>Cód</td>";
@@ -163,17 +166,7 @@ $(() => {
 				products: JSON.stringify(product_production_kart)
 			},
 			success: (response) => {
-				if(response.unauthorized){
-					alert(response.unauthorized);
-					window.location.href = '/login';
-					return;
-				};
-
-				if(response.msg){
-					document.getElementById('ajax-loader').style.visibility = 'hidden';
-					alert(response.msg);
-					return document.getElementById('product-production-submit').disabled = false;
-				};
+				if(API.verifyResponse(response, "product-production-form")){return};
 
 				alert(response.done);
 
@@ -185,7 +178,7 @@ $(() => {
 				updateProductProductionLocalStorage(product_production_kart);
 				renderProductProductionKart(product_production_kart);
 			
-				document.getElementById('product-production-submit').disabled = false;
+				document.getElementById('product-production-form').elements.namedItem("submit").disabled = false;
 				
 				document.getElementById("product-production-form").style.display = "none";
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
@@ -231,7 +224,6 @@ function removeProductFromProductionKart(id){
 	renderProductProductionKart(product_production_kart);
 	document.getElementById("product-production-simulation-box").style.display = "none";
 	document.getElementById("product-production-form").style.display = "none";
-
 };
 
 function updateProductProductionLocalStorage(kart){

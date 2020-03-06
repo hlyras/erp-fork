@@ -202,9 +202,12 @@ function confirmProductProduction(production_id, storage_id){
 				storage_id: storage_id
 			},
 			success: (response) => {
-				$("#product-production-filter-form").submit();
-				document.getElementById('ajax-loader').style.visibility = 'hidden';
+				if(API.verifyResponse(response)){return};
+
 				alert(response.done);
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+				
+				$("#product-production-filter-form").submit();
 			}
 		});
 	}

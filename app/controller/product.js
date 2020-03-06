@@ -35,9 +35,52 @@ const productController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
+	save: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		const product = {
+			id: parseInt(req.body.id),
+			code: parseInt(req.body.code),
+			name: req.body.name,
+			color: req.body.color,
+			size: req.body.size
+		};
+
+		if(!product.code || product.code < 1 || product.code > 9999){return res.send({ msg: 'Código de produto inválido.' })};
+		if(!product.name || product.name.length > 15){return res.send({ msg: 'Preencha o nome do produto.' })};
+		if(!product.color || product.color.length > 10){return res.send({ msg: 'Preencha a cor do produto.' })};
+		if(!product.size || product.size.length > 3){return res.send({ msg: 'Preencha o tamanho do produto.' })};
+
+		try {
+			if(!product.id){
+				var row = await Product.findByCode(product.code);
+				if(row.length){return res.send({ msg: 'Este código de produto já está cadastrado.' })};
+				
+				var row = await Product.save(product);
+				let newProduct = await Product.findById(row.insertId);
+				res.send({ done: 'Produto cadastrado com sucesso!', product: newProduct });
+			} else {
+				var row = await Product.findByCode(product.code);
+				if(row.length){
+					if(row[0].id != product.id){
+						return res.send({ msg: 'Este código de produto já está cadastrado.' });
+					};
+				};
+				
+				var row = await Product.update(product);
+				let newProduct = await Product.findById(row.insertId);
+				res.send({ done: 'Produto atualizado com sucesso!', product: newProduct });
+			};
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao cadastrar o produto." });
+		};
+	},
 	list: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man', 'n/a'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -50,7 +93,7 @@ const productController = {
 	},
 	findById: async (req, res) => {
 		// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-		// 	return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		// };
 
 		try {
@@ -66,7 +109,7 @@ const productController = {
 	},
 	findByCode: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man', 'n/a'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -82,7 +125,7 @@ const productController = {
 	},
 	findByName: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man', 'n/a'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -99,7 +142,7 @@ const productController = {
 	},
 	filter: async (req, res) => {
 		// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-			// return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		// };
 
 		var params = [];
@@ -133,7 +176,7 @@ const productController = {
 	},
 	remove: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -148,7 +191,7 @@ const productController = {
 	},
 	addImage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin', 'man', 'n/a'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const image = {
@@ -156,22 +199,30 @@ const productController = {
 			url: req.query.image_url
 		};
 
-		await Product.addImage(image);
-	
-		res.send({ done: 'Imagem adicionada com sucesso!' });
+		try {
+			await Product.addImage(image);
+			res.send({ done: 'Imagem adicionada com sucesso!' });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao incluir a imagem, favor contatar o suporte." });
+		};
 	},
 	removeImage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin', 'man'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
-		await Product.removeImage(req.query.id);
-
-		res.send({ done: 'Imagem excluída!' });
+		try {
+			await Product.removeImage(req.query.id);
+			res.send({ done: 'Imagem excluída!' });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao remover a imagem do produto, favor contatar o suporte." });
+		};
 	},
 	feedstockAdd: async(req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin', 'man'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const insertion = {
@@ -181,27 +232,22 @@ const productController = {
 			amount: parseFloat(req.body.feedstock_amount)
 		};
 
-		if(!insertion.id || insertion.id < 1){
-			try {
+		try {
+			if(!insertion.id || insertion.id < 1){
 				await Product.addFeedstock(insertion);
 				res.send({ done: "Matéria-Prima adicionada com sucesso." });
-			} catch (err) {
-				console.log(err);
-				res.send({ msg: "Ocorreu um erro ao adicionar a matéria-prima." });
-			};
-		} else {
-			try {
+			} else {
 				await Product.updateFeedstock(insertion);
 				res.send({ done: "Matéria-Prima atualizada com sucesso." });
-			} catch (err) {
-				console.log(err);
-				res.send({ msg: "Ocorreu um erro ao adicionar a matéria-prima." });
 			};
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao cadastrar a matéria-prima, favor contatar o suporte." });
 		};
 	},
 	feedstockRemove: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin', 'man'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -214,7 +260,7 @@ const productController = {
 	},
 	feedstockList: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin', 'man'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -227,50 +273,12 @@ const productController = {
 			res.send({ product_feedstocks, feedstocks });
 		} catch (err) {
 			console.log(err);
-			res.send({ msg: err });
-		};
-	},
-	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
-		};
-
-		const product = {
-			id: parseInt(req.body.id),
-			code: parseInt(req.body.code),
-			name: req.body.name,
-			color: req.body.color,
-			size: req.body.size
-		};
-
-		if(!product.code || product.code < 1 || product.code > 9999){return res.send({ msg: 'Código de produto inválido.' })};
-		if(!product.name || product.name.length > 15){return res.send({ msg: 'Preencha o nome do produto.' })};
-		if(!product.color || product.color.length > 10){return res.send({ msg: 'Preencha a cor do produto.' })};
-		if(!product.size || product.size.length > 3){return res.send({ msg: 'Preencha o tamanho do produto.' })};
-
-		if(!product.id){
-			var row = await Product.findByCode(product.code);
-			if(row.length){return res.send({ msg: 'Este código de produto já está cadastrado.' })};
-			
-			var row = await Product.save(product);
-			let newProduct = await Product.findById(row.insertId);
-			res.send({ done: 'Produto cadastrado com sucesso!', product: newProduct });
-		} else {
-			var row = await Product.findByCode(product.code);
-			if(row.length){
-				if(row[0].id != product.id){
-					return res.send({ msg: 'Este código de produto já está cadastrado.' });
-				};
-			};
-			
-			var row = await Product.update(product);
-			let newProduct = await Product.findById(row.insertId);
-			res.send({ done: 'Produto atualizado com sucesso!', product: newProduct });
+			res.send({ msg: "Ocorreu um erro ao listar as matérias-primas do produto, favor contatar o suporte." });
 		};
 	},
 	categorySave: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const category = {
@@ -278,22 +286,31 @@ const productController = {
 			shortcut: req.body.product_category_shortcut
 		};
 
-		await Product.categorySave(category);
+		try {
+			await Product.categorySave(category);
+			res.send({ done: 'Categoria cadastrada com sucesso!' });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao cadastrar a categoria." });
+		};
 
-		res.send({ done: 'Categoria cadastrada com sucesso!' });
 	},
 	categoryList: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
-		const categories = await Product.categoryList();
-
-		res.send({ categories });
+		try {
+			const categories = await Product.categoryList();
+			res.send({ categories });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao listar categorias." });
+		};
 	},
 	colorSave: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const color = {
@@ -307,7 +324,7 @@ const productController = {
 	},
 	colorList: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 		
 		const colors = await Product.colorList();
@@ -326,14 +343,14 @@ const productController = {
 	},
 	productionManage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		res.render('product/production_manage', { user: req.user });
 	},
 	productionSimulate: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const production = {
@@ -398,7 +415,7 @@ const productController = {
 	},
 	productionSave: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const production = {
@@ -490,7 +507,7 @@ const productController = {
 	},
 	productionConfirm: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		var option = {
@@ -518,7 +535,7 @@ const productController = {
 	},
 	productionFindById: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -537,7 +554,7 @@ const productController = {
 	},
 	productionFilter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		let params = [];

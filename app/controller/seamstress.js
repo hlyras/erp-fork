@@ -12,7 +12,7 @@ const seamstressController = {
 	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		const seamstress = {
@@ -33,7 +33,7 @@ const seamstressController = {
 	},
 	list: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		const seamstresses = await Seamstress.list();
@@ -41,7 +41,7 @@ const seamstressController = {
 	},
 	filter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		if(isNaN(req.query.code) || req.query.code < 0 || req.query.code > 9999){
@@ -68,7 +68,7 @@ const seamstressController = {
 	},
 	findById: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		Seamstress.findById(req.params.id)
@@ -81,7 +81,7 @@ const seamstressController = {
 	},
 	remove: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		Seamstress.remove(req.params.id)

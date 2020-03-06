@@ -46,7 +46,7 @@ const financialController = {
 	},
 	incomeSave: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		const income = {
@@ -263,7 +263,7 @@ const financialController = {
 	},
 	outcomeSave: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		const outcome = {

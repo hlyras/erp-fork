@@ -1,19 +1,19 @@
 $(() => {
 	$("#product-addFeedstock-form").on('submit', (event) => {
 		event.preventDefault();
-		document.getElementById('product-addFeedstock-submit').disabled = true;
+		document.getElementById('product-addFeedstock-form').elements.namedItem("submit").disabled = true;
 
 		let feedstock_id = document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id').value;
 		let amount = document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_amount').value;
 
 		if(feedstock_id < 1 || !feedstock_id){
 			alert("É necessário selecionar a matéria-prima");
-			return document.getElementById('product-addFeedstock-submit').disabled = false;
+			return document.getElementById('product-addFeedstock-form').elements.namedItem("submit").disabled = false;
 		};
 
 		if(amount < 0.01 || !amount){
 			alert("É necessário preencher a quantidade de matéria-prima");
-			return document.getElementById('product-addFeedstock-submit').disabled = false;
+			return document.getElementById('product-addFeedstock-form').elements.namedItem("submit").disabled = false;
 		};
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
@@ -23,30 +23,19 @@ $(() => {
 			method: 'post',
 			data: $("#product-addFeedstock-form").serialize(),
 			success: (response) => {
-				if(response.unauthorized){
-					alert(response.unauthorized);
-					window.location.href = '/login';
-					return;
-				};
+				if(API.verifyResponse(response, "product-addFeedstock-form")){return};
 				
-				if(response.msg){
-					alert(response.msg);
-					document.getElementById('ajax-loader').style.visibility = 'hidden';
-					document.getElementById('product-addFeedstock-submit').disabled = false;
-					return;
-				};
-
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 				alert(response.done);
 
 				productFeedstockRender(document.getElementById("product-addFeedstock-form").elements.namedItem('product_id').value);
 
-				document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_amount').value = "";
-
 				document.getElementById("product-addFeedstock-form").elements.namedItem('id').value = "";
+				document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id').innerHTML = "";
 				document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id').disabled = false;
-				document.getElementById('product-addFeedstock-submit').disabled = false;
+				document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_amount').value = "";
+				document.getElementById('product-addFeedstock-form').elements.namedItem("submit").disabled = false;
 			}
 		});
 	});
@@ -62,18 +51,9 @@ function productFeedstockRender(product_id){
 		url: "/product/feedstock/list/id/"+product_id,
 		method: "get",
 		success: (response) => {
-			document.getElementById('ajax-loader').style.visibility = 'hidden';
-			if(response.unauthorized){
-				alert(response.unauthorized);
-				window.location.href = '/login';
-				return;
-			};
+			if(API.verifyResponse(response, "product-addFeedstock-form")){return};
 			
-			if(response.msg){
-				document.getElementById('ajax-loader').style.visibility = 'hidden';
-				document.getElementById("product-feedstock-box").style.display = "none";
-				return alert(response.msg);
-			};
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 			for(i in response.product_feedstocks){
 				for(j in response.feedstocks){

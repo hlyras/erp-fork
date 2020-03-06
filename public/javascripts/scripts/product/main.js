@@ -1,7 +1,7 @@
 $(function(){
 	$("#product-create-form").on('submit', (event) => {
 		event.preventDefault();
-		document.getElementById('product-create-submit').disabled = true;
+		document.getElementById('product-create-form').elements.namedItem("submit").disabled = true;
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
@@ -10,21 +10,8 @@ $(function(){
 			method: 'post',
 			data: $("#product-create-form").serialize(),
 			success: (response) => {
-				if(response.unauthorized){
-					alert(response.unauthorized);
-					window.location.href = '/login';
-					return;
-				};
-				
-				if(response.msg){
-					document.getElementById('ajax-loader').style.visibility = 'hidden';
-					alert(response.msg);
-					document.getElementById('product-create-submit').disabled = false;
-					return;
-				};
+				if(API.verifyResponse(response, "product-create-form")){return};
 
-				document.getElementById('ajax-loader').style.visibility = 'hidden';
-				
 				alert(response.done);
 				
 				document.getElementById("product-filter-form").elements.namedItem("name").value = document.getElementById("product-create-form").elements.namedItem("name").value;
@@ -36,7 +23,8 @@ $(function(){
 				document.getElementById("product-create-form").elements.namedItem("color").value = "";
 				document.getElementById("product-create-form").elements.namedItem("size").value = "";
 
-				document.getElementById('product-create-submit').disabled = false;
+				document.getElementById('product-create-form').elements.namedItem("submit").disabled = false;
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 			}
 		});
 	});
@@ -55,15 +43,10 @@ $(function(){
 			url: "/product/filter?name="+name+"&code="+code+"&color="+color,
 			method: 'get',
 			success: (response) => {
-				if(response.unauthorized){
-					alert(response.unauthorized);
-					return window.location.href = '/login';
-				};
+				if(API.verifyResponse(response)){return};
 				
-				document.getElementById('ajax-loader').style.visibility = 'hidden';
-
-				var pageSize = 15;
-				var page = 0;
+				let pageSize = 15;
+				let page = 0;
 
 				function paging(){
 					if(response.products.length){
@@ -84,6 +67,8 @@ $(function(){
 						};
 					};
 				};
+
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 				function buttonsPaging(){
 					$("#"+location+"Next").prop('disabled', response.products.length <= pageSize || page >= response.products.length / pageSize - 1);
@@ -119,14 +104,8 @@ function showProduct(id, admin){
 		url: '/product/id/'+id,
 		method: 'get',
 		success: (response) => {
-			if(response.unauthorized){
-				alert(response.unauthorized);
-				window.location.href = '/login';
-				return;
-			};
-
-			document.getElementById('ajax-loader').style.visibility = 'hidden';
-
+			if(API.verifyResponse(response)){return};
+			
 			let html = "";
 			html += "<tr>";
 			html += "<td class='nowrap'>"+response.product[0].code+"</td>";
@@ -160,7 +139,6 @@ function showProduct(id, admin){
 			document.getElementById('product-show-tbody').innerHTML = html;
 			document.getElementById('product-show-box').style.display = "block";
 
-
 			if(response.product[0].images.length){
 				productImagePagination(response.product[0].images, response.product[0].id, admin);
 			} else {
@@ -169,6 +147,7 @@ function showProduct(id, admin){
 				document.getElementById('imagePrevious').disabled = true;
 				document.getElementById('imageNext').disabled = true;
 			};
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
 	});
 };
@@ -179,6 +158,8 @@ function editProduct(id){
 		url: '/product/id/'+id,
 		method: 'get',
 		success: (response) => {
+			if(API.verifyResponse(response)){return};
+
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 			document.getElementById('product-create-form').elements.namedItem("id").value = response.product[0].id;
@@ -201,16 +182,13 @@ function removeProduct(id){
 			url: '/product/remove?id='+id,
 			method: 'delete',
 			success: function(response){
-				if(response.unauthorized){
-					alert(response.unauthorized);
-					window.location.href = '/login';
-					return;
-				};
-
-				document.getElementById('ajax-loader').style.visibility = 'hidden';
+				if(API.verifyResponse(response)){return};
 
 				document.getElementById('product-show-box').style.display = "none";
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+				
 				alert(response.done);
+
 				$("#product-filter-form").submit();
 			}
 		});

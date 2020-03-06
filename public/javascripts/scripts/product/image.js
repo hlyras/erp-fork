@@ -14,11 +14,7 @@ function productAddImage(product_id){
 				url: '/product/addimage?product_id='+product_id+'&image_url='+image_url,
 				method: 'post',
 				success: (response) => {
-					if(response.unauthorized){
-						alert(response.unauthorized);
-						window.location.href = '/login';
-						return;
-					};
+					if(API.verifyResponse(response)){return};
 
 					document.getElementById('ajax-loader').style.visibility = 'hidden';
 
@@ -40,11 +36,7 @@ function productRemoveImage(image_id, product_id){
 			url: '/product/removeimage?id='+image_id,
 			method: 'delete',
 			success: function(response){
-				if(response.unauthorized){
-					alert(response.unauthorized);
-					window.location.href = '/login';
-					return;
-				};
+				if(API.verifyResponse(response)){return};
 
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
 

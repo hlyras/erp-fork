@@ -17,7 +17,7 @@ const feedstockController = {
 	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const feedstock = {
@@ -62,9 +62,7 @@ const feedstockController = {
 						return res.send({ msg: 'Este código de produto já está cadastrado.' });
 					};
 				};
-				
 				await Feedstock.update(feedstock);
-				
 				res.send({ done: 'Matéria prima atualizada com sucesso!' });
 			};
 		} catch (err) {
@@ -73,9 +71,9 @@ const feedstockController = {
 		};
 	},
 	findById: async (req, res) => {
-		// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-		// 	return res.redirect('/');
-		// };
+		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
 
 		Feedstock.findById(req.params.id)
 			.then(async (feedstock) => {
@@ -87,7 +85,7 @@ const feedstockController = {
 	},
 	filter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		let params = [];
@@ -125,7 +123,7 @@ const feedstockController = {
 	},
 	remove: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -149,7 +147,7 @@ const feedstockController = {
 	},
 	supplierCreate: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const supplier = {
@@ -180,7 +178,7 @@ const feedstockController = {
 	},
 	supplierFindById: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const supplier = await Feedstock.supplierFindById(req.params.id);
@@ -189,7 +187,7 @@ const feedstockController = {
 	},
 	supplierFilter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		if(req.query.supplier_name){
@@ -212,7 +210,7 @@ const feedstockController = {
 	},
 	supplierAddFeedstock: async(req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const insertion = {
@@ -242,7 +240,7 @@ const feedstockController = {
 	},
 	supplierRemoveFeedstock: async(req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -255,7 +253,7 @@ const feedstockController = {
 	},
 	supplierStorageList: async(req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -293,7 +291,7 @@ const feedstockController = {
 	},
 	purchaseSave: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		const feedstocks = JSON.parse(req.body.feedstocks);
@@ -330,7 +328,7 @@ const feedstockController = {
 	},
 	purchaseConfirm: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		var option = {
@@ -358,7 +356,7 @@ const feedstockController = {
 	},
 	purchaseFindById: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
@@ -378,7 +376,7 @@ const feedstockController = {
 	},
 	purchaseFilter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		let params = [];
@@ -434,7 +432,7 @@ const feedstockController = {
 	},
 	storageCreate: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		if(req.body.name.length < 3 || req.body.name.length > 20){return res.send({ msg: 'Nome de Estoque inválido!' })};
@@ -467,16 +465,20 @@ const feedstockController = {
 	},
 	storageList: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
-		const storages = await Feedstock.storageList();
-
-		res.send(storages);
+		try {
+			const storages = await Feedstock.storageList();
+			res.send(storages);
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao listar os estoques." });
+		};
 	},
 	storageFilter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		let params = [];
