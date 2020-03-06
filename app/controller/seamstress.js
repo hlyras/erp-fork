@@ -32,7 +32,7 @@ const seamstressController = {
 			});
 	},
 	list: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
+		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
 			return res.redirect('/');
 		};
 
@@ -40,7 +40,7 @@ const seamstressController = {
 		res.send(seamstresses);
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
+		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
 			return res.redirect('/');
 		};
 
@@ -67,7 +67,7 @@ const seamstressController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
+		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
 			return res.redirect('/');
 		};
 

@@ -73,7 +73,7 @@ const feedstockController = {
 		};
 	},
 	findById: async (req, res) => {
-		// if(!await userController.verifyAccess(req, res, ['adm', 's/a'])){
+		// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
 		// 	return res.redirect('/');
 		// };
 

@@ -1,47 +1,19 @@
-This file should be always updated.
-The sql files will be on /config
+Users access -
 
-DATABASE
-	hl_company_db
+	adm (administrator)
+		General access (including remove functions);
 
-		users
-			id
-			name
-			email
-			password
-			access
+	fin (Financial)
+		Access to Financial system (except remove functions);
+		Access to Product functions (except remove functions);
+		Access to Feedstock functions (except remove functions);
 
-----------------------------------
+	man (Manager)
+		Access to Product functions (except remove/confirmation functions);
+		Access to Feedstock functions (except remove/confirmation functions);
 
-		products
-			id
-			code
-			name
-			value
+	sto (stockist)
+		Access to Feedstock storage (only storage access and confirmation functions);
+		Access to Product storage (only storage access and confirmation functions);
 
-		product_category
-			id
-			product_id
-			category_id
-
-----------------------------------
-
-		customers
-			id
-			name
-			password
-			access
-
-		customer_adress
-			id
-			user_id
-			street
-			number
-			complement
-			nbhd
-			city
-			state
-			country
-			postal_code
-
-----------------------------------
+	n/a (No Access);

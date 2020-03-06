@@ -2,7 +2,6 @@ const router = require("express").Router();
 
 const productController = require('../controller/product');
 
-//API ROUTES
 router.get('/index', productController.index);
 router.get('/admin', productController.admin);
 
@@ -11,7 +10,6 @@ router.get('/id/:id', productController.findById);
 router.get('/code/:code', productController.findByCode);
 router.get('/name/:name', productController.findByName);
 router.get('/filter', productController.filter);
-router.options('/filter', productController.options);
 router.delete('/remove', productController.remove);
 
 router.post('/save', productController.save);
