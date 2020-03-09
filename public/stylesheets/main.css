@@ -87,8 +87,8 @@ header .right {
 }
 
 body {
-	/*background-color: #f0f0f0;*/ 
-	background-image: url("/images/background/mainbg4.png");
+	background-color: #f0f0f0; 
+	/*background-image: url("/images/background/mainbg4.png");*/
 }
 
 section {

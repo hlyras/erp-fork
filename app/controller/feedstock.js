@@ -91,6 +91,16 @@ const feedstockController = {
 		let params = [];
 		let values = [];
 
+		// try {
+		// 	if(req.query.name){
+		// 		const feedstocks = await Feedstock.findByName(req.query.name);
+		// 	} else {
+
+		// 	};
+		// } catch (err) {
+
+		// };
+
 		if(req.query.name){
 			Feedstock.findByName(req.query.name)
 				.then(feedstocks => {

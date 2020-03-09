@@ -21,7 +21,7 @@ const productController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
-	admin: async (req, res) => {
+	manage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
 			return res.redirect("/");
 		};
@@ -29,7 +29,7 @@ const productController = {
 		try {
 			const feedstockColors = await Feedstock.colorList();
 			const productColors = await Product.colorList();
-			res.render('product/admin', { productColors, feedstockColors, user: req.user });
+			res.render('product/manage', { productColors, feedstockColors, user: req.user });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -318,28 +318,40 @@ const productController = {
 			shortcut: req.body.color_shortcut			
 		};
 
-		await Product.colorSave(color);
-
-		res.send({ done: 'Cor cadastrada com sucesso!' });
+		try {
+			await Product.colorSave(color);
+			res.send({ done: 'Cor cadastrada com sucesso!' });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao salvar a cor, favor contatar o suporte." });
+		};
 	},
 	colorList: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
-		
-		const colors = await Product.colorList();
-
-		res.send(colors);
+	
+		try {
+			const colors = await Product.colorList();
+			res.send(colors);
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao listar as cores, favor contatar o suporte." });
+		};
 	},
 	production: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin', 'man'])){
 			return res.redirect("/");
 		};
 
-		const productColors = await Product.colorList();
-		const feedstockStorages = await Feedstock.storageList();
-
-		res.render('product/production', { user: req.user, productColors, feedstockStorages });
+		try {
+			const productColors = await Product.colorList();
+			const feedstockStorages = await Feedstock.storageList();
+			res.render('product/production', { user: req.user, productColors, feedstockStorages });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao acessar esta área, favor contatar o suporte." });
+		};
 	},
 	productionManage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){

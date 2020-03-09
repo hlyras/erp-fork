@@ -1,7 +1,7 @@
 $(function(){
 	$("#feedstock-create-form").on('submit', (event) => {
 		event.preventDefault();
-		document.getElementById('feedstock-create-submit').disabled = true;
+		document.getElementById('feedstock-create-form').elements.namedItem("submit").disabled = true;
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
@@ -10,18 +10,8 @@ $(function(){
 			method: 'post',
 			data: $("#feedstock-create-form").serialize(),
 			success: (response) => {
-				if(response.unauthorized){
-					alert(response.unauthorized);
-					window.location.href = '/login';
-					return;
-				};
+				if(API.verifyResponse(response, "feedstock-create-form")){return};
 				
-				if(response.msg){
-					document.getElementById('ajax-loader').style.visibility = 'hidden';
-					alert(response.msg);
-					return document.getElementById('feedstock-create-submit').disabled = false;
-				};
-
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
@@ -35,7 +25,7 @@ $(function(){
 				document.getElementById("feedstock-create-form").elements.namedItem('standard').value = "";
 				document.getElementById("feedstock-create-form").elements.namedItem('uom').value = "";
 
-				document.getElementById('feedstock-create-submit').disabled = false;
+				document.getElementById('feedstock-create-form').elements.namedItem("submit").disabled = false;
 				$("#feedstock-filter-form").submit();
 			}
 		});
@@ -43,7 +33,6 @@ $(function(){
 	
 	$("#feedstock-filter-form").on('submit', (event) => {
 		event.preventDefault();
-		let btn = $(this);btn.attr('disabled', true);
 
 		let location = document.getElementById("feedstock-filter-form").elements.namedItem('location').value;
 		let code = document.getElementById("feedstock-filter-form").elements.namedItem('feedstock_code').value;
@@ -56,10 +45,7 @@ $(function(){
 			url: "/feedstock/filter?name="+name+"&code="+code+"&color="+color,
 			method: 'get',
 			success: (feedstocks) => {
-				if(feedstocks.unauthorized){
-					alert(feedstocks.unauthorized);
-					return window.location.href = '/login';
-				};
+				if(API.verifyResponse(response)){return};
 
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
@@ -89,8 +75,6 @@ $(function(){
 						};
 					};
 				};
-
-				btn.attr('disabled', false);
 
 				function buttonsPaging(){
 					$("#"+location+"Next").prop('disabled', feedstocks.length <= pageSize || page >= feedstocks.length / pageSize - 1);
