@@ -25,6 +25,7 @@ header a {
 	line-height: 17px;
 	border-radius: 4px;
 	margin: 3px;
+	border-radius: 15px;
 	border: 1px outset #f0f0f0;
 }
 
@@ -45,7 +46,7 @@ header select {
 	font-family: Jazz LET, fantasy;
 	font-weight: 400;
 	font-size: 15px;
-	border-radius: 4px;
+	border-radius: 15px;
 	border: 2px outset #f0f0f0;
 }
 
