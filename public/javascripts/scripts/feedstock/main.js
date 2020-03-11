@@ -44,7 +44,7 @@ $(function(){
 		$.ajax({
 			url: "/feedstock/filter?name="+name+"&code="+code+"&color="+color,
 			method: 'get',
-			success: (feedstocks) => {
+			success: (response) => {
 				if(API.verifyResponse(response)){return};
 
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
@@ -53,15 +53,15 @@ $(function(){
 				var page = 0;
 
 				function paging(){
-					if(feedstocks.length){
+					if(response.feedstocks.length){
 						if(location==="feedstockAdmin"){
-							renderAdminFeedstocks(feedstocks, pageSize, page, location);
+							renderAdminFeedstocks(response.feedstocks, pageSize, page, location);
 						} else if (location==="feedstockCatalog"){
-							renderFeedstocks(feedstocks, pageSize, page, location);
+							renderFeedstocks(response.feedstocks, pageSize, page, location);
 						} else if (location==="productAddFeedstock"){
-							fillFeedstockSelect(feedstocks, document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id'));
+							fillFeedstockSelect(response.feedstocks, document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id'));
 						} else if (location==="feedstockSupplierAddFeedstock"){
-							fillFeedstockSelect(feedstocks, document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id'));
+							fillFeedstockSelect(response.feedstocks, document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id'));
 						};
 					} else {
 						if(location==="feedstockAdmin"){
@@ -77,13 +77,13 @@ $(function(){
 				};
 
 				function buttonsPaging(){
-					$("#"+location+"Next").prop('disabled', feedstocks.length <= pageSize || page >= feedstocks.length / pageSize - 1);
-					$("#"+location+"Previous").prop('disabled', feedstocks.length <= pageSize || page == 0);
+					$("#"+location+"Next").prop('disabled', response.feedstocks.length <= pageSize || page >= response.feedstocks.length / pageSize - 1);
+					$("#"+location+"Previous").prop('disabled', response.feedstocks.length <= pageSize || page == 0);
 				};
 
 				$(function(){
 				    $("#"+location+"Next").click(function(){
-				        if(page < feedstocks.length / pageSize - 1){
+				        if(page < response.feedstocks.length / pageSize - 1){
 				            page++;
 				            paging();
 				            buttonsPaging();

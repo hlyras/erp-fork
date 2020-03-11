@@ -104,7 +104,7 @@ const feedstockController = {
 		if(req.query.name){
 			Feedstock.findByName(req.query.name)
 				.then(feedstocks => {
-					res.send(feedstocks);
+					res.send({ feedstocks });
 				})
 				.catch(err => {
 					console.log(err);
@@ -123,7 +123,7 @@ const feedstockController = {
 
 			Feedstock.filter(params, values)
 				.then(feedstocks => {
-					res.send(feedstocks);
+					res.send({ feedstocks });
 				})
 				.catch(err => {
 					console.log(err);
