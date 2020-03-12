@@ -91,26 +91,7 @@ const feedstockController = {
 		let params = [];
 		let values = [];
 
-		// try {
-		// 	if(req.query.name){
-		// 		const feedstocks = await Feedstock.findByName(req.query.name);
-		// 	} else {
-
-		// 	};
-		// } catch (err) {
-
-		// };
-
-		if(req.query.name){
-			Feedstock.findByName(req.query.name)
-				.then(feedstocks => {
-					res.send({ feedstocks });
-				})
-				.catch(err => {
-					console.log(err);
-					res.send({ msg: "Ocorreu um erro ao filtrar as matérias primas, favor contatar o suporte" });
-				});
-		} else {
+		try {
 			if(parseInt(req.query.code)){
 				params.push("code");
 				values.push(req.query.code);
@@ -121,14 +102,16 @@ const feedstockController = {
 				values.push(req.query.color);
 			};
 
-			Feedstock.filter(params, values)
-				.then(feedstocks => {
-					res.send({ feedstocks });
-				})
-				.catch(err => {
-					console.log(err);
-					res.send({ msg: "Ocorreu um erro ao filtrar as matérias primas, favor contatar o suporte" });
-				});
+			if(req.query.name){
+				const feedstocks = await Feedstock.filter(req.query.name, params, values);
+				res.send({ feedstocks });
+			} else {
+				const feedstocks = await Feedstock.filter(false, params, values);
+				res.send({ feedstocks });
+			};
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao filtrar as matérias-primas, favor contatar o suporte." });
 		};
 	},
 	remove: async (req, res) => {

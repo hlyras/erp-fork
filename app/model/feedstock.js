@@ -34,8 +34,8 @@ Feedstock.list = async () => {
 	return db(query);
 };
 
-Feedstock.filter = async (params, values) => {
-	let query = lib.filterQuery(params, values, "cms_wt_erp", "feedstock", "code", "ASC");
+Feedstock.filter = async (name, params, values) => {
+	let query = lib.filterQueryName(name, params, values, "cms_wt_erp", "feedstock", "code", "ASC");
 	return db(query);
 };
 
