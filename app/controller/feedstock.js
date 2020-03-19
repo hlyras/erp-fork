@@ -123,6 +123,7 @@ const feedstockController = {
 		try {
 			await Feedstock.remove(req.query.id);
 			await Feedstock.supplierFeedstockClear(req.query.id);
+			await Feedstock.storageFeedstockClear(req.query.id);
 			await Product.feedstockClear(req.query.id);
 			res.send({ done: "Matéria Prima excluída com sucesso." });
 		} catch (err) {

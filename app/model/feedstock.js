@@ -114,6 +114,12 @@ Feedstock.supplierFeedstockClear = async (id) => {
 	return db(query);
 };
 
+Feedstock.storageFeedstockClear = async (id) => {
+	let query = "DELETE FROM cms_wt_erp.feedstock_storage WHERE feedstock_id='"+id+"';";
+	return db(query);
+};
+
+
 Feedstock.purchaseSave = async (purchase) => {
 	let query = "INSERT INTO cms_wt_erp.feedstock_purchase (date, full_date, supplier_id, supplier_name, value, storage_id, user) VALUES ('"
 		+purchase.date+"', '"
