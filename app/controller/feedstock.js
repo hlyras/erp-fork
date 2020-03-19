@@ -40,17 +40,18 @@ const feedstockController = {
 				const feedstocks = await Feedstock.findByCode(feedstock.code);
 				if(feedstocks.length){return res.send({ msg: 'Este código de produto já está cadastrado.' })};
 				
-				await Feedstock.save(feedstock);
-				
+				const newFeedstock = await Feedstock.save(feedstock);
+					
 				//INSERT CREATED FEEDSTOCK IN STORAGES
 				const storages = await Feedstock.storageList();
 
 				for(i in storages){
 					const insert = {
 						storage_id: storages[i].id,
-						feedstock_id: feedstock.id,
+						feedstock_id: newFeedstock.insertId,
 						amount: 0
 					};
+
 					await Feedstock.insertInStorage(insert);
 				};
 				

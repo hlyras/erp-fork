@@ -409,9 +409,12 @@ const productController = {
 				// needed to create a variable to handle async problem down in next coment
 				let feedstockAmount = production_feedstocks[i].amount;
 				let feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
+				console.log('feedstock');
+				console.log(feedstock);
 				let storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [production.storage_id, feedstock[0].id]);
 				// if use production_feedstocks[i].amount instead variable the value is broken
 				feedstock[0].amount = feedstockAmount;
+				console.log(storage_feedstock[0]);
 				feedstock[0].amountInStorage = storage_feedstock[0].amount;
 				if(feedstock[0].amount > feedstock[0].amountInStorage){
 					production.feedstocks.notEnough.push(feedstock[0]);
