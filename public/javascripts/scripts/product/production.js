@@ -90,6 +90,8 @@ $(() => {
 			success: (response) => {
 				if(API.verifyResponse(response, "product-production-simulation")){return};
 				
+				console.log(response);
+
 				var html = "";
 				html += "<tr>";
 				html += "<td>Cód</td>";
@@ -105,7 +107,8 @@ $(() => {
 					html += "<td>"+response.production.feedstocks.enough[i].name+"</td>";
 					html += "<td>"+response.production.feedstocks.enough[i].color+"</td>";
 					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].amount+""+response.production.feedstocks.enough[i].uom+"</td>";
-					html += "<td class='nowrap'>"+lib.roundValue(response.production.feedstocks.enough[i].amount/response.production.feedstocks.enough[i].standard)+"</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].standardAmount+"un</td>";
+					// html += "<td class='nowrap'>"+lib.roundValue(response.production.feedstocks.enough[i].amount/response.production.feedstocks.enough[i].standard)+"</td>";
 					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].amountInStorage+""+response.production.feedstocks.enough[i].uom+"</td>";
 					html += "</tr>";
 				};
@@ -118,7 +121,8 @@ $(() => {
 					html += "<td>"+response.production.feedstocks.notEnough[i].name+"</td>";
 					html += "<td>"+response.production.feedstocks.notEnough[i].color+"</td>";
 					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].amount+""+response.production.feedstocks.notEnough[i].uom+"</td>";
-					html += "<td class='nowrap'>"+lib.roundValue(response.production.feedstocks.notEnough[i].amount/response.production.feedstocks.notEnough[i].standard)+"</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].standardAmount+"un</td>";
+					// html += "<td class='nowrap'>"+lib.roundValue(response.production.feedstocks.notEnough[i].amount/response.production.feedstocks.notEnough[i].standard)+"</td>";
 					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].amountInStorage+""+response.production.feedstocks.notEnough[i].uom+"</td>";
 					html += "</tr>";
 				};
@@ -142,18 +146,18 @@ $(() => {
 
 	$("#product-production-form").on('submit', (event)=>{
 		event.preventDefault();
-		document.getElementById('product-production-submit').disabled = true;
+		document.getElementById('product-production-form').elements.namedItem('submit').disabled = true;
 
 		const storage_id = document.getElementById("product-production-form").elements.namedItem("storage_id").value;
 
 		if(storage_id < 1 || !storage_id){
 			alert("É necessário selecionar o estoque que irá suprir os materiais.");
-			return document.getElementById('product-production-submit').disabled = false;
+			return document.getElementById('product-production-form').elements.namedItem('submit').disabled = false;
 		};
 
 		if(!product_production_kart.length){
 			alert("É necessário selecionar algum produto para solicitar produção.");
-			return document.getElementById("product-production-simulation").elements.namedItem("submit").disabled = false;
+			return document.getElementById('product-production-form').elements.namedItem('submit').disabled = false;
 		};
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';

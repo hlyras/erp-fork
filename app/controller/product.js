@@ -380,7 +380,7 @@ const productController = {
 				let product_feedstocks = await Product.feedstockList(production.products[i].id);
 				for(j in product_feedstocks){
 					product_feedstocks_array.push(product_feedstocks[j]);
-					production.products[i].feedstocks.push(product_feedstocks[j])
+					production.products[i].feedstocks.push(product_feedstocks[j]);
 				};
 			};
 
@@ -409,12 +409,9 @@ const productController = {
 				// needed to create a variable to handle async problem down in next coment
 				let feedstockAmount = production_feedstocks[i].amount;
 				let feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
-				console.log('feedstock');
-				console.log(feedstock);
 				let storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [production.storage_id, feedstock[0].id]);
 				// if use production_feedstocks[i].amount instead variable the value is broken
 				feedstock[0].amount = feedstockAmount;
-				console.log(storage_feedstock[0]);
 				feedstock[0].amountInStorage = storage_feedstock[0].amount;
 				if(feedstock[0].amount > feedstock[0].amountInStorage){
 					production.feedstocks.notEnough.push(feedstock[0]);
@@ -422,6 +419,23 @@ const productController = {
 					production.feedstocks.enough.push(feedstock[0]);
 				};
 			};
+
+			for(i in production.feedstocks.enough){
+				if(production.feedstocks.enough[i].uom == 'cm'){
+					production.feedstocks.enough[i].standardAmount = Math.round(production.feedstocks.enough[i].amount / production.feedstocks.enough[i].standard);
+				} else {
+					production.feedstocks.enough[i].standardAmount = production.feedstocks.enough[i].amount;
+				};
+			};
+
+			for(i in production.feedstocks.notEnough){
+				if(production.feedstocks.notEnough[i].uom == 'cm'){
+					production.feedstocks.notEnough[i].standardAmount = Math.round(production.feedstocks.notEnough[i].amount / production.feedstocks.notEnough[i].standard);
+				} else {
+					production.feedstocks.notEnough[i].standardAmount = production.feedstocks.notEnough[i].amount;
+				};
+			};
+
 			res.send({ production });
 		} catch (err) {
 			console.log(err);
@@ -490,6 +504,14 @@ const productController = {
 				};
 			};
 
+			for(i in production.feedstocks.enough){
+				if(production.feedstocks.enough[i].uom == 'cm'){
+					production.feedstocks.enough[i].standardAmount = Math.round(production.feedstocks.enough[i].amount / production.feedstocks.enough[i].standard);
+				} else {
+					production.feedstocks.enough[i].standardAmount = production.feedstocks.enough[i].amount;
+				};
+			};
+
 			if(production.feedstocks.notEnough.length){
 				return res.send({ msg: "Não há matéria-prima suficiente para produzir todos os produtos.", production });
 			} else if(!production.products.length){
@@ -509,7 +531,7 @@ const productController = {
 						id: production.feedstocks.enough[i].id,
 						info: production.feedstocks.enough[i].name +" | "+ production.feedstocks.enough[i].color,
 						uom: production.feedstocks.enough[i].uom,
-						amount: production.feedstocks.enough[i].amount
+						amount: production.feedstocks.enough[i].standardAmount
 					};
 					await Product.productionSaveFeedstock(production_saved.insertId, feedstock);
 				};
