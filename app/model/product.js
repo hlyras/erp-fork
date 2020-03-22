@@ -130,12 +130,14 @@ Product.productionSaveProduct = async (production_id, product) => {
 };
 
 Product.productionSaveFeedstock = async (production_id, feedstock) => {
-	let query = "INSERT INTO cms_wt_erp.product_production_feedstock (production_id, feedstock_id, feedstock_info, feedstock_uom, amount) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product_production_feedstock (production_id, feedstock_id, feedstock_info, feedstock_uom, amount, standardAmount, releasedAmount) VALUES ('"
 		+production_id+"', '"
 		+feedstock.id+"', '"
 		+feedstock.info+"', '"
 		+feedstock.uom+"', '"
-		+feedstock.amount+"');";
+		+feedstock.amount+"', '"
+		+feedstock.standardAmount+"', '"
+		+feedstock.releasedAmount+"');";
 	return db(query);
 };
 

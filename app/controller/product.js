@@ -423,16 +423,20 @@ const productController = {
 			for(i in production.feedstocks.enough){
 				if(production.feedstocks.enough[i].uom == 'cm'){
 					production.feedstocks.enough[i].standardAmount = Math.round(production.feedstocks.enough[i].amount / production.feedstocks.enough[i].standard);
+					production.feedstocks.enough[i].releasedAmount = production.feedstocks.enough[i].standard * production.feedstocks.enough[i].standardAmount;
 				} else {
 					production.feedstocks.enough[i].standardAmount = production.feedstocks.enough[i].amount;
+					production.feedstocks.enough[i].releasedAmount = production.feedstocks.enough[i].amount;
 				};
 			};
 
 			for(i in production.feedstocks.notEnough){
 				if(production.feedstocks.notEnough[i].uom == 'cm'){
 					production.feedstocks.notEnough[i].standardAmount = Math.round(production.feedstocks.notEnough[i].amount / production.feedstocks.notEnough[i].standard);
+					production.feedstocks.notEnough[i].releasedAmount = production.feedstocks.notEnough[i].standard * production.feedstocks.notEnough[i].standardAmount;
 				} else {
 					production.feedstocks.notEnough[i].standardAmount = production.feedstocks.notEnough[i].amount;
+					production.feedstocks.notEnough[i].releasedAmount = production.feedstocks.notEnough[i].amount;
 				};
 			};
 
@@ -507,8 +511,10 @@ const productController = {
 			for(i in production.feedstocks.enough){
 				if(production.feedstocks.enough[i].uom == 'cm'){
 					production.feedstocks.enough[i].standardAmount = Math.round(production.feedstocks.enough[i].amount / production.feedstocks.enough[i].standard);
+					production.feedstocks.enough[i].releasedAmount = production.feedstocks.enough[i].standard * production.feedstocks.enough[i].standardAmount;
 				} else {
 					production.feedstocks.enough[i].standardAmount = production.feedstocks.enough[i].amount;
+					production.feedstocks.enough[i].releasedAmount = production.feedstocks.enough[i].amount;
 				};
 			};
 
@@ -531,7 +537,8 @@ const productController = {
 						id: production.feedstocks.enough[i].id,
 						info: production.feedstocks.enough[i].name +" | "+ production.feedstocks.enough[i].color,
 						uom: production.feedstocks.enough[i].uom,
-						amount: production.feedstocks.enough[i].standardAmount
+						amount: production.feedstocks.enough[i].amount,
+						releasedAmount: production.feedstocks.enough[i].releasedAmount
 					};
 					await Product.productionSaveFeedstock(production_saved.insertId, feedstock);
 				};

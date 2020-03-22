@@ -21,7 +21,7 @@ $(() => {
 						if(location == "productProductionManage"){
 							renderProductProductionAdmin(response.productions, pageSize, page, location, true);
 						} else if(location == "productProductionFeedstockStorage"){
-							renderProductProductionFeedstockStorage(response.productions, pageSize, page, location);
+							renderProductProductionFeedstockStorage(response.productions, pageSize, page, location, false);
 						};
 					} else {
 						lib.clearTable('product-production-filter-tbl', location);
@@ -140,7 +140,7 @@ function showProductProduction(id, admin){
 			html += "</tr>";
 			html += "<tr>";
 			html += "<td>"+response.production[0].full_date+"</td>";
-				html += "<td>"+response.production[0].status+"</td>";
+			html += "<td>"+response.production[0].status+"</td>";
 			html += "</tr>";
 			html += "<tr>";
 			html += "<td class='bold'>Usuário</td>";
