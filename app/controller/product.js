@@ -538,6 +538,7 @@ const productController = {
 						info: production.feedstocks.enough[i].name +" | "+ production.feedstocks.enough[i].color,
 						uom: production.feedstocks.enough[i].uom,
 						amount: production.feedstocks.enough[i].amount,
+						standardAmount: production.feedstocks.enough[i].standardAmount,
 						releasedAmount: production.feedstocks.enough[i].releasedAmount
 					};
 					await Product.productionSaveFeedstock(production_saved.insertId, feedstock);
@@ -567,7 +568,7 @@ const productController = {
 				var option = {
 					feedstock_id: production_feedstocks[i].feedstock_id,
 					storage_id: req.body.storage_id,
-					amount: production_feedstocks[i].amount
+					amount: production_feedstocks[i].releasedAmount
 				};
 				await Feedstock.decreaseStorageFeedstockAmount(option);
 			};

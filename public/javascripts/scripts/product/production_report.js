@@ -171,12 +171,14 @@ function showProductProduction(id, admin){
 			html = "";
 			html += "<tr>";
 			html += "<td>Matéria-Prima</td>";
+			html += "<td>Quantidade</td>";
 			html += "<td>Rolo/Caixa</td>";
 			html += "</tr>";
 			for(i in response.production_feedstocks){
 				html += "<tr>";
 				html += "<td>"+response.production_feedstocks[i].feedstock_info+"</td>";
-				html += "<td class='nowrap'>"+response.production_feedstocks[i].amount+"un</td>";
+				html += "<td class='nowrap'>"+response.production_feedstocks[i].releasedAmount+""+response.production_feedstocks[i].feedstock_uom+"</td>";
+				html += "<td class='nowrap'>"+response.production_feedstocks[i].standardAmount+"un</td>";
 				html += "</tr>";
 			};
 

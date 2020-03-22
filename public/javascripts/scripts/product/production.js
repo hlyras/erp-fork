@@ -121,7 +121,7 @@ $(() => {
 					html += "<td>"+response.production.feedstocks.notEnough[i].name+"</td>";
 					html += "<td>"+response.production.feedstocks.notEnough[i].color+"</td>";
 					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].amount+""+response.production.feedstocks.notEnough[i].uom+"</td>";
-					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].standardAmount+"un</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].standardAmount+"un</td>";
 					// html += "<td class='nowrap'>"+lib.roundValue(response.production.feedstocks.notEnough[i].amount/response.production.feedstocks.notEnough[i].standard)+"</td>";
 					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].amountInStorage+""+response.production.feedstocks.notEnough[i].uom+"</td>";
 					html += "</tr>";
