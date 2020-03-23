@@ -31,6 +31,7 @@ router.get('/production/manage', productController.productionManage);
 router.post('/production/simulate', productController.productionSimulate);
 router.post('/production/save', productController.productionSave);
 router.put('/production/confirm', productController.productionConfirm);
+router.put('/production/cancel', productController.productionCancel);
 router.post('/production/filter', productController.productionFilter);
 router.get('/production/id/:id', productController.productionFindById);
 

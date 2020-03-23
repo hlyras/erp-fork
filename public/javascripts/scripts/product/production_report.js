@@ -16,6 +16,8 @@ $(() => {
 				var pageSize = 10;
 				var page = 0;
 
+				document.getElementById("product-production-show-box").style.display = "none";
+
 				function paging(){
 					if(response.productions.length){
 						if(location == "productProductionManage"){
@@ -68,6 +70,8 @@ function renderProductProductionAdmin(productions, pageSize, page, location, adm
 	html += "<td>Status</td>";
 	if(document.getElementById("product-production-filter-form").elements.namedItem("product_production_status").value == "Pedido confirmado"){
 		html += "<td>Confirmação</td>";
+	} else if(document.getElementById("product-production-filter-form").elements.namedItem("product_production_status").value == "Pedido cancelado"){
+		html += "<td>Cancelamento</td>";
 	};
 	html += "</tr>"
 	for (let i = page * pageSize; i < productions.length && i < (page + 1) * pageSize;i++){
@@ -77,8 +81,10 @@ function renderProductProductionAdmin(productions, pageSize, page, location, adm
 		html += "<td>"+productions[i].user+"</td>";
 		html += "<td>"+productions[i].status+"</td>";
 		if(productions[i].status == "Pedido solicitado"){
-			html += "<td><a class='tbl-show-link nowrap' onclick='confirmProductProduction("+productions[i].id+","+productions[i].storage_id+")'>Confirmar</td>";
+			html += "<td><a class='tbl-show-link nowrap' onclick='cancelProductProduction("+productions[i].id+","+productions[i].storage_id+")'>Cancelar</td>";
 		} else if(productions[i].status == "Pedido confirmado"){
+			html += "<td>"+productions[i].confirmation_user+"</td>";
+		} else if(productions[i].status == "Pedido cancelado"){
 			html += "<td>"+productions[i].confirmation_user+"</td>";
 		};
 		html += "</tr>"
@@ -98,6 +104,8 @@ function renderProductProductionFeedstockStorage(productions, pageSize, page, lo
 	html += "<td>Status</td>";
 	if(document.getElementById("product-production-filter-form").elements.namedItem("product_production_status").value == "Pedido confirmado"){
 		html += "<td>Confirmação</td>";
+	} else if(document.getElementById("product-production-filter-form").elements.namedItem("product_production_status").value == "Pedido cancelado"){
+		html += "<td>Cancelamento</td>";
 	};
 	html += "</tr>"
 	for (let i = page * pageSize; i < productions.length && i < (page + 1) * pageSize;i++){
@@ -109,6 +117,8 @@ function renderProductProductionFeedstockStorage(productions, pageSize, page, lo
 		if(productions[i].status == "Pedido solicitado"){
 			html += "<td><a class='tbl-show-link nowrap' onclick='confirmProductProduction("+productions[i].id+","+productions[i].storage_id+")'>Confirmar</td>";
 		} else if(productions[i].status == "Pedido confirmado"){
+			html += "<td>"+productions[i].confirmation_user+"</td>";
+		} else if(productions[i].status == "Pedido cancelado"){
 			html += "<td>"+productions[i].confirmation_user+"</td>";
 		};
 		html += "</tr>"
@@ -144,7 +154,11 @@ function showProductProduction(id, admin){
 			html += "</tr>";
 			html += "<tr>";
 			html += "<td class='bold'>Usuário</td>";
-			html += "<td class='bold'>Confirmação</td>";
+			if(response.production[0].status == "Pedido confirmado"){
+				html += "<td class='bold'>Confirmação</td>";
+			} else if(response.production[0].status == "Pedido cancelado"){
+				html += "<td class='bold'>Cancelamento</td>";
+			};
 			html += "</tr>";
 			html += "<tr>";
 			html += "<td>"+response.production[0].user+"</td>";
@@ -196,6 +210,30 @@ function confirmProductProduction(production_id, storage_id){
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
 			url: "/product/production/confirm",
+			method: "put",
+			data: {
+				production_id: production_id,
+				storage_id: storage_id
+			},
+			success: (response) => {
+				if(API.verifyResponse(response)){return};
+
+				alert(response.done);
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+				
+				$("#product-production-filter-form").submit();
+			}
+		});
+	}
+};
+
+function cancelProductProduction(production_id, storage_id){
+	const r = confirm("Deseja cancelar este pedido?");
+
+	if(r){
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		$.ajax({
+			url: "/product/production/cancel",
 			method: "put",
 			data: {
 				production_id: production_id,

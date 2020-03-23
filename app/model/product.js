@@ -146,6 +146,16 @@ Product.productionConfirm = async (option) => {
 	return db(query);
 };
 
+Product.productionCancel = async (option) => {
+	let query = "UPDATE cms_wt_erp.product_production SET status='Pedido cancelado', confirmation_user='"+option.user+"' WHERE id='"+option.production_id+"';";
+	return db(query);
+};
+
+Product.productionFindLast = async () => {
+	let query = "SELECT * FROM cms_wt_erp.product_production ORDER BY id DESC LIMIT 1;";
+	return db(query);
+};
+
 Product.productionFilter = async (periodStart, periodEnd, params, values) => {
 	let query = lib.filterByPeriod(periodStart, periodEnd, params, values, "cms_wt_erp", "product_production", "id", "DESC");
 	return db(query);
@@ -155,6 +165,8 @@ Product.productionFindById = async (id) => {
 	let query = "SELECT * FROM cms_wt_erp.product_production WHERE id='"+id+"';";
 	return db(query);
 };
+
+
 
 Product.productionListProducts = async (id) => {
 	let query = "SELECT * FROM cms_wt_erp.product_production_product WHERE production_id='"+id+"';";

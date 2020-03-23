@@ -463,6 +463,13 @@ const productController = {
 			}
 		};
 		try {
+			//Verify if last production is already confirmed
+			const lastProduction = await Product.productionFindLast();
+
+			if(lastProduction[0].status == "Pedido solicitado"){
+				return res.send({ msg: "O último pedido ainda não foi confirmado, favor confirmá-lo ou cancelá-lo antes de solicitar outra produção." });
+			};
+
 			let product_feedstocks_array = [];
 			for(i in production.products){
 				let product_feedstocks = await Product.feedstockList(production.products[i].id);
@@ -543,7 +550,7 @@ const productController = {
 					};
 					await Product.productionSaveFeedstock(production_saved.insertId, feedstock);
 				};
-				res.send({ done: "Produção solicitada com sucesso, vá em 'Feedstock > Estoque' para confirmar a saída." })
+				res.send({ done: "Produção solicitada com sucesso, vá em 'Matéria-Prima > Estoque' para confirmar a saída." })
 			};
 		} catch (err){
 			console.log(err);
@@ -576,6 +583,25 @@ const productController = {
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Erro ao confirmar a produção, favor contatar o suporte," });
+		};
+	},
+	productionCancel: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		var option = {
+			production_id: req.body.production_id,
+			storage_id: req.body.storage_id,
+			user: req.user.name
+		};
+
+		try {
+			await Product.productionCancel(option);
+			res.send({ done: "Produção cancelada com sucesso." });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Erro ao cancelar a produção, favor contatar o suporte," });
 		};
 	},
 	productionFindById: async (req, res) => {
