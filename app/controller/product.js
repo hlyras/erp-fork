@@ -355,7 +355,7 @@ const productController = {
 	},
 	productionManage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','man'])){
-			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			return res.redirect("/");
 		};
 
 		res.render('product/production_manage', { user: req.user });
@@ -466,7 +466,7 @@ const productController = {
 			//Verify if last production is already confirmed
 			const lastProduction = await Product.productionFindLast();
 
-			if(lastProduction[0].status == "Pedido solicitado"){
+			if(lastProduction.length && lastProduction[0].status == "Pedido solicitado"){
 				return res.send({ msg: "O último pedido ainda não foi confirmado, favor confirmá-lo ou cancelá-lo antes de solicitar outra produção." });
 			};
 

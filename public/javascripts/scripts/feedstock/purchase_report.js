@@ -11,6 +11,8 @@ $(() => {
 			method: "post",
 			data: $("#feedstock-purchase-filter-form").serialize(),
 			success: (response) => {
+				if(API.verifyResponse(response, "feedstock-purchase-filter-form")){return};
+
 				var pageSize = 10;
 				var page = 0;
 
@@ -124,6 +126,8 @@ function showFeedstockPurchase(id, admin){
 		method: "get",
 		data: $("#feedstock-purchase-filter-form").serialize(),
 		success: (response) => {
+			if(API.verifyResponse(response)){return};
+			
 			document.getElementById("feedstock-purchase-show-info").innerHTML = "Compra #"+response.purchase[0].id;
 
 			var html = "";
@@ -201,6 +205,7 @@ function confirmFeedstockPurchase(purchase_id, storage_id){
 				storage_id: storage_id
 			},
 			success: (response) => {
+				if(API.verifyResponse(response)){return};
 				$("#feedstock-purchase-filter-form").submit();
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				alert(response.done);

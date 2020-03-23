@@ -69,24 +69,24 @@ $(() => {
 
 	$("#feedstock-purchase-form").on('submit', (event)=>{
 		event.preventDefault();
-		document.getElementById("feedstock-purchase-submit").disabled = true;
+		document.getElementById("feedstock-purchase-form").elements.namedItem("submit").disabled = true;
 
 		var storage_id = document.getElementById("feedstock-purchase-form").elements.namedItem("storage_id").value;
 		var supplier_id = document.getElementById("feedstock-supplier-storage-filter-form").elements.namedItem("supplier_id");
 
 		if(feedstock_purchase_kart.length < 1){
 			alert("É necessário adicionar produtos ao carrinho antes de finalizar a compra.");
-			return document.getElementById('feedstock-purchase-submit').disabled = false;
+			return document.getElementById('feedstock-purchase-form').elements.namedItem("submit").disabled = false;
 		};
 
 		if(supplier_id.value < 1 || !supplier_id.value){
 			alert("É necessário selecionar o fornecedor");
-			return document.getElementById('feedstock-purchase-submit').disabled = false;
+			return document.getElementById('feedstock-purchase-form').elements.namedItem("submit").disabled = false;
 		};
 
 		if(storage_id < 1 || !storage_id){
 			alert("É necessário selecionar o estoque que irá receber os materiais.");
-			return document.getElementById('feedstock-purchase-submit').disabled = false;
+			return document.getElementById('feedstock-purchase-form').elements.namedItem("submit").disabled = false;
 		};
 
 		var supplier_name = supplier_id.options[supplier_id.selectedIndex].text;
@@ -116,17 +116,7 @@ $(() => {
 					storage_id: storage_id
 				},
 				success: (response) => {
-					if(response.unauthorized){
-						alert(response.unauthorized);
-						window.location.href = '/login';
-						return;
-					};
-					
-					if(response.msg){
-						document.getElementById('ajax-loader').style.visibility = 'hidden';
-						document.getElementById("feedstock-purchase-submit").disabled = false;
-						return alert(response.msg);
-					};
+					if(API.verifyResponse(response, "feedstock-purchase-form")){return};
 
 					alert(response.done);
 
@@ -138,11 +128,11 @@ $(() => {
 
 					document.getElementById('ajax-loader').style.visibility = 'hidden';
 
-					document.getElementById("feedstock-purchase-submit").disabled = false;
+					document.getElementById("feedstock-purchase-form").elements.namedItem("submit").disabled = false;
 				}
 			});
 		} else {
-			document.getElementById("feedstock-purchase-submit").disabled = false;
+			document.getElementById("feedstock-purchase-form").elements.namedItem("submit").disabled = false;
 		};
 	});
 });

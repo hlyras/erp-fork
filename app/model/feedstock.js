@@ -133,7 +133,7 @@ Feedstock.purchaseSave = async (purchase) => {
 };
 
 Feedstock.purchaseSaveProduct = async (option) => {
-	let query = "INSERT INTO cms_wt_erp.feedstock_purchase_product (purchase_id, feedstock_id, feedstock_info, amount, feedstock_uom, feedstock_value) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.feedstock_purchase_feedstock (purchase_id, feedstock_id, feedstock_info, amount, feedstock_uom, feedstock_value) VALUES ('"
 		+option.purchase_id+"', '"
 		+option.feedstock_id+"', '"
 		+option.feedstock_info+"', '"
@@ -154,7 +154,7 @@ Feedstock.purchaseFindById = async (id) => {
 };
 
 Feedstock.purchaseListProducts = async (id) => {
-	let query = "SELECT * FROM cms_wt_erp.feedstock_purchase_product WHERE purchase_id='"+id+"';";
+	let query = "SELECT * FROM cms_wt_erp.feedstock_purchase_feedstock WHERE purchase_id='"+id+"';";
 	return db(query);
 };
 
