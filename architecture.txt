@@ -9,11 +9,39 @@ Users access -
 		Access to Feedstock functions (except remove functions);
 
 	man (Manager)
-		Access to Product functions (except remove/confirmation functions);
-		Access to Feedstock functions (except remove/confirmation functions);
+		Acesso
+			Matéria-Prima Adição/Edição/Remoção -
+			Matéria-Prima Adição/Edição/Remoção de fornecedores -
+			Matéria-Prima Solicitação de Compra -
+			Matéria-Prima Visualizar Solicitações de Compra - (Admin)
+			Matéria-Prima Cancelar Solicitações de Compra (N/I)
+			Matéria-Prima Estoque -
+
+			Produtos Edição -
+			Produtos Adição e exclusão de matérias-primas -
+			Produtos Estoque (N/I)
+
+			Produtos Solicitação de Produção -
+			Produtos Visualizar Solicitações de Produção - (Admin)
+			Produtos Cancelar Solicitações de Produção - (Admin)
 
 	sto (stockist)
-		Access to Feedstock storage (only storage access and confirmation functions);
-		Access to Product storage (only storage access and confirmation functions);
+		Acesso
+			Matéria-Prima Visualizar Solicitações de compra - (Estoque)
+			Matéria-Prima Confirmar Solicitações de compra - (Estoque)
+
+			'storagemanage' insert filter function in 'storage'
+
+			Produtos Estoque (N/I)
+
+			Produtos Visualizar Solicitações de Produção - (Estoque)
+
+	cut (cutter)
+		Acesso
+			Matéria-Prima Visualizar Solicitações de produção (Estoque);
+			Matéria-Prima Confirmar Solicitações de produção (Estoque);
+
+	cas (cashier)
+		Access to product storage (only product solicitation and confirmation);
 
 	n/a (No Access);
