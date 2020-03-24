@@ -414,10 +414,12 @@ const feedstockController = {
 			return res.redirect('/');
 		};
 
-		res.render('feedstock/storage', { user: req.user });
+		const feedstockColors = await Feedstock.colorList();
+		const feedstockStorages = await Feedstock.storageList();
+		res.render('feedstock/storage', { user: req.user, feedstockColors, feedstockStorages });
 	},
 	storageManage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','sto'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man'])){
 			return res.redirect('/');
 		};
 

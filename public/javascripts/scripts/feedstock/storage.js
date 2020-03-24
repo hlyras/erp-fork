@@ -77,8 +77,6 @@ $(() => {
 					};
 				};
 
-				console.log(response);
-
 				var pageSize = 10;
 				var page = 0;
 
