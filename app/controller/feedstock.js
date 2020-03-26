@@ -210,7 +210,7 @@ const feedstockController = {
 			});
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
