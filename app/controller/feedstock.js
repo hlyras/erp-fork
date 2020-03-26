@@ -72,7 +72,7 @@ const feedstockController = {
 		};
 	},
 	request: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
 			return res.redirect('/');
 		};
 
@@ -125,7 +125,7 @@ const feedstockController = {
 		};
 	},
 	requestFilter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','sto'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -150,7 +150,7 @@ const feedstockController = {
 		res.send({ requests });
 	},
 	requestFindById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','sto'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -169,7 +169,7 @@ const feedstockController = {
 		};
 	},
 	requestConfirm: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','sto'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
