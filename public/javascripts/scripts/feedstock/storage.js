@@ -131,7 +131,7 @@ function renderAdminFeedstockStorage(feedstocks, pageSize, page, location){
 	html += "<td>Cor</td>";
 	html += "<td>Qtd</td>";
 	html += "<td>Rolo/Caixa</td>";
-	html += "<td>Un.med</td>";
+	html += "<td>Un.m</td>";
 	html += "</tr>";
 	for (let i = page * pageSize; i < feedstocks.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";

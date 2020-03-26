@@ -79,11 +79,11 @@ var lib = {
 		} else {
 			var query = "SELECT * FROM "+db+"."+tbl+" ";
 		};
-		for(i in params){
-			if(i == params.length - 1){
-				query += params[i]+"='"+values[i]+"' ";
+		for(t in params){
+			if(t == params.length - 1){
+				query += params[t]+"='"+values[t]+"' ";
 			} else {
-				query += params[i]+"='"+values[i]+"' AND ";
+				query += params[t]+"='"+values[t]+"' AND ";
 			};
 		};
 		query += "ORDER BY "+orderParam+" "+order+";";

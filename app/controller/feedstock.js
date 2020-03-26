@@ -71,6 +71,131 @@ const feedstockController = {
 			res.send({ msg: "Ocorreu um erro ao cadastrar a matéria-prima, favor contatar o suporte" });
 		};
 	},
+	request: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man'])){
+			return res.redirect('/');
+		};
+
+		const feedstockColors = await Feedstock.colorList();
+		const feedstockStorages = await Feedstock.storageList();
+		res.render('feedstock/request', { user: req.user, feedstockColors, feedstockStorages });
+	},
+	requestSave: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		const request = {
+			date: lib.genPatternDate(),
+			full_date: lib.genFullDate(),
+			storage_id: req.body.storage_id,
+			feedstocks: JSON.parse(req.body.feedstocks),
+			user: req.user.name,
+			obs: req.body.obs
+		};
+
+		try {
+			for(i in request.feedstocks){
+				let feedstock = await Feedstock.findById(request.feedstocks[i].id);
+				request.feedstocks[i].standard = feedstock[0].standard;
+				request.feedstocks[i].releasedAmount = feedstock[0].standard * request.feedstocks[i].amount;
+				let storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [request.storage_id, feedstock[0].id]);
+				if(storage_feedstock[0].amount < request.feedstocks[i].releasedAmount){
+					return res.send({ msg: "Não há estoque de "+feedstock[0].name+" "+feedstock[0].color+" suficiente para realizar o pedido.\n Quantidade em estoque: "+storage_feedstock[0].amount / feedstock[0].standard });
+				};
+			};
+
+			let savedRequest = await Feedstock.requestSave(request);
+
+			for(i in request.feedstocks){
+				let option = {
+					request_id: savedRequest.insertId,
+					feedstock_id: request.feedstocks[i].id,
+					feedstock_info: request.feedstocks[i].name+" "+request.feedstocks[i].color,
+					feedstock_uom: request.feedstocks[i].uom,
+					amount: request.feedstocks[i].releasedAmount
+				};
+				await Feedstock.requestSaveFeedstock(option);
+			};
+
+			res.send({ done: "Pedido solicitado com sucesso!" });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao confirmar a solicitação favor contatar o suporte." });
+		};
+	},
+	requestFilter: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		let params = [];
+		let values = [];
+
+		if(req.body.feedstock_request_periodStart && req.body.feedstock_request_periodEnd){
+			var periodStart = req.body.feedstock_request_periodStart;
+			var periodEnd = req.body.feedstock_request_periodEnd;
+		} else {
+			var periodStart = "";
+			var periodEnd = "";
+		};
+
+		if(req.body.feedstock_request_status){
+			params.push("status");
+			values.push(req.body.feedstock_request_status);
+		};
+
+		const requests = await Feedstock.requestFilter(periodStart, periodEnd, params, values);
+
+		res.send({ requests });
+	},
+	requestFindById: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		try {
+			const request = await Feedstock.requestFindById(req.params.id);
+			const request_feedstocks = await Feedstock.requestListProducts(req.params.id);
+			const feedstocks = [];
+			for(i in request_feedstocks){
+				let feedstock = await Feedstock.findById(request_feedstocks[i].feedstock_id);
+				request_feedstocks[i].feedstock_standard = feedstock[0].standard;
+			};
+			res.send({ request, request_feedstocks });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Erro ao encontrar a compra" });
+		};
+	},
+	requestConfirm: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','sto'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		var option = {
+			request_id: req.body.request_id,
+			storage_id: req.body.storage_id,
+			user: req.user.name
+		};
+
+		try {
+			await Feedstock.requestConfirm(option);
+			const request_feedstocks = await Feedstock.requestListProducts(option.request_id);
+			for(i in request_feedstocks){
+				var option = {
+					feedstock_id: request_feedstocks[i].feedstock_id,
+					storage_id: req.body.storage_id,
+					amount: request_feedstocks[i].amount
+				};
+				await Feedstock.decreaseStorageFeedstockAmount(option);
+			};
+			res.send({ done: "Pedido confirmado com sucesso." });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Erro ao confirmar o pedido, favor contatar o suporte," });
+		};
+	},
 	findById: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','man','n/a'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
@@ -137,7 +262,6 @@ const feedstockController = {
 		};
 		
 		const feedstockColors = await Feedstock.colorList();
-
 		res.render('feedstock/supplier', { user: req.user, feedstockColors });
 	},
 	supplierCreate: async (req, res) => {
@@ -177,7 +301,6 @@ const feedstockController = {
 		};
 
 		const supplier = await Feedstock.supplierFindById(req.params.id);
-
 		res.send({ done: 'OK', supplier });
 	},
 	supplierFilter: async (req, res) => {
@@ -313,7 +436,7 @@ const feedstockController = {
 					feedstock_value: feedstocks[i].value
 				};
 
-				await Feedstock.purchaseSaveProduct(option);
+				await Feedstock.purchaseSaveFeedstock(option);
 			};
 			res.send({ done: "Compra de código: "+purchase_row.insertId+" cadastrada com sucesso.\n Confirme após conferência para efetivar entrada no estoque." });
 		} catch (err) {

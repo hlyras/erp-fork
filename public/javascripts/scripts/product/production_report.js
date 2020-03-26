@@ -131,6 +131,7 @@ function renderProductProductionFeedstockStorage(productions, pageSize, page, lo
 function showProductProduction(id, admin){
 	if(!admin){
 		document.getElementById("feedstock-purchase-show-box").style.display = "none";
+		document.getElementById("feedstock-request-show-box").style.display = "none";
 	};
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 

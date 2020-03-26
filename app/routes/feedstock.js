@@ -10,6 +10,12 @@ router.get('/id/:id', feedstockController.findById);
 router.get('/filter', feedstockController.filter);
 router.delete('/remove', feedstockController.remove);
 
+router.get('/request', feedstockController.request);
+router.post('/request/save', feedstockController.requestSave);
+router.post('/request/filter', feedstockController.requestFilter);
+router.get('/request/id/:id', feedstockController.requestFindById);
+router.put('/request/confirm', feedstockController.requestConfirm);
+
 router.get('/supplier', feedstockController.supplier);
 router.post('/supplier/create', feedstockController.supplierCreate);
 router.get('/supplier/filter', feedstockController.supplierFilter);

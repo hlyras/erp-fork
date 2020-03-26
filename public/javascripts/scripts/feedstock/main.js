@@ -62,6 +62,8 @@ $(function(){
 							fillFeedstockSelect(response.feedstocks, document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id'));
 						} else if (location==="feedstockSupplierAddFeedstock"){
 							fillFeedstockSelect(response.feedstocks, document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id'));
+						} else if (location==="feedstockRequest"){
+							fillFeedstockSelect(response.feedstocks, document.getElementById("feedstock-request-kart-form").elements.namedItem('feedstock_id'));
 						};
 					} else {
 						if(location==="feedstockAdmin"){
@@ -72,6 +74,8 @@ $(function(){
 							lib.clearSelect(document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id'));
 						} else if (location==="feedstockSupplierAddFeedstock"){
 							lib.clearSelect(document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id'));
+						} else if (location==="feedstockRequest"){
+							lib.clearSelect(document.getElementById("feedstock-request-kart-form").elements.namedItem('feedstock_id'));
 						};
 					};
 				};

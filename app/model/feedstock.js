@@ -119,6 +119,45 @@ Feedstock.storageFeedstockClear = async (id) => {
 	return db(query);
 };
 
+Feedstock.requestSave = async (request) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_request (date, full_date, storage_id, user, obs) VALUES ('"
+		+request.date+"', '"
+		+request.full_date+"', '"
+		+request.storage_id+"', '"
+		+request.user+"', '"
+		+request.obs+"');";
+	return db(query);
+};
+
+Feedstock.requestSaveFeedstock = async (option) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_request_feedstock (request_id, feedstock_id, feedstock_info, feedstock_uom, amount) VALUES ('"
+		+option.request_id+"', '"
+		+option.feedstock_id+"', '"
+		+option.feedstock_info+"', '"
+		+option.feedstock_uom+"', '"
+		+option.amount+"');";
+	return db(query);
+};
+
+Feedstock.requestFilter = async (periodStart, periodEnd, params, values) => {
+	let query = lib.filterByPeriod(periodStart, periodEnd, params, values, "cms_wt_erp", "feedstock_request", "id", "DESC");
+	return db(query);
+};
+
+Feedstock.requestFindById = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_request WHERE id='"+id+"';";
+	return db(query);
+};
+
+Feedstock.requestListProducts = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_request_feedstock WHERE request_id='"+id+"';";
+	return db(query);
+};
+
+Feedstock.requestConfirm = async (option) => {
+	let query = "UPDATE cms_wt_erp.feedstock_request SET status='Pedido confirmado', confirmation_user='"+option.user+"' WHERE id='"+option.request_id+"';";
+	return db(query);
+};
 
 Feedstock.purchaseSave = async (purchase) => {
 	let query = "INSERT INTO cms_wt_erp.feedstock_purchase (date, full_date, supplier_id, supplier_name, value, storage_id, user) VALUES ('"
@@ -132,7 +171,7 @@ Feedstock.purchaseSave = async (purchase) => {
 	return db(query);
 };
 
-Feedstock.purchaseSaveProduct = async (option) => {
+Feedstock.purchaseSaveFeedstock = async (option) => {
 	let query = "INSERT INTO cms_wt_erp.feedstock_purchase_feedstock (purchase_id, feedstock_id, feedstock_info, amount, feedstock_uom, feedstock_value) VALUES ('"
 		+option.purchase_id+"', '"
 		+option.feedstock_id+"', '"

@@ -17,3 +17,12 @@ module.exports = {
         'password': 'root1234'
     }
 };
+
+// module.exports = {
+//     'connection': {
+//         'host': 'localhost',
+//         'port': '3306',
+//         'user': 'hlyras',
+//         'password': 'root1234'
+//     }
+// };
