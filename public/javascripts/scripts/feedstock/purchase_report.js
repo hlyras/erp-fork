@@ -118,7 +118,7 @@ function renderFeedstockPurchasesStorage(purchases, pageSize, page, location, ad
 function showFeedstockPurchase(id, admin){
 	if(!admin){
 		document.getElementById("product-production-show-box").style.display = "none";
-		document.getElementById("product-request-show-box").style.display = "none";
+		document.getElementById("feedstock-request-show-box").style.display = "none";
 	};
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 
