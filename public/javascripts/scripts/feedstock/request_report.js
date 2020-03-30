@@ -157,13 +157,17 @@ function showFeedstockRequest(id, admin){
 			html += "<tr>";
 			html += "<td>Matéria-Prima</td>";
 			html += "<td>Qtd</td>";
-			html += "<td>Rolo/Caixa</td>";
+			html += "<td>Rolo/Unid</td>";
 			html += "</tr>";
 			for(i in response.request_feedstocks){
 				html += "<tr>";
 				html += "<td>"+response.request_feedstocks[i].feedstock_info+"</td>";
 				html += "<td class='nowrap'>"+response.request_feedstocks[i].amount+""+response.request_feedstocks[i].feedstock_uom+"</td>";
-				html += "<td class='nowrap'>"+response.request_feedstocks[i].amount / response.request_feedstocks[i].feedstock_standard+"</td>";
+				if(response.request_feedstocks[i].feedstock_uom == 'cm'){
+					html += "<td class='nowrap'>"+response.request_feedstocks[i].amount / response.request_feedstocks[i].feedstock_standard+"</td>";
+				} else if(response.request_feedstocks[i].feedstock_uom == 'un'){
+					html += "<td class='nowrap'>"+response.request_feedstocks[i].amount+"</td>";
+				};
 				html += "</tr>";
 			};
 

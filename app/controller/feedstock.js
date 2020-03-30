@@ -98,10 +98,19 @@ const feedstockController = {
 			for(i in request.feedstocks){
 				let feedstock = await Feedstock.findById(request.feedstocks[i].id);
 				request.feedstocks[i].standard = feedstock[0].standard;
-				request.feedstocks[i].releasedAmount = feedstock[0].standard * request.feedstocks[i].amount;
+				if(request.feedstocks[i].uom == 'cm'){
+					request.feedstocks[i].releasedAmount = feedstock[0].standard * request.feedstocks[i].amount;
+				} else if(request.feedstocks[i].uom == 'un'){
+					request.feedstocks[i].releasedAmount = request.feedstocks[i].amount;
+				};
+				console.log(request.feedstocks[i].releasedAmount);
 				let storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [request.storage_id, feedstock[0].id]);
 				if(storage_feedstock[0].amount < request.feedstocks[i].releasedAmount){
-					return res.send({ msg: "Não há estoque de "+feedstock[0].name+" "+feedstock[0].color+" suficiente para realizar o pedido.\n Quantidade em estoque: "+storage_feedstock[0].amount / feedstock[0].standard });
+					if(request.feedstocks[i].uom == 'cm'){
+						return res.send({ msg: "Não há estoque de "+feedstock[0].name+" "+feedstock[0].color+" suficiente para realizar o pedido.\n Quantidade em estoque: "+storage_feedstock[0].amount / feedstock[0].standard });
+					} else if(request.feedstocks[i].uom == 'un'){
+						return res.send({ msg: "Não há estoque de "+feedstock[0].name+" "+feedstock[0].color+" suficiente para realizar o pedido.\n Quantidade em estoque: "+storage_feedstock[0].amount });
+					};	
 				};
 			};
 
