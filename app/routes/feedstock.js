@@ -16,6 +16,12 @@ router.post('/request/filter', feedstockController.requestFilter);
 router.get('/request/id/:id', feedstockController.requestFindById);
 router.put('/request/confirm', feedstockController.requestConfirm);
 
+router.get('/regress', feedstockController.regress);
+router.post('/regress/save', feedstockController.regressSave);
+router.post('/regress/filter', feedstockController.regressFilter);
+router.get('/regress/id/:id', feedstockController.regressFindById);
+router.put('/regress/confirm', feedstockController.regressConfirm);
+
 router.get('/supplier', feedstockController.supplier);
 router.post('/supplier/create', feedstockController.supplierCreate);
 router.get('/supplier/filter', feedstockController.supplierFilter);

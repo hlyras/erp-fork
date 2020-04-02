@@ -64,6 +64,8 @@ $(function(){
 							fillFeedstockSelect(response.feedstocks, document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id'));
 						} else if (location==="feedstockRequest"){
 							fillFeedstockSelect(response.feedstocks, document.getElementById("feedstock-request-kart-form").elements.namedItem('feedstock_id'));
+						} else if (location==="feedstockRegress"){
+							fillFeedstockSelect(response.feedstocks, document.getElementById("feedstock-regress-kart-form").elements.namedItem('feedstock_id'));
 						};
 					} else {
 						if(location==="feedstockAdmin"){
@@ -76,6 +78,8 @@ $(function(){
 							lib.clearSelect(document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id'));
 						} else if (location==="feedstockRequest"){
 							lib.clearSelect(document.getElementById("feedstock-request-kart-form").elements.namedItem('feedstock_id'));
+						} else if (location==="feedstockRegress"){
+							lib.clearSelect(document.getElementById("feedstock-regress-kart-form").elements.namedItem('feedstock_id'));
 						};
 					};
 				};

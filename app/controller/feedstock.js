@@ -103,7 +103,6 @@ const feedstockController = {
 				} else if(request.feedstocks[i].uom == 'un'){
 					request.feedstocks[i].releasedAmount = request.feedstocks[i].amount;
 				};
-				console.log(request.feedstocks[i].releasedAmount);
 				let storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [request.storage_id, feedstock[0].id]);
 				if(storage_feedstock[0].amount < request.feedstocks[i].releasedAmount){
 					if(request.feedstocks[i].uom == 'cm'){
@@ -198,6 +197,131 @@ const feedstockController = {
 					amount: request_feedstocks[i].amount
 				};
 				await Feedstock.decreaseStorageFeedstockAmount(option);
+			};
+			res.send({ done: "Pedido confirmado com sucesso." });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Erro ao confirmar o pedido, favor contatar o suporte," });
+		};
+	},
+	regress: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+			return res.redirect('/');
+		};
+
+		const feedstockColors = await Feedstock.colorList();
+		const feedstockStorages = await Feedstock.storageList();
+		res.render('feedstock/regress', { user: req.user, feedstockColors, feedstockStorages });
+	},
+	regressSave: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		const regress = {
+			date: lib.genPatternDate(),
+			full_date: lib.genFullDate(),
+			storage_id: req.body.storage_id,
+			feedstocks: JSON.parse(req.body.feedstocks),
+			user: req.user.name,
+			obs: req.body.obs
+		};
+
+		try {
+			for(i in regress.feedstocks){
+				let feedstock = await Feedstock.findById(regress.feedstocks[i].id);
+				regress.feedstocks[i].standard = feedstock[0].standard;
+				if(regress.feedstocks[i].uom == 'cm'){
+					regress.feedstocks[i].releasedAmount = feedstock[0].standard * regress.feedstocks[i].amount;
+				} else if(regress.feedstocks[i].uom == 'un'){
+					regress.feedstocks[i].releasedAmount = regress.feedstocks[i].amount;
+				};
+			};
+
+			let savedRegress = await Feedstock.regressSave(regress);
+
+			for(i in regress.feedstocks){
+				let option = {
+					regress_id: savedRegress.insertId,
+					feedstock_id: regress.feedstocks[i].id,
+					feedstock_info: regress.feedstocks[i].name+" "+regress.feedstocks[i].color,
+					feedstock_uom: regress.feedstocks[i].uom,
+					amount: regress.feedstocks[i].releasedAmount
+				};
+				await Feedstock.regressSaveFeedstock(option);
+			};
+
+			res.send({ done: "Pedido solicitado com sucesso!" });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao confirmar a solicitação favor contatar o suporte." });
+		};
+	},
+	regressFilter: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		let params = [];
+		let values = [];
+
+		if(req.body.feedstock_regress_periodStart && req.body.feedstock_regress_periodEnd){
+			var periodStart = req.body.feedstock_regress_periodStart;
+			var periodEnd = req.body.feedstock_regress_periodEnd;
+		} else {
+			var periodStart = "";
+			var periodEnd = "";
+		};
+
+		if(req.body.feedstock_regress_status){
+			params.push("status");
+			values.push(req.body.feedstock_regress_status);
+		};
+
+		const regresses = await Feedstock.regressFilter(periodStart, periodEnd, params, values);
+
+		res.send({ regresses });
+	},
+	regressFindById: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		try {
+			const regress = await Feedstock.regressFindById(req.params.id);
+			const regress_feedstocks = await Feedstock.regressListProducts(req.params.id);
+			const feedstocks = [];
+			for(i in regress_feedstocks){
+				let feedstock = await Feedstock.findById(regress_feedstocks[i].feedstock_id);
+				regress_feedstocks[i].feedstock_standard = feedstock[0].standard;
+			};
+			res.send({ regress, regress_feedstocks });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Erro ao encontrar a compra" });
+		};
+	},
+	regressConfirm: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		var option = {
+			regress_id: req.body.regress_id,
+			storage_id: req.body.storage_id,
+			user: req.user.name
+		};
+
+		try {
+			await Feedstock.regressConfirm(option);
+			const regress_feedstocks = await Feedstock.regressListProducts(option.regress_id);
+			for(i in regress_feedstocks){
+				var option = {
+					feedstock_id: regress_feedstocks[i].feedstock_id,
+					storage_id: req.body.storage_id,
+					amount: regress_feedstocks[i].amount
+				};
+				await Feedstock.increaseStorageFeedstockAmount(option);
 			};
 			res.send({ done: "Pedido confirmado com sucesso." });
 		} catch (err) {

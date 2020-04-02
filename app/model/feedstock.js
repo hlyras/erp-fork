@@ -159,6 +159,46 @@ Feedstock.requestConfirm = async (option) => {
 	return db(query);
 };
 
+Feedstock.regressSave = async (regress) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_regress (date, full_date, storage_id, user, obs) VALUES ('"
+		+regress.date+"', '"
+		+regress.full_date+"', '"
+		+regress.storage_id+"', '"
+		+regress.user+"', '"
+		+regress.obs+"');";
+	return db(query);
+};
+
+Feedstock.regressSaveFeedstock = async (option) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_regress_feedstock (regress_id, feedstock_id, feedstock_info, feedstock_uom, amount) VALUES ('"
+		+option.regress_id+"', '"
+		+option.feedstock_id+"', '"
+		+option.feedstock_info+"', '"
+		+option.feedstock_uom+"', '"
+		+option.amount+"');";
+	return db(query);
+};
+
+Feedstock.regressFilter = async (periodStart, periodEnd, params, values) => {
+	let query = lib.filterByPeriod(periodStart, periodEnd, params, values, "cms_wt_erp", "feedstock_regress", "id", "DESC");
+	return db(query);
+};
+
+Feedstock.regressFindById = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_regress WHERE id='"+id+"';";
+	return db(query);
+};
+
+Feedstock.regressListProducts = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_regress_feedstock WHERE regress_id='"+id+"';";
+	return db(query);
+};
+
+Feedstock.regressConfirm = async (option) => {
+	let query = "UPDATE cms_wt_erp.feedstock_regress SET status='Pedido confirmado', confirmation_user='"+option.user+"' WHERE id='"+option.regress_id+"';";
+	return db(query);
+};
+
 Feedstock.purchaseSave = async (purchase) => {
 	let query = "INSERT INTO cms_wt_erp.feedstock_purchase (date, full_date, supplier_id, supplier_name, value, storage_id, user) VALUES ('"
 		+purchase.date+"', '"
