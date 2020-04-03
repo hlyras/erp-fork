@@ -298,11 +298,11 @@ const feedstockController = {
 			res.send({ regress, regress_feedstocks });
 		} catch (err) {
 			console.log(err);
-			res.send({ msg: "Erro ao encontrar a compra" });
+			res.send({ msg: "Erro ao encontrar a solicitação, favor contatar o suporte." });
 		};
 	},
 	regressConfirm: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -323,7 +323,7 @@ const feedstockController = {
 				};
 				await Feedstock.increaseStorageFeedstockAmount(option);
 			};
-			res.send({ done: "Pedido confirmado com sucesso." });
+			res.send({ done: "Pedido de retorno confirmado com sucesso." });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Erro ao confirmar o pedido, favor contatar o suporte," });

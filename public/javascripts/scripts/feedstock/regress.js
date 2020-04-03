@@ -71,7 +71,7 @@ $(() => {
 		};
 
 		if(storage_id < 1 || !storage_id){
-			alert("É necessário selecionar o estoque que irá retirar os materiais.");
+			alert("É necessário selecionar o estoque que irá enviar os materiais.");
 			return document.getElementById('feedstock-regress-form').elements.namedItem("submit").disabled = false;
 		};
 

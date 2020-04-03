@@ -38,7 +38,7 @@
 				</div>
 				<div class="box-1">
 					<form id="feedstock-regress-form" class="box-1">
-						<h3 class="underline">Retirar de</h3>
+						<h3 class="underline">Enviar para</h3>
 						<select name="storage_id" class="btn-generic-medium">
 							<option value="">Estoque</option>
 							<% for(i in feedstockStorages){ %>
@@ -46,9 +46,9 @@
 							<% } %>
 						</select>
 						<select name="obs" class="btn-generic-big">
-							<option value="Completar estoque Mínimo">Completar estoque mínimo</option>
-							<option value="Insuficiente para produção">Completar material para produção</option>
-							<option value="Produção não planejada">Produção não solicitada</option>
+							<option value="Acumulo por pedido de produção">Acumulo por pedido de produção</option>
+							<option value="Acumulo por pedido avulso">Acumulo por pedido avulso</option>
+							<option value="Inserção manual em estoque">Inserção manual em estoque</option>
 						</select>
 						<input type="submit" name="submit" class="btn-submit" value="Confirmar">
 					</form>
