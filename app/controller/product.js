@@ -413,30 +413,23 @@ const productController = {
 				// if use production_feedstocks[i].amount instead variable the value is broken
 				feedstock[0].amount = feedstockAmount;
 				feedstock[0].amountInStorage = storage_feedstock[0].amount;
-				if(feedstock[0].amount > feedstock[0].amountInStorage){
-					production.feedstocks.notEnough.push(feedstock[0]);
+				
+				if(feedstock[0].uom == 'cm'){
+					feedstock[0].standardAmount = Math.round(feedstock[0].amount / feedstock[0].standard);
+					feedstock[0].releasedAmount = feedstock[0].standard * feedstock[0].standardAmount;
+					if(feedstock[0].standardAmount > feedstock[0].amountInStorage / feedstock[0].standard){
+						production.feedstocks.notEnough.push(feedstock[0]);
+					} else {
+						production.feedstocks.enough.push(feedstock[0]);
+					};
 				} else {
-					production.feedstocks.enough.push(feedstock[0]);
-				};
-			};
-
-			for(i in production.feedstocks.enough){
-				if(production.feedstocks.enough[i].uom == 'cm'){
-					production.feedstocks.enough[i].standardAmount = Math.round(production.feedstocks.enough[i].amount / production.feedstocks.enough[i].standard);
-					production.feedstocks.enough[i].releasedAmount = production.feedstocks.enough[i].standard * production.feedstocks.enough[i].standardAmount;
-				} else {
-					production.feedstocks.enough[i].standardAmount = production.feedstocks.enough[i].amount;
-					production.feedstocks.enough[i].releasedAmount = production.feedstocks.enough[i].amount;
-				};
-			};
-
-			for(i in production.feedstocks.notEnough){
-				if(production.feedstocks.notEnough[i].uom == 'cm'){
-					production.feedstocks.notEnough[i].standardAmount = Math.round(production.feedstocks.notEnough[i].amount / production.feedstocks.notEnough[i].standard);
-					production.feedstocks.notEnough[i].releasedAmount = production.feedstocks.notEnough[i].standard * production.feedstocks.notEnough[i].standardAmount;
-				} else {
-					production.feedstocks.notEnough[i].standardAmount = production.feedstocks.notEnough[i].amount;
-					production.feedstocks.notEnough[i].releasedAmount = production.feedstocks.notEnough[i].amount;
+					feedstock[0].standardAmount = feedstock[0].amount;
+					feedstock[0].releasedAmount = feedstock[0].amount;
+					if(feedstock[0].standardAmount > feedstock[0].amountInStorage){
+						production.feedstocks.notEnough.push(feedstock[0]);
+					} else {
+						production.feedstocks.enough.push(feedstock[0]);
+					};
 				};
 			};
 
@@ -508,20 +501,23 @@ const productController = {
 				// if use production_feedstocks[i].amount instead variable the value is broken
 				feedstock[0].amount = feedstockAmount;
 				feedstock[0].amountInStorage = storage_feedstock[0].amount;
-				if(feedstock[0].amount > feedstock[0].amountInStorage){
-					production.feedstocks.notEnough.push(feedstock[0]);
+				
+				if(feedstock[0].uom == 'cm'){
+					feedstock[0].standardAmount = Math.round(feedstock[0].amount / feedstock[0].standard);
+					feedstock[0].releasedAmount = feedstock[0].standard * feedstock[0].standardAmount;
+					if(feedstock[0].standardAmount > feedstock[0].amountInStorage / feedstock[0].standard){
+						production.feedstocks.notEnough.push(feedstock[0]);
+					} else {
+						production.feedstocks.enough.push(feedstock[0]);
+					};
 				} else {
-					production.feedstocks.enough.push(feedstock[0]);
-				};
-			};
-
-			for(i in production.feedstocks.enough){
-				if(production.feedstocks.enough[i].uom == 'cm'){
-					production.feedstocks.enough[i].standardAmount = Math.round(production.feedstocks.enough[i].amount / production.feedstocks.enough[i].standard);
-					production.feedstocks.enough[i].releasedAmount = production.feedstocks.enough[i].standard * production.feedstocks.enough[i].standardAmount;
-				} else {
-					production.feedstocks.enough[i].standardAmount = production.feedstocks.enough[i].amount;
-					production.feedstocks.enough[i].releasedAmount = production.feedstocks.enough[i].amount;
+					feedstock[0].standardAmount = feedstock[0].amount;
+					feedstock[0].releasedAmount = feedstock[0].amount;
+					if(feedstock[0].standardAmount > feedstock[0].amountInStorage){
+						production.feedstocks.notEnough.push(feedstock[0]);
+					} else {
+						production.feedstocks.enough.push(feedstock[0]);
+					};
 				};
 			};
 
