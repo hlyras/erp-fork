@@ -268,6 +268,7 @@ const financialController = {
 
 		const outcome = {
 			date: lib.genPatternDate(),
+			full_date: lib.genFullDate(),
 			category_id: req.body.category_id,		
 			category_name: req.body.category_name,		
 			origin_id: req.body.origin_id,		
@@ -282,11 +283,11 @@ const financialController = {
 
 		Financial.outcomeSave(outcome)
 			.then(() => {
-				res.send({ done: "Receita cadastrada com sucesso!" });
+				res.send({ done: "Despesa cadastrada com sucesso!" });
 			})
 			.catch(err => {
 				console.log(err);
-				res.send({ msg: "Ocorreu um erro ao cadastrar a receita, favor contatar o suporte" });
+				res.send({ msg: "Ocorreu um erro ao cadastrar a despesa, favor contatar o suporte" });
 			});
 	},
 	outcomeFindById: async (req, res) => {

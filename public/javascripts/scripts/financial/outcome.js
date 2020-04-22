@@ -369,6 +369,7 @@ $(function(){
 });
 
 function showFinancialOutcome(id){
+	document.getElementById('ajax-loader').style.visibility = 'visible';
 	$.ajax({
 		url: '/financial/outcome/id/'+id,
 		method: 'get',
@@ -382,28 +383,45 @@ function showFinancialOutcome(id){
 			document.getElementById("financial-show-box").style.display = "block";
 
 			var html = "";
-			html += "<tr>";
+			html += "<tr>"
 			html += "<td>Id<td>";
-			html += "<td>Data<td>";
-			html += "<td>Categoria<td>";
-			html += "<td>Origem<td>";
-			html += "<td>Método de pagamento<td>";
-			html += "<td>Valor<td>";
-			html += "<td>Usuário<td>";
+			html += "<td class='nowrap'>"+outcome[0].id+"<td>";
 			html += "</tr>";
 
 			html += "<tr>";
-			html += "<td class='nowrap'>"+outcome[0].id+"<td>";
+			html += "<td>Data<td>";
 			html += "<td>"+outcome[0].date+"<td>";
+			html += "</tr>";
+
+			html += "<tr>";
+			html += "<td>Categoria<td>";
 			html += "<td>"+outcome[0].category_name+"<td>";
+			html += "</tr>";
+
+			html += "<tr>";
+			html += "<td>Origem<td>";
 			html += "<td>"+outcome[0].origin_name+"<td>";
+			html += "</tr>";
+
+			html += "<tr>";
+			html += "<td>Método de pagamento<td>";
 			html += "<td>"+outcome[0].payment_name+"<td>";
+			html += "</tr>";
+
+			html += "<tr>";
+			html += "<td>Valor<td>";
 			html += "<td class='nowrap'>"+outcome[0].value+"<td>";
+			html += "</tr>";
+
+			html += "<tr>";
+			html += "<td>Usuário<td>";
 			html += "<td>"+outcome[0].user_name+"<td>";
 			html += "</tr>";
 			
 			document.getElementById("financial-show-tbl").innerHTML = html;
 			document.getElementById("financial-show-obs").innerHTML = "<br>"+outcome[0].obs;
+			
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
 	});
 };
