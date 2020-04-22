@@ -390,7 +390,7 @@ function showFinancialOutcome(id){
 
 			html += "<tr>";
 			html += "<td>Data<td>";
-			html += "<td>"+outcome[0].date+"<td>";
+			html += "<td>"+outcome[0].full_date+"<td>";
 			html += "</tr>";
 
 			html += "<tr>";
