@@ -538,7 +538,7 @@ const productController = {
 				for(i in production.feedstocks.enough){
 					let feedstock = {
 						id: production.feedstocks.enough[i].id,
-						info: production.feedstocks.enough[i].name +" | "+ production.feedstocks.enough[i].color,
+						info: production.feedstocks.enough[i].code +" | "+production.feedstocks.enough[i].name +" | "+ production.feedstocks.enough[i].color,
 						uom: production.feedstocks.enough[i].uom,
 						amount: production.feedstocks.enough[i].amount,
 						standardAmount: production.feedstocks.enough[i].standardAmount,
