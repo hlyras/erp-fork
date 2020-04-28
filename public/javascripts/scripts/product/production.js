@@ -89,9 +89,16 @@ $(() => {
 			},
 			success: (response) => {
 				if(API.verifyResponse(response, "product-production-simulation")){return};
-				
-				console.log(response);
 
+				
+				response.production.feedstocks.enough.sort((a, b) => {
+					return a.code - b.code;
+				});
+
+				response.production.feedstocks.notEnough.sort((a, b) => {
+					return a.code - b.code;
+				});
+				
 				var html = "";
 				html += "<tr>";
 				html += "<td>Cód</td>";
