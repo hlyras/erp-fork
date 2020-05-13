@@ -39,6 +39,7 @@ router.post('/purchase/filter', feedstockController.purchaseFilter);
 
 router.get('/storage', feedstockController.storage);
 router.get('/storage/manage', feedstockController.storageManage);
+router.put('/storage/manage/amount/set', feedstockController.setStorageAmount);
 router.post('/storage/create', feedstockController.storageCreate);
 // router.get('/storage/list', feedstockController.storageList);
 router.get('/storage/filter', feedstockController.storageFilter);

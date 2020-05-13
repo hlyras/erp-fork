@@ -255,6 +255,11 @@ Feedstock.insertInStorage = async (insert) => {
 	return db(query);
 };
 
+Feedstock.setStorageAmount = async (feedstock) => {
+	let query = "UPDATE cms_wt_erp.feedstock_storage SET amount='"+feedstock.amount+"' WHERE id='"+feedstock.id+"';";
+	return db(query);
+};
+
 Feedstock.increaseStorageFeedstockAmount = async (option) => {
 	let query = "UPDATE cms_wt_erp.feedstock_storage SET amount=amount + '"+option.amount+"' WHERE storage_id='"+option.storage_id+"' AND feedstock_id='"+option.feedstock_id+"';";
 	return db(query);

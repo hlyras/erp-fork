@@ -683,6 +683,29 @@ const feedstockController = {
 		const feedstockStorages = await Feedstock.storageList();
 		res.render('feedstock/storage_manage', { feedstockColors: feedstockColors, feedstockStorages: feedstockStorages, user: req.user });
 	},
+	setStorageAmount: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		const feedstock = {
+			id: req.query.id,
+			amount: req.query.amount
+		};
+
+		if(feedstock.id){
+			if(isNaN(feedstock.amount) || feedstock.amount < 0 || feedstock.amount == ""){
+				return res.send({ msg: "O valor inserido é inválido." });
+			};
+
+			try {
+				await Feedstock.setStorageAmount(feedstock);
+				res.send({ done: "Atualizado com sucesso!" });
+			} catch (err) {
+				res.send({ msg: "Ocorreu um erro ao atualizar a quantidade, favor contatar o suporte." });
+			};
+		};
+	},
 	storageCreate: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','man'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
