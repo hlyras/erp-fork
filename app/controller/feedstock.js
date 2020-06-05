@@ -688,18 +688,23 @@ const feedstockController = {
 			return res.redirect('/');
 		};
 
-		const feedstock = {
-			id: req.query.id,
-			amount: req.query.amount
-		};
-
-		if(feedstock.id){
-			if(isNaN(feedstock.amount) || feedstock.amount < 0 || feedstock.amount == ""){
+		if(req.query.id){
+			if(isNaN(req.query.amount) || req.query.amount < 0 || req.query.amount == ""){
 				return res.send({ msg: "O valor inserido é inválido." });
 			};
 
+			const updatedFeedstock = {
+				id: req.query.id,
+				amount: 0
+			};
+
 			try {
-				await Feedstock.setStorageAmount(feedstock);
+				const storage_feedstock = await Feedstock.findInStorageById(req.query.id);
+				const feedstock = await Feedstock.findById(storage_feedstock[0].feedstock_id);
+				
+				updatedFeedstock.amount = feedstock[0].standard * req.query.amount;
+				
+				await Feedstock.setStorageAmount(updatedFeedstock);
 				res.send({ done: "Atualizado com sucesso!" });
 			} catch (err) {
 				res.send({ msg: "Ocorreu um erro ao atualizar a quantidade, favor contatar o suporte." });

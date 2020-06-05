@@ -280,4 +280,9 @@ Feedstock.findInStorage = async (params, values) => {
 	return db(query);
 };
 
+Feedstock.findInStorageById = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock_storage WHERE id = "+id+";";
+	return db(query);
+};
+
 module.exports = Feedstock;
