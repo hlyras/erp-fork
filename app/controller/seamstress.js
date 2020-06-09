@@ -23,21 +23,26 @@ const seamstressController = {
 			return res.send({ msg: 'O nome inserido é inválido.' });
 		};
 
-		Seamstress.save(seamstress)
-			.then(row => {
-				res.send({ done: 'Nova costureira cadastrada com sucesso!', seamstress: row });
-			})
-			.catch(err => {
-				console.log(err);
-			});
+		try {
+			await Seamstress.save(seamstress);
+			res.send({ done: 'Nova costureira cadastrada com sucesso!' });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao cadastrar nova costureira" });
+		};
 	},
 	list: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
-		const seamstresses = await Seamstress.list();
-		res.send(seamstresses);
+		try {
+			const seamstresses = await Seamstress.list();
+			res.send(seamstresses);
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao listar as costureiras" });	
+		};
 	},
 	filter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
