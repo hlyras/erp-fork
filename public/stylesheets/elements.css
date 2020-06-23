@@ -4,14 +4,8 @@ a {
 	color: black;
 }
 
-.favicon {
-	border-radius: 3px;
-	width: 70px;
-	height: 50px;
-}
-
 .alert-msg {
-	background-color:#f99;
+	background-color:#fff;
 	height: auto;
 	width:300px;
 	padding: 5px;
@@ -37,6 +31,10 @@ a {
 
 .bold {
 	font-weight: bold;
+}
+
+.impact {
+	font-family: Impact, Charcoal, sans-serif;
 }
 
 .btn-table {
@@ -86,6 +84,53 @@ a {
 	border: 1px solid #8f9f94;
 }
 
+.input-search {
+	font-size: 12px;
+	width: 30%;
+	height: 30px;
+	margin: 3px;
+	font-family: "HelveticaNeue-Light";
+	text-align: center;
+	background-color: #fff;
+	border-radius: 2px;
+	border: 1px solid #8f9f94;
+}
+
+.select-search-color {
+	font-size: 12px;
+	width: 25%;
+	height: 30px;
+	margin: 3px;
+	font-family: "HelveticaNeue-Light";
+	text-align-last: center;
+	background-color: #fff;
+	border-radius: 2px;
+	border: 1px solid #8f9f94;
+}
+
+.btn-search-submit {
+	background-color: #e1e1e1;
+	color: #000;
+	font-size: 12px;
+	width:25%;
+	height: 30px;
+	margin: 3px;
+	font-weight: bold;
+	font-family: "HelveticaNeue-Light";
+	text-align: center;
+	border-radius: 5px;
+	border: 2px outset #f0f0f0;
+	transition: background-color 0.5s ease-in-out;
+}
+
+.btn-search-submit:hover {
+	width: 25%; 
+	background-color: #000;
+	color: #f0f0f0;
+	animation-name: btnSubmitEffect;
+  	animation-duration: 0.3s;
+}
+
 .btn-submit {
 	background-color: #e1e1e1;
 	color: #000;
@@ -96,24 +141,16 @@ a {
 	font-weight: bold;
 	font-family: "HelveticaNeue-Light";
 	text-align: center;
-	border-radius: 20px;
+	border-radius: 5px;
 	border: 2px outset #f0f0f0;
 	transition: background-color 0.5s ease-in-out;
 }
 
 .btn-submit:hover {
 	/*background-color: #c8c8c8;*/
-	width: 140px; 
-	background-color: #000; 
+	background-color: #000;
 	color: #f0f0f0;
-	animation-name: btnSubmitEffect;
   	animation-duration: 0.3s;
-}
-
-@keyframes btnSubmitEffect {
-  0% {width: 130px; background-color: #c8c8c8; color: #000;}
-  50% {width: 135px}
-  100% {width: 140px; background-color: #000; color: #f0f0f0;}
 }
 
 .btn-generic-date-day {
@@ -171,6 +208,7 @@ a {
 	font-size: 15px;
 }
 
+/*catalog*/
 .catalog {
 	background-image: linear-gradient(to right, #dcdcdc, #c8c8c8, #aaaaaa);
 	color: rgba(0, 0, 0, 0.7);
@@ -179,6 +217,28 @@ a {
 	font-size: 16px;
 	font-weight: bold;
 	font: 50%;
+}
+
+.catalog-image-div {
+	box-sizing: border-box;
+	max-width:100%;
+	max-height:180px;
+	width: auto;
+	height:180px;
+}
+
+.catalog-image-div:hover {
+	box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.2), 2px 2px 10px 2px rgba(0, 0, 0, 0.19);
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.catalog-image {
+	box-sizing: border-box;
+	max-width:100%;
+	max-height:180px;
+	width: auto;
+	height: auto;
 }
 
 .nowrap {
@@ -196,6 +256,29 @@ a {
 	padding-bottom: 2px;
 	/*border: 1px solid #c8c8c8;*/
 	border: 1px solid #8f9f94;
+}
+
+.btn-pagination {
+	box-shadow:inset 0px 1px 3px 0px #91b8b3;
+	background:linear-gradient(to bottom, #c9c9c9 5%, #f0f0f0 100%);
+	background-color:#768d87;
+	border-radius:5px;
+	border:1px solid #566963;
+	display:inline-block;
+	cursor:pointer;
+	color:#000;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	width: 25%;
+	padding:2px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #2b665e;
+}
+
+.btn-pagination:hover {
+	background:linear-gradient(to bottom, #c3c3c3 5%, #c0c0c0 100%);
+	background-color:#6c7c7c;
 }
 
 .tbl-show-link:hover {
@@ -270,4 +353,54 @@ a {
 .link-btn {
 	font-weight: bold;
 	font-size: 20px;
+}
+
+/*DROP DOWN ELEMENTS*/
+.navigation {
+	background-color: #202124;
+	width: 100%;
+	display: flex;
+}
+
+.dropbtn {
+    background-color: #202124;
+	color: #f0f0f0;
+	font-size: 16px;
+	border: none;
+	width: 100%;
+	height: 100%;
+	padding: 10px;
+	cursor: pointer;
+	font-weight: bold;
+	text-align: center;
+}
+
+.dropdown select {
+	color: #f0f0f0;
+    text-align-last: center;
+}
+
+.dropbtn option {
+	color: #f0f0f0;
+	text-align: center;
+	font-weight: bold;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+	color: #f0f0f0;
+	width: 100%;
+	text-align: center;
+	background-color: #202124;
+}
+
+.dropdown:hover .dropbtn {background-color: #333;}
+
+select:required:invalid {
+	color: #666;
+}
+
+.dropbtn option[value=""][disabled] {
+	display: none;
 }

@@ -3,14 +3,15 @@
         <% include ./partials/head %>
 	</head>
 	<body>
-		<header>
-			<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="image" src="/images/favicon.png"></div>
+		<header class="header-background fill">
+			<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
+			<!-- <div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/jaicon2.png"></div> -->
 			<div class="right">
 				<% if (user.access == 'adm') { %>
 	            	<a class="active" href="/admin">Admin</a>
 	            <% } %>
 				<a class="active" href="/user">Perfil</a>
-				<a onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
+				<a class="active" onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
 			</div>
 		</header>
         <% include ./partials/nav %>
@@ -28,7 +29,7 @@
 								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
 							<% } %>
 						</select>
-						<input type="submit" class="btn-submit" value="Filtrar">
+						<input type="submit" class="btn-search-submit" value="Filtrar">
 					</form>
 				</div>
 				<div id="product-catalog-filter-div" class="box-2" style="display:none">
