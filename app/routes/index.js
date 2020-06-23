@@ -11,7 +11,7 @@ router.use("/admin", require("./admin"));
 router.use("/user", require("./user"));
 router.use("/product", require("./product"));
 router.use("/feedstock", require("./feedstock"));
-router.use("/seamstress", require("./seamstress"));
+router.use("/seam", require("./seam"));
 router.use("/customer", require("./customer"));
 router.use("/sale", require("./sale"));
 router.use("/financial", require("./financial"));

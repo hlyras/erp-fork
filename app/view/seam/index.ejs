@@ -1,0 +1,28 @@
+<html>
+	<head>
+        <% include ./../partials/head %>
+	</head>
+	<body>
+		<header class="header-background fill">
+			<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
+			<!-- <div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/jaicon2.png"></div> -->
+			<div class="right">
+				<% if (user.access == 'adm') { %>
+	            	<a class="active" href="/admin">Admin</a>
+	            <% } %>
+				<a class="active" href="/user">Perfil</a>
+				<a class="active" onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
+			</div>
+		</header>
+        <% include ./../partials/nav %>
+		<section>
+			<div class="container">
+				
+			</div>
+		</section>
+	</body>
+	<footer>
+        <% include ./../partials/footer %>
+        <% include ./partial %>
+	</footer>
+</html>

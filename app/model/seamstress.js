@@ -3,26 +3,21 @@ const db = require('../../config/connection');
 const Seamstress = function(){
 	this.id;
 	this.name;
+	this.engagement;
 };
 
-Seamstress.save = async (seamstress) => {
-	let query = "INSERT INTO cms_wt_erp.seamstress (name) VALUES ('"+seamstress.name+"');";
-	return db(query);
+Seamstress.internal = {
+	save: async (seamstress) => {
+		let query = "INSERT INTO cms_wt_erp.seamstress (name, engagement) VALUES ('"+seamstress.name+"', 'internal');";
+		return db(query);
+	}
 };
 
-Seamstress.list = async () => {
-	let query = "SELECT * FROM cms_wt_erp.seamstress ORDER BY name ASC;";
-	return db(query);
-};
-
-Seamstress.findByName = async (name) => {
-	let query = "SELECT * FROM cms_wt_erp.seamstress WHERE name like '%"+name+"%' ORDER BY name ASC;";
-	return db(query);
-};
-
-Seamstress.remove = async (id) => {
-	let query = "DELETE * FROM cms_wt_erp.seamstress WHERE "+id+";";
-	return db(query);
+Seamstress.external = {
+	save: async (seamstress) => {
+		let query = "INSERT INTO cms_wt_erp.seamstress (name, engagement) VALUES ('"+seamstress.name+"', 'external');";
+		return db(query);
+	}
 };
 
 module.exports = Seamstress;
