@@ -10,30 +10,15 @@ const seamController = {
 
 		res.render('seam/index', { user: req.user });
 	},
-	internal: {
+	seamstress: {
 		index: async (req, res) => {
-			res.render('seam/internal/index', { user: req.user });
+			res.render('seam/index', { user: req.user });
 		},
-		seamstress: {
-			save: async (req, res) => {
-				res.send('Saved');
-			},
-			list: async (req, res) => {
-				
-			}
-		}
-	},
-	external: {
-		index: async (req, res) => {
-			res.render('seam/external/index', { user: req.user });
+		save: async (req, res) => {
+			res.send('Saved');
 		},
-		seamstress: {
-			save: async (req, res) => {
-				res.send('Saved');
-			},
-			list: async (req, res) => {
-
-			}
+		list: async (req, res) => {
+			res.send('List');
 		}
 	}
 };

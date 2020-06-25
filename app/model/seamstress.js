@@ -6,18 +6,9 @@ const Seamstress = function(){
 	this.engagement;
 };
 
-Seamstress.internal = {
-	save: async (seamstress) => {
-		let query = "INSERT INTO cms_wt_erp.seamstress (name, engagement) VALUES ('"+seamstress.name+"', 'internal');";
-		return db(query);
-	}
-};
-
-Seamstress.external = {
-	save: async (seamstress) => {
-		let query = "INSERT INTO cms_wt_erp.seamstress (name, engagement) VALUES ('"+seamstress.name+"', 'external');";
-		return db(query);
-	}
+Seamstress.save = async () {
+	let query = "INSERT INTO cms_wt_erp.seamstress (name, engagement) VALUES ('"+seamstress.name+"', '"+seamstress.engagement+"');";
+	return db(query);
 };
 
 module.exports = Seamstress;
