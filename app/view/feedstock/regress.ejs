@@ -3,15 +3,7 @@
         <% include ./../partials/head %>
 	</head>
 	<body>
-		<header>
-			<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="image" src="/images/favicon.png"></div>
-			<div class="right">
-				<% if (user.access == 'adm') { %>
-	            	<a class="active" href="/admin">Admin</a>
-	            <% } %>
-				<a onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
-			</div>
-		</header>
+		<% include ./../partials/header %>
         <% include ./../partials/nav %>
 		<section>
 			<div class="container">
