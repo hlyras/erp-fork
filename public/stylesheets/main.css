@@ -187,6 +187,19 @@ section .container {
 	justify-content: center;
 }
 
+.image-box {
+	/* Full height */
+	height:400px;
+
+	/* Center and scale the image nicely */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	position: relative;
+	z-index: 10;
+}
+
 table {
 	margin: auto;
 	border-collapse: collapse;
