@@ -54,7 +54,11 @@ function productImagePagination(images, product_id, admin){
 	function paging(){
 		let htmlImage = "";
 	    for (let i = page * pageSize; i < images.length && i < (page + 1) * pageSize;i++){
+<<<<<<< HEAD
 			htmlImage += "<img class='catalog-image' src='"+images[i].url+"'>";
+=======
+			htmlImage += "<img class='image-box' src='"+images[i].url+"'>";
+>>>>>>> e43ba6a409d2db946f4a1bba960de46ffd46a29d
 			htmlImage += "<div clas='box-1'>";
 			htmlImage += "<br>";
 			if(admin){
