@@ -386,6 +386,10 @@ a {
 	font-weight: bold;
 }
 
+.dropbtn option[value=""][disabled] {
+	display: none;
+}
+
 .dropdown {
 	position: relative;
 	display: inline-block;
@@ -401,6 +405,6 @@ select:required:invalid {
 	color: #666;
 }
 
-.dropbtn option[value=""][disabled] {
-	display: none;
-}
+	.hide-disabled [value=""][disabled] {
+		display: none;
+	}
