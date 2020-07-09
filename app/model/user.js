@@ -6,6 +6,7 @@ const User = function(){
 	this.email;
 	this.password;
 	this.phone;
+	this.section;
 	this.role;
 	this.access;
 };

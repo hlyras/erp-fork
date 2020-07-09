@@ -12,7 +12,7 @@ const adminController = {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
-		res.render('user/admin', { user: req.user });
+		res.render('admin/user', { user: req.user });
 	},
 	product: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
