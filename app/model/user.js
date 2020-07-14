@@ -12,51 +12,6 @@ const User = function(){
 	this.access = '000-000' //no access;
 };
 
-// Projetos tem diferentes tipos de acesso, na maioria dos casos pessoas específicas tem funções específicas
-// De acordo com o crescimento do projeto, tente definir as funções atuais necessárias para a distribuição de tarefas.
-
-// Role = Função
-// Access = Acesso
-
-// Gerente de produção - Role
-// gpr - Access
-
-//Gerente de Produção - gpr
-	//Coordenador de corte - cco
-		//Auxiliar de produção - aco
-		//Auxiliar de produção - aco
-	//Coordenador de costura - ccr
-		//Costureiro(a)s - ctr
-		//Costureiro(a)s - ctr
-		//Costureiro(a)s - ctr
-		//Costureiro(a)s - ctr
-
-//Gerente Comercial
-	//Despacho de produtos
-	//Estoquista
-
-	//Marketing
-
-	//Coordenador(a) administrativo
-	//Auxiliar administrativo
-
-	/*
-	
-	Section (user_section)
-		id: INT(3);
-		name: VARCHAR(35);
-		abbreviation: VARCHAR(3);
-		roles: [];
-	
-	Role (user_section_role)
-		id: INT(3),
-		name: VARCHAR(35),
-		abbreviation: VARCHAR(3),
-		section: VARCHAR(3) not null
-	}
-	
-	*/
-
 User.list = () => {
 	let query = "SELECT * FROM cms_wt_erp.user;";
 	return db(query);

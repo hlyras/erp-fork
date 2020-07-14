@@ -19,7 +19,9 @@ const adminController = {
 			return res.redirect("/");
 		};
 
-		res.render('admin/user_department', { user: req.user });
+		
+
+		res.render('admin/user_department', { user: req.user, user_departments: [] });
 	},
 	product: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
