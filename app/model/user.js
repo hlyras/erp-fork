@@ -40,20 +40,21 @@ const User = function(){
 	//Coordenador(a) administrativo
 	//Auxiliar administrativo
 
-	/* 
+	/*
+	
 	Section (user_section)
 		id: INT(3);
 		name: VARCHAR(35);
 		abbreviation: VARCHAR(3);
 		roles: [];
-
+	
 	Role (user_section_role)
 		id: INT(3),
 		name: VARCHAR(35),
 		abbreviation: VARCHAR(3),
 		section: VARCHAR(3) not null
 	}
-
+	
 	*/
 
 User.list = () => {
