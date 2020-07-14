@@ -4,7 +4,7 @@
 
 Para o Front End
 
-	EJS, CSS, JAVASCRIPT e JQUERY.
+	EJS, CSS, JAVASCRIPT e JQUERY
 
 Para o Back End
 
@@ -57,3 +57,23 @@ Recebe a solicitação do Controller 'view/product/index' (view)
 ---
 
 ---------------------------------------------------
+
+Próximas funcionalidades a serem implementadas (somente avançar para a próxima após concluir e testar o bloco anterior)
+
+1 - Section and Roles Architecture and controllers
+	Section
+		Create Section;
+		Edit Section;
+		Remove Section;
+	Role
+		Create Role (section foreign key);
+		Edit Role (section foreign key); 
+		Remove Role;
+
+
+2 - Admin Users controllers
+	Edit Users Section and Roles setting the access to each one
+
+3 - Rework function to verify access
+
+4 - Seam controllers

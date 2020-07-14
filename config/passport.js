@@ -11,7 +11,7 @@ passport.deserializeUser(async (user, done) => {
     if(user.access == 'ctm'){
         var query = "SELECT * FROM cms_wt_erp.customers WHERE id='"+user.id+"';";
     } else {
-        var query = "SELECT * FROM cms_wt_erp.users WHERE id='"+user.id+"';";
+        var query = "SELECT * FROM cms_wt_erp.user WHERE id='"+user.id+"';";
     };
     let row = await db(query);
     done(null, row[0]);
@@ -25,7 +25,7 @@ passport.use(
         passReqToCallback : true
     },
     async (req, email, password, done) => {
-        const query = "SELECT * FROM cms_wt_erp.users WHERE email='"+req.body.email+"';";
+        const query = "SELECT * FROM cms_wt_erp.user WHERE email='"+req.body.email+"';";
         let users = await db(query);
         
         if (users.length) {
@@ -41,7 +41,7 @@ passport.use(
                     password: bcrypt.hashSync(req.body.password, null, null)
                 };
                 
-                const insertQuery = "INSERT INTO cms_wt_erp.users (name, email, phone, password) values ('"
+                const insertQuery = "INSERT INTO cms_wt_erp.user (name, email, phone, password) values ('"
                 +newPartner.name+"', '"
                 +newPartner.email+"', '"
                 +newPartner.phone+"', '"
@@ -69,7 +69,7 @@ passport.use(
         passReqToCallback : true
     },
     async (req, email, password, done) => {
-        const userQuery = "SELECT * FROM cms_wt_erp.users WHERE email='"+email+"';";
+        const userQuery = "SELECT * FROM cms_wt_erp.user WHERE email='"+email+"';";
         
         let users = await db(userQuery);
         
