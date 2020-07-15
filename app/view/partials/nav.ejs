@@ -1,43 +1,34 @@
+<nav>
+	<select class="hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="" disabled selected>Financeiro</option>
+	    <option value="/financial/index">Gerir Receitas / Despesas</option>
+	    <option value="/financial/income">Configurar Receitas</option>
+	    <option value="/financial/outcome">Configurar Despesas</option>
+	</select>
 
-<div class="navigation">
-	<div class="dropdown">
-		<select class="dropbtn" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-		    <option value="" disabled selected>Financeiro</option>
-		    <option value="/financial/index">Gerir Receitas / Despesas</option>
-		    <option value="/financial/income">Configurar Receitas</option>
-		    <option value="/financial/outcome">Configurar Despesas</option>
-		</select>
-	</div>
+	<select class="hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="" disabled selected>Matéria-Prima</option>
+	    <option value="/feedstock/manage">Gerir Materias-Primas</option>
+	    <option value="/feedstock/supplier">Gerir Fornecedores</option>
+	    <option value="/feedstock/request">Pedido avulso</option>
+	    <option value="/feedstock/regress">Pedido de retorno</option>
+	    <option value="/feedstock/purchase">Pedido de compra</option>
+	    <option value="/feedstock/purchase/manage">Gerir Compras</option>
+	    <option value="/feedstock/storage">Estoque</option>
+	    <option value="/feedstock/storage/manage">Gerir Estoque</option>
+	</select>
 
-	<div class="dropdown">
-		<select class="dropbtn" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-		    <option value="" disabled selected>Matéria-Prima</option>
-		    <option value="/feedstock/manage">Gerir Materias-Primas</option>
-		    <option value="/feedstock/supplier">Gerir Fornecedores</option>
-		    <option value="/feedstock/request">Pedido avulso</option>
-		    <option value="/feedstock/regress">Pedido de retorno</option>
-		    <option value="/feedstock/purchase">Pedido de compra</option>
-		    <option value="/feedstock/purchase/manage">Gerir Compras</option>
-		    <option value="/feedstock/storage">Estoque</option>
-		    <option value="/feedstock/storage/manage">Gerir Estoque</option>
-		</select>
-	</div>
+	<select class="hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="" disabled selected>Produtos</option>
+	    <option value="/product/manage">Gerir Produtos</option>
+	    <option value="/product/production">Solicitar Produção</option>
+	    <option value="/product/production/manage">Gerir Produções</option>
+	</select>
 
-	<div class="dropdown">
-		<select class="dropbtn" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-		    <option value="" disabled selected>Produtos</option>
-		    <option value="/product/manage">Gerir Produtos</option>
-		    <option value="/product/production">Solicitar Produção</option>
-		    <option value="/product/production/manage">Gerir Produções</option>
-		</select>
-	</div>
-
-	<div class="dropdown">
-		<select class="dropbtn" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-		    <option value="" disabled selected>Costura</option>
-		    <option value="/seam">Gerir Costura</option>
-		    <option value="/seam/internal">Costura Interna</option>
-		    <option value="/seam/external">Costura Externa</option>
-		</select>
-	</div>
-</div>
+	<select class="hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="" disabled selected>Costura</option>
+	    <option value="/seam">Gerir Costura</option>
+	    <option value="/seam/internal">Costura Interna</option>
+	    <option value="/seam/external">Costura Externa</option>
+	</select>
+</nav>

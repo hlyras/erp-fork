@@ -4,6 +4,13 @@ a {
 	color: black;
 }
 
+select:required:invalid {
+	color: #666;
+}
+	.hide-disabled [value=""][disabled] {
+		display: none;
+	}
+
 .alert-msg {
 	background-color:#fff;
 	height: auto;
@@ -356,57 +363,3 @@ a {
 	font-weight: bold;
 	font-size: 20px;
 }
-
-/*DROP DOWN ELEMENTS*/
-.navigation {
-	background-color: #202124;
-	width: 100%;
-	display: flex;
-}
-
-.dropbtn {
-    background-color: #202124;
-	color: #f0f0f0;
-	font-size: 16px;
-	border: none;
-	width: 100%;
-	height: 100%;
-	padding: 10px;
-	cursor: pointer;
-	font-weight: bold;
-	text-align: center;
-}
-
-.dropdown select {
-	color: #f0f0f0;
-    text-align-last: center;
-}
-
-.dropbtn option {
-	color: #f0f0f0;
-	text-align: center;
-	font-weight: bold;
-}
-
-.dropbtn option[value=""][disabled] {
-	display: none;
-}
-
-.dropdown {
-	position: relative;
-	display: inline-block;
-	color: #f0f0f0;
-	width: 100%;
-	text-align: center;
-	background-color: #202124;
-}
-
-.dropdown:hover .dropbtn {background-color: #333;}
-
-select:required:invalid {
-	color: #666;
-}
-
-	.hide-disabled [value=""][disabled] {
-		display: none;
-	}

@@ -27,10 +27,6 @@ header {
 	z-index: 10;
 }
 
-.header-background {
-
-}
-
 .favicon {
 	border-radius: 3px;
 	/*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
@@ -95,6 +91,29 @@ header a.active:hover {
 
 header .right {
   float: right;
+}
+
+/*DROP DOWN ELEMENTS*/
+nav {
+	background-color: #202124;
+	height: 56px;
+	width: 100%;
+}
+
+nav select {
+	margin: 1px;
+	text-align: center;
+	width: 200px;
+	height: 25px;
+
+	background-color: #202124;
+	color: #f1f1f3;
+}
+
+nav select:hover {
+	background-color: #0c0c0e;
+	color: #ffffff;
+	font-weight: bold;
 }
 
 body {
