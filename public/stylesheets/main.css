@@ -96,24 +96,31 @@ header .right {
 /*DROP DOWN ELEMENTS*/
 nav {
 	background-color: #202124;
-	height: 56px;
 	width: 100%;
+	padding: 0px;
+	margin: 0px;
+
+	display: flex;
+	justify-content: row;
+	flex-wrap: wrap;
 }
 
 nav select {
-	margin: 1px;
 	text-align: center;
-	width: 200px;
+	width: 24%;
+	margin: 0.5%;
 	height: 25px;
+	border: 1px solid #202124;
 
 	background-color: #202124;
 	color: #f1f1f3;
 }
 
 nav select:hover {
-	background-color: #0c0c0e;
+	background-color: #000;
 	color: #ffffff;
 	font-weight: bold;
+	border: 1px solid #3b3b45;
 }
 
 body {
