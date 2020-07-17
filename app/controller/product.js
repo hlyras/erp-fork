@@ -353,6 +353,20 @@ const productController = {
 			res.send({ msg: "Ocorreu um erro ao acessar esta área, favor contatar o suporte." });
 		};
 	},
+	productionSimulation: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+			return res.redirect("/");
+		};
+
+		try {
+			const productColors = await Product.colorList();
+			const feedstockStorages = await Feedstock.storageList();
+			res.render('product/production_simulate', { user: req.user, productColors, feedstockStorages });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao acessar esta área, favor contatar o suporte." });
+		};
+	},
 	productionManage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','man'])){
 			return res.redirect("/");
@@ -361,7 +375,7 @@ const productController = {
 		res.render('product/production_manage', { user: req.user });
 	},
 	productionSimulate: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 

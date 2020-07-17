@@ -28,6 +28,7 @@ router.get('/colorList', productController.colorList);
 
 router.get('/production', productController.production);
 router.get('/production/manage', productController.productionManage);
+router.get('/production/simulation', productController.productionSimulation);
 router.post('/production/simulate', productController.productionSimulate);
 router.post('/production/save', productController.productionSave);
 router.put('/production/confirm', productController.productionConfirm);
