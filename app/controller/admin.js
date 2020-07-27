@@ -14,15 +14,6 @@ const adminController = {
 		};
 		res.render('admin/user', { user: req.user });
 	},
-	userDepartment: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect("/");
-		};
-
-		
-
-		res.render('admin/user_department', { user: req.user, user_departments: [] });
-	},
 	product: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');

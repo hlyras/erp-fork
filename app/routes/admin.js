@@ -9,6 +9,5 @@ router.get("/", adminController.index);
 router.get("/product", adminController.product);
 
 router.get("/user", adminController.user);
-router.get('/user/department', adminController.userDepartment);
 
 module.exports = router;

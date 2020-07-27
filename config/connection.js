@@ -2,7 +2,7 @@ const mysql = require('mysql');
 const dbconfig = require('./database');
 
 const pool  = mysql.createPool({
-	connectionLimit : 10,
+	connectionLimit : 20,
 	host : dbconfig.connection.host,
 	port : dbconfig.connection.port,
 	user : dbconfig.connection.user,
@@ -17,6 +17,7 @@ const db = async (query) => {
 		        if(!err){
 		        	resolve(rows)
 		        } else {
+		        	console.log(err);
 		        	reject(err);
 		        };
 		    });

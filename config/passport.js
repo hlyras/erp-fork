@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const User = require('../app/model/user');
 const bcrypt = require('bcrypt-nodejs');
 const db = require('./connection');
 
@@ -25,37 +26,29 @@ passport.use(
         passReqToCallback : true
     },
     async (req, email, password, done) => {
-        const query = "SELECT * FROM cms_wt_erp.user WHERE email='"+req.body.email+"';";
-        let users = await db(query);
-        
-        if (users.length) {
+        let user = await User.findByEmail(req.body.email);
+
+        if(!req.body.name){
+            return done(null, false, req.flash('signupMessage', 'É necessário preencher todos os campos.'));
+        };
+
+        if (user.length) {
             return done(null, false, req.flash('signupMessage', 'Este usuário já está cadastrado.'));
         } else {
             if(req.body.password !== req.body.confirmPassword){
                 return done(null, false, req.flash('signupMessage', 'Senhas Não correspondem.'));
             } else {
-                const newPartner = {
+                const newUser = {
                     name: req.body.name,
                     email: req.body.email,
-                    phone: req.body.phone,
-                    password: bcrypt.hashSync(req.body.password, null, null)
+                    password: bcrypt.hashSync(req.body.password, null, null),
+                    phone: req.body.phone
                 };
-                
-                const insertQuery = "INSERT INTO cms_wt_erp.user (name, email, phone, password) values ('"
-                +newPartner.name+"', '"
-                +newPartner.email+"', '"
-                +newPartner.phone+"', '"
-                +newPartner.password+"')";
 
-                db(insertQuery)
-                    .then(row => {
-                        newPartner.id = row.insertId;
-                        return done(null, newPartner);
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        return;
-                    });
+                console.log(await User.save(newUser));
+                return done(null, false, req.flash('signupMessage', 'Colaborador(a) '+req.body.name+' cadastrado(a) com sucesso!'));
+                // newUser.id = row.insertId;
+                // return done(null, newUser);
             };
         };
     })

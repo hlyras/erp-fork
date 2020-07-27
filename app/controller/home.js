@@ -24,7 +24,7 @@ const homeController = {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
-		res.render('user/signup', { message: req.flash('signupMessage')});
+		res.render('user/signup', { user: req.user, message: req.flash('signupMessage')});
 	},
 	successfulSignup: (req, res) => {
 		res.redirect('/');

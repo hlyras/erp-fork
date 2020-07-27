@@ -60,7 +60,11 @@ Recebe a solicitação do Controller 'view/product/index' (view)
 
 Próximas funcionalidades a serem implementadas (somente avançar para a próxima após concluir e testar o bloco anterior)
 
-1 - Section and Roles Architecture and controllers
+
+
+Financial filter by user;
+
+Section and Roles Architecture and controllers
 	Section
 		Create Section;
 		Edit Section;
@@ -71,9 +75,9 @@ Próximas funcionalidades a serem implementadas (somente avançar para a próxim
 		Remove Role;
 
 
-2 - Admin Users controllers
+Admin Users controllers
 	Edit Users Section and Roles setting the access to each one
 
-3 - Rework function to verify access
+Rework function to verify access
 
-4 - Seam controllers
+ - Seam controllers

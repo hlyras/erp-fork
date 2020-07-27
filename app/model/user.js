@@ -4,13 +4,43 @@ const User = function(){
 	this.id;
 	this.name;
 	this.email;
-	this.password;
 	this.phone;
-	this.section;
+	this.password;
+	this.birth;
+	this.department;
 	this.role;
-	this.external = false;
 	this.access = '000-000' //no access;
 };
+
+User.save = (user) => {
+	let query = "INSERT INTO cms_wt_erp.user (name, email, password) values ('"
+        +user.name+"', '"
+        +user.email+"', '"
+        +user.password+"')";
+    console.log(query);
+    return db(query);
+};
+
+// User.updateName = (user) => {
+// 	let query = "UPDATE cms_wt_erp.user SET name='"+user.name+"' WHERE id='"+user.id+"';";
+// 	// let query = "UPDATE cms_wt_erp.user SET name='"+user.name+"', name='"+user.name+"' WHERE id='"+user.id+"';";
+//     return db(query);
+// };
+
+// User.updateEmail = (user) => {
+// 	let query = "UPDATE cms_wt_erp.user SET email='"+user.email+"' WHERE id='"+user.id+"';";
+//     return db(query);
+// };
+
+// User.updatePassword = (user) => {
+// 	let query = "UPDATE cms_wt_erp.user SET password='"+user.password+"' WHERE id='"+user.id+"';";
+//     return db(query);
+// };
+
+// User.updateDepartment = (user) => {
+// 	let query = "UPDATE cms_wt_erp.user SET department='"+user.department+"', role='"+user.role+"' WHERE id='"+user.id+"';";
+//     return db(query);
+// };
 
 User.list = () => {
 	let query = "SELECT * FROM cms_wt_erp.user;";
