@@ -1,4 +1,6 @@
 const User = require('../model/user');
+const userController = require('./user');
+
 const Department = require('../model/department');
 
 const departmentController = {
@@ -14,8 +16,6 @@ const departmentController = {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
-
-
 
 		res.render('department/manage', { user: req.user });
 	}
