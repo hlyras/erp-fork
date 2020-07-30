@@ -57,8 +57,8 @@ User.findByUsername = (user) => {
 	return db(query);
 };
 
-User.findByEmail = (user) => {
-	let query = "SELECT * FROM cms_wt_erp.user WHERE email='"+user.email+"';";
+User.findByEmail = (email) => {
+	let query = "SELECT * FROM cms_wt_erp.user WHERE email='"+email+"';";
 	return db(query);
 };
 

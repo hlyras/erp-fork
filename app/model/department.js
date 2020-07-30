@@ -6,10 +6,10 @@ const Department = function(){
 	this.roles = [];
 };
 
-Department.save = async () {
-	let query = "INSERT INTO cms_wt_erp.department (name, engagement) VALUES ('"+department.name+"', '"+department.engagement+"');";
-	return db(query);
-};
+// Department.save = async () {
+// 	let query = "INSERT INTO cms_wt_erp.department (name, engagement) VALUES ('"+department.name+"', '"+department.engagement+"');";
+// 	return db(query);
+// };
 
 module.exports = Department;
 

@@ -30,7 +30,7 @@ const userController = {
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao listar os usuários, favor contatar o suporte." });
-		};
+		}; 
 	},
 	show: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['dvp','prp','spt','grf','grl','crd'])){
@@ -58,7 +58,7 @@ const userController = {
 
 		try {
 			if(user.email){
-				var row = await User.findByEmail(user);
+				var row = await User.findByEmail(user.email);
 				if(row.length){ return res.send({ msg: "Este e-mail já está cadastrado." })};
 			};
 			row = await User.updateInfo(user);

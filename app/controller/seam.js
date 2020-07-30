@@ -1,7 +1,5 @@
 const userController = require('./user');
 
-const Seamstress = require('./../model/seamstress');
-
 const seamController = {
 	index: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
