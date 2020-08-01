@@ -17,7 +17,64 @@ const departmentController = {
 			return res.redirect('/');
 		};
 
-		res.render('department/manage', { user: req.user });
+		const departments = await Department.list();
+
+		res.render('department/manage', { user: req.user, departments: departments });
+	},
+	save: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		const department = {
+			name: req.body.name,
+			abbreviation: req.body.abbreviation
+		};
+
+		if(department.name.length < 3 || department.name.length > 45){
+			return res.send({ msg: "O nome do departamento deve conter mais de 3 caracteres." });
+		};
+
+		if(department.abbreviation.length < 3 || department.abbreviation.length > 3){
+			return res.send({ msg: "A abreviação do departamento deve conter 3 caracteres." });
+		};
+
+		try {
+			await Department.save(department)
+			res.send({ done: "Departamento cadastrado com sucesso!" });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Não foi possível cadastrar o departamento."});
+		};
+	},
+	role: {
+		save: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
+
+			const role = {
+				department: req.body.department,
+				name: req.body.name,
+				abbreviation: req.body.abbreviation
+			};
+
+			if(role.name.length < 3 || role.name.length > 45){
+				return res.send({ msg: "O nome do cargo deve conter mais de 3 caracteres." });
+			};
+
+			if(role.abbreviation.length < 3 || role.abbreviation.length > 3){
+				return res.send({ msg: "A abreviação do cargo deve conter 3 caracteres." });
+			};
+
+			try {
+				await Department.roleSave(role)
+				res.send({ done: "Cargo cadastrado com sucesso!" });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao cadastrar o cargo, favor contatar o suporte."});
+			};
+		}
 	}
 };
 

@@ -287,7 +287,7 @@ $(function(){
 				alert(response.done);
 
 				document.getElementById("income-origin-create-form").elements.namedItem('origin_name').value = "";
-				document.getElementById('income-origin-create-submit').disabled = false;
+				document.getElementById('income-origin-create-form').elements.namedItem('submit').disabled = false;
 			}
 		});
 	});

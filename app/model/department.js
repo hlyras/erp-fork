@@ -6,10 +6,24 @@ const Department = function(){
 	this.roles = [];
 };
 
-// Department.save = async () {
-// 	let query = "INSERT INTO cms_wt_erp.department (name, engagement) VALUES ('"+department.name+"', '"+department.engagement+"');";
-// 	return db(query);
-// };
+Department.save = async (department) => {
+	let query = "INSERT INTO cms_wt_erp.department (name, abbreviation) VALUES ('"
+		+department.name+"', '"
+		+department.abbreviation+"');";
+	return db(query);
+};
+
+Department.list = async () => {
+	let query = "SELECT * FROM cms_wt_erp.department ORDER BY id ASC;";
+	return db(query);
+};
+
+Department.roleSave = async (role) => {
+	let query = "INSERT INTO cms_wt_erp.role (name, abbreviation) VALUES ('"
+		+role.name+"', '"
+		+role.abbreviation+"');";
+	return db(query);
+};
 
 module.exports = Department;
 
