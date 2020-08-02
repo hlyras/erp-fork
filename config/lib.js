@@ -1,4 +1,4 @@
-var lib = {
+module.exports = {
 	convertDate:function(date){
 		var str = date.split('-');
 		if(str!=""){
@@ -176,5 +176,3 @@ var lib = {
 		return Math.round((value) * 100) / 100;
 	}
 };
-
-module.exports = lib;

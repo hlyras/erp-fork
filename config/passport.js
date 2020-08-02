@@ -11,11 +11,8 @@ passport.serializeUser(async (user, done) => {
 });
 
 passport.deserializeUser(async (user, done) => {
-    // if(user.access == 'ctm'){
-    //         let user = await Customer.findById(user.id);
-    // } else {
-    //         let user = await User.findById(user.id);
-    // };
+    // if(user.access == 'ctm'){let user = await Customer.findById(user.id);} else {let user = await User.findById(user.id);};
+    
     let serializedUser = await User.findById(user.id);
     done(null, serializedUser[0]);
 });
@@ -53,8 +50,6 @@ passport.use(
                     console.log(err);
                     return done(null, false, req.flash('signupMessage', 'Ocorreu um erro ao cadastrar o usuário!'));
                 };
-                // newUser.id = row.insertId;
-                // return done(null, newUser);
             };
         };
     })

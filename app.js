@@ -2,8 +2,9 @@ const express = require('express');
 const session  = require('express-session');
 const connect = require('connect');
 const path = require('path');
-const dotenv = require('dotenv');
 const app = express();
+
+require('dotenv').config();
 
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
