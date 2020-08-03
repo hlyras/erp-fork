@@ -54,7 +54,7 @@ const departmentController = {
 			};
 
 			const role = {
-				department: req.body.department,
+				department_id: req.body.department_id,
 				name: req.body.name,
 				abbreviation: req.body.abbreviation
 			};
@@ -66,9 +66,9 @@ const departmentController = {
 			if(role.abbreviation.length < 3 || role.abbreviation.length > 3){
 				return res.send({ msg: "A abreviação do cargo deve conter 3 caracteres." });
 			};
-
+			
 			try {
-				await Department.roleSave(role)
+				await Department.Role.save(role);
 				res.send({ done: "Cargo cadastrado com sucesso!" });
 			} catch (err) {
 				console.log(err);

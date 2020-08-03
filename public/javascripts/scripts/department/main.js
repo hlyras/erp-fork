@@ -6,7 +6,7 @@ $(() => {
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 
 		$.ajax({
-			url: '/department/manage/save',
+			url: '/department/save',
 			method: 'post',
 			data: $("#department-create-form").serialize(),
 			success: (response) => {
@@ -26,7 +26,7 @@ $(() => {
 
 	$("#department-role-create-form").on('submit', (event) => {
 		event.preventDefault();
-		return alert("Esta funcionalidade está em progresso e será implementada em breve!");
+		console.log($("#department-role-create-form").serialize());		
 
 		$.ajax({
 			url: '/department/role/save',
@@ -39,7 +39,7 @@ $(() => {
 				
 				alert(response.done);
 				
-				document.getElementById("department-role-create-form").elements.namedItem('department').value = "";
+				document.getElementById("department-role-create-form").elements.namedItem('department_id').value = "";
 				document.getElementById("department-role-create-form").elements.namedItem('name').value = "";
 				document.getElementById("department-role-create-form").elements.namedItem('abbreviation').value = "";
 

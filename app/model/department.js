@@ -3,7 +3,16 @@ const db = require('../../config/connection');
 const Department = function(){
 	this.id;
 	this.name;
+	this.abbreviation;
 	this.roles = [];
+};
+
+Department.Role = function(){
+	this.id;
+	this.department_id;
+	this.department_name;
+	this.name;
+	this.abbreviation;
 };
 
 Department.save = async (department) => {
@@ -18,8 +27,9 @@ Department.list = async () => {
 	return db(query);
 };
 
-Department.roleSave = async (role) => {
-	let query = "INSERT INTO cms_wt_erp.role (name, abbreviation) VALUES ('"
+Department.Role.save = async (role) => {
+	let query = "INSERT INTO cms_wt_erp.department_role (department_id, name, abbreviation) VALUES ('"
+		+role.department_id+"', '"
 		+role.name+"', '"
 		+role.abbreviation+"');";
 	return db(query);
