@@ -2,7 +2,6 @@ $(() => {
 	$("#department-create-form").on('submit', (event) => {
 		event.preventDefault();
 		document.getElementById('department-create-form').elements.namedItem("submit").disabled = true;
-		// return alert("Esta funcionalidade está em progresso e será implementada em breve!");
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 
 		$.ajax({
@@ -19,10 +18,34 @@ $(() => {
 				document.getElementById("department-create-form").elements.namedItem('name').value = "";
 				document.getElementById("department-create-form").elements.namedItem('abbreviation').value = "";
 				document.getElementById('department-create-form').elements.namedItem("submit").disabled = false;
-				$("#department-filter-form").submit();
+				// $("#department-filter-form").submit();
 			}
 		});
 	});
+
+	$("#department-list-form").on('submit', (event) => {
+		event.preventDefault();
+		document.getElementById('department-list-form').elements.namedItem("submit").disabled = true;
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+
+		$.ajax({
+			url: '/department/list',
+			method: 'get',
+			success: (response) => {
+				if(API.verifyResponse(response, "department-list-form")){return};
+				
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+				
+				console.log(response);
+				// document.getElementById("department-list-form").elements.namedItem('name').value = "";
+				// document.getElementById("department-list-form").elements.namedItem('abbreviation').value = "";
+				document.getElementById('department-list-form').elements.namedItem("submit").disabled = false;
+				// $("#department-filter-form").submit();
+			}
+		});
+	});
+
+	// Department Role
 
 	$("#department-role-create-form").on('submit', (event) => {
 		event.preventDefault();

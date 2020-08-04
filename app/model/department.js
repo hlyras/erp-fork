@@ -15,6 +15,7 @@ Department.Role = function(){
 	this.abbreviation;
 };
 
+// Department functions
 Department.save = async (department) => {
 	let query = "INSERT INTO cms_wt_erp.department (name, abbreviation) VALUES ('"
 		+department.name+"', '"
@@ -23,15 +24,21 @@ Department.save = async (department) => {
 };
 
 Department.list = async () => {
-	let query = "SELECT * FROM cms_wt_erp.department ORDER BY id ASC;";
+	let query = "SELECT * FROM cms_wt_erp.department ORDER BY name ASC;";
 	return db(query);
 };
 
+// Department role functions
 Department.Role.save = async (role) => {
 	let query = "INSERT INTO cms_wt_erp.department_role (department_id, name, abbreviation) VALUES ('"
 		+role.department_id+"', '"
 		+role.name+"', '"
 		+role.abbreviation+"');";
+	return db(query);
+};
+
+Department.Role.list = async () => {
+	let query = "SELECT * FROM cms_wt_erp.department_role ORDER BY name ASC;";
 	return db(query);
 };
 
@@ -64,20 +71,3 @@ module.exports = Department;
 
 	//Coordenador(a) administrativo
 	//Auxiliar administrativo
-
-	/*
-	
-	Department (department)
-		id: INT(3);
-		name: VARCHAR(35);
-		abbreviation: VARCHAR(3);
-		roles: [];
-	
-	Role (department_role)
-		id: INT(3),
-		name: VARCHAR(35),
-		abbreviation: VARCHAR(3),
-		department: VARCHAR(3) not null
-	}
-	
-	*/

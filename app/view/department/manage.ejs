@@ -8,16 +8,16 @@
 		<section>
 			<div class="container">
 				<div class="box-2">
-					<h3>Cadastrar Departamento</h3>
 					<form id="department-create-form" class="box-1">
+						<h3>Cadastrar Departamento</h3>
 						<input type="text" name="name" class="btn-generic-big" placeholder="Nome do departamento" maxlength="40" autocomplete="off">
 						<input type="text" name="abbreviation" class="btn-generic-big" placeholder="Abreviação em 3 Letras" maxlength="3" autocomplete="off">
 						<button type="submit" name="submit" class="btn-submit">Cadastrar</button>
 					</form>
 				</div>
 				<div class="box-2">
-					<h3>Cadastrar Cargo</h3>
 					<form id="department-role-create-form" class="box-1">
+						<h3>Cadastrar Cargo</h3>
 						<select name="department_id" class="hide-disabled btn-generic-big">
 							<option value="" disabled selected>Departamento</option>
 							<!-- for i in department -->
@@ -28,6 +28,11 @@
 						<input type="text" name="name" class="btn-generic-big" placeholder="Nome do cargo" maxlength="40" autocomplete="off">
 						<input type="text" name="abbreviation" class="btn-generic-big" placeholder="Abreviação em 3 Letras" maxlength="3" autocomplete="off">
 						<button type="submit" name="submit" class="btn-submit">Cadastrar</button>
+					</form>
+				</div>
+				<div class="box-1">
+					<form id="department-list-form">
+						<button type="submit" name="submit" class="btn-submit">Listar departamentos</button>
 					</form>
 				</div>
 			</div>
