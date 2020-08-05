@@ -100,6 +100,32 @@ const departmentController = {
 				console.log(err);
 				res.send({ msg: "Não foi possível listar os departamentos."});
 			};
+		},
+		findById: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
+
+			try {
+				const departmentRoles = await Department.Role.list();
+				res.send({ departmentRoles });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Não foi possível listar os departamentos."});
+			};
+		},
+		findByDepartmentId: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
+
+			try {
+				const departmentRoles = await Department.Role.list();
+				res.send({ departmentRoles });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Não foi possível listar os departamentos."});
+			};
 		}
 	}
 };

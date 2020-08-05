@@ -35,8 +35,21 @@ $(() => {
 				if(API.verifyResponse(response, "department-list-form")){return};
 				
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
-				
+
 				console.log(response);
+
+				let html = "";
+
+				for(i in response.departments){
+					html += "<tr>";
+					html += "<td>"+response.departments[i].id+"</td>";
+					html += "<td>"+response.departments[i].name+"</td>";
+					html += "<td>"+response.departments[i].abbreviation+"</td>";
+					html += "</tr>";
+				};
+
+				document.getElementById("department-list-table").innerHTML = html;
+
 				// document.getElementById("department-list-form").elements.namedItem('name').value = "";
 				// document.getElementById("department-list-form").elements.namedItem('abbreviation').value = "";
 				document.getElementById('department-list-form').elements.namedItem("submit").disabled = false;
@@ -46,7 +59,6 @@ $(() => {
 	});
 
 	// Department Role
-
 	$("#department-role-create-form").on('submit', (event) => {
 		event.preventDefault();
 		console.log($("#department-role-create-form").serialize());		

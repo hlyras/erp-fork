@@ -24,7 +24,7 @@ Department.save = async (department) => {
 };
 
 Department.list = async () => {
-	let query = "SELECT * FROM cms_wt_erp.department ORDER BY name ASC;";
+	let query = "SELECT * FROM cms_wt_erp.department ORDER BY id ASC;";
 	return db(query);
 };
 
@@ -38,7 +38,12 @@ Department.Role.save = async (role) => {
 };
 
 Department.Role.list = async () => {
-	let query = "SELECT * FROM cms_wt_erp.department_role ORDER BY name ASC;";
+	let query = "SELECT * FROM cms_wt_erp.department_role ORDER BY id ASC;";
+	return db(query);
+};
+
+Department.Role.findByDepartmentId = async (department_id) => {
+	let query = "SELECT * FROM cms_wt_erp.department_role WHERE department_id='"+department_id+"' ORDER BY id ASC;";
 	return db(query);
 };
 
