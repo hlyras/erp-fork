@@ -47,6 +47,19 @@ const departmentController = {
 			res.send({ msg: "Não foi possível cadastrar o departamento."});
 		};
 	},
+	findById: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		try {
+			const department = await Department.findById(req.params.id);
+			res.send({ department });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Não foi possível listar os departamentos."});
+		};
+	},
 	list: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });

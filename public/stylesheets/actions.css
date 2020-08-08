@@ -1,3 +1,7 @@
-.fill {
+.fit {
   object-fit: fill;
+}
+
+.width-fill {
+	width: 100%;
 }

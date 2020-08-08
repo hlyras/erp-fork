@@ -23,6 +23,11 @@ Department.save = async (department) => {
 	return db(query);
 };
 
+Department.findById = async (department_id) => {
+	let query = "SELECT * FROM cms_wt_erp.department WHERE id='"+department_id+"';";
+	return db(query);
+};
+
 Department.list = async () => {
 	let query = "SELECT * FROM cms_wt_erp.department ORDER BY id ASC;";
 	return db(query);

@@ -8,7 +8,7 @@
 		<section>
 			<div class="container">
 				<div class="box-2">
-					<form id="department-create-form" class="box-1">
+					<form id="department-create-form" class="box-1" name="departmentcreateform">
 						<h3>Cadastrar Departamento</h3>
 						<input type="text" name="name" class="btn-generic-big" placeholder="Nome do departamento" maxlength="40" autocomplete="off">
 						<input type="text" name="abbreviation" class="btn-generic-big" placeholder="Abreviação em 3 Letras" maxlength="3" autocomplete="off">
@@ -33,9 +33,10 @@
 				<div class="box-2">
 					<form id="department-list-form">
 						<button type="submit" name="submit" class="btn-generic-full">Departamentos</button>
-						<table id="department-list-table" class="tbl-info box-1">
-						</table>
 					</form>
+					<div id="department-list-box" class="box-1" style="display:none">
+						<table id="department-list-table" class="tbl-info width-fill"></table>
+					</div>
 				</div>
 			</div>
 			<div id="ajax-loader" class="ajax-loader">

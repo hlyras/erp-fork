@@ -75,6 +75,9 @@ const lib = {
 		$('#'+location+'Next').prop('disabled');
 		$('#'+location+'PageNumber').text('0');
 	},
+	noRecord(table){
+		document.getElementById(table).innerHTML = "NENHUM REGISTRO ENCONTRADO";
+	},
 	fillSelect(selectLocation, location, route, method){
 		$.ajax({
 			url: route,

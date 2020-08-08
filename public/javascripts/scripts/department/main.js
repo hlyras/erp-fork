@@ -18,7 +18,7 @@ $(() => {
 				document.getElementById("department-create-form").elements.namedItem('name').value = "";
 				document.getElementById("department-create-form").elements.namedItem('abbreviation').value = "";
 				document.getElementById('department-create-form').elements.namedItem("submit").disabled = false;
-				// $("#department-filter-form").submit();
+				document.departmentcreateform.submit();
 			}
 		});
 	});
@@ -28,34 +28,27 @@ $(() => {
 		document.getElementById('department-list-form').elements.namedItem("submit").disabled = true;
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 
-		$.ajax({
-			url: '/department/list',
-			method: 'get',
-			success: (response) => {
-				if(API.verifyResponse(response, "department-list-form")){return};
-				
-				document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(document.getElementById("department-list-box").style.display == "none"){
+			document.getElementById("department-list-box").style.display = "block";
+			$.ajax({
+				url: '/department/list',
+				method: 'get',
+				success: (response) => {
+					if(API.verifyResponse(response, "department-list-form")){return};
 
-				console.log(response);
-
-				let html = "";
-
-				for(i in response.departments){
-					html += "<tr>";
-					html += "<td>"+response.departments[i].id+"</td>";
-					html += "<td>"+response.departments[i].name+"</td>";
-					html += "<td>"+response.departments[i].abbreviation+"</td>";
-					html += "</tr>";
-				};
-
-				document.getElementById("department-list-table").innerHTML = html;
-
-				// document.getElementById("department-list-form").elements.namedItem('name').value = "";
-				// document.getElementById("department-list-form").elements.namedItem('abbreviation').value = "";
-				document.getElementById('department-list-form').elements.namedItem("submit").disabled = false;
-				// $("#department-filter-form").submit();
-			}
-		});
+					if(response.departments.length){
+						renderDepartmentList(response.departments);
+					} else {
+						lib.noRecord('department-list-table');
+					};
+				}
+			});
+		} else {
+			document.getElementById("department-list-box").style.display = "none";
+		};
+		
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		document.getElementById('department-list-form').elements.namedItem("submit").disabled = false;
 	});
 
 	// Department Role
@@ -84,3 +77,18 @@ $(() => {
 		});
 	});
 });
+
+function showDepartment(id){
+	document.getElementById('ajax-loader').style.visibility = 'visible';
+	$.ajax({
+		url: '/department/id/'+id,
+		method: 'get',
+		success: (response) => {
+			if(API.verifyResponse(response)){return};
+			
+			console.log(response);
+
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
+		}
+	});
+};
