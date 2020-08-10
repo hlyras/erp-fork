@@ -54,6 +54,7 @@ const departmentController = {
 
 		try {
 			const department = await Department.findById(req.params.id);
+			department[0].roles = await Department.Role.findByDepartmentId(req.params.id);
 			res.send({ department });
 		} catch (err) {
 			console.log(err);
