@@ -27,24 +27,43 @@ const departmentController = {
 		};
 
 		const department = {
+			id: req.body.id,
 			name: req.body.name,
 			abbreviation: req.body.abbreviation
 		};
 
-		if(department.name.length < 3 || department.name.length > 45){
-			return res.send({ msg: "O nome do departamento deve conter mais de 3 caracteres." });
-		};
+		if(!department.id){
+			if(department.name.length < 3 || department.name.length > 45){
+				return res.send({ msg: "O nome do departamento deve conter mais de 3 caracteres." });
+			};
 
-		if(department.abbreviation.length < 3 || department.abbreviation.length > 3){
-			return res.send({ msg: "A abreviação do departamento deve conter 3 caracteres." });
-		};
+			if(department.abbreviation.length < 2 || department.abbreviation.length > 3){
+				return res.send({ msg: "A abreviação do departamento deve conter 3 caracteres." });
+			};
 
-		try {
-			await Department.save(department)
-			res.send({ done: "Departamento cadastrado com sucesso!" });
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: "Não foi possível cadastrar o departamento."});
+			try {
+				await Department.save(department)
+				res.send({ done: "Departamento cadastrado com sucesso!" });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Não foi possível cadastrar o departamento."});
+			};
+		} else {
+			if(department.name.length < 3 || department.name.length > 45){
+				return res.send({ msg: "O nome do departamento deve conter o mínimo de 3 caracteres." });
+			};
+
+			if(department.abbreviation.length < 2 || department.abbreviation.length > 3){
+				return res.send({ msg: "A abreviação do departamento deve conter o mínimo de 2 caracteres." });
+			};
+
+			try {
+				await Department.update(department)
+				res.send({ done: "Departamento atualizado com sucesso!" });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Não foi possível atualizar o departamento."});
+			};
 		};
 	},
 	findById: async (req, res) => {
@@ -74,6 +93,20 @@ const departmentController = {
 			res.send({ msg: "Não foi possível listar os departamentos."});
 		};
 	},
+	remove: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		try {
+			await Department.remove(req.body.department_id);
+			await Department.Role.removeByDepartmentId(req.body.department_id);
+			res.send({ done: "Departamento e cargos excluídos com sucesso!" });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Não foi possível listar os departamentos."});
+		};
+	},
 	role: {
 		save: async (req, res) => {
 			if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
@@ -87,11 +120,11 @@ const departmentController = {
 			};
 
 			if(role.name.length < 3 || role.name.length > 45){
-				return res.send({ msg: "O nome do cargo deve conter mais de 3 caracteres." });
+				return res.send({ msg: "O nome do cargo deve conter o mínimo de 3 caracteres." });
 			};
 
-			if(role.abbreviation.length < 3 || role.abbreviation.length > 3){
-				return res.send({ msg: "A abreviação do cargo deve conter 3 caracteres." });
+			if(role.abbreviation.length < 2 || role.abbreviation.length > 3){
+				return res.send({ msg: "A abreviação do cargo deve conter o mínimo de 2 caracteres." });
 			};
 			
 			try {

@@ -14,14 +14,6 @@ Para Banco de Dados
 	
 	MySQL
 
-Nenhum Framework está sendo utilizado, as funções genéricas estão sendo desenvolvidas
-conforme necessidade de reutilização dos códigos, isto para manter a aplicação mais enxuta possível e com evolução 
-constante baseada no modelo de negócios.
-
-A arquitetura do Front-end está sendo desenvolvida baseada em partials, para evitar carregamento de código desnecessário para cada parte da aplicação.
-
-A arquitetura do Back-end está sendo desenvolvida no modelo MVC, com sistema monolíto com estrutura baseada em API's REST para desacoplamento conforme evolução do projeto.
-
 --------------------------------------------------
 
 erp
@@ -53,9 +45,9 @@ View -> Route -> Controller -> Model -> Controller -> View
 
 --------------------------------------------------
 
-Caminho para 'Home Page'
+Caminho da ação do usuário para 'Home Page'
 
-Rota: /
+Rota: '/' | (app/routes/)
 
 Função: homeController.index
 

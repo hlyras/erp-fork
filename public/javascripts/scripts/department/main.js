@@ -18,7 +18,7 @@ $(() => {
 				document.getElementById("department-create-form").elements.namedItem('name').value = "";
 				document.getElementById("department-create-form").elements.namedItem('abbreviation').value = "";
 				document.getElementById('department-create-form').elements.namedItem("submit").disabled = false;
-				document.departmentcreateform.submit();
+				$("#department-list-form").submit();
 			}
 		});
 	});
@@ -36,7 +36,7 @@ $(() => {
 				success: (response) => {
 					if(API.verifyResponse(response, "department-list-form")){return};
 
-					const pagination = { pageSize: 2, page: 0};
+					const pagination = { pageSize: 10, page: 0};
 					if(response.departments.length){
 						$(() => { lib.carousel.execute("department-list-box", renderDepartmentList, response.departments, pagination); });
 						document.getElementById('ajax-loader').style.visibility = 'hidden';
@@ -70,4 +70,42 @@ function showDepartment(id){
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
 	});
+};
+
+function editDepartment(id){
+	document.getElementById('ajax-loader').style.visibility = 'visible';
+	
+	$.ajax({
+		url: '/department/id/'+id,
+		method: 'get',
+		success: (response) => {
+			if(API.verifyResponse(response)){return};
+
+			document.getElementById("department-create-form").elements.namedItem("id").value = response.department[0].id;
+			document.getElementById("department-create-form").elements.namedItem("name").value = response.department[0].name;
+			document.getElementById("department-create-form").elements.namedItem("abbreviation").value = response.department[0].abbreviation;
+			
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
+		}
+	});
+};
+
+function removeDepartment(id){
+	let r = confirm('Deseja realmente excluir o produto?');
+	if(r){
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		$.ajax({
+			url: '/department/remove',
+			method: 'delete',
+			data: { department_id: id },
+			success: (response) => {
+				if(API.verifyResponse(response)){return};
+
+				alert(response.done);
+
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
+				$("#department-list-form").submit();
+			}
+		});
+	};
 };

@@ -23,6 +23,13 @@ Department.save = async (department) => {
 	return db(query);
 };
 
+Department.update = async (department) => {
+	let query = "UPDATE cms_wt_erp.department SET name='"+department.name
+	+"', abbreviation='"+department.abbreviation
+	+"' WHERE id='"+department.id+"';";
+	return db(query);
+};
+
 Department.findById = async (department_id) => {
 	let query = "SELECT * FROM cms_wt_erp.department WHERE id='"+department_id+"';";
 	return db(query);
@@ -30,6 +37,11 @@ Department.findById = async (department_id) => {
 
 Department.list = async () => {
 	let query = "SELECT * FROM cms_wt_erp.department ORDER BY id ASC;";
+	return db(query);
+};
+
+Department.remove = async (id) => {
+	let query = "DELETE FROM cms_wt_erp.department WHERE id='"+id+"';";
 	return db(query);
 };
 
@@ -49,6 +61,11 @@ Department.Role.list = async () => {
 
 Department.Role.findByDepartmentId = async (department_id) => {
 	let query = "SELECT * FROM cms_wt_erp.department_role WHERE department_id='"+department_id+"' ORDER BY id ASC;";
+	return db(query);
+};
+
+Department.Role.removeByDepartmentId = async (id) => {
+	let query = "DELETE FROM cms_wt_erp.department_role WHERE department_id='"+id+"';";
 	return db(query);
 };
 
