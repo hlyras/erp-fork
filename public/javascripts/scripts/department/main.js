@@ -15,6 +15,7 @@ $(() => {
 				
 				alert(response.done);
 				
+				document.getElementById("department-create-form").elements.namedItem('id').value = "";
 				document.getElementById("department-create-form").elements.namedItem('name').value = "";
 				document.getElementById("department-create-form").elements.namedItem('abbreviation').value = "";
 				document.getElementById('department-create-form').elements.namedItem("submit").disabled = false;

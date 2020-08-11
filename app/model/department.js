@@ -54,6 +54,19 @@ Department.Role.save = async (role) => {
 	return db(query);
 };
 
+Department.Role.update = async (department) => {
+	let query = "UPDATE cms_wt_erp.department_role SET department_id='"+department.department_id
+	+"', name='"+department.name
+	+"', abbreviation='"+department.abbreviation
+	+"' WHERE id='"+department.id+"';";
+	return db(query);
+};
+
+Department.Role.findById = async (department_role_id) => {
+	let query = "SELECT * FROM cms_wt_erp.department_role WHERE id='"+department_role_id+"';";
+	return db(query);
+};
+
 Department.Role.list = async () => {
 	let query = "SELECT * FROM cms_wt_erp.department_role ORDER BY id ASC;";
 	return db(query);

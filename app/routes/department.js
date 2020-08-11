@@ -14,6 +14,10 @@ router.get('/list', departmentController.list);
 router.delete('/remove', departmentController.remove);
 
 //Department roles routes
+router.get('/role/id/:id', departmentController.role.findById);
+
 router.post('/role/save', departmentController.role.save);
+router.get('/role/list', departmentController.role.list);
+router.delete('/role/remove', departmentController.role.remove);
 
 module.exports = router;
