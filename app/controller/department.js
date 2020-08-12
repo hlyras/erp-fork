@@ -42,7 +42,7 @@ const departmentController = {
 
 		if(!department.id){
 			try {
-				await Department.save(department)
+				await Department.save(department);
 				res.send({ done: "Departamento cadastrado com sucesso!" });
 			} catch (err) {
 				console.log(err);
@@ -66,7 +66,6 @@ const departmentController = {
 		try {
 			const department = await Department.findById(req.params.id);
 			department[0].roles = await Department.Role.findByDepartmentId(req.params.id);
-			console.log(department);
 			res.send({ department });
 		} catch (err) {
 			console.log(err);
@@ -113,6 +112,10 @@ const departmentController = {
 				abbreviation: req.body.abbreviation
 			};
 
+			if(!role.department_id){
+				return res.send({ msg: "Selecione o departamento do cargo." });
+			};
+
 			if(role.name.length < 3 || role.name.length > 45){
 				return res.send({ msg: "O nome do cargo deve conter o mínimo de 3 caracteres." });
 			};
@@ -138,7 +141,6 @@ const departmentController = {
 					res.send({ msg: "Ocorreu um erro ao cadastrar o cargo, favor contatar o suporte."});
 				};
 			};
-
 		},
 		list: async (req, res) => {
 			if(!await userController.verifyAccess(req, res, ['adm', 'man'])){

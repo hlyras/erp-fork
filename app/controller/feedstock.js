@@ -72,7 +72,7 @@ const feedstockController = {
 		};
 	},
 	request: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut','COR-GER'])){
 			return res.redirect('/');
 		};
 
@@ -81,7 +81,7 @@ const feedstockController = {
 		res.render('feedstock/request', { user: req.user, feedstockColors, feedstockStorages });
 	},
 	requestSave: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -133,7 +133,7 @@ const feedstockController = {
 		};
 	},
 	requestFilter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -158,7 +158,7 @@ const feedstockController = {
 		res.send({ requests });
 	},
 	requestFindById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -177,7 +177,7 @@ const feedstockController = {
 		};
 	},
 	requestConfirm: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -205,7 +205,7 @@ const feedstockController = {
 		};
 	},
 	regress: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut','COR-GER'])){
 			return res.redirect('/');
 		};
 
@@ -214,7 +214,7 @@ const feedstockController = {
 		res.render('feedstock/regress', { user: req.user, feedstockColors, feedstockStorages });
 	},
 	regressSave: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -258,7 +258,7 @@ const feedstockController = {
 		};
 	},
 	regressFilter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -283,7 +283,7 @@ const feedstockController = {
 		res.send({ regresses });
 	},
 	regressFindById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -343,7 +343,7 @@ const feedstockController = {
 			});
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','cut','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -666,7 +666,7 @@ const feedstockController = {
 		res.render('feedstock/purchase', { user: req.user, feedstockColors, feedstockStorages, feedstockSuppliers });
 	},
 	storage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto','cut','COR-GER'])){
 			return res.redirect('/');
 		};
 
@@ -675,7 +675,7 @@ const feedstockController = {
 		res.render('feedstock/storage', { user: req.user, feedstockColors, feedstockStorages });
 	},
 	storageManage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','COR-GER'])){
 			return res.redirect('/');
 		};
 
@@ -684,7 +684,7 @@ const feedstockController = {
 		res.render('feedstock/storage_manage', { feedstockColors: feedstockColors, feedstockStorages: feedstockStorages, user: req.user });
 	},
 	setStorageAmount: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','COR-GER'])){
 			return res.redirect('/');
 		};
 

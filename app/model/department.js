@@ -30,8 +30,8 @@ Department.update = async (department) => {
 	return db(query);
 };
 
-Department.findById = async (department_id) => {
-	let query = "SELECT * FROM cms_wt_erp.department WHERE id='"+department_id+"';";
+Department.findById = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.department WHERE id='"+id+"';";
 	return db(query);
 };
 
@@ -62,8 +62,8 @@ Department.Role.update = async (department) => {
 	return db(query);
 };
 
-Department.Role.findById = async (department_role_id) => {
-	let query = "SELECT * FROM cms_wt_erp.department_role WHERE id='"+department_role_id+"';";
+Department.Role.findById = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.department_role WHERE id='"+id+"';";
 	return db(query);
 };
 
@@ -72,8 +72,8 @@ Department.Role.list = async () => {
 	return db(query);
 };
 
-Department.Role.findByDepartmentId = async (department_id) => {
-	let query = "SELECT * FROM cms_wt_erp.department_role WHERE department_id='"+department_id+"' ORDER BY id ASC;";
+Department.Role.findByDepartmentId = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.department_role WHERE department_id='"+id+"' ORDER BY id ASC;";
 	return db(query);
 };
 
@@ -82,10 +82,15 @@ Department.Role.removeByDepartmentId = async (id) => {
 	return db(query);
 };
 
+Department.Role.remove = async (id) => {
+	let query = "DELETE FROM cms_wt_erp.department_role WHERE id='"+id+"';";
+	return db(query);
+};
+
 module.exports = Department;
 
-// Projetos tem diferentes tipos de acesso, na maioria dos casos pessoas específicas tem funções específicas
-// De acordo com o crescimento do projeto, tente definir as funções atuais necessárias para a distribuição de tarefas.
+// Projetos tem diferentes tipos de acesso, pessoas específicas tem funções específicas
+// De acordo com o crescimento do projeto, definir as funções atuais necessárias para a distribuição de tarefas.
 
 // Role = Função
 // Access = Acesso

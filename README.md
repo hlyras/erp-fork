@@ -72,23 +72,21 @@ Recebe a solicitação do Controller 'view/product/index' (view)
 
 ---------------------------------------------------
 
-Próximas funcionalidades a serem implementadas (somente avançar para a próxima após concluir e testar o bloco anterior)
+Novas funcionalidades a implementar - 
 
+Grau de importância
 
-Financial filter by user;
+Cruciais
 
-Department and Roles Architecture and controllers
-	Department
-		Edit Section;
-		Remove Section;
-	Role
-		Create Role (department foreign key);
-		Edit Role (department foreign key); 
-		Remove Role;
+Nesse tempo eu consigo terminar de desenvolver o sistema.
 
 Admin Users controllers
-	Edit Users Department and Roles setting the access to each one
+	Edit Users Department and Roles setting the access to each one-
 
 Rework function to verify access
 
- - Seam controllers
+Fix database to allow under zero
+
+Fix Production requests to
+
+Financial filter by user;

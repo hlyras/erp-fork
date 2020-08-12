@@ -21,7 +21,6 @@ function renderDepartmentList(departments, pagination){
 function renderDepartment(department, pagination){
 	var html = "";
 
-	//html for department info
 	html += "<h3>"+department.name+"</h3>";
 	document.getElementById("department-info-box").innerHTML = html;
 
@@ -30,10 +29,16 @@ function renderDepartment(department, pagination){
 
 function renderDepartmentRoles(department_roles, pagination){
 	var html = "";
-	html += "<tr class='bold'>";
-	html += "<td>Cargo</td>";
-	html += "<td>Abr.</td>";
-	html += "</tr>";
+	if(department_roles.length){
+		html += "<tr class='bold'>";
+		html += "<td>Cargo</td>";
+		html += "<td>Abr.</td>";
+		html += "</tr>";
+		document.getElementById("department-role-list-box").children.namedItem("carousel-navigation").style.display = "block";
+	} else {
+		html += "<h3>Nenhum cargo foi cadastrado.</h3>";
+		document.getElementById("department-role-list-box").children.namedItem("carousel-navigation").style.display = "none";
+	};
 
 	for (let i = pagination.page * pagination.pageSize; i < department_roles.length && i < (pagination.page + 1) * pagination.pageSize;i++){
 		html += "<tr>";

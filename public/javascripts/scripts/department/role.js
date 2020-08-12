@@ -9,16 +9,15 @@ $(() => {
 			success: (response) => {
 				if(API.verifyResponse(response, "department-role-create-form")){return};
 				
-				document.getElementById('ajax-loader').style.visibility = 'hidden';
-				
 				alert(response.done);
-				
 				document.getElementById("department-role-create-form").elements.namedItem('department_id').value = "";
 				document.getElementById("department-role-create-form").elements.namedItem('name').value = "";
 				document.getElementById("department-role-create-form").elements.namedItem('abbreviation').value = "";
-
 				document.getElementById('department-role-create-form').elements.namedItem("submit").disabled = false;
-				// $("#department-role-filter-form").submit();
+
+				document.getElementById("department-role-list-box").style.display = "none";
+
+				document.getElementById('ajax-loader').style.visibility = 'hidden';
 			}
 		});
 	});
@@ -33,7 +32,6 @@ function editDepartmentRole(id){
 		success: (response) => {
 			if(API.verifyResponse(response)){return};
 
-			console.log(response);
 			document.getElementById("department-role-create-form").elements.namedItem("id").value = response.department_role[0].id;
 			document.getElementById("department-role-create-form").elements.namedItem("department_id").value = response.department_role[0].department_id;
 			document.getElementById("department-role-create-form").elements.namedItem("name").value = response.department_role[0].name;
@@ -45,20 +43,20 @@ function editDepartmentRole(id){
 };
 
 function removeDepartmentRole(id){
-	let r = confirm('Deseja realmente excluir o produto?');
+	let r = confirm('Deseja realmente excluir o cargo?');
 	if(r){
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
-			url: '/department/remove',
+			url: '/department/role/remove',
 			method: 'delete',
-			data: { department_id: id },
+			data: { department_role_id: id },
 			success: (response) => {
 				if(API.verifyResponse(response)){return};
 
 				alert(response.done);
-
+				document.getElementById("department-role-list-box").style.display = "none";
+				
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
-				$("#department-list-form").submit();
 			}
 		});
 	};

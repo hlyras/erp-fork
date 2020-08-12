@@ -68,6 +68,7 @@ function showDepartment(id){
 			renderDepartment(response.department[0], pagination);
 
 			document.getElementById("department-show-box").style.display = "block";
+			document.getElementById("department-role-list-box").style.display = "block";
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
 	});
@@ -92,7 +93,7 @@ function editDepartment(id){
 };
 
 function removeDepartment(id){
-	let r = confirm('Deseja realmente excluir o produto?');
+	let r = confirm('Deseja realmente excluir o departamento?');
 	if(r){
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		$.ajax({
@@ -103,9 +104,9 @@ function removeDepartment(id){
 				if(API.verifyResponse(response)){return};
 
 				alert(response.done);
+				$("#department-list-form").submit();
 
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
-				$("#department-list-form").submit();
 			}
 		});
 	};
