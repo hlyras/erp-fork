@@ -330,7 +330,7 @@ const feedstockController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','n/a'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','n/a','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -758,7 +758,7 @@ const feedstockController = {
 		};
 	},
 	storageFilter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','sto'])){
+		if(!await userController.verifyAccess(req, res, ['adm','man','sto','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
