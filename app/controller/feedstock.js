@@ -716,7 +716,7 @@ const feedstockController = {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
-		if(req.body.name.length < 3 || req.body.name.length > 20){return res.send({ msg: 'Nome de Estoque inválido!' })};
+		if(req.body.name.length < 3 || req.body.name.length > 30){return res.send({ msg: 'Nome de Estoque inválido!' })};
 
 		try {
 			var result = await Feedstock.storageCreate(req.body.name);	

@@ -5,7 +5,7 @@ $(() => {
 
 		var name = document.getElementById('feedstock-storage-create-form').elements.namedItem("name").value;
 
-		if(name.length < 3 || name.length > 20){
+		if(name.length < 3 || name.length > 30){
 			document.getElementById('feedstock-storage-create-form').elements.namedItem("name").value = "";
 			document.getElementById("feedstock-storage-create-submit").disabled = false;
 			return alert("Nome de estoque inválido!");

@@ -74,19 +74,27 @@ Recebe a solicitação do Controller 'view/product/index' (view)
 
 Novas funcionalidades a implementar - 
 
-Grau de importância
+Create Production requests
+	Create production products amount controller by status
 
-Cruciais
+	Structure
 
-Nesse tempo eu consigo terminar de desenvolver o sistema.
+	production_request
+	id
+	feedstock_storage_id
+	date
+	full_date
+	status
+	user
+	user_confirmation
 
-Admin Users controllers
-	Edit Users Department and Roles setting the access to each one-
+	production_request_product
+	id
+	production_request_id
+	product_id
+	amount_requested
+	amount_withdrawn
+	amount_available
 
-Rework function to verify access
-
-Fix database to allow under zero
-
-Fix Production requests to
-
+Rework function to verify access;
 Financial filter by user;

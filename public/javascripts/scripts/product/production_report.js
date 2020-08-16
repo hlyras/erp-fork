@@ -11,6 +11,7 @@ $(() => {
 			method: "post",
 			data: $("#product-production-filter-form").serialize(),
 			success: (response) => {
+				console.log(response);
 				if(API.verifyResponse(response, 'product-production-filter-submit')){return};
 
 				var pageSize = 10;

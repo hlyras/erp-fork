@@ -112,7 +112,7 @@ Product.removeImage = async (image_id) => {
 };
 
 Product.productionSave = async (production) => {
-	let query = "INSERT INTO cms_wt_erp.product_production (date, full_date, storage_id, user) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product_production_request (date, full_date, storage_id, user) VALUES ('"
 		+production.date+"', '"
 		+production.full_date+"', '"
 		+production.storage_id+"', '"
@@ -121,7 +121,7 @@ Product.productionSave = async (production) => {
 };
 
 Product.productionSaveProduct = async (production_id, product) => {
-	let query = "INSERT INTO cms_wt_erp.product_production_product (production_id, product_id, product_info, amount) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product_production_request_product (production_id, product_id, product_info, amount) VALUES ('"
 		+production_id+"', '"
 		+product.id+"', '"
 		+product.info+"', '"
@@ -130,7 +130,7 @@ Product.productionSaveProduct = async (production_id, product) => {
 };
 
 Product.productionSaveFeedstock = async (production_id, feedstock) => {
-	let query = "INSERT INTO cms_wt_erp.product_production_feedstock (production_id, feedstock_id, feedstock_info, feedstock_uom, amount, standardAmount, releasedAmount) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product_production_request_feedstock (production_id, feedstock_id, feedstock_info, feedstock_uom, amount, standardAmount, releasedAmount) VALUES ('"
 		+production_id+"', '"
 		+feedstock.id+"', '"
 		+feedstock.info+"', '"
@@ -142,39 +142,37 @@ Product.productionSaveFeedstock = async (production_id, feedstock) => {
 };
 
 Product.productionConfirm = async (option) => {
-	let query = "UPDATE cms_wt_erp.product_production SET status='Pedido confirmado', confirmation_user='"+option.user+"' WHERE id='"+option.production_id+"';";
+	let query = "UPDATE cms_wt_erp.product_production_request SET status='Pedido confirmado', confirmation_user='"+option.user+"' WHERE id='"+option.production_id+"';";
 	return db(query);
 };
 
 Product.productionCancel = async (option) => {
-	let query = "UPDATE cms_wt_erp.product_production SET status='Pedido cancelado', confirmation_user='"+option.user+"' WHERE id='"+option.production_id+"';";
+	let query = "UPDATE cms_wt_erp.product_production_request SET status='Pedido cancelado', confirmation_user='"+option.user+"' WHERE id='"+option.production_id+"';";
 	return db(query);
 };
 
 Product.productionFindLast = async () => {
-	let query = "SELECT * FROM cms_wt_erp.product_production ORDER BY id DESC LIMIT 1;";
+	let query = "SELECT * FROM cms_wt_erp.product_production_request ORDER BY id DESC LIMIT 1;";
 	return db(query);
 };
 
 Product.productionFilter = async (periodStart, periodEnd, params, values) => {
-	let query = lib.filterByPeriod(periodStart, periodEnd, params, values, "cms_wt_erp", "product_production", "id", "DESC");
+	let query = lib.filterByPeriod(periodStart, periodEnd, params, values, "cms_wt_erp", "product_production_request", "id", "DESC");
 	return db(query);
 };
 
 Product.productionFindById = async (id) => {
-	let query = "SELECT * FROM cms_wt_erp.product_production WHERE id='"+id+"';";
+	let query = "SELECT * FROM cms_wt_erp.product_production_request WHERE id='"+id+"';";
 	return db(query);
 };
 
-
-
 Product.productionListProducts = async (id) => {
-	let query = "SELECT * FROM cms_wt_erp.product_production_product WHERE production_id='"+id+"';";
+	let query = "SELECT * FROM cms_wt_erp.product_production_request_product WHERE production_id='"+id+"';";
 	return db(query);
 };
 
 Product.productionListFeedstocks = async (id) => {
-	let query = "SELECT * FROM cms_wt_erp.product_production_feedstock WHERE production_id='"+id+"';";
+	let query = "SELECT * FROM cms_wt_erp.product_production_request_feedstock WHERE production_id='"+id+"';";
 	return db(query);
 };
 
