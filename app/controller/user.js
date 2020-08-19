@@ -30,7 +30,7 @@ const userController = {
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao listar os usuários, favor contatar o suporte." });
-		}; 
+		};
 	},
 	show: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['dvp','prp','spt','grf','grl','crd'])){
@@ -43,7 +43,7 @@ const userController = {
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao mostrar o usuário." });
-		} ;
+		};
 	},
 	updateInfo: async (req, res) => {
 		if(!req.isAuthenticated()){

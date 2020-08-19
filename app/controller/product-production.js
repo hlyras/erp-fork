@@ -297,6 +297,7 @@ const productController = {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao cadastrar a categoria." });
 		};
+
 	},
 	categoryList: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','n/a'])){
@@ -473,17 +474,99 @@ const productController = {
 					notEnough: []
 				}
 			};
-
-			// console.log(production);
-			// return res.send({ msg: "Esta função está sendo implementada." });
-
 			try {
-				// await Product.production.save(production);
+				//Verify if last production is already confirmed
+				// const lastProduction = await Product.production.findLast();
+
+				// if(lastProduction.length && lastProduction[0].status == "Pedido solicitado"){
+				// 	return res.send({ msg: "O último pedido ainda não foi confirmado, favor confirmá-lo ou cancelá-lo antes de solicitar outra produção." });
+				// };
+
+				let product_feedstocks_array = [];
 				for(i in production.products){
-					console.log(production.products[i]);
-					// await Product.production.product.add(products[i]);
+					let product_feedstocks = await Product.feedstock.list(production.products[i].id);
+					for(j in product_feedstocks){
+						product_feedstocks_array.push(product_feedstocks[j]);
+						production.products[i].feedstocks.push(product_feedstocks[j])
+					};
 				};
-				res.send({ msg: "Esta função está sendo implementada." });
+
+				product_feedstocks_array = production.products.reduce((array, production_product) => {
+					for(i in array){
+						if(array[i].product_id == production_product.id){
+							array[i].amount = array[i].amount * production_product.amount;
+						};
+					};
+					return array;
+				}, product_feedstocks_array);
+
+				let production_feedstocks = [];
+				production_feedstocks = product_feedstocks_array.reduce((array, feedstock) => {
+					for(i in array){
+						if(array[i].feedstock_id == feedstock.feedstock_id){
+							array[i].amount += feedstock.amount;
+							return array;
+						};
+					};
+					array.push(feedstock);
+					return array;
+				}, production_feedstocks);
+
+				for(i in production_feedstocks){
+					// needed to create a variable to handle async problem down in next coment
+					let feedstockAmount = production_feedstocks[i].amount;
+					let feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
+					let storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [production.storage_id, feedstock[0].id]);
+					// if use production_feedstocks[i].amount instead variable the value is broken
+					feedstock[0].amount = feedstockAmount;
+					feedstock[0].amountInStorage = storage_feedstock[0].amount;
+					
+					if(feedstock[0].uom == 'cm'){
+						feedstock[0].standardAmount = Math.round(feedstock[0].amount / feedstock[0].standard);
+						feedstock[0].releasedAmount = feedstock[0].standard * feedstock[0].standardAmount;
+						if(feedstock[0].standardAmount > feedstock[0].amountInStorage / feedstock[0].standard){
+							production.feedstocks.notEnough.push(feedstock[0]);
+						} else {
+							production.feedstocks.enough.push(feedstock[0]);
+						};
+					} else {
+						feedstock[0].standardAmount = feedstock[0].amount;
+						feedstock[0].releasedAmount = feedstock[0].amount;
+						if(feedstock[0].standardAmount > feedstock[0].amountInStorage){
+							production.feedstocks.notEnough.push(feedstock[0]);
+						} else {
+							production.feedstocks.enough.push(feedstock[0]);
+						};
+					};
+				};
+
+				if(production.feedstocks.notEnough.length){
+					return res.send({ msg: "Não há matéria-prima suficiente para produzir todos os produtos.", production });
+				} else if(!production.products.length){
+					return res.send({ msg: "É necessário incluir ao menos 1 produto para solicitar produção." });
+				} else {
+					const production_saved = await Product.production.save(production);
+					for(i in production.products){
+						let product = {
+							id: production.products[i].id,
+							info: production.products[i].name +" | "+ production.products[i].color +" | "+ production.products[i].size,
+							amount: production.products[i].amount
+						};
+						await Product.production.product.add(production_saved.insertId, product);
+					};
+					for(i in production.feedstocks.enough){
+						let feedstock = {
+							id: production.feedstocks.enough[i].id,
+							info: production.feedstocks.enough[i].code +" | "+production.feedstocks.enough[i].name +" | "+ production.feedstocks.enough[i].color,
+							uom: production.feedstocks.enough[i].uom,
+							amount: production.feedstocks.enough[i].amount,
+							standardAmount: production.feedstocks.enough[i].standardAmount,
+							releasedAmount: production.feedstocks.enough[i].releasedAmount
+						};
+						await Product.production.feedstock.add(production_saved.insertId, feedstock);
+					};
+					res.send({ done: "Produção solicitada com sucesso, vá em 'Matéria-Prima > Estoque' para confirmar a saída." })
+				};
 			} catch (err){
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao solicitar produção." });
