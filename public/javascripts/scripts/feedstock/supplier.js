@@ -19,7 +19,7 @@ $(() => {
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
-			url: "/feedstock/supplier/create",
+			url: "/feedstock/supplier/save",
 			method: "post",
 			data: $("#feedstock-supplier-create-form").serialize(),
 			success: (response) => {
@@ -111,12 +111,12 @@ $(() => {
 		});
 	});
 
-	$("#feedstock-supplier-addFeedstock-form").on('submit', (event) => {
+	$("#feedstock-supplier-feedstock-add-form").on('submit', (event) => {
 		event.preventDefault();
 		document.getElementById('feedstock-supplier-addFeedstock-submit').disabled = true;
 
-		let feedstock_id = document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id').value;
-		let feedstock_value = document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_value').value;
+		let feedstock_id = document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('feedstock_id').value;
+		let feedstock_value = document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('feedstock_value').value;
 
 		if(feedstock_id < 1 || !feedstock_id){
 			alert("É necessário selecionar a matéria-prima");
@@ -133,7 +133,7 @@ $(() => {
 		$.ajax({
 			url: '/feedstock/supplier/storage/add',
 			method: 'post',
-			data: $("#feedstock-supplier-addFeedstock-form").serialize(),
+			data: $("#feedstock-supplier-feedstock-add-form").serialize(),
 			success: (response) => {
 				if(response.unauthorized){
 					alert(response.unauthorized);
@@ -153,12 +153,12 @@ $(() => {
 				alert(response.done);
 				
 				if(document.getElementById('feedstock-supplier-storage-box').style.display == "block"){
-					listFeedstockSupplierStorage(document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('supplier_id').value, "table", true);
+					listFeedstockSupplierStorage(document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('supplier_id').value, "table", true);
 				};
 
-				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('id').value = "";
-				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id').disabled = false;
-				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_value').value = "0.00";
+				document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('id').value = "";
+				document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('feedstock_id').disabled = false;
+				document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('feedstock_value').value = "0.00";
 
 				document.getElementById('feedstock-supplier-addFeedstock-submit').disabled = false;
 			}
@@ -231,7 +231,7 @@ function showFeedstockSupplier(id, admin){
 
 			html += "<tr>";
 			if(admin){
-				document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('supplier_id').value = response.supplier[0].id;	
+				document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('supplier_id').value = response.supplier[0].id;	
 				document.getElementById('feedstock-supplier-storage-box').style.display = "none";
 				
 				html += `<td><a class="tbl-show-link nowrap" onclick="lib.displayDiv('feedstock-supplier-addFeedstock-div')">Incluir</a></td>`;
@@ -294,7 +294,7 @@ function listFeedstockSupplierStorage(supplier_id, target, admin){
 				};
 			} else {
 				if(target == "table"){
-					document.getElementById("feedstock-supplier-storage-tbl").innerHTML = "Sem registros!";
+					document.getElementById("feedstock-supplier-storage-table").innerHTML = "Sem registros!";
 				} else if(target == "select"){
 					document.getElementById("feedstock-purchase-kart-form").elements.namedItem("feedstock_id").innerHTML = "<option value=''>Sem registros</option>";
 				};
@@ -334,7 +334,7 @@ function renderFeedstockSupplierStorage(feedstocks, admin){
 		html += "</tr>";
 	};
 
-	document.getElementById("feedstock-supplier-storage-tbl").innerHTML = html;
+	document.getElementById("feedstock-supplier-storage-table").innerHTML = html;
 };
 
 function fillFeedstockSupplierStorage(feedstocks){
@@ -355,10 +355,10 @@ function editSupplierFeedstock(id, feedstock_id, feedstock_value, supplier_id){
 		success: function(feedstock){
 			document.getElementById("feedstock-supplier-addFeedstock-div").style.display = "block";
 
-			document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('id').value = id;
-			document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id').innerHTML = "<option value="+feedstock[0].id+">"+feedstock[0].code+" | "+feedstock[0].name+" | "+feedstock[0].color+" | "+feedstock[0].uom+"</option>";
-			document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id').disabled = true;
-			document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_value').value = feedstock_value;
+			document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('id').value = id;
+			document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('feedstock_id').innerHTML = "<option value="+feedstock[0].id+">"+feedstock[0].code+" | "+feedstock[0].name+" | "+feedstock[0].color+" | "+feedstock[0].uom+"</option>";
+			document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('feedstock_id').disabled = true;
+			document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('feedstock_value').value = feedstock_value;
 
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}

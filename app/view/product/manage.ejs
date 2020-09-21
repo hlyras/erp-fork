@@ -33,72 +33,75 @@
 						<input type="submit" name="submit" class="btn-submit" value="Cadastrar">
 					</form>
 				</div>
+
 				<div class="box-2">
 					<h3 class="underline">Buscar Produtos</h3>
 					<form id="product-filter-form" class="box-1">
-						<input type="hidden" name="location" value="productManage" autocomplete="off">
-						<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
+						<input type="hidden" name="location" value="product-manage" autocomplete="off">
+						<input type="text" name="name" class="btn-generic-big" placeholder="Nome" autocomplete="off"><br>
 						<input type="number" name="code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
 						<select name="color" class="btn-generic-small" autocomplete="off">
 							<option value="">Cor</option>
 							<% for(i in productColors){ %>
 								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
 							<% } %>
-						</select>
+						</select><br>
 						<input type="submit" name="submit" class="btn-submit" value="Filtrar">
 					</form>
-					<div id="product-manage-filter-div" style="display:none">
-						<table class="tbl-info .width-fill width-fill" id="product-manage-filter-tbl"></table>
+
+					<div id="product-manage-filter-box" class="box-1" style="display:none">
+						<table class="tbl-info width-fill" id="product-manage-filter-table"></table>
 						<br>
-						<button id="productManagePrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-	                    <span id="productManagePageNumber"></span>
-	                    <button id="productManageNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
+        				<% include ./../partials/carousel %>
 					</div>
 				</div>
-				
-				<div class="box-1" id="product-show-box" style="display:none;">
-					<table class="tbl-info width-fill" id="product-show-tbl">
-						<tr>
-							<td>Cód</td>
-							<td>Nome</td>
-							<td>Tamanho</td>
-							<td>Cor</td>
-						</tr>
-						<tbody id="product-show-tbody"></tbody>
-					</table>
-					<div class="box-1" id="product-feedstock-div" style="display:none">
-						<div id="product-addFeedstock-div">
-							<!-- Feedstock filter form -->
-							<form id="feedstock-filter-form" class="box-1">
-								<input type="hidden" name="location" value="productAddFeedstock">
-								<input type="text" name="feedstock_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
-								<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
-								<select name="color" class="btn-generic-small">
-									<option value="">Cor</option>
-									<% for(i in feedstockColors){ %>
-										<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
-									<% } %>
-								</select>
-								<input type="submit" class="btn-submit" value="Filtrar">
-							</form>
 
-							<!-- Feedstock  -->
-							<form class="box-1" id="product-addFeedstock-form">
-								<input type="hidden" name="id" value="">
-								<input type="hidden" name="product_id">
-								<select name="feedstock_id" class="btn-generic-big"></select>
-								<input type="number" name="feedstock_amount" class="btn-generic-small price" step="0.01" placeholder="cm/un" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}"/>
-								<input type="submit" name="submit" class="btn-submit" value="Cadastrar">
-							</form>
+				<div id="product-manage-info-box" class="box-1" style="display:none">
+					<h3 id="product-manage-info-title" class="underline"></h3>
+					<table id="product-manage-info-table" class="tbl-info width-fill"></table>
+				</div>
+
+				<div id="product-manage-image-box" class="box-1" style="display:none">
+					<button class="btn-display-box" onclick="lib.displayDiv('product-manage-image-div', this, '⇓ Mostrar Imagem ⇓', '⇑ Esconder Imagem ⇑');">⇑ Esconder Imagem ⇑</button>
+					<div id="product-manage-image-div" class="box-1" style="display:block">
+						<img id="product-manage-image-img" class="image-box" src="">
+						<div class="box-1">
+							<button id="product-manage-image-remove-button" class="btn-delete">Excluir Imagem</button>
 						</div>
+						<% include ./../partials/carousel %>
 					</div>
-					<div id="product-feedstock-box" class="box-1" style="display:none">
-						<table id="product-feedstock-tbl" class="tbl-info width-fill"></table>
-					</div>
-					<div class="box-1" id="product-image-show"></div>
-					<button id="imagePrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-                    <span id="imagePageNumber"></span>
-                    <button id="imageNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
+				</div>
+
+				<div id="product-manage-menu-box" class="box-1" style="display:none">
+					<button class="btn-display-box" onclick="lib.displayDiv('product-manage-menu-div', this, '⇓ Mostrar Menu ⇓', '⇑ Esconder Menu ⇑');">⇓ Mostrar Menu ⇓</button>
+					<div class="box-1" id="product-manage-menu-div" style="display:none"></div>
+				</div>
+
+				<div id="product-feedstock-add-box" class="box-1" style="display:none">
+					<form id="feedstock-filter-form" class="box-1">
+						<fieldset class="fieldset-generic">
+							<legend>Filtrar Matérias-Prima</legend>
+							<input type="hidden" name="location" value="product-feedstock-add">
+							<input type="text" name="feedstock_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
+							<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
+							<select name="color" class="btn-generic-small">
+								<option value="">Cor</option>
+								<% for(i in feedstockColors){ %>
+									<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
+								<% } %>
+							</select>
+							<input type="submit" class="btn-submit" value="Filtrar">
+							</fieldset>
+					</form>
+    				<% include ./feedstock/form/add %>
+
+					<button class="btn-display-box" onclick="lib.displayDiv('product-feedstock-category-create-form', this, '⇓ Nova Categoria ⇓', '⇑ Esconder Formulário ⇑')">⇓ Nova Categoria ⇓</button>
+	    			<% include ./feedstock/form/category-add %>
+				</div>
+
+				<div class="box-1" id="product-feedstock-box" style="display:none">
+					<div id="product-feedstock-list-box"></div>
+    				<% include ./../partials/carousel %>
 				</div>
 			</div>
 		</section>
@@ -109,8 +112,10 @@
 	<footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
-        <script src="/javascripts/scripts/product/feedstock.js"></script>
-		<script src="/javascripts/scripts/feedstock/main.js"></script>
-		<script src="/javascripts/scripts/feedstock/tables.js"></script>
+        <script src="/javascripts/scripts/product/view/manage.js"></script>
+        <!-- <script src="/javascripts/scripts/product/feedstock.js"></script> -->
+
+        <script src="/javascripts/scripts/feedstock/main.js"></script>
+        <script src="/javascripts/scripts/feedstock/tables.js"></script>
 	</footer>
 </html>

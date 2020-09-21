@@ -194,8 +194,8 @@ function showProductProduction(id, admin){
 			for(i in response.production_feedstocks){
 				html += "<tr>";
 				html += "<td>"+response.production_feedstocks[i].feedstock_info+"</td>";
-				html += "<td class='nowrap'>"+response.production_feedstocks[i].releasedAmount+""+response.production_feedstocks[i].feedstock_uom+"</td>";
-				html += "<td class='nowrap'>"+response.production_feedstocks[i].standardAmount+"un</td>";
+				html += "<td class='nowrap'>"+lib.roundToInt(response.production_feedstocks[i].amount/response.production_feedstocks[i].standard)+"un</td>";
+				html += "<td class='nowrap'>"+response.production_feedstocks[i].released_amount+""+response.production_feedstocks[i].feedstock_uom+"</td>";
 				html += "</tr>";
 			};
 

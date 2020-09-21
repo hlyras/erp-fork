@@ -30,7 +30,7 @@ $(function(){
 			}
 		});
 	});
-	
+
 	$("#feedstock-filter-form").on('submit', (event) => {
 		event.preventDefault();
 
@@ -58,10 +58,10 @@ $(function(){
 							renderAdminFeedstocks(response.feedstocks, pageSize, page, location);
 						} else if (location==="feedstockCatalog"){
 							renderFeedstocks(response.feedstocks, pageSize, page, location);
-						} else if (location==="productAddFeedstock"){
-							fillFeedstockSelect(response.feedstocks, document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id'));
+						} else if (location==="product-feedstock-add"){
+							fillFeedstockSelect(response.feedstocks, document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_id'));
 						} else if (location==="feedstockSupplierAddFeedstock"){
-							fillFeedstockSelect(response.feedstocks, document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id'));
+							fillFeedstockSelect(response.feedstocks, document.getElementById("feedstock-supplier-feedstock-add-form").elements.namedItem('feedstock_id'));
 						} else if (location==="feedstockRequest"){
 							fillFeedstockSelect(response.feedstocks, document.getElementById("feedstock-request-kart-form").elements.namedItem('feedstock_id'));
 						} else if (location==="feedstockRegress"){
@@ -73,7 +73,7 @@ $(function(){
 						} else if (location==="feedstockCatalog"){
 							lib.clearTable('feedstock-catalog-filter-tbl', location);
 						} else if (location==="productAddFeedstock"){
-							lib.clearSelect(document.getElementById("product-addFeedstock-form").elements.namedItem('feedstock_id'));
+							lib.clearSelect(document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_id'));
 						} else if (location==="feedstockSupplierAddFeedstock"){
 							lib.clearSelect(document.getElementById("feedstock-supplier-addFeedstock-form").elements.namedItem('feedstock_id'));
 						} else if (location==="feedstockRequest"){
@@ -111,6 +111,11 @@ $(function(){
 		});
 	});
 });
+
+// document.getElementById("feedstock-filter-form").addEventListener("submit", event => {
+// 	event.preventDefault();
+// 	console.log("ok");
+// });
 
 function editFeedstock(id){
 	document.getElementById('ajax-loader').style.visibility = 'visible';

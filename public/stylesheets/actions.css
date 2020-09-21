@@ -2,6 +2,10 @@
   object-fit: fill;
 }
 
+.hide {
+	visibility: hidden;
+}
+
 .width-fill {
 	width: 100%;
 }

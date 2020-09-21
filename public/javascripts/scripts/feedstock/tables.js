@@ -18,17 +18,18 @@ function renderAdminFeedstocks(feedstocks, pageSize, page){
 		html += "<td>"+feedstocks[i].color+"</td>";
 		html += "<td class='nowrap'>"+feedstocks[i].standard+"</td>";
 		html += "<td>"+feedstocks[i].uom+"</td>";
-		html += "<td ><a class='tbl-show-link nowrap' onclick='editFeedstock("+feedstocks[i].id+")'>Edit</a></td>";
+		html += "<td ><a class='tbl-show-link nowrap' onclick='Feedstock.edit("+feedstocks[i].id+")'>Edit</a></td>";
 		html += "<td><a class='tbl-show-link nowrap' onclick='removeFeedstock("+feedstocks[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
+
 	document.getElementById('feedstock-admin-filter-tbl').innerHTML = html;
 	document.getElementById('feedstock-admin-filter-div').style.display = 'block';
 	$('#feedstockAdminPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(feedstocks.length / pageSize));
 };
 
 function fillFeedstockSelect(feedstocks, select){
-	select.innerHTML = "";
+	select.innerHTML = "<option value='' disabled selected>"+feedstocks.length +" Resultados</option>";
 	for(i in feedstocks){
 		select.innerHTML += "<option value='"+feedstocks[i].id+"'>"+feedstocks[i].code+" | "+feedstocks[i].name+" | "+feedstocks[i].color+" | "+feedstocks[i].uom+"</option>"
 	};

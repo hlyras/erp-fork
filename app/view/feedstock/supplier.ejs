@@ -33,35 +33,33 @@
 					<table class="tbl-info box-1" id="feedstock-supplier-show-tbl"></table>
 
 					<div class="box-1" id="feedstock-supplier-addFeedstock-div" style="display:none">
-						<div id="feedstock-supplier-addFeedstock-div">
-							<!-- Feedstock filter form -->
-							<h3 class="underline">Incluir Produto à tabela</h3>
-							<form id="feedstock-filter-form" class="box-1">
-								<input type="hidden" name="location" value="feedstockSupplierAddFeedstock">
-								<input type="text" name="feedstock_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
-								<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
-								<select name="color" class="btn-generic-small">
-									<option value="">Cor</option>
-									<% for(i in feedstockColors){ %>
-										<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
-									<% } %>
-								</select>
-								<input type="submit" class="btn-submit" value="Filtrar">
-							</form>
+						<!-- Feedstock filter form -->
+						<h3 class="underline">Incluir Produto à tabela</h3>
+						<form id="feedstock-filter-form" class="box-1">
+							<input type="hidden" name="location" value="feedstockSupplierAddFeedstock">
+							<input type="text" name="feedstock_code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
+							<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
+							<select name="color" class="btn-generic-small">
+								<option value="">Cor</option>
+								<% for(i in feedstockColors){ %>
+									<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
+								<% } %>
+							</select>
+							<input type="submit" class="btn-submit" value="Filtrar">
+						</form>
 
-							<!-- Feedstock  -->
-							<form class="box-1" id="feedstock-supplier-addFeedstock-form">
-								<input type="hidden" name="id" value="">
-								<input type="hidden" name="supplier_id">
-								<select name="feedstock_id" class="btn-generic-big"></select>
-								<input type="number" name="feedstock_value" class="btn-generic-small price" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}"/>
-								<input type="submit" class="btn-submit" id="feedstock-supplier-addFeedstock-submit" value="Cadastrar">
-							</form>
-						</div>
+						<!-- Feedstock  -->
+						<form class="box-1" id="feedstock-supplier-feedstock-add-form">
+							<input type="hidden" name="id" value="">
+							<input type="hidden" name="supplier_id">
+							<select name="feedstock_id" class="btn-generic-big hide-disabled"></select>
+							<input type="number" name="feedstock_value" class="btn-generic-small price" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}"/>
+							<input type="submit" class="btn-submit" id="feedstock-supplier-addFeedstock-submit" value="Cadastrar">
+						</form>
 					</div>
 					<div id="feedstock-supplier-storage-box" class="box-1" style="display:none">
 						<h3 class="underline">Tabela de Valores</h3>
-						<table id="feedstock-supplier-storage-tbl" class="tbl-info box-1"></table>
+						<table id="feedstock-supplier-storage-table" class="tbl-info box-1"></table>
 					</div>
 				</div>
 			</div>

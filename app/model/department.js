@@ -7,14 +7,6 @@ const Department = function(){
 	this.roles = [];
 };
 
-Department.Role = function(){
-	this.id;
-	this.department_id;
-	this.department_name;
-	this.name;
-	this.abbreviation;
-};
-
 // Department functions
 Department.save = async (department) => {
 	let query = "INSERT INTO cms_wt_erp.department (name, abbreviation) VALUES ('"
@@ -43,6 +35,14 @@ Department.list = async () => {
 Department.remove = async (id) => {
 	let query = "DELETE FROM cms_wt_erp.department WHERE id='"+id+"';";
 	return db(query);
+};
+
+Department.Role = function(){
+	this.id;
+	this.department_id;
+	this.department_name;
+	this.name;
+	this.abbreviation;
 };
 
 // Department role functions

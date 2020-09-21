@@ -48,7 +48,7 @@ passport.use(
                     return done(null, false, req.flash('signupMessage', 'Colaborador(a) '+req.body.name+' cadastrado(a) com sucesso!'));
                 } catch (err) {
                     console.log(err);
-                    return done(null, false, req.flash('signupMessage', 'Ocorreu um erro ao cadastrar o usuário!'));
+                    return done(null, false, req.flash('signupMessage', 'Ocorreu um erro ao cadastrar o colaborador!'));
                 };
             };
         };

@@ -1,11 +1,11 @@
-var product_production_kart = [];
+Product.production = { kart: [] };
 
 // verify if kart is empty
 if(JSON.parse(localStorage.getItem("productProductionKart")) != null){
-	const parsedProductProductionKart = JSON.parse(localStorage.getItem("productProductionKart"));
-	product_production_kart = parsedProductProductionKart;
+	let kart = JSON.parse(localStorage.getItem("productProductionKart"));
+	Product.production.kart = kart;
 
-	renderProductProductionKart(product_production_kart);
+	renderProductProductionKart(Product.production.kart);
 };
 
 $(() => {
@@ -40,21 +40,21 @@ $(() => {
 			feedstocks: []
 		};
 
-		for(i in product_production_kart){
-			if(product_production_kart[i].id == product.id){
+		for(i in Product.production.kart){
+			if(Product.production.kart[i].id == product.id){
 				document.getElementById('product-production-kart-submit').disabled = false;
 				return alert("Você já incluiu este produto na lista de produção.");
 			};
 		};
 
-		product_production_kart.push(product);
+		Product.production.kart.push(product);
 
-		product_production_kart.sort((a, b) => {
+		Product.production.kart.sort((a, b) => {
 		  return a.code - b.code;
 		});
 
-		updateProductProductionLocalStorage(product_production_kart);
-		renderProductProductionKart(product_production_kart);
+		updateProductProductionLocalStorage(Product.production.kart);
+		renderProductProductionKart(Product.production.kart);
 
 		document.getElementById("product-production-simulation-box").style.display = "none";
 		document.getElementById("product-production-form").style.display = "none";
@@ -74,7 +74,7 @@ $(() => {
 			return document.getElementById("product-production-simulation").elements.namedItem("submit").disabled = false;
 		};
 
-		if(!product_production_kart.length){
+		if(!Product.production.kart.length){
 			alert("É necessário selecionar algum produto para solicitar produção.");
 			return document.getElementById("product-production-simulation").elements.namedItem("submit").disabled = false;
 		};
@@ -85,59 +85,39 @@ $(() => {
 			method: "post",
 			data: {
 				storage_id: storage_id,
-				products: JSON.stringify(product_production_kart)
+				products: JSON.stringify(Product.production.kart)
 			},
 			success: (response) => {
 				if(API.verifyResponse(response, "product-production-simulation")){return};
 
 				
-				response.production.feedstocks.enough.sort((a, b) => {
+				response.production.feedstocks.sort((a, b) => {
 					return a.code - b.code;
 				});
 
-				response.production.feedstocks.notEnough.sort((a, b) => {
-					return a.code - b.code;
-				});
-				
 				var html = "";
 				html += "<tr>";
 				html += "<td>Cód</td>";
 				html += "<td>Nome</td>";
 				html += "<td>Cor</td>";
 				html += "<td>Metragem</td>";
-				html += "<td>Qtd</td>";
-				html += "<td>Estoque</td>";
+				// html += "<td>Qtd</td>";
 				html += "</tr>";
-				for(i in response.production.feedstocks.enough){
+				for(i in response.production.feedstocks){
 					html += "<tr>";
-					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].code+"</td>";
-					html += "<td>"+response.production.feedstocks.enough[i].name+"</td>";
-					html += "<td>"+response.production.feedstocks.enough[i].color+"</td>";
-					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].amount+""+response.production.feedstocks.enough[i].uom+"</td>";
-					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].standardAmount+"un</td>";
-					// html += "<td class='nowrap'>"+lib.roundValue(response.production.feedstocks.enough[i].amount/response.production.feedstocks.enough[i].standard)+"</td>";
-					html += "<td class='nowrap'>"+response.production.feedstocks.enough[i].amountInStorage+""+response.production.feedstocks.enough[i].uom+"</td>";
-					html += "</tr>";
-				};
-				if(response.production.feedstocks.notEnough.length){
-					html += "<tr><td>---</td><td>ESTOQUE INSUFICIENTE</td><td>---</td><td>---</td><td>---</td><td>---</td></tr>";
-				};
-				for(i in response.production.feedstocks.notEnough){
-					html += "<tr>";
-					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].code+"</td>";
-					html += "<td>"+response.production.feedstocks.notEnough[i].name+"</td>";
-					html += "<td>"+response.production.feedstocks.notEnough[i].color+"</td>";
-					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].amount+""+response.production.feedstocks.notEnough[i].uom+"</td>";
-					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].standardAmount+"un</td>";
-					// html += "<td class='nowrap'>"+lib.roundValue(response.production.feedstocks.notEnough[i].amount/response.production.feedstocks.notEnough[i].standard)+"</td>";
-					html += "<td class='nowrap'>"+response.production.feedstocks.notEnough[i].amountInStorage+""+response.production.feedstocks.notEnough[i].uom+"</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks[i].code+"</td>";
+					html += "<td>"+response.production.feedstocks[i].name+"</td>";
+					html += "<td>"+response.production.feedstocks[i].color+"</td>";
+					html += "<td class='nowrap'>"+response.production.feedstocks[i].amount+""+response.production.feedstocks[i].uom+"</td>";
+					// html += "<td class='nowrap'>"+response.production.feedstocks[i].standard+"un</td>";
+					// html += "<td class='nowrap'>"+lib.roundValue(response.production.feedstocks[i].amount/response.production.feedstocks[i].standard)+"</td>";
 					html += "</tr>";
 				};
 
 				document.getElementById("product-production-simulation-box").style.display = "block";
 				document.getElementById("product-production-simulation-tbl").innerHTML = html;
 
-				if(!response.production.feedstocks.notEnough.length){
+				if(!response.production.feedstocks.length){
 					document.getElementById("product-production-form").style.display = "block";
 					document.getElementById("product-production-form").elements.namedItem("storage_id").value = storage_id;
 					document.getElementById("product-production-form").elements.namedItem("storage_id").disabled = true;
@@ -162,36 +142,40 @@ $(() => {
 			return document.getElementById('product-production-form').elements.namedItem('submit').disabled = false;
 		};
 
-		if(!product_production_kart.length){
+		if(!Product.production.kart.length){
 			alert("É necessário selecionar algum produto para solicitar produção.");
 			return document.getElementById('product-production-form').elements.namedItem('submit').disabled = false;
 		};
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
-		
+
 		$.ajax({
 			url: "/product/production/save",
 			method: "post",
 			data: {
 				storage_id: storage_id,
-				products: JSON.stringify(product_production_kart)
+				products: JSON.stringify(Product.production.kart)
 			},
 			success: (response) => {
-				if(API.verifyResponse(response, "product-production-form")){return};
+				// if(API.verifyResponse(response, "product-production-form")){return};
 
-				alert(response.done);
+				console.log(response);
 
-				product_production_kart = [];
+				response.production.feedstocks.sort((a, b) => {
+					return a.code - b.code;
+				});
 
-				document.getElementById("product-production-simulation-box").style.display = "block";
-				document.getElementById("product-production-simulation-tbl").innerHTML = "";
+				// Product.production.kart = [];
 
-				updateProductProductionLocalStorage(product_production_kart);
-				renderProductProductionKart(product_production_kart);
+				// document.getElementById("product-production-simulation-box").style.display = "block";
+				// document.getElementById("product-production-simulation-tbl").innerHTML = "";
+
+				// updateProductProductionLocalStorage(Product.production.kart);
+				// renderProductProductionKart(Product.production.kart);
 			
-				document.getElementById('product-production-form').elements.namedItem("submit").disabled = false;
+				// document.getElementById('product-production-form').elements.namedItem("submit").disabled = false;
 				
-				document.getElementById("product-production-form").style.display = "none";
+				// document.getElementById("product-production-form").style.display = "none";
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
 			}
 		});
@@ -223,16 +207,16 @@ function renderProductProductionKart(products){
 
 function removeProductFromProductionKart(id){
 	var kart_backup = [];
-	for(i in product_production_kart){
-		if(product_production_kart[i].id != id){
-			kart_backup.push(product_production_kart[i]);
+	for(i in Product.production.kart){
+		if(Product.production.kart[i].id != id){
+			kart_backup.push(Product.production.kart[i]);
 		};
 	}
 
-	product_production_kart = kart_backup;
+	Product.production.kart = kart_backup;
 
-	updateProductProductionLocalStorage(product_production_kart);
-	renderProductProductionKart(product_production_kart);
+	updateProductProductionLocalStorage(Product.production.kart);
+	renderProductProductionKart(Product.production.kart);
 	document.getElementById("product-production-simulation-box").style.display = "none";
 	document.getElementById("product-production-form").style.display = "none";
 };

@@ -60,6 +60,7 @@ const productController = {
 				
 				var row = await Product.save(product);
 				let newProduct = await Product.findById(row.insertId);
+
 				res.send({ done: 'Produto cadastrado com sucesso!', product: newProduct });
 			} else {
 				var row = await Product.findByCode(product.code);
@@ -69,9 +70,10 @@ const productController = {
 					};
 				};
 				
-				var row = await Product.update(product);
-				let newProduct = await Product.findById(row.insertId);
-				res.send({ done: 'Produto atualizado com sucesso!', product: newProduct });
+				await Product.update(product);
+				let updatedProduct = await Product.findById(product.id);
+
+				res.send({ done: 'Produto atualizado com sucesso!', product: updatedProduct });
 			};
 		} catch (err) {
 			console.log(err);
@@ -145,6 +147,7 @@ const productController = {
 			// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		// };
 
+
 		var params = [];
 		var values = [];
 
@@ -161,6 +164,7 @@ const productController = {
 			params.push("color");
 			values.push(req.query.color);
 		};
+
 		try {
 			if(req.query.name){
 				const products = await Product.filter(req.query.name, params, values);
@@ -174,15 +178,15 @@ const productController = {
 			res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });
 		};
 	},
-	remove: async (req, res) => {
+	delete: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','man'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
 			await Product.feedstock.removeByProductId(req.query.id);
-			await Product.image.removeAll(req.query.id);
-			await Product.remove(req.query.id);
+			await Product.image.removeByProductId(req.query.id);
+			await Product.delete(req.query.id);
 			res.send({ done: 'Produto excluído com sucesso!' });
 		} catch (err) {
 			console.log(err);
@@ -196,8 +200,8 @@ const productController = {
 			};
 
 			const image = {
-				product_id: req.query.product_id,
-				url: req.query.image_url
+				product_id: req.body.product_id,
+				url: req.body.image_url
 			};
 
 			try {
@@ -214,7 +218,7 @@ const productController = {
 			};
 
 			try {
-				await Product.image.remove(req.query.id);
+				await Product.image.remove(req.query.image_id);
 				res.send({ done: 'Imagem excluída!' });
 			} catch (err) {
 				console.log(err);
@@ -228,24 +232,68 @@ const productController = {
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
-			const insertion = {
+			const product_feedstock = {
 				id: req.body.id,
 				product_id: req.body.product_id,
 				feedstock_id: req.body.feedstock_id,
-				amount: parseFloat(req.body.feedstock_amount)
+				uom: req.body.uom,
+				amount: parseInt(req.body.amount),
+				measure: parseFloat(req.body.measure),
+				category_id: req.body.category_id
+			};
+
+			if(!product_feedstock.product_id){
+				return res.send({ msg: "Não é possível cadastrar sem informar o produto!" })
+			};
+
+			if(!product_feedstock.feedstock_id){
+				return res.send({ msg: "Selecione a Matéria-Prima" });
+			};
+
+			if(!product_feedstock.uom){
+				return res.send({ msg: "Selecione a Unidade de medida" });
+			};
+
+			if(product_feedstock.uom == "cm"){
+				if(!product_feedstock.amount){
+					return res.send({ msg: "Informe a quantidade" });
+				};
+				if(!product_feedstock.measure){
+					return res.send({ msg: "Informe a medida" });
+				};
+			};
+
+			if(product_feedstock.uom == "un"){
+				product_feedstock.measure = 0;
+				if(!product_feedstock.amount){
+					return res.send({ msg: "Informe a quantidade" });
+				};
 			};
 
 			try {
-				if(!insertion.id || insertion.id < 1){
-					await Product.feedstock.add(insertion);
+				if(!product_feedstock.id || product_feedstock.id < 1) {
+					await Product.feedstock.add(product_feedstock);
 					res.send({ done: "Matéria-Prima adicionada com sucesso." });
 				} else {
-					await Product.feedstock.update(insertion);
+					await Product.feedstock.update(product_feedstock);
 					res.send({ done: "Matéria-Prima atualizada com sucesso." });
 				};
 			} catch (err) {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao cadastrar a matéria-prima, favor contatar o suporte." });
+			};
+		},
+		findById: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','man','COR-GER'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
+
+			try {
+				let product_feedstock = await Product.feedstock.findById(req.params.id);
+				res.send({ product_feedstock });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao encontrar a matéria-prima do produto, favor contatar o suporte." });
 			};
 		},
 		list: async (req, res) => {
@@ -254,13 +302,28 @@ const productController = {
 			};
 
 			try {
-				var feedstocks = [];
-				const product_feedstocks = await Product.feedstock.list(req.params.id);
-				for(i in product_feedstocks){
-					var feedstock = await Feedstock.findById(product_feedstocks[i].feedstock_id);
+				let product = { feedstocks: [] };
+				let feedstocks = [];
+				product.feedstocks = await Product.feedstock.list(req.params.product_id);
+
+				for(i in product.feedstocks){
+					let feedstock = await Feedstock.findById(product.feedstocks[i].feedstock_id);
 					feedstocks.push(feedstock[0]);
 				};
-				res.send({ product_feedstocks, feedstocks });
+
+				for(i in product.feedstocks){
+					for(j in feedstocks){
+						if(product.feedstocks[i].feedstock_id == feedstocks[j].id){
+							product.feedstocks[i].code = feedstocks[j].code;
+							product.feedstocks[i].name = feedstocks[j].name;
+							product.feedstocks[i].color = feedstocks[j].color;
+							product.feedstocks[i].uom = feedstocks[j].uom;
+						};
+					};
+				};
+
+
+				res.send({ feedstocks: product.feedstocks });
 			} catch (err) {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao listar as matérias-primas do produto, favor contatar o suporte." });
@@ -278,69 +341,94 @@ const productController = {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao remover a matéria-prima." });
 			};
+		},
+		category: {
+			save: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','man','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				};
+
+				const category = {
+					id: req.body.id,
+					product_id: req.body.product_id,
+					name: req.body.category_name
+				};
+
+				console.log(category);
+
+				if(!category.product_id){
+					return res.send({ msg: "Produto inválido!" });
+				};
+
+				if(!category.name || category.name.length < 3){
+					return res.send({ msg: "O nome da categoria é inválido!" });
+				};
+
+				try {
+					if(!category.id){
+						await Product.feedstock.category.save(category);
+					} else {
+						await Product.feedstock.category.update(category);
+					};
+					res.send({ done: "Categoria cadastrada com sucesso!" });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao cadastrar a categoria da matéria-prima." });
+				};
+			},
+			list: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','man','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				};
+
+				try {
+					let product_feedstock_categories = await Product.feedstock.category.list(req.params.product_id);
+					res.send({ product_feedstock_categories });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao remover a matéria-prima." });
+				};
+			},
+			delete: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','man','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				};
+
+				try {
+					await Product.feedstock.remove(req.query.id);
+					res.send({ done: 'Matéria-prima excluída!' });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao remover a matéria-prima." });
+				};
+			},
+			add: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','man','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				};
+
+				try {
+					await Product.feedstock.remove(req.query.id);
+					res.send({ done: 'Matéria-prima excluída!' });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao remover a matéria-prima." });
+				};
+			},
+			remove: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','man','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				};
+
+				try {
+					await Product.feedstock.remove(req.query.id);
+					res.send({ done: 'Matéria-prima excluída!' });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao remover a matéria-prima." });
+				};
+			}
 		}
-	},
-	categorySave: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-		};
-
-		const category = {
-			name: req.body.product_category_name,
-			shortcut: req.body.product_category_shortcut
-		};
-
-		try {
-			await Product.categorySave(category);
-			res.send({ done: 'Categoria cadastrada com sucesso!' });
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: "Ocorreu um erro ao cadastrar a categoria." });
-		};
-	},
-	categoryList: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','n/a'])){
-			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-		};
-
-		try {
-			const categories = await Product.categoryList();
-			res.send({ categories });
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: "Ocorreu um erro ao listar categorias." });
-		};
-	},
-	colorSave: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-		};
-
-		const color = {
-			name: req.body.color_name,
-			shortcut: req.body.color_shortcut			
-		};
-
-		try {
-			await Product.colorSave(color);
-			res.send({ done: 'Cor cadastrada com sucesso!' });
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: "Ocorreu um erro ao salvar a cor, favor contatar o suporte." });
-		};
-	},
-	colorList: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','n/a'])){
-			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-		};
-	
-		try {
-			const colors = await Product.colorList();
-			res.send(colors);
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: "Ocorreu um erro ao listar as cores, favor contatar o suporte." });
-		};
 	},
 	production: {
 		index: async (req, res) => {
@@ -350,7 +438,7 @@ const productController = {
 
 			try {
 				const productColors = await Product.colorList();
-				const feedstockStorages = await Feedstock.storageList();
+				const feedstockStorages = await Feedstock.storage.list();
 				res.render('product/production', { user: req.user, productColors, feedstockStorages });
 			} catch (err) {
 				console.log(err);
@@ -364,7 +452,7 @@ const productController = {
 
 			try {
 				const productColors = await Product.colorList();
-				const feedstockStorages = await Feedstock.storageList();
+				const feedstockStorages = await Feedstock.storage.list();
 				res.render('product/production_simulate', { user: req.user, productColors, feedstockStorages });
 			} catch (err) {
 				console.log(err);
@@ -386,70 +474,51 @@ const productController = {
 			const production = {
 				storage_id: req.body.storage_id,
 				products: JSON.parse(req.body.products),
-				feedstocks: {
-					enough: [],
-					notEnough: []
-				}
+				feedstocks: []
 			};
 
 			try {
-				let product_feedstocks_array = [];
+				// Colecting production feedstock data
+				let production_feedstock_list = [];
 				for(i in production.products){
 					let product_feedstocks = await Product.feedstock.list(production.products[i].id);
 					for(j in product_feedstocks){
-						product_feedstocks_array.push(product_feedstocks[j]);
 						production.products[i].feedstocks.push(product_feedstocks[j]);
+						if(product_feedstocks[j].uom == 'un'){
+							product_feedstocks[j].amount = product_feedstocks[j].amount * production.products[i].amount;
+							production_feedstock_list.push(product_feedstocks[j]);
+						} else if(product_feedstocks[j].uom == 'cm'){
+							product_feedstocks[j].measure = product_feedstocks[j].amount * product_feedstocks[j].measure;
+							product_feedstocks[j].measure = product_feedstocks[j].measure * production.products[i].amount;
+							
+							console.log(product_feedstocks[j]);
+
+							production_feedstock_list.push(product_feedstocks[j]);
+						};
 					};
 				};
 
-				product_feedstocks_array = production.products.reduce((array, production_product) => {
-					for(i in array){
-						if(array[i].product_id == production_product.id){
-							array[i].amount = array[i].amount * production_product.amount;
+				production.feedstocks = production_feedstock_list.reduce((production_feedstocks, feedstock_list) => {
+					for(i in production_feedstocks){
+						if(production_feedstocks[i].feedstock_id == feedstock_list.feedstock_id){
+							production_feedstocks[i].amount += feedstock_list.amount;
+							return production_feedstocks;
 						};
 					};
-					return array;
-				}, product_feedstocks_array);
+					production_feedstocks.push(feedstock_list);
+					return production_feedstocks;
+				}, production.feedstocks);
 
-				let production_feedstocks = [];
-				production_feedstocks = product_feedstocks_array.reduce((array, feedstock) => {
-					for(i in array){
-						if(array[i].feedstock_id == feedstock.feedstock_id){
-							array[i].amount += feedstock.amount;
-							return array;
-						};
-					};
-					array.push(feedstock);
-					return array;
-				}, production_feedstocks);
-
-				for(i in production_feedstocks){
-					// needed to create a variable to handle async problem down in next coment
-					let feedstockAmount = production_feedstocks[i].amount;
-					let feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
-					let storage_feedstock = await Feedstock.findInStorage(['storage_id', 'feedstock_id'], [production.storage_id, feedstock[0].id]);
-					// if use production_feedstocks[i].amount instead variable the value is broken
-					feedstock[0].amount = feedstockAmount;
-					feedstock[0].amountInStorage = storage_feedstock[0].amount;
-					
-					if(feedstock[0].uom == 'cm'){
-						feedstock[0].standardAmount = Math.round(feedstock[0].amount / feedstock[0].standard);
-						feedstock[0].releasedAmount = feedstock[0].standard * feedstock[0].standardAmount;
-						if(feedstock[0].standardAmount > feedstock[0].amountInStorage / feedstock[0].standard){
-							production.feedstocks.notEnough.push(feedstock[0]);
-						} else {
-							production.feedstocks.enough.push(feedstock[0]);
-						};
-					} else {
-						feedstock[0].standardAmount = feedstock[0].amount;
-						feedstock[0].releasedAmount = feedstock[0].amount;
-						if(feedstock[0].standardAmount > feedstock[0].amountInStorage){
-							production.feedstocks.notEnough.push(feedstock[0]);
-						} else {
-							production.feedstocks.enough.push(feedstock[0]);
-						};
-					};
+				for(i in production.feedstocks){
+					let feedstock = await Feedstock.findById(production.feedstocks[i].feedstock_id);
+					production.feedstocks[i].code = feedstock[0].code;
+					production.feedstocks[i].name = feedstock[0].name;
+					production.feedstocks[i].color = feedstock[0].color;
+					production.feedstocks[i].standard = feedstock[0].standard;
+					production.feedstocks[i].uom = feedstock[0].uom;
 				};
+
+				// console.log(production);
 
 				res.send({ production });
 			} catch (err) {
@@ -468,22 +537,60 @@ const productController = {
 				storage_id: req.body.storage_id,
 				user: req.user.name,
 				products: JSON.parse(req.body.products),
-				feedstocks: {
-					enough: [],
-					notEnough: []
-				}
+				feedstocks: []
 			};
 
 			// console.log(production);
 			// return res.send({ msg: "Esta função está sendo implementada." });
 
 			try {
-				// await Product.production.save(production);
+				let production_feedstock_list = [];
 				for(i in production.products){
-					console.log(production.products[i]);
-					// await Product.production.product.add(products[i]);
+					let product_feedstocks = await Product.feedstock.list(production.products[i].id);
+					for(j in product_feedstocks){
+						production.products[i].feedstocks.push(product_feedstocks[j]);
+
+						product_feedstocks[j].amount = product_feedstocks[j].amount * production.products[i].amount;
+						production_feedstock_list.push(product_feedstocks[j]);
+					};
 				};
-				res.send({ msg: "Esta função está sendo implementada." });
+
+				production.feedstocks = production_feedstock_list.reduce((production_feedstocks, feedstock_list) => {
+					for(i in production_feedstocks){
+						if(production_feedstocks[i].feedstock_id == feedstock_list.feedstock_id){
+							production_feedstocks[i].amount += feedstock_list.amount;
+							return production_feedstocks;
+						};
+					};
+					production_feedstocks.push(feedstock_list);
+					return production_feedstocks;
+				}, production.feedstocks);
+
+				for(i in production.feedstocks){
+					let feedstock = await Feedstock.findById(production.feedstocks[i].feedstock_id);
+					production.feedstocks[i].code = feedstock[0].code;
+					production.feedstocks[i].name = feedstock[0].name;
+					production.feedstocks[i].color = feedstock[0].color;
+					production.feedstocks[i].standard = feedstock[0].standard;
+					production.feedstocks[i].uom = feedstock[0].uom;
+				};
+
+				const saved_production = await Product.production.save(production);
+				production.id = saved_production.insertId;
+				for(i in production.products){
+					await Product.production.product.add(production.id, production.products[i]);
+				};
+				for(i in production.feedstocks){
+					if(production.feedstocks[i].uom == 'cm'){
+						// production.feedstocks[i].amount = lib.roundToInt(production.feedstocks[i].amount / production.feedstocks[i].standard);
+						production.feedstocks[i].amount = lib.roundToInt(production.feedstocks[i].amount / production.feedstocks[i].standard);
+					} else if(production.feedstocks[i].uom == 'un'){
+						production.feedstocks[i].amount = production.feedstocks[i].amount;
+					};
+					await Product.production.feedstock.add(production.id, production.feedstocks[i]);
+				};
+
+				res.send({ production });
 			} catch (err){
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao solicitar produção." });
@@ -572,18 +679,76 @@ const productController = {
 
 			try {
 				const production = await Product.production.findById(req.params.id);
-				const production_products = await Product.production.product.list(req.params.id)
-				const production_feedstocks = await Product.production.feedstock.list(req.params.id)
-				for(i in production_feedstocks){
-					let feedstock = await Feedstock.findById(production_feedstocks[i].feedstock_id);
-					production_feedstocks[i].feedstock_standard = feedstock[0].standard;
-				};
+				const production_products = await Product.production.product.list(req.params.id);
+				const production_feedstocks = await Product.production.feedstock.list(req.params.id);
 				res.send({ production, production_products, production_feedstocks });
 			} catch (err) {
 				console.log(err);
 				res.send({ msg: "Erro ao encontrar a produção" });
 			};
-		},
+		}
+	},
+	categorySave: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		const category = {
+			name: req.body.product_category_name,
+			shortcut: req.body.product_category_shortcut
+		};
+
+		try {
+			await Product.categorySave(category);
+			res.send({ done: 'Categoria cadastrada com sucesso!' });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao cadastrar a categoria." });
+		};
+	},
+	categoryList: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','n/a'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		try {
+			const categories = await Product.categoryList();
+			res.send({ categories });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao listar categorias." });
+		};
+	},
+	colorSave: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		const color = {
+			name: req.body.color_name,
+			shortcut: req.body.color_shortcut			
+		};
+
+		try {
+			await Product.colorSave(color);
+			res.send({ done: 'Cor cadastrada com sucesso!' });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao salvar a cor, favor contatar o suporte." });
+		};
+	},
+	colorList: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','man','n/a'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+	
+		try {
+			const colors = await Product.colorList();
+			res.send(colors);
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao listar as cores, favor contatar o suporte." });
+		};
 	}
 };
 

@@ -51,7 +51,7 @@ Product.filter = async (name, params, values) => {
 	return db(query);
 };
 
-Product.remove = async (id) => {
+Product.delete = async (id) => {
 	let query = "DELETE FROM cms_wt_erp.product WHERE id='"+id+"';";
 	return db(query);
 };
@@ -71,22 +71,29 @@ Product.image = {
 		let query = "DELETE FROM cms_wt_erp.product_image WHERE id='"+image_id+"';";
 		return db(query);
 	},
-	removeAll: async (id) => {
+	removeByProductId: async (id) => {
 		let query = "DELETE FROM cms_wt_erp.product_image WHERE product_id='"+id+"';";
 		return db(query);
 	}
 };
 
 Product.feedstock = {
-	add: async (insertion) => {
-		let query = "INSERT INTO cms_wt_erp.product_feedstock (product_id, feedstock_id, amount) VALUES ('"
-			+insertion.product_id+"', '"
-			+insertion.feedstock_id+"', '"
-			+insertion.amount+"');";
+	add: async (product_feedstock) => {
+		let query = "INSERT INTO cms_wt_erp.product_feedstock (product_id, feedstock_id, uom, amount, measure, category_id) VALUES ('"
+			+product_feedstock.product_id+"', '"
+			+product_feedstock.feedstock_id+"', '"
+			+product_feedstock.uom+"', '"
+			+product_feedstock.amount+"', '"
+			+product_feedstock.measure+"', '"
+			+product_feedstock.category_id+"');";
 		return db(query);
 	},
-	update: async (insertion) => {
-		let query = "UPDATE cms_wt_erp.product_feedstock SET amount='"+insertion.amount+"' WHERE id='"+insertion.id+"';";
+	update: async (product_feedstock) => {
+		let query = "UPDATE cms_wt_erp.product_feedstock SET amount='"+product_feedstock.amount+"', measure='"+product_feedstock.measure+"', category_id='"+product_feedstock.category_id+"' WHERE id='"+product_feedstock.id+"';";
+		return db(query);
+	},
+	findById: async (id) => {
+		let query = "SELECT * FROM cms_wt_erp.product_feedstock WHERE id='"+id+"';";
 		return db(query);
 	},
 	list: async (id) => {
@@ -104,6 +111,22 @@ Product.feedstock = {
 	removeByFeedstockId: async (id) => {
 		let query = "DELETE FROM cms_wt_erp.product_feedstock WHERE feedstock_id='"+id+"';";
 		return db(query);
+	},
+	category: {
+		save: async (product_feedstock_category) => {
+			let query = "INSERT INTO cms_wt_erp.product_feedstock_category (product_id, name) VALUES ('"
+				+product_feedstock_category.product_id+"', '"
+				+product_feedstock_category.name+"');";
+			return db(query);		
+		},
+		list: async (product_id) => {
+			let query = "SELECT * FROM cms_wt_erp.product_feedstock_category WHERE product_id='"+product_id+"';";
+			return db(query);
+		},
+		update: async (product_feedstock_category) => {
+			let query = "UPDATE cms_wt_erp.product_feedstock_category SET name='"+product_feedstock_category.name+"' WHERE id='"+product_feedstock_category.id+"';";
+			return db(query);
+		}
 	}
 };
 
@@ -141,25 +164,27 @@ Product.production = {
 			let query = "INSERT INTO cms_wt_erp.product_production_product (production_id, product_id, product_info, amount) VALUES ('"
 				+production_id+"', '"
 				+product.id+"', '"
-				+product.info+"', '"
+				+product.code+" "+product.name+" "+product.color+" "+product.size+"', '"
 				+product.amount+"');";
 			return db(query);
 		},
 		list: async (id) => {
 			let query = "SELECT * FROM cms_wt_erp.product_production_product WHERE production_id='"+id+"';";
 			return db(query);
+		},
+		remove: async (product_production_id) => {
+			let query = "DELETE FROM cms_wt_erp.product_production_product WHERE id='"+product_production_id+"';"
 		}
 	},
 	feedstock: {
 		add: async (production_id, feedstock) => {
-			let query = "INSERT INTO cms_wt_erp.product_production_feedstock (production_id, feedstock_id, feedstock_info, feedstock_uom, amount, standardAmount, releasedAmount) VALUES ('"
+			let query = "INSERT INTO cms_wt_erp.product_production_feedstock (production_id, feedstock_id, feedstock_info, feedstock_uom, amount, standard) VALUES ('"
 				+production_id+"', '"
 				+feedstock.id+"', '"
-				+feedstock.info+"', '"
+				+feedstock.code+" "+feedstock.name+" "+feedstock.color+"', '"
 				+feedstock.uom+"', '"
 				+feedstock.amount+"', '"
-				+feedstock.standardAmount+"', '"
-				+feedstock.releasedAmount+"');";
+				+feedstock.standard+"');";
 			return db(query);
 		},
 		list: async (id) => {

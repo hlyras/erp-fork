@@ -11,14 +11,17 @@ router.get('/id/:id', productController.findById);
 router.get('/code/:code', productController.findByCode);
 router.get('/name/:name', productController.findByName);
 router.get('/filter', productController.filter);
-router.delete('/remove', productController.remove);
+router.delete('/delete', productController.delete);
 
-router.post('/addimage', productController.image.add);
-router.delete('/removeimage', productController.image.remove);
+router.post('/image/add', productController.image.add);
+router.delete('/image/remove', productController.image.remove);
 
 router.post('/feedstock/add', productController.feedstock.add);
+router.get('/feedstock/id/:id', productController.feedstock.findById);
 router.delete('/feedstock/remove', productController.feedstock.remove);
-router.get('/feedstock/list/id/:id', productController.feedstock.list);
+router.get('/feedstock/list/product_id/:product_id', productController.feedstock.list);
+router.post('/feedstock/category/save', productController.feedstock.category.save);
+router.get('/feedstock/category/list/product_id/:product_id', productController.feedstock.category.list);
 
 router.post('/categorySave', productController.categorySave);
 router.get('/categoryList', productController.categoryList);
