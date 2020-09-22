@@ -33,7 +33,7 @@ Product.view.manage = {
 			html += "</tr>";
 			for (let i = pagination.page * pagination.pageSize; i < products.length && i < (pagination.page + 1) * pagination.pageSize; i++){
 				html += "<tr>";
-				html += "<td><a class='tbl-show-link nowrap' onclick='Product.controller.manage.show("+products[i].id+")'>"+products[i].code+"</a></td>";
+				html += "<td><h3 class='tbl-show-link' onclick='Product.controller.manage.show("+products[i].id+")'>"+products[i].code+"</h3></td>";
 				html += "<td>"+products[i].name+"</td>";
 				html += "<td>"+products[i].size+"</td>";
 				html += "<td>"+products[i].color+"</td>";
