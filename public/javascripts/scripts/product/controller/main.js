@@ -96,6 +96,9 @@ Product.controller.delete = async (id) => {
 Product.controller.manage = {
 	show: async (product_id) => {
 		document.getElementById('ajax-loader').style.visibility = 'visible';
+
+		document.getElementById("product-feedstock-add-form").elements.namedItem("id").value = "";
+		document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").disabled = false;
 		
 		document.getElementById('product-manage-image-box').style.display = 'block';
 		document.getElementById("product-manage-info-box").style.display = "block";

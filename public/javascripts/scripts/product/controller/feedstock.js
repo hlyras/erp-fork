@@ -30,7 +30,7 @@ Product.controller.feedstock = {
 				noCategory.push(product.feedstocks[i]);
 			};
 		};
-		if(feedstocks.length){ feedstocks.push(noCategory); };
+		if(noCategory.length){ feedstocks.push(noCategory); };
 
 		const pagination = { pageSize: 3, page: 0 };
 		$(() => { lib.carousel.execute("product-feedstock-box", Product.view.feedstock.list, feedstocks, pagination); });
@@ -93,7 +93,6 @@ Product.controller.feedstock = {
 		inputs: (uom) => {
 			if(uom){
 				uom = uom.options[uom.selectedIndex].text.split(' | ');
-				console.log(uom);
 				if(uom[3] == "un"){
 					document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_amount").disabled = false;
 					document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_measure").disabled = true;
@@ -127,7 +126,6 @@ document.getElementById("product-feedstock-category-create-form").addEventListen
 
 	if(!await Product.feedstock.category.save(category)){ return false };
 
-	console.log(category.product_id);
 	await Product.controller.feedstock.form.display(category.product_id);
 	
 	document.getElementById("product-feedstock-category-create-form").elements.namedItem("category_name").value = "";
@@ -160,7 +158,6 @@ document.getElementById("product-feedstock-add-form").addEventListener("submit",
 		document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_id').disabled = false;
 		document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_amount').value = "";
 		document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_measure').value = "";
-		document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_category_id').value = 0;
 		document.getElementById('product-feedstock-add-form').elements.namedItem("submit").disabled = false;
 
 		document.getElementById('ajax-loader').style.visibility = 'hidden';

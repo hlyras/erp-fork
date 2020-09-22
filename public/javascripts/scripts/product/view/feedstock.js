@@ -2,12 +2,11 @@ Product.view.feedstock = {
 	list: async (feedstocks, pagination) => {
 		let html = "";
 		for (let i = pagination.page * pagination.pageSize; i < feedstocks.length && i < (pagination.page + 1) * pagination.pageSize;i++){
-			// console.log(feedstocks[i].name);
 			html += "<div class='box-1'>";
 			html += "<h4 class='underline'>"+feedstocks[i].name+"</h4>";
 			
 			html += "<table class='tbl-info box-1'>";
-			html += "<tr style='color:#555'>";
+			html += "<tr>";
 			html += "<td>Cód</td>";
 			html += "<td>Nome</td>";
 			html += "<td>Cor</td>";
