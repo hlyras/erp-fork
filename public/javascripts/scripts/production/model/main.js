@@ -8,8 +8,8 @@ Production.simulate = async (products) => {
 
 	if(API.verifyResponse(response)){ return false };
 
-	return response;
-}
+	return response.production;
+};
 
 // $.ajax({
 // 	url: "/product/production/simulate",

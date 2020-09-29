@@ -74,14 +74,24 @@ const productionController = {
 
 			production.feedstocks = production_feedstocks.reduce((feedstocks, feedstock) => {
 				for(i in feedstocks){
-					if(feedstocks[i].feedstock_id == feedstock.feedstock_id){
+					if(feedstocks[i].id == feedstock.feedstock_id){
 						feedstocks[i].total_amount += feedstock.total_amount;
 						return feedstocks;
 					};
 				};
-				feedstocks.push({ feedstock_id: feedstock.feedstock_id, uom: feedstock.uom, total_amount: feedstock.total_amount });
+				feedstocks.push({ id: feedstock.feedstock_id, total_amount: feedstock.total_amount });
 				return feedstocks;
 			}, production.feedstocks);
+
+			for(i in production.feedstocks){
+				let feedstock = await Feedstock.findById(production.feedstocks[i].id);
+				production.feedstocks[i].code = feedstock[0].code;
+				production.feedstocks[i].name = feedstock[0].name;
+				production.feedstocks[i].color = feedstock[0].color;
+				production.feedstocks[i].standard = feedstock[0].standard;
+				production.feedstocks[i].uom = feedstock[0].uom;
+				production.feedstocks[i].total_amount = lib.roundValue(production.feedstocks[i].total_amount);
+			};
 
 			res.send({ production });
 		} catch (err) {

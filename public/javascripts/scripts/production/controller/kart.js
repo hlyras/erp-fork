@@ -48,8 +48,7 @@ if(Production.product.controller.kart.add){
 		Production.product.controller.kart.localStorage.update(Production.product.kart, "productionProductKart");
 		Production.product.view.kart.list(Production.product.kart);
 
-		document.getElementById("production-product-form").style.display = "none";
-		
+		document.getElementById("production-simulation-box").style.display = "none";
 		document.getElementById("production-product-kart-form").elements.namedItem('product_amount').value = "";
 	});
 };
@@ -68,7 +67,7 @@ Production.product.controller.kart.remove = async (product_id) => {
 	Production.product.view.kart.list(Production.product.kart);
 	
 	// document.getElementById("production-product-kart-table").style.display = "none";
-	document.getElementById("production-product-form").style.display = "none";
+	document.getElementById("production-simulation-box").style.display = "none";
 };
 	
 Production.product.controller.kart.localStorage = {
