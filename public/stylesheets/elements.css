@@ -1,3 +1,7 @@
+:root {
+	--title-soft: FreesiaUPC;
+}
+
 a {
 	text-decoration: none;
 	cursor: pointer;
@@ -15,6 +19,17 @@ button:focus {
   outline: none;
   box-shadow: none;
 }
+
+/* Fontes */
+/*.Army {
+	font-family: Army;
+	font-weight: 1;
+}*/
+
+/*@font-face {
+  font-family: Army;
+  src: url(/stylesheets/font/Army.woff);
+}*/
 
 .fieldset-generic {
 	border: 1px solid #f0f0f0;
@@ -37,8 +52,9 @@ button:focus {
 }
 
 .title-soft {
-	font-size: 16px;
-	font-family: "Lucida Sans", Gadget, sans-serif;
+	font-size: 18px;
+	font-weight: 1000;
+	font-family: var(--title-soft);
 }
 
 .underline {
@@ -84,9 +100,11 @@ button:focus {
 .btn-display-box {
 	font-size: 12px;
 	width:99%;
+	height: 25px;
 	padding-top: 3px;
-	height: 20px;
-	font-family: "HelveticaNeue-Light";
+	/*font-family: "HelveticaNeue-Light";*/
+	font-family: var(--title-soft);
+	font-weight: 1;
 	text-align: center;
 	background-color: #fff;
 	border: 1px solid #f0f0f0;
@@ -176,7 +194,6 @@ button:focus {
 
 .btn-pagination:hover {
 	border-color: #494949 !important;
-	font-weight: 1000;
 	border-radius: 5px;
 	cursor: pointer;
 	transition: all 0.3s ease 0s;
@@ -192,6 +209,9 @@ button:focus {
 	background-color: #fff;
 	border-radius: 2px;
 	border: 1px solid #8f9f94;
+
+	font-family: var(--title-soft);
+	font-weight: 1;
 }
 
 .input-search:hover {
@@ -245,10 +265,12 @@ button:focus {
 	height: 30px;
 	margin: 3px;
 	font-weight: bold;
-	font-family: "HelveticaNeue-Light";
+	/*font-family: "HelveticaNeue-Light";*/
 	text-align: center;
 	border-radius: 5px;
 	border: 2px outset #f0f0f0;
+	font-family: var(--title-soft);
+	font-weight: 1;
 	/*transition: background-color 0.5s ease-in-out;*/
 }
 

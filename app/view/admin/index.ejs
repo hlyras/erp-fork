@@ -3,25 +3,22 @@
     <% include ./../partials/head %>
   </head>
   <body>
-    <header class="header-background fill">
-      <div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
-      <div class="right">
-        <% if (user.access == 'adm') { %>
-            <a class="active" href="/signup">Novo colaborador</a>
-              <a class="active" href="/admin">Admin</a>
-            <% } %>
-        <a class="active" href="/user">Perfil</a>
-        <a class="active" onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
-      </div>
-    </header>
+    <% include ./../partials/header %>
     <% include ./../partials/nav %>
     <section>
       <div class="container">
         <div class="box-2">
-          <div class="menu-box">
-            <strong class="underline">Menu administrativo</strong>
+          <h3 class="title-soft underline">Administrativo</h3>
+          <div class="menu-box box-1">
             <span class="span-menu" onclick="window.location.href='/department/manage'">Gerir departamentos e funções</span>
+            <span class="span-menu" onclick="window.location.href='/signup'">Novo Colaborador</span>
             <span class="span-menu" onclick="window.location.href='/admin/user'">Gerir funcionários</span>
+          </div>
+        </div>
+        <div class="box-2">
+          <h3 class="title-soft underline">Produtos</h3>
+          <div class="menu-box box-1">
+            <span class="span-menu" onclick="window.location.href='/product/manage'">Gerir produtos</span>
           </div>
         </div>
       </div>

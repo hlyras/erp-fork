@@ -2,9 +2,9 @@
 	<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
 	<div class="right">
 		<% if (user.access == 'adm') { %>
-        	<a class="active" href="/admin">Admin</a>
+			<a><img class='user-icon' onclick="window.location.href='/admin'" src="/images/icon/admin.png"></a>
         <% } %>
-		<a class="active" href="/user">Perfil</a>
-		<a class="active" onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}">Sair</a>
+		<a><img class='user-icon' onclick="window.location.href='/user'" src="/images/icon/user.png"></a>
+		<a><img class="user-icon" onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}" src="/images/icon/logout.png"></a>
 	</div>
 </header>

@@ -29,14 +29,4 @@ router.get('/categoryList', productController.categoryList);
 router.post('/colorSave', productController.colorSave);
 router.get('/colorList', productController.colorList);
 
-router.get('/production', productController.production.index);
-router.get('/production/manage', productController.production.manage);
-router.get('/production/simulation', productController.production.simulation);
-router.post('/production/simulate', productController.production.simulate);
-router.post('/production/save', productController.production.save);
-router.put('/production/confirm', productController.production.confirm);
-router.put('/production/cancel', productController.production.cancel);
-router.post('/production/filter', productController.production.filter);
-router.get('/production/id/:id', productController.production.findById);
-
 module.exports = router;

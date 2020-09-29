@@ -13,10 +13,10 @@ Product.view.manage = {
 		html += "</tr>";
 
 		html += "<tr>";
-		html += "<td class='nowrap'>"+product.id+"</td>";
-		html += "<td class='nowrap'>"+product.code+"</td>";
-		html += "<td>"+product.size+"</td>";
-		html += "<td>"+product.color+"</td>";
+		html += "<td class='Army nowrap'>"+product.id+"</td>";
+		html += "<td class='Army nowrap'>"+product.code+"</td>";
+		html += "<td class='Army'>"+product.size+"</td>";
+		html += "<td class='Army'>"+product.color+"</td>";
 		html += "</tr>";
 
 		document.getElementById(table).innerHTML = html;

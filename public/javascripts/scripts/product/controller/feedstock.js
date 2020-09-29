@@ -17,7 +17,11 @@ Product.controller.feedstock = {
 					product.feedstock_categories[i].feedstocks.push(product.feedstocks[j]);
 				};
 			};
+
 			if(product.feedstock_categories[i].feedstocks.length){
+				product.feedstock_categories[i].feedstocks.sort((a, b) => {
+				  return a.code - b.code;
+				});
 				feedstocks.push(product.feedstock_categories[i].feedstocks);
 			};
 		};
@@ -30,7 +34,12 @@ Product.controller.feedstock = {
 				noCategory.push(product.feedstocks[i]);
 			};
 		};
-		if(noCategory.length){ feedstocks.push(noCategory); };
+		if(noCategory.length){
+			noCategory.sort((a, b) => {
+			  return a.code - b.code;
+			});
+			feedstocks.push(noCategory); 
+		};
 
 		const pagination = { pageSize: 3, page: 0 };
 		$(() => { lib.carousel.execute("product-feedstock-box", Product.view.feedstock.list, feedstocks, pagination); });
