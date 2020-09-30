@@ -13,7 +13,7 @@ if(Product.filter){
 			color: event.target.elements.namedItem("color").value
 		};
 
-		let products = await Product.filter(product.code, product.name, product.color);
+		let products = await Product.filter(product);
 
 		const pagination = { pageSize: 10, page: 0};
 		if(event.target.elements.namedItem("location").value == "production-kart"){

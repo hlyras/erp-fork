@@ -12,7 +12,8 @@ if(Product.controller.create){
 			code: event.target.elements.namedItem("code").value,
 			name: event.target.elements.namedItem("name").value,
 			color: event.target.elements.namedItem("color").value,
-			size: event.target.elements.namedItem("size").value
+			size: event.target.elements.namedItem("size").value,
+			brand: event.target.elements.namedItem("brand").value
 		};
 
 		product = await Product.save(product, "product-create-form");
@@ -26,6 +27,7 @@ if(Product.controller.create){
 		event.target.elements.namedItem("name").value = "";
 		event.target.elements.namedItem("color").value = "";
 		event.target.elements.namedItem("size").value = "";
+		event.target.elements.namedItem("brand").value = "";
 
 		event.target.elements.namedItem("submit").disabled = false;
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
@@ -58,6 +60,7 @@ Product.controller.edit = async (id) => {
 	document.getElementById('product-create-form').elements.namedItem("code").value = product.code;
 	document.getElementById('product-create-form').elements.namedItem("color").value = product.color;
 	document.getElementById('product-create-form').elements.namedItem("size").value = product.size;
+	document.getElementById('product-create-form').elements.namedItem("brand").value = product.brand;
 };
 
 Product.controller.filter = document.getElementById("product-filter-form");
@@ -66,13 +69,16 @@ if(Product.controller.filter){
 		event.preventDefault();
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 
+		event.target.elements.namedItem("brand");
+
 		let product = {
 			name: event.target.elements.namedItem("name").value,
 			code: event.target.elements.namedItem("code").value,
-			color: event.target.elements.namedItem("color").value
+			color: event.target.elements.namedItem("color").value,
+			brand: event.target.elements.namedItem("brand").value
 		};
 
-		let products = await Product.filter(product.code, product.name, product.color);
+		let products = await Product.filter(product);
 
 		const pagination = { pageSize: 10, page: 0};
 		if(event.target.elements.namedItem("location").value == "product-manage"){

@@ -45,13 +45,15 @@ const productController = {
 			code: parseInt(req.body.code),
 			name: req.body.name,
 			color: req.body.color,
-			size: req.body.size
+			size: req.body.size,
+			brand: req.body.brand
 		};
 
 		if(!product.code || product.code < 1 || product.code > 9999){return res.send({ msg: 'Código de produto inválido.' })};
 		if(!product.name || product.name.length > 30){return res.send({ msg: 'Preencha o nome do produto.' })};
 		if(!product.color || product.color.length > 10){return res.send({ msg: 'Preencha a cor do produto.' })};
 		if(!product.size || product.size.length > 3){return res.send({ msg: 'Preencha o tamanho do produto.' })};
+		if(!product.brand.length || product.brand.length < 3 || product.brand.length > 45){return res.send({ msg: 'Preencha a marca do produto.' })};
 
 		try {
 			if(!product.id){
@@ -163,6 +165,11 @@ const productController = {
 		if(req.query.color){
 			params.push("color");
 			values.push(req.query.color);
+		};
+
+		if(req.query.brand){
+			params.push("brand");
+			values.push(req.query.brand);
 		};
 
 		try {

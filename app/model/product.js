@@ -10,11 +10,12 @@ const Product = function(){
 };
 
 Product.save = async (product) => {
-	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, brand) VALUES ('"
 		+product.code+"', '"
 		+product.name+"','"
 		+product.color+"','"
-		+product.size+"');";
+		+product.size+"','"
+		+product.brand+"');";
 	return db(query);
 };
 
@@ -22,7 +23,8 @@ Product.update = async (product) => {
 	let query = "UPDATE cms_wt_erp.product SET code='"+product.code
 		+"', name='"+product.name
 		+"', color='"+product.color
-		+"', size='"+product.size+"' WHERE id='"+product.id+"';";
+		+"', size='"+product.size
+		+"', brand='"+product.brand+"' WHERE id='"+product.id+"';";
 	return db(query);
 };
 
