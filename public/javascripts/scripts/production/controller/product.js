@@ -1,9 +1,9 @@
 // External Product API
-const Product = {};
+Product.controller = {};
 
-Product.filter = document.getElementById("product-filter-production-kart");
-if(Product.filter){
-	Product.filter.addEventListener("submit", async (event) => {
+Product.controller.filter = document.getElementById("product-filter-production-kart");
+if(Product.controller.filter){
+	Product.controller.filter.addEventListener("submit", async (event) => {
 		event.preventDefault();
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 

@@ -1,4 +1,4 @@
-const Production = { controller: {} };
+Production.controller = {};
 
 Production.controller.simulate = document.getElementById("production-simulation-form");
 if(Production.controller.simulate){ 

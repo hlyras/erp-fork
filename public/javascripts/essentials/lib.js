@@ -127,6 +127,7 @@ const lib = {
 		select.innerHTML = "";
 		select.innerHTML += "<option value='0'>Sem resultados</option>"
 	},
+
 	carousel: {
 		execute: (box, render, response, pagination) => {
 			document.getElementById(box).children.namedItem("carousel-navigation").children.namedItem("carousel-previous").onclick = function(){
@@ -184,5 +185,38 @@ const lib = {
 				};
 			};
 		}
+	},
+	
+	// Canvas
+	rect: (ctx,c,x,y,w,h) => {
+		ctx.fillStyle = c;
+		ctx.beginPath();
+	    ctx.rect(x,y,w,h);
+	    ctx.closePath();
+	    ctx.fill();
+	},
+	drawRects: (ctx, rects) => {
+		for(i in rects){
+            ctx.fillStyle=rects[i].color;
+            lib.rect(ctx, rects[i].x, rects[i].y, rects[i].width, rects[i].height);
+        };
+	},
+	collide: (r1,r2) => {
+		let dx=(r1.x+r1.width/2)-(r2.x+r2.width/2);
+		let dy=(r1.y+r1.height/2)-(r2.y+r2.height/2);
+		let width = (r1.width+r2.width)/2;
+		let height = (r1.height+r2.height)/2;
+		let crossWidth=width*dy;
+		let crossHeight=height*dx;
+		let collision='none';
+		//
+		if(Math.abs(dx) <= width && Math.abs(dy)<=height){
+			if(crossWidth > crossHeight){
+				collision = (crossWidth>(-crossHeight))?'bottom':'left';
+			} else {
+				collision = (crossWidth>-(crossHeight))?'right':'top';
+			}
+		}
+		return(collision);
 	}
 };

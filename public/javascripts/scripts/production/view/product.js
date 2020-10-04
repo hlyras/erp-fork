@@ -1,3 +1,4 @@
+// External product view
 Product.view = {
 	fillSelect: (products, select) => {
 		select.innerHTML = "";
@@ -11,6 +12,7 @@ Product.view = {
 	}
 };
 
+// Production product view
 Production.product.view = {};
 
 Production.product.view.kart = {

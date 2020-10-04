@@ -1,3 +1,5 @@
+const Product = {}; 
+
 Product.save = async (product) => {
 	let response = await fetch("/product/save", {
 		method: "POST",

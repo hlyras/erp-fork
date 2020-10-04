@@ -1,4 +1,4 @@
-const Product = { controller: {} }; 
+Product.controller = {};
 
 Product.controller.create = document.getElementById("product-create-form");
 if(Product.controller.create){

@@ -1,0 +1,118 @@
+<html>
+	<head>
+        <% include ./../partials/head %>
+	</head>
+	<body>
+		<% include ./../partials/header %>
+        <% include ./../partials/nav %>
+		<section>
+			<div class="container">
+				<div class="box-1">
+					<canvas id="canvas"></canvas>
+				</div>
+			</div>
+		</section>
+		<div id="ajax-loader" class="ajax-loader">
+			<div class="loader"></div>
+		</div>
+	</body>
+	<footer>
+        <% include ./../partials/footer %>
+        <% include ./partial %>
+        <script>
+		    // Canvas
+			const CANVAS = document.getElementById("canvas");
+			const CONTEXT = CANVAS.getContext("2d");
+			const CLIENTRECT = CANVAS.getBoundingClientRect();
+
+			console.log(CLIENTRECT);
+
+		    const offsetX = CLIENTRECT.left;
+		    const offsetY = CLIENTRECT.top;
+
+			CANVAS.x = 0;
+			CANVAS.y = 0;
+			CANVAS.width = 380;
+			CANVAS.height = 410;
+			CANVAS.draw = () => {
+				CONTEXT.fillStyle = "#c1c2c3";
+				CONTEXT.fillRect(CANVAS.x, CANVAS.y, CANVAS.width, CANVAS.height);
+			};
+			CANVAS.draw();
+
+			console.log(CANVAS);
+
+			// Accessory
+			const Accessory = function(id, name, x, y, width, height){
+				this.id = id;
+				this.name = name;
+				this.x = x;
+				this.y = y;
+				this.width = width;
+				this.height = height;
+				this.isDragging = false;
+				this.fill = "red";
+			};
+
+			Accessory.database = [];
+
+			Accessory.mouse = {
+				startX:0,
+				startY:0,
+				down: (mx, my) => {
+					for(var i=0;i<Accessory.database.length;i++){
+						console.log(Accessory.database);
+			            var r=Accessory.database[i];
+			            if(mx>r.x && mx<r.x+r.width && my>r.y && my<r.y+r.height){
+			                // if yes, set that rects isDragging=true
+			                // dragok=true;
+			                console.log('ok');
+			                r.isDragging=true;
+			            }
+			        }
+				}
+			};
+
+			CANVAS.onmousedown = myDown;
+		    // CANVAS.onmouseup = myUp;
+		    // CANVAS.onmousemove = myMove;
+
+			let accessory = new Accessory(1, 'bolsa P', 20, 20, 45, 60);
+			Accessory.database.push(accessory);
+
+		    function clear() {
+		    	CONTEXT.clearRect(0, 0, CANVAS.width, CANVAS.height);
+		    };
+
+		    function draw(rects) {
+		        clear();
+				CANVAS.draw();
+		        for(i in rects){
+		            CONTEXT.fillStyle = rects[i].fill;
+		            lib.rect(CONTEXT, rects[i].x, rects[i].y, rects[i].width, rects[i].height);
+		        };
+		    };
+
+		    draw(Accessory.database);
+
+		    function myDown(e){
+		        e.preventDefault();
+		        e.stopPropagation();
+
+		        console.log(e.clientX);
+		        console.log(offsetX);
+		        console.log(e.clientX - offsetX);
+
+		        var mx = parseInt(e.clientX-offsetX);
+		        var my = parseInt(e.clientY-offsetY);
+
+
+		        // dragok=false;
+		        Accessory.mouse.down(mx, my);
+
+		        Accessory.mouse.startX = mx;
+		        Accessory.mouse.startY = my;
+		    }
+		</script>
+	</footer>
+</html>
