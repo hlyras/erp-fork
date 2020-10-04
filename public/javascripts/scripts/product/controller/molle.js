@@ -12,11 +12,22 @@ let startX;
 let startY;
 
 // ACCESSORY CONTROLLER
+CANVAS_MOLLE.addEventListener("touchmove", function (e) {
+  var touch = e.touches[0];
+  alert(touch);
+  var mouseEvent = new MouseEvent("mousemove", {
+    clientX: touch.clientX,
+    clientY: touch.clientY
+  });
+  CANVAS_MOLLE.dispatchEvent(mouseEvent);
+}, false);
+
 Accessory.controller = {
 	mouse: {
 		down: (e) => {
 			e.preventDefault();
 	        e.stopPropagation();
+
 
 	        let mx=parseInt(e.clientX-offsetX);
 	        let my=parseInt(e.clientY-offsetY);
