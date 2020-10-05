@@ -124,7 +124,6 @@ Accessory.controller = {
 			startX = mx;
 			startY = my;
 		}
-
 	}
 };
 

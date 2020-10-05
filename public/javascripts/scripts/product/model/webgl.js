@@ -11,6 +11,8 @@ var offsetY = canvasClientRect.top;
 var startX = 100;
 var startY = 100;
 
+let md = false;
+
 function animateScene() {
     requestAnimationFrame(animateScene);
 
@@ -70,19 +72,6 @@ startScene(cube);
 renderScene();
 animateScene()
 
-let md = false;
-canvas.onmousedown = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    md = true;
-
-    let mx=parseInt(e.clientX-offsetX);
-    let my=parseInt(e.clientY-offsetY);
-
-    startX = mx;
-    startY = my;
-};
-
 document.addEventListener("keydown", e => {
     e.preventDefault();
     e.stopPropagation();
@@ -123,28 +112,91 @@ document.addEventListener("keydown", e => {
     renderScene();
 });
 
-canvas.onmousemove = (e) => {
-    if(md){
-        let mx = parseInt(e.clientX-offsetX);
-        let my = parseInt(e.clientY-offsetY);
+const controller = {
+    mouse: {
+        down: (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            md = true;
 
-        let dx = mx-startX;
-        let dy = my-startY;
+            let mx=parseInt(e.clientX-offsetX);
+            let my=parseInt(e.clientY-offsetY);
 
-        camera.rotation.x += (dy / 500);
-        camera.rotation.y += (dx / 500);
+            startX = mx;
+            startY = my;
+        },
+        move: (e) => {
+            if(md){
+                let mx = parseInt(e.clientX-offsetX);
+                let my = parseInt(e.clientY-offsetY);
 
-        renderScene();
+                let dx = mx-startX;
+                let dy = my-startY;
 
-        startX = mx;
-        startY = my;
-    };
+                camera.rotation.x += (dy / 500);
+                camera.rotation.y += (dx / 500);
+
+                renderScene();
+
+                startX = mx;
+                startY = my;
+            };
+        },
+        up: (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            md = false;
+        },
+        out: (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            md = false;
+        }
+    },
+    touch: {
+        down: (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            md = true;
+
+            let mx = parseInt(e.targetTouches[0].clientX-offsetX);
+            let my = parseInt(e.targetTouches[0].clientY-offsetY);
+
+            startX = mx;
+            startY = my;
+        },
+        move: (e) => {
+            if(md){
+                let mx=parseInt(e.targetTouches[0].clientX-offsetX);
+                let my=parseInt(e.targetTouches[0].clientY-offsetY);
+
+                let dx = mx-startX;
+                let dy = my-startY;
+
+                camera.rotation.x += (dy / 500);
+                camera.rotation.y += (dx / 500);
+
+                renderScene();
+                
+                startX = mx;
+                startY = my;
+            }
+        },
+        up: (e) => {
+            md = false;
+        },
+        out: (e) => {
+            md = false;
+        }
+    }
 };
 
-canvas.onmouseout = (e) => {
-    md = false;
-};
+canvas.onmousedown = controller.mouse.down;
+canvas.onmousemove = controller.mouse.move;
+canvas.onmouseup = controller.mouse.up;
+canvas.onmouseout = controller.mouse.out;
 
-canvas.onmouseup = () => {
-    md = false;
-};
+canvas.ontouchstart = controller.touch.down;
+canvas.ontouchmove = controller.touch.move;
+canvas.ontouchend = controller.touch.up;
+canvas.ontouchcancel = controller.touch.out;
