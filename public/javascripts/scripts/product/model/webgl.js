@@ -70,7 +70,7 @@ function renderScene() {
 let cube = createCube();
 startScene(cube);
 renderScene();
-animateScene()
+// animateScene()
 
 document.addEventListener("keydown", e => {
     e.preventDefault();
@@ -91,7 +91,6 @@ document.addEventListener("keydown", e => {
     if(e.keyCode == 68){
         camera.position.x += 0.1;
     };
-
 
     if(e.keyCode == 37){
         camera.rotation.y += 0.01;
@@ -173,8 +172,8 @@ const controller = {
                 let dx = mx-startX;
                 let dy = my-startY;
 
-                camera.rotation.x += (dy / 500);
-                camera.rotation.y += (dx / 500);
+                cube.rotation.x += (dy / 150);
+                cube.rotation.y += (dx / 150);
 
                 renderScene();
                 
