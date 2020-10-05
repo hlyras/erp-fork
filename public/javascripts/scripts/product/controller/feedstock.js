@@ -63,7 +63,7 @@ Product.controller.feedstock = {
 			document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_amount").disabled = false;
 			document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_measure").disabled = true;
 			document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_measure").value = "";
-			document.getElementById("product-feedstock-add-form").elements.namedItem("category_id").value = product_feedstock.category_id;
+			document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_category_id").value = product_feedstock.category_id;
 		} else if(product_feedstock.uom == "cm"){
 			document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_amount").value = product_feedstock.amount;
 			document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_amount").disabled = false;
