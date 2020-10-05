@@ -1,15 +1,16 @@
 <html>
 	<head>
         <% include ./../partials/head %>
+		<meta http-equiv="X-UA-Compatible" content="IE-edge">
 	</head>
 	<body>
 		<% include ./../partials/header %>
         <% include ./../partials/nav %>
+        <script src="/javascripts/essentials/three.min.js"></script>
 		<section>
 			<div class="container">
 				<div class="box-1">
-					<!-- <canvas id="canvas"></canvas> -->
-			    	<canvas id="canvas" width=300 height=400></canvas>
+            		<div id="canvas" width="400" height="400"></div>
 				</div>
 			</div>
 		</section>
@@ -20,7 +21,8 @@
 	<footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
-        <script src="/javascripts/scripts/product/model/molle.js"></script>
-        <script src="/javascripts/scripts/product/controller/molle.js"></script>
+        <script src="/javascripts/scripts/product/model/webgl.js"></script>
+        <script src="/javascripts/scripts/product/controller/webgl.js"></script>
+        <script src="/javascripts/scripts/product/view/webgl.js"></script>
 	</footer>
 </html>

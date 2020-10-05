@@ -33,6 +33,18 @@ const productController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
+	webgl: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+			return res.redirect("/");
+		};
+
+		try{
+			res.render('product/webgl', { user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
 	manage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man','COR-GER'])){
 			return res.redirect("/");

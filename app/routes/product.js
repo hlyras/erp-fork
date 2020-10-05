@@ -23,6 +23,7 @@ router.get('/feedstock/list/product_id/:product_id', productController.feedstock
 router.post('/feedstock/category/save', productController.feedstock.category.save);
 router.get('/feedstock/category/list/product_id/:product_id', productController.feedstock.category.list);
 router.get('/molle', productController.molle);
+router.get('/webgl', productController.webgl);
 
 router.post('/categorySave', productController.categorySave);
 router.get('/categoryList', productController.categoryList);
