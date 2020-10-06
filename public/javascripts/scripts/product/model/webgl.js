@@ -132,8 +132,8 @@ const controller = {
                 let dx = mx-startX;
                 let dy = my-startY;
 
-                camera.rotation.x += (dy / 500);
-                camera.rotation.y += (dx / 500);
+                cube.rotation.x += (dy / 150);
+                cube.rotation.y += (dx / 150);
 
                 renderScene();
 
