@@ -3,7 +3,7 @@
     	<legend>Adicionar Matéria-Prima</legend>
 		<input type="hidden" name="id" value="">
 		<input type="hidden" name="product_id">
-		<select name="feedstock_id" class="btn-generic-info bold hide-disabled" onchange="Product.controller.feedstock.uom.inputs(this)"></select>
+		<select name="feedstock_id" class="btn-generic-info bold hide-disabled" onchange="Product.controller.feedstock.form.inputs(this)"></select>
 		<br>
 		<input type="hidden" name="feedstock_uom" value="">
 		<input type="number" name="feedstock_amount" class="btn-generic-small price" step="1" placeholder="qtd" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}"/ disabled>

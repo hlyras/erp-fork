@@ -37,8 +37,8 @@ Product.view.manage = {
 				html += "<td>"+products[i].name+"</td>";
 				html += "<td>"+products[i].size+"</td>";
 				html += "<td>"+products[i].color+"</td>";
-				html += "<td><img class='img-tbl-btn' src='/images/icon/edit.png' onclick='Product.controller.edit("+products[i].id+")'></td>";
-				html += "<td><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Product.controller.delete("+products[i].id+")'></td>";
+				html += "<td><img class='img-tbl-btn' src='/images/icon/edit.png' onclick='Product.controller.manage.edit("+products[i].id+")'></td>";
+				html += "<td><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Product.controller.manage.delete("+products[i].id+")'></td>";
 				html += "</tr>";
 			};
 			document.getElementById("product-manage-filter-table").innerHTML = html;
@@ -56,5 +56,21 @@ Product.view.manage = {
 		html += "<button class='btn-generic-medium' onclick='Product.controller.feedstock.list("+product.id+");lib.displayDiv(`product-feedstock-box`, this, `Listar Matérias-Primas`, `Esconder Lista`);'>Listar Matérias-Primas</button>";
 
 		document.getElementById("product-manage-menu-div").innerHTML = html;
+	},
+	image: {
+		show: (images, pagination) => {
+			let html = "";
+		    if(images.length){
+			    for (let i = pagination.page * pagination.pageSize; i < images.length && i < (pagination.page + 1) * pagination.pageSize;i++){
+					document.getElementById("product-manage-image-img").src = images[i].url;
+					document.getElementById("product-manage-image-remove-button").setAttribute("onClick", "javascript: Product.controller.image.remove('"+images[i].id+"', '"+images[i].product_id+"');" );
+					document.getElementById("product-manage-image-remove-button").disabled = false;
+				};
+		    } else {
+				document.getElementById("product-manage-image-img").src = "/images/product/no-product.png";
+				document.getElementById("product-manage-image-remove-button").setAttribute("onClick", "javascript: Product.controller.image.remove(0, 0);" );
+				document.getElementById("product-manage-image-remove-button").disabled = true;
+		    };
+		}
 	}
 };
