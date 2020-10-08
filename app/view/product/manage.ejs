@@ -38,7 +38,6 @@
 						<input type="submit" name="submit" class="btn-submit" value="Cadastrar">
 					</form>
 				</div>
-
 				<div class="box-2">
 					<h3 class="title-soft underline">Buscar Produtos</h3>
 					<form id="product-filter-form" class="box-1">
@@ -50,7 +49,7 @@
 							<% for(i in productColors){ %>
 								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
 							<% } %>
-						</select>
+						</select><br>
 						<select name="brand" class="btn-generic-big" autocomplete="off">
 							<option value="">Marca do Produto</option>
 							<option value="Sem marca">Sem marca</option>
