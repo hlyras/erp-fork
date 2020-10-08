@@ -28,7 +28,7 @@ Product.view = {
 			html += "<td>Cor</td>";
 			html += "</tr>";
 
-			for (let i = pagination.page * pagination.pageSize; i < products.length && i < (pagination.page + 1) * pagination.pageSize; i++){
+			for(let i = pagination.page * pagination.pageSize; i < products.length && i < (pagination.page + 1) * pagination.pageSize; i++){
 				html += "<tr>";
 				html += "<td><a class='tbl-show-link nowrap' onclick='Product.controller.manage.show("+products[i].id+")'>"+products[i].code+"</a></td>";
 				html += "<td>"+products[i].name+"</td>";

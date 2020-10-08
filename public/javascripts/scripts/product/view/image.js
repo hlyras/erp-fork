@@ -5,7 +5,6 @@ Product.view.image = {
 			html += "<img class='image-box' src='"+images[i].url+"'>";
 		};
 
-
 		document.getElementById('product-manage-image-div').innerHTML = html;
 	}
 };
