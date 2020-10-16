@@ -511,9 +511,9 @@ const productController = {
 		};
 	},
 	colorList: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','n/a'])){
-			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-		};
+		// if(!await userController.verifyAccess(req, res, ['adm','man','n/a'])){
+		// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		// };
 	
 		try {
 			const colors = await Product.colorList();
