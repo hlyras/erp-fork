@@ -43,6 +43,21 @@ Product.controller.feedstock.list = async (product_id) => {
 
 	let feedstocks = [];
 
+	let noCategory = [];
+	for(i in product.feedstocks){
+		noCategory.name = "Sem categoria";
+		if(!product.feedstocks[i].category_id){
+			product.feedstocks[i].category_name = noCategory.name;
+			noCategory.push(product.feedstocks[i]);
+		};
+	};
+	if(noCategory.length){
+		noCategory.sort((a, b) => {
+		  return a.code - b.code;
+		});
+		feedstocks.push(noCategory); 
+	};
+
 	for(i in product.feedstock_categories){
 		product.feedstock_categories[i].feedstocks = [];
 		product.feedstock_categories[i].feedstocks.name = product.feedstock_categories[i].name;
@@ -59,21 +74,6 @@ Product.controller.feedstock.list = async (product_id) => {
 			});
 			feedstocks.push(product.feedstock_categories[i].feedstocks);
 		};
-	};
-
-	let noCategory = [];
-	for(i in product.feedstocks){
-		noCategory.name = "Sem categoria";
-		if(!product.feedstocks[i].category_id){
-			product.feedstocks[i].category_name = noCategory.name;
-			noCategory.push(product.feedstocks[i]);
-		};
-	};
-	if(noCategory.length){
-		noCategory.sort((a, b) => {
-		  return a.code - b.code;
-		});
-		feedstocks.push(noCategory); 
 	};
 
 	const pagination = { pageSize: 3, page: 0 };
