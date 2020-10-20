@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>J.A Rio Militar</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no">
+
+		<!-- <link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/main.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/elements.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/actions.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/position.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/image.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/box.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/responsivity.css"> -->
+
+		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/main.css">
+		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/position.css">
+		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/image.css">
+		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/box.css">
+		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/elements.css">
+		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/actions.css">
+		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/responsivity.css">
+
+		<style>
+			:root {
+				--theme-background-color: #fff;
+			}
+		</style>
+	</head>
+	<header>
+		<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
+	</header>
+	<body>
+		<section>
+			<div class="box one">
+				<h1 class="box one"></h1>
+				<div class="container Army">
+					<div class="mobile-box six"><h1 class="center"></h1></div>
+					<div class="mobile-box two-thirds"><h1 class="center"><%= product.code %> <%= product.name %> <%= product.color %> <%= product.size %></h1></div>
+					<div class="mobile-box six"><h1 class="center"></h1></div>
+				</div>
+
+				<div class="container">
+					<% for(i in product.images){ %>
+						<div class="box four"><img class="catalog-image" src="<%= product.images[i].url %>"></div> 
+					<% } %>
+				</div>
+			</div>
+		</section>
+		<div id="ajax-loader" class="ajax-loader">
+			<div class="loader"></div>
+		</div>
+	</body>
+	<footer>
+        <% include ./../partials/footer %>
+        <% include ./partial %>
+	</footer>
+</html>
