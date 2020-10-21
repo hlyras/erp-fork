@@ -60,14 +60,19 @@ const productController = {
 		};
 	},
 	datasheet: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
-			return res.redirect("/");
-		};
+		// if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+		// 	return res.redirect("/");
+		// };
 
 		let product = await Product.findById(req.params.product_id);
 		product = { ...product[0] };
-
-		product.images = await Product.image.list(req.params.product_id)
+		product.images = await Product.image.list(req.params.product_id);
+		product.feedstocks = await Product.feedstock.list(req.params.product_id);
+		for(i in product.feedstocks){
+			let product_feedstock = await Feedstock.findById(product.feedstocks[i].feedstock_id);
+			product.feedstocks[i].feedstock_info = product_feedstock[0].code +" | "+product_feedstock[0].name +" | "+product_feedstock[0].color;
+		};
+		console.log(product.feedstocks[i]);
 
 		try{
 			res.render('product/datasheet', { user: req.user, product });
@@ -94,7 +99,7 @@ const productController = {
 		if(!product.name || product.name.length > 30){return res.send({ msg: 'Preencha o nome do produto.' })};
 		if(!product.color || product.color.length > 10){return res.send({ msg: 'Preencha a cor do produto.' })};
 		if(!product.size || product.size.length > 3){return res.send({ msg: 'Preencha o tamanho do produto.' })};
-		if(!product.brand.length || product.brand.length < 3 || product.brand.length > 45){return res.send({ msg: 'Preencha a marca do produto.' })};
+		if(!product.brand.length || product.brand.length < 3 || product.brand.length > 45){ return res.send({ msg: 'Preencha a marca do produto.' })};
 
 		try {
 			if(!product.id){

@@ -27,7 +27,7 @@
 		</style>
 	</head>
 	<header>
-		<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
+		<div onclick="window.history.back()" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
 	</header>
 	<body>
 		<section>
@@ -43,6 +43,28 @@
 					<% for(i in product.images){ %>
 						<div class="box four"><img class="catalog-image" src="<%= product.images[i].url %>"></div> 
 					<% } %>
+				</div>
+
+				<div class="container">
+					<% for(i in product.feedstocks){ %>
+					<div class="box one center padding-5 box-hover"><div class="container">
+						<div class="box five center"><%= product.feedstocks[i].feedstock_info %></div> 
+						<div class="box five center"><%= product.feedstocks[i].category_id %></div> 
+						<div class="box five center"><%= product.feedstocks[i].uom %></div> 
+						<div class="box five center"><%= product.feedstocks[i].amount %></div> 
+						<div class="box five center"><%= product.feedstocks[i].measure %></div> 
+					</div></div>
+					<% } %>
+
+					<!-- RowDataPacket {
+					  feedstock_id: 43,
+					  feedstock_info: '651 | HXL | pt'
+					  category_id: 20,
+					  uom: 'cm',
+					  amount: 1,
+					  measure: 1200,
+					} -->
+
 				</div>
 			</div>
 		</section>
