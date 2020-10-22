@@ -81,10 +81,9 @@ Product.image = {
 
 Product.feedstock = {
 	add: async (product_feedstock) => {
-		let query = "INSERT INTO cms_wt_erp.product_feedstock (product_id, feedstock_id, feedstock_info, uom, amount, measure, category_id) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.product_feedstock (product_id, feedstock_id, uom, amount, measure, category_id) VALUES ('"
 			+product_feedstock.product_id+"', '"
 			+product_feedstock.feedstock_id+"', '"
-			+product_feedstock.feedstock_info+"', '"
 			+product_feedstock.uom+"', '"
 			+product_feedstock.amount+"', '"
 			+product_feedstock.measure+"', '"
