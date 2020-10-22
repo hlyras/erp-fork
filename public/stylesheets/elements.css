@@ -21,15 +21,15 @@ button:focus {
 }
 
 /* Fontes */
-/*.Army {
+.army {
 	font-family: Army;
 	font-weight: 1;
-}*/
+}
 
-/*@font-face {
+@font-face {
   font-family: Army;
   src: url(/stylesheets/font/Army.woff);
-}*/
+}
 
 .fieldset-generic {
 	border: 1px solid #f0f0f0;

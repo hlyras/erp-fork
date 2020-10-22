@@ -1,7 +1,7 @@
 Product.view.manage = {
 	info: (product, title, table) => {
 		let html = "";
-		html += product.name;
+		html += `<h4 style='cursor:pointer' onclick="window.location.href='/product/datasheet/`+product.id+`'">`+product.name+`</h4>`;
 
 		document.getElementById(title).innerHTML = html;
 

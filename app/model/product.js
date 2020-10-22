@@ -81,9 +81,10 @@ Product.image = {
 
 Product.feedstock = {
 	add: async (product_feedstock) => {
-		let query = "INSERT INTO cms_wt_erp.product_feedstock (product_id, feedstock_id, uom, amount, measure, category_id) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.product_feedstock (product_id, feedstock_id, feedstock_info, uom, amount, measure, category_id) VALUES ('"
 			+product_feedstock.product_id+"', '"
 			+product_feedstock.feedstock_id+"', '"
+			+product_feedstock.feedstock_info+"', '"
 			+product_feedstock.uom+"', '"
 			+product_feedstock.amount+"', '"
 			+product_feedstock.measure+"', '"
@@ -96,6 +97,10 @@ Product.feedstock = {
 	},
 	findById: async (id) => {
 		let query = "SELECT * FROM cms_wt_erp.product_feedstock WHERE id='"+id+"';";
+		return db(query);
+	},
+	findByFeedstockId: async (id) => {
+		let query = "SELECT * FROM cms_wt_erp.product_feedstock WHERE feedstock_id='"+id+"';";
 		return db(query);
 	},
 	list: async (id) => {
@@ -121,6 +126,7 @@ Product.feedstock = {
 				+product_feedstock_category.name+"');";
 			return db(query);		
 		},
+		// todo create findById
 		list: async (product_id) => {
 			let query = "SELECT * FROM cms_wt_erp.product_feedstock_category WHERE product_id='"+product_id+"';";
 			return db(query);

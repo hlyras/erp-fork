@@ -152,7 +152,8 @@ nav select:hover {
 body {
 	background-color: #f0f0f0;
 	/*background-image: url("/images/background/umbrobg.jpg");*/
-	min-height: 1000px;
+    width: 100%;
+    height: 100%;
 }
 
 section {

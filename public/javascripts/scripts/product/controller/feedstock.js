@@ -6,7 +6,10 @@ if(Product.controller.feedstock.add){
 		event.preventDefault();
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 
-		if(!document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").value){ return alert("É necessário preencher o produto") };
+		if(!document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").value){ 
+			alert("É necessário preencher o produto"); 
+			return document.getElementById('ajax-loader').style.visibility = 'hidden';
+		};
 
 		let product_feedstock = {
 			id: document.getElementById("product-feedstock-add-form").elements.namedItem('id').value,
