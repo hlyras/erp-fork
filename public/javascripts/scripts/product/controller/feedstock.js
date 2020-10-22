@@ -56,7 +56,7 @@ Product.controller.feedstock.list = async (product_id) => {
 		  return a.code - b.code;
 		});
 		feedstocks.push(noCategory); 
-	};
+	}; 
 
 	for(i in product.feedstock_categories){
 		product.feedstock_categories[i].feedstocks = [];
