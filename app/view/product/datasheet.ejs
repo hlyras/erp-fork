@@ -32,15 +32,13 @@
 	<body>
 		<section>
 			<div class="container Army">
-				<div class="mobile-box six"><h1 class="center"></h1></div>
-				<div class="center"><h1 class="center nowrap">#<%= product.code %> - <%= product.name %> <%= product.color %> <%= product.size %></h1></div>
-				<div class="mobile-box six"><h1 class="center"></h1></div>
+				<div class="box one center"><h1 class="center">#<%= product.code %> - <%= product.name %> <%= product.color %> <%= product.size %></h1></div>
 			</div>
 
 			<% if(product.images.length){ %>
 			<div class="container">
 				<% for(i=0;i<3;i++){ %>
-					<div class="mobile-box three"><img class="catalog-image" style="height:200px;" src="<%= product.images[i].url %>"></div>
+					<div class="box three"><img class="catalog-image" style="height:200px;" src="<%= product.images[i].url %>"></div>
 				<% } %>
 			</div>
 			<% } %>
@@ -54,7 +52,7 @@
 
 			<div class="container">
 			<% if(noCategories.length){ %>
-				<div class="mobile-box four box-border margin-top-10 padding-10">
+				<div class="box four box-border margin-top-10 padding-10">
 					<h5 class="center">Sem categoria</h5>
 					<table class="tbl-info width-fill">
 						<tr>
@@ -80,7 +78,7 @@
 			<% } %>
 
 			<% for(i in product.feedstock_categories){ %>
-				<div class="mobile-box four box-border margin-top-10 padding-10">
+				<div class="box four box-border margin-top-10 padding-10">
 					<h5 class="center"><%= product.feedstock_categories[i].name %></h5>
 					<table class="tbl-info width-fill">
 						<tr>
