@@ -72,7 +72,7 @@ const productController = {
 			let product_feedstock = await Feedstock.findById(product.feedstocks[i].feedstock_id);
 			product.feedstocks[i].feedstock_info = product_feedstock[0].code +" | "+product_feedstock[0].name +" | "+product_feedstock[0].color;
 		};
-		console.log(product.feedstocks[i]);
+		product.feedstock_categories = await Product.feedstock.category.list(req.params.product_id);
 
 		try{
 			res.render('product/datasheet', { user: req.user, product });

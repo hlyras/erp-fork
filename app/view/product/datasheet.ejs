@@ -31,41 +31,81 @@
 	</header>
 	<body>
 		<section>
-			<div class="box one">
-				<h1 class="box one"></h1>
-				<div class="container Army">
-					<div class="mobile-box six"><h1 class="center"></h1></div>
-					<div class="mobile-box two-thirds"><h1 class="center"><%= product.code %> <%= product.name %> <%= product.color %> <%= product.size %></h1></div>
-					<div class="mobile-box six"><h1 class="center"></h1></div>
-				</div>
+			<div class="container Army">
+				<div class="mobile-box six"><h1 class="center"></h1></div>
+				<div class="center"><h1 class="center nowrap">#<%= product.code %> - <%= product.name %> <%= product.color %> <%= product.size %></h1></div>
+				<div class="mobile-box six"><h1 class="center"></h1></div>
+			</div>
 
-				<div class="container">
-					<% for(i in product.images){ %>
-						<div class="box four"><img class="catalog-image" src="<%= product.images[i].url %>"></div> 
+			<% if(product.images.length){ %>
+			<div class="container">
+				<% for(i=0;i<3;i++){ %>
+					<div class="mobile-box three"><img class="catalog-image" style="height:200px;" src="<%= product.images[i].url %>"></div>
+				<% } %>
+			</div>
+			<% } %>
+
+			<% let noCategories = [] %>
+			<% for(i in product.feedstocks){ %>
+				<% if(!product.feedstocks[i].category_id){ %>
+					<% noCategories.push(product.feedstocks[i]) %>
+				<% } %>
+			<% } %>
+
+			<div class="container">
+			<% if(noCategories.length){ %>
+				<div class="mobile-box four box-border margin-top-10 padding-10">
+					<h5 class="center">Sem categoria</h5>
+					<table class="tbl-info width-fill">
+						<tr>
+							<td>Info</td>
+							<td>Qtd</td>
+							<td>Medida</td>
+						</tr>
+					<% for(i in noCategories){ %>
+						<tr>
+							<% if(noCategories[i].uom == 'un'){ %>
+								<td><%= noCategories[i].feedstock_info %></td>
+								<td class="nowrap"><%= noCategories[i].amount+""+noCategories[i].uom %></td>
+								<td></td>
+							<% } else { %>
+								<td><%= noCategories[i].feedstock_info %></td>
+								<td><%= noCategories[i].amount %></td>
+								<td class="nowrap"><%= noCategories[i].measure+""+noCategories[i].uom %></td>
+							<% } %>
+						</tr>
 					<% } %>
+					</table>
 				</div>
+			<% } %>
 
-				<div class="container">
-					<% for(i in product.feedstocks){ %>
-					<div class="box one center padding-5 box-hover"><div class="container">
-						<div class="box five center"><%= product.feedstocks[i].feedstock_info %></div> 
-						<div class="box five center"><%= product.feedstocks[i].category_id %></div> 
-						<div class="box five center"><%= product.feedstocks[i].uom %></div> 
-						<div class="box five center"><%= product.feedstocks[i].amount %></div> 
-						<div class="box five center"><%= product.feedstocks[i].measure %></div> 
-					</div></div>
+			<% for(i in product.feedstock_categories){ %>
+				<div class="mobile-box four box-border margin-top-10 padding-10">
+					<h5 class="center"><%= product.feedstock_categories[i].name %></h5>
+					<table class="tbl-info width-fill">
+						<tr>
+							<td>Info</td>
+							<td>Qtd</td>
+							<td>Medida</td>
+						</tr>
+					<% for(j in product.feedstocks){ %>
+						<% if(product.feedstock_categories[i].id == product.feedstocks[j].category_id){ %>
+							<tr>
+								<% if(product.feedstocks[j].uom == 'un'){ %>
+									<td><%= product.feedstocks[j].feedstock_info %></td>
+									<td class="nowrap"><%= product.feedstocks[j].amount+""+product.feedstocks[j].uom %></td>
+									<td></td>
+								<% } else { %>
+									<td><%= product.feedstocks[j].feedstock_info %></td>
+									<td><%= product.feedstocks[j].amount %></td>
+									<td class="nowrap"><%= product.feedstocks[j].measure+""+product.feedstocks[j].uom %></td>
+								<% } %>
+							</tr>
+						<% } %>					
 					<% } %>
-
-					<!-- RowDataPacket {
-					  feedstock_id: 43,
-					  feedstock_info: '651 | HXL | pt'
-					  category_id: 20,
-					  uom: 'cm',
-					  amount: 1,
-					  measure: 1200,
-					} -->
-
+					</table>
 				</div>
+			<% } %>
 			</div>
 		</section>
 		<div id="ajax-loader" class="ajax-loader">
