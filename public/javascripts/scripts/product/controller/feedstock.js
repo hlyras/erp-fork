@@ -6,7 +6,7 @@ if(Product.controller.feedstock.add){
 		event.preventDefault();
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 
-		if(!document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").value){ 
+		if(!document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").value){
 			alert("É necessário preencher o produto"); 
 			return document.getElementById('ajax-loader').style.visibility = 'hidden';
 		};
@@ -25,7 +25,7 @@ if(Product.controller.feedstock.add){
 
 		document.getElementById("product-feedstock-box").style.display = "block";
 		if(!await Product.controller.feedstock.list(product_feedstock.product_id)){ return false };
-				
+
 		document.getElementById("product-feedstock-add-form").elements.namedItem('id').value = "";
 		document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_id').innerHTML = "";
 		document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_id').disabled = false;

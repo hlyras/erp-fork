@@ -42,10 +42,10 @@ Product.view.manage = {
 				html += "</tr>";
 			};
 			document.getElementById("product-manage-filter-table").innerHTML = html;
-			document.getElementById("product-manage-filter-box").style.display = "block";
+			document.getElementById("product-manage-filter-box").style.display = "";
 		} else {
 			document.getElementById("product-manage-filter-table").innerHTML = "Sem resultados";
-			document.getElementById("product-manage-filter-box").style.display = "block";
+			document.getElementById("product-manage-filter-box").style.display = "";
 		};
 	},
 	menu: (product) => {

@@ -129,11 +129,11 @@ const lib = {
 	},
 
 	carousel: {
-		execute: (box, render, response, pagination) => {
+		execute: (box, render, response, pagination, params) => {
 			document.getElementById(box).children.namedItem("carousel-navigation").children.namedItem("carousel-previous").onclick = function(){
 		        if(pagination.page > 0){
 		            pagination.page--;
-		            lib.carousel.paging(render, response, pagination);
+		            lib.carousel.paging(render, response, pagination, params);
 		            lib.carousel.navigation(box, response, pagination);
 		        };
 		    };
@@ -141,15 +141,15 @@ const lib = {
 		    document.getElementById(box).children.namedItem("carousel-navigation").children.namedItem("carousel-next").onclick = function(){
 		        if(pagination.page < response.length / pagination.pageSize - 1){
 		            pagination.page++;
-		            lib.carousel.paging(render, response, pagination);
+		            lib.carousel.paging(render, response, pagination, params);
 		            lib.carousel.navigation(box, response, pagination);
 		        };
 		    };
-		    lib.carousel.paging(render, response, pagination);
+		    lib.carousel.paging(render, response, pagination, params);
 		    lib.carousel.navigation(box, response, pagination);
 		},
-		paging: (render, response, pagination) => {
-			render(response, pagination);
+		paging: (render, response, pagination, params) => {
+			render(response, pagination, params);
 		},
 		navigation: (box, response, pagination) => {
 			if(!response.length){

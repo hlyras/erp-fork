@@ -221,9 +221,15 @@ const productController = {
 		try {
 			if(req.query.name){
 				const products = await Product.filter(req.query.name, params, values);
+				for(i in products){
+					products[i].images = await Product.image.list(products[i].id);
+				};
 				res.send({ products });
 			} else {
 				const products = await Product.filter(false, params, values);
+				for(i in products){
+					products[i].images = await Product.image.list(products[i].id);
+				};
 				res.send({ products });
 			};
 		} catch (err) {
