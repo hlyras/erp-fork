@@ -8,19 +8,18 @@ Product.view.catalog.filter = async (products, pagination) => {
 		html += "<div class='container'>";
 		html += "<h1 class='box-1'>"+products[i].name+"<h1>";
 
-		html += "<div id='product-"+products[i].id+"-catalog-card-image' class='box-1'>"
-		html += "<img id='product-"+products[i].id+"-catalog-image-img' class='box-1'>"
+		html += "<div id='product-"+products[i].id+"-catalog-card' class='box-1'>"
+		html += "<img id='product-"+products[i].id+"-catalog-card-img' class='box-1'>"
 		html += `<div name="carousel-navigation">\
-			<button name="carousel-previous" class="btn-pagination" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>\
-		    <span name="carousel-page"></span>\
-		    <button name="carousel-next" class="btn-pagination" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>\
-		</div>`;
-
+					<button name="carousel-previous" class="btn-pagination" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>\
+				    <span name="carousel-page"></span>\
+				    <button name="carousel-next" class="btn-pagination" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>\
+				</div>`;
 		html += "</div>";
 		html += "</div>";
 
 		const pagination = { pageSize: 1, page: 0};
-		$(() => { lib.carousel.execute("product-"+products[i].id+"-catalog-card-image", Product.view.catalog.card.image.show, products[i].images, pagination, [products[i].id]); });
+		$(() => { lib.carousel.execute("product-"+products[i].id+"-catalog-card", Product.view.catalog.card.image.show, products[i].images, pagination, [products[i].id]); });
 		html += "</div>";
 	};
 
@@ -34,10 +33,10 @@ Product.view.catalog.card = {
 			let html = "";
 		    if(images.length){
 			    for (let i = pagination.page * pagination.pageSize; i < images.length && i < (pagination.page + 1) * pagination.pageSize;i++){
-					document.getElementById("product-"+images[i].product_id+"-catalog-image-img").src = images[i].url;
+					document.getElementById("product-"+images[i].product_id+"-catalog-card-img").src = images[i].url;
 				};
 		    } else {
-				document.getElementById("product-"+params[0]+"-catalog-image-img").src = "/images/product/no-product.png";
+				document.getElementById("product-"+params[0]+"-catalog-card-img").src = "/images/product/no-product.png";
 		    };
 		}
 	}
