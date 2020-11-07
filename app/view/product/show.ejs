@@ -1,6 +1,13 @@
 <html>
 	<head>
-        <% include ./../partials/head %>
+
+        <link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/main.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/elements.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/actions.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/position.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/image.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/box.css">
+		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/responsivity.css">
 	</head>
 	<header>
 		<div onclick="window.history.back()" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
@@ -9,20 +16,20 @@
 		<section>
 			<div class="container">
 				<div class="box one center"><h3>#<%= product.code %> - <%= product.name %> <%= product.color %> - <%= product.size %></h3></div>
-				<div class="box three box-hover margin-top-10">
+				<div class="box three ground margin-top-10">
 					<div class="container">
-						<% for(i in product.images){ %>
-						<% if(i === 0){ %>
 						<div data-js="product-carousel" class="box one ground margin-top-15 padding-10 center display-none display-block">
-		                    <img class="catalog-image" src="<%= product.images[i].url %>">
+		                    <img class="catalog-image" src="<%= product.images[0].url %>">
 		                </div>
-						<% } %>
-						<div data-js="product-carousel" class="box one ground margin-top-15 padding-10 center display-none">
-		                    <img class="catalog-image" src="<%= product.images[i].url %>">
-		                </div>
+						<% for(i in product.images){ %>
+							<% if(i > 0){ %>
+							<div data-js="product-carousel" class="box one ground margin-top-15 padding-10 center display-none">
+			                    <img class="catalog-image" src="<%= product.images[i].url %>">
+			                </div>
+							<% } %>
 						<% } %>
 						<div id="product-carousel-navigation" class="box one ground padding-10 center">
-		                    <button data-js="product-carousel-previous" name="carousel-previous" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
+		                    <button data-js="product-carousel-prev" name="carousel-prev" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
 		                    <button data-js="product-carousel-next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
 		                </div>
 					</div>
