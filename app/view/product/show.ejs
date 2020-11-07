@@ -1,24 +1,6 @@
 <html>
 	<head>
-		<meta charset="utf-8">
-		<title>J.A Rio Militar</title>
-		<meta name="viewport" content="width=device-width, user-scalable=no">
-
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/main.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/elements.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/actions.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/position.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/image.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/box.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/responsivity.css">
-
-		<!-- <link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/main.css">
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/position.css">
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/image.css">
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/box.css">
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/elements.css">
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/actions.css">
-		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/responsivity.css"> -->
+        <% include ./../partials/head %>
 	</head>
 	<header>
 		<div onclick="window.history.back()" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
@@ -31,23 +13,22 @@
 					<div class="container">
 						<% for(i in product.images){ %>
 						<% if(i === 0){ %>
-						<div data-js="product__carousel" class="box one ground margin-top-15 padding-10 center display-none display-block">
+						<div data-js="product_carousel" class="box one ground margin-top-15 padding-10 center display-none display-block">
 		                    <img class="catalog-image" src="<%= product.images[i].url %>">
 							
 							<div id="product-carousel-navigation" class="box one ground padding-10 center">
-			                    <button data-js="product__carousel--previous" name="carousel-previous" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
-			                    <button data-js="product__carousel--next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
+			                    <button data-js="product_carousel-previous" name="carousel-previous" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
+			                    <button data-js="product_carousel-next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
 			                </div>
 		                </div>
 						<% } %>
-						<div data-js="product__carousel" class="box one ground margin-top-15 padding-10 center display-none">
+						<div data-js="product_carousel" class="box one ground margin-top-15 padding-10 center display-none">
 		                    <img class="catalog-image" src="<%= product.images[i].url %>">
-							
 		                </div>
 						<% } %>
 						<div id="product-carousel-navigation" class="box one ground padding-10 center">
-		                    <button data-js="product__carousel--previous" name="carousel-previous" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
-		                    <button data-js="product__carousel--next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
+		                    <button data-js="product_carousel-previous" name="carousel-previous" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
+		                    <button data-js="product_carousel-next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
 		                </div>
 					</div>
 				</div>
@@ -61,7 +42,7 @@
         <% include ./../partials/footer %>
         <% include ./partial %>
         <script>
-        	lib.carousel.render("product__carousel")
+        	lib.carousel.render("product_carousel")
         </script>
 	</footer>
 </html>
