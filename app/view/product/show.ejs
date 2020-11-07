@@ -13,22 +13,17 @@
 					<div class="container">
 						<% for(i in product.images){ %>
 						<% if(i === 0){ %>
-						<div data-js="product_carousel" class="box one ground margin-top-15 padding-10 center display-none display-block">
+						<div data-js="product-carousel" class="box one ground margin-top-15 padding-10 center display-none display-block">
 		                    <img class="catalog-image" src="<%= product.images[i].url %>">
-							
-							<div id="product-carousel-navigation" class="box one ground padding-10 center">
-			                    <button data-js="product_carousel-previous" name="carousel-previous" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
-			                    <button data-js="product_carousel-next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
-			                </div>
 		                </div>
 						<% } %>
-						<div data-js="product_carousel" class="box one ground margin-top-15 padding-10 center display-none">
+						<div data-js="product-carousel" class="box one ground margin-top-15 padding-10 center display-none">
 		                    <img class="catalog-image" src="<%= product.images[i].url %>">
 		                </div>
 						<% } %>
 						<div id="product-carousel-navigation" class="box one ground padding-10 center">
-		                    <button data-js="product_carousel-previous" name="carousel-previous" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
-		                    <button data-js="product_carousel-next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
+		                    <button data-js="product-carousel-previous" name="carousel-previous" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
+		                    <button data-js="product-carousel-next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
 		                </div>
 					</div>
 				</div>
@@ -42,7 +37,7 @@
         <% include ./../partials/footer %>
         <% include ./partial %>
         <script>
-        	lib.carousel.render("product_carousel")
+        	lib.carousel.render("product-carousel")
         </script>
 	</footer>
 </html>
