@@ -4,23 +4,23 @@ Product.view.catalog = {};
 Product.view.catalog.filter = async (products, pagination) => {
 	var html = "";
 	for (let i = pagination.page * pagination.pageSize; i < products.length && i < (pagination.page + 1) * pagination.pageSize; i++){
-		html += "<div class='box-4'>";
+		html += "<div class='box-2'>";
 		html += "<div class='container'>";
-		html += "<h1 class='box-1'>"+products[i].name+"<h1>";
-
-		html += "<div id='product-"+products[i].id+"-catalog-card' class='box-1'>"
-		html += "<img id='product-"+products[i].id+"-catalog-card-img' class='box-1'>"
-		html += `<div name="carousel-navigation">\
-					<button name="carousel-previous" class="btn-pagination" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>\
-				    <span name="carousel-page"></span>\
-				    <button name="carousel-next" class="btn-pagination" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>\
-				</div>`;
+		html += `<h3 class="box-1 pointer" onclick="window.location.href='/product/show/`+products[i].id+`'">`+products[i].code+` - `+products[i].name+` `+products[i].color+` - `+products[i].size+`<h3>`;
 		html += "</div>";
 		html += "</div>";
 
-		const pagination = { pageSize: 1, page: 0};
-		$(() => { lib.carousel.execute("product-"+products[i].id+"-catalog-card", Product.view.catalog.card.image.show, products[i].images, pagination, [products[i].id]); });
-		html += "</div>";
+		// html += "<div id='product-"+products[i].id+"-catalog-card' class='box-1'>"
+		// html += "<img id='product-"+products[i].id+"-catalog-card-img' class='box-1'>"
+		// html += `<div name="carousel-navigation">\
+		// 			<button name="carousel-previous" class="btn-pagination" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>\
+		// 		    <span name="carousel-page"></span>\
+		// 		    <button name="carousel-next" class="btn-pagination" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>\
+		// 		</div>`;
+		// html += "</div>";
+
+		// const pagination = { pageSize: 1, page: 0};
+		// $(() => { lib.carousel.execute("product-"+products[i].id+"-catalog-card", Product.view.catalog.card.image.show, products[i].images, pagination, [products[i].id]); });
 	};
 
 	document.getElementById("product-catalog-filter-box").style.visibility = "visible";

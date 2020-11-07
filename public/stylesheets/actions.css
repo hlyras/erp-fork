@@ -9,3 +9,7 @@
 .width-fill {
 	width: 100%;
 }
+
+.pointer {
+	cursor: pointer;
+}

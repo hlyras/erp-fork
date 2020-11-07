@@ -59,6 +59,22 @@ const productController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
+	show: async (req, res) => {
+		// if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+		// 	return res.redirect("/");
+		// };
+
+		let product = await Product.findById(req.params.product_id);
+		product = { ...product[0] };
+		product.images = await Product.image.list(req.params.product_id);
+		
+		try{
+			res.render('product/show', { product });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
 	datasheet: async (req, res) => {
 		// if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
 		// 	return res.redirect("/");

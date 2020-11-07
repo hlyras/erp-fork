@@ -6,13 +6,16 @@ router.get('/index', productController.index);
 router.get('/manage', productController.manage);
 
 router.get('/', productController.list);
-router.get('/datasheet/:product_id', productController.datasheet);
 router.post('/save', productController.save);
 router.get('/id/:id', productController.findById);
 router.get('/code/:code', productController.findByCode);
 router.get('/name/:name', productController.findByName);
 router.get('/filter', productController.filter);
 router.delete('/delete', productController.delete);
+
+router.get('/show/:product_id', productController.show);
+
+router.get('/datasheet/:product_id', productController.datasheet);
 
 router.post('/image/add', productController.image.add);
 router.delete('/image/remove', productController.image.remove);
