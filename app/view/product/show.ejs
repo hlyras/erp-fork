@@ -19,8 +19,6 @@
 		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/elements.css">
 		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/actions.css">
 		<link rel="stylesheet" type="text/css" href="http://127.0.0.1:3000/front-end/stylesheets/responsivity.css"> -->
-
-		
 	</head>
 	<header>
 		<div onclick="window.history.back()" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
@@ -32,12 +30,26 @@
 				<div class="box three box-hover margin-top-10">
 					<div class="container">
 						<% for(i in product.images){ %>
-							<div class="box two center padding-5"><img class="catalog-image" src="<%= product.images[i].url %>"></div>
+						<% if(i === 0){ %>
+						<div data-js="product__carousel" class="box one ground margin-top-15 padding-10 center display-none display-block">
+		                    <img class="catalog-image" src="<%= product.images[i].url %>">
+							
+							<div id="product-carousel-navigation" class="box one ground padding-10 center">
+			                    <button data-js="product__carousel--previous" name="carousel-previous" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
+			                    <button data-js="product__carousel--next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
+			                </div>
+		                </div>
 						<% } %>
+						<div data-js="product__carousel" class="box one ground margin-top-15 padding-10 center display-none">
+		                    <img class="catalog-image" src="<%= product.images[i].url %>">
+							
+		                </div>
+						<% } %>
+						<div id="product-carousel-navigation" class="box one ground padding-10 center">
+		                    <button data-js="product__carousel--previous" name="carousel-previous" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
+		                    <button data-js="product__carousel--next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
+		                </div>
 					</div>
-				</div>
-				<div id="product-img-box" class="box two-thirds box-hover margin-top-10">
-					<img id="product-img" class="catalog-image" src="<%= product.images[0].url %>">
 				</div>
 			</div>
 		</section>
@@ -49,13 +61,7 @@
         <% include ./../partials/footer %>
         <% include ./partial %>
         <script>
-        	function switchCarrousel(objects, element, action){
-        		if(action == "previous"){
-
-        		} else if(action == "next"){
-
-        		};
-        	};
+        	lib.carousel.render("product__carousel")
         </script>
 	</footer>
 </html>
