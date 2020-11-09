@@ -1,3 +1,5 @@
+const Financial = {};
+
 $(function(){
 	$("#balance-report-form").on('submit', (event) => {
 		event.preventDefault();

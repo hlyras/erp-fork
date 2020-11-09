@@ -21,8 +21,8 @@ function renderIncomeTable(incomes, pageSize, page){
 		html += "<td>"+incomes[i].user_name+"</td>";
 		html += "</tr>";
 	};
-	document.getElementById('income-report-tbl').innerHTML = html;
-	document.getElementById('income-report-div').style.display = 'block';
+	document.getElementById('financial-income-report-tbl').innerHTML = html;
+	document.getElementById('financial-income-report-div').style.display = 'block';
 	$('#incomeReportPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(incomes.length / pageSize));
 };
 
@@ -39,8 +39,8 @@ function renderIncomeCategoryTable(incomeCategories, pageSize, page){
 		html += "<td><a class='tbl-show-link nowrap' onclick='removeIncomeCategory("+incomeCategories[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
-	document.getElementById('income-category-tbl').innerHTML = html;
-	document.getElementById('income-category-div').style.display = 'block';
+	document.getElementById('financial-income-category-tbl').innerHTML = html;
+	document.getElementById('financial-income-category-div').style.display = 'block';
 	$('#incomeCategoryPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(incomeCategories.length / pageSize));
 };
 
@@ -57,8 +57,8 @@ function renderIncomeOriginTable(incomeOrigins, pageSize, page){
 		html += "<td><a class='tbl-show-link nowrap' onclick='removeIncomeOrigin("+incomeOrigins[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
-	document.getElementById('income-origin-tbl').innerHTML = html;
-	document.getElementById('income-origin-div').style.display = 'block';
+	document.getElementById('financial-income-origin-tbl').innerHTML = html;
+	document.getElementById('financial-income-origin-div').style.display = 'block';
 	$('#incomeOriginPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(incomeOrigins.length / pageSize));
 };
 
