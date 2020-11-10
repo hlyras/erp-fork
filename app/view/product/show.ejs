@@ -1,13 +1,6 @@
 <html>
 	<head>
-
-        <link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/main.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/elements.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/actions.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/position.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/image.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/box.css">
-		<link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/responsivity.css">
+        <% include ./../partials/head %>
 	</head>
 	<header>
 		<div onclick="window.history.back()" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
@@ -16,7 +9,7 @@
 		<section>
 			<div class="container">
 				<div class="box one center"><h3>#<%= product.code %> - <%= product.name %> <%= product.color %> - <%= product.size %></h3></div>
-				<div class="box three ground margin-top-10">
+				<div class="box one ground margin-top-10">
 					<div class="container">
 						<div data-js="product-carousel" class="box one ground margin-top-15 padding-10 center display-none display-block">
 		                    <img class="catalog-image" src="<%= product.images[0].url %>">
