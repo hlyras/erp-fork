@@ -7,9 +7,9 @@
         <% include ./../partials/nav %>
 		<section>
 			<div class="container">
-				<div class="box-2">
+				<div class="box two ground center padding-10 margin-top-15">
 					<h3 class="title-soft underline">Novo Produto</h3>
-					<form id="product-create-form" class="box-1">
+					<form id="product-create-form" class="box one">
 						<input type="hidden" name="id" value="0" autocomplete="off">
 						<input type="number" name="code" class="btn-generic-big" placeholder="Cód do produto" min="1" max="9999" autocomplete="off">
 						<input type="text" name="name" class="btn-generic-big" placeholder="Nome do produto" autocomplete="off" maxlength="30">
@@ -38,9 +38,9 @@
 						<input type="submit" name="submit" class="btn-submit" value="Cadastrar">
 					</form>
 				</div>
-				<div class="box-2">
+				<div class="box two ground center padding-10 margin-top-15">
 					<h3 class="title-soft underline">Buscar Produtos</h3>
-					<form id="product-filter-form" class="box-1">
+					<form id="product-filter-form" class="box one">
 						<input type="hidden" name="location" value="product-manage" autocomplete="off">
 						<input type="text" name="name" class="btn-generic-big" placeholder="Nome" autocomplete="off"><br>
 						<input type="number" name="code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
@@ -58,36 +58,35 @@
 						<input type="submit" name="submit" class="btn-submit" value="Filtrar">
 					</form>
 
-					<div id="product-manage-filter-box" class="box-1" style="display:none">
+					<div id="product-manage-filter-box" class="box one center ground padding-10 margin-top-10" style="display:none">
 						<table class="tbl-info width-fill" id="product-manage-filter-table"></table>
-						<br>
         				<% include ./../partials/carousel %>
 					</div>
 				</div>
 
-				<div id="product-manage-info-box" class="box-1" style="display:none">
+				<div id="product-manage-info-box" class="box one center ground padding-10 margin-top-10" style="display:none">
 					<h3 id="product-manage-info-title" class="Army underline"></h3>
 					<table id="product-manage-info-table" class="tbl-info width-fill"></table>
 				</div>
 
-				<div id="product-manage-image-box" class="box-1" style="display:none">
+				<div id="product-manage-image-box" class="box one center ground padding-10 margin-top-10" style="display:none">
 					<button class="btn-display-box" onclick="lib.displayDiv('product-manage-image-div', this, '⇓ Mostrar Imagem ⇓', '⇑ Esconder Imagem ⇑');">⇑ Esconder Imagem ⇑</button>
-					<div id="product-manage-image-div" class="box-1" style="display:block">
+					<div id="product-manage-image-div" class="box one center ground padding-10 margin-top-10" style="display:block">
 						<img id="product-manage-image-img" class="image-box" src="">
-						<div class="box-1">
+						<div class="box one center ground padding-10 margin-top-10">
 							<button id="product-manage-image-remove-button" class="btn-delete">Excluir Imagem</button>
 						</div>
 						<% include ./../partials/carousel %>
 					</div>
 				</div>
 
-				<div id="product-manage-menu-box" class="box-1" style="display:none">
+				<div id="product-manage-menu-box" class="box one center ground padding-10 margin-top-10" style="display:none">
 					<button class="btn-display-box" onclick="lib.displayDiv('product-manage-menu-div', this, '⇓ Mostrar Menu ⇓', '⇑ Esconder Menu ⇑');">⇓ Mostrar Menu ⇓</button>
-					<div class="box-1" id="product-manage-menu-div" style="display:none"></div>
+					<div class="box one center ground padding-10 margin-top-10" id="product-manage-menu-div" style="display:none"></div>
 				</div>
 
-				<div id="product-feedstock-add-box" class="box-1" style="display:none">
-					<form id="feedstock-filter-form" class="box-1">
+				<div id="product-feedstock-add-box" class="box one center ground padding-10 margin-top-10" style="display:none">
+					<form id="feedstock-filter-form" class="box one center ground padding-10 margin-top-10">
 						<fieldset class="fieldset-generic">
 							<legend>Filtrar Matérias-Prima</legend>
 							<input type="hidden" name="location" value="product-feedstock-add">
@@ -108,7 +107,7 @@
 	    			<% include ./feedstock/form/category-add %>
 				</div>
 
-				<div class="box-1" id="product-feedstock-box" style="display:none">
+				<div class="box one center ground padding-10 margin-top-10" id="product-feedstock-box" style="display:none">
 					<div id="product-feedstock-list-box"></div>
     				<% include ./../partials/carousel %>
 				</div>

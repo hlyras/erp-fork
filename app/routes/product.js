@@ -13,9 +13,9 @@ router.get('/name/:name', productController.findByName);
 router.get('/filter', productController.filter);
 router.delete('/delete', productController.delete);
 
-router.get('/show/:product_id', productController.show);
+router.get('/show/:product_code', productController.show);
 
-router.get('/datasheet/:product_id', productController.datasheet);
+router.get('/datasheet/:product_code', productController.datasheet);
 
 router.post('/image/add', productController.image.add);
 router.delete('/image/remove', productController.image.remove);

@@ -1,16 +1,16 @@
 <html>
-	<head>
+    <head>
         <% include ./partials/head %>
-	</head>
-	<body>
-		<header>
+    </head>
+    <body>
+        <header>
             <div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
         </header>
         
-		<section>
-			<div class="container">
-                <div class="box-1">
-                	<% if (message.length > 0) { %>
+        <section>
+            <div class="container">
+                <div class="box one ground padding-10 center">
+                    <% if (message.length > 0) { %>
                         <div class="alert-msg"><%= message %></div>
                     <% } %>
                     <form action="/user/login" method="post">
@@ -25,11 +25,11 @@
                         </div>
                     </form>
                 </div>
-			</div>
-		</section>
-	</body>
-	<footer>
+            </div>
+        </section>
+    </body>
+    <footer>
         <% include ./partials/footer %>
         </script>
-	</footer>
+    </footer>
 </html>

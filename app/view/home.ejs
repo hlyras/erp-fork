@@ -6,52 +6,42 @@
 		<% include ./partials/header %>
         <% include ./partials/nav %>
 		<section>
-            <div class="container">
-                <div class="box-1">
+			<div class="container">
+                <div class="box one center ground padding-10">
                 	<h2>Catálogo de produtos</h2>
-					<form id="product-filter-form" class="box-1">
-						<input type="hidden" name="location" value="productCatalog">
-						<input type="text" name="code" class="btn-generic-small" style="width:10%" placeholder="Cód" autocomplete="off">
-						<input type="text" name="name" class="input-search" placeholder="Nome" autocomplete="off">
-						<select name="color" id="product-catalog-color" class="select-search-color" autocomplete="off">
+					<form id="product-catalog-filter-form" class="box one ground">
+						<input type="hidden" name="location" value="product-catalog">
+						<input type="text" name="code" class="btn-generic-big" placeholder="Cód" autocomplete="off">
+						<input type="text" name="name" class="btn-generic-big" placeholder="Nome" autocomplete="off">
+						<select name="color" class="btn-generic-big" name="color">
 							<option value="">Cor</option>
 							<% for(i in productColors){ %>
 								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
 							<% } %>
 						</select>
-						<input type="submit" class="btn-search-submit" value="Filtrar">
+						<select name="brand" class="btn-generic-big">
+							<option value="">Marca do Produto</option>
+							<option value="Sem marca">Sem marca</option>
+							<option value="J.A Rio Militar">J.A Rio Militar</option>
+						</select>
+						<input type="submit" class="btn-generic-big bold" value="Filtrar">
 					</form>
 				</div>
-				<div id="product-catalog-filter-div" class="box-2" style="display:none">
-					<table class="tbl-info box-1" id="product-catalog-filter-tbl"></table>
-					<br>
-					<button id="productCatalogPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-                    <span id="productCatalogPageNumber"></span>
-                    <button id="productCatalogNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
-				</div>
-				<div class="box-2" id="product-show-box" style="display:none;">
-					<table class="tbl-info box-1" id="product-show-tbl">
-						<tr>
-							<td>Cód</td>
-							<td>Nome</td>
-							<td>Tamanho</td>
-							<td>Cor</td>
-						</tr>
-						<tbody id="product-show-tbody"></tbody>
-					</table>
-					<div class="box-1" id="product-image-show"></div>
-					<button id="imagePrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-                    <span id="imagePageNumber"></span>
-                    <button id="imageNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
+				<div id="product-catalog-filter-box" class="box one center hide">
+					<div id="product-catalog-container" class="container"></div>
+	        		<% include ./partials/carousel %>
 				</div>
 			</div>
-        </section>
+		</section>
         <div id="ajax-loader" class="ajax-loader">
 			<div class="loader"></div>
 		</div>
 	</body>
 	<footer>
         <% include ./partials/footer %>
-        <% include ./product/partial %>
+        <script src="/javascripts/scripts/product/model/main.js"></script>
+		<script src="/javascripts/scripts/product/view/main.js"></script>
+		<script src="/javascripts/scripts/product/controller/main.js"></script>
+		<script src="/javascripts/scripts/product/controller/catalog.js"></script>
 	</footer>
 </html>

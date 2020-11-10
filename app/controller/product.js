@@ -64,9 +64,9 @@ const productController = {
 		// 	return res.redirect("/");
 		// };
 
-		let product = await Product.findById(req.params.product_id);
+		let product = await Product.findByCode(req.params.product_code);
 		product = { ...product[0] };
-		product.images = await Product.image.list(req.params.product_id);
+		product.images = await Product.image.list(product.id);
 		
 		try{
 			res.render('product/show', { product });
@@ -80,15 +80,15 @@ const productController = {
 		// 	return res.redirect("/");
 		// };
 
-		let product = await Product.findById(req.params.product_id);
+		let product = await Product.findByCode(req.params.product_code);
 		product = { ...product[0] };
-		product.images = await Product.image.list(req.params.product_id);
-		product.feedstocks = await Product.feedstock.list(req.params.product_id);
+		product.images = await Product.image.list(product.id);
+		product.feedstocks = await Product.feedstock.list(product.id);
 		for(i in product.feedstocks){
 			let product_feedstock = await Feedstock.findById(product.feedstocks[i].feedstock_id);
 			product.feedstocks[i].feedstock_info = product_feedstock[0].code +" | "+product_feedstock[0].name +" | "+product_feedstock[0].color;
 		};
-		product.feedstock_categories = await Product.feedstock.category.list(req.params.product_id);
+		product.feedstock_categories = await Product.feedstock.category.list(product.id);
 
 		try{
 			res.render('product/datasheet', { user: req.user, product });
