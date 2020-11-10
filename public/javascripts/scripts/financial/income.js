@@ -390,7 +390,7 @@ function showFinancialIncome(id){
 			html += "</tr>";
 			
 			document.getElementById("financial-show-tbl").innerHTML = html;
-			document.getElementById("financial-show-obs").innerHTML = "<br>"+income[0].obs;
+			document.getElementById("financial-show-obs").innerHTML = "<div class='box one ground center padding-10 margin-top-10'>"+income[0].obs+"</div>";
 		}
 	});
 };

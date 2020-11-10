@@ -13,7 +13,7 @@ function renderIncomeTable(incomes, pageSize, page){
 	html += "</tr>";
 	for (let i = page * pageSize; i < incomes.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
-		html += "<td><a class='tbl-show-link nowrap' onclick='showFinancialIncome("+incomes[i].id+")'>"+incomes[i].id+"</a></td>";
+		html += "<td><h3 class='tbl-show-link nowrap' onclick='showFinancialIncome("+incomes[i].id+")'>"+incomes[i].id+"</h3></td>";
 		html += "<td>"+lib.convertDate(incomes[i].date)+"</td>";
 		html += "<td>"+incomes[i].category_name+"</td>";
 		html += "<td>"+incomes[i].origin_name+"</td>";
@@ -77,7 +77,7 @@ function renderOutcomeTable(outcomes, pageSize, page){
 	html += "</tr>";
 	for (let i = page * pageSize; i < outcomes.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
-		html += "<td><a class='tbl-show-link nowrap' onclick='showFinancialOutcome("+outcomes[i].id+")'>"+outcomes[i].id+"</a></td>";
+		html += "<td><h3 class='tbl-show-link nowrap' onclick='showFinancialOutcome("+outcomes[i].id+")'>"+outcomes[i].id+"</h3></td>";
 		html += "<td>"+lib.convertDate(outcomes[i].date)+"</td>";
 		html += "<td>"+outcomes[i].category_name+"</td>";
 		html += "<td>"+outcomes[i].origin_name+"</td>";
@@ -85,8 +85,8 @@ function renderOutcomeTable(outcomes, pageSize, page){
 		html += "<td>"+outcomes[i].user_name+"</td>";
 		html += "</tr>";
 	};
-	document.getElementById('outcome-report-tbl').innerHTML = html;
-	document.getElementById('outcome-report-div').style.display = 'block';
+	document.getElementById('financial-outcome-report-tbl').innerHTML = html;
+	document.getElementById('financial-outcome-report-div').style.display = 'block';
 	$('#outcomeReportPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(outcomes.length / pageSize));
 };
 
@@ -103,8 +103,8 @@ function renderOutcomeCategoryTable(outcomeCategories, pageSize, page){
 		html += "<td><a class='tbl-show-link nowrap' onclick='removeOutcomeCategory("+outcomeCategories[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
-	document.getElementById('outcome-category-tbl').innerHTML = html;
-	document.getElementById('outcome-category-div').style.display = 'block';
+	document.getElementById('financial-outcome-category-tbl').innerHTML = html;
+	document.getElementById('financial-outcome-category-div').style.display = 'block';
 	$('#outcomeCategoryPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(outcomeCategories.length / pageSize));
 };
 
@@ -121,7 +121,7 @@ function renderOutcomeOriginTable(outcomeOrigins, pageSize, page){
 		html += "<td><a class='tbl-show-link nowrap' onclick='removeOutcomeOrigin("+outcomeOrigins[i].id+")'>Rem</a></td>";
 		html += "</tr>";
 	};
-	document.getElementById('outcome-origin-tbl').innerHTML = html;
-	document.getElementById('outcome-origin-div').style.display = 'block';
+	document.getElementById('financial-outcome-origin-tbl').innerHTML = html;
+	document.getElementById('financial-outcome-origin-div').style.display = 'block';
 	$('#outcomeOriginPageNumber').text('' + (page + 1) + ' de ' + Math.ceil(outcomeOrigins.length / pageSize));
 };

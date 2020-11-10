@@ -1,13 +1,13 @@
 $(function(){
-	$("#outcome-create-form").on('submit', (event) => {
+	$("#financial-outcome-create-form").on('submit', (event) => {
 		event.preventDefault();
-		document.getElementById('outcome-create-submit').disabled = true;
+		document.getElementById('financial-outcome-create-submit').disabled = true;
 
-		const category = document.getElementById("outcome-create-form").elements.namedItem('outcome_category');
-		const origin = document.getElementById("outcome-create-form").elements.namedItem('outcome_origin');
-		const payment = document.getElementById("outcome-create-form").elements.namedItem('outcome_payment');
-		const value = document.getElementById("outcome-create-form").elements.namedItem('outcome_value').value;
-		const obs = document.getElementById("outcome-create-form").elements.namedItem('outcome_obs').value;
+		const category = document.getElementById("financial-outcome-create-form").elements.namedItem('outcome_category');
+		const origin = document.getElementById("financial-outcome-create-form").elements.namedItem('outcome_origin');
+		const payment = document.getElementById("financial-outcome-create-form").elements.namedItem('outcome_payment');
+		const value = document.getElementById("financial-outcome-create-form").elements.namedItem('outcome_value').value;
+		const obs = document.getElementById("financial-outcome-create-form").elements.namedItem('outcome_obs').value;
 
 		const category_id = category.options[category.selectedIndex].value;
 		const category_name = category.options[category.selectedIndex].text;
@@ -20,22 +20,22 @@ $(function(){
 
 		if(category_id == "0"){
 			alert("É necessário selecionar uma categoria!");
-			return document.getElementById('outcome-create-submit').disabled = false;
+			return document.getElementById('financial-outcome-create-submit').disabled = false;
 		};
 
 		if(origin_id == "0"){
 			alert("É necessário selecionar uma origem!");
-			return document.getElementById('outcome-create-submit').disabled = false;
+			return document.getElementById('financial-outcome-create-submit').disabled = false;
 		};
 
 		if(payment_id == "0"){
 			alert("É necessário selecionar um método de pagamento!");
-			return document.getElementById('outcome-create-submit').disabled = false;
+			return document.getElementById('financial-outcome-create-submit').disabled = false;
 		};
 
 		if(value < 0.01){
 			alert("É necessário cadastrar o valor da despesa!");
-			return document.getElementById('outcome-create-submit').disabled = false;	
+			return document.getElementById('financial-outcome-create-submit').disabled = false;	
 		};
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
@@ -63,34 +63,34 @@ $(function(){
 				if(response.msg){
 					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
-					document.getElementById('outcome-create-submit').disabled = false;
+					document.getElementById('financial-outcome-create-submit').disabled = false;
 					return;
 				};
 
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				alert(response.done);
 
-				document.getElementById("outcome-create-form").elements.namedItem('outcome_category').value = "0";
-				document.getElementById("outcome-create-form").elements.namedItem('outcome_origin').value = "0";
-				document.getElementById("outcome-create-form").elements.namedItem('outcome_payment').value = "0";
-				document.getElementById("outcome-create-form").elements.namedItem('outcome_value').value = "0.00";
-				document.getElementById("outcome-create-form").elements.namedItem('outcome_obs').value = "";
+				document.getElementById("financial-outcome-create-form").elements.namedItem('outcome_category').value = "0";
+				document.getElementById("financial-outcome-create-form").elements.namedItem('outcome_origin').value = "0";
+				document.getElementById("financial-outcome-create-form").elements.namedItem('outcome_payment').value = "0";
+				document.getElementById("financial-outcome-create-form").elements.namedItem('outcome_value').value = "0.00";
+				document.getElementById("financial-outcome-create-form").elements.namedItem('outcome_obs').value = "";
 
-				return document.getElementById('outcome-create-submit').disabled = false;	
+				return document.getElementById('financial-outcome-create-submit').disabled = false;	
 			}
 		});
 	});
 
-	$("#outcome-report-form").on('submit', (event) => {
+	$("#financial-outcome-report-form").on('submit', (event) => {
 		event.preventDefault();
-		document.getElementById('outcome-report-submit').disabled = true;
+		document.getElementById('financial-outcome-report-submit').disabled = true;
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
 		$.ajax({
 			url: '/financial/outcome/filter',
 			method: 'post',
-			data: $("#outcome-report-form").serialize(),
+			data: $("#financial-outcome-report-form").serialize(),
 			success: (outcomes) => {
 				if(outcomes.unauthorized){
 					alert(outcomes.unauthorized);
@@ -119,11 +119,11 @@ $(function(){
 					if(outcomes.length){
 						renderOutcomeTable(outcomes, pageSize, page);
 					} else {
-						lib.clearTable('outcome-report-tbl', 'outcomeReport');
+						lib.clearTable('financial-outcome-report-tbl', 'outcomeReport');
 					};
 				};
 
-				document.getElementById('outcome-report-submit').disabled = false;
+				document.getElementById('financial-outcome-report-submit').disabled = false;
 
 				function buttonsPaging(){
 					$('#outcomeReportNext').prop('disabled', outcomes.length <= pageSize || page >= outcomes.length / pageSize - 1);
@@ -149,20 +149,20 @@ $(function(){
 				    buttonsPaging();
 				});
 
-				document.getElementById('outcome-report-submit').disabled = false;
+				document.getElementById('financial-outcome-report-submit').disabled = false;
 			}
 		});
 	});
 
-	$("#outcome-category-create-form").on('submit', (event) => {
+	$("#financial-outcome-category-create-form").on('submit', (event) => {
 		event.preventDefault();
-		document.getElementById('outcome-category-create-submit').disabled = true;
+		document.getElementById('financial-outcome-category-create-submit').disabled = true;
 
-		let category_name = document.getElementById("outcome-category-create-form").elements.namedItem('category_name').value;
+		let category_name = document.getElementById("financial-outcome-category-create-form").elements.namedItem('category_name').value;
 
 		if(category_name.length < 3 || category_name.length > 20){
 			alert("Nome inválido!");
-			return document.getElementById('outcome-category-create-submit').disabled = false;
+			return document.getElementById('financial-outcome-category-create-submit').disabled = false;
 		};
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
@@ -170,7 +170,7 @@ $(function(){
 		$.ajax({
 			url: '/financial/outcomecategory/save',
 			method: 'post',
-			data: $("#outcome-category-create-form").serialize(),
+			data: $("#financial-outcome-category-create-form").serialize(),
 			success: (response) => {
 				if(response.unauthorized){
 					alert(response.unauthorized);
@@ -189,21 +189,21 @@ $(function(){
 				
 				alert(response.done);
 
-				document.getElementById("outcome-category-create-form").elements.namedItem('category_name').value = "";
-				document.getElementById('outcome-category-create-submit').disabled = false;
+				document.getElementById("financial-outcome-category-create-form").elements.namedItem('category_name').value = "";
+				document.getElementById('financial-outcome-category-create-submit').disabled = false;
 
-				fillSelect('Categoria','outcome-origin-create-select','/financial/outcomecategory/list', 'get');
-				fillSelect('Categoria','outcome-category-filter-select','/financial/outcomecategory/list', 'get');
+				fillSelect('Categoria','financial-outcome-origin-create-select','/financial/outcomecategory/list', 'get');
+				fillSelect('Categoria','financial-outcome-category-filter-select','/financial/outcomecategory/list', 'get');
 
-				$("#outcome-category-filter-form").submit();
+				$("#financial-outcome-category-filter-form").submit();
 			}
 		});
 	});
 	
-	$("#outcome-category-filter-form").on('submit', (event) => {
+	$("#financial-outcome-category-filter-form").on('submit', (event) => {
 		event.preventDefault();
 		let btn = $(this);btn.attr('disabled', true);
-		let category_name = document.getElementById("outcome-category-filter-form").elements.namedItem('category_name').value;
+		let category_name = document.getElementById("financial-outcome-category-filter-form").elements.namedItem('category_name').value;
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		
@@ -225,7 +225,7 @@ $(function(){
 					if(outcomeCategories.length){
 						renderOutcomeCategoryTable(outcomeCategories, pageSize, page);
 					} else {
-						lib.clearTable("outcome-category-tbl", "outcomeCategory");
+						lib.clearTable("financial-outcome-category-tbl", "outcomeCategory");
 					};
 				};
 
@@ -258,21 +258,21 @@ $(function(){
 		});
 	});
 
-	$("#outcome-origin-create-form").on('submit', (event) => {
+	$("#financial-outcome-origin-create-form").on('submit', (event) => {
 		event.preventDefault();
-		document.getElementById('outcome-origin-create-submit').disabled = true;
+		document.getElementById('financial-outcome-origin-create-submit').disabled = true;
 
-		let category_id = document.getElementById("outcome-origin-create-form").elements.namedItem('category_id').value;
-		let origin_name = document.getElementById("outcome-origin-create-form").elements.namedItem('origin_name').value;
+		let category_id = document.getElementById("financial-outcome-origin-create-form").elements.namedItem('category_id').value;
+		let origin_name = document.getElementById("financial-outcome-origin-create-form").elements.namedItem('origin_name').value;
 
 		if(category_id == "0"){
 			alert('É necessário selecionar a categoria para cadastrar a origem!');
-			return document.getElementById('outcome-origin-create-submit').disabled = false;
+			return document.getElementById('financial-outcome-origin-create-submit').disabled = false;
 		};
 
 		if(origin_name.length < 2 || origin_name.length > 20){
 			alert("Origem inválida!");
-			return document.getElementById('outcome-origin-create-submit').disabled = false;
+			return document.getElementById('financial-outcome-origin-create-submit').disabled = false;
 		};
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
@@ -280,7 +280,7 @@ $(function(){
 		$.ajax({
 			url: '/financial/outcomeorigin/save',
 			method: 'post',
-			data: $("#outcome-origin-create-form").serialize(),
+			data: $("#financial-outcome-origin-create-form").serialize(),
 			success: (response) => {
 				if(response.unauthorized){
 					alert(response.unauthorized);
@@ -290,23 +290,23 @@ $(function(){
 				if(response.msg){
 					document.getElementById('ajax-loader').style.visibility = 'hidden';
 					alert(response.msg);
-					return document.getElementById('outcome-origin-create-submit').disabled = false;
+					return document.getElementById('financial-outcome-origin-create-submit').disabled = false;
 				};
 
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
 				
 				alert(response.done);
 
-				document.getElementById("outcome-origin-create-form").elements.namedItem('origin_name').value = "";
-				document.getElementById('outcome-origin-create-submit').disabled = false;
+				document.getElementById("financial-outcome-origin-create-form").elements.namedItem('origin_name').value = "";
+				document.getElementById('financial-outcome-origin-create-submit').disabled = false;
 			}
 		});
 	});
 	
-	$("#outcome-origin-filter-form").on('submit', (event) => {
+	$("#financial-outcome-origin-filter-form").on('submit', (event) => {
 		event.preventDefault();
 		let btn = $(this);btn.attr('disabled', true);
-		let category_id = document.getElementById("outcome-origin-filter-form").elements.namedItem('category_id').value;
+		let category_id = document.getElementById("financial-outcome-origin-filter-form").elements.namedItem('category_id').value;
 
 		if(category_id){
 			document.getElementById('ajax-loader').style.visibility = 'visible';
@@ -328,7 +328,7 @@ $(function(){
 						if(outcomeOrigins.length){
 							renderOutcomeOriginTable(outcomeOrigins, pageSize, page);
 						} else {
-							lib.clearTable("outcome-origin-tbl", "outcomeOrigin");
+							lib.clearTable("financial-outcome-origin-tbl", "outcomeOrigin");
 						};
 					};
 
@@ -361,7 +361,7 @@ $(function(){
 			});
 		} else {
 			alert('É necessário selecionar uma categoria');
-			lib.clearTable('outcome-origin-tbl', 'outcomeOrigin');
+			lib.clearTable('financial-outcome-origin-tbl', 'outcomeOrigin');
 			return btn.attr('disabled', false);
 
 		}
@@ -419,7 +419,7 @@ function showFinancialOutcome(id){
 			html += "</tr>";
 			
 			document.getElementById("financial-show-tbl").innerHTML = html;
-			document.getElementById("financial-show-obs").innerHTML = "<br>"+outcome[0].obs;
+			document.getElementById("financial-show-obs").innerHTML = "<div class='box one ground center padding-10 margin-top-10'>"+outcome[0].obs+"</div>";
 			
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
@@ -452,12 +452,12 @@ function removeOutcomeCategory(id){
 				
 				alert(response.done);
 
-				fillSelect('Categoria','outcome-origin-create-select','/financial/outcomecategory/list', 'get')
-				fillSelect('Categoria','outcome-category-filter-select','/financial/outcomecategory/list', 'get')
+				fillSelect('Categoria','financial-outcome-origin-create-select','/financial/outcomecategory/list', 'get')
+				fillSelect('Categoria','financial-outcome-category-filter-select','/financial/outcomecategory/list', 'get')
 				
-				lib.clearTable("outcome-origin-tbl", "outcomeOrigin");
+				lib.clearTable("financial-outcome-origin-tbl", "outcomeOrigin");
 				
-				$("#outcome-category-filter-form").submit();
+				$("#financial-outcome-category-filter-form").submit();
 			}
 		});
 	};
@@ -489,7 +489,7 @@ function removeOutcomeOrigin(id){
 				
 				alert(response.done);
 
-				$("#outcome-origin-filter-form").submit();
+				$("#financial-outcome-origin-filter-form").submit();
 			}
 		});
 	};
