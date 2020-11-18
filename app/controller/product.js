@@ -109,6 +109,7 @@ const productController = {
 			color: req.body.color,
 			size: req.body.size,
 			brand: req.body.brand,
+			status: req.body.status,
 			image: req.body.image
 		};
 
@@ -521,6 +522,11 @@ const productController = {
 			if(req.query.color){
 				params.push("color");
 				values.push(req.query.color);
+			};
+
+			if(req.query.status){
+				params.push("status");
+				values.push("Disponível");
 			};
 
 			if(req.query.brand){

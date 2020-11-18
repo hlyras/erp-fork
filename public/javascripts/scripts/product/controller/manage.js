@@ -14,6 +14,7 @@ if(Product.controller.manage.create){
 			color: event.target.elements.namedItem("color").value,
 			size: event.target.elements.namedItem("size").value,
 			brand: event.target.elements.namedItem("brand").value,
+			status: event.target.elements.namedItem("status").value,
 			image: event.target.elements.namedItem("image").value
 		};
 
@@ -29,6 +30,7 @@ if(Product.controller.manage.create){
 		event.target.elements.namedItem("color").value = "";
 		event.target.elements.namedItem("size").value = "";
 		event.target.elements.namedItem("brand").value = "";
+		event.target.elements.namedItem("status").value = "";
 		event.target.elements.namedItem("image").value = "";
 
 		event.target.elements.namedItem("submit").disabled = false;
@@ -48,6 +50,7 @@ Product.controller.manage.edit = async (id) => {
 	document.getElementById('product-create-form').elements.namedItem("color").value = product.color;
 	document.getElementById('product-create-form').elements.namedItem("size").value = product.size;
 	document.getElementById('product-create-form').elements.namedItem("brand").value = product.brand;
+	document.getElementById('product-create-form').elements.namedItem("status").value = product.status;
 	document.getElementById('product-create-form').elements.namedItem("image").value = product.image;
 
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
