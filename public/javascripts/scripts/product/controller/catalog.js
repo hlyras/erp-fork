@@ -4,9 +4,14 @@ Product.view.catalog = {};
 Product.view.catalog.filter = async (products, pagination) => {
 	var html = "";
 	for (let i = pagination.page * pagination.pageSize; i < products.length && i < (pagination.page + 1) * pagination.pageSize; i++){
-		html += "<div class='box two ground padding-10 margin-top-10'>";
+		html += `<div class="box three ground padding-10 margin-top-10 pointer" onclick="window.location.href='/product/show/`+products[i].code+`'">`;
 		html += "<div class='container'>";
-		html += `<h3 class="box one center pointer" onclick="window.location.href='/product/show/`+products[i].code+`'">`+products[i].code+` - `+products[i].name+` `+products[i].color+` - `+products[i].size+`<h3>`;
+		html += `<h3 class="box one center">`+products[i].code+` - `+products[i].name+` - `+products[i].color+`<h3>`;
+		if(products[i].image){
+			html += "<div class='box one'><img class='image-card' src='"+products[i].image+"'></div>";
+		} else {
+			html += "<div class='box one'><img class='image-card' src='/images/product/no-product.png'></div>";
+		};
 		html += "</div>";
 		html += "</div>";
 	};
@@ -47,7 +52,7 @@ if(Product.controller.catalog.filter){
 
 		let products = await Product.filter(product);
 
-		const pagination = { pageSize: 20, page: 0};
+		const pagination = { pageSize: 21, page: 0};
 		$(() => { lib.carousel.execute("product-catalog-filter-box", Product.view.catalog.filter, products, pagination); });
 
 		document.getElementById('ajax-loader').style.visibility = 'hidden';

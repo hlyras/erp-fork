@@ -11,6 +11,11 @@
 				<div class="box one center"><h3>#<%= product.code %> - <%= product.name %> <%= product.color %> - <%= product.size %></h3></div>
 				<div class="box one ground margin-top-10">
 					<div class="container">
+						<% if(!product.images.length){ %>
+						<div data-js="product-carousel" class="box one ground margin-top-15 padding-10 center display-none display-block">
+		                    <img class="catalog-image" src="/images/product/no-product.png">
+		                </div>
+						<% } else { %>
 						<div data-js="product-carousel" class="box one ground margin-top-15 padding-10 center display-none display-block">
 		                    <img class="catalog-image" src="<%= product.images[0].url %>">
 		                </div>
@@ -25,6 +30,7 @@
 		                    <button data-js="product-carousel-prev" name="carousel-prev" class="btn-pagination" autocomplete="off">&lsaquo;&lsaquo;</button>
 		                    <button data-js="product-carousel-next" name="carousel-next" class="btn-pagination" autocomplete="off">&rsaquo;&rsaquo;</button>
 		                </div>
+						<% } %>
 					</div>
 				</div>
 			</div>

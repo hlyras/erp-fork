@@ -12,7 +12,7 @@ const productController = {
 			return res.redirect("/");
 		};
 
-		try{
+		try {
 			const feedstockColors = await Feedstock.colorList();
 			const productColors = await Product.colorList();
 			res.render('product/index', { productColors, feedstockColors, user: req.user });
@@ -108,7 +108,8 @@ const productController = {
 			name: req.body.name,
 			color: req.body.color,
 			size: req.body.size,
-			brand: req.body.brand
+			brand: req.body.brand,
+			image: req.body.image
 		};
 
 		if(!product.code || product.code < 1 || product.code > 9999){return res.send({ msg: 'Código de produto inválido.' })};
@@ -497,6 +498,48 @@ const productController = {
 					res.send({ msg: "Ocorreu um erro ao remover a matéria-prima." });
 				};
 			}
+		}
+	},
+	catalog: {
+		filter: async (req, res) => {
+			// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+				// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			// };
+
+			var params = [];
+			var values = [];
+
+			if(isNaN(req.query.code) || req.query.code < 0 || req.query.code > 9999){
+				req.query.code = "";
+			};
+
+			if(req.query.code){
+				params.push("code");
+				values.push(req.query.code);
+			};
+
+			if(req.query.color){
+				params.push("color");
+				values.push(req.query.color);
+			};
+
+			if(req.query.brand){
+				params.push("brand");
+				values.push(req.query.brand);
+			};
+
+			try {
+				if(req.query.name){
+					const products = await Product.filter(req.query.name, params, values);
+					res.send({ products });
+				} else {
+					const products = await Product.filter(false, params, values);
+					res.send({ products });
+				};
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });
+			};
 		}
 	},
 	categorySave: async (req, res) => {

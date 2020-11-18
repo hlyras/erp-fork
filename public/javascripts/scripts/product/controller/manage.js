@@ -13,7 +13,8 @@ if(Product.controller.manage.create){
 			name: event.target.elements.namedItem("name").value,
 			color: event.target.elements.namedItem("color").value,
 			size: event.target.elements.namedItem("size").value,
-			brand: event.target.elements.namedItem("brand").value
+			brand: event.target.elements.namedItem("brand").value,
+			image: event.target.elements.namedItem("image").value
 		};
 
 		product = await Product.save(product, "product-create-form");
@@ -28,6 +29,7 @@ if(Product.controller.manage.create){
 		event.target.elements.namedItem("color").value = "";
 		event.target.elements.namedItem("size").value = "";
 		event.target.elements.namedItem("brand").value = "";
+		event.target.elements.namedItem("image").value = "";
 
 		event.target.elements.namedItem("submit").disabled = false;
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
@@ -46,6 +48,7 @@ Product.controller.manage.edit = async (id) => {
 	document.getElementById('product-create-form').elements.namedItem("color").value = product.color;
 	document.getElementById('product-create-form').elements.namedItem("size").value = product.size;
 	document.getElementById('product-create-form').elements.namedItem("brand").value = product.brand;
+	document.getElementById('product-create-form').elements.namedItem("image").value = product.image;
 
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 };
