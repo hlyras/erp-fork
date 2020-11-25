@@ -1,13 +1,24 @@
 <html>
     <head>
         <% include ./../partials/head %>
+        <style type="text/css">
+            .input-generic {
+                min-height: 25px;
+            }
+        </style>
     </head>
     <body>
         <% include ./../partials/header %>
         <section>
             <div class="container">
-                <div class="box-1">
-                    
+                <div class="box two ground padding-10">
+                    <h3 class="box one ground padding-10 center box-border">Novo Cliente</h3>
+                    <div class="container box one box-border padding-10 margin-top-5">
+                        <input type="text" name="name" class="mobile-box two input-generic center ground" placeholder="Nome Completo" autocomplete="off">
+                        <input type="text" name="cnpj" class="mobile-box two input-generic center ground" placeholder="CNPJ" autocomplete="off">
+                        <input type="text" name="trademark" class="mobile-box two input-generic center ground margin-top-5" placeholder="Nome Fantasia" autocomplete="off">
+                        <input type="text" name="phone" class="mobile-box two input-generic center ground margin-top-5" placeholder="Telefone" autocomplete="off">
+                    </div>
                 </div>
             </div>
         </section>
