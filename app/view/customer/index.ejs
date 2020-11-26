@@ -4,26 +4,36 @@
         <style type="text/css">
             .input-generic {
                 min-height: 25px;
+                border: 1px solid #666;
+            }
+
+            .submit-generic {
+                min-height: 25px;
+                border: 1px solid #333;
             }
         </style>
     </head>
     <body>
         <% include ./../partials/header %>
+        <% include ./../partials/nav %>
         <section>
             <div class="container">
-                <div class="box two ground padding-10">
+                <div class="box two ground padding-10 margin-top-10">
                     <h3 class="box one ground padding-10 center box-border">Novo Cliente</h3>
-                    <div class="container box one box-border padding-10 margin-top-5">
+                    <form id="customer-create-form" class="container box one box-border padding-10 margin-top-5">
                         <input type="text" name="name" class="mobile-box two input-generic center ground" placeholder="Nome Completo" autocomplete="off">
-                        <input type="text" name="cnpj" class="mobile-box two input-generic center ground" placeholder="CNPJ" autocomplete="off">
-                        <input type="text" name="trademark" class="mobile-box two input-generic center ground margin-top-5" placeholder="Nome Fantasia" autocomplete="off">
-                        <input type="text" name="phone" class="mobile-box two input-generic center ground margin-top-5" placeholder="Telefone" autocomplete="off">
-                    </div>
+                        <input type="text" name="trademark" class="mobile-box two input-generic center ground" placeholder="Nome Fantasia" autocomplete="off">
+                        <input type="text" name="cnpj" class="mobile-box two input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
+                        <input type="text" name="email" class="mobile-box two input-generic center ground margin-top-5" placeholder="E-mail" autocomplete="off">
+                        <input type="text" name="phone" class="mobile-box two input-generic center ground margin-top-5" placeholder="Telefone" maxlength="14" autocomplete="off">
+                        <input type="submit" name="submit" class="mobile-box two submit-generic center box-hover margin-top-5 bold" value="Cadastrar">
+                    </form>
                 </div>
             </div>
         </section>
     </body>
     <footer>
         <% include ./../partials/footer %>
+        <% include ./partial %>
     </footer>
 </html>

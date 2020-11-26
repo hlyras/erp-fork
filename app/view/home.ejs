@@ -7,30 +7,7 @@
         <% include ./partials/nav %>
 		<section>
 			<div class="container">
-                <div class="box one center ground padding-10 margin-top-15">
-                	<h2 class="box one padding-10">Catálogo de produtos</h2>
-					<form id="product-catalog-filter-form" class="box one ground">
-						<input type="hidden" name="location" value="product-catalog">
-						<input type="text" name="code" class="btn-generic-big" placeholder="Cód" autocomplete="off">
-						<input type="text" name="name" class="btn-generic-big" placeholder="Nome" autocomplete="off">
-						<select name="color" class="btn-generic-big" name="color">
-							<option value="">Cor</option>
-							<% for(i in productColors){ %>
-								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
-							<% } %>
-						</select>
-						<select name="brand" class="btn-generic-big">
-							<option value="">Marca do Produto</option>
-							<option value="Sem marca">Sem marca</option>
-							<option value="J.A Rio Militar">J.A Rio Militar</option>
-						</select>
-						<input type="submit" class="btn-generic-big bold" value="Filtrar">
-					</form>
-				</div>
-				<div id="product-catalog-filter-box" class="box one center hide">
-					<div id="product-catalog-container" class="container"></div>
-	        		<% include ./partials/carousel %>
-				</div>
+                
 			</div>
 		</section>
         <div id="ajax-loader" class="ajax-loader">
