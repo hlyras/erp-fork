@@ -14,6 +14,15 @@ Customer.save = async customer => {
 	return response.customer;
 };
 
+Customer.filter = async (customer) => {
+	let response = await fetch("/customer/filter?name="+customer.name+"&trademark="+customer.trademark+"&cnpj="+customer.cnpj);
+	response = await response.json();
+
+	if(API.verifyResponse(response)){ return false };
+
+	return response.customers;
+};
+
 // Product.save = async (product) => {
 // 	let response = await fetch("/product/save", {
 // 		method: "POST",

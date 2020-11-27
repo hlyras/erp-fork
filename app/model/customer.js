@@ -12,14 +12,36 @@ const Customer = function(){
 };
 
 Customer.save = (user) => {
-	let query = "INSERT INTO cms_wt_erp.customer (name, trademark, cnpj, email, phone, password) values ('"
+	let query = "INSERT INTO cms_wt_erp.customer (name, trademark, brand, cnpj, email, phone, cellphone, password) values ('"
         +user.name+"', '"
         +user.trademark+"', '"
+        +user.brand+"', '"
         +user.cnpj+"', '"
         +user.email+"', '"
         +user.phone+"', '"
+        +user.cellphone+"', '"
         +user.password+"')";
     return db(query);
+};
+
+
+
+Customer.findBy = {
+	trademark: trademark => {
+		let query = "SELECT * FROM cms_wt_erp.customer WHERE trademark='"+ trademark +"';";
+		return db(query);
+	},
+	cnpj: cnpj => {
+		let query = "SELECT * FROM cms_wt_erp.customer WHERE cnpj like '%"+ cnpj +"%';";
+		return db(query);
+	}
+};
+
+Customer.filter = customer => {
+	let query = "SELECT * FROM cms_wt_erp.customer WHERE name like '%"+customer.name
+		+"%' OR trademark like '%"+customer.trademark
+		+"%' OR brand like '%"+customer.brand+"%';";
+	return db(query);
 };
 
 // User.updateName = (user) => {

@@ -6,7 +6,6 @@ const API = {
 		};
 		if(res.msg){
 			alert(res.msg);
-			document.getElementById('ajax-loader').style.visibility = 'hidden';
 			return true;
 		};
 		return false;
