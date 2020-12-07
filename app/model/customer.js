@@ -12,11 +12,12 @@ const Customer = function(){
 };
 
 Customer.save = (user) => {
-	let query = "INSERT INTO cms_wt_erp.customer (name, trademark, brand, cnpj, email, phone, cellphone, password) values ('"
+	let query = "INSERT INTO cms_wt_erp.customer (name, trademark, brand, cnpj, ie, email, phone, cellphone, password) values ('"
         +user.name+"', '"
         +user.trademark+"', '"
         +user.brand+"', '"
         +user.cnpj+"', '"
+        +user.ie+"', '"
         +user.email+"', '"
         +user.phone+"', '"
         +user.cellphone+"', '"
@@ -24,9 +25,25 @@ Customer.save = (user) => {
     return db(query);
 };
 
-
+Customer.update = async (customer) => {
+	let query = "UPDATE cms_wt_erp.customer SET id='"+customer.id
+		+"', name='"+customer.name
+		+"', trademark='"+customer.trademark
+		+"', brand='"+customer.brand
+		+"', cnpj='"+customer.cnpj
+		+"', ie='"+customer.ie
+		+"', email='"+customer.email
+		+"', phone='"+customer.phone
+		+"', cellphone='"+customer.cellphone
+		+"', password='"+customer.password+"' WHERE id='"+customer.id+"';";
+	return db(query);
+};
 
 Customer.findBy = {
+	id: id => {
+		let query = "SELECT * FROM cms_wt_erp.customer WHERE id='"+ id +"';";
+		return db(query);
+	},
 	trademark: trademark => {
 		let query = "SELECT * FROM cms_wt_erp.customer WHERE trademark='"+ trademark +"';";
 		return db(query);
@@ -40,7 +57,13 @@ Customer.findBy = {
 Customer.filter = customer => {
 	let query = "SELECT * FROM cms_wt_erp.customer WHERE name like '%"+customer.name
 		+"%' OR trademark like '%"+customer.trademark
+		+"%' OR ie like '%"+customer.ie
 		+"%' OR brand like '%"+customer.brand+"%';";
+	return db(query);
+};
+
+Customer.delete = async (id) => {
+	let query = "DELETE FROM cms_wt_erp.customer WHERE id='"+id+"';";
 	return db(query);
 };
 
