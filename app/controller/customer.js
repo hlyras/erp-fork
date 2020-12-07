@@ -29,7 +29,7 @@ const customerController = {
 		if(customer.trademark.length > 100){ return res.send({ msg: "Razão social inválida." }); };
 		if(customer.trademark.length > 100){ return res.send({ msg: "Razão social inválida." }); };
 		if(customer.brand.length > 100){ return res.send({ msg: "Nome Fantasia inválido." }); };
-		if(!customer.cnpj || customer.cnpj.length < 13 || customer.cnpj.length > 14){ return res.send({ msg: "CNPJ inválido." }) };
+		if(!customer.cnpj || customer.cnpj.length < 11 || customer.cnpj.length > 14){ return res.send({ msg: "CNPJ inválido." }) };
 		if(customer.ie.length > 100){ return res.send({ msg: "Inscrição Estadual inválida." }); };
 		if(customer.email.length > 100){ return res.send({ msg: "E-mail inválido." }); };
 		if(customer.phone.length > 13){ return res.send({ msg: "Telefone inválido." }); };
