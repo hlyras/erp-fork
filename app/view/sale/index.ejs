@@ -4,16 +4,37 @@
     </head>
     <body>
         <% include ./../partials/header %>
+        <% include ./../partials/nav %>
         <section>
             <div class="container">
-                <div class="box-1">
-                    
+                <div class="box two ground center padding-10 margin-top-15">
+                    <h3 class="title-soft underline">Buscar Produtos</h3>
+                    <form id="product-filter-form" class="box one container">
+                        <input type="hidden" name="location" value="product-manage" autocomplete="off">
+                        <input type="number" name="code" class="box six center input-generic margin-top-5" placeholder="Cód" autocomplete="off">
+                        <input type="text" name="name" class="box two center input-generic margin-top-5" placeholder="Nome" autocomplete="off">
+                        <select name="color" class="box six center input-generic margin-top-5" autocomplete="off">
+                            <option value="">Cor</option>
+                            <% for(i in productColors){ %>
+                                <option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
+                            <% } %>
+                        </select>
+                        <input type="submit" name="submit" class="box six center box-hover submit-generic margin-top-5 bold" value="Filtrar">
+                    </form>
+
+                    <div id="product-manage-filter-box" class="box one center ground padding-10 margin-top-10" style="display:none">
+                        <table class="tbl-info width-fill" id="product-manage-filter-table"></table>
+                        <% include ./../partials/carousel %>
+                    </div>
                 </div>
             </div>
         </section>
     </body>
     <footer>
         <% include ./../partials/footer %>
-        </script>
+        <% include ./partial %>
+        <script src="/javascripts/scripts/product/model/main.js"></script>
+        <script src="/javascripts/scripts/product/controller/main.js"></script>
+        <script src="/javascripts/scripts/product/view/main.js"></script>
     </footer>
 </html>
