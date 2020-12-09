@@ -1,7 +1,6 @@
 Production.product.controller = { kart: {} };
 Production.product.kart = [];
 
-
 Production.product.controller.kart.add = document.getElementById("production-product-kart-form");
 if(Production.product.controller.kart.add){
 	Production.product.controller.kart.add.addEventListener("submit", async (event) => {

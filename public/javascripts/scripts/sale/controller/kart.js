@@ -1,0 +1,88 @@
+Sale.controller.product = { kart: {} };
+
+Sale.product.kart = [];
+
+Sale.controller.product.kart.add = document.getElementById("sale-product-kart-form");
+if(Sale.controller.product.kart.add){
+	Sale.controller.product.kart.add.addEventListener("submit", async (event) => {
+		event.preventDefault();
+
+		var product_id = document.getElementById("sale-product-kart-form").elements.namedItem('product');
+		var amount = document.getElementById("sale-product-kart-form").elements.namedItem('amount').value;
+
+		if(product_id.value < 1 || !product_id.value){
+			alert("É necessário selecionar um produto.");
+			return;
+		};
+
+		if(amount < 0.01 || !amount){
+			alert("É necessário preencher a quantidade de produtos que serão produzidos.");
+			return;
+		};
+
+		var row = product_id.options[product_id.selectedIndex].text;
+		splitedProduct = row.split(" | ");
+
+		product = {
+			id: product_id.value,
+			code: splitedProduct[0],
+			name: splitedProduct[1],
+			color: splitedProduct[2],
+			size: splitedProduct[3],
+			amount: parseInt(amount)
+		};
+
+		for(i in Sale.product.kart){
+			if(Sale.product.kart[i].id == product.id){
+				return alert("Você já incluiu este produto na lista de produção.");
+			};
+		};
+
+		Sale.product.kart.push(product);
+
+		Sale.product.kart.sort((a, b) => {
+		  return a.code - b.code;
+		});
+
+		Sale.controller.product.kart.localStorage.update(Sale.product.kart, "saleProductKart");
+		Sale.product.view.kart.list(Sale.product.kart);
+
+		document.getElementById("sale-product-kart-form").elements.namedItem('amount').value = "";
+	});
+};
+
+Sale.controller.product.kart.remove = async (product_id) => {
+	var kart_backup = [];
+	for(i in Sale.product.kart){
+		if(Sale.product.kart[i].id != product_id){
+			kart_backup.push(Sale.product.kart[i]);
+		};
+	};
+
+	Sale.product.kart = kart_backup;
+
+	Sale.controller.product.kart.localStorage.update(Sale.product.kart, "saleProductKart");
+	Sale.product.view.kart.list(Sale.product.kart);
+	
+	// document.getElementById("Sale-product-kart-table").style.display = "none";
+};
+	
+Sale.controller.product.kart.localStorage = {
+	verify: async (localStorageKart) => {
+		if(JSON.parse(localStorage.getItem(localStorageKart)) != null){
+			let kart = JSON.parse(localStorage.getItem(localStorageKart));
+			Sale.product.kart = kart;
+
+			Sale.product.view.kart.list(Sale.product.kart);
+		};
+	},
+	update: async (kart, localStorageKart) => {
+		const stringifiedKart = JSON.stringify(kart);
+		localStorage.setItem(localStorageKart, stringifiedKart);
+		if(!kart.length){
+			localStorage.setItem(localStorageKart, null);
+		};
+	}
+};
+
+Sale.controller.product.kart.localStorage.verify("saleProductKart");
