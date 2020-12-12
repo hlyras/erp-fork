@@ -86,7 +86,6 @@ Sale.controller.product.kart.remove = async (product_id) => {
 };
 
 Sale.controller.product.kart.updateAmount = async (product_id, amount) => {
-	console.log(product_id, amount);
 	if(amount < 1){
 		alert("Quantidade Inválida");
 		return Sale.product.view.kart.list(Sale.product.kart);
