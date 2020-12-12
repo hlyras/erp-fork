@@ -83,8 +83,22 @@ Sale.controller.product.kart.remove = async (product_id) => {
 
 	Sale.controller.product.kart.localStorage.update(Sale.product.kart, "saleProductKart");
 	Sale.product.view.kart.list(Sale.product.kart);
-	
-	// document.getElementById("Sale-product-kart-table").style.display = "none";
+};
+
+Sale.controller.product.kart.updateAmount = async (product_id, amount) => {
+	console.log(product_id, amount);
+	if(amount < 1){
+		alert("Quantidade Inválida");
+		return Sale.product.view.kart.list(Sale.product.kart);
+	};
+	for(i in Sale.product.kart){
+		if(Sale.product.kart[i].id == product_id){
+			Sale.product.kart[i].amount = parseInt(amount);
+			
+			Sale.controller.product.kart.localStorage.update(Sale.product.kart, "saleProductKart");
+			return Sale.product.view.kart.list(Sale.product.kart);
+		};
+	};
 };
 	
 Sale.controller.product.kart.localStorage = {
