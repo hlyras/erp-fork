@@ -7,53 +7,66 @@
         <% include ./../partials/nav %>
         <section>
             <div class="container">
-                <div class="box three ground center padding-10 margin-top-15">
-                    <h5 class="underline">Buscar Cliente</h5>
-                    <form id="customer-filter-form" class="box one container">
-                        <input type="text" name="name" class="box three input-generic center ground margin-top-5" placeholder="Nome" autocomplete="off">
-                        <input type="text" name="cnpj" class="box three input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
-                        <input type="submit" name="submit" class="box three submit-generic center box-hover bold margin-top-5" value="Buscar">
-                    </form>
-                    <select id="customer-select" class="box one center input-generic margin-top-5"><option value=''>Selecionar cliente</option></select>
-                </div>
-                <div class="box three container ground center padding-10 margin-top-15">
-                    <div class="box two box-border padding-5">
-                        <h5 class="underline">Data da venda</h5>
-                        <input type="date" id="sale-date" class="box one input-generic">
+                <div class="box one ground container margin-top-10">
+                    <div class="box two ground center padding-10 margin-top-15">
+                        <h5 class="underline">Buscar Cliente</h5>
+                        <form id="customer-filter-form" class="box one container">
+                            <input type="text" name="name" class="box three input-generic center ground margin-top-5" placeholder="Nome" autocomplete="off">
+                            <input type="text" name="cnpj" class="box three input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
+                            <input type="submit" name="submit" class="box three submit-generic center box-hover bold margin-top-5" value="Buscar">
+                        </form>
+                        <select id="customer-select" class="box one center input-generic margin-top-5"><option value=''>Selecionar cliente</option></select>
                     </div>
-                    <div class="box two box-border padding-5">
-                        <h5 class="underline">Previsão de envio</h5>
-                        <input type="date" id="estimated-shipping-date" class="box one input-generic">
+                    <div class="box two container ground center padding-10 margin-top-15">
+                        <h5 class="underline">Buscar Produtos</h5>
+                        <form id="product-filter-form" class="box one container">
+                            <input type="hidden" name="location" value="product-manage" autocomplete="off">
+                            <input type="number" name="code" class="box six center input-generic margin-top-5" placeholder="Cód" autocomplete="off">
+                            <input type="text" name="name" class="box two center input-generic margin-top-5" placeholder="Nome" autocomplete="off">
+                            <select name="color" class="box six center input-generic margin-top-5" autocomplete="off">
+                                <option value="">Cor</option>
+                                <% for(i in productColors){ %>
+                                    <option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
+                                <% } %>
+                            </select>
+                            <input type="submit" name="submit" class="box six submit-generic center box-hover margin-top-5 bold" value="Filtrar">
+                        </form>
+                        <form id="sale-product-kart-form" class="box one container">
+                            <select name="product" class="box two input-generic center margin-top-5"><option value=''>Selecionar produto</option></select>
+                            <input type="number" name="amount" class="box four input-generic center margin-top-5" placeholder="Qtd">
+                            <input type="submit" name="submit" class="box four submit-generic center box-hover margin-top-5 bold" value="Adicionar">
+                        </form>
                     </div>
-                    <div class="box one box-border padding-5 margin-top-5">
-                        <select class="box one input-generic">
-                            <option>Status da venda</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="box three container ground center padding-10 margin-top-15">
-                    <h5 class="underline">Buscar Produtos</h5>
-                    <form id="product-filter-form" class="box one container">
-                        <input type="hidden" name="location" value="product-manage" autocomplete="off">
-                        <input type="number" name="code" class="box six center input-generic margin-top-5" placeholder="Cód" autocomplete="off">
-                        <input type="text" name="name" class="box two center input-generic margin-top-5" placeholder="Nome" autocomplete="off">
-                        <select name="color" class="box six center input-generic margin-top-5" autocomplete="off">
-                            <option value="">Cor</option>
-                            <% for(i in productColors){ %>
-                                <option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
-                            <% } %>
-                        </select>
-                        <input type="submit" name="submit" class="box six submit-generic center box-hover margin-top-5 bold" value="Filtrar">
-                    </form>
-                    <form id="sale-product-kart-form" class="box one container">
-                        <select name="product" class="box two input-generic center margin-top-5"><option value=''>Selecionar produto</option></select>
-                        <input type="number" name="amount" class="box four input-generic center margin-top-5" placeholder="Qtd">
-                        <input type="submit" name="submit" class="box four submit-generic center box-hover margin-top-5 bold" value="Adicionar">
-                    </form>
                 </div>
                 <div class="box one center ground padding-10 margin-top-10">
                     <h5 class="underline">Carrinho de produtos</h5>
                     <table id="sale-product-kart-table" class="tbl-info box one center ground padding-10 margin-top-10"></table>
+                </div>
+                <div class="box one container ground padding-10 margin-top-10">
+                    <div class="box three container ground center padding-10">
+                        <div class="box two box-border padding-5">
+                            <h5 class="underline">Data da venda</h5>
+                            <input type="date" id="sale-date" class="box one input-generic">
+                        </div>
+                        <div class="box two box-border padding-5">
+                            <h5 class="underline">Previsão de envio</h5>
+                            <input type="date" id="estimated-shipping-date" class="box one input-generic">
+                        </div>
+                    </div>
+                    <div class="box three padding-10">
+                        <select class="box one input-generic margin-top-5">
+                            <option>Status da venda</option>
+                            <option value="">Status da venda</option>
+                            <option value="Em negociação">Em negociação</option>
+                            <option value="Ag. pagamento">Ag. Pagamento</option>
+                            <option value="Em preparação">Em preparação</option>
+                            <option value="Ag. despacho">Ag. Despacho</option>
+                            <option value="Enviado">Enviado</option>
+                        </select>
+                    </div>
+                    <div class="box three">
+                        
+                    </div>
                 </div>
             </div>
         </section>

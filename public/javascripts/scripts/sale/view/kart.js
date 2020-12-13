@@ -1,14 +1,6 @@
 // Sale product view
 Sale.product.view = {};
 
-lib.focus = (input) => {
-	if(input.id){
-		document.getElementById(input.id).focus();
-	} else {
-		input.focus();
-	};
-};
-
 Sale.product.view.kart = {
 	list: async (products) => {
 		if(products.length){

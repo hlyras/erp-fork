@@ -99,7 +99,7 @@ Sale.controller.product.kart.updateAmount = async (product_id, amount) => {
 		};
 	};
 };
-	
+
 Sale.controller.product.kart.localStorage = {
 	verify: async (localStorageKart) => {
 		if(JSON.parse(localStorage.getItem(localStorageKart)) != null){
