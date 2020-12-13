@@ -119,11 +119,11 @@ Sale.controller.product.kart.localStorage = {
 };
 
 Sale.controller.product.kart.includeMolleKit = () => {
-	let kit = [{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":1},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1}];
+	let kit = [{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":2},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1}];
 	Sale.product.kart = kit.reduce((kart, product) => {
 		for(i in kart){
 			if(product.id == kart[i].id){
-				kart[i].amount += 1;
+				kart[i].amount += product.amount;
 				return kart;
 			};
 		};
