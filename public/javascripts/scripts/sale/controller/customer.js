@@ -13,8 +13,14 @@ if(Customer.controller.filter){
 		document.getElementById("ajax-loader").style.visibility = "visible";
 		let customers = await Customer.filter(customer);
 		document.getElementById("ajax-loader").style.visibility = "hidden";
+		
 		if(!customers){ return false; };
-
 		Sale.view.customer.fillInput(customers);
 	});
+};
+
+lib.splitSelectTextBy = (select, string) => {
+	let row = select.options[select.selectedIndex].text;
+	let splited_text = row.split(string);
+	return splited_text;
 };

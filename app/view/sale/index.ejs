@@ -8,17 +8,17 @@
         <section>
             <div class="container">
                 <div class="box one ground container margin-top-10">
-                    <div class="box two ground center padding-10 margin-top-15">
+                    <div class="box three ground center padding-10 margin-top-15">
                         <h5 class="underline">Buscar Cliente</h5>
                         <form id="customer-filter-form" class="box one container">
                             <input type="text" name="name" class="box three input-generic center ground margin-top-5" placeholder="Nome" autocomplete="off">
                             <input type="text" name="cnpj" class="box three input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
                             <input type="submit" name="submit" class="box three submit-generic center box-hover bold margin-top-5" value="Buscar">
                         </form>
-                        <select id="customer-select" class="box one center input-explicit margin-top-5"><option value=''>Selecionar cliente</option></select>
+                        <select id="sale-customer-select" class="box one center input-explicit margin-top-5"><option value=''>Selecionar cliente</option></select>
                     </div>
-                    <div class="box two container ground padding-10 margin-top-10">
-                        <div class="box two container ground center padding-10">
+                    <div class="box three container ground padding-10 margin-top-10">
+                        <div class="box one container ground center padding-10">
                             <div class="box two box-border padding-5">
                                 <h5 class="underline">Data da venda</h5>
                                 <input type="date" id="sale-date" class="box one input-explicit">
@@ -27,25 +27,25 @@
                                 <h5 class="underline">Previsão de envio</h5>
                                 <input type="date" id="estimated-shipping-date" class="box one input-explicit">
                             </div>
-                        </div>
-                        <div class="box two padding-10">
-                            <select class="box one input-explicit margin-top-5">
-                                <option value="">Forma de Pagamento</option>
-                                <option value="À vista">À Vista</option>
-                                <option value="30">30 dias</option>
-                                <option value="60">60 dias</option>
-                                <option value="90">90 dias</option>
-                            </select>
-                            <select class="box one input-explicit margin-top-5">
-                                <option value="">Status da venda</option>
-                                <option value="Em negociação">Em negociação</option>
-                                <option value="Ag. pagamento">Ag. Pagamento</option>
-                                <option value="Em preparação">Em preparação</option>
-                                <option value="Ag. despacho">Ag. Despacho</option>
-                                <option value="Enviado">Enviado</option>
-                            </select>
-                            <input type="button" id="sale-create-submit" class="box one input-confirm bold padding-15 margin-top-5" value="CONFIRMAR VENDA">
-                        </div>
+                        </div>                        
+                    </div>
+                    <div class="box three padding-10">
+                        <select id="payment-method" class="box one input-explicit margin-top-5">
+                            <option value="">Forma de Pagamento</option>
+                            <option value="À vista">À Vista</option>
+                            <option value="30">30 dias</option>
+                            <option value="60">60 dias</option>
+                            <option value="90">90 dias</option>
+                        </select>
+                        <select id="sale-status" class="box one input-explicit margin-top-5">
+                            <option value="">Status da venda</option>
+                            <option value="Em negociação">Em negociação</option>
+                            <option value="Ag. pagamento">Ag. Pagamento</option>
+                            <option value="Em preparação">Em preparação</option>
+                            <option value="Ag. despacho">Ag. Despacho</option>
+                            <option value="Enviado">Enviado</option>
+                        </select>
+                        <input type="button" id="sale-create-submit" class="box one input-confirm bold padding-15 margin-top-5" value="CONFIRMAR VENDA">
                     </div>
                 </div>
                 <div class="box one container center ground padding-10 margin-top-10">
