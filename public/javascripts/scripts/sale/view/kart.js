@@ -21,10 +21,10 @@ Sale.product.view.kart = {
 				html += "<td>"+products[i].name+"</td>";
 				html += "<td>"+products[i].color+"</td>";
 				html += "<td>"+products[i].size+"</td>";
-				html += "<td class='nowrap'><img class='img-tbl-btn' src='/images/icon/decrease.png' onclick='Sale.controller.product.kart.decrease("+products[i].id+")'></td>";
-				html += "<td class='nowrap'><input type='text' id='kart-product-"+products[i].id+"' onchange='Sale.controller.product.kart.updateAmount("+products[i].id+",this.value);lib.focus(this)' value='"+products[i].amount+"'></td>";
-				html += "<td class='nowrap'><img class='img-tbl-btn' src='/images/icon/increase.png' onclick='Sale.controller.product.kart.increase("+products[i].id+")'></td>";
-				html += "<td><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Sale.controller.product.kart.remove("+products[i].id+")'></td>";
+				html += "<td class='nowrap'><img class='img-tbl-btn' src='/images/icon/decrease.png' onclick='Sale.controller.kart.product.decrease("+products[i].id+")'></td>";
+				html += "<td class='nowrap'><input type='text' id='kart-product-"+products[i].id+"' onchange='Sale.controller.kart.product.updateAmount("+products[i].id+",this.value);lib.focus(this)' value='"+products[i].amount+"'></td>";
+				html += "<td class='nowrap'><img class='img-tbl-btn' src='/images/icon/increase.png' onclick='Sale.controller.kart.product.increase("+products[i].id+")'></td>";
+				html += "<td><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Sale.controller.kart.product.remove("+products[i].id+")'></td>";
 				html += "</tr>";
 			};
 			document.getElementById("sale-product-kart-table").innerHTML = html;
