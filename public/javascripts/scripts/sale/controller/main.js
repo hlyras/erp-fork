@@ -10,11 +10,11 @@ if(Sale.controller.save){
 			sale_date: document.getElementById("sale-date").value,
 			estimated_shipping_date: document.getElementById("estimated-shipping-date").value,
 			payment_method: document.getElementById("payment-method").value,
-			sale_status: document.getElementById("sale-status").value
-			sale.customer_id: customer.select.value,
-			sale.customer_name: customer[0],
-			sale.customer_cnpj: customer[1],
-			sale.value: 0
+			sale_status: document.getElementById("sale-status").value,
+			customer_id: customer.select.value,
+			customer_name: customer[0],
+			customer_cnpj: customer[1],
+			value: 0
 		};
 
 		console.log(sale);

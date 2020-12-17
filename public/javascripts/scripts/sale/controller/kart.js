@@ -207,6 +207,6 @@ Sale.controller.kart.product.includeMolleKit = () => {
 };
 
 Sale.controller.localStorage.kart.verify("sale-kart");
-Sale.controller.localStorage.customer.verify("sale-customer");
+// Sale.controller.localStorage.customer.verify("sale-customer");
 // Sale.controller.kart.product.localStorage.verify("sale-kart");
 // Sale.controller.kart.product.localStorage.verify("sale-kart");
