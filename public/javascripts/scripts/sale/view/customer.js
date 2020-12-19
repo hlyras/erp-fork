@@ -2,7 +2,7 @@ Sale.view.customer = {};
 
 Sale.view.customer.fillInput = (customers) => {
 	let html = "";
-	html += "<option value=''>Selecionar cliente</option>";
+	html += "<option value='' disabled selected>Selecionar cliente</option>";
 	for(i in customers){
 		if(customers[i].name){
 			html += "<option value='"+customers[i].id+"'>"+customers[i].name+" | "+customers[i].cnpj+"</option>";

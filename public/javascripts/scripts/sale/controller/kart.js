@@ -30,7 +30,8 @@ if(Sale.controller.kart.product.add){
 			name: splitedProduct[1],
 			color: splitedProduct[2],
 			size: splitedProduct[3],
-			amount: parseInt(amount)
+			amount: parseInt(amount),
+			value: 0
 		};
 
 		for(i in Sale.kart){

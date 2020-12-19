@@ -15,7 +15,7 @@
                             <input type="text" name="cnpj" class="box three input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
                             <input type="submit" name="submit" class="box three submit-generic center box-hover bold margin-top-5" value="Buscar">
                         </form>
-                        <select id="sale-customer-select" class="box one center input-explicit margin-top-5"><option value=''>Selecionar cliente</option></select>
+                        <select id="sale-customer-select" class="box one center input-explicit margin-top-5 hide-disabled"><option value=''>Selecionar cliente</option></select>
                     </div>
                     <div class="box three container ground padding-10 margin-top-10">
                         <div class="box one container ground center padding-10">
@@ -30,15 +30,15 @@
                         </div>                        
                     </div>
                     <div class="box three padding-10">
-                        <select id="payment-method" class="box one input-explicit margin-top-5">
-                            <option value="">Forma de Pagamento</option>
+                        <select id="payment-method" class="box one input-explicit margin-top-5 hide-disabled">
+                            <option value="" disabled selected>Forma de Pagamento</option>
                             <option value="À vista">À Vista</option>
                             <option value="30">30 dias</option>
                             <option value="60">60 dias</option>
                             <option value="90">90 dias</option>
                         </select>
-                        <select id="sale-status" class="box one input-explicit margin-top-5">
-                            <option value="">Status da venda</option>
+                        <select id="status" class="box one input-explicit margin-top-5 hide-disabled">
+                            <option value="" disabled selected>Status da venda</option>
                             <option value="Em negociação">Em negociação</option>
                             <option value="Ag. pagamento">Ag. pagamento</option>
                             <option value="Ag. emissão NF">Ag. emissão NF</option>

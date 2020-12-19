@@ -10,7 +10,7 @@ if(Sale.controller.save){
 			sale_date: document.getElementById("sale-date").value,
 			estimated_shipping_date: document.getElementById("estimated-shipping-date").value,
 			payment_method: document.getElementById("payment-method").value,
-			sale_status: document.getElementById("sale-status").value,
+			status: document.getElementById("status").value,
 			customer_id: customer.select.value,
 			customer_name: customer[0],
 			customer_cnpj: customer[1],
@@ -19,6 +19,8 @@ if(Sale.controller.save){
 		};
 
 		sale = await Sale.save(sale);
+
+		console.log(sale);
 		
 		// console.log(document.getElementById("").elements.namedItem("").value);
 		// console.log(document.getElementById("").elements.namedItem("").value);
