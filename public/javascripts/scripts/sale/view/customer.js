@@ -12,5 +12,5 @@ Sale.view.customer.fillInput = (customers) => {
 			html += "<option value='"+customers[i].id+"'>"+customers[i].trademark+" | "+customers[i].cnpj+"</option>";
 		};
 	};
-	document.getElementById("sale-customer-select").innerHTML = html;
+	document.getElementById("sale-customer").innerHTML = html;
 };

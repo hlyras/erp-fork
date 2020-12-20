@@ -26,12 +26,19 @@ const saleController = {
 		};
 
 		let sale = req.body.sale;
-		
+		sale.products = JSON.parse(req.body.sale.products);
+
+		if(!sale.customer_id){ return res.send({ msg: "É necessário selecionar o cliente" }); };
+		if(!sale.sale_date){ return res.send({ msg: "É necessário selecionar a data da venda" }); };
+		if(!sale.estimated_shipping_date){ return res.send({ msg: "É necessário selecionar a previsão de envio" }); };
+		if(!sale.payment_method){ return res.send({ msg: "É necessário selecionar o método de pagamento" }); };
+		if(!sale.status){ return res.send({ msg: "É necessário selecionar o status da venda" }); };
+		if(!sale.products.length){ return res.send({ msg: "É necessário selecionar ao menos um produto." }); };
+
 		try {
 			let row = await Sale.save(req.body.sale);
 			sale.id = row.insertId;
 			
-			sale.products = JSON.parse(req.body.sale.products);
 			for(i in sale.products){
 				sale.products[i].info = req.body.sale.products[i].code+" | "+req.body.sale.products[i].name+" | "+req.body.sale.products[i].color+" | "+req.body.sale.products[i].size;
 				await Sale.product.save(sale.id, sale.products[i]);

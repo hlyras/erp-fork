@@ -3,7 +3,7 @@ Sale.controller = {};
 Sale.controller.save = document.getElementById("sale-create-submit");
 if(Sale.controller.save){
 	Sale.controller.save.addEventListener("click", async event => {
-		let customer = lib.splitSelectTextBy(document.getElementById("sale-customer-select"), " | ");
+		let customer = lib.splitSelectTextBy(document.getElementById("sale-customer"), " | ");
 		
 		let sale = {
 			id: "",
@@ -19,15 +19,21 @@ if(Sale.controller.save){
 		};
 
 		sale = await Sale.save(sale);
+		if(!sale) { return false };
 
-		console.log(sale);
+		// document.getElementById("").elements.namedItem("").value = "";
+		// document.getElementById("sale-date").value = "";
+		// document.getElementById("estimated-shipping-date").value = "";
+		// document.getElementById("payment-method").value = "";
+		// document.getElementById("status").value = "";
+		// document.getElementById("sale-customer").value = "";
+		// Sale.kart = [];
+		// Sale.product.view.kart.list(Sale.kart);
 		
-		// console.log(document.getElementById("").elements.namedItem("").value);
-		// console.log(document.getElementById("").elements.namedItem("").value);
-		// console.log(document.getElementById("").elements.namedItem("").value);
-		// console.log(document.getElementById("").elements.namedItem("").value);
-		// console.log(document.getElementById("").elements.namedItem("").value);
-		// console.log(document.getElementById("").elements.namedItem("").value);
+		// Sale.controller.localStorage.kart.update(Sale.kart, "sale-kart");
+
+		let r = confirm("Deseja ir para a venda criada?\n código: #"+sale.id+"\n data: "+lib.convertDate(sale.sale_date)+"\n previsão de envio: "+lib.convertDate(sale.estimated_shipping_date)+"\n cliente: "+sale.customer_name+"\n Método de pagamento: "+sale.payment_method+"\n status: "+sale.status+"\n Valor: "+sale.value);
+		if(r){ console.log("redireciona para venda #"+sale.id) };
 	});
 };
 

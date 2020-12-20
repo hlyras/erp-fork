@@ -10,7 +10,5 @@ Sale.save = async (sale) => {
 
 	if(API.verifyResponse(response)){ return false };
 
-	console.log(response);
-
 	return response.sale;
 };

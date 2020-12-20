@@ -31,7 +31,7 @@ if(Sale.controller.kart.product.add){
 			color: splitedProduct[2],
 			size: splitedProduct[3],
 			amount: parseInt(amount),
-			value: 0
+			price: 0
 		};
 
 		for(i in Sale.kart){
@@ -46,7 +46,8 @@ if(Sale.controller.kart.product.add){
 		  return a.code - b.code;
 		});
 
-		Sale.controller.localStorage.kart.update(Sale.kart, "sale-kart");
+		let stringified_kart = JSON.stringify(Sale.kart);
+		lib.localStorage.update("sale-kart", stringified_kart);
 		Sale.product.view.kart.list(Sale.kart);
 
 		document.getElementById("sale-product-kart-form").elements.namedItem('amount').value = "";
@@ -59,7 +60,8 @@ Sale.controller.kart.product.decrease = async (product_id) => {
 			Sale.kart[i].amount -= 1;
 		};
 	};
-	Sale.controller.localStorage.kart.update(Sale.kart, "sale-kart");
+	let stringified_kart = JSON.stringify(Sale.kart);
+	lib.localStorage.update("sale-kart", stringified_kart);
 	Sale.product.view.kart.list(Sale.kart);
 };
 
@@ -69,7 +71,8 @@ Sale.controller.kart.product.increase = async (product_id) => {
 			Sale.kart[i].amount += 1;
 		};
 	};
-	Sale.controller.localStorage.kart.update(Sale.kart, "sale-kart");
+	let stringified_kart = JSON.stringify(Sale.kart);
+	lib.localStorage.update("sale-kart", stringified_kart);
 	Sale.product.view.kart.list(Sale.kart);
 };
 
@@ -83,7 +86,8 @@ Sale.controller.kart.product.remove = async (product_id) => {
 
 	Sale.kart = kart_backup;
 
-	Sale.controller.localStorage.kart.update(Sale.kart, "sale-kart");
+	let stringified_kart = JSON.stringify(Sale.kart);
+	lib.localStorage.update("sale-kart", stringified_kart);
 	Sale.product.view.kart.list(Sale.kart);
 };
 
@@ -96,102 +100,15 @@ Sale.controller.kart.product.updateAmount = async (product_id, amount) => {
 		if(Sale.kart[i].id == product_id){
 			Sale.kart[i].amount = parseInt(amount);
 			
-			Sale.controller.localStorage.kart.update(Sale.kart, "sale-kart");
+			let stringified_kart = JSON.stringify(Sale.kart);
+			lib.localStorage.update("sale-kart", stringified_kart);
 			return Sale.product.view.kart.list(Sale.kart);
 		};
 	};
 };
 
-Sale.controller.kart.customer = document.getElementById("sale-customer-select");
-if(Sale.controller.kart.customer){
-	Sale.controller.kart.customer.addEventListener("change", event => {
-		let splited_customer = lib.splitSelectTextBy(event.target, " | ");
-
-		let customer = {
-			id: event.target.value,
-			name: splited_customer[0],
-			cnpj: splited_customer[1]
-		};
-
-		console.log(customer);
-
-		// Sale.controller.localStorage
-	});
-};
-
-Sale.controller.localStorage = {
-	customer: {
-		verify: async (localStorageCustomer) => {
-			if(JSON.parse(localStorage.getItem(localStorageCustomer)) != null){
-				let customer = localStorage.getItem(localStorageCustomer);
-
-				Sale.product.view.kart.list(Sale.kart);
-			};
-		},
-		update: async (kart, localStorageCustomer) => {
-			const stringifiedKart = JSON.stringify(kart);
-			localStorage.setItem(localStorageCustomer, stringifiedKart);
-			if(!kart.length){
-				localStorage.setItem(localStorageCustomer, null);
-			};
-		}
-	},
-	date: {
-		verify: async (localStorageKart) => {
-			if(JSON.parse(localStorage.getItem(localStorageKart)) != null){
-				let kart = JSON.parse(localStorage.getItem(localStorageKart));
-				Sale.kart = kart;
-
-				Sale.product.view.kart.list(Sale.kart);
-			};
-		},
-		update: async (kart, localStorageKart) => {
-			const stringifiedKart = JSON.stringify(kart);
-			localStorage.setItem(localStorageKart, stringifiedKart);
-			if(!kart.length){
-				localStorage.setItem(localStorageKart, null);
-			};
-		}
-	},
-	kart: {
-		verify: async (localStorageKart) => {
-			if(JSON.parse(localStorage.getItem(localStorageKart)) != null){
-				let kart = JSON.parse(localStorage.getItem(localStorageKart));
-				Sale.kart = kart;
-
-				Sale.product.view.kart.list(Sale.kart);
-			};
-		},
-		update: async (kart, localStorageKart) => {
-			const stringifiedKart = JSON.stringify(kart);
-			localStorage.setItem(localStorageKart, stringifiedKart);
-			if(!kart.length){
-				localStorage.setItem(localStorageKart, null);
-			};
-		}
-	}
-};
-
-Sale.controller.kart.product.localStorage = {
-	verify: async (localStorageKart) => {
-		if(JSON.parse(localStorage.getItem(localStorageKart)) != null){
-			let kart = JSON.parse(localStorage.getItem(localStorageKart));
-			Sale.kart = kart;
-
-			Sale.product.view.kart.list(Sale.kart);
-		};
-	},
-	update: async (kart, localStorageKart) => {
-		const stringifiedKart = JSON.stringify(kart);
-		localStorage.setItem(localStorageKart, stringifiedKart);
-		if(!kart.length){
-			localStorage.setItem(localStorageKart, null);
-		};
-	}
-};
-
 Sale.controller.kart.product.includeMolleKit = () => {
-	let kit = [{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":2},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1}];
+	let kit = [{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":2,"price":0},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1,"price":0},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1,"price":0},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1,"price":0}];
 	Sale.kart = kit.reduce((kart, product) => {
 		for(i in kart){
 			if(product.id == kart[i].id){
@@ -203,11 +120,83 @@ Sale.controller.kart.product.includeMolleKit = () => {
 		return kart;
 	}, Sale.kart);
 
-	Sale.controller.localStorage.kart.update(Sale.kart, "sale-kart");
+	let stringified_kart = JSON.stringify(Sale.kart);
+	lib.localStorage.update("sale-kart", stringified_kart);
 	Sale.product.view.kart.list(Sale.kart);
 };
 
-Sale.controller.localStorage.kart.verify("sale-kart");
-// Sale.controller.localStorage.customer.verify("sale-customer");
+Sale.controller.kart.customer = document.getElementById("sale-customer");
+if(Sale.controller.kart.customer){
+	Sale.controller.kart.customer.addEventListener("change", event => {
+		let customer = {
+			id: event.target.value,
+			info: event.target.options[event.target.selectedIndex].text
+		};
+		let stringified_customer = JSON.stringify(customer);
+		lib.localStorage.update("sale-customer", stringified_customer);
+	});
+};
+
+Sale.controller.kart.date = document.getElementById("sale-date");
+if(Sale.controller.kart.date){
+	Sale.controller.kart.date.addEventListener("change", event => {
+		lib.localStorage.update("sale-date", event.target.value);
+	});
+};
+
+Sale.controller.kart.estimated_shipping_date = document.getElementById("estimated-shipping-date");
+if(Sale.controller.kart.estimated_shipping_date){
+	Sale.controller.kart.estimated_shipping_date.addEventListener("change", event => {
+		lib.localStorage.update("estimated-shipping-date", event.target.value);
+	});
+};
+
+Sale.controller.kart.payment_method = document.getElementById("payment-method");
+if(Sale.controller.kart.payment_method){
+	Sale.controller.kart.payment_method.addEventListener("change", event => {
+		lib.localStorage.update("payment-method", event.target.value);
+	});
+};
+
+Sale.controller.kart.status = document.getElementById("status");
+if(Sale.controller.kart.status){
+	Sale.controller.kart.status.addEventListener("change", event => {
+		lib.localStorage.update("status", event.target.value);
+	});
+};
+
+if(lib.localStorage.verify("sale-customer")){
+	let customer = JSON.parse(localStorage.getItem("sale-customer"));
+	document.getElementById("sale-customer").innerHTML = "<option value='"+customer.id+"'>"+customer.info+"</option>";
+};
+
+if(lib.localStorage.verify("sale-date")){
+	let date = localStorage.getItem("sale-date");
+	document.getElementById("sale-date").value = date;
+};
+
+if(lib.localStorage.verify("estimated-shipping-date")){
+	let estimated_shipping_date = localStorage.getItem("estimated-shipping-date");
+	document.getElementById("estimated-shipping-date").value = estimated_shipping_date;
+};
+
+if(lib.localStorage.verify("payment-method")){
+	let payment_method = localStorage.getItem("payment-method");
+	document.getElementById("payment-method").value = payment_method;
+};
+
+if(lib.localStorage.verify("status")){
+	let status = localStorage.getItem("status");
+	document.getElementById("status").value = status;
+};
+
+if(lib.localStorage.verify("sale-kart")){
+	let kart = JSON.parse(localStorage.getItem("sale-kart"));
+	Sale.kart = kart;
+	Sale.product.view.kart.list(Sale.kart);
+};
+
+// Sale.controller.localStorage.date.verify("sale-date");
+// Sale.controller.localStorage.customer.verify("sale-date");
 // Sale.controller.kart.product.localStorage.verify("sale-kart");
 // Sale.controller.kart.product.localStorage.verify("sale-kart");
