@@ -144,6 +144,36 @@ module.exports = {
 
 		return query;
 	},
+	filterByLikeAndByPeriod: function(periodStart, periodEnd, params, values, date, db, tbl, orderParam, order){
+		if(periodStart && periodEnd){
+			var query = "SELECT * FROM "+db+"."+tbl+" WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
+			if(params.length){
+				query += "AND ";
+				for(i in params){
+					if(i == params.length - 1){
+						query += ""+params[i]+" like '%"+values[i]+"%' ";
+					} else {
+						query += ""+params[i]+" like '%"+values[i]+"%' AND ";
+					};
+				};
+			};
+		} else {
+			var query = "SELECT * FROM "+db+"."+tbl+" ";
+			if(params.length){
+				query += "WHERE ";
+				for(i in params){
+					if(i == params.length - 1){
+						query += ""+params[i]+" like '%"+values[i]+"%' ";
+					} else {
+						query += ""+params[i]+" like '%"+values[i]+"%' AND ";
+					};
+				};
+			};
+		};
+		query += "ORDER BY "+orderParam+" "+order+";";
+
+		return query;
+	},
 	sumByPeriod: function(periodStart, periodEnd, value, params, values, db, tbl, orderParam, order){
 		if(periodStart && periodEnd){
 			var query = "SELECT SUM("+value+") as totalValue FROM "+db+"."+tbl+" WHERE date>='"+periodStart+"' AND date<='"+periodEnd+"' ";

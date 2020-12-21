@@ -20,6 +20,18 @@ const saleController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
+	dashboard: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		try {
+			res.render('sale/dashboard', { user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
@@ -48,6 +60,43 @@ const saleController = {
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
+		};
+	},
+	filter: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		let params = [];
+		let values = [];
+
+		let periodStart = ""; 
+		let periodEnd = "";
+
+		if(req.body.sale.periodStart && req.body.sale.periodEnd){
+			periodStart = req.body.sale.periodStart;
+			periodEnd = req.body.sale.periodEnd;
+		} else {
+			periodStart = "";
+			periodEnd = "";
+		};
+
+		if(req.body.sale.customer_name){
+			params.push("customer_name");
+			values.push(req.body.sale.customer_name);
+		};
+
+		if(parseInt(req.body.sale.customer_cnpj)){
+			params.push("customer_cnpj");
+			values.push(req.body.sale.customer_cnpj);
+		};
+
+		try {
+			let sales = await Sale.filter(periodStart, periodEnd, params, values);
+			res.send({ sales });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
 		};
 	}
 };

@@ -27,47 +27,45 @@ if(Sale.controller.save){
 
 		// document.getElementById("").elements.namedItem("").value = "";
 		document.getElementById("sale-id").value = "";
+		lib.localStorage.remove("sale-id");
+
 		document.getElementById("sale-customer").value = "";
+		lib.localStorage.remove("sale-customer");
+
 		document.getElementById("sale-date").value = "";
+		lib.localStorage.remove("sale-date");
+
 		document.getElementById("estimated-shipping-date").value = "";
+		lib.localStorage.remove("estimated-shipping-date");
+
 		document.getElementById("payment-method").value = "";
+		lib.localStorage.remove("payment-method");
+
 		document.getElementById("status").value = "";
-		Sale.kart = [];
-		Sale.product.view.kart.list(Sale.kart);
+		lib.localStorage.remove("status");
 		
-		let stringified_kart = JSON.stringify(Sale.kart);
-		lib.localStorage.update("sale-kart", stringified_kart);
+		Sale.kart = [];
+		lib.localStorage.remove("sale-kart");
+		Sale.product.view.kart.list(Sale.kart);
 
 		let r = confirm("Deseja ir para a venda criada?\n código: #"+sale.id+"\n data: "+lib.convertDate(sale.sale_date)+"\n previsão de envio: "+lib.convertDate(sale.estimated_shipping_date)+"\n cliente: "+sale.customer_name+"\n Método de pagamento: "+sale.payment_method+"\n status: "+sale.status+"\n Valor: "+sale.value);
 		if(r){ console.log("redireciona para venda #"+sale.id) };
 	});
 };
 
-// Production.controller = {};
+Sale.controller.filter = document.getElementById("sale-filter-form");
+if(Sale.controller.filter){
+	Sale.controller.filter.addEventListener("submit", async event => {
+		event.preventDefault();
 
-// Production.controller.simulate = document.getElementById("production-simulation-form");
-// if(Production.controller.simulate){ 
-// 	Production.controller.simulate.addEventListener("submit", async (event) => {
-// 		event.preventDefault();
-// 		document.getElementById('ajax-loader').style.visibility = 'visible';
+		let sale = {
+			customer_name: event.target.elements.namedItem("customer_name").value,
+			customer_cnpj: event.target.elements.namedItem("customer_cnpj").value,
+			periodStart: event.target.elements.namedItem("periodStart").value,
+			periodEnd: event.target.elements.namedItem("periodEnd").value
+		};
 
-// 		Production.controller.simulate.elements.namedItem("submit").disabled = true;
-
-// 		if(!Production.product.kart.length){
-// 			alert("É necessário selecionar algum produto para simular o gasto.");
-// 			document.getElementById('ajax-loader').style.visibility = 'hidden';
-// 			return Production.controller.simulate.elements.namedItem("submit").disabled = false;
-// 		};
-
-// 		let production = await Production.simulate(Production.product.kart);
-
-// 		production.feedstocks.sort((a, b) => {
-// 		  return a.code - b.code;
-// 		});
-
-// 		Production.view.simulation(production.feedstocks);
-
-// 		Production.controller.simulate.elements.namedItem("submit").disabled = false;
-// 		document.getElementById('ajax-loader').style.visibility = 'hidden';
-// 	});
-// };
+		let sales = await Sale.filter(sale);
+		console.log(sales);
+	});
+};

@@ -28,6 +28,11 @@ Sale.save = async sale => {
 	return db(query);
 };
 
+Sale.filter = (periodStart, periodEnd, params, values) => {
+	let query = lib.filterByLikeAndByPeriod(periodStart, periodEnd, params, values, "sale_date", "cms_wt_erp", "sale", "id", "DESC");
+	return db(query);
+};
+
 Sale.product = {
 	save: async (sale_id, product) => {
 		let query = "INSERT INTO cms_wt_erp.sale_product (sale_id, product_id, product_info, product_amount, product_price) VALUES ('"
