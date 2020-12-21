@@ -4,7 +4,8 @@ Sale.controller.save = document.getElementById("sale-create-submit");
 if(Sale.controller.save){
 	Sale.controller.save.addEventListener("click", async event => {
 		let customer = lib.splitSelectTextBy(document.getElementById("sale-customer"), " | ");
-		
+		if(!customer){ return alert("Ocorreu um erro ao coletar informações do cliente"); };
+
 		let sale = {
 			id: "",
 			sale_date: document.getElementById("sale-date").value,
