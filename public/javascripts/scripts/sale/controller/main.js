@@ -18,6 +18,7 @@ if(Sale.controller.save){
 			value: 0
 		};
 
+		// use loader
 		sale = await Sale.save(sale);
 		if(!sale) { return false };
 
