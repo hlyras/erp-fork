@@ -19,19 +19,23 @@ if(Sale.controller.save){
 		};
 
 		// use loader
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		sale = await Sale.save(sale);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
 		if(!sale) { return false };
 
 		// document.getElementById("").elements.namedItem("").value = "";
-		// document.getElementById("sale-date").value = "";
-		// document.getElementById("estimated-shipping-date").value = "";
-		// document.getElementById("payment-method").value = "";
-		// document.getElementById("status").value = "";
-		// document.getElementById("sale-customer").value = "";
-		// Sale.kart = [];
-		// Sale.product.view.kart.list(Sale.kart);
+		document.getElementById("sale-id").value = "";
+		document.getElementById("sale-customer").value = "";
+		document.getElementById("sale-date").value = "";
+		document.getElementById("estimated-shipping-date").value = "";
+		document.getElementById("payment-method").value = "";
+		document.getElementById("status").value = "";
+		Sale.kart = [];
+		Sale.product.view.kart.list(Sale.kart);
 		
-		// Sale.controller.localStorage.kart.update(Sale.kart, "sale-kart");
+		let stringified_kart = JSON.stringify(Sale.kart);
+		lib.localStorage.update("sale-kart", stringified_kart);
 
 		let r = confirm("Deseja ir para a venda criada?\n código: #"+sale.id+"\n data: "+lib.convertDate(sale.sale_date)+"\n previsão de envio: "+lib.convertDate(sale.estimated_shipping_date)+"\n cliente: "+sale.customer_name+"\n Método de pagamento: "+sale.payment_method+"\n status: "+sale.status+"\n Valor: "+sale.value);
 		if(r){ console.log("redireciona para venda #"+sale.id) };

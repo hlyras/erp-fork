@@ -42,9 +42,7 @@ if(Sale.controller.kart.product.add){
 
 		Sale.kart.push(product);
 
-		Sale.kart.sort((a, b) => {
-		  return a.code - b.code;
-		});
+		Sale.controller.kart.update();
 
 		let stringified_kart = JSON.stringify(Sale.kart);
 		lib.localStorage.update("sale-kart", stringified_kart);
@@ -53,6 +51,10 @@ if(Sale.controller.kart.product.add){
 		document.getElementById("sale-product-kart-form").elements.namedItem('amount').value = "";
 	});
 };
+
+Sale.controller.kart.update = Sale.kart.sort((a, b) => {
+  return a.code - b.code;
+});
 
 Sale.controller.kart.product.decrease = async (product_id) => {
 	for(i in Sale.kart){
@@ -96,19 +98,36 @@ Sale.controller.kart.product.updateAmount = async (product_id, amount) => {
 		alert("Quantidade Inválida");
 		return Sale.product.view.kart.list(Sale.kart);
 	};
+
 	for(i in Sale.kart){
 		if(Sale.kart[i].id == product_id){
 			Sale.kart[i].amount = parseInt(amount);
 			
 			let stringified_kart = JSON.stringify(Sale.kart);
 			lib.localStorage.update("sale-kart", stringified_kart);
+
 			return Sale.product.view.kart.list(Sale.kart);
 		};
 	};
 };
 
-Sale.controller.kart.product.includeMolleKit = () => {
-	let kit = [{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":2,"price":0},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1,"price":0},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1,"price":0},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1,"price":0}];
+let Kart = {
+	saveMollePack: (pack) => {
+		
+	}
+};
+
+Sale.controller.kart.product.includeMolleKit = (pack) => {
+	let kit = [];
+	if(pack == "PC8PT"){
+		kit = [{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":2,"price":0},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1,"price":0},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1,"price":0},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1,"price":0}];
+	};
+	if(pack == "PC8VD"){
+		kit = [{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":2,"price":0},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1,"price":0},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1,"price":0},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1,"price":0}];
+	};
+	if(pack == "PC8TAN"){
+		kit = [{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":2,"price":0},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1,"price":0},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1,"price":0},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1,"price":0}];
+	};
 	Sale.kart = kit.reduce((kart, product) => {
 		for(i in kart){
 			if(product.id == kart[i].id){

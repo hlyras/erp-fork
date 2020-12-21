@@ -7,6 +7,7 @@
         <% include ./../partials/nav %>
         <section>
             <div class="container">
+                <input type="text" id="sale-id" value="" hidden>
                 <div class="box one ground container margin-top-10">
                     <div class="box three ground center padding-10 margin-top-15">
                         <h5 class="underline">Buscar Cliente</h5>
@@ -48,7 +49,7 @@
                     </div>
                 </div>
                 <div class="box one container center ground padding-10 margin-top-10">
-                    <div class="box one container ground center padding-10 margin-top-15">
+                    <div class="box two container ground center padding-10 margin-top-5">
                         <h5 class="underline">Buscar Produtos</h5>
                         <form id="product-filter-form" class="box one container">
                             <input type="hidden" name="location" value="product-manage" autocomplete="off">
@@ -62,14 +63,35 @@
                             </select>
                             <input type="submit" name="submit" class="box six submit-generic center box-hover margin-top-5 bold" value="Filtrar">
                         </form>
+                        <h5 class="underline margin-top-15">Incluir produto no carrinho</h5>
                         <form id="sale-product-kart-form" class="box one container">
                             <select name="product" class="box two input-generic center margin-top-5"><option value=''>Selecionar produto</option></select>
                             <input type="number" name="amount" class="box four input-generic center margin-top-5" placeholder="Qtd">
                             <input type="submit" name="submit" class="box four submit-generic center box-hover margin-top-5 bold" value="Adicionar">
                         </form>
                     </div>
+                    <div class="box two container ground center padding-10 margin-top-5">
+                        <h5 class="underline">Pacote de produtos</h5>
+                        <table class="tbl-info box one center ground padding-10 margin-top-10">
+                            <tr><td>Pacote</td><td>Cor</td><td>Valor</td></tr>
+                            <tr>
+                                <td>Plate Carrier +8 Acessórios</td>
+                                <td>pt</td>
+                                <td>$165,00</td>
+                                <td class="nowrap"><img class="img-tbl-btn" src="/images/icon/increase.png" onclick="Sale.controller.kart.product.includeMolleKit('PC8PT')"></td>
+                            </tr>
+                        </table>
+                        <% include ./../partials/carousel %>
+                    </div>
                     <h5 class="underline">Carrinho de produtos</h5>
                     <table id="sale-product-kart-table" class="tbl-info box one center ground padding-10 margin-top-10"></table>
+                    <!-- <h5 class="underline margin-top-15">Cadastrar pacote atual</h5>
+                    <form id="product-pack-create-form" class="box one container">
+                        <input type="text" name="name" class="box two-fifths input-generic" placeholder="Nome do pacote">
+                        <input type="text" name="color" class="box five input-generic" placeholder="Cor do pacote">
+                        <input type="text" name="price" class="box five input-generic" placeholder="Valor do pacote">
+                        <input type="submit" name="submit" value="Salvar Pacote" class="box five submit-generic box-hover bold">
+                    </form> -->
                 </div>
             </div>
         </section>
