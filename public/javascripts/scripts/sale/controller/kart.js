@@ -186,7 +186,7 @@ if(Sale.controller.kart.status){
 
 if(lib.localStorage.verify("sale-customer")){
 	let customer = JSON.parse(localStorage.getItem("sale-customer"));
-	document.getElementById("sale-customer").innerHTML = "<option value='"+customer.id+"'>"+customer.info+"</option>";
+	document.getElementById("sale-customer").innerHTML = "<option value='' disabled>Selecionar cliente</option><option value='"+customer.id+"' selected>"+customer.info+"</option>";
 };
 
 if(lib.localStorage.verify("sale-date")){
