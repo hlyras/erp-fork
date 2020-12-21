@@ -65,7 +65,10 @@ if(Sale.controller.filter){
 			periodEnd: event.target.elements.namedItem("periodEnd").value
 		};
 
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let sales = await Sale.filter(sale);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		
 		console.log(sales);
 	});
 };
