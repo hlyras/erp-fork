@@ -20,13 +20,13 @@ const saleController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
-	dashboard: async (req, res) => {
+	manage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
 
 		try {
-			res.render('sale/dashboard', { user: req.user });
+			res.render('sale/manage', { user: req.user });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -91,12 +91,32 @@ const saleController = {
 			values.push(req.body.sale.customer_cnpj);
 		};
 
+		if(req.body.sale.status){
+			params.push("status");
+			values.push(req.body.sale.status);
+		};
+
 		try {
 			let sales = await Sale.filter(periodStart, periodEnd, params, values);
 			res.send({ sales });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
+		};
+	},
+	findById: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		try {
+			const sale = await Sale.findById(req.params.id);
+			sale[0].products = await Sale.product.list(req.params.id);
+
+			res.send({ sale });
+		} catch (err){
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 		};
 	}
 };

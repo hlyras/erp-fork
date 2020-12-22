@@ -33,6 +33,11 @@ Sale.filter = (periodStart, periodEnd, params, values) => {
 	return db(query);
 };
 
+Sale.findById = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.sale WHERE id='"+id+"';";
+	return db(query);
+};
+
 Sale.product = {
 	save: async (sale_id, product) => {
 		let query = "INSERT INTO cms_wt_erp.sale_product (sale_id, product_id, product_info, product_amount, product_price) VALUES ('"
@@ -42,6 +47,10 @@ Sale.product = {
 			+product.amount+"','"
 			+product.price+"');";
 		return db(query);	
+	},
+	list: async (sale_id) => {
+		let query = "SELECT * FROM cms_wt_erp.sale_product WHERE sale_id='"+sale_id+"';";
+		return db(query);		
 	}
 };
 

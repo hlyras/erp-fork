@@ -42,7 +42,7 @@ if(Sale.controller.kart.product.add){
 
 		Sale.kart.push(product);
 
-		Sale.controller.kart.update();
+		Sale.controller.kart.update(Sale.kart);
 
 		let stringified_kart = JSON.stringify(Sale.kart);
 		lib.localStorage.update("sale-kart", stringified_kart);
@@ -52,9 +52,11 @@ if(Sale.controller.kart.product.add){
 	});
 };
 
-Sale.controller.kart.update = Sale.kart.sort((a, b) => {
-  return a.code - b.code;
-});
+Sale.controller.kart.update = (kart) => {
+	return Sale.kart = kart.sort((a, b) => {
+	  return a.code - b.code;
+	});
+};
 
 Sale.controller.kart.product.decrease = async (product_id) => {
 	for(i in Sale.kart){

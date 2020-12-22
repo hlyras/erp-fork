@@ -62,13 +62,18 @@ if(Sale.controller.filter){
 			customer_name: event.target.elements.namedItem("customer_name").value,
 			customer_cnpj: event.target.elements.namedItem("customer_cnpj").value,
 			periodStart: event.target.elements.namedItem("periodStart").value,
-			periodEnd: event.target.elements.namedItem("periodEnd").value
+			periodEnd: event.target.elements.namedItem("periodEnd").value,
+			status: event.target.elements.namedItem("status").value
 		};
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let sales = await Sale.filter(sale);
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
 		
-		console.log(sales);
+		Sale.view.filter(sales);
 	});
+};
+
+Sale.controller.show = async sale_id => {
+	let sale = await Sale.findById(sale_id);
 };

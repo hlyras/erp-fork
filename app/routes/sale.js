@@ -5,7 +5,9 @@ const homeController = require('../controller/home');
 
 //API ROUTES
 router.get('/', saleController.index);
-router.get('/dashboard', saleController.dashboard);
+router.get('/manage', saleController.manage);
+
+router.get('/id/:id', saleController.findById);
 
 router.post('/save', saleController.save);
 router.post('/filter', saleController.filter);

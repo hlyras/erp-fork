@@ -393,7 +393,6 @@ const productController = {
 					};
 				};
 
-
 				res.send({ feedstocks: product.feedstocks });
 			} catch (err) {
 				console.log(err);

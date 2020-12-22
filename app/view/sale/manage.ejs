@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <% include ./../partials/head %>
+    </head>
+    <body>
+        <% include ./../partials/header %>
+        <% include ./../partials/nav %>
+        <section>
+            <div class="container">
+                <form id="sale-filter-form" class="box one container ground padding-10 margin-top-10">
+                    <input type="text" name="customer_name" placeholder="Nome" class="box two-sevenths input-generic center" autocomplete="off">
+                    <input type="text" name="customer_cnpj" placeholder="CNPJ" class="box seven input-generic center" autocomplete="off">
+                    <input type="date" name="periodStart" class="box seven input-generic center" autocomplete="off">
+                    <input type="date" name="periodEnd" class="box seven input-generic center" autocomplete="off">
+                    <select id="status" class="box seven input-generic margin-top-5 hide-disabled">
+                        <option value="">Status da venda</option>
+                        <option value="Em negociação">Em negociação</option>
+                        <option value="Ag. pagamento">Ag. pagamento</option>
+                        <option value="Ag. emissão NF">Ag. emissão NF</option>
+                        <option value="Ag. despacho">Ag. despacho</option>
+                    </select>
+                    <input type="submit" name="submit" class="box seven submit-generic box-hover center bold" value="Filtrar">
+                </form>
+                <div id="sale-filter-box" class="box one ground">
+                    <table id="sale-filter-table" class="box one tbl-info"></table>
+                </div>
+                <div id="sale-show-box" class="box one ground">
+                    <table id="sale-show-table" class="box one tbl-info"></table>
+                </div>
+            </div>
+        </section>
+        <% include ./../partials/loader %>
+    </body>
+    <footer>
+        <% include ./../partials/footer %>
+        <% include ./partial %>
+    </footer>
+</html>
