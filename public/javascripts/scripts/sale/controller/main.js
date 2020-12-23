@@ -70,10 +70,15 @@ if(Sale.controller.filter){
 		let sales = await Sale.filter(sale);
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
 		
-		Sale.view.filter(sales);
+		const pagination = { pageSize: 10, page: 0};
+		$(() => { lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, pagination); });
 	});
 };
 
 Sale.controller.show = async sale_id => {
+	document.getElementById('ajax-loader').style.visibility = 'visible';
 	let sale = await Sale.findById(sale_id);
+	document.getElementById('ajax-loader').style.visibility = 'hidden';
+
+	Sale.view.show(sale);
 };
