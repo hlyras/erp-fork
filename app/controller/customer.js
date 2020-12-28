@@ -20,13 +20,15 @@ const customerController = {
 			brand: req.body.brand,
 			cnpj: req.body.cnpj,
 			ie: req.body.ie,
+			social_media: req.body.social_media,
 			email: req.body.email,
 			phone: req.body.phone,
 			cellphone: req.body.cellphone
 		};
 
+		console.log(customer);
+
 		if(!customer.name && !customer.trademark && !customer.brand){ return res.send({ msg: "É necessário identificar o cliente" }); };
-		if(customer.trademark.length > 100){ return res.send({ msg: "Razão social inválida." }); };
 		if(customer.trademark.length > 100){ return res.send({ msg: "Razão social inválida." }); };
 		if(customer.brand.length > 100){ return res.send({ msg: "Nome Fantasia inválido." }); };
 		if(!customer.cnpj || customer.cnpj.length < 11 || customer.cnpj.length > 14){ return res.send({ msg: "CNPJ inválido." }) };

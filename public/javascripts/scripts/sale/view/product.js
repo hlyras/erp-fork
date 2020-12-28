@@ -6,5 +6,5 @@ Sale.view.product.fillInput = (products) => {
 	for(i in products){
 		html += "<option value='"+products[i].id+"'>"+products[i].code+" | "+products[i].name+" | "+products[i].color+" | "+products[i].size+"</option>";
 	};
-	document.getElementById("sale-product-kart-form").elements.namedItem("product").innerHTML = html;
+	document.getElementById("sale-kart-product-form").elements.namedItem("product").innerHTML = html;
 };

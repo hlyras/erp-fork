@@ -3,13 +3,13 @@ Sale.controller.kart = {};
 
 Sale.controller.kart.product = {};
 
-Sale.controller.kart.product.add = document.getElementById("sale-product-kart-form");
+Sale.controller.kart.product.add = document.getElementById("sale-kart-product-form");
 if(Sale.controller.kart.product.add){
 	Sale.controller.kart.product.add.addEventListener("submit", async (event) => {
 		event.preventDefault();
 
-		var product_id = document.getElementById("sale-product-kart-form").elements.namedItem('product');
-		var amount = document.getElementById("sale-product-kart-form").elements.namedItem('amount').value;
+		var product_id = document.getElementById("sale-kart-product-form").elements.namedItem('product');
+		var amount = document.getElementById("sale-kart-product-form").elements.namedItem('amount').value;
 
 		if(product_id.value < 1 || !product_id.value){
 			alert("É necessário selecionar um produto.");
@@ -48,7 +48,7 @@ if(Sale.controller.kart.product.add){
 		lib.localStorage.update("sale-kart", stringified_kart);
 		Sale.product.view.kart.list(Sale.kart);
 
-		document.getElementById("sale-product-kart-form").elements.namedItem('amount').value = "";
+		document.getElementById("sale-kart-product-form").elements.namedItem('amount').value = "";
 	});
 };
 
@@ -113,16 +113,10 @@ Sale.controller.kart.product.updateAmount = async (product_id, amount) => {
 	};
 };
 
-let Kart = {
-	saveMollePack: (pack) => {
-		
-	}
-};
-
 Sale.controller.kart.product.includeMolleKit = (pack) => {
 	let kit = [];
 	if(pack == "PC8PT"){
-		kit = [{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":2,"price":0},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1,"price":0},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1,"price":0},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1,"price":0}];
+		kit = [{"id":"8","code":"11","name":"Colete Mod. Plate Carrier","color":"pt","size":"ST","amount":1,"price":0},{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":2,"price":0},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1,"price":0},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1,"price":0},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1,"price":0}];
 	};
 	if(pack == "PC8VD"){
 		kit = [{"id":"26","code":"501","name":"Porta Camelback Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"27","code":"502","name":"Bolsa Pequena Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"28","code":"503","name":"Bolsa M Modular","color":"pt","size":"ST","amount":1,"price":0},{"id":"32","code":"507","name":"Porta Carregador Fuzil Elástic","color":"pt","size":"ST","amount":2,"price":0},{"id":"33","code":"508","name":"Porta Carregador Pistola Duplo","color":"pt","size":"ST","amount":1,"price":0},{"id":"36","code":"511","name":"Coldre Modular Universal D","color":"pt","size":"ST","amount":1,"price":0},{"id":"38","code":"513","name":"Porta Rádio/HT","color":"pt","size":"ST","amount":1,"price":0}];
@@ -216,8 +210,3 @@ if(lib.localStorage.verify("sale-kart")){
 	Sale.kart = kart;
 	Sale.product.view.kart.list(Sale.kart);
 };
-
-// Sale.controller.localStorage.date.verify("sale-date");
-// Sale.controller.localStorage.customer.verify("sale-date");
-// Sale.controller.kart.product.localStorage.verify("sale-kart");
-// Sale.controller.kart.product.localStorage.verify("sale-kart");

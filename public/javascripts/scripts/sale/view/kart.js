@@ -27,9 +27,9 @@ Sale.product.view.kart = {
 				html += "<td><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Sale.controller.kart.product.remove("+products[i].id+")'></td>";
 				html += "</tr>";
 			};
-			document.getElementById("sale-product-kart-table").innerHTML = html;
+			document.getElementById("sale-kart-product-table").innerHTML = html;
 		} else {
-			document.getElementById("sale-product-kart-table").innerHTML = "";
+			document.getElementById("sale-kart-product-table").innerHTML = "";
 		};
 	}
 };

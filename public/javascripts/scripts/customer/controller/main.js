@@ -7,14 +7,19 @@ if(Customer.controller.create){
 
 		let customer = {
 			id: event.target.elements.namedItem("id").value,
+			type: event.target.elements.namedItem("type").value,
 			name: event.target.elements.namedItem("name").value,
+			
+			cpf: event.target.elements.namedItem("cpf").value,
 			trademark: event.target.elements.namedItem("trademark").value,
 			brand: event.target.elements.namedItem("brand").value,
 			cnpj: event.target.elements.namedItem("cnpj").value,
 			ie: event.target.elements.namedItem("ie").value,
+			
 			email: event.target.elements.namedItem("email").value,
 			phone: event.target.elements.namedItem("phone").value,
-			cellphone: event.target.elements.namedItem("cellphone").value
+			cellphone: event.target.elements.namedItem("cellphone").value,
+			social_media: event.target.elements.namedItem("social-media").value
 		};
 
 		customer = await Customer.save(customer);
@@ -25,10 +30,12 @@ if(Customer.controller.create){
 		event.target.elements.namedItem("trademark").value = "";
 		event.target.elements.namedItem("brand").value = "";
 		event.target.elements.namedItem("cnpj").value = "";
+		event.target.elements.namedItem("cpf").value = "";
 		event.target.elements.namedItem("ie").value = "";
 		event.target.elements.namedItem("email").value = "";
 		event.target.elements.namedItem("phone").value = "";
 		event.target.elements.namedItem("cellphone").value = "";
+		event.target.elements.namedItem("social-media").value = "";
 
 		Customer.controller.filter.submit.click();
 	});

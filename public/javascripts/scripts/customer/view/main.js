@@ -28,15 +28,16 @@ Customer.view.filter = (customers, pagination) => {
 
 Customer.view.show = (customer, box) => {
 	let html = "";
-	html += "<h4 class='box one center padding-5'>Dados do cliente</h4>";
-	html += "<h5 class='box four padding-5'>Nome: "+customer.name+"</h5>";
-	html += "<h5 class='box four padding-5'>Razão Social: "+customer.trademark+"</h5>";
-	html += "<h5 class='box four padding-5'>Nome Fantasia: "+customer.brand+"</h5>";
-	html += "<h5 class='box four padding-5'>CNPJ: "+customer.cnpj+"</h5>";
-	html += "<h5 class='box four padding-5'>Inscrição estadual: "+customer.ie+"</h5>";
-	html += "<h5 class='box four padding-5'>E-mail: "+customer.email+"</h5>";
-	html += "<h5 class='box four padding-5'>Telefone: "+customer.phone+"</h5>";
-	html += "<h5 class='box four padding-5'>Celular: "+customer.cellphone+"</h5>";
+	html += "<h4 class='box one center padding-5'>"+customer.name+"</h4>";
+	html += "<h5 class='box three padding-5'>Id: "+customer.id+"</h5>";
+	html += "<h5 class='box three padding-5'>Razão Social: "+customer.trademark+"</h5>";
+	html += "<h5 class='box three padding-5'>Nome Fantasia: "+customer.brand+"</h5>";
+	html += "<h5 class='box three padding-5'>CNPJ: "+customer.cnpj+"</h5>";
+	html += "<h5 class='box three padding-5'>Inscrição estadual: "+customer.ie+"</h5>";
+	html += "<h5 class='box three padding-5'>Rede Social: "+customer.social_media+"</h5>";
+	html += "<h5 class='box three padding-5'>E-mail: "+customer.email+"</h5>";
+	html += "<h5 class='box three padding-5'>Telefone: "+customer.phone+"</h5>";
+	html += "<h5 class='box three padding-5'>Celular: "+customer.cellphone+"</h5>";
 
 	document.getElementById(box).innerHTML = html;
 };

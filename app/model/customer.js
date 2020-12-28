@@ -12,12 +12,13 @@ const Customer = function(){
 };
 
 Customer.save = (user) => {
-	let query = "INSERT INTO cms_wt_erp.customer (name, trademark, brand, cnpj, ie, email, phone, cellphone, password) values ('"
+	let query = "INSERT INTO cms_wt_erp.customer (name, trademark, brand, cnpj, ie, social_media, email, phone, cellphone, password) values ('"
         +user.name+"', '"
         +user.trademark+"', '"
         +user.brand+"', '"
         +user.cnpj+"', '"
         +user.ie+"', '"
+        +user.social_media+"', '"
         +user.email+"', '"
         +user.phone+"', '"
         +user.cellphone+"', '"
@@ -32,6 +33,7 @@ Customer.update = async (customer) => {
 		+"', brand='"+customer.brand
 		+"', cnpj='"+customer.cnpj
 		+"', ie='"+customer.ie
+		+"', social_media='"+customer.social_media
 		+"', email='"+customer.email
 		+"', phone='"+customer.phone
 		+"', cellphone='"+customer.cellphone
