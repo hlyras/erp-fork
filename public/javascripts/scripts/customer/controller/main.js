@@ -7,7 +7,7 @@ if(Customer.controller.create){
 
 		let customer = {
 			id: event.target.elements.namedItem("id").value,
-			type: event.target.elements.namedItem("type").value,
+			person_type: event.target.elements.namedItem("person-type").value,
 			name: event.target.elements.namedItem("name").value,
 			
 			cpf: event.target.elements.namedItem("cpf").value,
@@ -27,10 +27,10 @@ if(Customer.controller.create){
 
 		event.target.elements.namedItem("id").value = "";
 		event.target.elements.namedItem("name").value = "";
+		event.target.elements.namedItem("cpf").value = "";
 		event.target.elements.namedItem("trademark").value = "";
 		event.target.elements.namedItem("brand").value = "";
 		event.target.elements.namedItem("cnpj").value = "";
-		event.target.elements.namedItem("cpf").value = "";
 		event.target.elements.namedItem("ie").value = "";
 		event.target.elements.namedItem("email").value = "";
 		event.target.elements.namedItem("phone").value = "";
@@ -39,6 +39,18 @@ if(Customer.controller.create){
 
 		Customer.controller.filter.submit.click();
 	});
+};
+
+Customer.controller.form = {
+	switchPersonType: (input) => {
+		if(input.value == "legal-entity"){
+	        document.getElementById("legal-entity-form").style.display = "";
+	        document.getElementById("customer-create-form").elements.namedItem("person-type").value = "legal-entity";
+	    } else if(input.value == "natural-person"){
+	        document.getElementById("legal-entity-form").style.display = "none";
+	        document.getElementById("customer-create-form").elements.namedItem("person-type").value = "natural-person";
+	    };
+	}
 };
 
 Customer.controller.filter = document.getElementById("customer-filter-form");

@@ -11,18 +11,20 @@ const Customer = function(){
 	this.access = 'ctm'
 };
 
-Customer.save = (user) => {
-	let query = "INSERT INTO cms_wt_erp.customer (name, trademark, brand, cnpj, ie, social_media, email, phone, cellphone, password) values ('"
-        +user.name+"', '"
-        +user.trademark+"', '"
-        +user.brand+"', '"
-        +user.cnpj+"', '"
-        +user.ie+"', '"
-        +user.social_media+"', '"
-        +user.email+"', '"
-        +user.phone+"', '"
-        +user.cellphone+"', '"
-        +user.password+"')";
+Customer.save = (customer) => {
+	let query = "INSERT INTO cms_wt_erp.customer (person_type, name, cpf, trademark, brand, cnpj, ie, social_media, email, phone, cellphone, password) values ('"
+        +customer.person_type+"', '"
+        +customer.name+"', '"
+        +customer.cpf+"', '"
+        +customer.trademark+"', '"
+        +customer.brand+"', '"
+        +customer.cnpj+"', '"
+        +customer.ie+"', '"
+        +customer.social_media+"', '"
+        +customer.email+"', '"
+        +customer.phone+"', '"
+        +customer.cellphone+"', '"
+        +customer.password+"')";
     return db(query);
 };
 

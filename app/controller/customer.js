@@ -15,10 +15,12 @@ const customerController = {
 
 		let customer = {
 			id: req.body.id,
+			person_type: req.body.person_type,
 			name: req.body.name,
+			cpf: parseInt(req.body.cpf),
 			trademark: req.body.trademark,
 			brand: req.body.brand,
-			cnpj: req.body.cnpj,
+			cnpj: parseInt(req.body.cnpj),
 			ie: req.body.ie,
 			social_media: req.body.social_media,
 			email: req.body.email,
@@ -28,10 +30,12 @@ const customerController = {
 
 		console.log(customer);
 
+		if(customer.person_type != "legal-entity" && customer.person_type != "natural-person"){ return res.send({ msg: "A pessoa do cliente é inválida, favor recarregar a página, caso o problema persista favor contatar o suporte." }); };
 		if(!customer.name && !customer.trademark && !customer.brand){ return res.send({ msg: "É necessário identificar o cliente" }); };
+		if(!customer.cpf || customer.cpf.length != 11 || isNaN(customer.cpf)){ return res.send({ msg: "CPF inválido." }) };
 		if(customer.trademark.length > 100){ return res.send({ msg: "Razão social inválida." }); };
 		if(customer.brand.length > 100){ return res.send({ msg: "Nome Fantasia inválido." }); };
-		if(!customer.cnpj || customer.cnpj.length < 11 || customer.cnpj.length > 14){ return res.send({ msg: "CNPJ inválido." }) };
+		if(!customer.cnpj || customer.cnpj.length < 14 || isNaN(customer.cnpj)){ return res.send({ msg: "CNPJ inválido." }) };
 		if(customer.ie.length > 100){ return res.send({ msg: "Inscrição Estadual inválida." }); };
 		if(customer.email.length > 100){ return res.send({ msg: "E-mail inválido." }); };
 		if(customer.phone.length > 13){ return res.send({ msg: "Telefone inválido." }); };
