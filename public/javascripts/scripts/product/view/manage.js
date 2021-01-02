@@ -51,9 +51,9 @@ Product.view.manage = {
 	menu: (product) => {
 		let html = "";
 		html += "<h4 class='underline'>MENU PRINCIPAL</h4>";
-		html += "<button class='btn-generic-medium' onclick='Product.controller.image.add("+product.id+")'>Adicionar Imagem</button>";
-		html += "<button class='btn-generic-medium' onclick='Product.controller.feedstock.form.display("+product.id+");lib.displayDiv(`product-feedstock-add-box`, this, `Adicionar Matéria-Prima`, `Esconder Formulário`);'>Adicionar Matéria-Prima</button>";
-		html += "<button class='btn-generic-medium' onclick='Product.controller.feedstock.list("+product.id+");lib.displayDiv(`product-feedstock-box`, this, `Listar Matérias-Primas`, `Esconder Lista`);'>Listar Matérias-Primas</button>";
+		html += "<button class='mobile-box three submit-generic box-hover center margin-top-5' onclick='Product.controller.image.add("+product.id+")'>Adicionar Imagem</button>";
+		html += "<button class='mobile-box three submit-generic box-hover center margin-top-5' onclick='Product.controller.feedstock.form.display("+product.id+");lib.displayDiv(`product-feedstock-add-box`, this, `Adicionar Matéria-Prima`, `Esconder Formulário`);'>Adicionar Matéria-Prima</button>";
+		html += "<button class='mobile-box three submit-generic box-hover center margin-top-5' onclick='Product.controller.feedstock.list("+product.id+");lib.displayDiv(`product-feedstock-box`, this, `Listar Matérias-Primas`, `Esconder Lista`);'>Listar Matérias-Primas</button>";
 
 		document.getElementById("product-manage-menu-div").innerHTML = html;
 	},

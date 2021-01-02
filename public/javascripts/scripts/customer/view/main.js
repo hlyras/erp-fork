@@ -99,9 +99,5 @@ Customer.view.show = (customer, box) => {
 		html += "</div>";
 	};
 
-
-
-
-
 	document.getElementById(box).innerHTML = html;
 };

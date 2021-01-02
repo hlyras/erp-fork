@@ -9,8 +9,7 @@ const homeController = {
 			const productColors = await Product.colorList();
 			return res.render('home', { user: req.user, productColors: productColors });
 		};
-		const productColors = await Product.colorList();
-		res.render('index', { productColors: productColors });
+		res.render('login', { message: req.flash('loginMessage') });
 	},
 	login: (req, res) => {
 		if(req.user){

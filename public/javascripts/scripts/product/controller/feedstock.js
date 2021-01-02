@@ -23,7 +23,7 @@ if(Product.controller.feedstock.add){
 
 		if(!await Product.feedstock.add(product_feedstock)){ return false };
 
-		document.getElementById("product-feedstock-box").style.display = "block";
+		document.getElementById("product-feedstock-box").style.display = "";
 		if(!await Product.controller.feedstock.list(product_feedstock.product_id)){ return false };
 
 		document.getElementById("product-feedstock-add-form").elements.namedItem('id').value = "";
@@ -91,7 +91,7 @@ Product.controller.feedstock.edit = async (product_feedstock_id, feedstock_code,
 	let product_feedstock = await Product.feedstock.findById(product_feedstock_id);
 	await Product.controller.feedstock.form.display(product_feedstock.product_id);
 
-	document.getElementById("product-feedstock-add-box").style.display = "block";
+	document.getElementById("product-feedstock-add-box").style.display = "";
 
 	document.getElementById("product-feedstock-add-form").elements.namedItem("id").value = product_feedstock_id;
 	document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").innerHTML = "<option value="+product_feedstock.id+">"+feedstock_code+" | "+feedstock_name+" | "+feedstock_color+" | "+product_feedstock.uom+"</option>";
@@ -176,11 +176,14 @@ if(Product.controller.feedstock.category.create){
 			category_name: document.getElementById("product-feedstock-category-create-form").elements.namedItem("category_name").value
 		};
 
-		if(!await Product.feedstock.category.save(category)){ return false };
+		// if(!await Product.feedstock.category.save(category)){ return false };
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		category = await Product.feedstock.category.save(category);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!category){ return false; };
 
 		await Product.controller.feedstock.form.display(category.product_id);
 		
 		document.getElementById("product-feedstock-category-create-form").elements.namedItem("category_name").value = "";
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
 	});
 };
