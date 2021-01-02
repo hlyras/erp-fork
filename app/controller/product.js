@@ -424,8 +424,6 @@ const productController = {
 					name: req.body.category_name
 				};
 
-				console.log(category);
-
 				if(!category.product_id){
 					return res.send({ msg: "Produto inválido!" });
 				};
