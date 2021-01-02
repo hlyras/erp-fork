@@ -6,26 +6,28 @@
         <header>
             <div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
         </header>
+
+        <style type="text/css">
+            .alert-msgg {
+
+            }
+        </style>
         
-        <section>
-            <div class="container">
-                <div class="box one ground padding-10 center">
-                    <% if (message.length > 0) { %>
-                        <div class="alert-msg"><%= message %></div>
-                    <% } %>
-                    <form action="/user/login" method="post">
-                        <div class="menu-box">
-                            <h1 class="title-soft">Faça seu login</h1>
-                            <span class="underline"></span>
-                            <p>E-mail</p>
-                            <input type="email" class="btn-generic-menu-big" name="email" autocomplete="off">
-                            <p>Senha</p>
-                            <input type="password" class="btn-generic-menu-big" name="password" autocomplete="off">
-                            <button type="submit" class="btn-generic-menu-big">Login</button>
-                        </div>
-                    </form>
+        <section class="container ground">
+            <% if (message.length > 0) { %>
+                <div class="box one container alert-msg margin-top-10">
+                    <div class="box one center bold"><%= message %></div>
                 </div>
-            </div>
+            <% } %>
+            <div class="box three"></div>
+            <form action="/user/login" method="post" class="box three ground container padding-10 center">
+                <h3 class="underline center">Faça seu login</h3>
+                <p class="box one margin-top-10 bold">E-mail</p>
+                <input type="email" class="box one input-generic" name="email" autocomplete="off">
+                <p class="box one margin-top-10 bold">Senha</p>
+                <input type="password" class="box one input-generic" name="password" autocomplete="off">
+                <button type="submit" class="box one submit-generic box-hover margin-top-10 bold">Login</button>
+            </form>
         </section>
     </body>
     <footer>
