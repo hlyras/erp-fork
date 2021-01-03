@@ -49,19 +49,6 @@
                 </div>
                 <div class="box one container center ground padding-10 margin-top-10">
                     <div class="box two container ground center padding-10 margin-top-5">
-                        <!-- <h5 class="underline">Buscar Produtos</h5>
-                        <form id="product-filter-form" class="box one container">
-                            <input type="hidden" name="location" value="product-manage" autocomplete="off">
-                            <input type="number" name="code" class="box six center input-generic margin-top-5" placeholder="Cód" autocomplete="off">
-                            <input type="text" name="name" class="box two center input-generic margin-top-5" placeholder="Nome" autocomplete="off">
-                            <select name="color" class="box six center input-generic margin-top-5" autocomplete="off">
-                                <option value="">Cor</option>
-                                <% for(i in productColors){ %>
-                                    <option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
-                                <% } %>
-                            </select>
-                            <input type="submit" name="submit" class="box six submit-generic center margin-top-5 bold" value="Filtrar">
-                        </form> -->
                         <h5 class="underline margin-top-15">Incluir produto no carrinho</h5>
                         <form id="sale-kart-product-form" class="box one container">
                             <div class="box two-thirds container dropdown ground margin-top-5">
@@ -74,8 +61,7 @@
                                 </ul>
                             </div>
                             <input type="number" name="amount" class="box six input-generic center margin-top-5" placeholder="Qtd">
-                            <button type="submit" name="submit" class="box two submit-generic center margin-top-5 pointer"><img class='img-tbl-btn' src="images/icon/increase.png"></button>
-                            <!-- <input type="submit" name="submit" class="box four submit-generic center margin-top-5 bold" > -->
+                            <button type="submit" name="submit" class="box six submit-generic center margin-top-5 pointer"><img class='img-tbl-btn' src="images/icon/increase.png"></button>
                         </form>
                         <table id="sale-kart-product-table" class="tbl-info box one center ground padding-10 margin-top-10"></table>
                     </div>
