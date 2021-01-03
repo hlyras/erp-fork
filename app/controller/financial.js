@@ -354,7 +354,7 @@ const financialController = {
 			res.send({ done: 'Saída excluída com sucesso!' });
 		} catch (err) {
 			console.log(err);
-			res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
+			res.send({ msg: "Ocorreu um erro ao excluir a saída, favor entrar em contato com o suporte." });
 		};
 	},
 	outcomeCategorySave: async (req, res) => {
