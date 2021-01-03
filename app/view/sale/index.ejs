@@ -64,14 +64,18 @@
                         </form> -->
                         <h5 class="underline margin-top-15">Incluir produto no carrinho</h5>
                         <form id="sale-kart-product-form" class="box one container">
-                            <!-- <select name="product" class="box two input-generic center margin-top-5"><option value=''>Selecionar produto</option></select> -->
-                            <div class="box three container dropdown ground">
+                            <div class="box two-thirds container dropdown ground margin-top-5">
                                 <ul class="box one container">
-                                    <li id="sale-product-kart-dropdown"><input type="text" id="sale-product-kart-input" name="product" class="box one dropdown-input center" oninput="Product.controller.filter.input(this)" placeholder="Cliente" autocomplete="off"></li>
+                                    <li>
+                                        <input type="hidden" name="product_id">
+                                        <input type="text" name="product" data-id="" class="box one input-generic center" oninput="Product.controller.filter.input(this)" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                        <ul id="sale-product-kart-dropdown" class="box one"></ul>
+                                    </li>
                                 </ul>
                             </div>
-                            <input type="number" name="amount" class="box four input-generic center margin-top-5" placeholder="Qtd">
-                            <input type="submit" name="submit" class="box four submit-generic center margin-top-5 bold" value="Adicionar">
+                            <input type="number" name="amount" class="box six input-generic center margin-top-5" placeholder="Qtd">
+                            <button type="submit" name="submit" class="box six submit-generic center margin-top-5 pointer"><img class='img-tbl-btn' src="images/icon/increase.png"></button>
+                            <!-- <input type="submit" name="submit" class="box four submit-generic center margin-top-5 bold" > -->
                         </form>
                         <table id="sale-kart-product-table" class="tbl-info box one center ground padding-10 margin-top-10"></table>
                     </div>

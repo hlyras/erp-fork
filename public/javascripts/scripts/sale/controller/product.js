@@ -18,14 +18,19 @@ Product.controller.filter = {
 		};
 
 		if(product.name.length > 2){
-			document.getElementById("ajax-loader").style.visibility = "visible";
 			let products = await Product.filter(product);
-			document.getElementById("ajax-loader").style.visibility = "hidden";
 			if(!products){ return false; };
 
-			Sale.view.product.filter.input(products, input.value, input.id, "sale-product-kart-dropdown");
-
-			document.getElementById(input.id).focus();
+			Sale.view.product.filter.input(products, input.value, input.name, "sale-product-kart-dropdown");
+		} else {
+			Sale.view.product.filter.input([], input.value, input.name, "sale-product-kart-dropdown");
 		};
+	},
+	inputFill: (input) => {
+		document.getElementById("sale-kart-product-form").elements.namedItem("product").dataset.id = input.dataset.id;
+		document.getElementById("sale-kart-product-form").elements.namedItem("product").value = input.value;
+		document.getElementById("sale-kart-product-form").elements.namedItem("product").readOnly = true;
+
+		document.getElementById("sale-product-kart-dropdown").innerHTML = "";
 	}
 };

@@ -8,10 +8,15 @@ if(Sale.controller.kart.product.add){
 	Sale.controller.kart.product.add.addEventListener("submit", async (event) => {
 		event.preventDefault();
 
-		var product_id = document.getElementById("sale-kart-product-form").elements.namedItem('product');
-		var amount = document.getElementById("sale-kart-product-form").elements.namedItem('amount').value;
+		if(!document.getElementById("sale-kart-product-form").elements.namedItem("product").readOnly){ 
+			return alert("Produto inválido");
+		};
 
-		if(product_id.value < 1 || !product_id.value){
+		let product = document.getElementById("sale-kart-product-form").elements.namedItem("product");
+		let splitedProduct = product.value.split(" | ");
+		let amount = document.getElementById("sale-kart-product-form").elements.namedItem("amount").value;
+
+		if(splitedProduct.length < 3 || !splitedProduct){
 			alert("É necessário selecionar um produto.");
 			return;
 		};
@@ -21,11 +26,8 @@ if(Sale.controller.kart.product.add){
 			return;
 		};
 
-		var row = product_id.options[product_id.selectedIndex].text;
-		splitedProduct = row.split(" | ");
-
 		product = {
-			id: product_id.value,
+			id: product.dataset.id,
 			code: splitedProduct[0],
 			name: splitedProduct[1],
 			color: splitedProduct[2],
@@ -46,8 +48,11 @@ if(Sale.controller.kart.product.add){
 
 		let stringified_kart = JSON.stringify(Sale.kart);
 		lib.localStorage.update("sale-kart", stringified_kart);
+		
 		Sale.product.view.kart.list(Sale.kart);
 
+		document.getElementById("sale-kart-product-form").elements.namedItem('product').value = "";
+		document.getElementById("sale-kart-product-form").elements.namedItem('product').dataset.id = "";
 		document.getElementById("sale-kart-product-form").elements.namedItem('amount').value = "";
 	});
 };
