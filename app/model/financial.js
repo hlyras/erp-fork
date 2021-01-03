@@ -111,6 +111,11 @@ Financial.outcomeFilter = async (periodStart, periodEnd, params, values) => {
 	return db(query);
 };
 
+Financial.outcomeDelete = async (id) => {
+	let query = "DELETE FROM cms_wt_erp.financial_outcome WHERE id='"+id+"';";
+	return db(query);
+};
+
 Financial.outcomeSum = async (periodStart, periodEnd, params, values) => {
 	let query = lib.sumByPeriod(periodStart, periodEnd, 'value', params, values, "cms_wt_erp", "financial_outcome", "id", "DESC");
 	return db(query);

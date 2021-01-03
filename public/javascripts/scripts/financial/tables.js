@@ -83,6 +83,8 @@ function renderOutcomeTable(outcomes, pageSize, page){
 		html += "<td>"+outcomes[i].origin_name+"</td>";
 		html += "<td class='nowrap'>"+outcomes[i].value+"</td>";
 		html += "<td>"+outcomes[i].user_name+"</td>";
+		html += "<td><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='removeOutcome("+outcomes[i].id+")'></td>";
+		// html += "<td>"+outcomes[i].id+"</td>";
 		html += "</tr>";
 	};
 	document.getElementById('financial-outcome-report-tbl').innerHTML = html;

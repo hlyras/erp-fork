@@ -494,3 +494,30 @@ function removeOutcomeOrigin(id){
 		});
 	};
 };
+
+// let modelOutcomeRemove = async (id) => {
+// 	console.log(id);
+// };
+
+let modelOutcomeRemove = async (id) => {
+	let response = await fetch("/financial/outcome/delete?id="+id, { method: 'DELETE' });
+	response = await response.json();
+
+	if(API.verifyResponse(response)){ return false; };
+	
+	alert(response.done);
+	
+	return true;
+};
+
+let removeOutcome = async (id) => {
+	let r = confirm('Deseja realmente excluir a saída?');
+	if(r){
+		
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		await modelOutcomeRemove(id);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+
+		$("#financial-outcome-report-form").submit();
+	};
+};

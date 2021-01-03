@@ -344,6 +344,19 @@ const financialController = {
 				res.send({ msg: "Ocorreu um erro ao filtrar as receitas, favor contatar o suporte" });
 			});
 	},
+	outcomeDelete: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		try {
+			await Financial.outcomeDelete(req.query.id);
+			res.send({ done: 'Saída excluída com sucesso!' });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
+		};
+	},
 	outcomeCategorySave: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
