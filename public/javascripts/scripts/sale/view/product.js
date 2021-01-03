@@ -15,7 +15,7 @@ Sale.view.product.filter = {
 		html += "<input type='text' id='"+input+"' class='box one dropdown-input center' oninput='Product.controller.filter.input(this)' value='"+input_value+"' onfocus='this.value=`"+null+"`; this.value=`"+input_value+"`' autocomplete='off'>";
 		html += "<ul class='box one container'>";
 		for(i in products){
-			html += "<li><input type='button' class='box one dropdown-input' value='"+products[i].name+" | "+products[i].color+" | "+products[i].size+"'></li>";
+			html += "<li><input type='button' class='box one dropdown-input' id='sale-product-kart-id-"+products[i].id+"' value='"+products[i].code+" | "+products[i].name+" | "+products[i].color+" | "+products[i].size+"'></li>";
 		};
 		html += "</ul>";
 

@@ -7,12 +7,6 @@
         <% include ./../partials/nav %>
         <section>
             <div class="container">
-                <div class="box three container dropdown ground padding-10 margin-top-10">
-                    <ul class="box one container">
-                        <li id="sale-product-kart-dropdown"><input type="text" id="sale-product-kart-input" class="box one dropdown-input center" oninput="Product.controller.filter.input(this)" placeholder="Cliente" autocomplete="off"></li>
-                    </ul>
-                </div>
-
                 <input type="text" id="sale-id" value="" hidden>
                 <div class="box one ground container margin-top-10">
                     <div class="box three ground center padding-10 margin-top-15">
@@ -55,7 +49,7 @@
                 </div>
                 <div class="box one container center ground padding-10 margin-top-10">
                     <div class="box two container ground center padding-10 margin-top-5">
-                        <h5 class="underline">Buscar Produtos</h5>
+                        <!-- <h5 class="underline">Buscar Produtos</h5>
                         <form id="product-filter-form" class="box one container">
                             <input type="hidden" name="location" value="product-manage" autocomplete="off">
                             <input type="number" name="code" class="box six center input-generic margin-top-5" placeholder="Cód" autocomplete="off">
@@ -67,10 +61,15 @@
                                 <% } %>
                             </select>
                             <input type="submit" name="submit" class="box six submit-generic center margin-top-5 bold" value="Filtrar">
-                        </form>
+                        </form> -->
                         <h5 class="underline margin-top-15">Incluir produto no carrinho</h5>
                         <form id="sale-kart-product-form" class="box one container">
-                            <select name="product" class="box two input-generic center margin-top-5"><option value=''>Selecionar produto</option></select>
+                            <!-- <select name="product" class="box two input-generic center margin-top-5"><option value=''>Selecionar produto</option></select> -->
+                            <div class="box three container dropdown ground">
+                                <ul class="box one container">
+                                    <li id="sale-product-kart-dropdown"><input type="text" id="sale-product-kart-input" name="product" class="box one dropdown-input center" oninput="Product.controller.filter.input(this)" placeholder="Cliente" autocomplete="off"></li>
+                                </ul>
+                            </div>
                             <input type="number" name="amount" class="box four input-generic center margin-top-5" placeholder="Qtd">
                             <input type="submit" name="submit" class="box four submit-generic center margin-top-5 bold" value="Adicionar">
                         </form>

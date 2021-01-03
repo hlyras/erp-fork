@@ -17,15 +17,15 @@ Product.controller.filter = {
 			 brand: ""
 		};
 
-		if(product.name.length < 3){ return; };
+		if(product.name.length > 2){
+			document.getElementById("ajax-loader").style.visibility = "visible";
+			let products = await Product.filter(product);
+			document.getElementById("ajax-loader").style.visibility = "hidden";
+			if(!products){ return false; };
 
-		document.getElementById("ajax-loader").style.visibility = "visible";
-		let products = await Product.filter(product);
-		document.getElementById("ajax-loader").style.visibility = "hidden";
-		if(!products){ return false; };
+			Sale.view.product.filter.input(products, input.value, input.id, "sale-product-kart-dropdown");
 
-		Sale.view.product.filter.input(products, input.value, input.id, "sale-product-kart-dropdown");
-
-		document.getElementById(input.id).focus();
+			document.getElementById(input.id).focus();
+		};
 	}
 };
