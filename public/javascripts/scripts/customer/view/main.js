@@ -29,6 +29,8 @@ Customer.view.filter = (customers, pagination) => {
 Customer.view.show = (customer, box) => {
 	let html = "";
 
+	console.log(customer);
+
 	if(customer.person_type == "legal-entity"){
 		html += "<div class='box three container box-border padding-5 margin-top-5'>";
 			html += "<div class='box one underline center'>Dados do cliente</div>";
