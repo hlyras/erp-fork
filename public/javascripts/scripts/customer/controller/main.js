@@ -74,11 +74,11 @@ if(Customer.controller.filter){
 
 Customer.controller.show = async (id) => {
 	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let customer = await Customer.findById(id);
+	let customer = await Customer.show(id);
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 	document.getElementById("customer-show-box").style.display = "";
-	Customer.view.show(customer, "customer-show-box");
+	Customer.view.show(customer, "customer-show-info-box");
 };
 
 Customer.controller.edit = async (id) => {

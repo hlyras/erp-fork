@@ -32,6 +32,15 @@ Customer.findById = async (id) => {
 	return response.customer[0];
 };
 
+Customer.show = async (id) => {
+	let response = await fetch("/customer/show/id/" + id);
+	response = await response.json();
+	
+	if(API.verifyResponse(response)){ return false };
+	
+	return response.customer[0];
+};
+
 Customer.delete = async (id) => {
 	let response = await fetch("/customer/delete?id="+id, { method: 'DELETE' });
 	response = await response.json();

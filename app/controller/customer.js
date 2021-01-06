@@ -102,6 +102,21 @@ const customerController = {
 			res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
 		};
 	},
+	show: async (req, res) => {
+		// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+		// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		// };
+
+		try {
+			let customer = await Customer.findBy.id(req.params.id);
+			customer[0].adress = await Customer.adress.findBy.customer_id(req.params.id);
+
+			res.send({ customer });
+		} catch (err){
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
+		};
+	},
 	delete: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','man'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
@@ -114,6 +129,34 @@ const customerController = {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
 		};
+	},
+	adress: {
+		add: async(req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','man','COR-GER'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
+
+			let customer_adress = {
+				customer_id: req.body.customer_id,
+				postal_code: req.body.postal_code,
+				street: req.body.street,
+				complement: req.body.complement,
+				number: parseInt(req.body.number),
+				neighborhood: req.body.neighborhood,
+				city: req.body.city,
+				state: req.body.state
+			};
+
+			console.log(customer_adress);
+
+			try {
+				await Customer.adress.add(customer_adress);
+				res.send({ done: "Endereço cadastrado com sucesso!", customer_adress: customer_adress });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao cadastrar o endereço, favor contatar o suporte." });
+			};
+		}
 	}
 };
 

@@ -48,12 +48,31 @@
                 <table id="customer-filter-table" class="box one ground padding-10 margin-top-10 tbl-info"></table>
                 <% include ./../partials/carousel %>
             </div>
-            <div id="customer-show-box" class="box one container ground padding-10 margin-top-10" style="display:none"></div>
+            <div id="customer-show-box" class="box one container ground padding-10 margin-top-10" style="display:none">
+                <div id="customer-show-info-box" class="box one container ground padding-10 margin-top-10"></div>
+                <button class='box one center box-border box-hover padding-15 margin-top-10 bold' onclick='lib.displayDiv(`customer-adress-add-form`, this, `⇓ Novo Endereço ⇓`, `⇑ Esconder formulário ⇑`);'>⇓ Novo Endereço ⇓</button>
+                <form id='customer-adress-add-form' class='box one container padding-5 margin-top-5' style='display:none'>
+                    <h4 class='box one underline center'>Cadastrar endereço</h4>
+                    <input type='hidden' name="customer_id" value=''>
+                    <input type='text' name='postal_code' class='box four center input-generic margin-top-5' placeholder='CEP' onblur='if(this.value.length){lib.adress.fillForm(this.value, `customer-adress-add-form`)}' autocomplete='off'>
+                    <input type='text' name='street' class='box four center input-generic margin-top-5' placeholder='Logradouro'>
+                    <input type='text' name='number' class='box four center input-generic margin-top-5' placeholder='Número' autocomplete='off'>
+                    <input type='text' name='complement' class='box four center input-generic margin-top-5' placeholder='Complemento'>
+                    <input type='text' name='neighborhood' class='box four center input-generic margin-top-5' placeholder='Bairro'>
+                    <input type='text' name='city' class='box four center input-generic margin-top-5' placeholder='Cidade'>
+                    <input type='text' name='state' class='box four center input-generic margin-top-5' placeholder='UF'>
+                    <input type='submit' name='submit' class='box four center submit-generic margin-top-5' placeholder='UF'>
+                </form>";
+            </div>
         </section>
         <% include ./../partials/loader %>
     </body>
     <footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
+        <script src="/javascripts/scripts/customer/model/adress.js"></script>
+
+        <script src="/javascripts/scripts/customer/controller/adress.js"></script>
+        <script src="/javascripts/scripts/customer/view/adress.js"></script>
     </footer>
 </html>

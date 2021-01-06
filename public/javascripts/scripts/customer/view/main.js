@@ -29,8 +29,6 @@ Customer.view.filter = (customers, pagination) => {
 Customer.view.show = (customer, box) => {
 	let html = "";
 
-	console.log(customer);
-
 	if(customer.person_type == "legal-entity"){
 		html += "<div class='box three container box-border padding-5 margin-top-5'>";
 			html += "<div class='box one underline center'>Dados do cliente</div>";
@@ -101,5 +99,20 @@ Customer.view.show = (customer, box) => {
 		html += "</div>";
 	};
 
+	if(customer.adress.length){
+		for(i in customer.adress){
+			html += "<div class='box one container padding-5 margin-top-10 box-border'>";
+				html += "<div class='box one underline center bold'>Endereço "+(i+1)+"</div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Logradouro:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].street+"</div></div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>nº:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].number+"</div></div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Complemento:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].complement+"</div></div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Bairro:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].neighborhood+"</div></div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Cidade:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].city+"</div></div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Estado:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].state+"</div></div>";
+			html += "</div>";
+		};
+	};
+
+	document.getElementById("customer-adress-add-form").elements.namedItem("customer_id").value = customer.id;
 	document.getElementById(box).innerHTML = html;
 };
