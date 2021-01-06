@@ -101,7 +101,7 @@ Customer.view.show = (customer, box) => {
 	if(customer.adress.length){
 		for(i in customer.adress){
 			html += "<div class='box one container padding-10 margin-top-10 border-explicit'>";
-				html += "<div class='mobile-box three underline'></div>";
+				html += "<div class='mobile-box three'></div>";
 				html += "<div class='mobile-box three underline center bold'>Endereço "+(parseInt(i)+1)+"</div>";
 				html += "<div class='mobile-box three container center bold'>";
 					html += "<h5 class='mobile-box three'></h5>";
