@@ -22,6 +22,8 @@ if(Customer.controller.create){
 			social_media: event.target.elements.namedItem("social-media").value
 		};
 
+		console.log(customer);
+
 		customer = await Customer.save(customer);
 		if(!customer) { return false };
 
@@ -89,6 +91,7 @@ Customer.controller.edit = async (id) => {
 
 	Customer.controller.create.elements.namedItem("id").value = customer.id;
 	Customer.controller.create.elements.namedItem("name").value = customer.name;
+	Customer.controller.create.elements.namedItem("cpf").value = customer.cpf;
 	Customer.controller.create.elements.namedItem("trademark").value = customer.trademark;
 	Customer.controller.create.elements.namedItem("brand").value = customer.brand;
 	Customer.controller.create.elements.namedItem("cnpj").value = customer.cnpj;
@@ -96,6 +99,7 @@ Customer.controller.edit = async (id) => {
 	Customer.controller.create.elements.namedItem("email").value = customer.email;
 	Customer.controller.create.elements.namedItem("phone").value = customer.phone;
 	Customer.controller.create.elements.namedItem("cellphone").value = customer.cellphone;
+	Customer.controller.create.elements.namedItem("social-media").value = customer.social_media;
 };
 
 Customer.controller.delete = async (id) => {

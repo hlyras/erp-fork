@@ -28,9 +28,8 @@ Customer.view.filter = (customers, pagination) => {
 
 Customer.view.show = (customer, box) => {
 	let html = "";
-
 	if(customer.person_type == "legal-entity"){
-		html += "<div class='box three container box-border padding-5 margin-top-5'>";
+		html += "<div class='box three container border-explicit padding-5 margin-top-5'>";
 			html += "<div class='box one underline center'>Dados do cliente</div>";
 			html += "<div class='box one container box-border padding-5 margin-top-5'>";
 				html += "<h5 class='mobile-box six box-border center padding-5 margin-top-5'>"+customer.id+"</h5>";
@@ -40,7 +39,7 @@ Customer.view.show = (customer, box) => {
 			html += "</div>";
 		html += "</div>";
 
-		html += "<div class='box three container box-border padding-5 margin-top-5'>";
+		html += "<div class='box three container border-explicit padding-5 margin-top-5'>";
 			html += "<div class='box one underline center'>Dados da empresa</div>";
 			html += "<div class='box one container box-border padding-5 margin-top-5'>";
 				html += "<h6 class='mobile-box four center padding-5'>CNPJ: </h6>";
@@ -54,7 +53,7 @@ Customer.view.show = (customer, box) => {
 			html += "</div>";
 		html += "</div>";
 
-		html += "<div class='box three container box-border padding-5 margin-top-5'>";
+		html += "<div class='box three container border-explicit padding-5 margin-top-5'>";
 			html += "<div class='box one underline center'>Dados de contato</div>";
 			html += "<div class='box one container box-border padding-5 margin-top-5'>";
 				html += "<h6 class='mobile-box four center padding-5'>E-mail: </h6>";
@@ -65,7 +64,7 @@ Customer.view.show = (customer, box) => {
 				html += "<h4 class='mobile-box three-fourths center padding-5'>"+customer.cellphone+"</h4>";
 				if(customer.social_media){
 					html += "<h6 class='mobile-box four center padding-5'>Rede Social: </h6>";
-					html += "<h5 class='mobile-box three-fourths center padding-5'><a href='"+customer.social_media+"' target='_blank' rel='noopener noreferrer'>"+customer.social_media+"</a></h5>";
+					html += "<h5 class='mobile-box three-fourths center padding-5'><a onclick=lib.openExternalLink('"+customer.social_media+"') rel='noopener noreferrer'>"+customer.social_media+"</a></h5>";
 				};
 			html += "</div>";
 		html += "</div>";
@@ -101,8 +100,13 @@ Customer.view.show = (customer, box) => {
 
 	if(customer.adress.length){
 		for(i in customer.adress){
-			html += "<div class='box one container padding-5 margin-top-10 box-border'>";
-				html += "<div class='box one underline center bold'>Endereço "+(i+1)+"</div>";
+			html += "<div class='box one container padding-10 margin-top-10 border-explicit'>";
+				html += "<div class='box three underline'></div>";
+				html += "<div class='box three underline center bold'>Endereço "+(parseInt(i)+1)+"</div>";
+				html += "<div class='box three container center bold'>";
+					html += "<h5 class='box two center bold'>Editar</h5>";
+					html += "<h5 class='box two center bold'>Remover</h5>";
+				html += "</div>";
 				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Logradouro:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].street+"</div></div>";
 				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>nº:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].number+"</div></div>";
 				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Complemento:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].complement+"</div></div>";

@@ -17,18 +17,16 @@ const customerController = {
 			id: req.body.id,
 			person_type: req.body.person_type,
 			name: req.body.name,
-			cpf: parseInt(req.body.cpf),
+			cpf: req.body.cpf,
 			trademark: req.body.trademark,
 			brand: req.body.brand,
-			cnpj: parseInt(req.body.cnpj),
+			cnpj: req.body.cnpj,
 			ie: req.body.ie,
 			social_media: req.body.social_media,
 			email: req.body.email,
 			phone: req.body.phone,
 			cellphone: req.body.cellphone
 		};
-
-		console.log(customer);
 
 		if(customer.person_type != "legal-entity" && customer.person_type != "natural-person"){ return res.send({ msg: "A pessoa do cliente é inválida, favor recarregar a página, caso o problema persista favor contatar o suporte." }); };
 		if(!customer.name && !customer.trademark && !customer.brand){ return res.send({ msg: "É necessário identificar o cliente" }); };
@@ -132,7 +130,7 @@ const customerController = {
 	},
 	adress: {
 		add: async(req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','man','COR-GER'])){
+			if(!await userController.verifyAccess(req, res, ['adm','man'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
@@ -147,14 +145,17 @@ const customerController = {
 				state: req.body.state
 			};
 
-			console.log(customer_adress);
-
 			try {
 				await Customer.adress.add(customer_adress);
 				res.send({ done: "Endereço cadastrado com sucesso!", customer_adress: customer_adress });
 			} catch (err) {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao cadastrar o endereço, favor contatar o suporte." });
+			};
+		},
+		remove: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','man'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 		}
 	}

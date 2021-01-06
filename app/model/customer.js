@@ -31,6 +31,7 @@ Customer.save = (customer) => {
 Customer.update = async (customer) => {
 	let query = "UPDATE cms_wt_erp.customer SET id='"+customer.id
 		+"', name='"+customer.name
+		+"', cpf='"+customer.cpf
 		+"', trademark='"+customer.trademark
 		+"', brand='"+customer.brand
 		+"', cnpj='"+customer.cnpj
