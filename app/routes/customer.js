@@ -10,6 +10,8 @@ router.get('/id/:id', customerController.findById);
 router.get('/show/id/:id', customerController.show);
 router.delete('/delete', customerController.delete);
 
-router.post('/adress/add', customerController.adress.add);
+router.post('/adress/save', customerController.adress.save);
+router.get('/adress/id/:id', customerController.adress.findById);
+router.delete('/adress/delete', customerController.adress.delete);
 
 module.exports = router;

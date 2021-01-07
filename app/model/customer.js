@@ -29,8 +29,7 @@ Customer.save = (customer) => {
 };
 
 Customer.update = async (customer) => {
-	let query = "UPDATE cms_wt_erp.customer SET id='"+customer.id
-		+"', name='"+customer.name
+	let query = "UPDATE cms_wt_erp.customer SET name='"+customer.name
 		+"', cpf='"+customer.cpf
 		+"', trademark='"+customer.trademark
 		+"', brand='"+customer.brand
@@ -73,19 +72,37 @@ Customer.delete = async (id) => {
 };
 
 Customer.adress = {
-	add: async (customer_adress) => {
+	save: async (adress) => {
 		let query = "INSERT INTO cms_wt_erp.customer_adress (customer_id, postal_code, street, number, complement, neighborhood, city, state) VALUES ('"
-			+customer_adress.customer_id+"', '"
-			+customer_adress.postal_code+"', '"
-			+customer_adress.street+"', '"
-			+customer_adress.number+"', '"
-			+customer_adress.complement+"', '"
-			+customer_adress.neighborhood+"', '"
-			+customer_adress.city+"', '"
-			+customer_adress.state+"');";
+			+adress.customer_id+"', '"
+			+adress.postal_code+"', '"
+			+adress.street+"', '"
+			+adress.number+"', '"
+			+adress.complement+"', '"
+			+adress.neighborhood+"', '"
+			+adress.city+"', '"
+			+adress.state+"');";
+		return db(query);
+	},
+	update: async (adress) => {
+		let query = "UPDATE cms_wt_erp.customer_adress SET postal_code='"+adress.postal_code
+			+"', street='"+adress.street
+			+"', number='"+adress.number
+			+"', complement='"+adress.complement
+			+"', neighborhood='"+adress.neighborhood
+			+"', city='"+adress.city
+			+"', state='"+adress.state+"' WHERE id='"+adress.id+"';";
+		return db(query);
+	},
+	delete: async (id) => {
+		let query = "DELETE FROM cms_wt_erp.customer_adress WHERE id='"+id+"';";
 		return db(query);
 	},
 	findBy: {
+		id: async (id) => {
+			let query = "SELECT * FROM cms_wt_erp.customer_adress WHERE id='"+id+"';";
+			return db(query);
+		},
 		customer_id: async (id) => {
 			let query = "SELECT * FROM cms_wt_erp.customer_adress WHERE customer_id='"+id+"';";
 			return db(query);

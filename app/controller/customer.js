@@ -129,33 +129,68 @@ const customerController = {
 		};
 	},
 	adress: {
-		add: async(req, res) => {
+		save: async(req, res) => {
 			if(!await userController.verifyAccess(req, res, ['adm','man'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
 			let customer_adress = {
+				id: parseInt(req.body.id),
 				customer_id: req.body.customer_id,
 				postal_code: req.body.postal_code,
 				street: req.body.street,
-				complement: req.body.complement,
 				number: parseInt(req.body.number),
+				complement: req.body.complement,
 				neighborhood: req.body.neighborhood,
 				city: req.body.city,
 				state: req.body.state
 			};
 
+			if(!customer_adress.customer_id || isNaN(customer_adress.customer_id)){ return res.send({ msg: "Algo deu errado, recarregue a página, caso o problema persista favor contatar o suporte." }); };
+			if(!customer_adress.postal_code || customer_adress.postal_code.length != 8 || isNaN(customer_adress.postal_code)){ return res.send({ msg: "CEP inválido." }); };
+			if(!customer_adress.street){ return res.send({ msg: "Logradouro inválido." }); };
+			if(!customer_adress.number){ return res.send({ msg: "Número inválido." }); };
+			if(!customer_adress.neighborhood){ return res.send({ msg: "Bairro inválido." }); };
+			if(!customer_adress.city){ return res.send({ msg: "Cidade inválida." }); };
+			if(!customer_adress.state){ return res.send({ msg: "Estado inválido." }); };
+
 			try {
-				await Customer.adress.add(customer_adress);
-				res.send({ done: "Endereço cadastrado com sucesso!", customer_adress: customer_adress });
+				if(!customer_adress.id){
+					await Customer.adress.save(customer_adress);
+					return res.send({ done: "Endereço cadastrado com sucesso!", customer_adress: customer_adress });
+				} else {
+					await Customer.adress.update(customer_adress);
+					return res.send({ done: "Endereço atualizado com sucesso!", customer_adress: customer_adress });
+				};
 			} catch (err) {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao cadastrar o endereço, favor contatar o suporte." });
 			};
 		},
-		remove: async (req, res) => {
+		findById: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
+
+			try {
+				let customer_adress = await Customer.adress.findBy.id(req.params.id);
+				res.send({ customer_adress });
+			} catch (err){
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
+			};
+		},
+		delete: async (req, res) => {
 			if(!await userController.verifyAccess(req, res, ['adm','man'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
+
+			try {
+				await Customer.adress.delete(req.query.id);
+				res.send({ done: 'Endereço excluído com sucesso!' });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao remover o endereço, favor entrar em contato com o suporte." });
 			};
 		}
 	}

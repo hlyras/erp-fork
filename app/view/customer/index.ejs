@@ -6,12 +6,6 @@
         <% include ./../partials/header %>
         <% include ./../partials/nav %>
 
-        <style>
-            .border-explicit {
-
-            }
-        </style>
-
         <section class="container">
             <div class="box two container ground padding-10 margin-top-10">
                 <h3 class="box one ground underline padding-10 center">Novo Cliente</h3>
@@ -41,9 +35,7 @@
                     <input type="submit" name="submit" class="box one submit-generic pointer center margin-top-5" value="Cadastrar">
                 </form>
             </div>
-            <!-- <div id="customer-adress-create-box" class="box two container ground padding-10 margin-top-10">
-                
-            </div> -->
+
             <div id="customer-filter-box" class="box two ground padding-10 margin-top-10">
                 <h3 class="box one ground padding-10 center box-border">Buscar Cliente</h3>
                 <form id="customer-filter-form" class="container box one box-border padding-10 margin-top-5">
@@ -56,11 +48,12 @@
             </div>
             <div id="customer-show-box" class="box one container ground padding-10 margin-top-10" style="display:none">
                 <div id="customer-show-info-box" class="box one container ground padding-10 margin-top-10"></div>
-                <button class='box one center box-border box-hover padding-15 margin-top-10 bold' onclick='lib.displayDiv(`customer-adress-add-form`, this, `⇓ Novo Endereço ⇓`, `⇑ Esconder formulário ⇑`);'>⇓ Novo Endereço ⇓</button>
-                <form id='customer-adress-add-form' class='box one container padding-5 margin-top-5' style='display:none'>
+                <button id="customer-adress-create-form-hider" class='box one center box-border box-hover padding-10 margin-top-10 bold' onclick='lib.displayDiv(`customer-adress-create-form`, this, `⇓ Novo Endereço ⇓`, `⇑ Esconder formulário ⇑`);'>⇓ Novo Endereço ⇓</button>
+                <form id='customer-adress-create-form' class='box one container padding-5 margin-top-5' style='display:none'>
                     <h4 class='box one underline center'>Cadastrar endereço</h4>
+                    <input type='hidden' name="id" value=''>
                     <input type='hidden' name="customer_id" value=''>
-                    <input type='text' name='postal_code' class='box four center input-generic margin-top-5' placeholder='CEP' onblur='if(this.value.length){lib.adress.fillForm(this.value, `customer-adress-add-form`)}' autocomplete='off'>
+                    <input type='text' name='postal_code' class='box four center input-generic margin-top-5' placeholder='CEP' onblur='if(this.value.length){lib.adress.fillForm(this.value, `customer-adress-create-form`)}' autocomplete='off'>
                     <input type='text' name='street' class='box four center input-generic margin-top-5' placeholder='Logradouro'>
                     <input type='text' name='number' class='box four center input-generic margin-top-5' placeholder='Número' autocomplete='off'>
                     <input type='text' name='complement' class='box four center input-generic margin-top-5' placeholder='Complemento'>

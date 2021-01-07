@@ -22,8 +22,6 @@ if(Customer.controller.create){
 			social_media: event.target.elements.namedItem("social-media").value
 		};
 
-		console.log(customer);
-
 		customer = await Customer.save(customer);
 		if(!customer) { return false };
 

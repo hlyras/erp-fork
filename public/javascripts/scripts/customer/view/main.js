@@ -105,8 +105,8 @@ Customer.view.show = (customer, box) => {
 				html += "<div class='mobile-box three underline center bold'>Endereço "+(parseInt(i)+1)+"</div>";
 				html += "<div class='mobile-box three container center bold'>";
 					html += "<h5 class='mobile-box three'></h5>";
-					html += "<h5 class='mobile-box three center bold'><img class='img-tbl-btn' src='/images/icon/edit.png' onclick='Customer.controller.adress.edit("+customer.id+")'></h5>";
-					html += "<h5 class='mobile-box three center bold'><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Customer.controller.adress.delete("+customer.id+")'></h5>";
+					html += "<h5 class='mobile-box three center bold'><img class='img-tbl-btn' src='/images/icon/edit.png' onclick='Customer.controller.adress.edit("+customer.adress[i].id+")'></h5>";
+					html += "<h5 class='mobile-box three center bold'><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Customer.controller.adress.delete("+customer.adress[i].id+", "+customer.id+")'></h5>";
 				html += "</div>";
 				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Logradouro:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].street+"</div></div>";
 				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>nº:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].number+"</div></div>";
@@ -118,6 +118,6 @@ Customer.view.show = (customer, box) => {
 		};
 	};
 
-	document.getElementById("customer-adress-add-form").elements.namedItem("customer_id").value = customer.id;
+	document.getElementById("customer-adress-create-form").elements.namedItem("customer_id").value = customer.id;
 	document.getElementById(box).innerHTML = html;
 };
