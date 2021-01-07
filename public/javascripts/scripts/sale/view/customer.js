@@ -14,3 +14,14 @@ Sale.view.customer.fillInput = (customers) => {
 	};
 	document.getElementById("sale-customer").innerHTML = html;
 };
+
+Sale.view.customer.filter = {
+	input: (customers, dropdown) => {
+		let html = "";
+		for(i in customers){
+			html += "<li><input type='button' class='box one dropdown-input' data-id='"+customers[i].id+"' value='"+customers[i].name+" | "+customers[i].trademark+" | "+customers[i].brand+" | "+customers[i].cnpj+"' onclick='Customer.controller.filter.inputFill(this)'></li>";
+		};
+
+		document.getElementById(dropdown).innerHTML = html;
+	}
+};

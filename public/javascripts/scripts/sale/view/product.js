@@ -10,7 +10,7 @@ Sale.view.product.fillInput = (products) => {
 };
 
 Sale.view.product.filter = {
-	input: (products, input_value, input, dropdown) => {
+	input: (products, dropdown) => {
 		let html = "";
 		for(i in products){
 			html += "<li><input type='button' class='box one dropdown-input' data-id='"+products[i].id+"' value='"+products[i].code+" | "+products[i].name+" | "+products[i].color+" | "+products[i].size+"' onclick='Product.controller.filter.inputFill(this)'></li>";

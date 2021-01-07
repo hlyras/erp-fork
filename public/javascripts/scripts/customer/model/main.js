@@ -15,7 +15,7 @@ Customer.save = async customer => {
 };
 
 Customer.filter = async (customer) => {
-	let response = await fetch("/customer/filter?name="+customer.name+"&trademark="+customer.trademark+"&cnpj="+customer.cnpj+"&ie="+customer.ie);
+	let response = await fetch("/customer/filter?name="+customer.name+"&trademark="+customer.trademark+"&brand="+customer.brand+"&cnpj="+customer.cnpj);
 	response = await response.json();
 
 	if(API.verifyResponse(response)){ return false };

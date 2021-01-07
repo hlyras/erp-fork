@@ -11,11 +11,15 @@
                 <div class="box one ground container margin-top-10">
                     <div class="box three ground center padding-10 margin-top-15">
                         <h5 class="underline">Buscar Cliente</h5>
-                        <form id="customer-filter-form" class="box one container">
-                            <input type="text" name="name" class="box three input-generic center ground margin-top-5" placeholder="Nome" autocomplete="off">
-                            <input type="text" name="cnpj" class="box three input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
-                            <input type="submit" name="submit" class="box three submit-generic center bold margin-top-5" value="Buscar">
-                        </form>
+                            <div class="box one container dropdown ground margin-top-5">
+                                <ul class="box one container">
+                                    <li>
+                                        <input type="hidden" name="customer_id">
+                                        <input type="text" id="sale-customer" data-id="" class="box one input-generic center" oninput="Customer.controller.filter.input(this)" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                        <ul id="sale-customer-dropdown" class="box one"></ul>
+                                    </li>
+                                </ul>
+                            </div>
                         <select id="sale-customer" class="box one center input-explicit margin-top-5 hide-disabled"><option value=''>Selecionar cliente</option></select>
                     </div>
                     <div class="box three container ground padding-10 margin-top-10">

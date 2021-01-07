@@ -145,17 +145,17 @@ Sale.controller.kart.product.includeMolleKit = (pack) => {
 	Sale.product.view.kart.list(Sale.kart);
 };
 
-Sale.controller.kart.customer = document.getElementById("sale-customer");
-if(Sale.controller.kart.customer){
-	Sale.controller.kart.customer.addEventListener("change", event => {
-		let customer = {
-			id: event.target.value,
-			info: event.target.options[event.target.selectedIndex].text
-		};
-		let stringified_customer = JSON.stringify(customer);
-		lib.localStorage.update("sale-customer", stringified_customer);
-	});
-};
+// Sale.controller.kart.customer = document.getElementById("sale-customer");
+// if(Sale.controller.kart.customer){
+// 	Sale.controller.kart.customer.addEventListener("change", event => {
+// 		let customer = {
+// 			id: event.target.value,
+// 			info: event.target.options[event.target.selectedIndex].text
+// 		};
+// 		let stringified_customer = JSON.stringify(customer);
+// 		lib.localStorage.update("sale-customer", stringified_customer);
+// 	});
+// };
 
 Sale.controller.kart.date = document.getElementById("sale-date");
 if(Sale.controller.kart.date){

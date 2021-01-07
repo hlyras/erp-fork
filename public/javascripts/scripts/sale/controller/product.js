@@ -21,9 +21,9 @@ Product.controller.filter = {
 			let products = await Product.filter(product);
 			if(!products){ return false; };
 
-			Sale.view.product.filter.input(products, input.value, input.name, "sale-product-kart-dropdown");
+			Sale.view.product.filter.input(products, "sale-product-kart-dropdown");
 		} else {
-			Sale.view.product.filter.input([], input.value, input.name, "sale-product-kart-dropdown");
+			Sale.view.product.filter.input([], "sale-product-kart-dropdown");
 		};
 	},
 	inputFill: (input) => {
