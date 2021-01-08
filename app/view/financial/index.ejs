@@ -38,14 +38,14 @@
 						<select class="box two input-generic center margin-top-5" name="outcome_origin" id="financial-outcome-create-origin-select">
 							<option value="0">Origem</option>
 						</select>
-						<select class="box four input-generic center margin-top-5" name="outcome_payment">
+						<select class="box two-fifths input-generic center margin-top-5" name="outcome_payment">
 						    <option value="0">Método de pagamento</option>
 							<% for(i in incomeCategories){ %>
 								<option value="<%= incomeCategories[i].id %>"><%= incomeCategories[i].name %></option>
 							<% } %>
 						</select>
-						<input type="number" class="box four input-generic center margin-top-5 bold" name="outcome_value" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}" />
-						<input type="text" class="box two input-generic center margin-top-5" name="outcome_obs" placeholder="Observação" autocomplete="off"/>
+						<input type="number" class="box five input-generic center margin-top-5 bold" name="outcome_value" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}" />
+						<input type="text" class="box two-fifths input-generic center margin-top-5" name="outcome_obs" placeholder="Observação" autocomplete="off"/>
 						<input type="submit" class="box one submit-generic center margin-top-5" id="financial-outcome-create-submit" value="Cadastrar">
 					</form>
 				</div>
@@ -127,11 +127,7 @@
 					</div>
 				</div>
 
-				<!-- Show Financial INCOME and OUTCOME -->
-				<div id="financial-show-box" class="box one container" style="display:none">
-					<table id="financial-show-tbl" class="tbl-info width-fill"></table>
-					<h4 id="financial-show-obs"></h4>
-				</div>
+				<div id="financial-show-box" class="box one container ground padding-10 margin-top-10" style="display:none"></div>
 			</section>
 		<div id="ajax-loader" class="ajax-loader">
 			<div class="loader"></div>

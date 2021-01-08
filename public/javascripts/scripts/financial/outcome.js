@@ -380,46 +380,70 @@ function showFinancialOutcome(id){
 				return;
 			};
 
-			document.getElementById("financial-show-box").style.display = "block";
-
 			var html = "";
-			html += "<tr>"
-			html += "<td>Id<td>";
-			html += "<td class='nowrap'>"+outcome[0].id+"<td>";
-			html += "</tr>";
 
-			html += "<tr>";
-			html += "<td>Data<td>";
-			html += "<td>"+outcome[0].full_date+"<td>";
-			html += "</tr>";
+			html += "<div class='box one center underline bold'>Dados da despesa "+outcome[0].id+"</div>";
+			html += "<div class='box three container border-explicit padding-10 margin-top-5'>";
+				html += "<div class='box one container'>";
+					html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Categoria:</div>";
+					html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+outcome[0].category_name+"</div>";
+					html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Origem:</div>";
+					html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+outcome[0].origin_name+"</div>";
+				html += "</div>";
+			html += "</div>";
 
-			html += "<tr>";
-			html += "<td>Categoria<td>";
-			html += "<td>"+outcome[0].category_name+"<td>";
-			html += "</tr>";
+			html += "<div class='box three container border-explicit padding-10 margin-top-5'>";
+				html += "<div class='box one container'>";
+					html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Data:</div>";
+					html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+outcome[0].full_date+"</div>";
+					html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Mét de pag:</div>";
+					html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+outcome[0].payment_name+"</div>";
+				html += "</div>";
+			html += "</div>";
 
-			html += "<tr>";
-			html += "<td>Origem<td>";
-			html += "<td>"+outcome[0].origin_name+"<td>";
-			html += "</tr>";
+			html += "<div class='box three container border-explicit padding-10 margin-top-5'>";
+				html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Valor:</div>";
+				html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+outcome[0].value+"</div>";
+				html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Usuário:</div>";
+				html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+outcome[0].user_name+"</div>";
+			html += "</div>";
 
-			html += "<tr>";
-			html += "<td>Método de pagamento<td>";
-			html += "<td>"+outcome[0].payment_name+"<td>";
-			html += "</tr>";
+			if(outcome[0].obs){
+				html += "<div class='box one center border-explicit padding-10 margin-top-5 bold'>"+outcome[0].obs+"</div>";
+			};
 
-			html += "<tr>";
-			html += "<td>Valor<td>";
-			html += "<td class='nowrap'>"+outcome[0].value+"<td>";
-			html += "</tr>";
+			// html += "<tr>";
+			// html += "<td>Data<td>";
+			// html += "<td>"+outcome[0].full_date+"<td>";
+			// html += "</tr>";
 
-			html += "<tr>";
-			html += "<td>Usuário<td>";
-			html += "<td>"+outcome[0].user_name+"<td>";
-			html += "</tr>";
+			// html += "<tr>";
+			// html += "<td>Categoria<td>";
+			// html += "<td>"+outcome[0].category_name+"<td>";
+			// html += "</tr>";
+
+			// html += "<tr>";
+			// html += "<td>Origem<td>";
+			// html += "<td>"+outcome[0].origin_name+"<td>";
+			// html += "</tr>";
+
+			// html += "<tr>";
+			// html += "<td>Método de pagamento<td>";
+			// html += "<td>"+outcome[0].payment_name+"<td>";
+			// html += "</tr>";
+
+			// html += "<tr>";
+			// html += "<td>Valor<td>";
+			// html += "<td class='nowrap'>"+outcome[0].value+"<td>";
+			// html += "</tr>";
+
+			// html += "<tr>";
+			// html += "<td>Usuário<td>";
+			// html += "<td>"+outcome[0].user_name+"<td>";
+			// html += "</tr>";
 			
-			document.getElementById("financial-show-tbl").innerHTML = html;
-			document.getElementById("financial-show-obs").innerHTML = "<div class='box one ground center padding-10 margin-top-10'>"+outcome[0].obs+"</div>";
+			document.getElementById("financial-show-box").style.display = "";
+			document.getElementById("financial-show-box").innerHTML = html;
 			
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}

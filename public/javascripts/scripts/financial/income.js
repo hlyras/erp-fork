@@ -358,6 +358,7 @@ $(function(){
 });
 
 function showFinancialIncome(id){
+	document.getElementById('ajax-loader').style.visibility = 'visible';
 	$.ajax({
 		url: '/financial/income/id/'+id,
 		method: 'get',
@@ -368,29 +369,40 @@ function showFinancialIncome(id){
 				return;
 			};
 
-			document.getElementById("financial-show-box").style.display = "block";
-
 			var html = "";
-			html += "<tr>";
-			html += "<td>Id<td>";
-			html += "<td>Data<td>";
-			html += "<td>Categoria<td>";
-			html += "<td>Origem<td>";
-			html += "<td>Valor<td>";
-			html += "<td>Usuário<td>";
-			html += "</tr>";
 
-			html += "<tr>";
-			html += "<td class='nowrap'>"+income[0].id+"<td>";
-			html += "<td>"+income[0].date+"<td>";
-			html += "<td>"+income[0].category_name+"<td>";
-			html += "<td>"+income[0].origin_name+"<td>";
-			html += "<td class='nowrap'>"+income[0].value+"<td>";
-			html += "<td>"+income[0].user_name+"<td>";
-			html += "</tr>";
+			html += "<div class='box one center underline bold'>Dados da entrada "+income[0].id+"</div>";
+			html += "<div class='box three container border-explicit padding-10 margin-top-5'>";
+				html += "<div class='box one container'>";
+					html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Categoria:</div>";
+					html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+income[0].category_name+"</div>";
+					html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Origem:</div>";
+					html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+income[0].origin_name+"</div>";
+				html += "</div>";
+			html += "</div>";
+
+			html += "<div class='box three container border-explicit padding-10 margin-top-5'>";
+				html += "<div class='box one container'>";
+					html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Data:</div>";
+					html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+income[0].date+"</div>";
+				html += "</div>";
+			html += "</div>";
+
+			html += "<div class='box three container border-explicit padding-10 margin-top-5'>";
+				html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Valor:</div>";
+				html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+income[0].value+"</div>";
+				html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Usuário:</div>";
+				html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+income[0].user_name+"</div>";
+			html += "</div>";
+
+			if(income[0].obs){
+				html += "<div class='box one center border-explicit padding-10 margin-top-5 bold'>"+income[0].obs+"</div>";
+			};
 			
-			document.getElementById("financial-show-tbl").innerHTML = html;
-			document.getElementById("financial-show-obs").innerHTML = "<div class='box one ground center padding-10 margin-top-10'>"+income[0].obs+"</div>";
+			document.getElementById("financial-show-box").style.display = "";
+			document.getElementById("financial-show-box").innerHTML = html;
+
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}
 	});
 };
