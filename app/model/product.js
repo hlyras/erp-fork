@@ -141,6 +141,16 @@ Product.feedstock = {
 	}
 };
 
+Product.package = {
+	save: async (product_package) => {
+		let query = "INSERT INTO cms_wt_erp.product_package (name, color, price) VALUES ('"
+			+product_package.name+"', '"
+			+product_package.color+"', '"
+			+product_package.price+"');";
+		return db(query);
+	}
+};
+
 Product.categorySave = async (category) => {
 	let query = "INSERT INTO backup.product_category (name, shortcut) VALUES ('"+category.name+"','"+category.shortcut+"');";
 	return db(query);

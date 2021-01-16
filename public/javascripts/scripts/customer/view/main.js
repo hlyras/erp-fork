@@ -113,7 +113,8 @@ Customer.view.show = (customer, box) => {
 				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Complemento:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].complement+"</div></div>";
 				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Bairro:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].neighborhood+"</div></div>";
 				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Cidade:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].city+"</div></div>";
-				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Estado:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].state+"</div></div>";
+				html += "<div class='box six container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Estado:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].state+"</div></div>";
+				html += "<div class='box six container center box-border padding-5 margin-top-5'><div class='mobile-box three'>CEP:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].postal_code+"</div></div>";
 			html += "</div>";
 		};
 	};

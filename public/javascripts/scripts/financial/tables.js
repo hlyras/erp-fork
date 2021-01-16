@@ -9,7 +9,7 @@ function renderIncomeTable(incomes, pageSize, page){
 	html += "<td>Categoria</td>";
 	html += "<td>Origem</td>";
 	html += "<td>Valor</td>";
-	html += "<td>Usuário</td>";
+	// html += "<td>Usuário</td>";
 	html += "</tr>";
 	for (let i = page * pageSize; i < incomes.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
@@ -17,8 +17,8 @@ function renderIncomeTable(incomes, pageSize, page){
 		html += "<td>"+lib.convertDate(incomes[i].date)+"</td>";
 		html += "<td>"+incomes[i].category_name+"</td>";
 		html += "<td>"+incomes[i].origin_name+"</td>";
-		html += "<td class='nowrap'>"+incomes[i].value+"</td>";
-		html += "<td>"+incomes[i].user_name+"</td>";
+		html += "<td class='nowrap bold'>$"+incomes[i].value+"</td>";
+		// html += "<td>"+incomes[i].user_name+"</td>";
 		html += "</tr>";
 	};
 	document.getElementById('financial-income-report-tbl').innerHTML = html;
@@ -73,7 +73,7 @@ function renderOutcomeTable(outcomes, pageSize, page){
 	html += "<td>Categoria</td>";
 	html += "<td>Origem</td>";
 	html += "<td>Valor</td>";
-	html += "<td>Usuário</td>";
+	// html += "<td>Usuário</td>";
 	html += "</tr>";
 	for (let i = page * pageSize; i < outcomes.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
@@ -81,8 +81,8 @@ function renderOutcomeTable(outcomes, pageSize, page){
 		html += "<td>"+lib.convertDate(outcomes[i].date)+"</td>";
 		html += "<td>"+outcomes[i].category_name+"</td>";
 		html += "<td>"+outcomes[i].origin_name+"</td>";
-		html += "<td class='nowrap'>"+outcomes[i].value+"</td>";
-		html += "<td>"+outcomes[i].user_name+"</td>";
+		html += "<td class='nowrap bold'>$"+outcomes[i].value+"</td>";
+		// html += "<td>"+outcomes[i].user_name+"</td>";
 		html += "<td><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='removeOutcome("+outcomes[i].id+")'></td>";
 		// html += "<td>"+outcomes[i].id+"</td>";
 		html += "</tr>";

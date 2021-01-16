@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <% include ./../partials/head %>
+    </head>
+    <body>
+        <% include ./../partials/header %>
+        <% include ./../partials/nav %>
+        <section>
+            <div class="container">
+                <form id="product-package-create-form" class="box two container ground border padding-10 margin-top-10">
+                    <div class="underline center">Novo pacote</div>
+                    <input type="hidden" name="id" value="">
+                    <input type="number" name="code" class="box three input-generic margin-top-5 center" placeholder="Código" min="1" max="9999" autocomplete="off">
+                    <input type="text" name="name" class="box two-thirds input-generic center margin-top-5" placeholder="Descrição do pacote" autocomplete="off">
+                    <select name="color" class="box three input-generic margin-top-5 center" autocomplete="off">
+                        <option value="">Cor</option>
+                        <% for(i in colors){ %>
+                            <option value="<%= colors[i].shortcut %>"><%= colors[i].name %></option>
+                        <% } %>
+                    </select>
+                    <input type="number" name="price" class="box three input-generic center margin-top-5 bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}" autocomplete="off" />
+                    <!-- <textarea name="obs" class="box one padding-5 margin-top-5 height-50" placeholder="Observações"></textarea> -->
+                    <input type="submit" name="submit" class="box three submit-generic center margin-top-5 bold" value="cadastrar">
+                </form>
+                <form id="product-package-filter-form" class="box two ground border padding-10 margin-top-10">
+                    <input type="text" name="name" class="box one input-generic center margin-top-5">
+                    <select name="color" class="box three input-generic margin-top-5 center" autocomplete="off">
+                        <option value="">Cor</option>
+                        <% for(i in colors){ %>
+                            <option value="<%= colors[i].shortcut %>"><%= colors[i].name %></option>
+                        <% } %>
+                    </select>
+                </form>
+            </div>
+        </section>
+        <% include ./../partials/loader %>
+    </body>
+    <footer>
+        <% include ./../partials/footer %>
+        <% include ./partial %>
+        <script src="/javascripts/scripts/sale/lib.js"></script>
+
+        <script src="/javascripts/scripts/product/model/package.js"></script>
+        <script src="/javascripts/scripts/product/view/package.js"></script>
+        <script src="/javascripts/scripts/product/controller/package.js"></script>
+    </footer>
+</html>

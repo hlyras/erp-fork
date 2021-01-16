@@ -118,7 +118,7 @@ const saleController = {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 		};
-	}
+	}	
 };
 
 module.exports = saleController;

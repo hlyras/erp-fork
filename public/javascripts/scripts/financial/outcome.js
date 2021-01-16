@@ -403,7 +403,7 @@ function showFinancialOutcome(id){
 
 			html += "<div class='box three container border-explicit padding-10 margin-top-5'>";
 				html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Valor:</div>";
-				html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+outcome[0].value+"</div>";
+				html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>$"+outcome[0].value+"</div>";
 				html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Usuário:</div>";
 				html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+outcome[0].user_name+"</div>";
 			html += "</div>";

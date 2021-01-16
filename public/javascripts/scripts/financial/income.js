@@ -249,7 +249,8 @@ $(function(){
 
 	$("#financial-income-origin-create-form").on('submit', (event) => {
 		event.preventDefault();
-		document.getElementById('financial-income-origin-create-submit').disabled = true;
+		document.getElementById('financial-income-origin-create-form').elements.namedItem("submit").disabled = true;
+		console.log()
 
 		const category_id = document.getElementById("financial-income-origin-create-form").elements.namedItem('category_id').value;
 		const origin_name = document.getElementById("financial-income-origin-create-form").elements.namedItem('origin_name').value;
@@ -261,7 +262,7 @@ $(function(){
 
 		if(origin_name.length < 2 || origin_name.length > 20){
 			alert("Origem inválida!");
-			return document.getElementById('financial-income-origin-create-submit').disabled = false;
+			document.getElementById('financial-income-origin-create-form').elements.namedItem("submit").disabled = false;
 		};
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
@@ -279,7 +280,7 @@ $(function(){
 				if(response.msg){
 					alert(response.msg);
 					document.getElementById('ajax-loader').style.visibility = 'hidden';
-					return document.getElementById('financial-income-origin-create-submit').disabled = false;
+					document.getElementById('financial-income-origin-create-form').elements.namedItem("submit").disabled = false;
 				};
 
 				document.getElementById('ajax-loader').style.visibility = 'hidden';
@@ -390,7 +391,7 @@ function showFinancialIncome(id){
 
 			html += "<div class='box three container border-explicit padding-10 margin-top-5'>";
 				html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Valor:</div>";
-				html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+income[0].value+"</div>";
+				html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>$"+income[0].value+"</div>";
 				html += "<div class='mobile-box three box-border center padding-5 margin-top-5'>Usuário:</div>";
 				html += "<div class='mobile-box two-thirds box-border center padding-5 margin-top-5 bold'>"+income[0].user_name+"</div>";
 			html += "</div>";

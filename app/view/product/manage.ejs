@@ -7,7 +7,7 @@
         <% include ./../partials/nav %>
 		<section>
 			<div class="container">
-				<div class="box two container ground center padding-10 margin-top-10">
+				<div class="box two container ground border center padding-10 margin-top-10">
 					<h3 class="title-soft underline">Novo Produto</h3>
 					<form id="product-create-form" class="box one container">
 						<input type="hidden" name="id" value="0" autocomplete="off">
@@ -42,7 +42,7 @@
 						<input type="submit" name="submit" class="box two submit-generic center box-hover margin-top-5 bold" value="Cadastrar">
 					</form>
 				</div>
-				<div class="box two container ground center padding-10 margin-top-10">
+				<div class="box two container ground border center padding-10 margin-top-10">
 					<h3 class="title-soft underline">Buscar Produtos</h3>
 					<form id="product-filter-form" class="box one container">
 						<input type="hidden" name="location" value="product-manage" autocomplete="off">
@@ -68,13 +68,13 @@
 					</div>
 				</div>
 
-				<div id="product-manage-info-box" class="box one center ground padding-10 margin-top-10" style="display:none">
+				<div id="product-manage-info-box" class="box one border center ground padding-10 margin-top-10" style="display:none">
 					<h3 id="product-manage-info-title" class="Army underline"></h3>
 					<table id="product-manage-info-table" class="tbl-info width-fill"></table>
 				</div>
 
-				<div id="product-manage-image-box" class="box one center ground padding-10 margin-top-10" style="display:none">
-					<button class="box one submit-generic box-hover center margin-top-10 bold" onclick="lib.displayDiv('product-manage-image-div', this, '⇓ Mostrar Imagem ⇓', '⇑ Esconder Imagem ⇑');">⇑ Esconder Imagem ⇑</button>
+				<div id="product-manage-image-box" class="box one ground border center padding-10 margin-top-10" style="display:none">
+					<button class="box one box-hover border center height-30 margin-top-10 bold" onclick="lib.displayDiv('product-manage-image-div', this, '⇓ Mostrar Imagem ⇓', '⇑ Esconder Imagem ⇑');">⇑ Esconder Imagem ⇑</button>
 					<div id="product-manage-image-div" class="box one center ground padding-10 margin-top-10">
 						<img id="product-manage-image-img" class="image-box" src="">
 						<div class="box one center ground padding-10 margin-top-10">
@@ -84,12 +84,12 @@
 					</div>
 				</div>
 
-				<div id="product-manage-menu-box" class="box one center ground padding-10 margin-top-10" style="display:none">
-					<button class="box one submit-generic box-hover center margin-top-10 bold" onclick="lib.displayDiv('product-manage-menu-div', this, '⇓ Mostrar Menu ⇓', '⇑ Esconder Menu ⇑');">⇓ Mostrar Menu ⇓</button>
+				<div id="product-manage-menu-box" class="box one ground border center padding-10 margin-top-10" style="display:none">
+					<button class="box one box-hover border center height-30 margin-top-10 bold" onclick="lib.displayDiv('product-manage-menu-div', this, '⇓ Mostrar Menu ⇓', '⇑ Esconder Menu ⇑');">⇓ Mostrar Menu ⇓</button>
 					<div id="product-manage-menu-div"class="box one container ground padding-10 margin-top-10" style="display:none"></div>
 				</div>
 
-				<div id="product-feedstock-add-box" class="box one container ground margin-top-10" style="display:none">
+				<div id="product-feedstock-add-box" class="box one container ground border margin-top-10" style="display:none">
 					<form id="feedstock-filter-form" class="box two container center ground padding-10 margin-top-10">
 						<fieldset class="box one container fieldset-generic padding-5">
 							<legend>Filtrar Matérias-Prima</legend>
@@ -102,7 +102,7 @@
 									<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
 								<% } %>
 							</select>
-							<input type="submit" class="box two submit-generic center box-hover margin-top-5 bold" value="Filtrar">
+							<input type="submit" class="box two border center box-hover margin-top-5 bold" value="Filtrar">
 						</fieldset>
 					</form>
 
@@ -124,7 +124,7 @@
 					  	</fieldset>
 					</form>
 
-					<button class="box one submit-generic box-hover center margin-top-10 bold" onclick="lib.displayDiv('product-feedstock-category-create-form', this, '⇓ Nova Categoria ⇓', '⇑ Esconder Formulário ⇑')">⇓ Nova Categoria ⇓</button>
+					<button class="box one submit-generic border center margin-top-10 bold" onclick="lib.displayDiv('product-feedstock-category-create-form', this, '⇓ Nova Categoria ⇓', '⇑ Esconder Formulário ⇑')">⇓ Nova Categoria ⇓</button>
 					<form id="product-feedstock-category-create-form" class="box one container margin-top-10" style="display:none">
 						<fieldset class="box one container fieldset-generic padding-5 center">
 							<legend>Nova Categoria</legend>

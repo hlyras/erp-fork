@@ -498,6 +498,53 @@ const productController = {
 			}
 		}
 	},
+	package: {
+		index: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm'])){
+				return res.redirect('/');
+			};
+
+			try {
+				let colors = await Product.colorList();
+				res.render('product/package', { user: req.user, colors: colors });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+			};
+		},
+		save: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm'])){
+				return res.redirect('/');
+			};
+
+			let product_package = req.body.product_package;
+
+			if(!product_package.name || product_package.name.length > 50){return res.send({ msg: 'O nome do pacote é inválido.' })};
+			if(!product_package.color){return res.send({ msg: 'A cor do pacote é inválida.' })};
+			if(!product_package.price || isNaN(product_package.price)){return res.send({ msg: 'O preço do pacote é inválido.' })};
+			
+			console.log(product_package);
+
+			try {
+				let row = await Product.package.save(req.body.product_package);
+				product_package.id = row.insertId;
+
+				res.send({ done: "Pacote cadastrado com sucesso!", product_package: product_package });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
+			};
+		},
+		product: {
+			add: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm'])){
+					return res.redirect('/');
+				};
+
+
+			}
+		}
+	},
 	catalog: {
 		filter: async (req, res) => {
 			// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
