@@ -19,7 +19,7 @@ const adminController = {
 			return res.redirect('/');
 		};
 		res.render('product/index', { user: req.user });
-	},
+	}
 };
 
 module.exports = adminController;

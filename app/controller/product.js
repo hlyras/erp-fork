@@ -517,31 +517,151 @@ const productController = {
 				return res.redirect('/');
 			};
 
-			let product_package = req.body.product_package;
+			let package = req.body.package;
 
-			if(!product_package.name || product_package.name.length > 50){return res.send({ msg: 'O nome do pacote é inválido.' })};
-			if(!product_package.color){return res.send({ msg: 'A cor do pacote é inválida.' })};
-			if(!product_package.price || isNaN(product_package.price)){return res.send({ msg: 'O preço do pacote é inválido.' })};
-			
-			console.log(product_package);
+			if(!package.code || package.code < 1 || package.code > 9999){return res.send({ msg: 'Código de pacote inválido.' })};
+			if(!package.name || package.name.length > 50){return res.send({ msg: 'O nome do pacote é inválido.' })};
+			if(!package.color){return res.send({ msg: 'A cor do pacote é inválida.' })};
+			if(!package.price || isNaN(package.price)){return res.send({ msg: 'O preço do pacote é inválido.' })};
+				
+			var row = await Product.package.findByCode(package.code);
+			if(row.length){
+				if(row[0].id != package.id){
+					return res.send({ msg: 'Este código de produto já está cadastrado.' });
+				};
+			};
 
 			try {
-				let row = await Product.package.save(req.body.product_package);
-				product_package.id = row.insertId;
-
-				res.send({ done: "Pacote cadastrado com sucesso!", product_package: product_package });
+				if(!package.id){
+					let row = await Product.package.save(req.body.package);
+					package.id = row.insertId;
+					res.send({ done: "Pacote cadastrado com sucesso!", package: package });
+				} else {
+					let row = await Product.package.update(req.body.package);
+					res.send({ done: "Pacote atualizado com sucesso!", package: package });
+				};
 			} catch (err) {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
 			};
 		},
+		filter: async (req, res) => {
+			// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+				// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			// };
+
+			var params = [];
+			var values = [];
+
+			if(isNaN(req.query.code) || req.query.code < 0 || req.query.code > 9999){
+				req.query.code = "";
+			};
+
+			if(req.query.code){
+				params.push("code");
+				values.push(req.query.code);
+			};
+
+			if(req.query.color){
+				params.push("color");
+				values.push(req.query.color);
+			};
+
+			try {
+				if(req.query.name){
+					const packages = await Product.package.filter(req.query.name, params, values);
+					res.send({ packages });
+				} else {
+					const packages = await Product.package.filter(false, params, values);
+					res.send({ packages });
+				};
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });
+			};
+		},
+		findById: async (req, res) => {
+			// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+			// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			// };
+
+			try {
+				let package = await Product.package.findById(req.params.id);
+				package[0].products = await Product.package.product.list(req.params.id);
+
+				res.send({ package });
+			} catch (err){
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
+			};
+		},
+		delete: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','man'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
+
+			try {
+				await Product.package.product.removeAll(req.query.id);
+				await Product.package.delete(req.query.id);
+				res.send({ done: 'Pacote excluído com sucesso!' });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao remover o pacote, favor entrar em contato com o suporte." });
+			};
+		},
 		product: {
-			add: async (req, res) => {
+			update: async (req, res) => {
 				if(!await userController.verifyAccess(req, res, ['adm'])){
 					return res.redirect('/');
 				};
 
+				let package = {
+					id: req.body.package.id,
+					products: JSON.parse(req.body.package.products),
+				};
 
+				let actions = {
+					add: [],
+					update: [],
+					remove: []
+				};
+
+				try {
+					let db_package_products = await Product.package.product.list(package.id);
+
+					if(!db_package_products.length && package.products.length){
+						for(i in package.products){
+							package.products[i].info = ""+package.products[i].code+" | "+package.products[i].name+" | "+package.products[i].color+" | "+package.products[i].size;
+							await Product.package.product.add(package.id, package.products[i]);
+						};
+					} else if(db_package_products.length && !package.products.length){
+						await Product.package.product.removeAll(package.id);
+					} else if(db_package_products.length && package.products.length){
+						package.products = db_package_products.reduce((products, product) => {
+							for(i in products){ if(products[i].product_id == product.product_id){ return products; }; };
+							actions.remove.push(product);
+							return products;
+						}, package.products);
+
+						db_package_products = package.products.reduce((products, product) => {
+							for(i in products){ if(products[i].product_id == product.product_id){ actions.update.push(product); return products; }; };
+							actions.add.push(product);
+							return products;
+						}, db_package_products);
+
+						for(i in actions.add){
+							actions.add[i].info = ""+actions.add[i].code+" | "+actions.add[i].name+" | "+actions.add[i].color+" | "+actions.add[i].size;
+							await Product.package.product.add(package.id, actions.add[i]);
+						};
+						for(i in actions.update){ await Product.package.product.update(actions.update[i].id, actions.update[i]); };
+						for(i in actions.remove){ await Product.package.product.remove(actions.remove[i].id); };
+					};
+
+					res.send({ done: "Produtos atualizados com sucesso!", package });
+				} catch (err){
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
+				};
 			}
 		}
 	},

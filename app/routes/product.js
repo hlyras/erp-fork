@@ -29,6 +29,10 @@ router.get('/feedstock/category/list/product_id/:product_id', productController.
 
 router.get('/package', productController.package.index);
 router.post('/package/save', productController.package.save);
+router.get('/package/filter', productController.package.filter);
+router.get('/package/id/:id', productController.package.findById);
+router.delete('/package/delete', productController.package.delete);
+router.post('/package/product/update', productController.package.product.update);
 
 router.get('/molle', productController.molle);
 router.get('/webgl', productController.webgl);

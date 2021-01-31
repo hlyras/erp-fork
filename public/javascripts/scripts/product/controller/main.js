@@ -2,8 +2,8 @@ Product.controller = {};
 
 Product.controller.show = async (product_id) => {
 	document.getElementById('ajax-loader').style.visibility = 'visible';
-	
 	let product = await Product.findById(product_id);
+	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!product){ return false };
 
 	document.getElementById("product-feedstock-box").style.display = "none";
@@ -13,8 +13,6 @@ Product.controller.show = async (product_id) => {
 	
 	const pagination = { pageSize: 1, page: 0 };
 	$(() => { lib.carousel.execute("product-image-box", Product.view.image.show, product.images, pagination); });
-	
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
 };
 
 Product.controller.filter = document.getElementById("product-filter-form");
@@ -22,8 +20,6 @@ if(Product.controller.filter){
 	document.getElementById("product-filter-form").addEventListener("submit", async (event) => {
 		event.preventDefault();
 		document.getElementById('ajax-loader').style.visibility = 'visible';
-
-		event.target.elements.namedItem("brand");
 
 		let product = {
 			name: event.target.elements.namedItem("name").value,

@@ -1,34 +1,47 @@
-// Sale.package.view = {};
+Product.view.package = {};
 
-// Sale.package.view.kart = {
-// 	list: async (products) => {
-// 		if(products.length){
-// 			var html = "";
-// 			html += "<tr>";
-// 			html += "<td>Código</td>";
-// 			html += "<td>Nome</td>";
-// 			html += "<td>Cor</td>";
-// 			html += "<td>Tamanho</td>";
-// 			html += "<td></td>";
-// 			html += "<td>Qtd</td>";
-// 			html += "<td></td>";
-// 			html += "<td></td>";
-// 			html += "</tr>";
-// 			for(i in products){
-// 				html += "<tr>";
-// 				html += "<td class='nowrap'>"+products[i].code+"</td>";
-// 				html += "<td>"+products[i].name+"</td>";
-// 				html += "<td>"+products[i].color+"</td>";
-// 				html += "<td>"+products[i].size+"</td>";
-// 				html += "<td class='nowrap'><img class='img-tbl-btn' src='/images/icon/decrease.png' onclick='Sale.controller.kart.product.decrease("+products[i].id+")'></td>";
-// 				html += "<td class='nowrap'><input type='text' id='kart-product-"+products[i].id+"' onchange='Sale.controller.kart.product.updateAmount("+products[i].id+",this.value);lib.focus(this)' value='"+products[i].amount+"'></td>";
-// 				html += "<td class='nowrap'><img class='img-tbl-btn' src='/images/icon/increase.png' onclick='Sale.controller.kart.product.increase("+products[i].id+")'></td>";
-// 				html += "<td><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Sale.controller.kart.product.remove("+products[i].id+")'></td>";
-// 				html += "</tr>";
-// 			};
-// 			document.getElementById("sale-kart-product-table").innerHTML = html;
-// 		} else {
-// 			document.getElementById("sale-kart-product-table").innerHTML = "";
-// 		};
-// 	}
-// };
+Product.view.package.filter = (packages, pagination) => {
+	if(packages.length){
+		let html = "";
+		for (let i = pagination.page * pagination.pageSize; i < packages.length && i < (pagination.page + 1) * pagination.pageSize; i++){
+			html += "<div class='box one container border padding-5 margin-top-5'>";
+				html += "<div class='mobile-box nine center'><h3 class='tbl-show-link nowrap' onclick='Product.controller.package.show("+packages[i].id+")'>"+packages[i].code+"</h3></div>";
+				html += "<div class='mobile-box two center'>"+packages[i].name+"</div>";
+				html += "<div class='mobile-box nine center'>"+packages[i].color+"</div>";
+				html += "<div class='mobile-box nine center'>$"+packages[i].price+"</div>";
+				html += "<div class='mobile-box twelve center'><img class='img-tbl-btn' src='/images/icon/edit.png' onclick='Product.controller.package.edit("+packages[i].id+")'></div>";
+				html += "<div class='mobile-box twelve center'><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Product.controller.package.delete("+packages[i].id+")'></div>";
+			html += "</div>";
+		};
+		document.getElementById("product-package-filter-box").style.display = "";
+		document.getElementById("product-package-filter-div").innerHTML = html;
+	} else {
+		document.getElementById("product-package-filter-box").style.display = "";
+		document.getElementById("product-package-filter-div").innerHTML = "Sem resultados";
+	};
+};
+
+Product.view.package.show = (package) => {
+	let html = "<div class='box one underline center'>Informações do Pacote</div>";
+	html += "<div class='box one container padding-10'>";
+		html += "<div class='box one container box-border margin-top-5'>"
+			html += "<div class='mobile-box four padding-5 margin-top-5'>Nome</div>";
+			html += "<div class='mobile-box three-fourths padding-5 margin-top-5 bold'>"+package.name+"</div>";
+		html += "</div>";
+		html += "<div class='mobile-box three container box-border margin-top-5'>"
+			html += "<div class='mobile-box two padding-5 margin-top-5'>Código</div>";
+			html += "<div class='mobile-box two padding-5 margin-top-5 bold'>"+package.code+"</div>";
+		html += "</div>";
+		html += "<div class='mobile-box three container box-border margin-top-5'>"
+			html += "<div class='mobile-box two padding-5 margin-top-5'>Valor</div>";
+			html += "<div class='mobile-box two padding-5 margin-top-5 bold'>$"+package.price+"</div>";
+		html += "</div>";
+		html += "<div class='mobile-box three container box-border margin-top-5'>"
+			html += "<div class='mobile-box two padding-5 margin-top-5'>Cor</div>";
+			html += "<div class='mobile-box two padding-5 margin-top-5 bold'>"+package.color+"</div>";
+		html += "</div>";
+	html += "</div>";
+
+	document.getElementById("product-package-show-info").innerHTML = html;
+	document.getElementById("product-package-show-box").style.display = "";
+};

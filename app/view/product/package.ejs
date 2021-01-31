@@ -7,30 +7,63 @@
         <% include ./../partials/nav %>
         <section>
             <div class="container">
-                <form id="product-package-create-form" class="box two container ground border padding-10 margin-top-10">
+                <div class="box two container ground border center padding-10 margin-top-10">
                     <div class="underline center">Novo pacote</div>
-                    <input type="hidden" name="id" value="">
-                    <input type="number" name="code" class="box three input-generic margin-top-5 center" placeholder="Código" min="1" max="9999" autocomplete="off">
-                    <input type="text" name="name" class="box two-thirds input-generic center margin-top-5" placeholder="Descrição do pacote" autocomplete="off">
-                    <select name="color" class="box three input-generic margin-top-5 center" autocomplete="off">
-                        <option value="">Cor</option>
-                        <% for(i in colors){ %>
-                            <option value="<%= colors[i].shortcut %>"><%= colors[i].name %></option>
-                        <% } %>
-                    </select>
-                    <input type="number" name="price" class="box three input-generic center margin-top-5 bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}" autocomplete="off" />
-                    <!-- <textarea name="obs" class="box one padding-5 margin-top-5 height-50" placeholder="Observações"></textarea> -->
-                    <input type="submit" name="submit" class="box three submit-generic center margin-top-5 bold" value="cadastrar">
-                </form>
-                <form id="product-package-filter-form" class="box two ground border padding-10 margin-top-10">
-                    <input type="text" name="name" class="box one input-generic center margin-top-5">
-                    <select name="color" class="box three input-generic margin-top-5 center" autocomplete="off">
-                        <option value="">Cor</option>
-                        <% for(i in colors){ %>
-                            <option value="<%= colors[i].shortcut %>"><%= colors[i].name %></option>
-                        <% } %>
-                    </select>
-                </form>
+                    <form id="product-package-create-form" class="box one container">
+                        <input type="hidden" name="id" value="">
+                        <input type="number" name="code" class="box three input-generic margin-top-5 center" placeholder="Código" min="1" max="9999" autocomplete="off">
+                        <input type="text" name="name" class="box two-thirds input-generic center margin-top-5" placeholder="Descrição do pacote" autocomplete="off">
+                        <select name="color" class="box three input-generic margin-top-5 center" autocomplete="off">
+                            <option value="">Cor</option>
+                            <% for(i in colors){ %>
+                                <option value="<%= colors[i].shortcut %>"><%= colors[i].name %></option>
+                            <% } %>
+                        </select>
+                        <input type="number" name="price" class="box three input-generic center margin-top-5 bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}" autocomplete="off" />
+                        <input type="submit" name="submit" class="box three submit-generic center margin-top-5 bold" value="cadastrar">
+                    </form>
+                </div>
+
+                <div id="product-package-filter-box" class="box two container ground border margin-top-10">
+                    <form id="product-package-filter-form" class="box one container padding-10">
+                        <div class="underline center">Buscar pacotes</div>
+                        <input type="number" name="code" class="box four input-generic margin-top-5 center" placeholder="Código" min="1" max="9999" autocomplete="off">
+                        <input type="text" name="name" class="box two input-generic margin-top-5 center" placeholder="Nome do pacote"autocomplete="off">
+                        <select name="color" class="box four input-generic margin-top-5 center" autocomplete="off">
+                            <option value="">Cor</option>
+                            <% for(i in colors){ %>
+                                <option value="<%= colors[i].shortcut %>"><%= colors[i].name %></option>
+                            <% } %>
+                        </select>
+                        <input type="submit" name="submit" class="box one submit-generic center margin-top-5 bold" value="Buscar">
+                    </form>
+                    <div id="product-package-filter-div" class="box one container ground padding-5"></div>
+                    <% include ./../partials/carousel %>
+                </div>
+
+                <div id="product-package-show-box" class="box one container ground padding-10 margin-top-10" style="display:none">
+                    <input type="hidden" id="product-package-id">
+                    <div id="product-package-show-info" class="box two container"></div>
+
+                    <div class="box two container">
+                        <div class="box one underline center">Produtos do pacote</div>
+                        <form id="product-package-product-kart-form" class="box one container">
+                            <input type="hidden" name="product_id">
+                            <div class="box two-thirds container dropdown ground margin-top-5">
+                                <ul class="box one container">
+                                    <li>
+                                        <input type="text" id="product-package-kart-dropdown-input" name="product" data-id="" class="box one input-generic center" oninput="Product.controller.package.product.dropdown.filter(this, 'product-package-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                        <ul id="product-package-kart-dropdown" class="box one"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <input type="number" name="amount" class="box six input-generic center margin-top-5" placeholder="Qtd">
+                            <button type="submit" name="submit" class="box six submit-generic center margin-top-5 pointer"><img class='img-tbl-btn' src="/images/icon/increase.png"></button>
+                        </form>
+                        <table id="product-package-product-kart-table" class="tbl-info box one center ground padding-10 margin-top-10"></table>
+                        <input type="button" value="Atualizar produtos do pacote" class="box one input-confirm bold padding-5 margin-top-10" onclick="Product.controller.package.product.update()">
+                    </div>
+                </div>
             </div>
         </section>
         <% include ./../partials/loader %>
@@ -38,8 +71,6 @@
     <footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
-        <script src="/javascripts/scripts/sale/lib.js"></script>
-
         <script src="/javascripts/scripts/product/model/package.js"></script>
         <script src="/javascripts/scripts/product/view/package.js"></script>
         <script src="/javascripts/scripts/product/controller/package.js"></script>

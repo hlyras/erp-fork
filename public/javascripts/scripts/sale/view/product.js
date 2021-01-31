@@ -8,14 +8,3 @@ Sale.view.product.fillInput = (products) => {
 	};
 	document.getElementById("sale-kart-product-form").elements.namedItem("product").innerHTML = html;
 };
-
-Sale.view.product.filter = {
-	input: (products, dropdown) => {
-		let html = "";
-		for(i in products){
-			html += "<li><input type='button' class='box one dropdown-input' data-id='"+products[i].id+"' value='"+products[i].code+" | "+products[i].name+" | "+products[i].color+" | "+products[i].size+"' onclick='Product.controller.filter.inputFill(this)'></li>";
-		};
-
-		document.getElementById(dropdown).innerHTML = html;
-	}
-};

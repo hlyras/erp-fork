@@ -13,22 +13,21 @@
             }
         </style>
         
-        <section class="container ground">
+        <div class="container ground">
             <% if (message.length > 0) { %>
-                <div class="box one container alert-msg margin-top-10">
-                    <div class="box one center bold"><%= message %></div>
+                <div class="box one alert-msg margin-top-10">
+                    <div class="box one bold"><%= message %></div>
                 </div>
             <% } %>
             <div class="box three"></div>
-            <form action="/user/login" method="post" class="box three ground container padding-10 center">
-                <h3 class="underline center">Faça seu login</h3>
-                <p class="box one margin-top-10 bold">E-mail</p>
-                <input type="email" class="box one input-generic center margin-top-5" name="email" autocomplete="off">
-                <p class="box one margin-top-10 bold">Senha</p>
-                <input type="password" class="box one input-generic center margin-top-5" name="password" autocomplete="off">
+            <form action="/user/login" method="post" class="box three container ground padding-10">
+                <h5 class="box one center margin-top-10">E-mail</h5>
+                <input type="email" class="box one input-generic margin-top-5" name="email" autocomplete="off">
+                <h5 class="box one center margin-top-10">Senha</h5>
+                <input type="password" class="box one input-generic margin-top-5" name="password" autocomplete="off">
                 <button type="submit" class="box one submit-generic margin-top-10 bold">Login</button>
             </form>
-        </section>
+        </div>
     </body>
     <footer>
         <% include ./partials/footer %>

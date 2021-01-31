@@ -75,41 +75,41 @@ $("#financial-income-create-form").on('submit', (event) => {
 
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 	
-	$.ajax({
-		url: '/financial/income/save',
-		method: 'post',
-		data: {
-			category_id: category_id,
-			category_name: category_name,
-			origin_id: origin_id,
-			origin_name: origin_name,
-			value: value,
-			obs: obs
-		},
-		success: (response) => {
-			if(response.unauthorized){
-				alert(response.unauthorized);
-				window.location.href = '/login';
-				return;
-			};
+	// $.ajax({
+	// 	url: '/financial/income/save',
+	// 	method: 'post',
+	// 	data: {
+	// 		category_id: category_id,
+	// 		category_name: category_name,
+	// 		origin_id: origin_id,
+	// 		origin_name: origin_name,
+	// 		value: value,
+	// 		obs: obs
+	// 	},
+	// 	success: (response) => {
+	// 		if(response.unauthorized){
+	// 			alert(response.unauthorized);
+	// 			window.location.href = '/login';
+	// 			return;
+	// 		};
 			
-			if(response.msg){
-				alert(response.msg);
-				document.getElementById('ajax-loader').style.visibility = 'hidden';
-				document.getElementById('ajax-loader').style.display = 'none';
-				return;
-			};
+	// 		if(response.msg){
+	// 			alert(response.msg);
+	// 			document.getElementById('ajax-loader').style.visibility = 'hidden';
+	// 			document.getElementById('ajax-loader').style.display = 'none';
+	// 			return;
+	// 		};
 
-			document.getElementById('ajax-loader').style.visibility = 'hidden';
+	// 		document.getElementById('ajax-loader').style.visibility = 'hidden';
 			
-			alert(response.done);
+	// 		alert(response.done);
 
-			document.getElementById("financial-income-create-form").elements.namedItem('income_category').value = "0";
-			document.getElementById("financial-income-create-form").elements.namedItem('income_origin').value = "0";
-			document.getElementById("financial-income-create-form").elements.namedItem('income_value').value = "0.00";
-			document.getElementById("financial-income-create-form").elements.namedItem('income_obs').value = "";
+	// 		document.getElementById("financial-income-create-form").elements.namedItem('income_category').value = "0";
+	// 		document.getElementById("financial-income-create-form").elements.namedItem('income_origin').value = "0";
+	// 		document.getElementById("financial-income-create-form").elements.namedItem('income_value').value = "0.00";
+	// 		document.getElementById("financial-income-create-form").elements.namedItem('income_obs').value = "";
 
-			return document.getElementById('income-create-submit').disabled = false;	
-		}
-	});
+	// 		return document.getElementById('income-create-submit').disabled = false;	
+	// 	}
+	// });
 });
