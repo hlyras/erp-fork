@@ -15,7 +15,7 @@
                             <ul class="box one container">
                                 <li>
                                     <input type="hidden" name="sale-customer_id">
-                                    <input type="text" id="sale-customer" data-id="" class="box one input-generic center" oninput="Customer.controller.filter.input(this, 'sale-customer-dropdown')" placeholder="Digite o Nome do cliente ou CNPJ" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                    <input type="text" id="sale-customer" data-id="" class="box one input-generic center" oninput="Sale.customer.controller.filter.input(this, 'sale-customer-dropdown')" placeholder="Digite o Nome do cliente ou CNPJ" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
                                     <ul id="sale-customer-dropdown" class="box one"></ul>
                                 </li>
                             </ul>
@@ -30,7 +30,9 @@
                                 <ul class="box one container">
                                     <li>
                                         <input type="hidden" name="product_id">
-                                        <input type="text" id="sale-product-kart-dropdown-input" name="product" data-id="" class="box one input-generic center" oninput="Product.controller.dropdown.filter(this, 'sale-product-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                        
+                                        <input type="text" id="sale-product-kart-dropdown-input" name="product" data-id="" class="box one input-generic center" oninput="Sale.product.controller.dropdown.filter(this, 'sale-product-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                        
                                         <ul id="sale-product-kart-dropdown" class="box one"></ul>
                                     </li>
                                 </ul>
@@ -42,12 +44,25 @@
                     </div>
                     <div class="box two container ground center padding-10 margin-top-5">
                         <h5 class="underline">Pacote de produtos</h5>
-                        <form id="sale-product-package-form" class="box one container">
+                        <form id="sale-package-kart-form" class="box one container">
                             <input type="hidden" name="id" value="">
-                            <input type="text" name="name" class="box two-thirds input-generic center margin-top-5" value="" placeholder="Descrição do pacote" autocomplete="off">
-                            <input type="number" name="income_value" class="box six input-generic center margin-top-5 bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}"/>
+
+                            <div class="box two-thirds container dropdown ground margin-top-5">
+                                <ul class="box one container">
+                                    <li>
+                                        <input type="hidden" name="product_id">
+                                        
+                                        <input type="text" id="sale-package-kart-dropdown-input" name="package" data-id="" class="box one input-generic center" oninput="Sale.package.controller.dropdown.filter(this, 'sale-package-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                        
+                                        <ul id="sale-package-kart-dropdown" class="box one"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <input type="number" name="amount" class="box six input-generic center margin-top-5" placeholder="Qtd">
                             <button type="submit" name="submit" class="box six submit-generic margin-top-5 pointer"><img class='img-tbl-btn' src="images/icon/increase.png"></button>
                         </form>
+                        <div id="sale-package-kart-div" class="box one container ground padding-10 margin-top-10"></div>
                     </div>
                 </div>
                 <div class="box two container ground padding-10 margin-top-10">
@@ -87,12 +102,19 @@
         <% include ./partial %>
         <script src="/javascripts/scripts/product/model/main.js"></script>
         <script src="/javascripts/scripts/customer/model/main.js"></script>
-        <!-- <script src="/javascripts/scripts/product/model/package.js"></script> -->
+        <script src="/javascripts/scripts/product/model/package.js"></script>
+
+        <script src="/javascripts/scripts/sale/model/customer.js"></script>
+        <script src="/javascripts/scripts/sale/model/product.js"></script>
+        <script src="/javascripts/scripts/sale/model/package.js"></script>
+
+        <script src="/javascripts/scripts/sale/view/customer.js"></script>
+        <script src="/javascripts/scripts/sale/controller/customer.js"></script>
 
         <script src="/javascripts/scripts/sale/view/product.js"></script>
         <script src="/javascripts/scripts/sale/controller/product.js"></script>
 
-        <script src="/javascripts/scripts/sale/view/customer.js"></script>
-        <script src="/javascripts/scripts/sale/controller/customer.js"></script>
+        <script src="/javascripts/scripts/sale/view/package.js"></script>
+        <script src="/javascripts/scripts/sale/controller/package.js"></script>
     </footer>
 </html>

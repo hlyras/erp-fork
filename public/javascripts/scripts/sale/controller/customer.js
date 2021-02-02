@@ -1,6 +1,6 @@
-Customer.controller = {};
+Sale.customer.controller = {};
 
-Customer.controller.filter = {
+Sale.customer.controller.filter = {
 	input: async (input, dropdown_id) => {
 		event.preventDefault();
 

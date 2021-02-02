@@ -47,6 +47,8 @@ if(Product.controller.package.filter){
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
 		if(!packages) { return false };
 
+		packages = lib.sort(packages, "code");
+
 		const pagination = { pageSize: 10, page: 0};
 		$(() => { lib.carousel.execute("product-package-filter-box", Product.view.package.filter, packages, pagination); });
 	});
@@ -80,7 +82,7 @@ Product.controller.package.product.dropdown = {
 
 Product.controller.package.show = async (package_id) => {
 	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let package = await Product.package.findById(package_id);	
+	let package = await Product.package.findById(package_id);
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!package){ return false };
 

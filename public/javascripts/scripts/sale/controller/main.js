@@ -21,8 +21,6 @@ if(Sale.controller.save){
 			value: 0
 		};
 
-		console.log(sale);
-
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		sale = await Sale.save(sale);
 		document.getElementById('ajax-loader').style.visibility = 'hidden';

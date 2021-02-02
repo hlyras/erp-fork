@@ -1,8 +1,6 @@
-Sale.product = {};
+Sale.product.controller = {};
 
-Product.controller = {};
-
-Product.controller.dropdown = {
+Sale.product.controller.dropdown = {
 	filter: async (input, dropdown_id) => {
 		event.preventDefault();
 
@@ -13,7 +11,7 @@ Product.controller.dropdown = {
 			 brand: ""
 		};
 		
-		let properties = ["code", "name", "color", "size"];
+		let properties = ["code","name","color","size"];
 
 		if(product.name.length > 2){
 			let products = await Product.filter(product);
@@ -26,7 +24,7 @@ Product.controller.dropdown = {
 	}
 };
 
-Sale.product.kart = new lib.kart("sale-product-kart", "Sale.product.kart", ["code", "name", "color", "size"]);
+Sale.product.kart = new lib.kart("sale-product-kart", "Sale.product.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"size":"Tamanho"}]);
 
 Sale.product.kart.add = document.getElementById("sale-product-kart-form");
 if(Sale.product.kart.add){
@@ -74,5 +72,5 @@ if(Sale.product.kart.add){
 if(lib.localStorage.verify("sale-product-kart")){
 	let kart = JSON.parse(localStorage.getItem("sale-product-kart"));
 	Sale.product.kart.items = kart;
-	Sale.product.kart.list("Sale.product.kart", ["code","name","color","size"]);
+	Sale.product.kart.list("Sale.product.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"size":"Tamanho"}]);
 };
