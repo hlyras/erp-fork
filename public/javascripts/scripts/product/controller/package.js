@@ -119,7 +119,6 @@ Product.controller.package.product.update = async () => {
 };
 
 Product.controller.package.edit = async (id) => {
-
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 	let package = await Product.package.findById(id);
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
@@ -146,7 +145,7 @@ Product.controller.package.delete = async (id) => {
 	};
 };
 
-Product.package.product.kart = new lib.kart("product-package-product-kart", "Product.package.product.kart", ["code", "name", "color", "size"]);
+Product.package.product.kart = new lib.kart("product-package-product-kart", "Product.package.product.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"size":"Tamanho"}]);
 
 Product.package.product.kart.add = document.getElementById("product-package-product-kart-form");
 if(Product.package.product.kart.add){

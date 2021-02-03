@@ -74,10 +74,10 @@ if(Sale.package.kart.add){
 			Sale.package.product["kart"+Sale.package.kart.items[i].id].id = Sale.package.kart.items[i].id;
 			
 			for(let j in Sale.package.kart.items[i].products){
-				Sale.package.product["kart"+Sale.package.kart.items[i].id].insert("id", Sale.package.kart.items[i].products[j]);
+				Sale.package.product["kart"+Sale.package.kart.items[i].id].insert("product_code", Sale.package.kart.items[i].products[j]);
 			};
 			
-			Sale.package.product["kart"+Sale.package.kart.items[i].id].update("id");
+			Sale.package.product["kart"+Sale.package.kart.items[i].id].update("product_code");
 		};
 		Sale.package.kart.list("Sale.package.kart", Sale.package.kart.props);
 	
@@ -161,22 +161,33 @@ Sale.package.kart.set = (id) => {
 		Sale.package.product["kart"+id].add.addEventListener("submit", async event => {
 			event.preventDefault();
 
-			let product = {
-				id: event.target.elements.namedItem("product").dataset.id,
-				product_info: event.target.elements.namedItem("product").value,
-				amount: parseInt(event.target.elements.namedItem("amount").value),
+			if(!document.getElementById(Sale.package.product["kart"+id].name+"-form").elements.namedItem("product").readOnly){ 
+				return alert("Produto inválido");
 			};
 
-			if(product.id <= 0 || !product.id || isNaN(product.id)){
-				return alert("É necessário selecionar um pacote.");
+			let product = document.getElementById(Sale.package.product["kart"+id].name+"-form").elements.namedItem("product");
+			let splitedProduct = product.value.split(" | ");
+			let amount = document.getElementById(Sale.package.product["kart"+id].name+"-form").elements.namedItem("amount").value;
+
+			if(splitedProduct.length < 3 || !splitedProduct){
+				alert("É necessário selecionar um produto.");
+				return;
 			};
 
-			if(product.amount < 0.01 || !product.amount){
-				return alert("É necessário preencher a quantidade de pacotes.");
+			if(amount < 0.01 || !amount){
+				alert("É necessário preencher a quantidade do produto.");
+				return;
 			};
 
-			Sale.package.product["kart"+id].insert("id", product);
-			Sale.package.product["kart"+id].update("id");
+			product = {
+				id: product.dataset.id,
+				product_code: splitedProduct[0],
+				product_info: product.value,
+				amount: parseInt(amount)
+			};
+
+			Sale.package.product["kart"+id].insert("product_code", product);
+			Sale.package.product["kart"+id].update("product_code");
 			Sale.package.product["kart"+id].list(Sale.package.product["kart"+id].name, Sale.package.product["kart"+id].props);
 
 			event.target.elements.namedItem("product").dataset.id = "";
@@ -197,18 +208,16 @@ if(lib.localStorage.verify("sale-package-kart")){
 		Sale.package.product["kart"+Sale.package.kart.items[i].id].id = Sale.package.kart.items[i].id;
 		
 		if(JSON.parse(localStorage.getItem(Sale.package.product["kart"+Sale.package.kart.items[i].id].name))){
-			// console.log(JSON.parse(localStorage.getItem(Sale.package.product["kart"+Sale.package.kart.items[i].id].name)));
 			let sale_package_product_kart = JSON.parse(localStorage.getItem(Sale.package.product["kart"+Sale.package.kart.items[i].id].name));
 			if(sale_package_product_kart.length > 0){
 				Sale.package.product["kart"+Sale.package.kart.items[i].id].items = sale_package_product_kart;
-				Sale.package.product["kart"+Sale.package.kart.items[i].id].update("id");
-			}
+				Sale.package.product["kart"+Sale.package.kart.items[i].id].update("product_code");
+			};
 		} else {
 			for(let j in Sale.package.kart.items[i].products){
-				Sale.package.product["kart"+Sale.package.kart.items[i].id].insert("id", Sale.package.kart.items[i].products[j]);
+				Sale.package.product["kart"+Sale.package.kart.items[i].id].insert("product_code", Sale.package.kart.items[i].products[j]);
 			};
 		};
-		
 	};
 
 	Sale.package.kart.list("Sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"price":"Preço"}]);

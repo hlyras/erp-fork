@@ -175,9 +175,10 @@ Product.package = {
 	},
 	product: {
 		add: async (package_id, product) => {
-			let query = "INSERT INTO cms_wt_erp.product_package_product (package_id, product_id, product_info, amount) VALUES ('"
+			let query = "INSERT INTO cms_wt_erp.product_package_product (package_id, product_id, product_code, product_info, amount) VALUES ('"
 				+package_id+"','"
 				+product.id+"','"
+				+product.code+"','"
 				+product.info+"','"
 				+product.amount+"');";
 			return db(query);
