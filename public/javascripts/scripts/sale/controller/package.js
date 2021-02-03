@@ -67,7 +67,7 @@ Sale.package.kart.list = (kart, props) => {
 				html += "<div id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-hider' class='mobile-box nine center pointer box-hover border-explicit' onclick='lib.displayDiv(`sale-package-product-kart"+Sale.package.kart.items[i].id+"-box`, this);'>"+Sale.package.kart.items[i].code+"</div>";
 				html += "<div class='mobile-box three center'>"+Sale.package.kart.items[i].name+"</div>";
 				html += "<div class='mobile-box nine center'>"+Sale.package.kart.items[i].color+"</div>";
-				html += "<div class='mobile-box twelve center'>"+Sale.package.kart.items[i].price+"</div>";
+				html += "<div class='mobile-box twelve center'>$"+Sale.package.kart.items[i].price+"</div>";
 				html += "<div class='mobile-box twelve center'><img class='icon size-15' src='/images/icon/decrease.png' onclick='"+kart+".decrease("+Sale.package.kart.items[i].id+")'></div>";
 				html += "<input class='mobile-box nine border-explicit center' type='text' id='sale-package-kart"+Sale.package.kart.items[i].id+"' onchange='"+kart+".updateAmount("+Sale.package.kart.items[i].id+", this.value);lib.focus(this)' value='"+Sale.package.kart.items[i].amount+"'>";
 				html += "<div class='mobile-box twelve center'><img class='icon size-15' src='/images/icon/increase.png' onclick='"+kart+".increase("+Sale.package.kart.items[i].id+")'></div>";
@@ -100,6 +100,8 @@ Sale.package.kart.list = (kart, props) => {
 		};
 	} else {
 		document.getElementById(Sale.package.kart.name+"-div").innerHTML = "";
+		lib.localStorage.update("sale-package-product-kart-id", 1);
+
 	};
 };
 
