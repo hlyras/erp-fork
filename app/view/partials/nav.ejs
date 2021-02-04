@@ -1,4 +1,4 @@
-<nav>
+<!-- <nav>
 	<select class="hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
 	    <option value="" disabled selected>Financeiro</option>
 	    <option value="/financial/index">Gerir Receitas / Despesas</option>
@@ -19,8 +19,9 @@
 	</select>
 
 	<select class="hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-	    <option value="" disabled selected>Produção</option>
+	    <option value="" disabled selected>Produtos</option>
 	    <option value="/product/manage">Gerir Produtos</option>
+	    <option value="/product/preço">tabela de Preços</option>
 	    <option value="/product/package">Novo pacote</option>
 	    <option value="/production/simulation">Simular Produção</option>
 	    <option value="/production">Solicitar Produção</option>
@@ -34,4 +35,53 @@
 	    <option value="/sale/manage">Vendas</option>
 	    <option value="">E-comerce</option>
 	</select>
-</nav>
+</nav> -->
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <select class="padding-5 margin-top-5 hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="" disabled selected>Financeiro</option>
+	    <option value="/financial/index">Gerir Receitas / Despesas</option>
+	    <option value="/financial/income">Configurar Receitas</option>
+	    <option value="/financial/outcome">Configurar Despesas</option>
+	</select>
+
+	<select class="padding-5 margin-top-5 hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="" disabled selected>Matéria-Prima</option>
+	    <option value="/feedstock/manage">Gerir Materias-Primas</option>
+	    <option value="/feedstock/supplier">Gerir Fornecedores</option>
+	    <option value="/feedstock/request">Pedido avulso</option>
+	    <option value="/feedstock/regress">Pedido de retorno</option>
+	    <option value="/feedstock/purchase">Pedido de compra</option>
+	    <option value="/feedstock/purchase/manage">Gerir Compras</option>
+	    <option value="/feedstock/storage">Estoque</option>
+	    <option value="/feedstock/storage/manage">Gerir Estoque</option>
+	</select>
+
+	<select class="padding-5 margin-top-5 hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="" disabled selected>Produtos</option>
+	    <option value="/product/manage">Gerir Produtos</option>
+	    <option value="/product/price">tabela de Preços</option>
+	    <option value="/product/package">Novo pacote</option>
+	    <option value="/production/simulation">Simular Produção</option>
+	    <option value="/production">Solicitar Produção</option>
+	    <option value="/production/manage">Gerir Produções</option>
+	</select>
+
+	<select class="padding-5 margin-top-5 hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="" disabled selected>Comercial</option>
+	    <option value="/customer">Clientes</option>
+	    <option value="/sale">Nova venda</option>
+	    <option value="/sale/manage">Vendas</option>
+	    <option value="">E-comerce</option>
+	</select>
+</div>
+
+<div class="container mobile-box one margin-top-5">
+	<div class="mobile-box five ground padding-10 pointer" style="color:#555" onclick="openNav()">&#9776; Menu</div>
+</div>
+
+<script>
+	function openNav() { document.getElementById("mySidenav").style.width = "250px"; };
+	function closeNav() { document.getElementById("mySidenav").style.width = "0"; };
+</script>

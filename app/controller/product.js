@@ -498,6 +498,20 @@ const productController = {
 			}
 		}
 	},
+	price: {
+		index: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm'])){
+				return res.redirect('/');
+			};
+
+			try {
+				res.render('product/price', { user: req.user });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+			};
+		}
+	},
 	package: {
 		index: async (req, res) => {
 			if(!await userController.verifyAccess(req, res, ['adm'])){
