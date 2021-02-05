@@ -29,6 +29,9 @@ router.get('/feedstock/category/list/product_id/:product_id', productController.
 
 router.get('/price', productController.price.index);
 router.post('/price/category/save', productController.price.category.save);
+router.get('/price/category/filter', productController.price.category.filter);
+router.get('/price/category/id/:id', productController.price.category.findById);
+router.delete('/price/category/delete', productController.price.category.delete);
 
 router.get('/package', productController.package.index);
 router.post('/package/save', productController.package.save);

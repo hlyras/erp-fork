@@ -127,6 +127,16 @@ const productController = {
 				var row = await Product.save(product);
 				let newProduct = await Product.findById(row.insertId);
 
+				let price_categories = await Product.price.category.list();
+				for(let i in price_categories){
+					let price = {
+						category_id: price_categories[i].id,
+						product_id: row.insertId,
+						price: 0
+					};
+					await Product.price.save(price);
+				};
+
 				res.send({ done: 'Produto cadastrado com sucesso!', product: newProduct });
 			} else {
 				var row = await Product.findByCode(product.code);
@@ -255,6 +265,7 @@ const productController = {
 		};
 
 		try {
+			await Product.price.delete(req.query.id);
 			await Product.feedstock.removeByProductId(req.query.id);
 			await Product.image.removeByProductId(req.query.id);
 			await Product.delete(req.query.id);
@@ -525,7 +536,17 @@ const productController = {
 					if(!category.id){
 						let row = await Product.price.category.save(req.body.category);
 						category.id = row.insertId;
-						// Cadastrar todos os produtos na tabela da categoria
+						
+						let products = await Product.list();
+						for(let i in products){
+							let price = {
+								category_id: category.id,
+								product_id: products[i].id,
+								price: 0
+							};
+							await Product.price.save(price);
+						};
+
 						res.send({ done: "Categoria cadastrada com sucesso!", category: category });
 					} else {
 						let row = await Product.price.category.update(req.body.category);
@@ -534,6 +555,66 @@ const productController = {
 				} catch (err) {
 					console.log(err);
 					res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
+				};
+			},
+			filter: async (req, res) => {
+				// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+					// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				// };
+
+				var params = [];
+				var values = [];
+
+				if(isNaN(req.query.id) || req.query.id < 0 || req.query.id > 9999){
+					req.query.id = "";
+				};
+
+				if(req.query.id){
+					params.push("id");
+					values.push(req.query.id);
+				};
+
+				try {
+					if(req.query.name){
+						let categories = await Product.price.category.filter(req.query.name, params, values);
+						res.send({ categories });
+					} else {
+						let categories = await Product.price.category.filter(false, params, values);
+						res.send({ categories });
+					};
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });
+				};
+			},
+			findById: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','man','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				};
+
+				try {
+					let category = await Product.price.category.findById(req.params.id);
+					category[0].products = await Product.list();
+					category[0].prices = await Product.price.list(req.params.id);
+
+					res.send({ category });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao encontrar a os produtos da tabela, favor contatar o suporte." });
+				};
+			},
+			delete: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','man'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				};
+
+				try {
+					await Product.price.category.delete(req.query.id);
+					await Product.price.deleteAll(req.query.id);
+					res.send({ done: 'Tabela excluída com sucesso!' });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao remover a tabela, favor entrar em contato com o suporte." });
 				};
 			}
 		}

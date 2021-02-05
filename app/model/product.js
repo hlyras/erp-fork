@@ -129,7 +129,6 @@ Product.feedstock = {
 				+product_feedstock_category.name+"');";
 			return db(query);		
 		},
-		// todo create findById
 		list: async (product_id) => {
 			let query = "SELECT * FROM cms_wt_erp.product_feedstock_category WHERE product_id='"+product_id+"';";
 			return db(query);
@@ -142,29 +141,52 @@ Product.feedstock = {
 };
 
 Product.price = {
-	// save: async (price) => {
-	// 	let query = "INSERT INTO cms_wt_erp.product_price (code, name, color, price) VALUES ('"
-	// 		+price.code+"', '"
-	// 		+price.name+"', '"
-	// 		+price.color+"', '"
-	// 		+price.price+"');";
-	// 	return db(query);
-	// },
-	// update: async (price) => {
-	// 	let query = "UPDATE cms_wt_erp.product_price SET code='"+price.code
-	// 		+"', name='"+price.name
-	// 		+"', color='"+price.color
-	// 		+"', price='"+price.price+"' WHERE id='"+price.id+"';";
-	// 	return db(query);
-	// },
+	save: async (price) => {
+		let query = "INSERT INTO cms_wt_erp.product_price (category_id, product_id, price) VALUES ('"
+			+price.category_id+"', '"
+			+price.product_id+"', '"
+			+price.price+"');";
+		return db(query);
+	},
+	update: async (price) => {
+		let query = "UPDATE cms_wt_erp.product_price SET price='"+price.price+"' WHERE id='"+price.id+"';";
+		return db(query);
+	},
+	list: async (category_id) => {
+		let query = "SELECT * FROM cms_wt_erp.product_price where category_id='"+category_id+"' ORDER BY id ASC;";
+		return db(query);
+	},
+	delete: async (id) => {
+		let query = "DELETE FROM cms_wt_erp.product_price WHERE product_id='"+id+"';";
+		return db(query);
+	},
+	deleteAll: async (id) => {
+		let query = "DELETE FROM cms_wt_erp.product_price WHERE category_id='"+id+"';";
+		return db(query);
+	},
 	category: {
 		save: async (price) => {
-			let query = "INSERT INTO cms_wt_erp.product_price_category (name) VALUES ('"
-				+price.name+"');";
+			let query = "INSERT INTO cms_wt_erp.product_price_category (name) VALUES ('"+price.name+"');";
 			return db(query);
 		},
 		update: async (price) => {
 			let query = "UPDATE cms_wt_erp.product_price_category SET name='"+price.name+"' WHERE id='"+price.id+"';";
+			return db(query);
+		},
+		list: async () => {
+			let query = "SELECT * FROM cms_wt_erp.product_price_category ORDER BY id ASC;";
+			return db(query);
+		},
+		filter: async (name, params, values) => {
+			let query = lib.filterQueryName(name, params, values, "cms_wt_erp", "product_price_category", "id", "ASC");
+			return db(query);
+		},
+		findById: async (id) => {
+			let query = "SELECT * FROM cms_wt_erp.product_price_category WHERE id='"+id+"';";
+			return db(query);
+		},
+		delete: async (id) => {
+			let query = "DELETE FROM cms_wt_erp.product_price_category WHERE id='"+id+"';";
 			return db(query);
 		}
 	}
