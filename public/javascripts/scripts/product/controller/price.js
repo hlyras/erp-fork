@@ -22,7 +22,7 @@ if(Product.price.category.controller.create){
 		event.target.elements.namedItem("id").value = "";
 		event.target.elements.namedItem("name").value = "";
 
-		document.getElementById("product-price-category-show-box").style.display = "none";
+		// document.getElementById("product-price-category-show-box").style.display = "none";
 		// document.getElementById("product-price-category-filter-form").submit.click();
 	});
 };
