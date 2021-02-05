@@ -28,6 +28,7 @@ router.post('/feedstock/category/save', productController.feedstock.category.sav
 router.get('/feedstock/category/list/product_id/:product_id', productController.feedstock.category.list);
 
 router.get('/price', productController.price.index);
+router.post('/price/category/save', productController.price.category.save);
 
 router.get('/package', productController.package.index);
 router.post('/package/save', productController.package.save);

@@ -141,6 +141,35 @@ Product.feedstock = {
 	}
 };
 
+Product.price = {
+	// save: async (price) => {
+	// 	let query = "INSERT INTO cms_wt_erp.product_price (code, name, color, price) VALUES ('"
+	// 		+price.code+"', '"
+	// 		+price.name+"', '"
+	// 		+price.color+"', '"
+	// 		+price.price+"');";
+	// 	return db(query);
+	// },
+	// update: async (price) => {
+	// 	let query = "UPDATE cms_wt_erp.product_price SET code='"+price.code
+	// 		+"', name='"+price.name
+	// 		+"', color='"+price.color
+	// 		+"', price='"+price.price+"' WHERE id='"+price.id+"';";
+	// 	return db(query);
+	// },
+	category: {
+		save: async (price) => {
+			let query = "INSERT INTO cms_wt_erp.product_price_category (name) VALUES ('"
+				+price.name+"');";
+			return db(query);
+		},
+		update: async (price) => {
+			let query = "UPDATE cms_wt_erp.product_price_category SET name='"+price.name+"' WHERE id='"+price.id+"';";
+			return db(query);
+		}
+	}
+};
+
 Product.package = {
 	save: async (package) => {
 		let query = "INSERT INTO cms_wt_erp.product_package (code, name, color, price) VALUES ('"

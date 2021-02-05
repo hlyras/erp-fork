@@ -7,8 +7,22 @@
         <% include ./../partials/nav %>
 		<section>
 			<div class="container">
-				<div class="box-2">
-					Price
+				<div class="box two	ground padding-10 margin-top-10">
+					<h3 class="underline center">Nova categoria</h3>
+					<form id="product-price-category-create-form" class="box one container padding-10 margin-top-10">
+						<input type="hidden" name="id">
+						<input type="text" name="name" class="box three-fourths input-generic margin-top-5 center" placeholder="Nome da categoria" autocomplete="off">
+						<input type="submit" name="submit" class="box four submit-generic margin-top-5" value="Cadastrar">
+					</form>
+				</div>
+				<div id="product-price-category-filter-box" class="box two ground padding-10 margin-top-10">
+					<h3 class="underline center">Buscar categorias</h3>
+					<form id="product-price-category-filter-form" class="box one container padding-10 margin-top-10">
+						<input type="text" name="name" class="box three-fourths input-generic center margin-top-5" placeholder="Nome ou código da categoria" autocomplete="off">
+						<input type="submit" name="submit" class="box four submit-generic margin-top-5" value="Filtrar">
+					</form>
+					<table id="product-price-category-filter-table"></table>
+					<% include ./../partials/carousel %>
 				</div>
 			</div>
 		</section>
@@ -19,5 +33,8 @@
 	<footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
+        <script src="/javascripts/scripts/product/model/price.js"></script>
+        <script src="/javascripts/scripts/product/view/price.js"></script>
+        <script src="/javascripts/scripts/product/controller/price.js"></script>
 	</footer>
 </html>

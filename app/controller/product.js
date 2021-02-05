@@ -510,6 +510,32 @@ const productController = {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 			};
+		},
+		category: {
+			save: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm'])){
+					return res.redirect('/');
+				};
+
+				let category = req.body.category;
+
+				if(!category.name || category.name.length > 50){return res.send({ msg: 'O nome da categoria é inválido.' })};
+
+				try {
+					if(!category.id){
+						let row = await Product.price.category.save(req.body.category);
+						category.id = row.insertId;
+						// Cadastrar todos os produtos na tabela da categoria
+						res.send({ done: "Categoria cadastrada com sucesso!", category: category });
+					} else {
+						let row = await Product.price.category.update(req.body.category);
+						res.send({ done: "Categoria atualizada com sucesso!", category: category });
+					};
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
+				};
+			}
 		}
 	},
 	package: {
