@@ -195,6 +195,25 @@ Sale.package.kart.set = (id) => {
 			event.target.elements.namedItem("amount").value = "";
 		});
 	};
+
+	Sale.package.product["kart"+id].remove = (obj_id) => {
+
+		var kart_backup = [];
+		for(let i in Sale.package.product["kart"+id].items){
+			if(Sale.package.product["kart"+id].items[i].id != obj_id){
+				kart_backup.push(Sale.package.product["kart"+id].items[i]);
+			};
+		};
+
+		Sale.package.product["kart"+id].items = kart_backup;
+
+		let stringified_kart = JSON.stringify(Sale.package.product["kart"+id].items);
+		lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
+
+		if(!Sale.package.product["kart"+id].items.length){ return Sale.package.kart.remove(id); };
+		
+		Sale.package.product["kart"+id].list(Sale.package.product["kart"+id].variable, Sale.package.product["kart"+id].props);
+	};
 };
 
 if(lib.localStorage.verify("sale-package-kart")){

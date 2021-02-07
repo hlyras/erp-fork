@@ -595,7 +595,19 @@ const productController = {
 				try {
 					let category = await Product.price.category.findById(req.params.id);
 					category[0].products = await Product.list();
-					category[0].prices = await Product.price.list(req.params.id);
+					
+					let prices = await Product.price.list(req.params.id);
+
+					category[0].products = prices.reduce((products, price) => {
+						for(i in products){
+							if(products[i].id == price.product_id){
+								products[i].price = price.price;
+								return products;
+							};
+						};
+						products[i].price = 0;
+						return products;
+					}, category[0].products);
 
 					res.send({ category });
 				} catch (err) {

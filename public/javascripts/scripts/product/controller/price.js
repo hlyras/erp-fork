@@ -55,10 +55,9 @@ Product.price.category.controller.show = async (category_id) => {
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!category){ return false };
 
-	console.log(category);
-	// document.getElementById("product-price-category-id").value = category_id;
+	document.getElementById("product-price-category-id").value = category_id;
 
-	// Product.price.category.view.show(category);
+	Product.price.category.view.show(category);
 };
 
 Product.price.category.controller.delete = async (id) => {

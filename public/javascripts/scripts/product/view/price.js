@@ -22,5 +22,12 @@ Product.price.category.view.filter = (categories, pagination) => {
 };
 
 Product.price.category.view.show = (category) => {
-	
+	console.log(category.products);
+
+	let html = "";
+	html += "<div></div>";
+	html += "<div></div>";
+	html += "<div></div>";
+	html += "<div></div>";
+	html += "<div></div>";
 };
