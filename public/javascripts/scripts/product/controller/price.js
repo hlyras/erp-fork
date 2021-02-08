@@ -60,21 +60,21 @@ Product.price.category.controller.show = async (category_id) => {
 	$(() => { lib.carousel.execute("product-price-category-show-box", Product.price.category.view.showProducts, category.products, pagination); });
 };
 
-Product.price.category.controller.updatePrice = (price_id, input_id) => {
+Product.price.controller.updatePrice = async (price_id, input_id) => {
 	let price = {
 		id: price_id,
 		price: parseFloat(document.getElementById(input_id).value)
 	};
 
-	console.log(price.price);
-
-	if(isNaN(price.price) || !price.price || price.price < 0){
+	if(isNaN(price.price) || price.price < 0){
+		document.getElementById(input_id).value = document.getElementById(input_id).dataset.price;
 		return alert('Preço inválido');
 	};
 
-	console.log(parseInt(document.getElementById(input_id).dataset.price));
-
-	// document.getElementById(input_id).value = document.getElementById(input_id).value = 
+	document.getElementById('ajax-loader').style.visibility = 'visible';
+	price = await Product.price.update(price);
+	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	if(!price){ return false };
 };
 
 Product.price.category.controller.delete = async (id) => {

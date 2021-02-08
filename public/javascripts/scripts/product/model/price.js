@@ -1,7 +1,7 @@
 Product.price = {};
 
-Product.price.save = async (price) => {
-	let response = await fetch("/product/price/save", {
+Product.price.update = async (price) => {
+	let response = await fetch("/product/price/update", {
 		method: "POST",
 		headers: {'Content-Type':'application/json'},
 	    body: JSON.stringify({ price })

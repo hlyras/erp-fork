@@ -522,11 +522,26 @@ const productController = {
 				res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 			};
 		},
+		update: async (req, res) => {
+			// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+				// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			// };
+
+			let price = req.body.price;
+
+			try {
+				await Product.price.update(price);
+				res.send({ done: "Preço atualizado com sucesso!", price: price});
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao realizar a atualização, favor contatar o suporte." });
+			};
+		},
 		category: {
 			save: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm'])){
-					return res.redirect('/');
-				};
+				// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+					// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				// };
 
 				let category = req.body.category;
 
