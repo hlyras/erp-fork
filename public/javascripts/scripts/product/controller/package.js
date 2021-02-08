@@ -129,7 +129,6 @@ Product.controller.package.edit = async (id) => {
 	document.getElementById('product-package-create-form').elements.namedItem("name").value = package.name;
 	document.getElementById('product-package-create-form').elements.namedItem("color").value = package.color;
 	document.getElementById('product-package-create-form').elements.namedItem("price").value = package.price;
-
 };
 
 Product.controller.package.delete = async (id) => {

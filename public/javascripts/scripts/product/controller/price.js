@@ -1,5 +1,22 @@
 Product.price.controller = {};
 
+Product.price.controller.updatePrice = async (price_id, input_id) => {
+	let price = {
+		id: price_id,
+		price: parseFloat(document.getElementById(input_id).value)
+	};
+
+	if(isNaN(price.price) || price.price < 0){
+		document.getElementById(input_id).value = document.getElementById(input_id).dataset.price;
+		return alert('Preço inválido');
+	};
+
+	document.getElementById('ajax-loader').style.visibility = 'visible';
+	price = await Product.price.update(price);
+	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	if(!price){ return false };
+};
+
 Product.price.category.controller = {};
 
 Product.price.category.controller.create = document.getElementById("product-price-category-create-form");
@@ -20,8 +37,8 @@ if(Product.price.category.controller.create){
 		event.target.elements.namedItem("id").value = "";
 		event.target.elements.namedItem("name").value = "";
 
-		// document.getElementById("product-price-category-show-box").style.display = "none";
-		// document.getElementById("product-price-category-filter-form").submit.click();
+		document.getElementById("product-price-category-show-box").style.display = "none";
+		document.getElementById("product-price-category-filter-form").submit.click();
 	});
 };
 
@@ -56,26 +73,20 @@ Product.price.category.controller.show = async (category_id) => {
 	document.getElementById("product-price-category-show-id").value = category_id;
 
 	Product.price.category.view.show(category);
-	
+
+	document.getElementById("product-price-category-show-box").style.display = "";
 	// const pagination = { pageSize: 10, page: 0};
 	// $(() => { lib.carousel.execute("product-price-category-show-box", Product.price.category.view.showProducts, category.products, pagination); });
 };
 
-Product.price.controller.updatePrice = async (price_id, input_id) => {
-	let price = {
-		id: price_id,
-		price: parseFloat(document.getElementById(input_id).value)
-	};
-
-	if(isNaN(price.price) || price.price < 0){
-		document.getElementById(input_id).value = document.getElementById(input_id).dataset.price;
-		return alert('Preço inválido');
-	};
-
+Product.price.category.controller.edit = async (id) => {
 	document.getElementById('ajax-loader').style.visibility = 'visible';
-	price = await Product.price.update(price);
+	let category = await Product.price.category.findById(id);
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
-	if(!price){ return false };
+	if(!category){ return false };
+
+	document.getElementById('product-price-category-create-form').elements.namedItem("id").value = category.id;
+	document.getElementById('product-price-category-create-form').elements.namedItem("name").value = category.name;
 };
 
 Product.price.category.controller.delete = async (id) => {

@@ -564,7 +564,7 @@ const productController = {
 
 						res.send({ done: "Categoria cadastrada com sucesso!", category: category });
 					} else {
-						let row = await Product.price.category.update(req.body.category);
+						await Product.price.category.update(req.body.category);
 						res.send({ done: "Categoria atualizada com sucesso!", category: category });
 					};
 				} catch (err) {

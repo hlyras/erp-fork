@@ -165,12 +165,12 @@ Product.price = {
 		return db(query);
 	},
 	category: {
-		save: async (price) => {
-			let query = "INSERT INTO cms_wt_erp.product_price_category (name) VALUES ('"+price.name+"');";
+		save: async (category) => {
+			let query = "INSERT INTO cms_wt_erp.product_price_category (name) VALUES ('"+category.name+"');";
 			return db(query);
 		},
-		update: async (price) => {
-			let query = "UPDATE cms_wt_erp.product_price_category SET name='"+price.name+"' WHERE id='"+price.id+"';";
+		update: async (category) => {
+			let query = "UPDATE cms_wt_erp.product_price_category SET name='"+category.name+"' WHERE id='"+category.id+"';";
 			return db(query);
 		},
 		list: async () => {
