@@ -56,8 +56,9 @@ Product.price.category.controller.show = async (category_id) => {
 	document.getElementById("product-price-category-show-id").value = category_id;
 
 	Product.price.category.view.show(category);
-	const pagination = { pageSize: 10, page: 0};
-	$(() => { lib.carousel.execute("product-price-category-show-box", Product.price.category.view.showProducts, category.products, pagination); });
+	
+	// const pagination = { pageSize: 10, page: 0};
+	// $(() => { lib.carousel.execute("product-price-category-show-box", Product.price.category.view.showProducts, category.products, pagination); });
 };
 
 Product.price.controller.updatePrice = async (price_id, input_id) => {
