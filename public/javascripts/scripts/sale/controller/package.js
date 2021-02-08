@@ -11,15 +11,13 @@ Sale.package.controller.dropdown = {
 			 brand: ""
 		};
 		
-		let properties = ["code","name","color","price"];
-
 		if(package.name.length > 2){
 			let products = await Product.package.filter(package);
 			if(!products){ return false; };
 
-			lib.dropdown.render(products, input.id, dropdown_id, "input", "id", properties);
+			lib.dropdown.render(products, input.id, dropdown_id, "input", "id", ["code","name","color","price"]);
 		} else {
-			lib.dropdown.render([], input.id, dropdown_id, "input", "id", properties);
+			lib.dropdown.render([], input.id, dropdown_id, "input", "id", ["code","name","color","price"]);
 		};
 	}
 };
@@ -135,8 +133,6 @@ Sale.package.kart.list = (kart, props) => {
 	};
 };
 
-//Excluir produto e remover o item do localstorage (lib.localstorage.remove)
-
 Sale.package.kart.remove = (obj_id) => {
 	var kart_backup = [];
 	for(let i in Sale.package.kart.items){
@@ -197,7 +193,6 @@ Sale.package.kart.set = (id) => {
 	};
 
 	Sale.package.product["kart"+id].remove = (obj_id) => {
-
 		var kart_backup = [];
 		for(let i in Sale.package.product["kart"+id].items){
 			if(Sale.package.product["kart"+id].items[i].id != obj_id){

@@ -12,8 +12,6 @@ if(Product.price.category.controller.create){
 			name: event.target.elements.namedItem("name").value,
 		};
 
-		console.log(category);
-
 		document.getElementById("ajax-loader").style.visibility = "visible";
 		category = await Product.price.category.save(category);
 		document.getElementById("ajax-loader").style.visibility = "hidden";
@@ -55,9 +53,28 @@ Product.price.category.controller.show = async (category_id) => {
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!category){ return false };
 
-	document.getElementById("product-price-category-id").value = category_id;
+	document.getElementById("product-price-category-show-id").value = category_id;
 
 	Product.price.category.view.show(category);
+	const pagination = { pageSize: 10, page: 0};
+	$(() => { lib.carousel.execute("product-price-category-show-box", Product.price.category.view.showProducts, category.products, pagination); });
+};
+
+Product.price.category.controller.updatePrice = (price_id, input_id) => {
+	let price = {
+		id: price_id,
+		price: parseFloat(document.getElementById(input_id).value)
+	};
+
+	console.log(price.price);
+
+	if(isNaN(price.price) || !price.price || price.price < 0){
+		return alert('Preço inválido');
+	};
+
+	console.log(parseInt(document.getElementById(input_id).dataset.price));
+
+	// document.getElementById(input_id).value = document.getElementById(input_id).value = 
 };
 
 Product.price.category.controller.delete = async (id) => {

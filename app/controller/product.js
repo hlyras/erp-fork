@@ -601,6 +601,7 @@ const productController = {
 					category[0].products = prices.reduce((products, price) => {
 						for(i in products){
 							if(products[i].id == price.product_id){
+								products[i].price_id = price.id;
 								products[i].price = price.price;
 								return products;
 							};
