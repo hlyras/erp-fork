@@ -71,12 +71,19 @@ if(Sale.package.kart.add){
 			Sale.package.product["kart"+Sale.package.kart.items[i].id] = new lib.kart("sale-package-product-kart"+Sale.package.kart.items[i].id, "Sale.package.product.kart"+Sale.package.kart.items[i].id, [{"product_info":"Descrição"}]);
 			Sale.package.product["kart"+Sale.package.kart.items[i].id].id = Sale.package.kart.items[i].id;
 			
-			for(let j in Sale.package.kart.items[i].products){
-				Sale.package.product["kart"+Sale.package.kart.items[i].id].insert("product_code", Sale.package.kart.items[i].products[j]);
+			if(JSON.parse(localStorage.getItem(Sale.package.product["kart"+Sale.package.kart.items[i].id].name))){
+				let sale_package_product_kart = JSON.parse(localStorage.getItem(Sale.package.product["kart"+Sale.package.kart.items[i].id].name));
+				if(sale_package_product_kart.length > 0){
+					Sale.package.product["kart"+Sale.package.kart.items[i].id].items = sale_package_product_kart;
+				};
+			} else {
+				for(let j in Sale.package.kart.items[i].products){
+					Sale.package.product["kart"+Sale.package.kart.items[i].id].insert("product_code", Sale.package.kart.items[i].products[j]);
+				};
 			};
-			
 			Sale.package.product["kart"+Sale.package.kart.items[i].id].update("product_code");
 		};
+
 		Sale.package.kart.list("Sale.package.kart", Sale.package.kart.props);
 	
 		for(let i in Sale.package.product){ Sale.package.kart.set(Sale.package.product[i].id); };
@@ -225,13 +232,13 @@ if(lib.localStorage.verify("sale-package-kart")){
 			let sale_package_product_kart = JSON.parse(localStorage.getItem(Sale.package.product["kart"+Sale.package.kart.items[i].id].name));
 			if(sale_package_product_kart.length > 0){
 				Sale.package.product["kart"+Sale.package.kart.items[i].id].items = sale_package_product_kart;
-				Sale.package.product["kart"+Sale.package.kart.items[i].id].update("product_code");
 			};
 		} else {
 			for(let j in Sale.package.kart.items[i].products){
 				Sale.package.product["kart"+Sale.package.kart.items[i].id].insert("product_code", Sale.package.kart.items[i].products[j]);
 			};
 		};
+		Sale.package.product["kart"+Sale.package.kart.items[i].id].update("product_code");
 	};
 
 	Sale.package.kart.list("Sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"price":"Preço"}]);
