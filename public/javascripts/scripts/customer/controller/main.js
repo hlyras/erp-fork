@@ -22,7 +22,9 @@ if(Customer.controller.create){
 			social_media: event.target.elements.namedItem("social-media").value
 		};
 
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		customer = await Customer.save(customer);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
 		if(!customer) { return false };
 
 		event.target.elements.namedItem("id").value = "";
@@ -65,7 +67,10 @@ if(Customer.controller.filter){
 			cnpj: event.target.elements.namedItem("cnpj").value
 		};
 
+		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let customers = await Customer.filter(customer);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!customers){ return false };
 
 		const pagination = { pageSize: 10, page: 0};
 		$(() => { lib.carousel.execute("customer-filter-box", Customer.view.filter, customers, pagination); });
@@ -86,6 +91,19 @@ Customer.controller.edit = async (id) => {
 	let customer = await Customer.findById(id);
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!customer){ return false };
+
+	if(customer.person_type == "legal-entity"){
+		document.getElementById("customer-type-legal-entity-radio").checked = true;
+		document.getElementById("customer-type-natural-person-radio").checked = false;
+		document.getElementById("legal-entity-form").style.display = "";
+	    document.getElementById("customer-create-form").elements.namedItem("person-type").value = "legal-entity";
+
+	} else if(customer.person_type == "natural-person"){
+		document.getElementById("customer-type-legal-entity-radio").checked = false;
+		document.getElementById("customer-type-natural-person-radio").checked = true;
+		document.getElementById("legal-entity-form").style.display = "none";
+	    document.getElementById("customer-create-form").elements.namedItem("person-type").value = "natural-person";
+	};
 
 	Customer.controller.create.elements.namedItem("id").value = customer.id;
 	Customer.controller.create.elements.namedItem("name").value = customer.name;

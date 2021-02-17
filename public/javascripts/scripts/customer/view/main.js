@@ -98,27 +98,28 @@ Customer.view.show = (customer, box) => {
 		html += "</div>";
 	};
 
-	if(customer.adress.length){
-		for(i in customer.adress){
+	if(customer.address.length){
+		for(i in customer.address){
 			html += "<div class='box one container padding-10 margin-top-10 border-explicit'>";
 				html += "<div class='mobile-box three'></div>";
 				html += "<div class='mobile-box three underline center bold'>Endereço "+(parseInt(i)+1)+"</div>";
 				html += "<div class='mobile-box three container center bold'>";
 					html += "<h5 class='mobile-box three'></h5>";
-					html += "<h5 class='mobile-box three center bold'><img class='img-tbl-btn' src='/images/icon/edit.png' onclick='Customer.controller.adress.edit("+customer.adress[i].id+")'></h5>";
-					html += "<h5 class='mobile-box three center bold'><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Customer.controller.adress.delete("+customer.adress[i].id+", "+customer.id+")'></h5>";
+					html += "<h5 class='mobile-box three center bold'><img class='img-tbl-btn' src='/images/icon/edit.png' onclick='Customer.controller.address.edit("+customer.address[i].id+")'></h5>";
+					html += "<h5 class='mobile-box three center bold'><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Customer.controller.address.delete("+customer.address[i].id+", "+customer.id+")'></h5>";
 				html += "</div>";
-				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Logradouro:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].street+"</div></div>";
-				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>nº:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].number+"</div></div>";
-				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Complemento:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].complement+"</div></div>";
-				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Bairro:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].neighborhood+"</div></div>";
-				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Cidade:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].city+"</div></div>";
-				html += "<div class='box six container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Estado:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].state+"</div></div>";
-				html += "<div class='box six container center box-border padding-5 margin-top-5'><div class='mobile-box three'>CEP:</div><div class='mobile-box two-thirds center bold'>"+customer.adress[i].postal_code+"</div></div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Logradouro:</div><div class='mobile-box two-thirds center bold'>"+customer.address[i].street+"</div></div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>nº:</div><div class='mobile-box two-thirds center bold'>"+customer.address[i].number+"</div></div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Complemento:</div><div class='mobile-box two-thirds center bold'>"+customer.address[i].complement+"</div></div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Bairro:</div><div class='mobile-box two-thirds center bold'>"+customer.address[i].neighborhood+"</div></div>";
+				html += "<div class='box three container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Cidade:</div><div class='mobile-box two-thirds center bold'>"+customer.address[i].city+"</div></div>";
+				html += "<div class='box six container center box-border padding-5 margin-top-5'><div class='mobile-box three'>Estado:</div><div class='mobile-box two-thirds center bold'>"+customer.address[i].state+"</div></div>";
+				html += "<div class='box six container center box-border padding-5 margin-top-5'><div class='mobile-box three'>CEP:</div><div class='mobile-box two-thirds center bold'>"+customer.address[i].postal_code+"</div></div>";
 			html += "</div>";
 		};
 	};
 
-	document.getElementById("customer-adress-create-form").elements.namedItem("customer_id").value = customer.id;
+	document.getElementById("customer-address-create-form").elements.namedItem("customer_id").value = customer.id;
+
 	document.getElementById(box).innerHTML = html;
 };

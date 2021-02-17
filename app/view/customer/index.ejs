@@ -10,11 +10,11 @@
             <div class="box two container ground padding-10 margin-top-10">
                 <h3 class="box one ground underline padding-10 center">Novo Cliente</h3>
                 <div class="mobile-box two center margin-top-10">
-                    <input type="radio" name="customer-type" value="legal-entity" onclick="Customer.controller.form.switchPersonType(this);" checked="checked">
+                    <input type="radio" id="customer-type-legal-entity-radio" name="customer-type" value="legal-entity" onclick="Customer.controller.form.switchPersonType(this);" checked="checked">
                     <label for="legal-entity">Pessoa Jurídica</label><br>
                 </div>
                 <div class="mobile-box two center margin-top-10">
-                    <input type="radio" name="customer-type" value="natural-person" onclick="Customer.controller.form.switchPersonType(this);">
+                    <input type="radio" id="customer-type-natural-person-radio" name="customer-type" value="natural-person" onclick="Customer.controller.form.switchPersonType(this);">
                     <label for="natural-person">Pessoa Física</label>
                 </div>
                 <form id="customer-create-form" class="container box one box-border padding-10 margin-top-5">
@@ -39,21 +39,21 @@
             <div id="customer-filter-box" class="box two ground padding-10 margin-top-10">
                 <h3 class="box one ground padding-10 center box-border">Buscar Cliente</h3>
                 <form id="customer-filter-form" class="container box one box-border padding-10 margin-top-5">
-                    <input type="text" name="name" class="box three input-generic center ground margin-top-5" placeholder="Nome" autocomplete="off">
-                    <input type="text" name="cnpj" class="box three input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
-                    <input type="submit" name="submit" class="box three submit-generic pointer center margin-top-5" value="Buscar">
+                    <input type="text" name="name" class="box two input-generic center ground margin-top-5" placeholder="Nome" autocomplete="off">
+                    <input type="text" name="cnpj" class="box two input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
+                    <input type="submit" name="submit" class="box one submit-generic pointer center margin-top-5" value="Buscar">
                 </form>
                 <table id="customer-filter-table" class="box one ground padding-10 margin-top-10 tbl-info"></table>
                 <% include ./../partials/carousel %>
             </div>
             <div id="customer-show-box" class="box one container ground padding-10 margin-top-10" style="display:none">
                 <div id="customer-show-info-box" class="box one container ground padding-10 margin-top-10"></div>
-                <button id="customer-adress-create-form-hider" class='box one center box-border box-hover padding-10 margin-top-10 bold' onclick='lib.displayDiv(`customer-adress-create-form`, this, `⇓ Novo Endereço ⇓`, `⇑ Esconder formulário ⇑`);'>⇓ Novo Endereço ⇓</button>
-                <form id='customer-adress-create-form' class='box one container padding-5 margin-top-5' style='display:none'>
+                <button id="customer-address-create-form-hider" class='box one center box-border box-hover padding-10 margin-top-10 bold' onclick='lib.displayDiv(`customer-address-create-form`, this, `⇓ Novo Endereço ⇓`, `⇑ Esconder formulário ⇑`);'>⇓ Novo Endereço ⇓</button>
+                <form id='customer-address-create-form' class='box one container padding-5 margin-top-5' style='display:none'>
                     <h4 class='box one underline center'>Cadastrar endereço</h4>
                     <input type='hidden' name="id" value=''>
                     <input type='hidden' name="customer_id" value=''>
-                    <input type='text' name='postal_code' class='box four center input-generic margin-top-5' placeholder='CEP' onblur='if(this.value.length){lib.adress.fillForm(this.value, `customer-adress-create-form`)}' autocomplete='off'>
+                    <input type='text' name='postal_code' class='box four center input-generic margin-top-5' placeholder='CEP' onblur='if(this.value.length){lib.adress.fillForm(this.value, `customer-address-create-form`)}' autocomplete='off'>
                     <input type='text' name='street' class='box four center input-generic margin-top-5' placeholder='Logradouro'>
                     <input type='text' name='number' class='box four center input-generic margin-top-5' placeholder='Número' autocomplete='off'>
                     <input type='text' name='complement' class='box four center input-generic margin-top-5' placeholder='Complemento'>
@@ -69,9 +69,9 @@
     <footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
-        <script src="/javascripts/scripts/customer/model/adress.js"></script>
+        <script src="/javascripts/scripts/customer/model/address.js"></script>
 
-        <script src="/javascripts/scripts/customer/controller/adress.js"></script>
-        <script src="/javascripts/scripts/customer/view/adress.js"></script>
+        <script src="/javascripts/scripts/customer/controller/address.js"></script>
+        <script src="/javascripts/scripts/customer/view/address.js"></script>
     </footer>
 </html>

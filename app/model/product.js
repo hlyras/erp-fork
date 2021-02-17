@@ -156,6 +156,10 @@ Product.price = {
 		let query = "SELECT * FROM cms_wt_erp.product_price where category_id='"+category_id+"' ORDER BY id ASC;";
 		return db(query);
 	},
+	find: async (price) => {
+		let query = "SELECT * FROM cms_wt_erp.product_price where category_id='"+price.category_id+"' AND product_id='"+price.product_id+"' ORDER BY id ASC;";
+		return db(query);
+	},
 	delete: async (id) => {
 		let query = "DELETE FROM cms_wt_erp.product_price WHERE product_id='"+id+"';";
 		return db(query);

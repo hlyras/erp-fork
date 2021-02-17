@@ -61,6 +61,9 @@ if(Sale.package.kart.add){
 			lib.localStorage.update("sale-package-product-kart-id", (parseInt(package.id) + 1));
 		};
 
+		package.total_price = package.amount * package.price;
+		// product.total_price = product.amount * product.price;
+
 		Sale.package.kart.insert("id", package);
 		Sale.package.kart.update("code");
 
@@ -99,14 +102,15 @@ Sale.package.kart.list = (kart, props) => {
 		let html = "";
 		for(i in Sale.package.kart.items){
 			html += "<div class='box one container border center padding-5 margin-top-5'>";
-				html += "<div id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-hider' class='mobile-box nine center pointer box-hover border-explicit' onclick='lib.displayDiv(`sale-package-product-kart"+Sale.package.kart.items[i].id+"-box`, this);'>P"+Sale.package.kart.items[i].id+"</div>";
-				html += "<div class='mobile-box three center'>"+Sale.package.kart.items[i].name+"</div>";
-				html += "<div class='mobile-box nine center'>"+Sale.package.kart.items[i].color+"</div>";
-				html += "<div class='mobile-box twelve center'>$"+Sale.package.kart.items[i].price+"</div>";
-				html += "<div class='mobile-box twelve center'><img class='icon size-15' src='/images/icon/decrease.png' onclick='"+kart+".decrease("+Sale.package.kart.items[i].id+")'></div>";
-				html += "<input class='mobile-box nine border-explicit center' type='text' id='sale-package-kart"+Sale.package.kart.items[i].id+"' onchange='"+kart+".updateAmount("+Sale.package.kart.items[i].id+", this.value);lib.focus(this)' value='"+Sale.package.kart.items[i].amount+"'>";
-				html += "<div class='mobile-box twelve center'><img class='icon size-15' src='/images/icon/increase.png' onclick='"+kart+".increase("+Sale.package.kart.items[i].id+")'></div>";
-				html += "<div class='mobile-box twelve center'><img class='icon size-20' src='/images/icon/trash.png' onclick='"+kart+".remove("+Sale.package.kart.items[i].id+")'></div>";
+				html += "<div id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-hider' class='mobile-box six center pointer box-hover border-explicit' onclick='lib.displayDiv(`sale-package-product-kart"+Sale.package.kart.items[i].id+"-box`, this);'>P"+Sale.package.kart.items[i].id+"</div>";
+				html += "<div class='mobile-box two center'>"+Sale.package.kart.items[i].name+"</div>";
+				html += "<div class='mobile-box six center'>"+Sale.package.kart.items[i].color+"</div>";
+				html += "<div class='mobile-box six center'>$"+Sale.package.kart.items[i].price.toFixed(2)+"</div>";
+				html += "<div class='mobile-box five center margin-top-10'><img class='icon size-15' src='/images/icon/decrease.png' onclick='"+kart+".decrease("+Sale.package.kart.items[i].id+")'></div>";
+				html += "<input class='mobile-box five border-explicit center margin-top-10 bold' type='text' id='sale-package-kart"+Sale.package.kart.items[i].id+"' onchange='"+kart+".updateAmount("+Sale.package.kart.items[i].id+", this.value);lib.focus(this)' value='"+Sale.package.kart.items[i].amount+"'>";
+				html += "<div class='mobile-box five center margin-top-10'><img class='icon size-15' src='/images/icon/increase.png' onclick='"+kart+".increase("+Sale.package.kart.items[i].id+")'></div>";
+				html += "<div class='mobile-box five center margin-top-10 bold'>$"+Sale.package.kart.items[i].total_price.toFixed(2)+"</div>";
+				html += "<div class='mobile-box five center margin-top-10'><img class='icon size-20' src='/images/icon/trash.png' onclick='"+kart+".remove("+Sale.package.kart.items[i].id+")'></div>";
 
 				html += "<div id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-box' class='box one container border margin-top-10' style='display:none'>";
 					html += "<form id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-form' class='box one container'>";
@@ -133,10 +137,57 @@ Sale.package.kart.list = (kart, props) => {
 		for(let i in Sale.package.kart.items){
 			Sale.package.product["kart"+Sale.package.kart.items[i].id].list(Sale.package.product["kart"+Sale.package.kart.items[i].id].name, Sale.package.product["kart"+Sale.package.kart.items[i].id].props)
 		};
+		Sale.package.kart.updateValue();
+		Sale.pos.updateValue();
 	} else {
 		document.getElementById(Sale.package.kart.name+"-div").innerHTML = "";
+		
+		Sale.package.kart.updateValue();
+		Sale.pos.updateValue();
 		lib.localStorage.update("sale-package-product-kart-id", 1);
+	};
+};
 
+Sale.package.kart.decrease = (obj_id) => {
+	for(i in Sale.package.kart.items){
+		if(Sale.package.kart.items[i].id == obj_id && Sale.package.kart.items[i].amount > 1){
+			Sale.package.kart.items[i].amount -= 1;
+			Sale.package.kart.items[i].total_price = Sale.package.kart.items[i].amount * Sale.package.kart.items[i].price;
+		};
+	};
+	let stringified_kart = JSON.stringify(Sale.package.kart.items);
+	lib.localStorage.update(Sale.package.kart.name, stringified_kart);
+	Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
+};
+
+Sale.package.kart.increase = (obj_id) => {
+	for(let i in Sale.package.kart.items){
+		if(Sale.package.kart.items[i].id == obj_id){
+			Sale.package.kart.items[i].amount += 1;
+			Sale.package.kart.items[i].total_price = Sale.package.kart.items[i].amount * Sale.package.kart.items[i].price;
+		};
+	};
+	let stringified_kart = JSON.stringify(Sale.package.kart.items);
+	lib.localStorage.update(Sale.package.kart.name, stringified_kart);
+	Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
+};
+
+Sale.package.kart.updateAmount = async (obj_id, amount) => {
+	if(amount < 1 || isNaN(amount)){
+		alert("Quantidade Inválida");
+		return Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
+	};
+
+	for(i in Sale.package.kart.items){
+		if(Sale.package.kart.items[i].id == obj_id){
+			Sale.package.kart.items[i].amount = parseInt(amount);
+			Sale.package.kart.items[i].total_price = Sale.package.kart.items[i].amount * Sale.package.kart.items[i].price;
+			
+			let stringified_kart = JSON.stringify(Sale.package.kart.items);
+			lib.localStorage.update(Sale.package.kart.name, stringified_kart);
+
+			return Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
+		};
 	};
 };
 
@@ -218,29 +269,14 @@ Sale.package.kart.set = (id) => {
 	};
 };
 
-if(lib.localStorage.verify("sale-package-kart")){
-	let sale_package_kart = JSON.parse(localStorage.getItem("sale-package-kart"));
-	Sale.package.kart.items = sale_package_kart;
-	Sale.package.kart.update("code");
-
-	let sale_package_product_kart = "";
-	for(let i in Sale.package.kart.items){
-		Sale.package.product["kart"+Sale.package.kart.items[i].id] = new lib.kart("sale-package-product-kart"+Sale.package.kart.items[i].id, "Sale.package.product.kart"+Sale.package.kart.items[i].id, [{"product_info":"Descrição"}]);
-		Sale.package.product["kart"+Sale.package.kart.items[i].id].id = Sale.package.kart.items[i].id;
-		
-		if(JSON.parse(localStorage.getItem(Sale.package.product["kart"+Sale.package.kart.items[i].id].name))){
-			let sale_package_product_kart = JSON.parse(localStorage.getItem(Sale.package.product["kart"+Sale.package.kart.items[i].id].name));
-			if(sale_package_product_kart.length > 0){
-				Sale.package.product["kart"+Sale.package.kart.items[i].id].items = sale_package_product_kart;
-			};
-		} else {
-			for(let j in Sale.package.kart.items[i].products){
-				Sale.package.product["kart"+Sale.package.kart.items[i].id].insert("product_code", Sale.package.kart.items[i].products[j]);
-			};
+Sale.package.kart.updateValue = () => {
+	Sale.package.kart.total_value = 0;
+	if(Sale.package.kart.items.length){
+		for(i in Sale.package.kart.items){
+			Sale.package.kart.total_value += Sale.package.kart.items[i].amount * Sale.package.kart.items[i].price;
 		};
-		Sale.package.product["kart"+Sale.package.kart.items[i].id].update("product_code");
+	} else {
+		Sale.package.kart.total_value = 0;
 	};
-
-	Sale.package.kart.list("Sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"price":"Preço"}]);
-	for(let i in Sale.package.product){ Sale.package.kart.set(Sale.package.product[i].id); };
+	document.getElementById("sale-package-value").innerHTML = "$"+Sale.package.kart.total_value.toFixed(2);
 };

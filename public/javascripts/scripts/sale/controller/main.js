@@ -1,5 +1,16 @@
 Sale.controller = {};
-Sale.controller.kart = {};
+
+lib.findCheckedInput = (radio_name) => {
+	let radios = document.getElementsByName(radio_name);
+	for(let i in radios){
+		if(radios[i].checked){
+			return radios[i];
+		};
+	};
+	radios = false;
+	radios.value = false;
+	return radios;
+};
 
 Sale.controller.save = document.getElementById("sale-create-submit");
 if(Sale.controller.save){
@@ -7,26 +18,31 @@ if(Sale.controller.save){
 		let customer = lib.splitTextBy(document.getElementById("sale-customer").value, " | ");
 		if(!customer){ return alert("Ocorreu um erro ao coletar informações do cliente"); };
 		customer.id = document.getElementById("sale-customer").dataset.id;
+		customer.person_type = document.getElementById("sale-customer").dataset.person_type;
 
 		let sale = {
 			id: "",
+			customer_id: customer.id,
+			customer_name: customer[0],
+			customer_address_id: lib.findCheckedInput("sale-customer-address").value,
+			products: JSON.stringify(Sale.product.kart.items),
+			packages: JSON.stringify(Sale.package.kart.items),
 			sale_date: document.getElementById("sale-date").value,
 			estimated_shipping_date: document.getElementById("estimated-shipping-date").value,
 			payment_method: document.getElementById("payment-method").value,
 			status: document.getElementById("status").value,
-			customer_id: customer.id,
-			customer_name: customer[0],
-			customer_cnpj: customer[1],
-			products: JSON.stringify(Sale.product.kart.items),
-			value: 0
+			value: Sale.pos.total_value
 		};
+
+		if(customer.person_type == "legal-entity"){ sale.customer_cnpj = customer[3]; }
+		else if(customer.person_type == "natural-person"){ sale.customer_cnpj = customer[1]; }
+		else { return alert("Este cliente não é válido!") };
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		sale = await Sale.save(sale);
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
 		if(!sale) { return false };
 
-		document.getElementById("").elements.namedItem("").value = "";
 		document.getElementById("sale-id").value = "";
 		lib.localStorage.remove("sale-id");
 
@@ -44,10 +60,17 @@ if(Sale.controller.save){
 
 		document.getElementById("status").value = "";
 		lib.localStorage.remove("status");
-		
-		Sale.kart = [];
-		lib.localStorage.remove("sale-kart");
+
+		document.getElementById("sale-discount-value").value = "0.00";
+		lib.localStorage.remove("sale-discount-value");
+
+		Sale.product.kart.items = [];
+		lib.localStorage.remove("sale-product-kart");
 		Sale.product.kart.list("Sale.product.kart", Sale.product.kart.props);
+
+		Sale.package.kart.items = [];
+		lib.localStorage.remove("sale-package-kart");
+		Sale.package.kart.list("Sale.package.kart", Sale.package.kart.props);
 
 		let r = confirm("Deseja ir para a venda criada?\n código: #"+sale.id+"\n data: "+lib.convertDate(sale.sale_date)+"\n previsão de envio: "+lib.convertDate(sale.estimated_shipping_date)+"\n cliente: "+sale.customer_name+"\n Método de pagamento: "+sale.payment_method+"\n status: "+sale.status+"\n Valor: "+sale.value);
 		if(r){ console.log("redireciona para venda #"+sale.id) };
@@ -82,57 +105,4 @@ Sale.controller.show = async sale_id => {
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 
 	Sale.view.show(sale);
-};
-
-Sale.controller.kart.date = document.getElementById("sale-date");
-if(Sale.controller.kart.date){
-	Sale.controller.kart.date.addEventListener("change", event => {
-		lib.localStorage.update("sale-date", event.target.value);
-	});
-};
-
-Sale.controller.kart.estimated_shipping_date = document.getElementById("estimated-shipping-date");
-if(Sale.controller.kart.estimated_shipping_date){
-	Sale.controller.kart.estimated_shipping_date.addEventListener("change", event => {
-		lib.localStorage.update("estimated-shipping-date", event.target.value);
-	});
-};
-
-Sale.controller.kart.payment_method = document.getElementById("payment-method");
-if(Sale.controller.kart.payment_method){
-	Sale.controller.kart.payment_method.addEventListener("change", event => {
-		lib.localStorage.update("payment-method", event.target.value);
-	});
-};
-
-Sale.controller.kart.status = document.getElementById("status");
-if(Sale.controller.kart.status){
-	Sale.controller.kart.status.addEventListener("change", event => {
-		lib.localStorage.update("status", event.target.value);
-	});
-};
-
-if(lib.localStorage.verify("sale-customer")){
-	let customer = JSON.parse(localStorage.getItem("sale-customer"));
-	document.getElementById("sale-customer").innerHTML = "<option value='' disabled>Selecionar cliente</option><option value='"+customer.id+"' selected>"+customer.info+"</option>";
-};
-
-if(lib.localStorage.verify("sale-date")){
-	let date = localStorage.getItem("sale-date");
-	document.getElementById("sale-date").value = date;
-};
-
-if(lib.localStorage.verify("estimated-shipping-date")){
-	let estimated_shipping_date = localStorage.getItem("estimated-shipping-date");
-	document.getElementById("estimated-shipping-date").value = estimated_shipping_date;
-};
-
-if(lib.localStorage.verify("payment-method")){
-	let payment_method = localStorage.getItem("payment-method");
-	document.getElementById("payment-method").value = payment_method;
-};
-
-if(lib.localStorage.verify("status")){
-	let status = localStorage.getItem("status");
-	document.getElementById("status").value = status;
 };

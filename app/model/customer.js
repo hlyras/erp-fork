@@ -52,6 +52,10 @@ Customer.findBy = {
 		let query = "SELECT * FROM cms_wt_erp.customer WHERE trademark='"+ trademark +"';";
 		return db(query);
 	},
+	cpf: cpf => {
+		let query = "SELECT * FROM cms_wt_erp.customer WHERE cpf like '%"+ cpf +"%';";
+		return db(query);
+	},
 	cnpj: cnpj => {
 		let query = "SELECT * FROM cms_wt_erp.customer WHERE cnpj like '%"+ cnpj +"%';";
 		return db(query);
@@ -70,40 +74,40 @@ Customer.delete = async (id) => {
 	return db(query);
 };
 
-Customer.adress = {
-	save: async (adress) => {
-		let query = "INSERT INTO cms_wt_erp.customer_adress (customer_id, postal_code, street, number, complement, neighborhood, city, state) VALUES ('"
-			+adress.customer_id+"', '"
-			+adress.postal_code+"', '"
-			+adress.street+"', '"
-			+adress.number+"', '"
-			+adress.complement+"', '"
-			+adress.neighborhood+"', '"
-			+adress.city+"', '"
-			+adress.state+"');";
+Customer.address = {
+	save: async (address) => {
+		let query = "INSERT INTO cms_wt_erp.customer_address (customer_id, postal_code, street, number, complement, neighborhood, city, state) VALUES ('"
+			+address.customer_id+"', '"
+			+address.postal_code+"', '"
+			+address.street+"', '"
+			+address.number+"', '"
+			+address.complement+"', '"
+			+address.neighborhood+"', '"
+			+address.city+"', '"
+			+address.state+"');";
 		return db(query);
 	},
-	update: async (adress) => {
-		let query = "UPDATE cms_wt_erp.customer_adress SET postal_code='"+adress.postal_code
-			+"', street='"+adress.street
-			+"', number='"+adress.number
-			+"', complement='"+adress.complement
-			+"', neighborhood='"+adress.neighborhood
-			+"', city='"+adress.city
-			+"', state='"+adress.state+"' WHERE id='"+adress.id+"';";
+	update: async (address) => {
+		let query = "UPDATE cms_wt_erp.customer_address SET postal_code='"+address.postal_code
+			+"', street='"+address.street
+			+"', number='"+address.number
+			+"', complement='"+address.complement
+			+"', neighborhood='"+address.neighborhood
+			+"', city='"+address.city
+			+"', state='"+address.state+"' WHERE id='"+address.id+"';";
 		return db(query);
 	},
 	delete: async (id) => {
-		let query = "DELETE FROM cms_wt_erp.customer_adress WHERE id='"+id+"';";
+		let query = "DELETE FROM cms_wt_erp.customer_address WHERE id='"+id+"';";
 		return db(query);
 	},
 	findBy: {
 		id: async (id) => {
-			let query = "SELECT * FROM cms_wt_erp.customer_adress WHERE id='"+id+"';";
+			let query = "SELECT * FROM cms_wt_erp.customer_address WHERE id='"+id+"';";
 			return db(query);
 		},
 		customer_id: async (id) => {
-			let query = "SELECT * FROM cms_wt_erp.customer_adress WHERE customer_id='"+id+"';";
+			let query = "SELECT * FROM cms_wt_erp.customer_address WHERE customer_id='"+id+"';";
 			return db(query);
 		}
 	}

@@ -15,13 +15,14 @@ const Sale = function(){
 };
 
 Sale.save = async sale => {
-	let query = "INSERT INTO cms_wt_erp.sale (sale_date, estimated_shipping_date, shipment_date, customer_id, customer_name, customer_cnpj, payment_method, status, value) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.sale (sale_date, estimated_shipping_date, shipment_date, customer_id, customer_name, customer_cnpj, customer_address_id, payment_method, status, value) VALUES ('"
 		+sale.sale_date+"', '"
 		+sale.estimated_shipping_date+"','"
 		+sale.shipment_date+"','"
 		+sale.customer_id+"','"
 		+sale.customer_name+"','"
 		+sale.customer_cnpj+"','"
+		+sale.customer_address_id+"','"
 		+sale.payment_method+"','"
 		+sale.status+"','"
 		+sale.value+"');";
@@ -51,6 +52,37 @@ Sale.product = {
 	list: async (sale_id) => {
 		let query = "SELECT * FROM cms_wt_erp.sale_product WHERE sale_id='"+sale_id+"';";
 		return db(query);		
+	}
+};
+
+Sale.package = {
+	save: async (sale_id, package) => {
+		let query = "INSERT INTO cms_wt_erp.sale_package (sale_id, name, amount, price) VALUES ('"
+			+sale_id+"', '"
+			+package.name+"','"
+			+package.amount+"','"
+			+package.price+"');";
+		return db(query);
+	},
+	list: async (sale_id) => {
+		let query = "SELECT * FROM cms_wt_erp.sale_package WHERE sale_id='"+sale_id+"';";
+		return db(query);
+	},
+	product: {
+		add: async (sale_id, package_id, product) => {
+			let query = "INSERT INTO cms_wt_erp.sale_package_product (sale_id, package_id, product_id, product_code, product_info, amount) VALUES ('"
+				+sale_id+"', '"
+				+package_id+"','"
+				+product.product_id+"','"
+				+product.product_code+"','"
+				+product.product_info+"','"
+				+product.amount+"');";
+			return db(query);	
+		},
+		list: async (sale_id) => {
+			let query = "SELECT * FROM cms_wt_erp.sale_package_product WHERE sale_id='"+sale_id+"';";
+			return db(query);
+		}
 	}
 };
 

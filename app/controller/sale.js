@@ -39,13 +39,15 @@ const saleController = {
 
 		let sale = req.body.sale;
 		sale.products = JSON.parse(req.body.sale.products);
+		sale.packages = JSON.parse(req.body.sale.packages);
 
 		if(!sale.customer_id){ return res.send({ msg: "É necessário selecionar o cliente" }); };
+		if(sale.customer_address_id == undefined){ return res.send({ msg: "É necessário selecionar o endereço do cliente" }); };
 		if(!sale.sale_date){ return res.send({ msg: "É necessário selecionar a data da venda" }); };
 		if(!sale.estimated_shipping_date){ return res.send({ msg: "É necessário selecionar a previsão de envio" }); };
 		if(!sale.payment_method){ return res.send({ msg: "É necessário selecionar o método de pagamento" }); };
 		if(!sale.status){ return res.send({ msg: "É necessário selecionar o status da venda" }); };
-		if(!sale.products.length){ return res.send({ msg: "É necessário selecionar ao menos um produto." }); };
+		if(!sale.products.length && !sale.packages.length){ return res.send({ msg: "É necessário selecionar ao menos um produto ou pacote." }); };
 
 		try {
 			let row = await Sale.save(req.body.sale);
@@ -54,6 +56,13 @@ const saleController = {
 			for(i in sale.products){
 				sale.products[i].info = req.body.sale.products[i].code+" | "+req.body.sale.products[i].name+" | "+req.body.sale.products[i].color+" | "+req.body.sale.products[i].size;
 				await Sale.product.save(sale.id, sale.products[i]);
+			};
+
+			for(i in sale.packages){
+				await Sale.package.save(sale.id, sale.packages[i]);
+				for(j in sale.packages[i].products){
+					await Sale.package.product.add(sale.id, sale.packages[i].id, sale.packages[i].products[j]);
+				};
 			};
 
 			res.send({ sale });

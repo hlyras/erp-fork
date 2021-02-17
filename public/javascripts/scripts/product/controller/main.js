@@ -32,7 +32,7 @@ if(Product.controller.filter){
 
 		const pagination = { pageSize: 10, page: 0};
 		if(event.target.elements.namedItem("location").value == "product-manage"){
-			$(() => { lib.carousel.execute("product-manage-filter-box", Product.view.manage.filter, products, pagination); });
+			(function(){ lib.carousel.execute("product-manage-filter-box", Product.view.manage.filter, products, pagination); }());
 		} else if(event.target.elements.namedItem("location").value == "production-product-kart"){
 			Product.view.fillSelect(products, document.getElementById("production-product-kart-form").elements.namedItem("product_id"));
 		};

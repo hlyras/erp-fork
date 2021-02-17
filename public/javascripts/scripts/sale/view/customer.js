@@ -20,14 +20,68 @@ Sale.view.customer.dropdown = {
 		let html = "";
 		for(i in customers){
 			if(customers[i].person_type == "legal-entity"){
-				html += "<li><input type='button' class='box one dropdown-input' data-id='"+customers[i].id+"' value='"+customers[i].name+" | "+customers[i].trademark+" | "+customers[i].brand+" | "+customers[i].cnpj+"' onclick='lib.dropdown.fill.input(this, `"+input_id+"`, `"+dropdown_id+"`)'></li>";
+				html += "<li><input type='button' class='box one dropdown-input' data-id='"+customers[i].id+"' data-person_type='"+customers[i].person_type+"' value='"+customers[i].name+" | "+customers[i].trademark+" | "+customers[i].brand+" | "+customers[i].cnpj+"' onclick='Sale.view.customer.dropdown.fill.input(this, `"+input_id+"`, `"+dropdown_id+"`)'></li>";
 			} else if (customers[i].person_type == "natural-person"){
-				html += "<li><input type='button' class='box one dropdown-input' data-id='"+customers[i].id+"' value='"+customers[i].name+" | "+customers[i].cpf+"' onclick='lib.dropdown.fill.input(this, `"+input_id+"`, `"+dropdown_id+"`)'></li>";
+				html += "<li><input type='button' class='box one dropdown-input' data-id='"+customers[i].id+"' data-person_type='"+customers[i].person_type+"' value='"+customers[i].name+" | "+customers[i].cpf+"' onclick='Sale.view.customer.dropdown.fill.input(this, `"+input_id+"`, `"+dropdown_id+"`)'></li>";
 			};
 		};
 
 		document.getElementById(dropdown_id).innerHTML = html;
+	},
+	fill: {
+		input: async (dropdown_input, input_id, dropdown_id) => {
+			document.getElementById(input_id).dataset.id = dropdown_input.dataset.id;
+			document.getElementById(input_id).dataset.person_type = dropdown_input.dataset.person_type;
+			document.getElementById(input_id).value = dropdown_input.value;
+			document.getElementById(input_id).readOnly = true;
+
+			document.getElementById(dropdown_id).innerHTML = "";
+
+			document.getElementById('ajax-loader').style.visibility = 'visible';
+			let addresses = await Customer.address.findByCustomerId(dropdown_input.dataset.id);
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
+			if(!addresses){ return false };
+
+			Sale.view.customer.address.list(addresses);
+			
+			let properties = {
+				 id: document.getElementById(input_id).dataset.id,
+				 person_type: document.getElementById(input_id).dataset.person_type,
+				 value: document.getElementById(input_id).value,
+				 readOnly: document.getElementById(input_id).readOnly,
+				 addresses: addresses
+			};
+			
+			let stringified_properties = JSON.stringify(properties);
+			lib.localStorage.update(input_id, stringified_properties);
+		}
 	}
 };
 
+Sale.view.customer.address = {};
 
+Sale.view.customer.address.list = (addresses) => {
+	let html = "";
+	html += "<div class='box one container border padding-10 margin-top-5'>";                    
+		html += "<input type='radio' id='sale-customer-address' name='sale-customer-address' class='mobile-box four center' value='0'>";
+		html += "<div class='box three-fourths center'>Agendar retirada em Loja</div>";
+	html += "</div>";
+	if(addresses.length){
+		for(let i in addresses){
+			html += "<div class='box one container border padding-5 margin-top-5'>";                    
+			html += "<input type='radio' id='sale-customer-address' name='sale-customer-address' class='mobile-box four center' value='"+addresses[i].id+"'>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+addresses[i].postal_code+"</div>";
+			html += "<div class='mobile-box two-fifths margin-top-5 center'>"+addresses[i].street+"</div>";
+			html += "<div class='mobile-box five margin-top-5 center'>"+addresses[i].number+"</div>";
+			html += "<div class='mobile-box two-fifths margin-top-5 center'>"+addresses[i].complement+"</div>";
+			html += "<div class='mobile-box two-fifths margin-top-5 center'>"+addresses[i].neighborhood+"</div>";
+			html += "<div class='mobile-box two-fifths margin-top-5 center'>"+addresses[i].city+"</div>";
+			html += "<div class='mobile-box five margin-top-5 center'>"+addresses[i].state+"</div>";
+			html += "</div>";
+		};
+	} else {
+		html += "<div class='mobile-box one border center padding-5 margin-top-5'>Sem endereços cadastrados</div>"
+	};
+
+	document.getElementById("sale-customer-address-box").innerHTML = html;
+};
