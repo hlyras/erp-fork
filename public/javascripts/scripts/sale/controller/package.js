@@ -62,7 +62,6 @@ if(Sale.package.kart.add){
 		};
 
 		package.total_price = package.amount * package.price;
-		// product.total_price = product.amount * product.price;
 
 		Sale.package.kart.insert("id", package);
 		Sale.package.kart.update("code");
@@ -240,7 +239,7 @@ Sale.package.kart.set = (id) => {
 				amount: parseInt(amount)
 			};
 
-			Sale.package.product["kart"+id].insert("product_code", product);
+			Sale.package.product["kart"+id].insert("id", product);
 			Sale.package.product["kart"+id].update("product_code");
 			Sale.package.product["kart"+id].list(Sale.package.product["kart"+id].name, Sale.package.product["kart"+id].props);
 

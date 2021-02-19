@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <% include ./../../partials/head %>
+    </head>
+    <body>
+        <% include ./../../partials/header %>
+        <% include ./../../partials/nav %>
+        <section>
+            <div class="container">
+                <div class="box one container ground padding-5 margin-top-5">
+                    <form id="ecommerce-sale-create-form" class="box one container">
+                        <select name="origin" class="box three input-generic center margin-top-5 hide-disabled">
+                            <option value="" selected disabled>Plataforma da venda</option>
+                            <option value="MLJC">MLJC</option>
+                            <option value="MLCHRIS">MLCHRIS</option>
+                            <option value="SITE">SITE</option>
+                            <option value="SHOPEE">SHOPEE</option>
+                            <option value="B2W">B2W</option>
+                        </select>
+                        <input type="text" name="code" class="box three input-generic ground center margin-top-5" placeholder="Código da venda" autocomplete="off">
+                        <input type="text" name="customer-user" class="box three input-generic ground center margin-top-5" placeholder="Usuário do Cliente" autocomplete="off">
+                        <input type="text" name="customer-name" class="box four input-generic ground center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+                        <input type="datetime-local" name="datetime" class="box four input-generic margin-top-5 center">
+                        <input type="text" name="tracker" class="box four input-generic ground center margin-top-5" placeholder="Código de rastreio" autocomplete="off">
+                        <select name="status" class="box four input-generic center margin-top-5 hide-disabled">
+                            <option value="" selected disabled>Status da venda</option>
+                            <option value="Ag. Informações">Ag. Informações</option>
+                            <option value="Ag. Embalo">Ag. Embalo</option>
+                            <option value="Ag. Coleta">Ag. Coleta</option>
+                            <option value="Postado">Postado</option>
+                        </select>
+                    </form>
+                </div>
+
+                <div class="box one container ground padding-5 margin-top-5">
+                     <div class="box two container ground padding-10">
+                        <h5 class="underline center">Produtos</h5>
+                        <form id="ecommerce-sale-product-kart-form" class="box one container">
+                            <div class="mobile-box two-thirds container dropdown ground margin-top-5">
+                                <ul class="box one container">
+                                    <li>
+                                        <input type="hidden" name="product_id">
+                                        
+                                        <input type="text" id="ecommerce-sale-product-kart-dropdown-input" name="product" data-id="" class="box one input-generic center" oninput="Ecommerce.sale.product.controller.dropdown.filter(this, 'ecommerce-sale-product-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                        
+                                        <ul id="ecommerce-sale-product-kart-dropdown" class="box one"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <input type="number" name="amount" class="mobile-box six input-generic center margin-top-5" placeholder="Qtd">
+                            <button type="submit" name="submit" class="mobile-box six submit-generic center margin-top-5 pointer"><img class='img-tbl-btn' src="/images/icon/increase.png"></button>
+                        </form>
+                        <div id="ecommerce-sale-product-kart-div" class="box one container"></div>
+                    </div>
+                    <div class="box two container ground padding-10">
+                        <h5 class="underline center">Pacotes</h5>
+                        <form id="ecommerce-sale-package-kart-form" class="box one container">
+                            <input type="hidden" name="id" value="">
+                            <div class="mobile-box two-thirds container dropdown ground margin-top-5">
+                                <ul class="box one container">
+                                    <li>
+                                        <input type="hidden" name="product_id">
+                                        
+                                        <input type="text" id="ecommerce-sale-package-kart-dropdown-input" name="package" data-id="" class="box one input-generic center" oninput="Ecommerce.sale.package.controller.dropdown.filter(this, 'ecommerce-sale-package-kart-dropdown')" placeholder="Descrição do pacote" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                        
+                                        <ul id="ecommerce-sale-package-kart-dropdown" class="box one"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <input type="number" name="amount" class="mobile-box six input-generic center margin-top-5" placeholder="Qtd">
+                            <button type="submit" name="submit" class="mobile-box six submit-generic margin-top-5 pointer"><img class='img-tbl-btn' src="/images/icon/increase.png"></button>
+                        </form>
+                        <div id="ecommerce-sale-package-kart-div" class="box one container"></div>
+                    </div>
+                </div>
+                    <input type="button" id="ecommerce-sale-create-submit" class="box one input-confirm height-40 bold margin-top-5 margin-bottom-15" value="Confirmar Informações">
+            </div>
+        </section>
+        <% include ./../../partials/loader %>
+    </body>
+    <footer>
+        <% include ./../../partials/footer %>
+        <% include ./partial %>
+        <script src="/javascripts/scripts/ecommerce/sale/controller/pos.js"></script>
+
+        <script src="/javascripts/scripts/product/model/main.js"></script>
+        <script src="/javascripts/scripts/product/model/package.js"></script>
+
+        <script src="/javascripts/scripts/ecommerce/sale/model/product.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/controller/product.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/view/product.js"></script>
+
+        <script src="/javascripts/scripts/ecommerce/sale/model/package.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/controller/package.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/view/package.js"></script>
+
+    </footer>
+</html>

@@ -57,9 +57,10 @@ Sale.product = {
 
 Sale.package = {
 	save: async (sale_id, package) => {
-		let query = "INSERT INTO cms_wt_erp.sale_package (sale_id, name, amount, price) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.sale_package (sale_id, name, color, amount, price) VALUES ('"
 			+sale_id+"', '"
 			+package.name+"','"
+			+package.color+"','"
 			+package.amount+"','"
 			+package.price+"');";
 		return db(query);

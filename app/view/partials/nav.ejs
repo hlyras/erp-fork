@@ -38,7 +38,13 @@
 	    <option value="/customer">Clientes</option>
 	    <option value="/sale">Nova venda</option>
 	    <option value="/sale/manage">Vendas</option>
-	    <option value="">E-comerce</option>
+	</select>
+
+	<select class="padding-5 margin-top-5 hide-disabled" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+	    <option value="" disabled selected>E-commerce</option>
+	    <option value="/ecommerce/sale">Nova venda</option>
+	    <option value="/ecommerce/sale/manage">vendas</option>
+	    <option value="/">Triagem</option>
 	</select>
 </div>
 

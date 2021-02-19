@@ -17,6 +17,7 @@ router.use("/feedstock", require("./feedstock"));
 router.use("/seam", require("./seam"));
 router.use("/customer", require("./customer"));
 router.use("/sale", require("./sale"));
+router.use("/ecommerce", require("./ecommerce"));
 router.use("/financial", require("./financial"));
 
 module.exports = router;

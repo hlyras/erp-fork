@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <% include ./../../partials/head %>
+    </head>
+    <body>
+        <% include ./../../partials/header %>
+        <% include ./../../partials/nav %>
+        <section>
+            <div class="container">
+                <form id="ecommerce-sale-filter-form" class="box one container ground padding-10 margin-top-10">
+                    <input type="text" name="code" class="box four input-generic center margin-top-5" placeholder="Código da venda">
+                    <input type="text" name="customer" class="box four input-generic center margin-top-5" placeholder="Nome ou usuário do cliente">
+                    <select name="status" class="box four input-generic center margin-top-5 hide-disabled">
+                        <option value="" selected disabled>Status da venda</option>
+                        <option value="Ag. Informações">Ag. Informações</option>
+                        <option value="Ag. Embalo">Ag. Embalo</option>
+                        <option value="Ag. Coleta">Ag. Coleta</option>
+                        <option value="Postado">Postado</option>
+                    </select>
+                    <input type="text" name="tracker" class="box eight input-generic center margin-top-5" placeholder="Rastreio">
+                    <input type="submit" name="submit" class="box eight submit-generic pointer center margin-top-5" value="Filtrar">
+                </form>
+            </div>
+        </section>
+        <% include ./../../partials/loader %>
+    </body>
+    <footer>
+        <% include ./../../partials/footer %>
+        <% include ./partial %>
+
+        <script src="/javascripts/scripts/product/model/main.js"></script>
+        <script src="/javascripts/scripts/product/model/package.js"></script>
+    </footer>
+</html>

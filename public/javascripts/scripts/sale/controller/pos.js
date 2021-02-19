@@ -1,17 +1,16 @@
 Sale.pos = {
+	shipping: 0,
 	discount: 0,
 	total_value: 0 
 };
 
 Sale.pos.updateValue = () => {
-	if(isNaN(Sale.package.kart.total_value)){ Sale.package.kart.total_value = 0; };
-	if(isNaN(Sale.product.kart.total_value)){ Sale.product.kart.total_value = 0; };
+	Sale.pos.total_value = 0;
 
-	if(!isNaN(Sale.pos.discount)){
-		Sale.pos.total_value = Sale.product.kart.total_value + Sale.package.kart.total_value - Sale.pos.discount;
-	} else {
-		Sale.pos.total_value = Sale.product.kart.total_value + Sale.package.kart.total_value;
-	};
+	if(isNaN(Sale.product.kart.total_value)){ Sale.product.kart.total_value = 0; } else { Sale.pos.total_value += Sale.product.kart.total_value };
+	if(isNaN(Sale.package.kart.total_value)){ Sale.package.kart.total_value = 0; } else { Sale.pos.total_value += Sale.package.kart.total_value };
+	if(!isNaN(Sale.pos.discount)){ Sale.pos.total_value -= Sale.pos.discount; };
+	if(!isNaN(Sale.pos.shipping)){ Sale.pos.total_value += Sale.pos.shipping; };
 	document.getElementById("sale-value").innerHTML = "$"+Sale.pos.total_value.toFixed(2);
 };
 
@@ -53,6 +52,21 @@ if(Sale.pos.discount){
 			document.getElementById("sale-discount-value").value = 0;
 		} else {
 			document.getElementById("sale-discount-value").value = Sale.pos.discount.toFixed(2);
+		};
+		Sale.pos.updateValue();
+	});
+};
+
+Sale.pos.shipping = document.getElementById("sale-shipping-value");
+if(Sale.pos.shipping){
+	Sale.pos.shipping.addEventListener("change", event => {
+		lib.localStorage.update("sale-shipping-value", event.target.value);
+		Sale.pos.shipping = parseFloat(document.getElementById("sale-shipping-value").value);
+
+		if(!Sale.pos.shipping){
+			document.getElementById("sale-shipping-value").value = 0;
+		} else {
+			document.getElementById("sale-shipping-value").value = Sale.pos.shipping.toFixed(2);
 		};
 		Sale.pos.updateValue();
 	});

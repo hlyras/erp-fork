@@ -48,6 +48,7 @@ const saleController = {
 		if(!sale.payment_method){ return res.send({ msg: "É necessário selecionar o método de pagamento" }); };
 		if(!sale.status){ return res.send({ msg: "É necessário selecionar o status da venda" }); };
 		if(!sale.products.length && !sale.packages.length){ return res.send({ msg: "É necessário selecionar ao menos um produto ou pacote." }); };
+		if(sale.value < 0){ return res.send({ msg: "O valor da venda é inválido!" }); };
 
 		try {
 			let row = await Sale.save(req.body.sale);

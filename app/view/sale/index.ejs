@@ -41,13 +41,12 @@
                             <input type="number" name="amount" class="mobile-box six input-generic center margin-top-5" placeholder="Qtd">
                             <button type="submit" name="submit" class="mobile-box six submit-generic center margin-top-5 pointer"><img class='img-tbl-btn' src="/images/icon/increase.png"></button>
                         </form>
-                        <table id="sale-product-kart-table" class="tbl-info box one center ground padding-10 margin-top-10"></table>
+                        <div id="sale-product-kart-div" class="box one container"></div>
                     </div>
                     <div class="box two container ground padding-10">
                         <h5 class="underline center">Pacotes</h5>
                         <form id="sale-package-kart-form" class="box one container">
                             <input type="hidden" name="id" value="">
-
                             <div class="mobile-box two-thirds container dropdown ground margin-top-5">
                                 <ul class="box one container">
                                     <li>
@@ -59,29 +58,47 @@
                                     </li>
                                 </ul>
                             </div>
-                            
                             <input type="number" name="amount" class="mobile-box six input-generic center margin-top-5" placeholder="Qtd">
                             <button type="submit" name="submit" class="mobile-box six submit-generic margin-top-5 pointer"><img class='img-tbl-btn' src="images/icon/increase.png"></button>
                         </form>
-                        <div id="sale-package-kart-div" class="box one container ground"></div>
+                        <div id="sale-package-kart-div" class="box one container"></div>
                     </div>
                 </div>
                 <div class="box two container ground padding-10 margin-top-10">
-                    <div class="box two-thirds container ground padding-10 margin-top-10">
-                        <div class="box one container ground padding-10">
-                            <div class="box two box-border padding-5">
+                    <div class="box two container ground">
+                        <div class="box one container ground">
+                            <div class="box one box-border padding-5 margin-top-5">
                                 <h5 class="underline center">Data da venda</h5>
                                 <input type="date" id="sale-date" class="box one input-explicit">
                             </div>
-                            <div class="box two box-border padding-5">
+                            <div class="box one box-border padding-5 margin-top-5">
                                 <h5 class="underline center">Previsão de envio</h5>
                                 <input type="date" id="estimated-shipping-date" class="box one input-explicit">
                             </div>
                         </div>
                     </div>
-                    <div class="box three container ground padding-10 margin-top-10">
+                    <div class="box two container ground">
+                        <select id="Shipping-method" class="box one input-explicit margin-top-5 hide-disabled">
+                            <option value="" disabled selected>Forma de entrega</option>
+                            <option value="Retirada em Loja">Retirada em Loja</option>
+                            <option value="Correios Pac">Correios Pac</option>
+                            <option value="Correios sedex">Correios Sedex</option>
+                            <option value="Jadlog">Jadlog</option>
+                            <option value="Total Express">Total Express</option>
+                            <option value="Braspress">Braspress</option>
+                            <option value="Latam">Latam</option>
+                        </select>
                         <select id="payment-method" class="box one input-explicit margin-top-5 hide-disabled">
                             <option value="" disabled selected>Forma de Pagamento</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Transferência">Transferência</option>
+                            <option value="Pix">Pix</option>
+                            <option value="Cheque">Cheque</option>
+                            <option value="Débito">Débito</option>
+                            <option value="Crédito">Crédito</option>
+                        </select>
+                        <select id="payment-period" class="box one input-explicit margin-top-5 hide-disabled">
+                            <option value="" disabled selected>Prazo de Pagamento</option>
                             <option value="À vista">À Vista</option>
                             <option value="30">30 dias</option>
                             <option value="60">60 dias</option>
@@ -91,22 +108,27 @@
                             <option value="" disabled selected>Status da venda</option>
                             <option value="Em negociação">Em negociação</option>
                             <option value="Ag. pagamento">Ag. pagamento</option>
-                            <option value="Ag. envio">Ag. Envio</option>
+                            <option value="Ag. preparação">Ag. Preparação</option>
+                            <option value="Ag. NF">Ag. NF</option>
+                            <option value="Ag. Envio">Ag. Envio</option>
+                            <option value="Enviado">Enviado</option>
                         </select>
                     </div>
                 </div>
                 <div class="box two ground padding-10 margin-top-10">
-                    <div class="box one container border padding-10">
+                    <div class="box one container padding-5">
                         <div class="mobile-box two center">Valor dos produtos:</div>
                         <div id="sale-product-value" class="mobile-box two center bold">$0,00</div>
                         <div class="mobile-box two center">Valor dos pacotes:</div>
-                        <div id="sale-package-value" class="box two center bold">$0,00</div>
+                        <div id="sale-package-value" class="mobile-box two center bold">$0,00</div>
+                        <div class="mobile-box two center">Valor do frete:</div>
+                        <input type="number" id="sale-shipping-value" class="mobile-box two border padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
                         <div class="mobile-box two center">Valor do desconto:</div>
-                        <input type="number" id="sale-discount-value" class="box two border padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+                        <input type="number" id="sale-discount-value" class="mobile-box two border padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
                         <div class="mobile-box two center"></div>
-                        <div class="box two underline"></div>
+                        <div class="mobile-box two underline"></div>
                         <div class="mobile-box two center">Valor total:</div>
-                        <div id="sale-value" class="mobile-box two center bold"></div>
+                        <div id="sale-value" class="mobile-box two center bold">$0.00</div>
                     </div>
                     <input type="button" id="sale-create-submit" class="box one input-confirm bold margin-top-5" value="CONFIRMAR VENDA">
                 </div>

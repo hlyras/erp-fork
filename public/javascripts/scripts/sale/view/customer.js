@@ -62,9 +62,9 @@ Sale.view.customer.address = {};
 
 Sale.view.customer.address.list = (addresses) => {
 	let html = "";
-	html += "<div class='box one container border padding-10 margin-top-5'>";                    
+	html += "<div class='box one container border padding-5 margin-top-5'>";                    
 		html += "<input type='radio' id='sale-customer-address' name='sale-customer-address' class='mobile-box four center' value='0'>";
-		html += "<div class='box three-fourths center'>Agendar retirada em Loja</div>";
+		html += "<div class='mobile-box three-fourths center'>Agendar retirada em Loja</div>";
 	html += "</div>";
 	if(addresses.length){
 		for(let i in addresses){

@@ -98,6 +98,8 @@ Product.controller.package.show = async (package_id) => {
 		package.products[i].size = product_info[3];
 	};
 
+	console.log(package.products);
+
 	Product.package.product.kart.items = package.products;
 	Product.package.product.kart.update("code");
 	Product.package.product.kart.list("Product.package.product.kart", Product.package.product.kart.props);

@@ -61,7 +61,8 @@ if(Sale.controller.save){
 		document.getElementById("status").value = "";
 		lib.localStorage.remove("status");
 
-		document.getElementById("sale-discount-value").value = "0.00";
+		Sale.pos.discount = 0;
+		document.getElementById("sale-discount-value").value = '0.00';
 		lib.localStorage.remove("sale-discount-value");
 
 		Sale.product.kart.items = [];
