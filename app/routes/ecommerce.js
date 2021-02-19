@@ -7,4 +7,7 @@ router.get('/sale', saleController.index);
 router.post('/sale/save', saleController.save);
 router.get('/sale/manage', saleController.manage);
 
+router.post('/sale/filter', saleController.filter);
+
+
 module.exports = router;

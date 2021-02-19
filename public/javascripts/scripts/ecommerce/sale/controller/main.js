@@ -1,5 +1,15 @@
 Ecommerce.sale.controller = {};
 
+lib.datetimeToTimestamp = (datetime) => {
+	let dateString = lib.convertDatetime(datetime),
+	    dateTimeParts = dateString.split(' '),
+	    timeParts = dateTimeParts[1].split(':'),
+	    dateParts = dateTimeParts[0].split('-'),
+	    date;
+	date = new Date(dateParts[2], parseInt(dateParts[1], 10) - 1, dateParts[0], timeParts[0], timeParts[1]);
+	return date.getTime();
+};
+
 Ecommerce.sale.controller.save = document.getElementById("ecommerce-sale-create-submit");
 if(Ecommerce.sale.controller.save){
 	Ecommerce.sale.controller.save.addEventListener("click", async event => {
@@ -14,7 +24,7 @@ if(Ecommerce.sale.controller.save){
 		let sale = {
 			id: "",
 			origin: document.getElementById("ecommerce-sale-create-form").elements.namedItem("origin").value,
-			datetime: document.getElementById("ecommerce-sale-create-form").elements.namedItem("datetime").value,
+			datetime: lib.datetimeToTimestamp(document.getElementById("ecommerce-sale-create-form").elements.namedItem("datetime").value),
 			code: document.getElementById("ecommerce-sale-create-form").elements.namedItem("code").value,
 			customer_user: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-user").value,
 			customer_name: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-name").value,
@@ -46,5 +56,13 @@ if(Ecommerce.sale.controller.filter){
 		};
 
 		console.log(sale);
+
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		let sales = await Ecommerce.sale.filter(sale);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!sales) { return false };
+
+		console.log(sales);
+		Ecommerce.sale.view.filter(sales);
 	});
 };

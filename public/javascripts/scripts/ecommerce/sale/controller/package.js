@@ -201,7 +201,6 @@ Ecommerce.sale.package.kart.set = (id) => {
 	if(Ecommerce.sale.package.product["kart"+id].add){
 		Ecommerce.sale.package.product["kart"+id].add.addEventListener("submit", async event => {
 			event.preventDefault();
-			console.log('set');
 
 			if(!document.getElementById(Ecommerce.sale.package.product["kart"+id].name+"-form").elements.namedItem("product").readOnly){ 
 				return alert("Produto inválido");

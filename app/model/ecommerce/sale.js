@@ -34,7 +34,7 @@ Sale.save = async sale => {
 };
 
 Sale.filter = (periodStart, periodEnd, params, values) => {
-	let query = lib.filterByLikeAndByPeriod(periodStart, periodEnd, params, values, "sale_date", "cms_wt_erp", "sale", "id", "DESC");
+	let query = lib.filterByLikeAndByPeriod(periodStart, periodEnd, params, values, "date", "cms_wt_erp", "ecommerce_sale", "id", "DESC");
 	return db(query);
 };
 

@@ -40,6 +40,8 @@ const saleController = {
 		sale.date = lib.genFullDate();
 		sale.products = JSON.parse(req.body.sale.products);
 		sale.packages = JSON.parse(req.body.sale.packages);
+		sale.user_id = req.user.id;
+		sale.user_name = req.user.name;
 
 		if(!sale.origin){ return res.send({ msg: "É necessário informar a origem da venda" }); };
 		if(!sale.code){ return res.send({ msg: "É necessário informar o código da venda" }); };
@@ -68,10 +70,57 @@ const saleController = {
 				};
 			};
 
-			res.send({ sale });
+			res.send({ done: "Venda cadastrada com sucesso!", sale: sale });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
+		};
+	},
+	filter: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		let params = [];
+		let values = [];
+
+		let periodStart = ""; 
+		let periodEnd = "";
+
+		if(req.body.sale.periodStart && req.body.sale.periodEnd){
+			periodStart = req.body.sale.periodStart;
+			periodEnd = req.body.sale.periodEnd;
+		} else {
+			periodStart = "";
+			periodEnd = "";
+		};
+
+		if(req.body.sale.customer_username){
+			params.push("customer_username");
+			values.push(req.body.sale.customer_username);
+		};
+
+		if(req.body.sale.customer_name){
+			params.push("customer_name");
+			values.push(req.body.sale.customer_name);
+		};
+
+		if(req.body.sale.status){
+			params.push("status");
+			values.push(req.body.sale.status);
+		};
+
+		if(req.body.sale.tracker){
+			params.push("tracker");
+			values.push(req.body.sale.tracker);
+		};
+
+		try {
+			let sales = await Sale.filter(periodStart, periodEnd, params, values);
+			res.send({ sales });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
 		};
 	}
 };
