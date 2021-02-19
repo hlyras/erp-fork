@@ -7,7 +7,7 @@ Ecommerce.sale.view.filter = (sales, pagination) => {
 		for(let i in sales){
 			html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
 				html += "<div class='box one container'>";
-				html += "<div class='mobile-box four center margin-top-5'><h3 class='tbl-show-link nowrap' onclick='Ecommerce.sale.controller.show("+sales[i].id+")'>"+sales[i].code+"</h3></div>";
+				html += "<div class='mobile-box four center margin-top-5 tbl-show-link nowrap'><h3>"+sales[i].code+"</h3></div>";
 				html += "<div class='mobile-box four center margin-top-5'>"+sales[i].origin+"</div>";
 				html += "<div class='mobile-box four center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
 				html += "<div class='mobile-box four center margin-top-5'>"+sales[i].status+"</div>";
