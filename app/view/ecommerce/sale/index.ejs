@@ -9,7 +9,8 @@
             <div class="container">
                 <div class="box one container ground padding-5 margin-top-5">
                     <form id="ecommerce-sale-create-form" class="box one container">
-                        <select name="origin" class="box three input-generic center margin-top-5 hide-disabled">
+                        <input type="hidden" name="id" value=""></input>
+                        <select name="origin" class="box four input-generic center margin-top-5 hide-disabled">
                             <option value="" selected disabled>Plataforma da venda</option>
                             <option value="MLJC">MLJC</option>
                             <option value="MLCHRIS">MLCHRIS</option>
@@ -17,17 +18,16 @@
                             <option value="SHOPEE">SHOPEE</option>
                             <option value="B2W">B2W</option>
                         </select>
-                        <input type="text" name="code" class="box three input-generic ground center margin-top-5" placeholder="Código da venda" autocomplete="off">
-                        <input type="text" name="customer-user" class="box three input-generic ground center margin-top-5" placeholder="Usuário do Cliente" autocomplete="off">
-                        <input type="text" name="customer-name" class="box four input-generic ground center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+                        <input type="text" name="code" class="box four input-generic ground center margin-top-5" placeholder="Código da venda" autocomplete="off">
                         <input type="datetime-local" name="datetime" class="box four input-generic margin-top-5 center">
+                        <input type="text" name="customer-user" class="box four input-generic ground center margin-top-5" placeholder="Usuário do Cliente" autocomplete="off">
+                        <input type="text" name="customer-name" class="box four input-generic ground center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+                        <input type="text" name="customer-phone" class="box four input-generic ground center margin-top-5" placeholder="Telefone" autocomplete="off">
                         <input type="text" name="tracker" class="box four input-generic ground center margin-top-5" placeholder="Código de rastreio" autocomplete="off">
                         <select name="status" class="box four input-generic center margin-top-5 hide-disabled">
                             <option value="" selected disabled>Status da venda</option>
                             <option value="Ag. Informações">Ag. Informações</option>
-                            <option value="Ag. Embalo">Ag. Embalo</option>
-                            <option value="Ag. Coleta">Ag. Coleta</option>
-                            <option value="Postado">Postado</option>
+                            <option value="Ag. Embalo">Enviar p/ embalo</option>
                         </select>
                     </form>
                 </div>
@@ -73,7 +73,10 @@
                         <div id="ecommerce-sale-package-kart-div" class="box one container"></div>
                     </div>
                 </div>
-                    <input type="button" id="ecommerce-sale-create-submit" class="box one input-confirm height-40 bold margin-top-5 margin-bottom-15" value="Confirmar Informações">
+                <div class="box one container ground">
+                    <div class="box three"></div>
+                    <input type="button" id="ecommerce-sale-create-submit" class="box three input-confirm height-40 bold margin-top-5 margin-bottom-15" value="Confirmar">
+                </div>
             </div>
         </section>
         <% include ./../../partials/loader %>

@@ -1,12 +1,49 @@
 module.exports = {
 	convertDate:function(date){
-		var str = date.split('-');
+		let str = date.split('-');
 		if(str!=""){
 			var convertedDate = str[2]+"-"+str[1]+"-"+str[0];
 		} else {
 			var convertedDate = "";
 		};
 		return convertedDate;
+	},
+	convertDatetime: function(datetime){
+		let str = datetime.split('T');
+		if(str!=""){
+			var convertedDate = lib.convertDate(str[0])+" "+str[1];
+		} else {
+			var convertedDate = "";
+		};
+		return convertedDate;
+	},
+	datetimeToTimestamp: (datetime) => {
+		let date = datetime.split("T");
+		date.year = date[0].split("-")[0];
+		date.month = date[0].split("-")[1];
+		date.day = date[0].split("-")[2];
+		date.hour = date[1].split(":")[0];
+		date.minute = date[1].split(":")[1];
+		date = new Date(date.year,date.month,date.day,date.hour,date.minute);
+		return date.getTime();
+	},
+	timestampToDate: (timestamp) => {
+		let date = new Date(parseInt(timestamp));
+		let day;let month;let hour;let minute;
+		if(date.getDate() < 10){ day = "0"+date.getDate() } else { day = date.getDate() };
+		if(date.getMonth() < 10){ month = "0"+date.getMonth() } else { month = date.getMonth() };
+		if(date.getHours() < 10){ hour = "0"+date.getHours() } else { hour = date.getHours() };
+		if(date.getMinutes() < 10){ minute = "0"+date.getMinutes() } else { minute = date.getMinutes() };
+		return day+'-'+month+'-'+date.getFullYear()+' '+hour+':'+minute;
+	},
+	timestampToDatetime: (timestamp) => {
+		let date = new Date(parseInt(timestamp));
+		let day;let month;let hour;let minute;
+		if(date.getDate() < 10){ day = "0"+date.getDate() } else { day = date.getDate() };
+		if(date.getMonth() < 10){ month = "0"+date.getMonth() } else { month = date.getMonth() };
+		if(date.getHours() < 10){ hour = "0"+date.getHours() } else { hour = date.getHours() };
+		if(date.getMinutes() < 10){ minute = "0"+date.getMinutes() } else { minute = date.getMinutes() };
+		return date.getFullYear()+'-'+month+'-'+day+'T'+hour+':'+minute;
 	},
 	genDate: function(){
 		var d = new Date();

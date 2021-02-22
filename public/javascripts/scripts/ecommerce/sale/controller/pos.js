@@ -46,6 +46,18 @@ if(lib.localStorage.verify("ecommerce-sale-customer-name")){
 	document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-name").value = customer_name;
 };
 
+Ecommerce.sale.customer_phone = document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-phone");
+if(Ecommerce.sale.customer_phone){
+	Ecommerce.sale.customer_phone.addEventListener("change", event => {
+		lib.localStorage.update("ecommerce-sale-customer-phone", event.target.value);
+	});
+};
+
+if(lib.localStorage.verify("ecommerce-sale-customer-phone")){
+	let customer_phone = localStorage.getItem("ecommerce-sale-customer-phone");
+	document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-phone").value = customer_phone;
+};
+
 Ecommerce.sale.datetime = document.getElementById("ecommerce-sale-create-form").elements.namedItem("datetime");
 if(Ecommerce.sale.datetime){
 	Ecommerce.sale.datetime.addEventListener("change", event => {

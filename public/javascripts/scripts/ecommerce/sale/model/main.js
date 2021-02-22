@@ -12,6 +12,7 @@ Ecommerce.sale.save = async (sale) => {
 
 	if(API.verifyResponse(response)){ return false };
 	alert(response.done);
+	console.log(response);
 
 	return response.sale;
 };
@@ -27,4 +28,13 @@ Ecommerce.sale.filter = async (sale) => {
 	if(API.verifyResponse(response)){ return false };
 
 	return response.sales;
+};
+
+Ecommerce.sale.findById = async (sale_id) => {
+	let response = await fetch("/ecommerce/sale/id/" + sale_id);
+	response = await response.json();
+	
+	if(API.verifyResponse(response)){ return false };
+	
+	return response.sale[0];
 };

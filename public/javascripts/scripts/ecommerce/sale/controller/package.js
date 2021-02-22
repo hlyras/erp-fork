@@ -52,13 +52,12 @@ if(Ecommerce.sale.package.kart.add){
 		if(!package){ return false };
 
 		package.amount = parseInt(amount);
+		package.id = 1;
 
-		if(lib.localStorage.verify("ecommerce-sale-package-product-kart-id")){
-			package.id = parseInt(localStorage.getItem("ecommerce-sale-package-product-kart-id"));
-			lib.localStorage.update("ecommerce-sale-package-product-kart-id", (parseInt(package.id) + 1));
-		} else {
-			package.id = 1;
-			lib.localStorage.update("ecommerce-sale-package-product-kart-id", (parseInt(package.id) + 1));
+		for(let i in Ecommerce.sale.package.kart.items){
+			if(package.id <= parseInt(Ecommerce.sale.package.kart.items[i].id)){
+				package.id = parseInt(Ecommerce.sale.package.kart.items[i].id) + 1;
+			};
 		};
 
 		Ecommerce.sale.package.kart.insert("id", package);
@@ -221,13 +220,20 @@ Ecommerce.sale.package.kart.set = (id) => {
 			};
 
 			product = {
-				id: product.dataset.id,
+				id: 1,
+				product_id: product.dataset.id,
 				product_code: splitedProduct[0],
 				product_info: product.value,
 				amount: parseInt(amount)
 			};
 
-			Ecommerce.sale.package.product["kart"+id].insert("id", product);
+			for(let i in Ecommerce.sale.package.product['kart'+id].items){
+				if(product.id <= parseInt(Ecommerce.sale.package.product['kart'+id].items[i].id)){
+					product.id = parseInt(Ecommerce.sale.package.product['kart'+id].items[i].id) + 1;
+				};
+			};
+
+			Ecommerce.sale.package.product["kart"+id].insert("product_id", product);
 			Ecommerce.sale.package.product["kart"+id].update("product_code");
 			Ecommerce.sale.package.product["kart"+id].list(Ecommerce.sale.package.product["kart"+id].name, Ecommerce.sale.package.product["kart"+id].props);
 

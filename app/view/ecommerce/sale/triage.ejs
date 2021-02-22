@@ -11,25 +11,32 @@
                     <input type="text" name="code" class="box six input-generic center margin-top-5" placeholder="Código da venda">
                     <input type="text" name="customer" class="box three input-generic center margin-top-5" placeholder="Nome ou usuário do cliente">
                     <select name="status" class="box six input-generic center margin-top-5 hide-disabled">
-                        <option value="" selected disabled>Status da venda</option>
-                        <option value="Ag. Informações">Ag. Informações</option>
-                        <option value="Ag. Embalo">Ag. Embalo</option>
+                        <option value="Ag. Embalo" selected>Ag. Embalo</option>
                         <option value="Ag. Coleta">Ag. Coleta</option>
-                        <option value="Postado">Postado</option>
                     </select>
                     <input type="text" name="tracker" class="box six input-generic center margin-top-5" placeholder="Rastreio">
                     <input type="submit" name="submit" class="box six submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
                 </form>
                 <div id="ecommerce-sale-filter-box" class="box one container padding-5 margin-top-5"></div>
+
+                <div id="ecommerce-sale-show-box" class="box one container ground padding-5 margin-top-5" style="display:none">
+                   
+                </div>
             </div>
         </section>
         <% include ./../../partials/loader %>
     </body>
     <footer>
         <% include ./../../partials/footer %>
-        <% include ./partial %>
+        <!-- <% include ./partial %> -->
+        <script src="/javascripts/scripts/ecommerce/sale/model/main.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/view/main.js"></script>
 
         <script src="/javascripts/scripts/product/model/main.js"></script>
         <script src="/javascripts/scripts/product/model/package.js"></script>
+
+        <script src="/javascripts/scripts/ecommerce/sale/view/triage.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/controller/triage.js"></script>
+
     </footer>
 </html>
