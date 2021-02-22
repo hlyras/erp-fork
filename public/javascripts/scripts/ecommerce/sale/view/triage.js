@@ -77,15 +77,17 @@ Ecommerce.sale.view.triage.show = (sale) => {
 		for(let i in sale.packages){
 			html += "<div class='box one one container ground border-explicit padding-10 margin-top-5'>";
 				html += "<div class='box one container padding-10'>";
-					html += "<div class='mobile-box five center pointer box-hover border-explicit' onclick='lib.displayDiv(`ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div`, this);'>P"+sale.packages[i].package_id+"</div>";
-					html += "<div class='mobile-box two-fifths center'>"+sale.packages[i].info+"</div>";
-					html += "<div class='mobile-box five center'>"+sale.packages[i].default+"</div>";
-					html += "<div class='mobile-box five center bold'>"+sale.packages[i].amount+"un</div>";
+					html += "<div class='mobile-box eight center pointer box-hover border-explicit' onclick='lib.displayDiv(`ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div`, this);'>P"+sale.packages[i].package_id+"</div>";
+					html += "<div class='mobile-box two center'>"+sale.packages[i].info+"</div>";
+					html += "<div class='mobile-box four center'>"+sale.packages[i].default+"</div>";
+					html += "<div class='mobile-box eight center bold'>"+sale.packages[i].amount+"un</div>";
 				html += "</div>";
 				html += "<div id='ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div' class='box one container' style='display:none'>";
 				for(let j in sale.packages[i].products){
-						html += "<div class='mobile-box five center'>"+sale.packages[i].products[j].amount+"</div>";
+					html += "<div class='box one container border padding-5 margin-top-5'>";
+						html += "<div class='mobile-box five center'>"+sale.packages[i].products[j].amount+"un</div>";
 						html += "<div class='mobile-box four-fifths'>"+sale.packages[i].products[j].product_info+"</div>";
+					html += "</div>";
 				};
 				html += "</div>";
 			html += "</div>";
