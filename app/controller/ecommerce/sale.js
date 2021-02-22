@@ -138,7 +138,7 @@ const saleController = {
 				let db_sale_packages = await Sale.package.list(sale.id);
 				if(!db_sale_packages.length && sale.packages.length){
 					for(i in sale.packages){
-						sale.packages[i].info = sale.packages[i].code+" | "+sale.packages[i].name+" | "+sale.packages[i].color+" | "+sale.packages[i].size;
+						sale.packages[i].info = sale.packages[i].code+" | "+sale.packages[i].name+" | "+sale.packages[i].color;
 						sale.packages[i].package_id = sale.packages[i].id;
 
 						await Sale.package.add(sale.id, sale.packages[i]);

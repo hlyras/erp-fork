@@ -33,4 +33,67 @@ Ecommerce.sale.view.triage.filter = (sales, pagination) => {
 
 Ecommerce.sale.view.triage.show = (sale) => {
 	console.log(sale);
+	let html = "";
+
+	html += "<div class='box one container ground'>";
+		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
+			html += "<div class='box one underline center'>Dados do cliente</div>";
+			html += "<h5 class='mobile-box four margin-top-5'>Nome</h5>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.customer_name+"</div>";
+			html += "<h5 class='mobile-box four margin-top-5'>Usuário</h5>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.customer_user+"</div>";
+		html += "</div>";
+		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
+			html += "<div class='box one underline center'>Dados da venda</div>";
+			html += "<h5 class='mobile-box four margin-top-5'>Código da venda</h5>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.code+"</div>";
+			html += "<h5 class='mobile-box four margin-top-5'>Data</h5>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+lib.timestampToDate(sale.datetime)+"</div>";
+		html += "</div>";
+		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
+			html += "<div class='box one underline center'>Dados operacionais</div>";
+			html += "<h5 class='mobile-box four margin-top-5'>Status</h5>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.status+"</div>";
+			html += "<h5 class='mobile-box four margin-top-5'>Rastreio</h5>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.tracker+"</div>";
+			html += "<h5 class='mobile-box four margin-top-5'>Usuário</h5>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.user_name+"</div>";
+		html += "</div>";
+	html += "</div>";
+
+	html += "<div class='box one container ground'>";
+		html += "<div class='box two container ground padding-10 margin-top-5 border-explicit'>";
+		html += "<div class='box one underline center'>Produtos</div>";
+		for(let i in sale.products){
+			html += "<div class='box one one container ground border-explicit padding-10 margin-top-5'>";
+				html += "<div class='mobile-box three-fourths'>"+sale.products[i].info+"</div>";
+				html += "<div class='mobile-box four center bold'>"+sale.products[i].amount+"un</div>";
+			html += "</div>";
+		};
+		html += "</div>";
+
+		html += "<div class='box two container ground padding-10 border-explicit padding-10 margin-top-5'>";
+		html += "<div class='box one underline center'>Pacotes</div>";
+		for(let i in sale.packages){
+			html += "<div class='box one one container ground border-explicit padding-10 margin-top-5'>";
+				html += "<div class='box one container padding-10'>";
+					html += "<div class='mobile-box five center pointer box-hover border-explicit' onclick='lib.displayDiv(`ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div`, this);'>P"+sale.packages[i].package_id+"</div>";
+					html += "<div class='mobile-box two-fifths center'>"+sale.packages[i].info+"</div>";
+					html += "<div class='mobile-box five center'>"+sale.packages[i].default+"</div>";
+					html += "<div class='mobile-box five center bold'>"+sale.packages[i].amount+"un</div>";
+				html += "</div>";
+				html += "<div id='ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div' class='box one container' style='display:none'>";
+				for(let j in sale.packages[i].products){
+						html += "<div class='mobile-box five center'>"+sale.packages[i].products[j].amount+"</div>";
+						html += "<div class='mobile-box four-fifths'>"+sale.packages[i].products[j].product_info+"</div>";
+				};
+				html += "</div>";
+			html += "</div>";
+		};
+		html += "</div>";
+	html += "</div>";
+
+
+	document.getElementById("ecommerce-sale-show-box").style.display = "";
+	document.getElementById("ecommerce-sale-show-box").innerHTML = html;
 };

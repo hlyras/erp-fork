@@ -12,14 +12,14 @@ if(Ecommerce.sale.controller.save){
 		};
 
 		let sale = {
-			id: document.getElementById("ecommerce-sale-create-form").elements.namedItem("id").value.replace(/\s/g, ''),
+			id: document.getElementById("ecommerce-sale-create-form").elements.namedItem("id").value.trim(),
 			origin: document.getElementById("ecommerce-sale-create-form").elements.namedItem("origin").value,
 			datetime: lib.datetimeToTimestamp(document.getElementById("ecommerce-sale-create-form").elements.namedItem("datetime").value),
-			code: document.getElementById("ecommerce-sale-create-form").elements.namedItem("code").value.replace(/\s/g, ''),
-			customer_user: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-user").value.replace(/\s/g, ''),
-			customer_name: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-name").value.replace(/\s/g, ''),
-			customer_phone: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-phone").value.replace(/\s/g, ''),
-			tracker: document.getElementById("ecommerce-sale-create-form").elements.namedItem("tracker").value.replace(/\s/g, ''),
+			code: document.getElementById("ecommerce-sale-create-form").elements.namedItem("code").value.trim(),
+			customer_user: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-user").value.trim(),
+			customer_name: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-name").value.trim(),
+			customer_phone: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-phone").value.trim(),
+			tracker: document.getElementById("ecommerce-sale-create-form").elements.namedItem("tracker").value.trim(),
 			status: document.getElementById("ecommerce-sale-create-form").elements.namedItem("status").value,
 			products: JSON.stringify(Ecommerce.sale.product.kart.items),
 			packages: JSON.stringify(Ecommerce.sale.package.kart.items)
@@ -82,16 +82,6 @@ if(Ecommerce.sale.controller.filter){
 
 		Ecommerce.sale.view.filter(sales);
 	});
-};
-
-Ecommerce.sale.controller.show = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let sale = await Ecommerce.sale.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
-	if(!sale) { return false };
-	console.log(sale);
-
-	Ecommerce.sale.view.show(sale);
 };
 
 Ecommerce.sale.controller.edit = async (id) => {

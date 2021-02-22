@@ -12,7 +12,6 @@ Ecommerce.sale.save = async (sale) => {
 
 	if(API.verifyResponse(response)){ return false };
 	alert(response.done);
-	console.log(response);
 
 	return response.sale;
 };

@@ -30,7 +30,8 @@ Ecommerce.sale.controller.triage.show = async (id) => {
 	let sale = await Ecommerce.sale.findById(id);
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!sale) { return false };
-	console.log(sale);
 
 	Ecommerce.sale.view.triage.show(sale);
+
+	// document.getElementById("ecommerce-sale-filter-box").style.display = "none";
 };
