@@ -8,7 +8,7 @@ router.get('/sale/triage', saleController.triage);
 
 router.post('/sale/save', saleController.save);
 router.get('/sale/id/:id', saleController.findById);
-
+router.post('/sale/update', saleController.update);
 
 router.post('/sale/filter', saleController.filter);
 

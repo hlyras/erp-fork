@@ -35,3 +35,17 @@ Ecommerce.sale.controller.triage.show = async (id) => {
 
 	// document.getElementById("ecommerce-sale-filter-box").style.display = "none";
 };
+
+Ecommerce.sale.controller.update = async (sale_id, status) => {
+	let sale = {
+		id: sale_id,
+		status: status
+	};
+
+	document.getElementById('ajax-loader').style.visibility = 'visible';
+	sale = await Ecommerce.sale.update(sale);
+	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	if(!sale) { return false };
+
+	console.log(sale);
+};

@@ -207,6 +207,27 @@ const saleController = {
 			res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
 		};
 	},
+	update: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		let sale = req.body.sale;
+
+		try {
+			if(sale.id && sale.status){
+				await Sale.updateStatus(sale);
+				res.send({ done: "Venda atualizada com sucesso!", sale: sale });
+			} else {
+				res.send({ msg: "Não foi possível atualizar o pedido, reinicie a página e tente novamente, caso o problema persista favor contatar o suporte!", sale: sale });
+			};
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
+		};
+
+
+	},
 	filter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
@@ -276,7 +297,7 @@ const saleController = {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 		};
-	}	
+	}
 };
 
 module.exports = saleController;

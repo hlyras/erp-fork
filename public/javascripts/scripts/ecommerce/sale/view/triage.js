@@ -5,22 +5,20 @@ Ecommerce.sale.view.triage.filter = (sales, pagination) => {
 	if(sales.length){
 		html += "</div>";
 		for(let i in sales){
-			if(sales[i].status == "Ag. Embalo"){
-				html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='box one container'>";
-					html += "<div class='mobile-box four center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.triage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
-					html += "<div class='mobile-box four center margin-top-5'>"+sales[i].origin+"</div>";
-					html += "<div class='mobile-box four center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
-					html += "<div class='mobile-box four center margin-top-5'>"+sales[i].status+"</div>";
-					html += "</div>";
-					html += "<div class='box one container'>";
-					html += "<div class='mobile-box four center margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box four center margin-top-5'>"+sales[i].customer_user+"</div>";
-					html += "<div class='mobile-box four center margin-top-5'>"+sales[i].user_name+"</div>";
-					html += "<div class='mobile-box four center margin-top-5'>"+sales[i].tracker+"</div>";
-					html += "</div>";
+			html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
+				html += "<div class='box one container'>";
+				html += "<div class='mobile-box four center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.triage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
+				html += "<div class='mobile-box four center margin-top-5'>"+sales[i].origin+"</div>";
+				html += "<div class='mobile-box four center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
+				html += "<div class='mobile-box four center margin-top-5'>"+sales[i].status+"</div>";
 				html += "</div>";
-			}
+				html += "<div class='box one container'>";
+				html += "<div class='mobile-box four center margin-top-5'>"+sales[i].customer_name+"</div>";
+				html += "<div class='mobile-box four center margin-top-5'>"+sales[i].customer_user+"</div>";
+				html += "<div class='mobile-box four center margin-top-5'>"+sales[i].user_name+"</div>";
+				html += "<div class='mobile-box four center margin-top-5'>"+sales[i].tracker+"</div>";
+				html += "</div>";
+			html += "</div>";
 		};
 		document.getElementById("ecommerce-sale-filter-box").style.display = "";
 		document.getElementById("ecommerce-sale-filter-box").innerHTML = html;
@@ -32,26 +30,24 @@ Ecommerce.sale.view.triage.filter = (sales, pagination) => {
 };
 
 Ecommerce.sale.view.triage.show = (sale) => {
-	console.log(sale);
 	let html = "";
-
 	html += "<div class='box one container ground'>";
 		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
-			html += "<div class='box one underline center'>Dados do cliente</div>";
+			html += "<div class='box one underline center bold'>Dados do cliente</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Nome</h5>";
-			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.customer_name+"</div>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center bold'>"+sale.customer_name+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Usuário</h5>";
-			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.customer_user+"</div>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center bold'>"+sale.customer_user+"</div>";
 		html += "</div>";
 		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
-			html += "<div class='box one underline center'>Dados da venda</div>";
+			html += "<div class='box one underline center bold'>Dados da venda</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Código da venda</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.code+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Data</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+lib.timestampToDate(sale.datetime)+"</div>";
 		html += "</div>";
 		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
-			html += "<div class='box one underline center'>Dados operacionais</div>";
+			html += "<div class='box one underline center bold'>Dados operacionais</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Status</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.status+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Rastreio</h5>";
@@ -93,9 +89,12 @@ Ecommerce.sale.view.triage.show = (sale) => {
 			html += "</div>";
 		};
 		html += "</div>";
+		if(sale.status == "Ag. Embalo"){
+			html += "<input type='button' class='box one input-confirm height-40 center padding-10 margin-top-10 margin-bottom-10' onclick='Ecommerce.sale.controller.update("+sale.id+", `Ag. Coleta`);' value='Confirmar Embalo'>";
+		};
 	html += "</div>";
 
-
+	document.getElementById("ecommerce-sale-filter-box").style.display = "none";
 	document.getElementById("ecommerce-sale-show-box").style.display = "";
 	document.getElementById("ecommerce-sale-show-box").innerHTML = html;
 };

@@ -37,3 +37,17 @@ Ecommerce.sale.findById = async (sale_id) => {
 	
 	return response.sale[0];
 };
+
+Ecommerce.sale.update = async (sale) => {
+	let response = await fetch("/ecommerce/sale/update", {
+		method: "POST",
+		headers: {'Content-Type': 'application/json'},
+	    body: JSON.stringify({ sale })
+	});
+	response = await response.json();
+
+	if(API.verifyResponse(response)){ return false };
+	alert(response.done);
+
+	return response.sale;
+};
