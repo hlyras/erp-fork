@@ -206,6 +206,11 @@ if(Ecommerce.sale.package.kart.add){
 				package.package_id = parseInt(Ecommerce.sale.package.kart.items[i].package_id) + 1;
 			};
 		};
+			
+		package.id = package.package_id;
+
+		console.log(package);
+		console.log(Ecommerce.sale.package.kart.items);
 
 		Ecommerce.sale.package.kart.insert("package_id", package);
 		Ecommerce.sale.package.kart.update("code");

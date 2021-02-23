@@ -65,7 +65,7 @@ Ecommerce.sale.view.edit = (sale) => {
 		
 		for(let j in Ecommerce.sale.package.kart.items[i].products){
 			Ecommerce.sale.package.kart.items[i].products[j].product_code = Ecommerce.sale.package.kart.items[i].products[j].product_info.split(" | ")[0];		
-			Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].insert("product_id", Ecommerce.sale.package.kart.items[i].products[j]);
+			Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].insert("id", Ecommerce.sale.package.kart.items[i].products[j]);
 		};
 		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].update("product_code");
 	};

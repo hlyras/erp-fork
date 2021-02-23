@@ -108,21 +108,23 @@ Sale.package = {
 			+package.amount+"');";
 		return db(query);
 	},
-	list: async (sale_id) => {
-		let query = "SELECT * FROM cms_wt_erp.ecommerce_sale_package WHERE sale_id='"+sale_id+"';";
+	update: async (sale_package_id, package) => {
+		let query = "UPDATE cms_wt_erp.ecommerce_sale_package SET amount='"+package.amount
+			+"', info='"+package.info
+			+"', setup='"+package.setup
+			+"' WHERE id='"+sale_package_id+"';";
 		return db(query);
 	},
-	update: async (sale_package_id, package) => {
-		console.log(sale_package_id, package);
-		let query = "UPDATE cms_wt_erp.ecommerce_sale_package SET amount='"+package.amount+"', setup='"+package.setup+"' WHERE id='"+sale_package_id+"';";
+	list: async (sale_id) => {
+		let query = "SELECT * FROM cms_wt_erp.ecommerce_sale_package WHERE sale_id='"+sale_id+"';";
 		return db(query);
 	},
 	remove: async (sale_package_id) => {
 		let query = "DELETE FROM cms_wt_erp.ecommerce_sale_package WHERE id='"+sale_package_id+"';";
 		return db(query);
 	},
-	removeAll: async (sale_id, package_id) => {
-		let query = "DELETE FROM cms_wt_erp.ecommerce_sale_package WHERE sale_id='"+sale_id+"' AND package_id='"+package_id+"';";
+	removeAll: async (sale_id) => {
+		let query = "DELETE FROM cms_wt_erp.ecommerce_sale_package WHERE sale_id='"+sale_id+"';";
 		return db(query);
 	},
 	product: {
@@ -148,7 +150,11 @@ Sale.package = {
 			return db(query);
 		},
 		removeAll: async (sale_id, package_id) => {
-			let query = "DELETE FROM cms_wt_erp.ecommerce_sale_package_product WHERE sale_id='"+sale_id+" AND package_id='"+package_id+"';";
+			let query = "DELETE FROM cms_wt_erp.ecommerce_sale_package_product WHERE sale_id='"+sale_id+"' AND package_id='"+package_id+"';";
+			return db(query);
+		},
+		clear: async (sale_id) => {
+			let query = "DELETE FROM cms_wt_erp.ecommerce_sale_package_product WHERE sale_id='"+sale_id+"';";
 			return db(query);
 		}
 	}

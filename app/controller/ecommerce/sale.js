@@ -138,32 +138,39 @@ const saleController = {
 				let db_sale_packages = await Sale.package.list(sale.id);
 				if(!db_sale_packages.length && sale.packages.length){
 					for(i in sale.packages){
+
 						sale.packages[i].info = sale.packages[i].code+" | "+sale.packages[i].name+" | "+sale.packages[i].color;
 						sale.packages[i].package_id = sale.packages[i].id;
-
+						
 						await Sale.package.add(sale.id, sale.packages[i]);
 					};
 				} else if(db_sale_packages.length && !sale.packages.length){
 					await Sale.package.removeAll(sale.id);
+					await Sale.package.product.clear(sale.id);
 				} else if(db_sale_packages.length && sale.packages.length){
 					sale.packages = db_sale_packages.reduce((packages, package) => {
-						for(i in packages){ if(packages[i].package_id == package.package_id){ return packages; }; };
+						for(i in packages){ if(packages[i].id == package.id){ return packages; }; };
 						sale.package_actions.remove.push(package);
 						return packages;
 					}, sale.packages);
 
 					db_sale_packages = sale.packages.reduce((packages, package) => {
-						for(i in packages){ if(packages[i].package_id == package.package_id){ sale.package_actions.update.push(package); return packages; }; };
+						for(i in packages){ if(packages[i].id == package.id){ sale.package_actions.update.push(package); return packages; }; };
 						sale.package_actions.add.push(package);
 						return packages;
 					}, db_sale_packages);
 
 					for(let i in sale.package_actions.add){
 						sale.package_actions.add[i].info = ""+sale.package_actions.add[i].code+" | "+sale.package_actions.add[i].name+" | "+sale.package_actions.add[i].color;
+						sale.package_actions.add[i].id = sale.package_actions.add[i].package_id;
+						
 						await Sale.package.add(sale.id, sale.package_actions.add[i]);
 					};
-					for(let i in sale.package_actions.update){ await Sale.package.update(sale.package_actions.update[i].id, sale.package_actions.update[i]); };
-					for(let i in sale.package_actions.remove){ await Sale.package.remove(sale.package_actions.remove[i].id); };
+					for(let i in sale.package_actions.update){ 
+						sale.package_actions.update[i].info = ""+sale.package_actions.update[i].code+" | "+sale.package_actions.update[i].name+" | "+sale.package_actions.update[i].color;
+						await Sale.package.update(sale.package_actions.update[i].id, sale.package_actions.update[i]); 
+					};
+					for(let i in sale.package_actions.remove){ await Sale.package.remove(sale.package_actions.remove[i].id); await Sale.package.product.removeAll(sale.id, sale.package_actions.remove[i].package_id); };
 				};
 
 				// // // // // // // // 
@@ -180,13 +187,13 @@ const saleController = {
 						await Sale.package.product.removeAll(sale.id, sale.packages[i].package_id);
 					} else if(db_sale_package_products.length && sale.packages[i].products.length){
 						sale.packages[i].products = db_sale_package_products.reduce((products, product) => {
-							for(let j in products){ if(products[j].product_id == product.product_id){ return products; }; };
+							for(let j in products){ if(products[j].id == product.id){ return products; }; };
 							sale.package_product_actions.remove.push(product);
 							return products;
 						}, sale.packages[i].products);
 
 						db_sale_package_products = sale.packages[i].products.reduce((products, product) => {
-							for(let j in products){ if(products[j].product_id == product.product_id){ sale.package_product_actions.update.push(product); return products; }; };
+							for(let j in products){ if(products[j].id == product.id){ sale.package_product_actions.update.push(product); return products; }; };
 							sale.package_product_actions.add.push(product);
 							return products;
 						}, db_sale_package_products);

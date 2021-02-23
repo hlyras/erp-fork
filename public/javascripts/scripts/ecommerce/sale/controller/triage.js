@@ -32,8 +32,6 @@ Ecommerce.sale.controller.triage.show = async (id) => {
 	if(!sale) { return false };
 
 	Ecommerce.sale.view.triage.show(sale);
-
-	// document.getElementById("ecommerce-sale-filter-box").style.display = "none";
 };
 
 Ecommerce.sale.controller.update = async (sale_id, status) => {
@@ -46,6 +44,6 @@ Ecommerce.sale.controller.update = async (sale_id, status) => {
 	sale = await Ecommerce.sale.update(sale);
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!sale) { return false };
-
-	console.log(sale);
+	
+	Ecommerce.sale.controller.filter.submit.click();
 };
