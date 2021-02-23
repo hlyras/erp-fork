@@ -75,7 +75,7 @@ Ecommerce.sale.view.triage.show = (sale) => {
 				html += "<div class='box one container padding-10'>";
 					html += "<div class='mobile-box eight center pointer box-hover border-explicit' onclick='lib.displayDiv(`ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div`, this);'>P"+sale.packages[i].package_id+"</div>";
 					html += "<div class='mobile-box two center'>"+sale.packages[i].info+"</div>";
-					html += "<h5 class='mobile-box four center padding-5 border-explicit'>"+sale.packages[i].setup+"</h5>";
+					html += "<h5 class='mobile-box four center border-explicit'>"+sale.packages[i].setup+"</h5>";
 					html += "<div class='mobile-box eight center bold'>"+sale.packages[i].amount+"un</div>";
 				html += "</div>";
 				html += "<div id='ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div' class='box one container' style='display:none'>";
