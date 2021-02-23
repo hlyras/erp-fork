@@ -60,9 +60,9 @@ const saleController = {
 
 		if(!sale.origin){ return res.send({ msg: "É necessário informar a origem da venda" }); };
 		if(!sale.code){ return res.send({ msg: "É necessário informar o código da venda" }); };
+		if(!sale.datetime){ return res.send({ msg: "É necessário informar o horário da venda" }); };
 		if(!sale.customer_user){ return res.send({ msg: "É necessário informar o usuário do cliente" }); };
 		if(!sale.customer_name){ return res.send({ msg: "É necessário informar o nome do cliente" }); };
-		if(!sale.datetime){ return res.send({ msg: "É necessário informar o horário da venda" }); };
 		if(!sale.tracker){ return res.send({ msg: "É necessário informar o código de rastreio da venda" }); };
 		if(!sale.status){ return res.send({ msg: "É necessário informar o status da venda" }); };
 		if(!sale.products.length && !sale.packages.length){ return res.send({ msg: "É necessário incluir ao menos um produto ou pacote." }); };
@@ -144,7 +144,7 @@ const saleController = {
 						await Sale.package.add(sale.id, sale.packages[i]);
 					};
 				} else if(db_sale_packages.length && !sale.packages.length){
-					await Sale.package.removeAll(sale.id, sale.packages[i].id);
+					await Sale.package.removeAll(sale.id);
 				} else if(db_sale_packages.length && sale.packages.length){
 					sale.packages = db_sale_packages.reduce((packages, package) => {
 						for(i in packages){ if(packages[i].package_id == package.package_id){ return packages; }; };

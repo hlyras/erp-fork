@@ -170,11 +170,6 @@ Ecommerce.sale.package.controller.dropdown = {
 
 Ecommerce.sale.package.kart = new lib.kart("ecommerce-sale-package-show-kart", "Ecommerce.sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"}]);
 
-lib.counter = (function(){
-	let counter = 0;
-	return function(){ counter++; return counter; };
-})();
-
 Ecommerce.sale.package.kart.add = document.getElementById("ecommerce-sale-package-show-kart-form");
 if(Ecommerce.sale.package.kart.add){
 	Ecommerce.sale.package.kart.add.addEventListener("submit", async (event) => {
@@ -204,6 +199,7 @@ if(Ecommerce.sale.package.kart.add){
 
 		package.amount = parseInt(amount);
 		package.package_id = 1;
+		package.setup = "padrão";
 
 		for(let i in Ecommerce.sale.package.kart.items){
 			if(package.package_id <= parseInt(Ecommerce.sale.package.kart.items[i].package_id)){
@@ -237,14 +233,19 @@ if(Ecommerce.sale.package.kart.add){
 	});
 };
 
+Ecommerce.sale.package.kart.activate = () => {
+	for(let i in Ecommerce.sale.package.product){ Ecommerce.sale.package.kart.set(Ecommerce.sale.package.product[i].id); };
+};
+
 Ecommerce.sale.package.kart.list = (kart, props) => {
 	if(Ecommerce.sale.package.kart.items.length){
 		let html = "";
 		for(i in Ecommerce.sale.package.kart.items){
 			html += "<div class='box one container border center padding-5 margin-top-5'>";
-				html += "<div id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-hider' class='mobile-box six center pointer box-hover border-explicit' onclick='lib.displayDiv(`ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-box`, this);'>P"+Ecommerce.sale.package.kart.items[i].package_id+"</div>";
-				html += "<div class='mobile-box two-thirds center'>"+Ecommerce.sale.package.kart.items[i].name+"</div>";
+				html += "<div id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-hider' class='mobile-box twelve center pointer box-hover border-explicit' onclick='lib.displayDiv(`ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-box`, this);'>P"+Ecommerce.sale.package.kart.items[i].package_id+"</div>";
+				html += "<div class='mobile-box two center'>"+Ecommerce.sale.package.kart.items[i].name+"</div>";
 				html += "<div class='mobile-box six center'>"+Ecommerce.sale.package.kart.items[i].color+"</div>";
+				html += "<div id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-setup' class='mobile-box six border center'>"+Ecommerce.sale.package.kart.items[i].setup+"</div>";
 				html += "<div class='mobile-box four center margin-top-10'><img class='icon size-15' src='/images/icon/decrease.png' onclick='"+kart+".decrease("+Ecommerce.sale.package.kart.items[i].package_id+")'></div>";
 				html += "<input class='mobile-box four border-explicit center margin-top-10 bold' type='text' id='ecommerce-sale-package-show-kart"+Ecommerce.sale.package.kart.items[i].package_id+"' onchange='"+kart+".updateAmount("+Ecommerce.sale.package.kart.items[i].package_id+", this.value);lib.focus(this)' value='"+Ecommerce.sale.package.kart.items[i].amount+"'>";
 				html += "<div class='mobile-box four center margin-top-10'><img class='icon size-15' src='/images/icon/increase.png' onclick='"+kart+".increase("+Ecommerce.sale.package.kart.items[i].package_id+")'></div>";
@@ -290,19 +291,9 @@ Ecommerce.sale.package.kart.decrease = (obj_id) => {
 	};
 	let stringified_kart = JSON.stringify(Ecommerce.sale.package.kart.items);
 	lib.localStorage.update(Ecommerce.sale.package.kart.name, stringified_kart);
-
-	for(let i in Ecommerce.sale.package.kart.items){
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].id = Ecommerce.sale.package.kart.items[i].package_id;
-		
-		console.log(Ecommerce.sale.package.kart.items[i].package_id);
-		console.log(Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].items);
-		
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].update("product_code");
-	};
-
+	
 	Ecommerce.sale.package.kart.list(Ecommerce.sale.package.kart.variable, Ecommerce.sale.package.kart.props);
-
-	for(let i in Ecommerce.sale.package.product){ Ecommerce.sale.package.kart.set(Ecommerce.sale.package.product[i].id); };
+	Ecommerce.sale.package.kart.activate();
 };
 
 Ecommerce.sale.package.kart.increase = (obj_id) => {
@@ -314,18 +305,8 @@ Ecommerce.sale.package.kart.increase = (obj_id) => {
 	let stringified_kart = JSON.stringify(Ecommerce.sale.package.kart.items);
 	lib.localStorage.update(Ecommerce.sale.package.kart.name, stringified_kart);
 	
-	for(let i in Ecommerce.sale.package.kart.items){
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].id = Ecommerce.sale.package.kart.items[i].package_id;
-		
-		console.log(Ecommerce.sale.package.kart.items[i].package_id);
-		console.log(Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].items);
-		
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].update("product_code");
-	};
-
 	Ecommerce.sale.package.kart.list(Ecommerce.sale.package.kart.variable, Ecommerce.sale.package.kart.props);
-
-	for(let i in Ecommerce.sale.package.product){ Ecommerce.sale.package.kart.set(Ecommerce.sale.package.product[i].id); };
+	Ecommerce.sale.package.kart.activate();
 };
 
 Ecommerce.sale.package.kart.updateAmount = async (obj_id, amount) => {
@@ -339,22 +320,11 @@ Ecommerce.sale.package.kart.updateAmount = async (obj_id, amount) => {
 			Ecommerce.sale.package.kart.items[i].amount = parseInt(amount);
 			
 			let stringified_kart = JSON.stringify(Ecommerce.sale.package.kart.items);
-			lib.localStorage.update(Ecommerce.sale.package.kart.name, stringified_kart);
-
-			for(let i in Ecommerce.sale.package.kart.items){
-				Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].id = Ecommerce.sale.package.kart.items[i].package_id;
-				
-				console.log(Ecommerce.sale.package.kart.items[i].package_id);
-				console.log(Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].items);
-				
-				Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].update("product_code");
-			};
+			lib.localStorage.update(Ecommerce.sale.package.kart.name, stringified_kart);	
 
 			Ecommerce.sale.package.kart.list(Ecommerce.sale.package.kart.variable, Ecommerce.sale.package.kart.props);
-
-			for(let i in Ecommerce.sale.package.product){ Ecommerce.sale.package.kart.set(Ecommerce.sale.package.product[i].id); };
-			
-			return;
+			Ecommerce.sale.package.kart.activate();
+			return true;
 		};
 	};
 };
@@ -373,18 +343,8 @@ Ecommerce.sale.package.kart.remove = (obj_id) => {
 	lib.localStorage.update(Ecommerce.sale.package.kart.name, stringified_kart);
 	lib.localStorage.remove("ecommerce-sale-package-product-kart"+obj_id);
 	
-	for(let i in Ecommerce.sale.package.kart.items){
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].id = Ecommerce.sale.package.kart.items[i].package_id;
-		
-		console.log(Ecommerce.sale.package.kart.items[i].package_id);
-		console.log(Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].items);
-		
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].update("product_code");
-	};
-
 	Ecommerce.sale.package.kart.list(Ecommerce.sale.package.kart.variable, Ecommerce.sale.package.kart.props);
-
-	for(let i in Ecommerce.sale.package.product){ Ecommerce.sale.package.kart.set(Ecommerce.sale.package.product[i].id); };
+	Ecommerce.sale.package.kart.activate();
 };
 
 Ecommerce.sale.package.product = {};
@@ -395,13 +355,13 @@ Ecommerce.sale.package.kart.set = (id) => {
 		Ecommerce.sale.package.product["kart"+id].add.addEventListener("submit", async event => {
 			event.preventDefault();
 
-			if(!document.getElementById(Ecommerce.sale.package.product["kart"+id].name+"-form").elements.namedItem("product").readOnly){ 
+			if(!event.target.elements.namedItem("product").readOnly){ 
 				return alert("Produto inválido");
 			};
 
-			let product = document.getElementById(Ecommerce.sale.package.product["kart"+id].name+"-form").elements.namedItem("product");
+			let product = event.target.elements.namedItem("product");
 			let splitedProduct = product.value.split(" | ");
-			let amount = document.getElementById(Ecommerce.sale.package.product["kart"+id].name+"-form").elements.namedItem("amount").value;
+			let amount = event.target.elements.namedItem("amount").value;
 
 			if(splitedProduct.length < 3 || !splitedProduct){
 				alert("É necessário selecionar um produto.");
@@ -415,6 +375,7 @@ Ecommerce.sale.package.kart.set = (id) => {
 
 			product = {
 				id: 1,
+				package_id: id,
 				product_id: product.dataset.id,
 				product_code: splitedProduct[0],
 				product_info: product.value,
@@ -427,14 +388,61 @@ Ecommerce.sale.package.kart.set = (id) => {
 				};
 			};
 
-			Ecommerce.sale.package.product["kart"+id].insert("product_id", product);
+			if(!Ecommerce.sale.package.product["kart"+id].insert("product_id", product)){ return false; };
 			Ecommerce.sale.package.product["kart"+id].update("product_code");
 			Ecommerce.sale.package.product["kart"+id].list(Ecommerce.sale.package.product["kart"+id].name, Ecommerce.sale.package.product["kart"+id].props);
+
+			Ecommerce.sale.package.updateSetup(id);
 
 			event.target.elements.namedItem("product").dataset.id = "";
 			event.target.elements.namedItem("product").value = "";
 			event.target.elements.namedItem("amount").value = "";
 		});
+	};
+
+	Ecommerce.sale.package.product["kart"+id].decrease = (obj_id) => {
+		for(i in Ecommerce.sale.package.product["kart"+id].items){
+			if(Ecommerce.sale.package.product["kart"+id].items[i].id == obj_id && Ecommerce.sale.package.product["kart"+id].items[i].amount > 1){
+				Ecommerce.sale.package.product["kart"+id].items[i].amount -= 1;
+			};
+		};
+		let stringified_kart = JSON.stringify(Ecommerce.sale.package.product["kart"+id].items);
+		lib.localStorage.update(Ecommerce.sale.package.product["kart"+id].name, stringified_kart);
+		Ecommerce.sale.package.product["kart"+id].list(Ecommerce.sale.package.product["kart"+id].variable, Ecommerce.sale.package.product["kart"+id].props);
+	
+		Ecommerce.sale.package.updateSetup(id);
+	};
+
+	Ecommerce.sale.package.product["kart"+id].increase = (obj_id) => {
+		for(let i in Ecommerce.sale.package.product["kart"+id].items){
+			if(Ecommerce.sale.package.product["kart"+id].items[i].id == obj_id){
+				Ecommerce.sale.package.product["kart"+id].items[i].amount += 1;
+			};
+		};
+		let stringified_kart = JSON.stringify(Ecommerce.sale.package.product["kart"+id].items);
+		lib.localStorage.update(Ecommerce.sale.package.product["kart"+id].name, stringified_kart);
+		Ecommerce.sale.package.product["kart"+id].list(Ecommerce.sale.package.product["kart"+id].variable, Ecommerce.sale.package.product["kart"+id].props);
+		
+		Ecommerce.sale.package.updateSetup(id);
+	};
+
+	Ecommerce.sale.package.product["kart"+id].updateAmount = async (obj_id, amount) => {
+		if(amount < 1 || isNaN(amount)){
+			alert("Quantidade Inválida");
+			return Ecommerce.sale.package.product["kart"+id].list(Ecommerce.sale.package.product["kart"+id].variable, Ecommerce.sale.package.product["kart"+id].props);
+		};
+
+		for(i in Ecommerce.sale.package.product["kart"+id].items){
+			if(Ecommerce.sale.package.product["kart"+id].items[i].id == obj_id){
+				Ecommerce.sale.package.product["kart"+id].items[i].amount = parseInt(amount);
+				
+				let stringified_kart = JSON.stringify(Ecommerce.sale.package.product["kart"+id].items);
+				lib.localStorage.update(Ecommerce.sale.package.product["kart"+id].name, stringified_kart);
+
+				Ecommerce.sale.package.product["kart"+id].list(Ecommerce.sale.package.product["kart"+id].variable, Ecommerce.sale.package.product["kart"+id].props);
+				return Ecommerce.sale.package.updateSetup(id);
+			};
+		};
 	};
 
 	Ecommerce.sale.package.product["kart"+id].remove = (obj_id) => {
@@ -451,8 +459,18 @@ Ecommerce.sale.package.kart.set = (id) => {
 		lib.localStorage.update(Ecommerce.sale.package.product["kart"+id].name, stringified_kart);
 
 		if(!Ecommerce.sale.package.product["kart"+id].items.length){ return Ecommerce.sale.package.kart.remove(id); };
-		
+
 		Ecommerce.sale.package.product["kart"+id].list(Ecommerce.sale.package.product["kart"+id].variable, Ecommerce.sale.package.product["kart"+id].props);
+		
+		Ecommerce.sale.package.updateSetup(id);
 	};
 };
 
+Ecommerce.sale.package.updateSetup = (id) => {
+	for(let i in Ecommerce.sale.package.kart.items){
+		if(Ecommerce.sale.package.kart.items[i].package_id == id && Ecommerce.sale.package.kart.items[i].setup == "padrão"){ 
+			Ecommerce.sale.package.kart.items[i].setup = "personalizado";
+			document.getElementById("ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-setup").innerHTML = "personalizado";
+		};
+	};
+};

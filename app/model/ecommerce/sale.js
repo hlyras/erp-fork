@@ -100,10 +100,11 @@ Sale.product = {
 
 Sale.package = {
 	add: async (sale_id, package) => {
-		let query = "INSERT INTO cms_wt_erp.ecommerce_sale_package (sale_id, package_id, info, amount) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.ecommerce_sale_package (sale_id, package_id, info, setup, amount) VALUES ('"
 			+sale_id+"', '"
 			+package.package_id+"','"
 			+package.info+"','"
+			+package.setup+"','"
 			+package.amount+"');";
 		return db(query);
 	},
@@ -112,7 +113,8 @@ Sale.package = {
 		return db(query);
 	},
 	update: async (sale_package_id, package) => {
-		let query = "UPDATE cms_wt_erp.ecommerce_sale_package SET amount='"+package.amount+"' WHERE id='"+sale_package_id+"';";
+		console.log(sale_package_id, package);
+		let query = "UPDATE cms_wt_erp.ecommerce_sale_package SET amount='"+package.amount+"', setup='"+package.setup+"' WHERE id='"+sale_package_id+"';";
 		return db(query);
 	},
 	remove: async (sale_package_id) => {
