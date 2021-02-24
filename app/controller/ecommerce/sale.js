@@ -8,7 +8,7 @@ const Product = require('../../model/product');
 
 const saleController = {
 	index: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass'])){
 			return res.redirect('/');
 		};
 
@@ -20,7 +20,7 @@ const saleController = {
 		};
 	},
 	gathering: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass'])){
 			return res.redirect('/');
 		};
 
@@ -32,7 +32,7 @@ const saleController = {
 		};
 	},
 	triage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, [['adm','pro-man','log-pac']])){
 			return res.redirect('/');
 		};
 
@@ -44,7 +44,7 @@ const saleController = {
 		};
 	},
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass'])){
 			return res.redirect('/');
 		};
 
@@ -215,7 +215,7 @@ const saleController = {
 		};
 	},
 	update: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','pro-man','log-pac'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -236,7 +236,7 @@ const saleController = {
 
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','pro-man','log-pac'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -283,7 +283,7 @@ const saleController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','pro-man','log-pac'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 

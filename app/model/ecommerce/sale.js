@@ -92,8 +92,8 @@ Sale.product = {
 		let query = "DELETE FROM cms_wt_erp.ecommerce_sale_product WHERE id='"+sale_product_id+"';";
 		return db(query);
 	},
-	removeAll: async (package_id) => {
-		let query = "DELETE FROM cms_wt_erp.ecommerce_sale_product WHERE package_id='"+package_id+"';";
+	removeAll: async (sale_id) => {
+		let query = "DELETE FROM cms_wt_erp.ecommerce_sale_product WHERE sale_id='"+sale_id+"';";
 		return db(query);
 	}
 };

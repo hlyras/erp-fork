@@ -59,7 +59,7 @@ Ecommerce.sale.view.triage.show = (sale) => {
 
 	html += "<div class='box one container ground'>";
 		html += "<div class='box two container ground border padding-5 margin-top-5'>";
-		html += "<div class='box one underline center'>Produtos</div>";
+		html += "<div class='box one underline center bold'>Produtos</div>";
 		for(let i in sale.products){
 			html += "<div class='box one one container ground box-hover border-explicit padding-10 margin-top-5'>";
 				html += "<div class='mobile-box three-fourths'>"+sale.products[i].info+"</div>";
@@ -69,7 +69,7 @@ Ecommerce.sale.view.triage.show = (sale) => {
 		html += "</div>";
 
 		html += "<div class='box two container ground border padding-5 margin-top-5'>";
-		html += "<div class='box one underline center'>Pacotes</div>";
+		html += "<div class='box one underline center bold'>Pacotes</div>";
 		for(let i in sale.packages){
 			html += "<div class='box one one container ground border-explicit padding-10 margin-top-5'>";
 				html += "<div class='box one container padding-10'>";
