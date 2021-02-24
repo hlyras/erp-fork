@@ -32,7 +32,7 @@ const saleController = {
 		};
 	},
 	triage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, [['adm','pro-man','log-pac']])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','log-pac'])){
 			return res.redirect('/');
 		};
 
