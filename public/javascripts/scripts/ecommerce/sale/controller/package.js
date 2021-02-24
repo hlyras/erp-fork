@@ -72,15 +72,8 @@ if(Ecommerce.sale.package.kart.add){
 			Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id] = new lib.kart("ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].id, "Ecommerce.sale.package.product.kart"+Ecommerce.sale.package.kart.items[i].id, [{"product_info":"Descrição"}]);
 			Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].id = Ecommerce.sale.package.kart.items[i].id;
 			
-			if(JSON.parse(localStorage.getItem(Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].name))){
-				let sale_package_product_kart = JSON.parse(localStorage.getItem(Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].name));
-				if(sale_package_product_kart.length > 0){
-					Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].items = sale_package_product_kart;
-				};
-			} else {
-				for(let j in Ecommerce.sale.package.kart.items[i].products){
-					Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].insert("product_code", Ecommerce.sale.package.kart.items[i].products[j]);
-				};
+			for(let j in Ecommerce.sale.package.kart.items[i].products){
+				Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].insert("product_id", Ecommerce.sale.package.kart.items[i].products[j]);
 			};
 			Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].update("product_code");
 		};
@@ -340,29 +333,29 @@ Ecommerce.sale.package.updateSetup = (id) => {
 	lib.localStorage.update(Ecommerce.sale.package.kart.name, stringified_kart);
 };
 
-if(lib.localStorage.verify("ecommerce-sale-package-kart")){
-	let sale_package_kart = JSON.parse(localStorage.getItem("ecommerce-sale-package-kart"));
-	Ecommerce.sale.package.kart.items = sale_package_kart;
-	Ecommerce.sale.package.kart.update("code");
+// if(lib.localStorage.verify("ecommerce-sale-package-kart")){
+// 	let sale_package_kart = JSON.parse(localStorage.getItem("ecommerce-sale-package-kart"));
+// 	Ecommerce.sale.package.kart.items = sale_package_kart;
+// 	Ecommerce.sale.package.kart.update("code");
 
-	let sale_package_product_kart = "";
-	for(let i in Ecommerce.sale.package.kart.items){
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id] = new lib.kart("ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].id, "Ecommerce.sale.package.product.kart"+Ecommerce.sale.package.kart.items[i].id, [{"product_info":"Descrição"}]);
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].id = Ecommerce.sale.package.kart.items[i].id;
+// 	let sale_package_product_kart = "";
+// 	for(let i in Ecommerce.sale.package.kart.items){
+// 		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id] = new lib.kart("ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].id, "Ecommerce.sale.package.product.kart"+Ecommerce.sale.package.kart.items[i].id, [{"product_info":"Descrição"}]);
+// 		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].id = Ecommerce.sale.package.kart.items[i].id;
 		
-		if(JSON.parse(localStorage.getItem(Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].name))){
-			let sale_package_product_kart = JSON.parse(localStorage.getItem(Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].name));
-			if(sale_package_product_kart.length > 0){
-				Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].items = sale_package_product_kart;
-			};
-		} else {
-			for(let j in Ecommerce.sale.package.kart.items[i].products){
-				Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].insert("product_code", Ecommerce.sale.package.kart.items[i].products[j]);
-			};
-		};
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].update("product_code");
-	};
+// 		if(JSON.parse(localStorage.getItem(Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].name))){
+// 			let sale_package_product_kart = JSON.parse(localStorage.getItem(Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].name));
+// 			if(sale_package_product_kart.length > 0){
+// 				Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].items = sale_package_product_kart;
+// 			};
+// 		} else {
+// 			for(let j in Ecommerce.sale.package.kart.items[i].products){
+// 				Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].insert("product_code", Ecommerce.sale.package.kart.items[i].products[j]);
+// 			};
+// 		};
+// 		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].update("product_code");
+// 	};
 
-	Ecommerce.sale.package.kart.list("Ecommerce.sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"price":"Preço"}]);
-	for(let i in Ecommerce.sale.package.product){ Ecommerce.sale.package.kart.set(Ecommerce.sale.package.product[i].id); };
-};
+// 	Ecommerce.sale.package.kart.list("Ecommerce.sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"price":"Preço"}]);
+// 	for(let i in Ecommerce.sale.package.product){ Ecommerce.sale.package.kart.set(Ecommerce.sale.package.product[i].id); };
+// };
