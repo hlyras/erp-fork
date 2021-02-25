@@ -52,7 +52,10 @@ Sale.update = async (sale) => {
 };
 
 Sale.updateStatus = async (sale) => {
-	let query = "UPDATE cms_wt_erp.ecommerce_sale SET status='"+sale.status+"' WHERE id='"+sale.id+"';";
+	let query = "UPDATE cms_wt_erp.ecommerce_sale SET status='"+sale.status
+	+"', packing_datetime='"+sale.datetime
+	+"', packing_user_id='"+sale.user_id
+	+"', packing_user_name='"+sale.user_name+"' WHERE id='"+sale.id+"';";
 	return db(query);
 };
 

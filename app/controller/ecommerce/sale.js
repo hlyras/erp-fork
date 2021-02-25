@@ -8,7 +8,7 @@ const Product = require('../../model/product');
 
 const saleController = {
 	index: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','COR-GER'])){
 			return res.redirect('/');
 		};
 
@@ -32,7 +32,7 @@ const saleController = {
 		};
 	},
 	triage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','log-pac'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','log-pac','COR-GER'])){
 			return res.redirect('/');
 		};
 
@@ -74,7 +74,7 @@ const saleController = {
 
 				let row = await Sale.save(sale);
 				sale.id = row.insertId;
-				
+
 				for(i in sale.products){
 					sale.products[i].info = sale.products[i].code+" | "+sale.products[i].name+" | "+sale.products[i].color+" | "+sale.products[i].size;
 					await Sale.product.add(sale.id, sale.products[i]);
@@ -223,6 +223,9 @@ const saleController = {
 
 		try {
 			if(sale.id && sale.status){
+				sale.datetime = lib.genFullDate();
+				sale.user_id = req.user.id;
+				sale.user_name = req.user.name;
 				await Sale.updateStatus(sale);
 				res.send({ done: "Venda atualizada com sucesso!", sale: sale });
 			} else {
@@ -232,11 +235,9 @@ const saleController = {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 		};
-
-
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','pro-man','log-pac'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','pro-man','log-pac','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -283,7 +284,7 @@ const saleController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','pro-man','log-pac'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','pro-man','log-pac','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
