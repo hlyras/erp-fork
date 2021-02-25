@@ -60,7 +60,7 @@ Sale.updateStatus = async (sale) => {
 };
 
 Sale.filter = (periodStart, periodEnd, params, values) => {
-	let query = lib.filterByLikeAndByPeriod(periodStart, periodEnd, params, values, "date", "cms_wt_erp", "ecommerce_sale", "datetime", "DESC");
+	let query = lib.filterByLikeAndByPeriod(periodStart, periodEnd, params, values, "date", "cms_wt_erp", "ecommerce_sale", "datetime", "ASC");
 	return db(query);
 };
 
