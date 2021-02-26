@@ -255,9 +255,9 @@ const saleController = {
 			periodEnd = "";
 		};
 
-		if(req.body.sale.customer_username){
-			params.push("customer_username");
-			values.push(req.body.sale.customer_username);
+		if(req.body.sale.code){
+			params.push("code");
+			values.push(req.body.sale.code);
 		};
 
 		if(req.body.sale.customer_name){
@@ -265,9 +265,9 @@ const saleController = {
 			values.push(req.body.sale.customer_name);
 		};
 
-		if(req.body.sale.status){
-			params.push("status");
-			values.push(req.body.sale.status);
+		if(req.body.sale.customer_user){
+			params.push("customer_user");
+			values.push(req.body.sale.customer_user);
 		};
 
 		if(req.body.sale.tracker){
@@ -276,7 +276,7 @@ const saleController = {
 		};
 
 		try {
-			let sales = await Sale.filter(periodStart, periodEnd, params, values);
+			let sales = await Sale.filter(periodStart, periodEnd, req.body.sale.status, params, values);
 			res.send({ sales });
 		} catch (err) {
 			console.log(err);

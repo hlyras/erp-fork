@@ -7,7 +7,8 @@ if(Ecommerce.sale.controller.filter){
 
 		let sale = {
 			code: event.target.elements.namedItem("code").value,
-			customer: event.target.elements.namedItem("customer").value,
+			customer_name: event.target.elements.namedItem("customer").value,
+			customer_user: event.target.elements.namedItem("customer").value,
 			status: event.target.elements.namedItem("status").value,
 			tracker: event.target.elements.namedItem("tracker").value
 		};
@@ -35,15 +36,18 @@ Ecommerce.sale.controller.triage.show = async (id) => {
 };
 
 Ecommerce.sale.controller.update = async (sale_id, status) => {
-	let sale = {
-		id: sale_id,
-		status: status
-	};
+	let r = confirm("Deseja realmente confirmar o embalo?");
+	if(r){
+		let sale = {
+			id: sale_id,
+			status: status
+		};
 
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	sale = await Ecommerce.sale.update(sale);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
-	if(!sale) { return false };
-	
-	Ecommerce.sale.controller.filter.submit.click();
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		sale = await Ecommerce.sale.update(sale);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!sale) { return false };
+		
+		Ecommerce.sale.controller.filter.submit.click();
+	};
 };

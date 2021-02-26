@@ -66,6 +66,7 @@ Customer.filter = customer => {
 	let query = "SELECT * FROM cms_wt_erp.customer WHERE name like '%"+customer.name
 		+"%' OR trademark like '%"+customer.trademark
 		+"%' OR brand like '%"+customer.brand+"%';";
+		console.log(query);
 	return db(query);
 };
 

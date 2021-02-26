@@ -96,6 +96,11 @@ const saleController = {
 			values.push(req.body.sale.customer_name);
 		};
 
+		if(req.body.sale.customer_name){
+			params.push("customer_user");
+			values.push(req.body.sale.customer_name);
+		};
+
 		if(parseInt(req.body.sale.customer_cnpj)){
 			params.push("customer_cnpj");
 			values.push(req.body.sale.customer_cnpj);
