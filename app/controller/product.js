@@ -677,8 +677,8 @@ const productController = {
 			};
 		},
 		save: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','adm-man'])){
-				return res.redirect('/');
+			if(!await userController.verifyAccess(req, res, ['adm','man','adm-man'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
 			let package = req.body.package;
@@ -775,8 +775,8 @@ const productController = {
 		},
 		product: {
 			update: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm'])){
-					return res.redirect('/');
+				if(!await userController.verifyAccess(req, res, ['adm','man','adm-man'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 				};
 
 				let package = {
@@ -784,11 +784,7 @@ const productController = {
 					products: JSON.parse(req.body.package.products),
 				};
 
-				let actions = {
-					add: [],
-					update: [],
-					remove: []
-				};
+				let actions = { add: [], update: [], remove: [] };
 
 				try {
 					let db_package_products = await Product.package.product.list(package.id);
