@@ -23,7 +23,7 @@ if(Product.controller.manage.create){
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
 		if(!product){ return false };
 
-		document.getElementById("product-filter-form").elements.namedItem("name").value = product.name;
+		// document.getElementById("product-filter-form").elements.namedItem("name").value = product.name;
 		document.getElementById("product-filter-form").submit.click();
 
 		event.target.elements.namedItem("id").value = "";

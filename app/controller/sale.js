@@ -33,8 +33,8 @@ const saleController = {
 		};
 	},
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
-			return res.redirect('/');
+		if(!await userController.verifyAccess(req, res, ['adm', 'fin'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		let sale = req.body.sale;

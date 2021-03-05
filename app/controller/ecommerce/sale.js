@@ -43,9 +43,21 @@ const saleController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
+	manage: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','log-pac'])){
+			return res.redirect('/');
+		};
+
+		try {
+			res.render('ecommerce/sale/manage', { user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		let sale = req.body.sale;
@@ -236,6 +248,27 @@ const saleController = {
 			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 		};
 	},
+	changeStatus: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man'])){
+			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+		};
+
+		let sale = req.body.sale;
+		sale.user_id = req.user.id;
+		sale.user_name = req.user.name;
+
+		try {
+			if(sale.id && sale.status){
+				await Sale.changeStatus(sale);
+				res.send({ done: "Venda atualizada com sucesso!", sale: sale });
+			} else {
+				res.send({ msg: "Não foi possível atualizar o pedido, reinicie a página e tente novamente, caso o problema persista favor contatar o suporte!", sale: sale });
+			};
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
+		};
+	},
 	filter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','pro-man','log-pac','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
@@ -305,6 +338,38 @@ const saleController = {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 		};
+	},
+	service_order: {
+		save: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
+
+			let service_order = {
+				date: new Date().getTime(),
+				datetime: lib.datetimeToTimestamp(req.body.service_order.datetime),
+				code: req.body.service_order.code,
+				sales: req.body.service_order.sales,
+				sale_amount: req.body.service_order.sale_amount
+			};
+
+			try {
+				let row = await Sale.service_order.save(service_order);
+				service_order.id = row.insertId;
+
+				for(let i in service_order.sales){
+					service_order.sales[i].os = service_order.code;
+					service_order.sales[i].status = "Enviado";
+					await Sale.service_order.sale.add(service_order.id, service_order.sales[i].id);
+					await Sale.service_order.sale.update(service_order.sales[i]);
+				};
+
+				res.send({ done: "OS cadastrada com sucesso!", service_order: service_order });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
+			};
+		}
 	}
 };
 

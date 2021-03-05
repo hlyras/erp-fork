@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <% include ./../../partials/head %>
+    </head>
+    <body>
+        <% include ./../../partials/header %>
+        <% include ./../../partials/nav %>
+        <section>
+            <div class="container">
+                <form id="ecommerce-sale-filter-form" class="box one container border padding-10 margin-top-5 shadow">
+                    <input type="text" name="code" class="box six input-generic center margin-top-5" placeholder="Código da venda" autocomplete="off">
+                    <input type="text" name="customer" class="box three input-generic center margin-top-5" placeholder="Nome ou usuário do cliente" autocomplete="off">
+                    <select name="status" class="box six input-generic center margin-top-5 hide-disabled">
+                        <option value="" selected>Status</option>
+                        <option value="Ag. Informações">Ag. Informações</option>
+                        <option value="Ag. Embalo">Ag. Embalo</option>
+                        <option value="Ag. Coleta">Ag. Coleta</option>
+                        <option value="Enviado">Enviado</option>
+                        <option value="Cancelada">Cancelada</option>
+                    </select>
+                    <input type="text" name="tracker" class="box six input-generic center margin-top-5" placeholder="Rastreio" autocomplete="off">
+                    <input type="submit" name="submit" class="box six submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
+                </form>
+                <form id='ecommerce-sale-os-create-form' class='box b1 container ground padding-10 margin-top-5 border-explicit shadow' style="display:none">
+                    <div class="underline center">Cadastrar Ordem de Serviço</div>
+                    <input type="datetime-local" name="datetime" class="box b4 input-generic margin-top-5 center">
+                    <input name="code" class='box b4 padding-5 margin-top-5 input-generic center' placeholder='Código da OS' autocomplete="off">
+                    <input name="sale-amount" class='box b4 padding-5 margin-top-5 input-generic center' placeholder='Quantidade de vendas' autocomplete="off">
+                    <button class='box b4 submit-generic margin-top-5 center'>Nova OS</button>
+                </form>
+                <div id="ecommerce-sale-filter-box" class="box one container padding-5 margin-top-5"></div>
+                <div id="ecommerce-sale-show-box" class="box one container ground padding-5 margin-top-5" style="display:none">
+                </div>
+            </div>
+        </section>
+        <% include ./../../partials/loader %>
+    </body>
+    <footer>
+        <% include ./../../partials/footer %>
+        <!-- <% include ./partial %> -->
+        <script src="/javascripts/scripts/ecommerce/sale/model/main.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/view/main.js"></script>
+
+        <script src="/javascripts/scripts/product/model/main.js"></script>
+        <script src="/javascripts/scripts/product/model/package.js"></script>
+
+        <script src="/javascripts/scripts/ecommerce/sale/view/manage.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/controller/manage.js"></script>
+
+        <script src="/javascripts/scripts/ecommerce/sale/model/service_order.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/controller/service_order.js"></script>
+    </footer>
+</html>
