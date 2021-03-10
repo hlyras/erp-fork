@@ -99,17 +99,6 @@ module.exports = {
 		};
 		return array;
 	},
-	filterByPeriod:  function(month, dates){
-		var array = [];
-		var str = [];
-		for(var i in dates){
-			var str = dates[i].date.split('-');
-			if(parseInt(str[1])==parseInt(month)){
-				array.push(dates[i]);
-			};
-		};
-		return array;
-	},
 	filterQuery: function(params, values, db, tbl, orderParam, order){
 		if(params.length){
 			var query = "SELECT * FROM "+db+"."+tbl+" WHERE ";
