@@ -751,6 +751,7 @@ const productController = {
 
 			try {
 				let package = await Product.package.findById(req.params.id);
+				package[0].images = await Product.package.image.list(req.params.id);
 				package[0].products = await Product.package.product.list(req.params.id);
 
 				res.send({ package });
@@ -764,7 +765,9 @@ const productController = {
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
+
 			try {
+				await Product.package.image.removeByPackageId(req.query.id);
 				await Product.package.product.removeAll(req.query.id);
 				await Product.package.delete(req.query.id);
 				res.send({ done: 'Pacote excluído com sucesso!' });
@@ -772,6 +775,39 @@ const productController = {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao remover o pacote, favor entrar em contato com o suporte." });
 			};
+		},
+		image: {
+			add: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','n/a'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				};
+
+				const image = {
+					package_id: req.body.package_id,
+					url: req.body.image_url
+				};
+
+				try {
+					await Product.package.image.add(image);
+					res.send({ done: 'Imagem adicionada com sucesso!' });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao incluir a imagem, favor contatar o suporte." });
+				};
+			},
+			remove: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','man','adm-man'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				};
+
+				try {
+					await Product.package.image.remove(req.query.image_id);
+					res.send({ done: 'Imagem excluída!' });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao remover a imagem do produto, favor contatar o suporte." });
+				};
+			}
 		},
 		product: {
 			update: async (req, res) => {

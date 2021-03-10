@@ -10,7 +10,8 @@ if(Product.controller.package.create){
 			code: event.target.elements.namedItem("code").value,
 			name: event.target.elements.namedItem("name").value,
 			color: event.target.elements.namedItem("color").value,
-			price: event.target.elements.namedItem("price").value
+			price: event.target.elements.namedItem("price").value,
+			image: event.target.elements.namedItem("image").value
 		};
 
 		document.getElementById("ajax-loader").style.visibility = "visible";
@@ -23,6 +24,7 @@ if(Product.controller.package.create){
 		event.target.elements.namedItem("name").value = "";
 		event.target.elements.namedItem("color").value = "";
 		event.target.elements.namedItem("price").value = "0.00";
+		event.target.elements.namedItem("image").value = "";
 
 		document.getElementById("product-package-show-box").style.display = "none";
 		document.getElementById("product-package-filter-form").submit.click();
@@ -87,7 +89,6 @@ Product.controller.package.show = async (package_id) => {
 	if(!package){ return false };
 
 	document.getElementById("product-package-id").value = package_id;
-
 	Product.view.package.show(package);
 
 	for(i in package.products){
@@ -97,8 +98,6 @@ Product.controller.package.show = async (package_id) => {
 		package.products[i].color = product_info[2];
 		package.products[i].size = product_info[3];
 	};
-
-	console.log(package.products);
 
 	Product.package.product.kart.items = package.products;
 	Product.package.product.kart.update("code");
@@ -131,6 +130,7 @@ Product.controller.package.edit = async (id) => {
 	document.getElementById('product-package-create-form').elements.namedItem("name").value = package.name;
 	document.getElementById('product-package-create-form').elements.namedItem("color").value = package.color;
 	document.getElementById('product-package-create-form').elements.namedItem("price").value = package.price;
+	document.getElementById('product-package-create-form').elements.namedItem("image").value = package.image;
 };
 
 Product.controller.package.delete = async (id) => {
@@ -188,4 +188,40 @@ if(Product.package.product.kart.add){
 		document.getElementById("product-package-product-kart-form").elements.namedItem('product').dataset.id = "";
 		document.getElementById("product-package-product-kart-form").elements.namedItem('amount').value = "";
 	});
+};
+
+Product.controller.package.image = {};
+
+Product.controller.package.image.add = async (package_id) => {
+	let image_url = prompt("Preencha com a URL da imagem");
+	if(image_url){
+		if(image_url.length < 7){
+			return alert('URL inválida!');
+		};
+		if(image_url.length > 200){
+			return alert('URL inválida!');
+		};
+
+		let img = '<img src="'+ image_url +'"/>';
+
+		$(img).on("load", async () =>  {
+			document.getElementById('ajax-loader').style.visibility = 'visible';
+			if(!await Product.package.image.add(package_id, image_url)){ return false };
+			document.getElementById('ajax-loader').style.visibility = 'hidden';
+
+			await Product.controller.package.show(package_id);
+		}).bind('error', () => {
+			return alert('URL inválida!');
+		});
+	};
+};
+
+Product.controller.package.image.remove = async (image_id, package_id) => {
+	let r = confirm("Deseja realmente excluir a image?");
+	if(r){
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		if(!await Product.package.image.remove(image_id)){ return false };
+		Product.controller.package.show(package_id);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+	};
 };

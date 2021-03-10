@@ -42,6 +42,9 @@ router.get('/package/id/:id', productController.package.findById);
 router.delete('/package/delete', productController.package.delete);
 router.post('/package/product/update', productController.package.product.update);
 
+router.post('/package/image/add', productController.package.image.add);
+router.delete('/package/image/remove', productController.package.image.remove);
+
 router.get('/molle', productController.molle);
 router.get('/webgl', productController.webgl);
 

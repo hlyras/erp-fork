@@ -21,6 +21,26 @@ Product.view.package.filter = (packages, pagination) => {
 	};
 };
 
+Product.view.package.image = {};
+
+Product.view.package.image = {
+	show: (images, pagination) => {
+		let html = "";
+		console.log(images, pagination);
+	    if(images.length){
+		    for (let i = pagination.page * pagination.pageSize; i < images.length && i < (pagination.page + 1) * pagination.pageSize;i++){
+				document.getElementById("product-package-image-img").src = images[i].url;
+				document.getElementById("product-package-image-remove-button").setAttribute("onClick", "javascript: Product.controller.package.image.remove('"+images[i].id+"', '"+images[i].package_id+"');" );
+				document.getElementById("product-package-image-remove-button").disabled = false;
+			};
+	    } else {
+			document.getElementById("product-package-image-img").src = "/images/product/no-product.png";
+			document.getElementById("product-package-image-remove-button").setAttribute("onClick", "javascript: Product.controller.package.image.remove(0, 0);" );
+			document.getElementById("product-package-image-remove-button").disabled = true;
+	    };
+	}
+};
+
 Product.view.package.show = (package) => {
 	let html = "<div class='box one underline center'>Informações do Pacote</div>";
 	html += "<div class='box one container padding-10'>";
@@ -41,6 +61,19 @@ Product.view.package.show = (package) => {
 			html += "<div class='mobile-box two padding-5 margin-top-5 bold'>"+package.color+"</div>";
 		html += "</div>";
 	html += "</div>";
+	
+	html += "<div class='underline center'>Menu</div>";	
+	html += "<div class='box one container'>";	
+	html += "<div class='box b5 padding-10'><img class='width-40 icon pointer' src='/images/icon/add-image.png' onclick='Product.controller.package.image.add("+package.id+")'></div>";	
+	html += "</div>";
+
+	console.log(package.images);
+
+	let pagination = { pageSize: 1, page: 0 };
+	// Product.view.package.image.show(package.images, pagination);
+	$(() => { lib.carousel.execute("product-package-image-div", Product.view.package.image.show, package.images, pagination); });
+	
+	document.getElementById("product-package-image-box").style.display = "";
 
 	document.getElementById("product-package-show-info").innerHTML = html;
 	document.getElementById("product-package-show-box").style.display = "";

@@ -198,18 +198,20 @@ Product.price = {
 
 Product.package = {
 	save: async (package) => {
-		let query = "INSERT INTO cms_wt_erp.product_package (code, name, color, price) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.product_package (code, name, color, price, image) VALUES ('"
 			+package.code+"', '"
 			+package.name+"', '"
 			+package.color+"', '"
-			+package.price+"');";
+			+package.price+"', '"
+			+package.image+"');";
 		return db(query);
 	},
 	update: async (package) => {
 		let query = "UPDATE cms_wt_erp.product_package SET code='"+package.code
 			+"', name='"+package.name
 			+"', color='"+package.color
-			+"', price='"+package.price+"' WHERE id='"+package.id+"';";
+			+"', price='"+package.price
+			+"', image='"+package.image+"' WHERE id='"+package.id+"';";
 		return db(query);
 	},
 	filter: async (name, params, values) => {
@@ -227,6 +229,26 @@ Product.package = {
 	delete: async (id) => {
 		let query = "DELETE FROM cms_wt_erp.product_package WHERE id='"+id+"';";
 		return db(query);
+	},
+	image: {
+		add: async (image) => {
+			let query = "INSERT INTO cms_wt_erp.product_package_image (package_id, url) VALUES ('"
+				+image.package_id+"', '"
+				+image.url+"');";
+			return db(query);
+		},
+		list: async (id) => {
+			let query = "SELECT * FROM cms_wt_erp.product_package_image WHERE package_id='"+id+"';";
+			return db(query);
+		},
+		remove: async (image_id) => {
+			let query = "DELETE FROM cms_wt_erp.product_package_image WHERE id='"+image_id+"';";
+			return db(query);
+		},
+		removeByPackagetId: async (id) => {
+			let query = "DELETE FROM cms_wt_erp.product_package_image WHERE package_id='"+id+"';";
+			return db(query);
+		}
 	},
 	product: {
 		add: async (package_id, product) => {
