@@ -619,9 +619,9 @@ const productController = {
 				};
 			},
 			findById: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','COR-GER'])){
-					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-				};
+				// if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','COR-GER'])){
+				// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				// };
 
 				try {
 					let category = await Product.price.category.findById(req.params.id);
