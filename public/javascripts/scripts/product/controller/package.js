@@ -11,7 +11,8 @@ if(Product.controller.package.create){
 			name: event.target.elements.namedItem("name").value,
 			color: event.target.elements.namedItem("color").value,
 			price: event.target.elements.namedItem("price").value,
-			image: event.target.elements.namedItem("image").value
+			image: event.target.elements.namedItem("image").value,
+			announcement: event.target.elements.namedItem("announcement").value
 		};
 
 		document.getElementById("ajax-loader").style.visibility = "visible";
@@ -25,6 +26,7 @@ if(Product.controller.package.create){
 		event.target.elements.namedItem("color").value = "";
 		event.target.elements.namedItem("price").value = "0.00";
 		event.target.elements.namedItem("image").value = "";
+		event.target.elements.namedItem("announcement").value = "";
 
 		document.getElementById("product-package-show-box").style.display = "none";
 		document.getElementById("product-package-filter-form").submit.click();
@@ -125,12 +127,15 @@ Product.controller.package.edit = async (id) => {
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!package){ return false };
 
+	console.log(package);
+
 	document.getElementById('product-package-create-form').elements.namedItem("id").value = package.id;
 	document.getElementById('product-package-create-form').elements.namedItem("code").value = package.code;
 	document.getElementById('product-package-create-form').elements.namedItem("name").value = package.name;
 	document.getElementById('product-package-create-form').elements.namedItem("color").value = package.color;
 	document.getElementById('product-package-create-form').elements.namedItem("price").value = package.price;
 	document.getElementById('product-package-create-form').elements.namedItem("image").value = package.image;
+	document.getElementById('product-package-create-form').elements.namedItem("announcement").value = package.announcement;
 };
 
 Product.controller.package.delete = async (id) => {

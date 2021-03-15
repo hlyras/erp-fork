@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <% include ./../../partials/head %>
+    </head>
+    <body>
+        <% include ./../../partials/header %>
+        <% include ./../../partials/nav %>
+        <section>
+            <div class="container">
+                <div class="box b1 container ground padding-10 margin-top-10" style="display:none">
+                    <div class="box b1 underline center">Buscar vendas</div>
+                    <form id="ecommerce-sale-after-sale-filter-form" class="box b1 container">
+                        <input type="date" name="periodStart" class="box b3 input-generic margin-top-5">
+                        <input type="date" name="periodEnd" class="box b3 input-generic margin-top-5">
+                        <input type="text" name="code" class="box b3 input-generic ground center margin-top-5" placeholder="Código da venda" autocomplete="off">
+                        <input type="text" name="customer-user" class="box b3-8 input-generic ground center margin-top-5" placeholder="Usuário do Cliente" autocomplete="off">
+                        <input type="text" name="customer-name" class="box b3-8 input-generic ground center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+                        <select name="status" class="box b4 input-generic center margin-top-5 hide-disabled">
+                            <option value="Disponível" selected>Disponível</option>
+                            <option value="Indisponível">Indisponível</option>
+                        </select>
+                        <input type="submit" name="submit" value="Buscar" class="box b1 submit-generic margin-top-5">
+                    </form>
+                </div>
+                <div id="ecommerce-sale-after-sale-filter-box" class="box b1 container padding-10">
+                    
+                </div>
+            </div>
+        </section>
+        <% include ./../../partials/loader %>
+    </body>
+    <footer>
+        <% include ./../../partials/footer %>
+        <% include ./partial %>
+
+        <script src="/javascripts/scripts/ecommerce/sale/model/after_sale.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/view/after_sale.js"></script>
+        <script src="/javascripts/scripts/ecommerce/sale/controller/after_sale.js"></script>
+
+        <script>
+            Ecommerce.sale.after_sale.controller.filter.submit.click();
+        </script>
+    </footer>
+</html>

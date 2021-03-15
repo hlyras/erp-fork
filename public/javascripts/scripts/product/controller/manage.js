@@ -14,8 +14,11 @@ if(Product.controller.manage.create){
 			size: event.target.elements.namedItem("size").value,
 			brand: event.target.elements.namedItem("brand").value,
 			status: event.target.elements.namedItem("status").value,
-			image: event.target.elements.namedItem("image").value
+			image: event.target.elements.namedItem("image").value,
+			announcement: event.target.elements.namedItem("announcement").value
 		};
+
+		console.log(product.announcement);
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		product = await Product.save(product, "product-create-form");
@@ -34,6 +37,7 @@ if(Product.controller.manage.create){
 		event.target.elements.namedItem("brand").value = "";
 		event.target.elements.namedItem("status").value = "";
 		event.target.elements.namedItem("image").value = "";
+		event.target.elements.namedItem("announcement").value = "";
 	});
 };
 
@@ -51,6 +55,7 @@ Product.controller.manage.edit = async (id) => {
 	document.getElementById('product-create-form').elements.namedItem("brand").value = product.brand;
 	document.getElementById('product-create-form').elements.namedItem("status").value = product.status;
 	document.getElementById('product-create-form').elements.namedItem("image").value = product.image;
+	document.getElementById('product-create-form').elements.namedItem("announcement").value = product.announcement;
 
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 };

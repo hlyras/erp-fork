@@ -341,7 +341,7 @@ const saleController = {
 	},
 	service_order: {
 		save: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','adm-man'])){
+			if(!await userController.verifyAccess(req, res, ['adm'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
@@ -369,6 +369,216 @@ const saleController = {
 				console.log(err);
 				res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 			};
+		}
+	},
+	after_sale: {
+		index: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-aud'])){
+				return res.redirect('/');
+			};
+
+			try {
+				res.render('ecommerce/sale/after_sale', { user: req.user });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+			};
+		},
+		save: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud'])){
+				return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			};
+
+			let sale = req.body.sale;
+			sale.user_id = req.user.id;
+			sale.user_name = req.user.name;
+
+			if(!sale.origin){ return res.send({ msg: "É necessário informar a origem da venda" }); };
+			if(!sale.code){ return res.send({ msg: "É necessário informar o código da venda" }); };
+			if(!sale.date){ return res.send({ msg: "É necessário informar o horário da venda" }); };
+			if(!sale.customer_user){ return res.send({ msg: "É necessário informar o usuário do cliente" }); };
+			if(!sale.customer_name){ return res.send({ msg: "É necessário informar o nome do cliente" }); };
+			if(!sale.status){ return res.send({ msg: "É necessário informar o status da venda" }); };
+			
+			try {
+				if(!sale.id){
+					let row = await Sale.after_sale.save(sale);
+					sale.id = row.insertId;
+
+					res.send({ done: "Venda cadastrada com sucesso!", sale: sale });
+				} else {
+					// await Sale.update(sale);
+					res.send({ done: "Venda atualizada com sucesso!", sale: sale });
+				};
+
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
+			};
+		},
+		filter: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+				return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+			};
+
+			let params = [];
+			let values = [];
+
+			let periodStart = ""; 
+			let periodEnd = "";
+
+			if(req.body.sale.periodStart && req.body.sale.periodEnd){
+				periodStart = req.body.sale.periodStart;
+				periodEnd = req.body.sale.periodEnd;
+			} else {
+				periodStart = "";
+				periodEnd = "";
+			};
+
+			if(req.body.sale.code){
+				params.push("code");
+				values.push(req.body.sale.code);
+			};
+
+			if(req.body.sale.customer_name){
+				params.push("customer_name");
+				values.push(req.body.sale.customer_name);
+			};
+
+			if(req.body.sale.customer_user){
+				params.push("customer_user");
+				values.push(req.body.sale.customer_user);
+			};
+
+			try {
+				let sales = await Sale.after_sale.filter(periodStart, periodEnd, req.body.sale.status, params, values);
+				res.send({ sales });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
+			};
+		},
+		flow: {
+			index: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-aud'])){
+					return res.redirect('/');
+				};
+
+				try {
+					res.render('ecommerce/sale/after_sale_flow', { user: req.user });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+				};
+			},
+			prospect: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-aud'])){
+					return res.redirect('/');
+				};
+
+				try {
+					res.render('ecommerce/sale/after_sale_prospect', { user: req.user });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+				};
+			},
+			add: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud'])){
+					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+				};
+
+				let sale = {
+					id: req.body.id,
+					status: "Ag. Contato",
+					seller_id: req.user.id,
+					seller_name: req.user.name,
+				};
+				
+				try {
+					if(sale.id){
+						let verifyStatus = await Sale.after_sale.findById(sale.id);
+						if(verifyStatus[0].seller_id){ return res.send({ done: "Este cliente já está sendo contatado por outro colaborador.", sale: sale }); };
+
+						await Sale.after_sale.flow.add(sale);
+
+						res.send({ done: "Cliente adicionado com sucesso!", sale: sale });
+					} else {
+						res.send({ msg: "Venda inválida!", sale: sale });
+					};
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
+				};
+			},
+			filter: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+				};
+
+				let params = [];
+				let values = [];
+
+				let periodStart = ""; 
+				let periodEnd = "";
+
+				if(req.body.sale.periodStart && req.body.sale.periodEnd){
+					periodStart = req.body.sale.periodStart;
+					periodEnd = req.body.sale.periodEnd;
+				} else {
+					periodStart = "";
+					periodEnd = "";
+				};
+
+				if(req.body.sale.code){
+					params.push("code");
+					values.push(req.body.sale.code);
+				};
+
+				if(req.body.sale.customer_name){
+					params.push("customer_name");
+					values.push(req.body.sale.customer_name);
+				};
+
+				if(req.body.sale.customer_user){
+					params.push("customer_user");
+					values.push(req.body.sale.customer_user);
+				};
+
+				params.push("status");
+				values.push(req.body.sale.status);
+
+				try {
+					let sales = await Sale.after_sale.flow.filter(periodStart, periodEnd, req.user.id, params, values);
+					res.send({ sales });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
+				};
+			},
+			update: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud'])){
+					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+				};
+
+				let sale = {
+					id: req.body.sale.id,
+					status: req.body.sale.status,
+					contact_datetime: new Date().getTime(),
+					obs: req.body.sale.obs
+				};
+
+				if(!sale.id){ return res.send({ msg: "Esta compra é inválida!" }); };
+				if(!sale.status){ return res.send({ msg: "O status é inválido!" }); };
+				
+				try {
+					await Sale.after_sale.flow.update(sale);
+					res.send({ done: "Cliente atualizado com sucesso!", sale: sale });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
+				};
+			},
 		}
 	}
 };

@@ -10,14 +10,15 @@ const Product = function(){
 };
 
 Product.save = async (product) => {
-	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, brand, status, image) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, brand, status, image, announcement) VALUES ('"
 		+product.code+"', '"
 		+product.name+"','"
 		+product.color+"','"
 		+product.size+"','"
 		+product.brand+"','"
 		+product.status+"','"
-		+product.image+"');";
+		+product.image+"','"
+		+product.announcement+"');";
 	return db(query);
 };
 
@@ -28,7 +29,8 @@ Product.update = async (product) => {
 		+"', size='"+product.size
 		+"', brand='"+product.brand
 		+"', status='"+product.status
-		+"', image='"+product.image+"' WHERE id='"+product.id+"';";
+		+"', image='"+product.image
+		+"', announcement='"+product.announcement+"' WHERE id='"+product.id+"';";
 	return db(query);
 };
 
@@ -198,12 +200,13 @@ Product.price = {
 
 Product.package = {
 	save: async (package) => {
-		let query = "INSERT INTO cms_wt_erp.product_package (code, name, color, price, image) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.product_package (code, name, color, price, image, announcement) VALUES ('"
 			+package.code+"', '"
 			+package.name+"', '"
 			+package.color+"', '"
 			+package.price+"', '"
-			+package.image+"');";
+			+package.image+"', '"
+			+package.announcement+"');";
 		return db(query);
 	},
 	update: async (package) => {
@@ -211,7 +214,8 @@ Product.package = {
 			+"', name='"+package.name
 			+"', color='"+package.color
 			+"', price='"+package.price
-			+"', image='"+package.image+"' WHERE id='"+package.id+"';";
+			+"', image='"+package.image
+			+"', announcement='"+package.announcement+"' WHERE id='"+package.id+"';";
 		return db(query);
 	},
 	filter: async (name, params, values) => {

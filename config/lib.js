@@ -207,9 +207,9 @@ module.exports = {
 				query += "AND ";
 				for(i in params){
 					if(i == params.length - 1){
-						query += ""+params[i]+" like '%"+values[i]+"%' AND "+status+" like '%"+status_value+"%' ";
+						query += params[i]+" like '%"+values[i]+"%' AND "+status+" = '"+status_value+"' ";
 					} else {
-						query += ""+params[i]+" like '%"+values[i]+"%' AND "+status+" like '%"+status_value+"%' OR ";
+						query += params[i]+" like '%"+values[i]+"%' AND ";
 					};
 				};
 			};
@@ -219,14 +219,15 @@ module.exports = {
 				query += "WHERE ";
 				for(i in params){
 					if(i == params.length - 1){
-						query += ""+params[i]+" like '%"+values[i]+"%' AND "+status+" like '%"+status_value+"%' ";
+						query += params[i]+" like '%"+values[i]+"%' AND "+status+" = '"+status_value+"' ";
 					} else {
-						query += ""+params[i]+" like '%"+values[i]+"%' AND "+status+" like '%"+status_value+"%' OR ";
+						query += params[i]+" like '%"+values[i]+"%' AND ";
 					};
 				};
 			};
 		};
-		if(!params.length){ query += "WHERE "+status+" like '%"+status_value+"%' ";	};
+		if(status && !params.length && !periodStart && !periodEnd){ query += "WHERE "+status+" = '"+status_value+"' ";	};
+		if(status &&  params.length && periodStart || periodEnd){ query += "AND "+status+" = '"+status_value+"' "; };
 		query += "ORDER BY "+orderParam+" "+order+";";
 
 		return query;

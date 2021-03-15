@@ -110,7 +110,8 @@ const productController = {
 			size: req.body.size,
 			brand: req.body.brand,
 			status: req.body.status,
-			image: req.body.image
+			image: req.body.image,
+			announcement: req.body.announcement
 		};
 
 		if(!product.code || product.code < 1 || product.code > 9999){return res.send({ msg: 'Código de produto inválido.' })};

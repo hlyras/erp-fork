@@ -15,9 +15,9 @@ function renderIncomeTable(incomes, pageSize, page){
 		html += "<tr>";
 		html += "<td class='center'><h3 class='tbl-show-link nowrap' onclick='showFinancialIncome("+incomes[i].id+")'>"+incomes[i].id+"</h3></td>";
 		html += "<td class='center'>"+lib.convertDate(incomes[i].date)+"</td>";
-		html += "<td>"+incomes[i].category_name+"</td>";
-		html += "<td>"+incomes[i].origin_name+"</td>";
-		html += "<td class='nowrap bold'>$"+incomes[i].value+"</td>";
+		html += "<td class='em13 avant-garde italic'>"+incomes[i].category_name+"</td>";
+		html += "<td class='em13 avant-garde italic'>"+incomes[i].origin_name+"</td>";
+		html += "<td class='nowrap em13 avant-garde bold'>$"+incomes[i].value.toFixed(2)+"</td>";
 		html += "</tr>";
 	};
 	document.getElementById('financial-income-report-tbl').innerHTML = html;
@@ -77,10 +77,10 @@ function renderOutcomeTable(outcomes, pageSize, page){
 	for (let i = page * pageSize; i < outcomes.length && i < (page + 1) * pageSize;i++){
 		html += "<tr>";
 		html += "<td class='center'><h3 class='tbl-show-link nowrap' onclick='showFinancialOutcome("+outcomes[i].id+")'>"+outcomes[i].id+"</h3></td>";
-		html += "<td class='center'>"+lib.convertDate(outcomes[i].date)+"</td>";
-		html += "<td>"+outcomes[i].category_name+"</td>";
-		html += "<td>"+outcomes[i].origin_name+"</td>";
-		html += "<td class='nowrap bold'>$"+outcomes[i].value+"</td>";
+		// html += "<td class='center'>"+lib.convertDate(outcomes[i].date)+"</td>";
+		html += "<td class='em13 avant-garde italic'>"+outcomes[i].category_name+"</td>";
+		html += "<td class='em13 avant-garde italic'>"+outcomes[i].origin_name+"</td>";
+		html += "<td class='nowrap em13 avant-garde bold'>$"+outcomes[i].value.toFixed(2)+"</td>";
 		// html += "<td>"+outcomes[i].user_name+"</td>";
 		html += "<td class='center'><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='removeOutcome("+outcomes[i].id+")'></td>";
 		// html += "<td>"+outcomes[i].id+"</td>";

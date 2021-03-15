@@ -24,12 +24,13 @@ Sale.view.filter = (sales, pagination) => {
 
 Sale.view.show = (sale) => {
 	let html = "";
-	html += "<h3 class='box one underline center margin-top-10'>Dados da venda #"+sale.id+"</h3>";
+	html += "<div class='box one underline center avant-garde margin-top-10'>Dados da venda #"+sale.id+"</div>";
 
 	html += "<div class='box three container box-border padding-10 margin-top-10'>";
 		html += "<div class='box one container underline'>";
-			html += "<h4 class='mobile-box six-sevenths center'>Dados do cliente</h4>";
-			html += "<img class='mobile-box seven icon size-25' src='/images/icon/see.png'>";
+			html += "<div class='mobile-box b7'></div>";
+			html += "<div class='mobile-box b5-7 italic em13 center bold'>Dados do cliente</div>";
+			html += "<div class='mobile-box b7 center'><img class='icon size-25' src='/images/icon/see.png'></div>";
 		html += "</div>";
 		html += "<div class='box one container'>";
 			html += "<h5 class='box one padding-10'>Nome: "+sale.customer_name+"</h5>";

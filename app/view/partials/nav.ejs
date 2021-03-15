@@ -46,6 +46,11 @@
 	    <option value="/ecommerce/sale/gathering">pedidos em coleta</option>
 	    <option value="/ecommerce/sale/triage">Triagem</option>
 	    <option value="/ecommerce/sale/manage">Gerir Vendas</option>
+	    <% if(user.access == 'adm'){ %>
+	    	<option value="/ecommerce/sale/after-sale">Novo cliente Pós-venda</option>
+	    <% } %>
+	    <option value="/ecommerce/sale/after-sale/flow">Fluxo de Pós-venda</option>
+	    <option value="/ecommerce/sale/after-sale/flow/prospect">Clientes Pós-venda</option>
 	</select>
 </div>
 

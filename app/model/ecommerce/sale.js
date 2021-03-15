@@ -191,4 +191,46 @@ Sale.service_order = {
 	}
 };
 
+Sale.after_sale = {
+	save: async sale => {
+		let query = "INSERT INTO cms_wt_erp.ecommerce_sale_after_sale (origin, code, date, customer_user, customer_name, customer_phone, status, user_id, user_name) VALUES ('"
+			+sale.origin+"', '"
+			+sale.code+"','"
+			+sale.date+"', '"
+			+sale.customer_user+"','"
+			+sale.customer_name+"','"
+			+sale.customer_phone+"','"
+			+sale.status+"','"
+			+sale.user_id+"','"
+			+sale.user_name+"');";
+		return db(query);
+	},
+	filter: (periodStart, periodEnd, status, params, values) => {
+		let query = lib.filterByLikeAndByPeriodAndByStatus(periodStart, periodEnd, params, values, "date", "status", status, "cms_wt_erp", "ecommerce_sale_after_sale", "date", "ASC");
+		return db(query);
+	},
+	findById: async (id) => {
+		let query = "SELECT * FROM cms_wt_erp.ecommerce_sale_after_sale WHERE id='"+id+"';";
+		return db(query);
+	},
+	flow: {
+		add: async (sale) => {
+			let query = "UPDATE cms_wt_erp.ecommerce_sale_after_sale SET status='"+sale.status
+				+"', seller_id='"+sale.seller_id
+				+"', seller_name='"+sale.seller_name+"' WHERE id='"+sale.id+"';";
+			return db(query);
+		},
+		filter: (periodStart, periodEnd, seller_id, params, values) => {
+			let query = lib.filterByLikeAndByPeriodAndByStatus(periodStart, periodEnd, params, values, "date", "seller_id", seller_id, "cms_wt_erp", "ecommerce_sale_after_sale", "date", "ASC");
+			return db(query);
+		},
+		update: async (sale) => {
+			let query = "UPDATE cms_wt_erp.ecommerce_sale_after_sale SET status='"+sale.status
+				+"', contact_datetime='"+sale.contact_datetime
+				+"', obs='"+sale.obs+"' WHERE id='"+sale.id+"';";
+			return db(query);
+		}
+	}
+};
+
 module.exports = Sale;
