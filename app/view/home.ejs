@@ -7,7 +7,23 @@
         <% include ./partials/nav %>
 		<section>
 			<div class="container">
-                
+                <div id="product-price-category-home-filter-box" class="box b1 container ground padding-10 margin-top-10">
+                    <div class="underline center">Tabelas de preços atualizada</div>
+                    <form id="product-price-category-home-filter-form" class="box one container padding-10">
+                        <input type="number" name="id" class="box six input-generic margin-top-5 center" placeholder="Código" min="1" max="9999" autocomplete="off">
+                        <input type="text" name="name" class="box two-thirds input-generic margin-top-5 center" placeholder="Nome da categoria" autocomplete="off">
+                        <input type="submit" name="submit" class="box six submit-generic center margin-top-5 bold" value="Buscar">
+                    </form>
+                    <div id="product-price-category-home-filter-div" class="box one container ground padding-5"></div>
+                    <% include ./partials/carousel %>
+                </div>
+
+                <div id="product-price-category-home-show-box" class="box one container ground padding-10 margin-top-10" style="display:none">
+                	<input type="hidden" id="product-price-category-home-show-id">
+                	<div id="product-price-category-home-show-info" class="box one container border padding-5"></div>
+                	<div id="product-price-category-home-show-div" class="box one container border padding-5 margin-top-5"></div>
+                    <!-- <% include ./partials/carousel %> -->
+                </div>
 			</div>
 		</section>
         <div id="ajax-loader" class="ajax-loader">
@@ -19,6 +35,9 @@
         <script src="/javascripts/scripts/product/model/main.js"></script>
 		<script src="/javascripts/scripts/product/view/main.js"></script>
 		<script src="/javascripts/scripts/product/controller/main.js"></script>
-		<script src="/javascripts/scripts/product/controller/catalog.js"></script>
+
+		<script src="/javascripts/scripts/product/model/price.js"></script>
+        <script src="/javascripts/scripts/product/view/price.js"></script>
+        <script src="/javascripts/scripts/product/controller/price.js"></script>
 	</footer>
 </html>
