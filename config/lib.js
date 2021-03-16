@@ -207,9 +207,17 @@ module.exports = {
 				query += "AND ";
 				for(i in params){
 					if(i == params.length - 1){
-						query += params[i]+" like '%"+values[i]+"%' AND "+status+" = '"+status_value+"' ";
+						query += params[i]+" like '%"+values[i]+"%' ";
+						if(status_value){ 
+							query += "AND "+status+" = '"+status_value+"' ";
+						};
 					} else {
-						query += params[i]+" like '%"+values[i]+"%' OR ";
+						query += params[i]+" like '%"+values[i]+"%' ";
+						if(status_value){ 
+							query += "AND "+status+" = '"+status_value+"' OR ";
+						} else {
+							query += "OR ";
+						};
 					};
 				};
 			};
@@ -219,16 +227,23 @@ module.exports = {
 				query += "WHERE ";
 				for(i in params){
 					if(i == params.length - 1){
-						query += params[i]+" like '%"+values[i]+"%' AND "+status+" = '"+status_value+"' ";
+						query += params[i]+" like '%"+values[i]+"%' ";
+						if(status_value){ 
+							query += "AND "+status+" = '"+status_value+"' ";
+						};
 					} else {
-						query += params[i]+" like '%"+values[i]+"%' OR ";
+						query += params[i]+" like '%"+values[i]+"%' ";
+						if(status_value){ 
+							query += "AND "+status+" = '"+status_value+"' OR "; 
+						} else {
+							query += "OR ";
+						};
 					};
 				};
 			};
 		};
-		if(status && !params.length && !periodStart && !periodEnd){ query += "WHERE "+status+" = '"+status_value+"' ";	};
-		if(status &&  params.length && periodStart || periodEnd){ query += "AND "+status+" = '"+status_value+"' "; };
-		query += "ORDER BY "+orderParam+" "+order+";";
+		if(status_value && !params.length && !periodStart || status_value && !params.length && !periodEnd){ query += "WHERE "+status+" = '"+status_value+"' "; };
+		query += "ORDER BY "+orderParam+" "+order+"";
 
 		return query;
 	},
