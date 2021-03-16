@@ -209,7 +209,7 @@ module.exports = {
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' AND "+status+" = '"+status_value+"' ";
 					} else {
-						query += params[i]+" like '%"+values[i]+"%' AND ";
+						query += params[i]+" like '%"+values[i]+"%' OR ";
 					};
 				};
 			};
@@ -221,7 +221,7 @@ module.exports = {
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' AND "+status+" = '"+status_value+"' ";
 					} else {
-						query += params[i]+" like '%"+values[i]+"%' AND ";
+						query += params[i]+" like '%"+values[i]+"%' OR ";
 					};
 				};
 			};
