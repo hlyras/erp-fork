@@ -65,7 +65,7 @@ Sale.changeStatus = async (sale) => {
 };
 
 Sale.filter = (periodStart, periodEnd, status, params, values) => {
-	let query = lib.filterByLikeAndByPeriodAndByStatus(periodStart, periodEnd, params, values, "datetime", "status", status, "cms_wt_erp", "ecommerce_sale", "datetime", "ASC") + " limit 50";
+	let query = lib.filterByLikeAndByPeriodAndByStatus(periodStart, periodEnd, params, values, "datetime", "status", status, "cms_wt_erp", "ecommerce_sale", "datetime", "ASC");
 	console.log(query);
 	return db(query);
 };
