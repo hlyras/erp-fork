@@ -341,7 +341,7 @@ const saleController = {
 	},
 	service_order: {
 		save: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm'])){
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
