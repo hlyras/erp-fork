@@ -10,7 +10,7 @@ const customerController = {
 	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		let customer = {
@@ -27,7 +27,7 @@ const customerController = {
 			phone: req.body.phone,
 			cellphone: req.body.cellphone
 		};
-
+		
 		if(customer.person_type != "legal-entity" && customer.person_type != "natural-person"){ return res.send({ msg: "A pessoa do cliente é inválida, favor recarregar a página, caso o problema persista favor contatar o suporte." }); };
 		if(!customer.name && !customer.trademark && !customer.brand){ return res.send({ msg: "É necessário identificar o cliente" }); };
 		if(customer.person_type == "natural-person"){ if(!customer.cpf || customer.cpf.length != 11 || isNaN(customer.cpf)){ return res.send({ msg: "CPF inválido." }) }; };
@@ -41,8 +41,10 @@ const customerController = {
 
 		try {
 			if(!customer.id){
-				if(customer.cpf){ let cpf = await Customer.findBy.cpf(customer.cpf); }
-				if(cpf.length){ return res.send({ msg: "Este CPF já está cadastrado." }); };
+				if(customer.cpf){ 
+					let cpf = await Customer.findBy.cpf(customer.cpf); 
+					if(cpf.length){ return res.send({ msg: "Este CPF já está cadastrado." }); };
+				};
 
 				let cnpj = await Customer.findBy.cnpj(customer.cnpj);
 				if(cnpj.length){ return res.send({ msg: "Este CNPJ já está cadastrado." }); };
@@ -62,7 +64,7 @@ const customerController = {
 	},
 	filter: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel'])){
-			return res.redirect('/');
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		let customer = {
