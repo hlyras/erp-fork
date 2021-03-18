@@ -3,13 +3,13 @@ const Customer = require('../model/customer');
 
 const customerController = {
 	index: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel'])){
 			return res.redirect('/');
 		};
 		res.render('customer/index', { user: req.user });
 	},
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel'])){
 			return res.redirect('/');
 		};
 
@@ -61,7 +61,7 @@ const customerController = {
 		};
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel'])){
 			return res.redirect('/');
 		};
 
@@ -118,7 +118,7 @@ const customerController = {
 		};
 	},
 	delete: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man'])){
+		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -132,7 +132,7 @@ const customerController = {
 	},
 	address: {
 		save: async(req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','man'])){
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
@@ -170,7 +170,7 @@ const customerController = {
 			};
 		},
 		findById: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
@@ -183,7 +183,7 @@ const customerController = {
 			};
 		},
 		list: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
@@ -196,7 +196,7 @@ const customerController = {
 			};
 		},
 		delete: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','man'])){
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 

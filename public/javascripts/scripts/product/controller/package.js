@@ -127,8 +127,6 @@ Product.controller.package.edit = async (id) => {
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!package){ return false };
 
-	console.log(package);
-
 	document.getElementById('product-package-create-form').elements.namedItem("id").value = package.id;
 	document.getElementById('product-package-create-form').elements.namedItem("code").value = package.code;
 	document.getElementById('product-package-create-form').elements.namedItem("name").value = package.name;
@@ -177,7 +175,7 @@ if(Product.package.product.kart.add){
 		};
 
 		product = {
-			id: product.dataset.id,
+			id: parseInt(product.dataset.id),
 			code: splitedProduct[0],
 			name: splitedProduct[1],
 			color: splitedProduct[2],
