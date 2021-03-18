@@ -8,7 +8,7 @@ Ecommerce.sale.after_sale.view.filter = (sales, pagination) => {
 			html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
 				html += "<div class='mobile-box three center padding-5 border box-hover margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.edit(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
 				html += "<div class='mobile-box three center padding-5 border margin-top-5'>"+sales[i].customer_name+"</div>";
-				html += "<div class='mobile-box three center padding-5 border margin-top-5'>"+lib.convertDate(sales[i].date)+"</div>";
+				html += "<div class='mobile-box b3 center padding-5 border margin-top-5'>"+sales[i].customer_phone+"</div>";
 				html += "<div class='mobile-box b4 center padding-5 border margin-top-5'>"+sales[i].customer_user+"</div>";
 				html += "<div class='mobile-box b4 center padding-5 border margin-top-5'>"+sales[i].origin+"</div>";
 				html += "<div class='mobile-box b4 center padding-5 border margin-top-5'>"+sales[i].status+"</div>";

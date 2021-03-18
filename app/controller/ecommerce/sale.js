@@ -460,7 +460,7 @@ const saleController = {
 		},
 		flow: {
 			index: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-aud'])){
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud'])){
 					return res.redirect('/');
 				};
 
@@ -472,7 +472,7 @@ const saleController = {
 				};
 			},
 			prospect: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-aud'])){
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud'])){
 					return res.redirect('/');
 				};
 
