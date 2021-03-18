@@ -41,7 +41,7 @@ const customerController = {
 
 		try {
 			if(!customer.id){
-				let cpf = await Customer.findBy.cpf(customer.cpf);
+				if(customer.cpf){ let cpf = await Customer.findBy.cpf(customer.cpf); }
 				if(cpf.length){ return res.send({ msg: "Este CPF já está cadastrado." }); };
 
 				let cnpj = await Customer.findBy.cnpj(customer.cnpj);
