@@ -373,7 +373,7 @@ const saleController = {
 	},
 	after_sale: {
 		index: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-aud'])){
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud'])){
 				return res.redirect('/');
 			};
 
@@ -407,7 +407,6 @@ const saleController = {
 
 					res.send({ done: "Venda cadastrada com sucesso!", sale: sale });
 				} else {
-					// await Sale.update(sale);
 					res.send({ done: "Venda atualizada com sucesso!", sale: sale });
 				};
 
