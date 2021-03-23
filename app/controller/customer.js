@@ -46,13 +46,29 @@ const customerController = {
 					if(cpf.length){ return res.send({ msg: "Este CPF já está cadastrado." }); };
 				};
 
-				let cnpj = await Customer.findBy.cnpj(customer.cnpj);
-				if(cnpj.length){ return res.send({ msg: "Este CNPJ já está cadastrado." }); };
+				if(customer.cnpj){ 
+					let cnpj = await Customer.findBy.cnpj(customer.cnpj);
+					if(cnpj.length){ return res.send({ msg: "Este CNPJ já está cadastrado." }); };
+				};
 				
 				let row = await Customer.save(customer);
 				customer.id = row.insertId;
 				res.send({ done: "Cliente cadastrado com sucesso!", customer });
 			} else {
+				let cpf = await Customer.findBy.cpf(customer.cpf);
+				if(cpf[0].length){
+					if(cpf[0].id != customer.id){
+						return res.send({ msg: 'Este CPF já está cadastrado.' });
+					};
+				};
+
+				let cnpj = await Customer.findBy.cnpj(customer.cnpj);
+				if(cnpj[0].length){
+					if(cnpj[0].id != customer.id){
+						return res.send({ msg: 'Este CNPJ já está cadastrado.' });
+					};
+				};
+
 				let row = await Customer.update(customer);
 				customer.id = row.insertId;
 				res.send({ done: "Cliente atualizado com sucesso!", customer });
