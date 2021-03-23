@@ -577,7 +577,7 @@ const saleController = {
 					console.log(err);
 					res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
 				};
-			},
+			}
 		}
 	}
 };
