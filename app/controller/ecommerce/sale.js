@@ -373,7 +373,7 @@ const saleController = {
 	},
 	after_sale: {
 		index: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud'])){
+			if(!await userController.verifyAccess(req, res, ['adm'])){
 				return res.redirect('/');
 			};
 
