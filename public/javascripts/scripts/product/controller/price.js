@@ -46,7 +46,6 @@ Product.price.category.controller.filter = document.getElementById("product-pric
 if(Product.price.category.controller.filter){
 	Product.price.category.controller.filter.addEventListener("submit", async (event) => {
 		event.preventDefault();
-		console.log('aqui')
 
 		let category = {
 			id: event.target.elements.namedItem("id").value,

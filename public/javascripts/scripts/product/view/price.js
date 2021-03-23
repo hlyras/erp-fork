@@ -75,11 +75,13 @@ Product.price.category.view.home.show = (category) => {
 
 	html = "";
 	for(i in category.products){
-		html += "<div class='box one container box-hover border padding-5 margin-top-5'>";
-			html += "<div class='mobile-box b8 padding-5 bold center'>"+category.products[i].code+"</div>";
-			html += "<div class='mobile-box b3-4 padding-5 bold center'>"+category.products[i].name+" | "+category.products[i].color+" | "+category.products[i].size+"</div>";
-			html += "<div class='mobile-box b8 padding-5 avant-garde bold'>$"+category.products[i].price.toFixed(2)+"</div>"
-		html += "</div>";
+		if(category.products[i].status == "Disponível"){
+			html += "<div class='box one container box-hover border padding-5 margin-top-5'>";
+				html += "<div class='mobile-box b8 padding-5 bold center'>"+category.products[i].code+"</div>";
+				html += "<div class='mobile-box b5-8 padding-5 bold center'>"+category.products[i].name+" | "+category.products[i].color+" | "+category.products[i].size+"</div>";
+				html += "<div class='mobile-box b4 padding-5 avant-garde bold'>$"+category.products[i].price.toFixed(2)+"</div>"
+			html += "</div>";
+		};
 	};
 
 	document.getElementById("product-price-category-home-show-div").innerHTML = html;
