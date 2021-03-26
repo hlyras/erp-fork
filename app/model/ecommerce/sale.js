@@ -213,6 +213,10 @@ Sale.after_sale = {
 		let query = "SELECT * FROM cms_wt_erp.ecommerce_sale_after_sale WHERE id='"+id+"';";
 		return db(query);
 	},
+	findByCode: async (code) => {
+		let query = "SELECT * FROM cms_wt_erp.ecommerce_sale_after_sale WHERE code='"+code+"';";
+		return db(query);
+	},
 	flow: {
 		add: async (sale) => {
 			let query = "UPDATE cms_wt_erp.ecommerce_sale_after_sale SET status='"+sale.status

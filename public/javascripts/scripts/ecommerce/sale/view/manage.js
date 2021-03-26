@@ -13,7 +13,8 @@ Ecommerce.sale.view.manage.filter = (sales, status, service_orders) => {
 					html += "<div class='mobile-box b5-12 border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
 					html += "<div class='mobile-box b6 border padding-5 center margin-top-5'>"+sales[i].tracker+"</div>";
 					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
-					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
+					html += "<div class='mobile-box b4 border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
+					html += "<div class='mobile-box b4 border padding-5 center margin-top-5'>"+sales[i].customer_phone+"</div>";
 					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].status+"</div>";
 					html += "</div>";
 				html += "</div>";

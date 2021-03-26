@@ -402,6 +402,9 @@ const saleController = {
 			
 			try {
 				if(!sale.id){
+					let verifyDuplicity = await Sale.after_sale.findByCode(sale.code);
+					if(verifyDuplicity.length){ return res.send({ msg: "Esta venda já está cadastrada!" })};					
+
 					let row = await Sale.after_sale.save(sale);
 					sale.id = row.insertId;
 

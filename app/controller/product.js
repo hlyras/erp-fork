@@ -123,7 +123,7 @@ const productController = {
 		try {
 			if(!product.id){
 				var row = await Product.findByCode(product.code);
-				if(row.length){return res.send({ msg: 'Este código de produto já está cadastrado.' })};
+				if(row.length){ return res.send({ msg: 'Este código de produto já está cadastrado.' }) };
 				
 				var row = await Product.save(product);
 				let newProduct = await Product.findById(row.insertId);
