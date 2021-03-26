@@ -83,3 +83,19 @@ Product.package.image.remove = async (image_id) => {
 	
 	return true;
 };
+
+Product.package.price = {};
+
+Product.package.price.update = async (price) => {
+	let response = await fetch("/product/package/price/update", {
+		method: "POST",
+		headers: {'Content-Type':'application/json'},
+	    body: JSON.stringify({ price })
+	});
+	response = await response.json();
+
+	if(API.verifyResponse(response)){ return false };
+	alert(response.done);
+
+	return response.price;
+};

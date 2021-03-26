@@ -30,6 +30,7 @@
                 <div id="product-price-category-show-box" class="box one container ground padding-10 margin-top-10" style="display:none">
                 	<input type="hidden" id="product-price-category-show-id">
                 	<div id="product-price-category-show-info" class="box one container border padding-5"></div>
+                	<div id="product-package-price-category-show-div" class="box one container border padding-5 margin-top-5"></div>
                 	<div id="product-price-category-show-div" class="box one container border padding-5 margin-top-5"></div>
                     <!-- <% include ./../partials/carousel %> -->
                 </div>
@@ -42,8 +43,12 @@
 	<footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
+        <script src="/javascripts/scripts/product/model/package.js"></script>
+        <script src="/javascripts/scripts/product/controller/package.js"></script>
+
         <script src="/javascripts/scripts/product/model/price.js"></script>
         <script src="/javascripts/scripts/product/view/price.js"></script>
         <script src="/javascripts/scripts/product/controller/price.js"></script>
+
 	</footer>
 </html>

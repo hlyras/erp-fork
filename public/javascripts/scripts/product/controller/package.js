@@ -228,3 +228,22 @@ Product.controller.package.image.remove = async (image_id, package_id) => {
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
 	};
 };
+
+Product.controller.package.price = {};
+
+Product.controller.package.price.updatePrice = async (price_id, input_id) => {
+	let price = {
+		id: price_id,
+		price: parseFloat(document.getElementById(input_id).value)
+	};
+
+	if(isNaN(price.price) || price.price < 0){
+		document.getElementById(input_id).value = document.getElementById(input_id).dataset.price;
+		return alert('Preço inválido');
+	};
+
+	document.getElementById('ajax-loader').style.visibility = 'visible';
+	price = await Product.package.price.update(price);
+	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	if(!price){ return false };
+};

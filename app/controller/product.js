@@ -561,7 +561,7 @@ const productController = {
 
 				let category = req.body.category;
 
-				if(!category.name || category.name.length > 50){return res.send({ msg: 'O nome da categoria é inválido.' })};
+				if(!category.name || category.name.length > 50){ return res.send({ msg: 'O nome da categoria é inválido.' }); };
 
 				try {
 					if(!category.id){
@@ -576,6 +576,16 @@ const productController = {
 								price: 0
 							};
 							await Product.price.save(price);
+						};
+
+						let packages = await Product.package.list();
+						for(let i in packages){
+							let price = {
+								category_id: category.id,
+								package_id: packages[i].id,
+								price: 0
+							};
+							await Product.package.price.save(price);
 						};
 
 						res.send({ done: "Categoria cadastrada com sucesso!", category: category });
@@ -626,10 +636,12 @@ const productController = {
 				try {
 					let category = await Product.price.category.findById(req.params.id);
 					category[0].products = await Product.list();
+					category[0].packages = await Product.package.list();
 					
-					let prices = await Product.price.list(req.params.id);
+					let product_prices = await Product.price.list(req.params.id);
+					let package_prices = await Product.package.price.list(req.params.id);
 
-					category[0].products = prices.reduce((products, price) => {
+					category[0].products = product_prices.reduce((products, price) => {
 						for(i in products){
 							if(products[i].id == price.product_id){
 								products[i].price_id = price.id;
@@ -640,6 +652,18 @@ const productController = {
 						products[i].price = 0;
 						return products;
 					}, category[0].products);
+
+					category[0].packages = package_prices.reduce((packages, price) => {
+						for(i in packages){
+							if(packages[i].id == price.package_id){
+								packages[i].price_id = price.id;
+								packages[i].price = price.price;
+								return packages;
+							};
+						};
+						packages[i].price = 0;
+						return packages;
+					}, category[0].packages);
 
 					res.send({ category });
 				} catch (err) {
@@ -655,6 +679,7 @@ const productController = {
 				try {
 					await Product.price.category.delete(req.query.id);
 					await Product.price.deleteAll(req.query.id);
+					await Product.package.price.deleteAll(req.query.id);
 					res.send({ done: 'Tabela excluída com sucesso!' });
 				} catch (err) {
 					console.log(err);
@@ -700,6 +725,17 @@ const productController = {
 				if(!package.id){
 					let row = await Product.package.save(req.body.package);
 					package.id = row.insertId;
+
+					let price_categories = await Product.price.category.list();
+					for(let i in price_categories){
+						let price = {
+							category_id: price_categories[i].id,
+							package_id: package.id,
+							price: 0
+						};
+						await Product.package.price.save(price);
+					};
+
 					res.send({ done: "Pacote cadastrado com sucesso!", package: package });
 				} else {
 					let row = await Product.package.update(req.body.package);
@@ -766,8 +802,8 @@ const productController = {
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
-
 			try {
+				await Product.package.price.delete(req.query.id);
 				await Product.package.image.removeByPackageId(req.query.id);
 				await Product.package.product.removeAll(req.query.id);
 				await Product.package.delete(req.query.id);
@@ -858,6 +894,50 @@ const productController = {
 				} catch (err){
 					console.log(err);
 					res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
+				};
+			}
+		},
+		price: {
+			index: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm'])){
+					return res.redirect('/');
+				};
+
+				try {
+					res.render('product/price', { user: req.user });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+				};
+			},
+			find: async (req, res) => {
+				// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+					// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				// };
+
+				let price = req.body.price;
+
+				try {
+					price = await Product.price.find(price);
+					res.send({ price });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao realizar a atualização, favor contatar o suporte." });
+				};
+			},
+			update: async (req, res) => {
+				// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+					// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				// };
+
+				let price = req.body.price;
+
+				try {
+					await Product.package.price.update(price);
+					res.send({ done: "Preço atualizado com sucesso!", price: price});
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao realizar a atualização, favor contatar o suporte." });
 				};
 			}
 		}
@@ -972,5 +1052,18 @@ const productController = {
 		};
 	}
 };
+
+// (async function(){
+// 	let packages = await Product.package.list();
+// 	for(let i in packages){
+// 		let price = {
+// 			category_id: 4,
+// 			package_id: packages[i].id,
+// 			price: 0
+// 		};
+// 		await Product.package.price.save(price);
+// 	};
+// 	console.log('ok');
+// })();
 
 module.exports = productController;

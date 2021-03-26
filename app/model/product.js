@@ -218,6 +218,10 @@ Product.package = {
 			+"', announcement='"+package.announcement+"' WHERE id='"+package.id+"';";
 		return db(query);
 	},
+	list: async () => {
+		let query = "SELECT * FROM cms_wt_erp.product_package ORDER BY code ASC;";
+		return db(query);
+	},
 	filter: async (name, params, values) => {
 		let query = lib.filterQueryName(name, params, values, "cms_wt_erp", "product_package", "code", "ASC");
 		return db(query);
@@ -278,6 +282,35 @@ Product.package = {
 		},
 		removeAll: async (package_id) => {
 			let query = "DELETE FROM cms_wt_erp.product_package_product WHERE package_id='"+package_id+"';";
+			return db(query);
+		}
+	},
+	price: {
+		save: async (price) => {
+			let query = "INSERT INTO cms_wt_erp.product_package_price (category_id, package_id, price) VALUES ('"
+				+price.category_id+"', '"
+				+price.package_id+"', '"
+				+price.price+"');";
+			return db(query);
+		},
+		update: async (price) => {
+			let query = "UPDATE cms_wt_erp.product_package_price SET price='"+price.price+"' WHERE id='"+price.id+"';";
+			return db(query);
+		},
+		list: async (category_id) => {
+			let query = "SELECT * FROM cms_wt_erp.product_package_price where category_id='"+category_id+"' ORDER BY id ASC;";
+			return db(query);
+		},
+		find: async (price) => {
+			let query = "SELECT * FROM cms_wt_erp.product_package_price where category_id='"+price.category_id+"' AND product_id='"+price.package_id+"' ORDER BY id ASC;";
+			return db(query);
+		},
+		delete: async (id) => {
+			let query = "DELETE FROM cms_wt_erp.product_package_price WHERE product_id='"+id+"';";
+			return db(query);
+		},
+		deleteAll: async (id) => {
+			let query = "DELETE FROM cms_wt_erp.product_package_price WHERE category_id='"+id+"';";
 			return db(query);
 		}
 	}
