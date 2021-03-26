@@ -10,8 +10,12 @@ if(Ecommerce.sale.controller.filter){
 			customer_name: event.target.elements.namedItem("customer").value,
 			customer_user: event.target.elements.namedItem("customer").value,
 			status: event.target.elements.namedItem("status").value,
-			tracker: event.target.elements.namedItem("tracker").value
+			tracker: event.target.elements.namedItem("tracker").value,
+			periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),
+			periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value)
 		};
+
+		console.log(sale);
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let sales = await Ecommerce.sale.filter(sale);

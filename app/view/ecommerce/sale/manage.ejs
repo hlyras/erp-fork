@@ -8,9 +8,9 @@
         <section>
             <div class="container">
                 <form id="ecommerce-sale-filter-form" class="box one container border padding-10 margin-top-5 shadow">
-                    <input type="text" name="code" class="box six input-generic center margin-top-5" placeholder="Código da venda" autocomplete="off">
-                    <input type="text" name="customer" class="box three input-generic center margin-top-5" placeholder="Nome ou usuário do cliente" autocomplete="off">
-                    <select name="status" class="box six input-generic center margin-top-5 hide-disabled">
+                    <input type="text" name="code" class="box b6 input-generic center margin-top-5" placeholder="Código da venda" autocomplete="off">
+                    <input type="text" name="customer" class="box b3 input-generic center margin-top-5" placeholder="Nome ou usuário do cliente" autocomplete="off">
+                    <select name="status" class="box b4 input-generic center margin-top-5 hide-disabled">
                         <option value="" selected>Status</option>
                         <option value="Ag. Informações">Ag. Informações</option>
                         <option value="Ag. Embalo">Ag. Embalo</option>
@@ -18,8 +18,10 @@
                         <option value="Enviado">Enviado</option>
                         <option value="Cancelada">Cancelada</option>
                     </select>
-                    <input type="text" name="tracker" class="box six input-generic center margin-top-5" placeholder="Rastreio" autocomplete="off">
-                    <input type="submit" name="submit" class="box six submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
+                    <input type="text" name="tracker" class="box b4 input-generic center margin-top-5" placeholder="Rastreio" autocomplete="off">
+                    <input type="datetime-local" class="box b3 input-generic center margin-top-5" name="periodStart">
+                    <input type="datetime-local" class="box b3 input-generic center margin-top-5" name="periodEnd">
+                    <input type="submit" name="submit" class="box b3 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
                 </form>
                 <form id='ecommerce-sale-os-create-form' class='box b1 container ground padding-10 margin-top-5 border-explicit shadow' style="display:none">
                     <div class="underline center">Cadastrar Ordem de Serviço</div>
@@ -49,5 +51,10 @@
 
         <script src="/javascripts/scripts/ecommerce/sale/model/service_order.js"></script>
         <script src="/javascripts/scripts/ecommerce/sale/controller/service_order.js"></script>
+
+        <script>
+            lib.fillDatetimeInput(document.getElementById("ecommerce-sale-filter-form").elements.namedItem('periodStart'));
+            lib.fillDatetimeInput(document.getElementById("ecommerce-sale-filter-form").elements.namedItem('periodEnd'));
+        </script>
     </footer>
 </html>
