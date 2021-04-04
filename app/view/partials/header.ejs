@@ -1,10 +1,10 @@
-<header class="header-background fill">
-	<div onclick="window.location.href='/'" href="#default" class="favicon"><img class="favicon-image" src="/images/favicon/favicon-black.png"></div>
+<header>
+	<img class="width-150 opacity-hover-08 pointer" onclick="window.location.href='/'" src="/images/favicon/favicon-black.png">
 	<div class="right">
 		<% if (user.access == 'adm') { %>
-			<a><img class='user-icon' onclick="window.location.href='/admin'" src="/images/icon/admin.png"></a>
+			<a><img class='icon size-40 radius-5 padding-5' onclick="window.location.href='/admin'" src="/images/icon/admin.png"></a>
         <% } %>
-		<a><img class='user-icon' onclick="window.location.href='/user'" src="/images/icon/user.png"></a>
-		<a><img class="user-icon" onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}" src="/images/icon/logout.png"></a>
+		<a><img class='icon size-40 radius-5 padding-5' onclick="window.location.href='/user'" src="/images/icon/user.png"></a>
+		<a><img class="icon size-40 radius-5 padding-5" onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}" src="/images/icon/logout.png"></a>
 	</div>
 </header>

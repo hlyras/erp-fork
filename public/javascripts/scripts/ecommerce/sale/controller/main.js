@@ -11,6 +11,7 @@ if(Ecommerce.sale.controller.save){
 			};
 		};
 
+
 		let sale = {
 			id: document.getElementById("ecommerce-sale-create-form").elements.namedItem("id").value.trim(),
 			origin: document.getElementById("ecommerce-sale-create-form").elements.namedItem("origin").value,
@@ -24,6 +25,8 @@ if(Ecommerce.sale.controller.save){
 			products: JSON.stringify(Ecommerce.sale.product.kart.items),
 			packages: JSON.stringify(Ecommerce.sale.package.kart.items)
 		};
+
+		// return console.log(sale);
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		sale = await Ecommerce.sale.save(sale);
