@@ -40,16 +40,17 @@ Ecommerce.sale.view.manage.filter = (sales, status, service_orders) => {
 
 			for(let i in sales){
 				html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box three border padding-5 center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.manage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
-					html += "<div class='mobile-box two-thirds border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b5-12 border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
-					html += "<div class='mobile-box b5-12 border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
-					html += "<div class='mobile-box six border padding-5 center margin-top-5'>"+sales[i].tracker+"</div>";
-					html += "<div class='mobile-box three border padding-5 center margin-top-5'>"+sales[i].status+"</div>";
-					html += "<select id='ecommerce-sale-manage-change-status-select-id"+sales[i].id+"' class='mobile-box three border-explicit padding-5 center margin-top-5'>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.manage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
+					html += "<div class='mobile-box b2-3 border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
+					html += "<div class='mobile-box b2-3 border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].customer_phone+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].tracker+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].status+"</div>";
+					html += "<select id='ecommerce-sale-manage-change-status-select-id"+sales[i].id+"' class='mobile-box b2 border-explicit padding-5 center margin-top-5'>";
 						html += "<option value='Cancelada'>Cancelada</option>";
 					html += "</select>";
-					html += "<button class='mobile-box three border submit-generic padding-5 center margin-top-5' onclick='Ecommerce.sale.controller.manage.changeStatus("+sales[i].id+")'>Atualizar status</button>";
+					html += "<button class='mobile-box b2 submit-generic padding-5 center margin-top-5 pointer' onclick='Ecommerce.sale.controller.manage.changeStatus("+sales[i].id+")'>Atualizar status</button>";
 					html += "</div>";
 				html += "</div>";
 			};
@@ -60,15 +61,16 @@ Ecommerce.sale.view.manage.filter = (sales, status, service_orders) => {
 				html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
 					html += "<div class='mobile-box b3 border padding-5 center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.manage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
 					html += "<div class='mobile-box b2-3 border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b5-12 border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
-					html += "<div class='mobile-box b5-12 border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
-					html += "<div class='mobile-box b6 border padding-5 center margin-top-5'>"+sales[i].tracker+"</div>";
+					html += "<div class='mobile-box b2-3 border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].customer_phone+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].tracker+"</div>";
 					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].status+"</div>";
-					html += "<select id='ecommerce-sale-manage-change-status-select-id"+sales[i].id+"' class='mobile-box b3 border-explicit padding-5 center margin-top-5'>";
+					html += "<select id='ecommerce-sale-manage-change-status-select-id"+sales[i].id+"' class='mobile-box b2 border-explicit padding-5 center margin-top-5'>";
 						html += "<option value='Ag. Informações'>Ag. Informações</option>";
 						html += "<option value='Cancelada'>Cancelada</option>";
 					html += "</select>";
-					html += "<button class='mobile-box b3 border submit-generic padding-5 center margin-top-5' onclick='Ecommerce.sale.controller.manage.changeStatus("+sales[i].id+")'>Atualizar status</button>";
+					html += "<button class='mobile-box b2 submit-generic padding-5 center margin-top-5 pointer' onclick='Ecommerce.sale.controller.manage.changeStatus("+sales[i].id+")'>Atualizar status</button>";
 					html += "</div>";
 				html += "</div>";
 			};
@@ -80,14 +82,15 @@ Ecommerce.sale.view.manage.filter = (sales, status, service_orders) => {
 					html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><input type='checkbox' name='ecommerce-sale-os-checkbox' value='"+sales[i].id+"'></div>";
 					html += "<div class='mobile-box b2 border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
 					html += "<div class='mobile-box b5-12 border padding-5 center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.manage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
-					html += "<div class='mobile-box b5-12 border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
-					html += "<div class='mobile-box b5-12 border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
-					html += "<div class='mobile-box b6 border padding-5 center margin-top-5'>"+sales[i].tracker+"</div>";
+					html += "<div class='mobile-box b2-3 border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].customer_phone+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].tracker+"</div>";
 					html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].status+"</div>";
-					html += "<select id='ecommerce-sale-manage-change-status-select-id"+sales[i].id+"' class='mobile-box b3 border-explicit padding-5 center margin-top-5'>";
+					html += "<select id='ecommerce-sale-manage-change-status-select-id"+sales[i].id+"' class='mobile-box b2 border-explicit padding-5 center margin-top-5'>";
 						html += "<option value='Cancelada'>Cancelada</option>";
 					html += "</select>";
-					html += "<button class='mobile-box b3 border submit-generic padding-5 center margin-top-5' onclick='Ecommerce.sale.controller.manage.changeStatus("+sales[i].id+")'>Atualizar status</button>";
+					html += "<button class='mobile-box b2 submit-generic padding-5 center margin-top-5 pointer' onclick='Ecommerce.sale.controller.manage.changeStatus("+sales[i].id+")'>Atualizar status</button>";
 					for(let j in service_orders){
 						html += "<select id='ecommerce-sale-manage-change-status-select-id"+sales[i].id+"' class='mobile-box two border-explicit padding-5 center margin-top-5'>";
 						html += "<option value='"+service_orders[j].id+"'>"+service_orders[i].code+"</option>";
@@ -102,9 +105,8 @@ Ecommerce.sale.view.manage.filter = (sales, status, service_orders) => {
 
 			for(let i in sales){
 				html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box twelve padding-5 margin-top-5 center'><input type='checkbox' name='ecommerce-sale-os-checkbox' value='1'></div>";
-					html += "<div class='mobile-box b5-12 border padding-5 center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.manage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
-					html += "<div class='mobile-box b2 border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
+					html += "<div class='mobile-box b3 border padding-5 center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.manage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
+					html += "<div class='mobile-box b2-3 border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
 					html += "<div class='mobile-box two border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
 					html += "<div class='mobile-box two border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
 					html += "<div class='mobile-box three border padding-5 center margin-top-5'>"+sales[i].user_name+"</div>";
@@ -153,6 +155,8 @@ Ecommerce.sale.view.manage.show = (sale) => {
 			html += "<div class='mobile-box three-fourths margin-top-5 center bold'>"+sale.customer_name+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Usuário</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center bold'>"+sale.customer_user+"</div>";
+			html += "<h5 class='mobile-box four margin-top-5'>Telefone</h5>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center bold'>"+sale.customer_phone+"</div>";
 		html += "</div>";
 		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
 			html += "<div class='box one underline center bold'>Dados da venda</div>";
