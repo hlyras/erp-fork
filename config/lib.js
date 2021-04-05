@@ -242,7 +242,7 @@ module.exports = {
 				};
 			};
 		};
-		if(status_value && !params.length && !periodStart || status_value && !params.length && !periodEnd){ query += "WHERE "+status+" = '"+status_value+"' "; };
+		if(status_value){ query += "AND "+status+" = '"+status_value+"' "; };
 		query += "ORDER BY "+orderParam+" "+order+"";
 
 		return query;
