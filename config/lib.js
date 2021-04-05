@@ -201,8 +201,11 @@ module.exports = {
 		return query;
 	},
 	filterByLikeAndByPeriodAndByStatus: function(periodStart, periodEnd, params, values, date, status, status_value, db, tbl, orderParam, order){
+		let query = "";
+		let only_status = true;
 		if(periodStart && periodEnd){
-			var query = "SELECT * FROM "+db+"."+tbl+" WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
+			only_status = false;
+			query = "SELECT * FROM "+db+"."+tbl+" WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
 			if(params.length){
 				query += "AND ";
 				for(i in params){
@@ -222,8 +225,9 @@ module.exports = {
 				};
 			};
 		} else {
-			var query = "SELECT * FROM "+db+"."+tbl+" ";
+			query = "SELECT * FROM "+db+"."+tbl+" ";
 			if(params.length){
+				only_status = false;
 				query += "WHERE ";
 				for(i in params){
 					if(i == params.length - 1){
@@ -242,9 +246,14 @@ module.exports = {
 				};
 			};
 		};
-		if(status_value){ query += "AND "+status+" = '"+status_value+"' "; };
-		query += "ORDER BY "+orderParam+" "+order+"";
 
+		if(status_value && only_status){
+			query += "WHERE "+status+" = '"+status_value+"' "; 
+		} else if(status_value && !only_status){ 
+			query += "AND "+status+" = '"+status_value+"' "; 
+		};
+
+		query += "ORDER BY "+orderParam+" "+order+"";
 		return query;
 	},
 	sumByPeriod: function(periodStart, periodEnd, value, params, values, db, tbl, orderParam, order){
