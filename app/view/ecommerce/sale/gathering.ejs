@@ -8,16 +8,17 @@
         <section>
             <div class="container">
                 <form id="ecommerce-sale-filter-form" class="box one container border padding-10 margin-top-5 shadow">
-                    <input type="text" name="code" class="box six input-generic center margin-top-5" placeholder="Código da venda">
+                    <input type="datetime-local" class="box b3 input-generic center margin-top-5" name="periodStart">
+                    <input type="datetime-local" class="box b3 input-generic center margin-top-5" name="periodEnd">
+                    <input type="text" name="code" class="box b3 input-generic center margin-top-5" placeholder="Código da venda">
                     <input type="text" name="customer" class="box three input-generic center margin-top-5" placeholder="Nome ou usuário do cliente">
-                    <select name="status" class="box six input-generic center margin-top-5 hide-disabled">
+                    <select name="status" class="box b6 input-generic center margin-top-5 hide-disabled">
                         <option value="Ag. Informações">Ag. Informações</option>
                     </select>
-                    <input type="text" name="tracker" class="box six input-generic center margin-top-5" placeholder="Rastreio">
-                    <input type="submit" name="submit" class="box six submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
+                    <input type="text" name="tracker" class="box b6 input-generic center margin-top-5" placeholder="Rastreio">
+                    <input type="submit" name="submit" class="box b3 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
                 </form>
                 <div id="ecommerce-sale-filter-box" class="box one container padding-5 margin-top-5"></div>
-
                 <div id="ecommerce-sale-show-box" class="box one container ground padding-5 margin-top-5" style="display:none">
                     <div class="box one container ground padding-5 margin-top-5">
                         <form id="ecommerce-sale-create-form" class="box one container">

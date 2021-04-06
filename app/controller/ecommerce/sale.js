@@ -473,18 +473,6 @@ const saleController = {
 					res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 				};
 			},
-			prospect: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud'])){
-					return res.redirect('/');
-				};
-
-				try {
-					res.render('ecommerce/sale/after_sale_prospect', { user: req.user });
-				} catch (err) {
-					console.log(err);
-					res.send({ msg: "Ocorreu um erro ao realizar requisição." });
-				};
-			},
 			add: async (req, res) => {
 				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud'])){
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
@@ -492,16 +480,18 @@ const saleController = {
 
 				let sale = {
 					id: req.body.id,
+					datetime: new Date().getTime(),
 					status: "Ag. Contato",
-					seller_id: req.user.id,
-					seller_name: req.user.name,
+					user_id: req.user.id,
+					user_name: req.user.name
 				};
 				
 				try {
 					if(sale.id){
-						let verifyStatus = await Sale.after_sale.findById(sale.id);
-						if(verifyStatus[0].seller_id){ return res.send({ done: "Este cliente já está sendo contatado por outro colaborador.", sale: sale }); };
+						let verifyStatus = await Sale.findById(sale.id);
+						if(verifyStatus[0].after_sale){ return res.send({ done: "Este cliente já está sendo contatado por outro colaborador.", sale: sale }); };
 
+						await Sale.updateAfterSale(sale);
 						await Sale.after_sale.flow.add(sale);
 
 						res.send({ done: "Cliente adicionado com sucesso!", sale: sale });
@@ -521,7 +511,10 @@ const saleController = {
 				let params = [];
 				let values = [];
 
-				let periodStart = ""; 
+				let strict_params = [];
+				let strict_values = [];
+
+				let periodStart = "";
 				let periodEnd = "";
 
 				if(req.body.sale.periodStart && req.body.sale.periodEnd){
@@ -532,26 +525,39 @@ const saleController = {
 					periodEnd = "";
 				};
 
+				let properties = ["cms_wt_erp.ecommerce_sale_after_sale.id","cms_wt_erp.ecommerce_sale_after_sale.sale_id","cms_wt_erp.ecommerce_sale.origin","cms_wt_erp.ecommerce_sale.code",
+					"cms_wt_erp.ecommerce_sale.customer_name","cms_wt_erp.ecommerce_sale.customer_user",
+					"cms_wt_erp.ecommerce_sale.customer_phone","cms_wt_erp.ecommerce_sale_after_sale.datetime",
+					"cms_wt_erp.ecommerce_sale_after_sale.status","cms_wt_erp.ecommerce_sale_after_sale.user_id",
+					"cms_wt_erp.ecommerce_sale_after_sale.user_name","cms_wt_erp.ecommerce_sale_after_sale.contact_datetime",
+					"cms_wt_erp.ecommerce_sale.after_sale","cms_wt_erp.ecommerce_sale_after_sale.obs",];
+
 				if(req.body.sale.code){
-					params.push("code");
+					params.push("cms_wt_erp.ecommerce_sale.code");
 					values.push(req.body.sale.code);
 				};
 
-				if(req.body.sale.customer_name){
-					params.push("customer_name");
-					values.push(req.body.sale.customer_name);
-				};
-
 				if(req.body.sale.customer_user){
-					params.push("customer_user");
+					params.push("cms_wt_erp.ecommerce_sale.customer_user");
 					values.push(req.body.sale.customer_user);
 				};
 
-				params.push("status");
-				values.push(req.body.sale.status);
+				if(req.body.sale.customer_name){
+					params.push("cms_wt_erp.ecommerce_sale.customer_name");
+					values.push(req.body.sale.customer_name);
+				};
+
+
+				strict_params.push("cms_wt_erp.ecommerce_sale.after_sale");
+				strict_values.push(req.user.id);
+
+				strict_params.push("cms_wt_erp.ecommerce_sale_after_sale.status");
+				strict_values.push(req.body.sale.status);
+
+				let inners = [["cms_wt_erp.ecommerce_sale_after_sale.sale_id", "cms_wt_erp.ecommerce_sale.id"]];
 
 				try {
-					let sales = await Sale.after_sale.flow.filter(periodStart, periodEnd, req.user.id, params, values);
+					let sales = await Sale.after_sale.flow.filter(properties, inners, periodStart, periodEnd, params, values, strict_params, strict_values);
 					res.send({ sales });
 				} catch (err) {
 					console.log(err);

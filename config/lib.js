@@ -247,13 +247,110 @@ module.exports = {
 			};
 		};
 
-		if(status_value && only_status){
-			query += "WHERE "+status+" = '"+status_value+"' "; 
-		} else if(status_value && !only_status){ 
-			query += "AND "+status+" = '"+status_value+"' "; 
+		if(status_value && only_status){ query += "WHERE "+status+" = '"+status_value+"' "; };
+		query += "ORDER BY "+orderParam+" "+order+"";
+		return query;
+	},
+	filterByLikeAndInnerJoin: function(params, values, innerTbl, inners, db, tbl, orderParam, order){
+		var query = "SELECT * FROM "+db+"."+tbl+" ";
+		if(inners.length){
+			query += "INNER JOIN "+db+"."+innerTbl+" ON ";
+			for(let i in inners){
+				if(i == inners.length - 1){
+					query += inners[i][0]+"="+inners[i][1]+" ";
+				} else {
+					query += inners[i][0]+"="+inners[i][1]+" AND ";
+				};
+			};
+		};
+		if(params.length){
+			query += "WHERE ";
+			for(i in params){
+				if(i == params.length - 1){
+					query += ""+params[i]+" like '%"+values[i]+"%' ";
+				} else {
+					query += ""+params[i]+" like '%"+values[i]+"%' AND ";
+				};
+			};
+		};
+		query += "ORDER BY "+orderParam+" "+order+";";
+
+		return query;
+	},
+	inner_by_period_params_status: function(properties, tbl, tbl2, inners, date, periodStart, periodEnd, params, values, strict_params, strict_values, orderParam, order){
+		let query = "";
+		if(properties.length){
+			query += "SELECT "
+			for(let i in properties){
+				if(i == properties.length - 1){
+					query += properties[i]+" FROM "+tbl+" INNER JOIN "+tbl2+" ON ";
+				} else {
+					query += properties[i]+", ";
+				};
+			};
+		} else {
+			query += "SELECT * FROM "+tbl+" INNER JOIN "+tbl2+" ON ";
+		};
+
+		for(let i in inners){
+			if(i == inners.length - 1){
+				query += inners[i][0]+"="+inners[i][1]+" ";
+			} else {
+				query += inners[i][0]+"="+inners[i][1]+" AND ";
+			};
+		};
+
+		if(periodStart && periodEnd){
+			query += "WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
+			if(params.length){
+				query += "AND ";
+				for(i in params){
+					if(i == params.length - 1){
+						query += params[i]+" like '%"+values[i]+"%' ";
+					} else {
+						query += params[i]+" like '%"+values[i]+"%' AND ";
+					};
+				};
+			};
+		} else {
+			if(params.length){
+				query += "WHERE ";
+				for(i in params){
+					if(i == params.length - 1){
+						query += params[i]+" like '%"+values[i]+"%' ";
+					} else {
+						query += params[i]+" like '%"+values[i]+"%' AND ";
+					};
+				};
+			};
+		};
+
+		if(params){
+			if(strict_params.length){
+				query += "AND ";
+				for(i in strict_params){
+					if(i == strict_params.length - 1){
+						query += strict_params[i]+" like '%"+strict_values[i]+"%' ";
+					} else {
+						query += strict_params[i]+" like '%"+strict_values[i]+"%' AND ";
+					};
+				};
+			};
+		} else {
+			if(strict_params.length){
+				query += "wHERE ";
+				for(i in strict_params){
+					if(i == strict_params.length - 1){
+						query += strict_params[i]+"='"+strict_values[i]+"' ";
+					} else {
+						query += strict_params[i]+"='"+strict_values[i]+"' AND ";
+					};
+				};
+			};
 		};
 
 		query += "ORDER BY "+orderParam+" "+order+"";
+
 		return query;
 	},
 	sumByPeriod: function(periodStart, periodEnd, value, params, values, db, tbl, orderParam, order){

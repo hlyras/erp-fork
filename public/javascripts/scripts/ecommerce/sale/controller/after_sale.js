@@ -1,3 +1,31 @@
+Ecommerce.sale.controller = {};
+
+Ecommerce.sale.controller.filter = document.getElementById("ecommerce-sale-filter-form");
+if(Ecommerce.sale.controller.filter){
+	Ecommerce.sale.controller.filter.addEventListener("submit", async event => {
+		event.preventDefault();
+
+		let sale = {
+			code: event.target.elements.namedItem("code").value,
+			customer_name: event.target.elements.namedItem("customer").value,
+			customer_user: event.target.elements.namedItem("customer").value,
+			status: event.target.elements.namedItem("status").value,
+			tracker: event.target.elements.namedItem("tracker").value,
+			periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),
+			periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value)
+		};
+
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		let sales = await Ecommerce.sale.filter(sale);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!sales) { return false }
+
+		document.getElementById("ecommerce-sale-show-box").style.display = "none";
+
+		Ecommerce.sale.view.after_sale.filter(sales);
+	});
+};
+
 Ecommerce.sale.after_sale.controller = {};
 
 Ecommerce.sale.after_sale.controller.save = document.getElementById("ecommerce-sale-after-sale-create-form");
@@ -46,6 +74,8 @@ if(Ecommerce.sale.after_sale.controller.filter){
 			status: event.target.elements.namedItem("status").value
 		};
 
+		console.log(sale)
+
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let sales = await Ecommerce.sale.after_sale.filter(sale);
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
@@ -63,7 +93,7 @@ Ecommerce.sale.after_sale.controller.addToFlow = async id => {
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
 		if(!sale) { return false };
 
-		Ecommerce.sale.after_sale.controller.filter.submit.click();
+		Ecommerce.sale.controller.filter.submit.click();
 	};
 };
 
@@ -75,8 +105,8 @@ if(Ecommerce.sale.after_sale.controller.flow.filter){
 		event.preventDefault();
 
 		let sale = {
-			periodStart: event.target.elements.namedItem("periodStart").value,
-			periodEnd: event.target.elements.namedItem("periodEnd").value,
+			periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
+			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
 			code: event.target.elements.namedItem("code").value,
 			customer_user: event.target.elements.namedItem("customer-user").value,
 			customer_name: event.target.elements.namedItem("customer-name").value,

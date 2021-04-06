@@ -15,6 +15,8 @@ if(Ecommerce.sale.controller.filter){
 			periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value)
 		};
 
+		console.log(sale);
+
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let sales = await Ecommerce.sale.filter(sale);
 		document.getElementById('ajax-loader').style.visibility = 'hidden';

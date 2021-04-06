@@ -24,6 +24,31 @@ Ecommerce.sale.after_sale.view.filter = (sales, pagination) => {
 	};
 };
 
+Ecommerce.sale.view = {};
+
+Ecommerce.sale.view.after_sale = {};
+
+Ecommerce.sale.view.after_sale.filter = (sales) => { 
+	let html = "";
+	for(let i in sales){
+		if(!sales[i].after_sale){
+			html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
+				html += "<div class='mobile-box b3 border padding-5 center margin-top-5 tbl-show-link nowrap'><h4>"+sales[i].code+"</h4></div>";
+				html += "<div class='mobile-box b2-3 border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
+				html += "<div class='mobile-box b2-3 border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
+				html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].customer_phone+"</div>";
+				html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
+				html += "<div class='mobile-box b3 border padding-5 center margin-top-5'>"+sales[i].status+"</div>";
+				html += "<button class='mobile-box b3 center submit-generic margin-top-5' onclick='Ecommerce.sale.after_sale.controller.addToFlow("+sales[i].id+")'>Selecionar cliente</button>";
+				html += "</div>";
+			html += "</div>";
+		};
+	};
+
+	document.getElementById("ecommerce-sale-filter-box").style.display = "";
+	document.getElementById("ecommerce-sale-filter-box").innerHTML = html;
+};
+
 Ecommerce.sale.after_sale.flow.view = {};
 
 Ecommerce.sale.after_sale.flow.view.filter = (sales, pagination) => {
@@ -34,7 +59,7 @@ Ecommerce.sale.after_sale.flow.view.filter = (sales, pagination) => {
 			html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
 				html += "<div class='mobile-box three center padding-5 border margin-top-5 nowrap'>"+sales[i].code+"</div>";
 				html += "<div class='mobile-box three center padding-5 border margin-top-5'>"+sales[i].customer_name+"</div>";
-				html += "<div class='mobile-box three center padding-5 border margin-top-5'>"+lib.convertDate(sales[i].date)+"</div>";
+				html += "<div class='mobile-box three center padding-5 border margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
 				html += "<div class='mobile-box b4 center padding-5 border margin-top-5'>"+sales[i].customer_user+"</div>";
 				html += "<div class='mobile-box b4 center padding-5 border margin-top-5'>"+sales[i].origin+"</div>";
 				html += "<div class='mobile-box b4 center padding-5 border margin-top-5'>"+sales[i].customer_phone+"</div>";

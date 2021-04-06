@@ -59,6 +59,11 @@ Sale.updateStatus = async (sale) => {
 	return db(query);
 };
 
+Sale.updateAfterSale = async (sale) => {
+	let query = "UPDATE cms_wt_erp.ecommerce_sale SET after_sale='"+sale.user_id+"' WHERE id='"+sale.id+"';";
+	return db(query);
+};
+
 Sale.changeStatus = async (sale) => {
 	let query = "UPDATE cms_wt_erp.ecommerce_sale SET status='"+sale.status+"', change_status_user_id='"+sale.user_id+"', change_status_user_name='"+sale.user_name+"' WHERE id='"+sale.id+"';";
 	return db(query);
@@ -219,13 +224,16 @@ Sale.after_sale = {
 	},
 	flow: {
 		add: async (sale) => {
-			let query = "UPDATE cms_wt_erp.ecommerce_sale_after_sale SET status='"+sale.status
-				+"', seller_id='"+sale.seller_id
-				+"', seller_name='"+sale.seller_name+"' WHERE id='"+sale.id+"';";
+			let query = "INSERT INTO cms_wt_erp.ecommerce_sale_after_sale (sale_id, datetime, status, user_id, user_name) VALUES ('"
+				+sale.id+"','"
+				+sale.datetime+"','"
+				+sale.status+"','"
+				+sale.user_id+"','"
+				+sale.user_name+"');";
 			return db(query);
 		},
-		filter: (periodStart, periodEnd, seller_id, params, values) => {
-			let query = lib.filterByLikeAndByPeriodAndByStatus(periodStart, periodEnd, params, values, "date", "seller_id", seller_id, "cms_wt_erp", "ecommerce_sale_after_sale", "date", "ASC");
+		filter: (properties, inners, periodStart, periodEnd, params, values, strict_params, strict_values) => {
+			let query = lib.inner_by_period_params_status(properties, "cms_wt_erp.ecommerce_sale_after_sale", "cms_wt_erp.ecommerce_sale", inners, "cms_wt_erp.ecommerce_sale_after_sale.datetime", periodStart, periodEnd, params, values, strict_params, strict_values, "cms_wt_erp.ecommerce_sale_after_sale.datetime", "ASC");
 			return db(query);
 		},
 		update: async (sale) => {
