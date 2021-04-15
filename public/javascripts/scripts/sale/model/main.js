@@ -34,3 +34,21 @@ Sale.findById = async (sale_id) => {
 	
 	return response.sale[0];
 };
+
+Sale.confirmPayment = async sale_id => {
+	let response = await fetch("/sale/confirm-payment/id/" + sale_id);
+	response = await response.json();
+	
+	if(API.verifyResponse(response)){ return false };
+	
+	return response.done;	
+};
+
+Sale.confirmPackment = async sale_id => {
+	let response = await fetch("/sale/confirm-packment/id/" + sale_id);
+	response = await response.json();
+	
+	if(API.verifyResponse(response)){ return false };
+	
+	return response.done;	
+};

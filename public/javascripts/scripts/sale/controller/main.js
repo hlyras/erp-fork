@@ -20,17 +20,30 @@ if(Sale.controller.save){
 		customer.id = document.getElementById("sale-customer").dataset.id;
 		customer.person_type = document.getElementById("sale-customer").dataset.person_type;
 
+		for(let i in Sale.package.kart.items){
+			for(let j in Sale.package.product){
+				if(Sale.package.kart.items[i].id == Sale.package.product[j].id){
+					Sale.package.kart.items[i].products = Sale.package.product[j].items;
+				};
+			};
+		};
+
 		let sale = {
-			id: "",
+			id: document.getElementById("sale-id").value,
+			sale_date: lib.dateToTimestamp(lib.genPatternDate()),
 			customer_id: customer.id,
 			customer_name: customer[0],
 			customer_address_id: lib.findCheckedInput("sale-customer-address").value,
 			products: JSON.stringify(Sale.product.kart.items),
 			packages: JSON.stringify(Sale.package.kart.items),
-			sale_date: document.getElementById("sale-date").value,
-			estimated_shipping_date: document.getElementById("estimated-shipping-date").value,
+			shipment_method: document.getElementById("shipment-method").value,
 			payment_method: document.getElementById("payment-method").value,
+			payment_period: document.getElementById("payment-period").value,
 			status: document.getElementById("status").value,
+			product_value: Sale.product.kart.total_value,
+			package_value: Sale.package.kart.total_value,
+			shipment_value: Sale.pos.shipment_value,
+			discount_value: Sale.pos.discount_value,
 			value: Sale.pos.total_value
 		};
 
@@ -49,14 +62,14 @@ if(Sale.controller.save){
 		document.getElementById("sale-customer").value = "";
 		lib.localStorage.remove("sale-customer");
 
-		document.getElementById("sale-date").value = "";
-		lib.localStorage.remove("sale-date");
-
-		document.getElementById("estimated-shipping-date").value = "";
-		lib.localStorage.remove("estimated-shipping-date");
+		document.getElementById("shipment-method").value = "";
+		lib.localStorage.remove("shipment-method");
 
 		document.getElementById("payment-method").value = "";
 		lib.localStorage.remove("payment-method");
+
+		document.getElementById("payment-period").value = "";
+		lib.localStorage.remove("payment-period");
 
 		document.getElementById("status").value = "";
 		lib.localStorage.remove("status");
@@ -73,8 +86,8 @@ if(Sale.controller.save){
 		lib.localStorage.remove("sale-package-kart");
 		Sale.package.kart.list("Sale.package.kart", Sale.package.kart.props);
 
-		let r = confirm("Deseja ir para a venda criada?\n código: #"+sale.id+"\n data: "+lib.convertDate(sale.sale_date)+"\n previsão de envio: "+lib.convertDate(sale.estimated_shipping_date)+"\n cliente: "+sale.customer_name+"\n Método de pagamento: "+sale.payment_method+"\n status: "+sale.status+"\n Valor: "+sale.value);
-		if(r){ console.log("redireciona para venda #"+sale.id) };
+		alert("Venda confirmada\n código: #"+sale.id+"\n data: "+lib.timestampToDate(sale.sale_date)+"\n previsão de envio: "+lib.timestampToDate(sale.estimated_shipment_date)+"\n cliente: "+sale.customer_name+"\n Método de pagamento: "+sale.payment_method+"\n status: "+sale.status+"\n Valor: "+sale.value);
+		if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
 	});
 };
 
@@ -86,24 +99,94 @@ if(Sale.controller.filter){
 		let sale = {
 			customer_name: event.target.elements.namedItem("customer_name").value,
 			customer_cnpj: event.target.elements.namedItem("customer_cnpj").value,
-			periodStart: event.target.elements.namedItem("periodStart").value,
-			periodEnd: event.target.elements.namedItem("periodEnd").value,
+			periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
+			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
 			status: event.target.elements.namedItem("status").value
 		};
-
+		
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let sales = await Sale.filter(sale);
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
-		
-		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, pagination); });
+
+		document.getElementById("sale-filter-box").style.display = "";
+		document.getElementById("sale-show-box").style.display = "none";
+		if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
+
+		const setup = { pageSize: 10, page: 0, status: sale.status };
+		$(() => { lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, setup); });
 	});
 };
 
-Sale.controller.show = async sale_id => {
+Sale.controller.show = async (sale_id, status) => {
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 	let sale = await Sale.findById(sale_id);
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 
-	Sale.view.show(sale);
+	Sale.view.show(sale, status);
+
+	document.getElementById("sale-filter-box").style.display = "none";
+	document.getElementById("sale-show-box").style.display = "";
+	if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
+};
+
+Sale.controller.edit = async sale_id => {
+	document.getElementById('ajax-loader').style.visibility = 'visible';
+	let sale = await Sale.findById(sale_id);
+	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	if(!sale) { return false };
+
+	Sale.view.edit(sale);
+
+	document.getElementById("sale-filter-box").style.display = "none";
+	document.getElementById("sale-show-box").style.display = "none";
+	if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = ""; };
+};
+
+Sale.controller.attachNF = async sale_id => {
+	console.log(sale_id, document.getElementById("sale-nf-url").value);
+};
+
+Sale.pos = {
+	shipment_value: 0,
+	discount_value: 0,
+	total_value: 0 
+};
+
+Sale.pos.updateValue = () => {
+	Sale.pos.total_value = 0;
+
+	if(isNaN(Sale.product.kart.total_value)){ Sale.product.kart.total_value = 0; } else { Sale.pos.total_value += Sale.product.kart.total_value };
+	if(isNaN(Sale.package.kart.total_value)){ Sale.package.kart.total_value = 0; } else { Sale.pos.total_value += Sale.package.kart.total_value };
+	if(!isNaN(Sale.pos.discount_value)){ Sale.pos.total_value -= Sale.pos.discount_value; };
+	if(!isNaN(Sale.pos.shipment_value)){ Sale.pos.total_value += Sale.pos.shipment_value; };
+	Sale.pos.total_value = lib.roundValue(Sale.pos.total_value);
+	document.getElementById("sale-value").innerHTML = "$"+Sale.pos.total_value.toFixed(2);
+};
+
+Sale.pos.discount_value = document.getElementById("sale-discount-value");
+if(Sale.pos.discount_value){
+	Sale.pos.discount_value.addEventListener("change", event => {
+		Sale.pos.discount_value = parseFloat(document.getElementById("sale-discount-value").value);
+
+		if(!Sale.pos.discount_value){
+			document.getElementById("sale-discount-value").value = 0;
+		} else {
+			document.getElementById("sale-discount-value").value = Sale.pos.discount_value.toFixed(2);
+		};
+		Sale.pos.updateValue();
+	});
+};
+
+Sale.pos.shipment_value = document.getElementById("sale-shipment-value");
+if(Sale.pos.shipment_value){
+	Sale.pos.shipment_value.addEventListener("change", event => {
+		Sale.pos.shipment_value = parseFloat(document.getElementById("sale-shipment-value").value);
+
+		if(!Sale.pos.shipment_value){
+			document.getElementById("sale-shipment-value").value = 0;
+		} else {
+			document.getElementById("sale-shipment-value").value = Sale.pos.shipment_value.toFixed(2);
+		};
+		Sale.pos.updateValue();
+	});
 };

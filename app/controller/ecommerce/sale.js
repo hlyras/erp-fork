@@ -215,6 +215,7 @@ const saleController = {
 						};
 						for(let i in sale.package_product_actions.update){ await Sale.package.product.update(sale.package_product_actions.update[i].id, sale.package_product_actions.update[i]); };
 						for(let i in sale.package_product_actions.remove){ await Sale.package.product.remove(sale.package_product_actions.remove[i].id); };
+						sale.package_product_actions = { add: [], update: [], remove: [] };
 					};
 				};
 

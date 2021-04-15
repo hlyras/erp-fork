@@ -60,16 +60,21 @@ Sale.view.customer.dropdown = {
 
 Sale.view.customer.address = {};
 
-Sale.view.customer.address.list = (addresses) => {
+Sale.view.customer.address.list = (addresses, customer_address_id) => {
 	let html = "";
-	html += "<div class='box one container border padding-5 margin-top-5'>";                    
-		html += "<input type='radio' id='sale-customer-address' name='sale-customer-address' class='mobile-box four center' value='0'>";
+	html += "<div class='box one container border padding-5 margin-top-5'>";
+		if(customer_address_id === 0){
+			html += "<input type='radio' id='sale-customer-address' name='sale-customer-address' class='mobile-box four center' value='0' checked>";
+		} else {
+			html += "<input type='radio' id='sale-customer-address' name='sale-customer-address' class='mobile-box four center' value='0'>";
+		};
 		html += "<div class='mobile-box three-fourths center'>Agendar retirada em Loja</div>";
 	html += "</div>";
 	if(addresses.length){
 		for(let i in addresses){
-			html += "<div class='box one container border padding-5 margin-top-5'>";                    
-			html += "<input type='radio' id='sale-customer-address' name='sale-customer-address' class='mobile-box four center' value='"+addresses[i].id+"'>";
+			html += "<div class='box one container border padding-5 margin-top-5'>";
+			if(addresses[i].checked){ html += "<input type='radio' id='sale-customer-address' name='sale-customer-address' class='mobile-box four center' value='"+addresses[i].id+"' checked>"; };
+			if(!addresses[i].checked){ html += "<input type='radio' id='sale-customer-address' name='sale-customer-address' class='mobile-box four center' value='"+addresses[i].id+"'>"; };
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+addresses[i].postal_code+"</div>";
 			html += "<div class='mobile-box two-fifths margin-top-5 center'>"+addresses[i].street+"</div>";
 			html += "<div class='mobile-box five margin-top-5 center'>"+addresses[i].number+"</div>";

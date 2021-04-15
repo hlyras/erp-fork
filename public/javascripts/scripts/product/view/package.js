@@ -8,7 +8,6 @@ Product.view.package.filter = (packages, pagination) => {
 				html += "<div class='mobile-box nine center'><h3 class='tbl-show-link nowrap' onclick='Product.controller.package.show("+packages[i].id+")'>"+packages[i].code+"</h3></div>";
 				html += "<div class='mobile-box two center'>"+packages[i].name+"</div>";
 				html += "<div class='mobile-box nine center'>"+packages[i].color+"</div>";
-				html += "<div class='mobile-box nine center'>$"+packages[i].price.toFixed(2)+"</div>";
 				html += "<div class='mobile-box twelve center'><img class='img-tbl-btn' src='/images/icon/edit.png' onclick='Product.controller.package.edit("+packages[i].id+")'></div>";
 				html += "<div class='mobile-box twelve center'><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Product.controller.package.delete("+packages[i].id+")'></div>";
 			html += "</div>";
@@ -50,10 +49,6 @@ Product.view.package.show = (package) => {
 		html += "<div class='mobile-box three container box-border margin-top-5'>"
 			html += "<div class='mobile-box two padding-5 margin-top-5'>Código</div>";
 			html += "<div class='mobile-box two padding-5 margin-top-5 bold'>"+package.code+"</div>";
-		html += "</div>";
-		html += "<div class='mobile-box three container box-border margin-top-5'>"
-			html += "<div class='mobile-box two padding-5 margin-top-5'>Valor</div>";
-			html += "<div class='mobile-box two padding-5 margin-top-5 bold'>$"+package.price.toFixed(2)+"</div>";
 		html += "</div>";
 		html += "<div class='mobile-box three container box-border margin-top-5'>"
 			html += "<div class='mobile-box two padding-5 margin-top-5'>Cor</div>";

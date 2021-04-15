@@ -42,6 +42,7 @@ router.get('/package/id/:id', productController.package.findById);
 router.delete('/package/delete', productController.package.delete);
 router.post('/package/product/update', productController.package.product.update);
 
+router.post('/package/price/find', productController.package.price.find);
 router.post('/package/price/update', productController.package.price.update);
 
 router.post('/package/image/add', productController.package.image.add);

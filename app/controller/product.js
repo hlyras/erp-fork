@@ -918,7 +918,7 @@ const productController = {
 				let price = req.body.price;
 
 				try {
-					price = await Product.price.find(price);
+					price = await Product.package.price.find(price);
 					res.send({ price });
 				} catch (err) {
 					console.log(err);

@@ -302,7 +302,7 @@ Product.package = {
 			return db(query);
 		},
 		find: async (price) => {
-			let query = "SELECT * FROM cms_wt_erp.product_package_price where category_id='"+price.category_id+"' AND product_id='"+price.package_id+"' ORDER BY id ASC;";
+			let query = "SELECT * FROM cms_wt_erp.product_package_price where category_id='"+price.category_id+"' AND package_id='"+price.package_id+"' ORDER BY id ASC;";
 			return db(query);
 		},
 		delete: async (id) => {

@@ -27,6 +27,7 @@ module.exports = {
 		date = new Date(date.year,date.month,date.day,date.hour,date.minute);
 		return date.getTime();
 	},
+	timestampDay: () => { return 86400000; },
 	timestampToDate: (timestamp) => {
 		let date = new Date(parseInt(timestamp));
 		let day;let month;let hour;let minute;
@@ -251,6 +252,63 @@ module.exports = {
 		query += "ORDER BY "+orderParam+" "+order+"";
 		return query;
 	},
+	filter_by_period_params_strict: function(tbl, date, periodStart, periodEnd, params, values, strict_params, strict_values, orderParam, order){
+		let query = "";
+		query = "SELECT * FROM "+tbl+" ";
+
+		if(periodStart && periodEnd){
+			query += "WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
+			if(params.length){
+				query += "AND ";
+				for(i in params){
+					if(i == params.length - 1){
+						query += params[i]+" like '%"+values[i]+"%' ";
+					} else {
+						query += params[i]+" like '%"+values[i]+"%' AND ";
+					};
+				};
+			};
+		} else {
+			if(params.length){
+				query += "WHERE ";
+				for(i in params){
+					if(i == params.length - 1){
+						query += params[i]+" like '%"+values[i]+"%' ";
+					} else {
+						query += params[i]+" like '%"+values[i]+"%' AND ";
+					};
+				};
+			};
+		};
+
+		if(params.length || periodStart && periodEnd){
+			if(strict_params.length){
+				query += "AND ";
+				for(i in strict_params){
+					if(i == strict_params.length - 1){
+						query += strict_params[i]+" like '%"+strict_values[i]+"%' ";
+					} else {
+						query += strict_params[i]+" like '%"+strict_values[i]+"%' AND ";
+					};
+				};
+			};
+		} else {
+			if(strict_params.length){
+				query += "WHERE ";
+				for(i in strict_params){
+					if(i == strict_params.length - 1){
+						query += strict_params[i]+"='"+strict_values[i]+"' ";
+					} else {
+						query += strict_params[i]+"='"+strict_values[i]+"' AND ";
+					};
+				};
+			};
+		};
+
+		query += "ORDER BY "+orderParam+" "+order+";";
+
+		return query;
+	},
 	filterByLikeAndInnerJoin: function(params, values, innerTbl, inners, db, tbl, orderParam, order){
 		var query = "SELECT * FROM "+db+"."+tbl+" ";
 		if(inners.length){
@@ -325,7 +383,7 @@ module.exports = {
 			};
 		};
 
-		if(params){
+		if(params.length){
 			if(strict_params.length){
 				query += "AND ";
 				for(i in strict_params){

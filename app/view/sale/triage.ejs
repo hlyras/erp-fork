@@ -11,7 +11,9 @@
                     <input type="text" name="customer_name" placeholder="Nome" class="box b3 input-generic center margin-top-5" autocomplete="off">
                     <input type="text" name="customer_cnpj" placeholder="CNPJ" class="box b3 input-generic center margin-top-5" autocomplete="off">
                     <select name="status" class="box b3 input-generic margin-top-5 hide-disabled">
-                        <option value="Ag. pagamento">Ag. pagamento</option>
+                        <option value="Ag. embalo">Ag. embalo</option>
+                        <option value="Ag. nota fiscal">Ag. nota fiscal</option>
+                        <option value="Ag. envio">Ag. envio</option>
                     </select>
                     <input type="date" name="periodStart" class="box b3 input-generic center margin-top-5" autocomplete="off">
                     <input type="date" name="periodEnd" class="box b3 input-generic center margin-top-5" autocomplete="off">
@@ -21,7 +23,7 @@
                     <div id="sale-filter-div" class="box one"></div>
                     <% include ./../partials/carousel %>
                 </div>
-                <div id="sale-show-box" class="box one container ground margin-top-10"></div>
+                <div id="sale-show-box" class="box one container ground margin-top-10 margin-bottom-15"></div>
             </div>
         </section>
         <% include ./../partials/loader %>

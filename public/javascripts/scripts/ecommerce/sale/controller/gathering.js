@@ -63,8 +63,6 @@ if(Ecommerce.sale.product.kart.add){
 			amount: parseInt(amount)
 		};
 
-		console.log(product);
-
 		Ecommerce.sale.product.kart.insert("id", product);
 		Ecommerce.sale.product.kart.update("code");
 		Ecommerce.sale.product.kart.list("Ecommerce.sale.product.kart", Ecommerce.sale.product.kart.props);
