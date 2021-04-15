@@ -712,7 +712,7 @@ const productController = {
 			if(!package.code || package.code < 1 || package.code > 9999){return res.send({ msg: 'Código de pacote inválido.' })};
 			if(!package.name || package.name.length > 50){return res.send({ msg: 'O nome do pacote é inválido.' })};
 			if(!package.color){return res.send({ msg: 'A cor do pacote é inválida.' })};
-			if(!package.price || isNaN(package.price)){return res.send({ msg: 'O preço do pacote é inválido.' })};
+			if(!package.price || isNaN(package.price)){ return res.send({ msg: 'O preço do pacote é inválido.' }); };
 				
 			var row = await Product.package.findByCode(package.code);
 			if(row.length){
