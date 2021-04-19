@@ -153,7 +153,7 @@ Sale.package.kart.list = (kart, props) => {
 		
 		Sale.package.kart.updateValue();
 		Sale.pos.updateValue();
-		// lib.localStorage.update("sale-package-product-kart-id", 1);
+		lib.localStorage.update("sale-package-product-kart-id", 1);
 	};
 };
 
@@ -165,7 +165,7 @@ Sale.package.kart.decrease = (obj_id) => {
 		};
 	};
 	let stringified_kart = JSON.stringify(Sale.package.kart.items);
-	// lib.localStorage.update(Sale.package.kart.name, stringified_kart);
+	lib.localStorage.update(Sale.package.kart.name, stringified_kart);
 	
 	Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
 	Sale.package.kart.activate();
@@ -179,7 +179,7 @@ Sale.package.kart.increase = (obj_id) => {
 		};
 	};
 	let stringified_kart = JSON.stringify(Sale.package.kart.items);
-	// lib.localStorage.update(Sale.package.kart.name, stringified_kart);
+	lib.localStorage.update(Sale.package.kart.name, stringified_kart);
 	
 	Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
 	Sale.package.kart.activate();
@@ -197,7 +197,7 @@ Sale.package.kart.updateAmount = async (obj_id, amount) => {
 			Sale.package.kart.items[i].total_price = Sale.package.kart.items[i].amount * Sale.package.kart.items[i].price;
 			
 			let stringified_kart = JSON.stringify(Sale.package.kart.items);
-			// lib.localStorage.update(Sale.package.kart.name, stringified_kart);
+			lib.localStorage.update(Sale.package.kart.name, stringified_kart);
 
 			Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
 			Sale.package.kart.activate();
@@ -217,7 +217,7 @@ Sale.package.kart.remove = (obj_id) => {
 	Sale.package.kart.items = kart_backup;
 
 	let stringified_kart = JSON.stringify(Sale.package.kart.items);
-	// lib.localStorage.update(Sale.package.kart.name, stringified_kart);
+	lib.localStorage.update(Sale.package.kart.name, stringified_kart);
 	lib.localStorage.remove("sale-package-product-kart"+obj_id);
 	
 	Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
@@ -284,7 +284,7 @@ Sale.package.kart.set = (id) => {
 			};
 		};
 		let stringified_kart = JSON.stringify(Sale.package.product["kart"+id].items);
-		// lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
+		lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
 		Sale.package.product["kart"+id].list(Sale.package.product["kart"+id].variable, Sale.package.product["kart"+id].props);
 	
 		Sale.package.updateSetup(id);
@@ -297,7 +297,7 @@ Sale.package.kart.set = (id) => {
 			};
 		};
 		let stringified_kart = JSON.stringify(Sale.package.product["kart"+id].items);
-		// lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
+		lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
 		Sale.package.product["kart"+id].list(Sale.package.product["kart"+id].variable, Sale.package.product["kart"+id].props);
 		
 		Sale.package.updateSetup(id);
@@ -314,7 +314,7 @@ Sale.package.kart.set = (id) => {
 				Sale.package.product["kart"+id].items[i].amount = parseInt(amount);
 				
 				let stringified_kart = JSON.stringify(Sale.package.product["kart"+id].items);
-				// lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
+				lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
 
 				Sale.package.product["kart"+id].list(Sale.package.product["kart"+id].variable, Sale.package.product["kart"+id].props);
 				return Sale.package.updateSetup(id);
@@ -333,7 +333,7 @@ Sale.package.kart.set = (id) => {
 		Sale.package.product["kart"+id].items = kart_backup;
 
 		let stringified_kart = JSON.stringify(Sale.package.product["kart"+id].items);
-		// lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
+		lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
 
 		if(!Sale.package.product["kart"+id].items.length){ return Sale.package.kart.remove(id); };
 
