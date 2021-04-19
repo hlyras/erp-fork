@@ -26,12 +26,12 @@ if(Sale.controller.filter){
 	});
 };
 
-Sale.controller.show = async sale_id => {
+Sale.controller.show = async (sale_id, status) => {
 	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let sale = await Sale.findById(sale_id);
+	let sale = await Sale.findById(sale_id, status);
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 
-	Sale.view.show(sale);
+	Sale.view.show(sale, status);
 
 	document.getElementById("sale-filter-box").style.display = "none";
 	document.getElementById("sale-show-box").style.display = "";
@@ -46,5 +46,6 @@ Sale.controller.confirmPayment = async sale_id => {
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
 		if(!response){ return false; };
 		alert(response);
+		Sale.controller.filter.submit.click();
 	};
 };

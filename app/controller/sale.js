@@ -21,13 +21,13 @@ const saleController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
-	admin: async (req, res) => {
+	financial: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.redirect('/');
 		};
 
 		try {
-			res.render('sale/admin', { user: req.user });
+			res.render('sale/financial', { user: req.user });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -299,6 +299,27 @@ const saleController = {
 			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 		};
 	},
+	cancel: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		let sale = {
+			id: req.params.id,
+			cancelation_user_id: req.user.id,
+			cancelation_user_name: req.user.name,
+			cancelation_confirmation_date: new Date().getTime(),
+			status: "Cancelada"
+		};
+
+		try {
+			await Sale.cancel(sale);
+			res.send({ done: "Pagamento confirmado com sucesso!" });
+		} catch (err){
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
+		};
+	},
 	confirmPayment: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
@@ -306,9 +327,9 @@ const saleController = {
 
 		let sale = {
 			id: req.params.id,
-			payment_confirmation_date: new Date().getTime(),
 			payment_user_id: req.user.id,
 			payment_user_name: req.user.name,
+			payment_confirmation_date: new Date().getTime(),
 			status: "Ag. embalo",
 			estimated_shipment_date: new Date().getTime() + (lib.timestampDay() * 10)
 		};
@@ -328,15 +349,58 @@ const saleController = {
 
 		let sale = {
 			id: req.params.id,
-			packment_confirmation_date: new Date().getTime(),
 			packment_user_id: req.user.id,
 			packment_user_name: req.user.name,
+			packment_confirmation_date: new Date().getTime(),
 			status: "Ag. nota fiscal"
 		};
 
 		try {
 			await Sale.confirmPackment(sale);
 			res.send({ done: "Embalo confirmado com sucesso!" });
+		} catch (err){
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
+		};
+	},
+	confirmNF: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		let sale = {
+			id: req.body.sale.id,
+			nf: req.body.sale.nf,
+			nf_user_id: req.user.id,
+			nf_user_name: req.user.name,
+			nf_confirmation_date: new Date().getTime(),
+			status: "Ag. envio"
+		};
+
+		try {
+			await Sale.confirmNF(sale);
+			res.send({ done: "Nota fiscal anexada com sucesso!" });
+		} catch (err){
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao anexar a NF, favor contatar o suporte." });
+		};
+	},
+	confirmShipment: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		};
+
+		let sale = {
+			id: req.params.id,
+			shipment_user_id: req.user.id,
+			shipment_user_name: req.user.name,
+			shipment_confirmation_date: new Date().getTime(),
+			status: "Enviado"
+		};
+
+		try {
+			await Sale.confirmShipment(sale);
+			res.send({ done: "Envio confirmado com sucesso!" });
 		} catch (err){
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });

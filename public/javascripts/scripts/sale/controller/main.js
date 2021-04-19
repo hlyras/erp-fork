@@ -86,6 +86,7 @@ if(Sale.controller.save){
 		lib.localStorage.remove("sale-package-kart");
 		Sale.package.kart.list("Sale.package.kart", Sale.package.kart.props);
 
+		if(sale.id){ Sale.controller.filter.submit.click(); };
 		alert("Venda confirmada\n código: #"+sale.id+"\n data: "+lib.timestampToDate(sale.sale_date)+"\n previsão de envio: "+lib.timestampToDate(sale.estimated_shipment_date)+"\n cliente: "+sale.customer_name+"\n Método de pagamento: "+sale.payment_method+"\n status: "+sale.status+"\n Valor: "+sale.value);
 		if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
 	});
@@ -142,8 +143,30 @@ Sale.controller.edit = async sale_id => {
 	if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = ""; };
 };
 
-Sale.controller.attachNF = async sale_id => {
-	console.log(sale_id, document.getElementById("sale-nf-url").value);
+Sale.controller.cancel = async sale_id => {
+	let r = confirm("Deseja cancelar a venda?");
+	if(r){
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		let response = await Sale.cancel(sale_id);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!response){ return false; };
+		alert(response);
+		Sale.controller.filter.submit.click();
+	};
+};
+
+Sale.controller.confirmNF = async sale_id => {
+	let r = confirm("Deseja confirmar anexo de Nota Fiscal?");
+	if(r){
+		let sale = { id: sale_id, nf: document.getElementById("sale-nf-url").value };
+		console.log(sale);
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		let response = await Sale.confirmNF(sale);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!response){ return false; };
+		alert(response);
+		Sale.controller.filter.submit.click();
+	};
 };
 
 Sale.pos = {

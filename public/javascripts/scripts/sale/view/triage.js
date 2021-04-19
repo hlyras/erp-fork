@@ -56,6 +56,26 @@ Sale.view.filter = (sales, setup) => {
 					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
 				html += "</div>";
 			};
+		} else if(setup.status == "Ag. envio"){
+			for(let i = setup.page * setup.pageSize; i < sales.length&& i < (setup.page + 1) * setup.pageSize; i++){
+				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
+					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
+					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
+				html += "</div>";
+			};
+		} else if(setup.status == "Enviado"){
+			for(let i = setup.page * setup.pageSize; i < sales.length&& i < (setup.page + 1) * setup.pageSize; i++){
+				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
+					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
+					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
+				html += "</div>";
+			};
 		};
 	} else {
 		html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";

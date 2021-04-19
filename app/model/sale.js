@@ -55,6 +55,11 @@ Sale.update = async (sale) => {
 	return db(query);
 };
 
+Sale.cancel = async (sale) => {
+	let query = "UPDATE cms_wt_erp.sale SET cancelation_confirmation_date='"+sale.cancelation_confirmation_date+"', cancelation_user_id='"+sale.cancelation_user_id+"', cancelation_user_name='"+sale.cancelation_user_name+"', status='"+sale.status+"' WHERE id='"+sale.id+"';";
+	return db(query);
+};
+
 Sale.filter = (periodStart, periodEnd, params, values, strict_params, strict_values) => {
 	let query = lib.filter_by_period_params_strict("cms_wt_erp.sale", "sale_date", periodStart, periodEnd, params, values, strict_params, strict_values, "id", "DESC");
 	return db(query);
@@ -72,6 +77,16 @@ Sale.confirmPayment = async (sale) => {
 
 Sale.confirmPackment = async (sale) => {
 	let query = "UPDATE cms_wt_erp.sale SET packment_confirmation_date='"+sale.packment_confirmation_date+"', packment_user_id='"+sale.packment_user_id+"', packment_user_name='"+sale.packment_user_name+"', status='"+sale.status+"' WHERE id='"+sale.id+"';";
+	return db(query);
+};
+
+Sale.confirmNF = async (sale) => {
+	let query = "UPDATE cms_wt_erp.sale SET nf='"+sale.nf+"', nf_confirmation_date='"+sale.nf_confirmation_date+"', nf_user_id='"+sale.nf_user_id+"', nf_user_name='"+sale.nf_user_name+"', status='"+sale.status+"' WHERE id='"+sale.id+"';";
+	return db(query);
+};
+
+Sale.confirmShipment = async (sale) => {
+	let query = "UPDATE cms_wt_erp.sale SET shipment_confirmation_date='"+sale.shipment_confirmation_date+"', shipment_user_id='"+sale.shipment_user_id+"', shipment_user_name='"+sale.shipment_user_name+"', status='"+sale.status+"' WHERE id='"+sale.id+"';";
 	return db(query);
 };
 

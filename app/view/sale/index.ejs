@@ -6,32 +6,137 @@
         <% include ./../partials/header %>
         <% include ./../partials/nav %>
         <section>
-            <div class="container">
-                <form id="sale-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
-                    <input type="text" name="customer_name" placeholder="Nome" class="box b3 input-generic center margin-top-5" autocomplete="off">
-                    <input type="text" name="customer_cnpj" placeholder="CNPJ" class="box b3 input-generic center margin-top-5" autocomplete="off">
-                    <select name="status" class="box b3 input-generic margin-top-5 hide-disabled">
-                        <option value="Ag. pagamento">Ag. pagamento</option>
-                    </select>
-                    <input type="date" name="periodStart" class="box b3 input-generic center margin-top-5" autocomplete="off">
-                    <input type="date" name="periodEnd" class="box b3 input-generic center margin-top-5" autocomplete="off">
-                    <input type="submit" name="submit" class="box b3 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
-                </form>
-                <div id="sale-filter-box" class="box one ground" style="display:none">
-                    <div id="sale-filter-div" class="box one"></div>
-                    <% include ./../partials/carousel %>
+            <div id="sale-edit-box" class="container margin-bottom-15">
+                <input type="text" id="sale-id" value="" hidden>
+                <div class="box one ground container margin-top-10">
+                    <div class="box two ground padding-10">
+                        <h5 class="underline center">Buscar Cliente</h5>
+                        <div class="box one container dropdown ground margin-top-5">
+                            <ul class="box one container">
+                                <li>
+                                    <input type="text" id="sale-customer" data-id="" class="box one input-generic center" oninput="Sale.customer.controller.filter.input(this, 'sale-customer-dropdown')" placeholder="Digite o Nome do cliente ou CNPJ" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                    <ul id="sale-customer-dropdown" class="box one"></ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="sale-customer-address-box" class="box two ground padding-5"></div>
                 </div>
-                <div id="sale-show-box" class="box one container ground margin-top-10"></div>
+                <div class="box one container center ground padding-10 margin-top-10">
+                    <div class="box two container ground padding-10">
+                        <h5 class="underline center">Produtos</h5>
+                        <form id="sale-product-kart-form" class="box one container">
+                            <div class="mobile-box two-thirds container dropdown ground margin-top-5">
+                                <ul class="box one container">
+                                    <li>
+                                        <input type="text" id="sale-product-kart-dropdown-input" name="product" data-id="" class="box one input-generic center" oninput="Sale.product.controller.dropdown.filter(this, 'sale-product-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                        <ul id="sale-product-kart-dropdown" class="box one"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <input type="number" name="amount" class="mobile-box six input-generic center margin-top-5" placeholder="Qtd">
+                            <button type="submit" name="submit" class="mobile-box six submit-generic center margin-top-5 pointer"><img class='img-tbl-btn' src="/images/icon/increase.png"></button>
+                        </form>
+                        <div id="sale-product-kart-div" class="box one container"></div>
+                    </div>
+                    <div class="box two container ground padding-10">
+                        <h5 class="underline center">Pacotes</h5>
+                        <form id="sale-package-kart-form" class="box one container">
+                            <input type="hidden" name="id" value="">
+                            <div class="mobile-box two-thirds container dropdown ground margin-top-5">
+                                <ul class="box one container">
+                                    <li>
+                                        <input type="text" id="sale-package-kart-dropdown-input" name="package" data-id="" class="box one input-generic center" oninput="Sale.package.controller.dropdown.filter(this, 'sale-package-kart-dropdown')" placeholder="Descrição do pacote" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                                        <ul id="sale-package-kart-dropdown" class="box one"></ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <input type="number" name="amount" class="mobile-box six input-generic center margin-top-5" placeholder="Qtd">
+                            <button type="submit" name="submit" class="mobile-box six submit-generic margin-top-5 pointer"><img class='img-tbl-btn' src="/images/icon/increase.png"></button>
+                        </form>
+                        <div id="sale-package-kart-div" class="box one container"></div>
+                    </div>
+                </div>
+                <div class="box two container ground padding-10 margin-top-10">
+                    <div class="box b1 container ground">
+                        <select id="shipment-method" class="box one input-explicit margin-top-5 hide-disabled">
+                            <option value="" disabled selected>Forma de entrega</option>
+                            <option value="Retirada em Loja">Retirada em Loja</option>
+                            <option value="Correios Pac">Correios Pac</option>
+                            <option value="Correios sedex">Correios Sedex</option>
+                            <option value="Jadlog">Jadlog</option>
+                            <option value="Total Express">Total Express</option>
+                            <option value="Braspress">Braspress</option>
+                            <option value="Latam">Latam</option>
+                        </select>
+                        <select id="payment-method" class="box one input-explicit margin-top-5 hide-disabled">
+                            <option value="" disabled selected>Forma de Pagamento</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Transferência">Transferência</option>
+                            <option value="Pix">Pix</option>
+                            <option value="Faturado">Faturado</option>
+                            <option value="Cheque">Cheque</option>
+                            <option value="Débito">Débito</option>
+                            <option value="Crédito">Crédito</option>
+                        </select>
+                        <select id="payment-period" class="box one input-explicit margin-top-5 hide-disabled">
+                            <option value="" disabled selected>Prazo de Pagamento</option>
+                            <option value="1">À Vista</option>
+                            <option value="15">15 dias</option>
+                            <option value="30">30 dias</option>
+                            <option value="45">45 dias</option>
+                            <option value="60">60 dias</option>
+                            <option value="75">75 dias</option>
+                            <option value="90">90 dias</option>
+                        </select>
+                        <select id="status" class="box one input-explicit margin-top-5 hide-disabled">
+                            <option value="" disabled selected>Status da venda</option>
+                            <option value="Em negociação">Em negociação</option>
+                            <option value="Ag. pagamento">Ag. pagamento</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="box two ground padding-10 margin-top-10">
+                    <div class="box one container padding-5">
+                        <div class="mobile-box two center">Valor dos produtos:</div>
+                        <div id="sale-product-value" class="mobile-box two center bold">$0,00</div>
+                        <div class="mobile-box two center">Valor dos pacotes:</div>
+                        <div id="sale-package-value" class="mobile-box two center bold">$0,00</div>
+                        <div class="mobile-box two center">Valor do frete:</div>
+                        <input type="number" id="sale-shipment-value" class="mobile-box two border padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+                        <div class="mobile-box two center">Valor do desconto:</div>
+                        <input type="number" id="sale-discount-value" class="mobile-box two border padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+                        <div class="mobile-box two center"></div>
+                        <div class="mobile-box two underline"></div>
+                        <div class="mobile-box two center">Valor total:</div>
+                        <div id="sale-value" class="mobile-box two center bold">$0.00</div>
+                    </div>
+                    <input type="button" id="sale-create-submit" class="box one input-confirm bold margin-top-5" value="CONFIRMAR VENDA">
+                </div>
             </div>
         </section>
         <% include ./../partials/loader %>
     </body>
     <footer>
         <% include ./../partials/footer %>
-        <!-- <% include ./partial %> -->
+        <% include ./partial %>
 
-        <script src="/javascripts/scripts/sale/model/main.js"></script>
-        <script src="/javascripts/scripts/sale/controller/triage.js"></script>
-        <script src="/javascripts/scripts/sale/view/triage.js"></script>
+        <script src="/javascripts/scripts/product/model/main.js"></script>
+        <script src="/javascripts/scripts/customer/model/main.js"></script>
+        <script src="/javascripts/scripts/customer/model/address.js"></script>
+        <script src="/javascripts/scripts/product/model/package.js"></script>
+
+        <script src="/javascripts/scripts/sale/model/customer.js"></script>
+        <script src="/javascripts/scripts/sale/model/product.js"></script>
+        <script src="/javascripts/scripts/sale/model/package.js"></script>
+
+        <script src="/javascripts/scripts/sale/view/customer.js"></script>
+        <script src="/javascripts/scripts/sale/controller/customer.js"></script>
+
+        <script src="/javascripts/scripts/sale/view/product.js"></script>
+        <script src="/javascripts/scripts/sale/controller/product.js"></script>
+
+        <script src="/javascripts/scripts/sale/view/package.js"></script>
+        <script src="/javascripts/scripts/sale/controller/package.js"></script>
     </footer>
 </html>

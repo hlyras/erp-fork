@@ -22,7 +22,7 @@ Sale.view.filter = (sales, setup) => {
 					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
 					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
 					html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/edit.png' onclick='Sale.controller.edit("+sales[i].id+")'></div>";
-					html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/trash.png' onclick='Sale.controller.delete("+sales[i].id+")'></div>";
+					html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/trash.png' onclick='Sale.controller.cancel("+sales[i].id+")'></div>";
 				html += "</div>";
 			};
 		} else if(setup.status == "Ag. pagamento"){
@@ -55,7 +55,27 @@ Sale.view.filter = (sales, setup) => {
 					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
 				html += "</div>";
 			};
-		}
+		} else if(setup.status == "Ag. envio"){
+			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
+				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
+					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
+					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
+				html += "</div>";
+			};
+		} else if(setup.status == "Cancelada"){
+			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
+				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
+					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
+					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
+				html += "</div>";
+			};
+		};
 	} else {
 		html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
 			html += "<div class='mobile-box b1 center padding-5 border margin-top-5'>Sem resultados</div>";
@@ -174,7 +194,7 @@ Sale.view.show = (sale, status) => {
 
 	if(status == "Ag. nota fiscal"){
 		html += "<input type='text' id='sale-nf-url' class='box b3-4 input-generic margin-top-10' placeholder='URL da nota fiscal'>";
-		html += "<input type='button' class='box b4 submit-generic margin-top-10' onclick='Sale.controller.attachNF(`"+sale.id+"`)' value='Anexar NF'>";
+		html += "<input type='button' class='box b4 submit-generic margin-top-10' onclick='Sale.controller.confirmNF(`"+sale.id+"`)' value='Anexar NF'>";
 	};
 
 	document.getElementById("sale-show-box").innerHTML = html;

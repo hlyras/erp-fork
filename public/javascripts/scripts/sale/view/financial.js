@@ -28,7 +28,7 @@ Sale.view.filter = (sales, setup) => {
 		} else if(setup.status == "Ag. pagamento"){
 			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
 				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`)'><h4>"+sales[i].id+"</h4></div>";
+					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
 					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
 					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
 					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
@@ -45,8 +45,8 @@ Sale.view.filter = (sales, setup) => {
 	document.getElementById("sale-filter-div").innerHTML = html;
 };
 
-Sale.view.show = (sale) => {
-	console.log(sale);
+Sale.view.show = (sale, status) => {
+	console.log(status)
 	let html = "";
 	html += "<div class='box a1 underline center avant-garde margin-top-10 bold'>Dados da venda #"+sale.id+"</div>";
 	html += "<div class='box b3 container'>";
@@ -155,7 +155,7 @@ Sale.view.show = (sale) => {
 		html += "</div>";
 	html += "</div>";
 
-    html += "<input type='button' id='sale-create-submit' class='box b1 height-35 input-confirm bold margin-top-15 margin-bottom-15' value='CONFIRMAR PAGAMENTO' onclick='Sale.controller.confirmPayment("+sale.id+")'>";
+    if(status == "Ag. pagamento"){ html += "<input type='button' id='sale-create-submit' class='box b1 height-35 input-confirm bold margin-top-15 margin-bottom-15' value='CONFIRMAR PAGAMENTO' onclick='Sale.controller.confirmPayment("+sale.id+")'>"; };
 
 	document.getElementById("sale-show-box").innerHTML = html;
 };
