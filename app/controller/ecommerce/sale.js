@@ -278,6 +278,9 @@ const saleController = {
 		let params = [];
 		let values = [];
 
+		let strict_params = [];
+		let strict_values = [];
+
 		let periodStart = ""; 
 		let periodEnd = "";
 
@@ -309,8 +312,13 @@ const saleController = {
 			values.push(req.body.sale.tracker);
 		};
 
+		if(req.body.sale.status){
+			strict_params.push("status");
+			strict_values.push(req.body.sale.status);
+		};
+
 		try {
-			let sales = await Sale.filter(periodStart, periodEnd, req.body.sale.status, params, values);
+			let sales = await Sale.filter(periodStart, periodEnd, params, values, strict_params, strict_values);
 			res.send({ sales });
 		} catch (err) {
 			console.log(err);
