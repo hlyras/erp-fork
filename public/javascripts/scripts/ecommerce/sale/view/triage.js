@@ -40,7 +40,7 @@ Ecommerce.sale.view.triage.show = (sale) => {
 			html += "<h5 class='mobile-box four margin-top-5'>Código da venda</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.code+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Data</h5>";
-			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+lib.timestampToDate(sale.datetime)+"</div>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+lib.timestampToFulldate(sale.datetime)+"</div>";
 		html += "</div>";
 		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
 			html += "<div class='box one underline center bold'>Dados operacionais</div>";
@@ -48,8 +48,12 @@ Ecommerce.sale.view.triage.show = (sale) => {
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.status+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Rastreio</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.tracker+"</div>";
-			html += "<h5 class='mobile-box four margin-top-5'>Usuário</h5>";
-			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.user_name+"</div>";
+			if(sale.date){
+				html += "<h5 class='mobile-box four margin-top-5'>Usuário</h5>";
+				html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.user_name+"</div>";
+				html += "<h5 class='mobile-box four margin-top-5'>Hora da coleta</h5>";
+				html += "<div class='mobile-box three-fourths margin-top-5 center'>"+lib.timestampToFulldate(sale.date)+"</div>";
+			};
 		html += "</div>";
 	html += "</div>";
 

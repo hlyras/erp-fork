@@ -70,7 +70,7 @@ Sale.changeStatus = async (sale) => {
 };
 
 Sale.filter = (periodStart, periodEnd, params, values, strict_params, strict_values) => {
-	let query = lib.filter_by_period_params_strict("cms_wt_erp.ecommerce_sale", "datetime", periodStart, periodEnd, params, values, strict_params, strict_values, "id", "ASC");
+	let query = lib.filter_by_period_params_strict("cms_wt_erp.ecommerce_sale", "datetime", periodStart, periodEnd, params, values, strict_params, strict_values, "datetime", "ASC");
 	return db(query);
 };
 

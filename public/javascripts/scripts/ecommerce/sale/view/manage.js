@@ -145,7 +145,7 @@ Ecommerce.sale.view.manage.show = (sale) => {
 			html += "<h5 class='mobile-box four margin-top-5'>Data</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+lib.timestampToDate(sale.datetime)+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Coleta</h5>";
-			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+lib.timestampToDate(sale.date)+"</div>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+lib.timestampToFulldate(sale.date)+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Embalo</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.packing_datetime+"</div>";
 		html += "</div>";
