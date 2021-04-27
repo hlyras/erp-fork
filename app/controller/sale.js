@@ -9,7 +9,7 @@ const Customer = require('../model/customer');
 
 const saleController = {
 	index: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ["adm", "com-sel"])){
+		if(!await userController.verifyAccess(req, res, ["adm", "com-sel","adm-aud"])){
 			return res.redirect('/');
 		};
 
@@ -34,7 +34,7 @@ const saleController = {
 		};
 	},
 	manage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
+		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-aud"])){
 			return res.redirect('/');
 		};
 
@@ -46,7 +46,7 @@ const saleController = {
 		};
 	},
 	triage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','log-pac','COR-GER'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man',"com-sel", "adm-aud", 'log-pac','COR-GER'])){
 			return res.redirect('/');
 		};
 
@@ -58,7 +58,7 @@ const saleController = {
 		};
 	},
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
+		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-aud"])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -223,7 +223,7 @@ const saleController = {
 		};
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','com-sel','pro-man','COR-GER','log-pac','fin'])){
+		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-aud",'pro-man','COR-GER','log-pac','fin'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -273,7 +273,7 @@ const saleController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','com-sel','pro-man','COR-GER','log-pac','fin'])){
+		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-aud",'pro-man','COR-GER','log-pac','fin'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -300,7 +300,7 @@ const saleController = {
 		};
 	},
 	cancel: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
+		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-aud"])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -343,7 +343,7 @@ const saleController = {
 		};
 	},
 	confirmPackment: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','com-sel','pro-man','COR-GER','log-pac'])){
+		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-aud",'pro-man','COR-GER','log-pac'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -364,7 +364,7 @@ const saleController = {
 		};
 	},
 	confirmNF: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
+		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-aud"])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -386,7 +386,7 @@ const saleController = {
 		};
 	},
 	confirmShipment: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','com-sel','COR-GER'])){
+		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-aud",'COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 

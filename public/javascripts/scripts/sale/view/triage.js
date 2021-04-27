@@ -135,9 +135,7 @@ Sale.view.show = (sale, status) => {
 		for(let i in sale.products){
 			html += "<div class='box one one container ground box-hover border-explicit padding-10 margin-top-5'>";
 				html += "<div class='mobile-box b2'>"+sale.products[i].product_info+"</div>";
-				html += "<div class='mobile-box b6 center'>"+sale.products[i].amount+"un</div>";
-				html += "<div class='mobile-box b6 center'>$"+sale.products[i].price+"</div>";
-				html += "<div class='mobile-box b6 center'>$"+(sale.products[i].amount*sale.products[i].price).toFixed(2)+"</div>";
+				html += "<div class='mobile-box b6 center bold'>"+sale.products[i].amount+"un</div>";
 			html += "</div>";
 		};
 		html += "</div>";
@@ -151,16 +149,14 @@ Sale.view.show = (sale, status) => {
 				html += "<div class='box one container padding-10'>";
 					html += "<div class='mobile-box b8 center pointer box-hover border-explicit' onclick='lib.displayDiv(`sale-show-package-product-"+sale.packages[i].package_id+"-div`, this);'>P"+sale.packages[i].package_id+"</div>";
 					html += "<div class='mobile-box b2 center'>"+sale.packages[i].info+"</div>";
+					html += "<div class='mobile-box b3 center margin-top-5 bold'>"+sale.packages[i].amount+"un</div>";
 					html += "<h5 class='mobile-box b3-8 center'>"+sale.packages[i].setup+"</h5>";
-					html += "<div class='mobile-box b3 center margin-top-5'>"+sale.packages[i].amount+"un</div>";
-					html += "<div class='mobile-box b3 center margin-top-5'>$"+sale.packages[i].price+"</div>";
-					html += "<div class='mobile-box b3 center margin-top-5'>$"+(sale.packages[i].amount*sale.packages[i].price).toFixed(2)+"</div>";
 				html += "</div>";
 				html += "<div id='sale-show-package-product-"+sale.packages[i].package_id+"-div' class='box one container' style='display:none'>";
 				for(let j in sale.packages[i].products){
 					html += "<div class='box one container border box-hover padding-5 margin-top-5'>";
-						html += "<div class='mobile-box five center'>"+sale.packages[i].products[j].amount+"un</div>";
-						html += "<div class='mobile-box four-fifths'>"+sale.packages[i].products[j].product_info+"</div>";
+						html += "<div class='mobile-box b5 center'>"+sale.packages[i].products[j].amount+"un</div>";
+						html += "<div class='mobile-box b4-5'>"+sale.packages[i].products[j].product_info+"</div>";
 					html += "</div>";
 				};
 				html += "</div>";
