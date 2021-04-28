@@ -35,6 +35,7 @@ Ecommerce.sale.view.edit = (sale) => {
 	document.getElementById("ecommerce-sale-create-form").elements.namedItem("datetime").value = lib.timestampToDatetime(sale.datetime);
 	document.getElementById("ecommerce-sale-create-form").elements.namedItem("tracker").value = sale.tracker;
 	document.getElementById("ecommerce-sale-create-form").elements.namedItem("status").value = sale.status;
+	document.getElementById("ecommerce-sale-create-form").elements.namedItem("obs").value = sale.obs;
 
 	for(let i in sale.products){
 		sale.products[i].code = sale.products[i].info.split(" | ")[0];

@@ -6,8 +6,9 @@ Ecommerce.sale.view.triage.filter = (sales, pagination) => {
 		html += "</div>";
 		for(let i in sales){
 			html += "<div class='box one container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-				html += "<div class='mobile-box three border padding-5 center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.triage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
-				html += "<div class='mobile-box two-thirds border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
+				html += "<div class='mobile-box b3 border padding-5 center margin-top-5 tbl-show-link nowrap' onclick='Ecommerce.sale.controller.triage.show(`"+sales[i].id+"`)'><h4>"+sales[i].code+"</h4></div>";
+				html += "<div class='mobile-box b6 border padding-5 center margin-top-5'>"+sales[i].origin+"</div>";
+				html += "<div class='mobile-box b2 border padding-5 center margin-top-5'>"+sales[i].customer_name+"</div>";
 				html += "<div class='mobile-box two border padding-5 center margin-top-5'>"+sales[i].customer_user+"</div>";
 				html += "<div class='mobile-box two border padding-5 center margin-top-5'>"+lib.timestampToDate(sales[i].datetime)+"</div>";
 				html += "<div class='mobile-box three border padding-5 center margin-top-5'>"+sales[i].user_name+"</div>";
@@ -27,7 +28,7 @@ Ecommerce.sale.view.triage.filter = (sales, pagination) => {
 
 Ecommerce.sale.view.triage.show = (sale) => {
 	let html = "";
-	html += "<div class='box one container ground'>";
+	html += "<div class='box a1 container ground'>";
 		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
 			html += "<div class='box one underline center bold'>Dados do cliente</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Nome</h5>";
@@ -37,25 +38,36 @@ Ecommerce.sale.view.triage.show = (sale) => {
 		html += "</div>";
 		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
 			html += "<div class='box one underline center bold'>Dados da venda</div>";
+			html += "<h5 class='mobile-box four margin-top-5'>Origem da venda</h5>";
+			html += "<div class='mobile-box three-fourths margin-top-5 center bold'>"+sale.origin+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Código da venda</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.code+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Data</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+lib.timestampToFulldate(sale.datetime)+"</div>";
-		html += "</div>";
-		html += "<div class='box container three border-explicit padding-10 margin-top-5'>";
-			html += "<div class='box one underline center bold'>Dados operacionais</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Status</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.status+"</div>";
 			html += "<h5 class='mobile-box four margin-top-5'>Rastreio</h5>";
 			html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.tracker+"</div>";
+		html += "</div>";
+		html += "<div class='box container b3 margin-top-5'>";
 			if(sale.date){
-				html += "<h5 class='mobile-box four margin-top-5'>Usuário</h5>";
-				html += "<div class='mobile-box three-fourths margin-top-5 center'>"+sale.user_name+"</div>";
-				html += "<h5 class='mobile-box four margin-top-5'>Hora da coleta</h5>";
-				html += "<div class='mobile-box three-fourths margin-top-5 center'>"+lib.timestampToFulldate(sale.date)+"</div>";
+				html += "<div class='box a1 border-explicit padding-5'>";
+				html += "<div class='box a1 em08 bold underline center'>Coleta</div>";
+				html += "<div class='box b1 margin-top-5 center'>"+sale.user_name+"</div>";
+				html += "<div class='box b1 margin-top-5 center'>"+lib.timestampToFulldate(sale.date)+"</div>";
+				html += "</div>"
+			};
+			if(sale.packing_datetime){
+				html += "<div class='box a1 border-explicit padding-5'>";
+				html += "<div class='box a1 em08 bold underline center'>Embalo</div>";
+				html += "<div class='box b1 margin-top-5 center'>"+sale.packing_user_name+"</div>";
+				html += "<div class='box b1 margin-top-5 center'>"+sale.packing_datetime+"</div>";
+				html += "</div>"
 			};
 		html += "</div>";
 	html += "</div>";
+
+	if(sale.obs){ html += "<div class='box b1 em15 border-explicit margin-top-5 margin-bottom-5 padding-10 center'>"+sale.obs+"</div>"; };
 
 	html += "<div class='box one container ground'>";
 		html += "<div class='box two container ground border padding-5 margin-top-5'>";

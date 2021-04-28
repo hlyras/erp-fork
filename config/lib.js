@@ -252,6 +252,18 @@ module.exports = {
 		query += "ORDER BY "+orderParam+" "+order+"";
 		return query;
 	},
+	insertParam: (param, value, params, values) => {
+		if(param && value && params && values){ params.push(param); values.push(value); } else { return false; };
+	},
+	fillDate: (period, periodStart_value, periodEnd_value) => {
+		if(periodStart_value && periodEnd_value){ 
+			period.start = periodStart_value; 
+			period.end = periodEnd_value; 
+		} else {
+			period.start = "";
+			period.end = ""; 
+		};
+	},
 	filter_by_period_params_strict: function(tbl, date, periodStart, periodEnd, params, values, strict_params, strict_values, orderParam, order){
 		let query = "";
 		query = "SELECT * FROM "+tbl+" ";

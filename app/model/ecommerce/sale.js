@@ -19,7 +19,7 @@ const Sale = function(){
 };
 
 Sale.save = async sale => {
-	let query = "INSERT INTO cms_wt_erp.ecommerce_sale (date, origin, code, customer_user, customer_name, customer_phone, datetime, os, status, tracker, user_id, user_name) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.ecommerce_sale (date, origin, code, customer_user, customer_name, customer_phone, datetime, os, status, tracker, obs, user_id, user_name) VALUES ('"
 		+sale.date+"', '"
 		+sale.origin+"', '"
 		+sale.code+"','"
@@ -30,6 +30,7 @@ Sale.save = async sale => {
 		+sale.os+"','"
 		+sale.status+"','"
 		+sale.tracker+"','"
+		+sale.obs+"','"
 		+sale.user_id+"','"
 		+sale.user_name+"');";
 	return db(query);
@@ -46,6 +47,7 @@ Sale.update = async (sale) => {
 		+"', os='"+sale.os
 		+"', status='"+sale.status
 		+"', tracker='"+sale.tracker
+		+"', obs='"+sale.obs
 		+"', user_id='"+sale.user_id
 		+"', user_name='"+sale.user_name+"' WHERE id='"+sale.id+"';";
 	return db(query);
@@ -69,8 +71,8 @@ Sale.changeStatus = async (sale) => {
 	return db(query);
 };
 
-Sale.filter = (periodStart, periodEnd, params, values, strict_params, strict_values) => {
-	let query = lib.filter_by_period_params_strict("cms_wt_erp.ecommerce_sale", "datetime", periodStart, periodEnd, params, values, strict_params, strict_values, "datetime", "ASC");
+Sale.filter = (period, params, values, strict_params, strict_values) => {
+	let query = lib.filter_by_period_params_strict("cms_wt_erp.ecommerce_sale", "datetime", period.start, period.end, params, values, strict_params, strict_values, "datetime", "ASC");
 	return db(query);
 };
 

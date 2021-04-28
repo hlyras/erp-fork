@@ -62,6 +62,7 @@ const saleController = {
 
 		let sale = req.body.sale;
 		sale.date = new Date().getTime();
+		sale.obs = req.body.sale.obs;
 		sale.products = JSON.parse(req.body.sale.products);
 		sale.product_actions = { add: [], update: [], remove: [] } ;
 		sale.packages = JSON.parse(req.body.sale.packages);
@@ -275,50 +276,20 @@ const saleController = {
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
-		let params = [];
-		let values = [];
-
-		let strict_params = [];
-		let strict_values = [];
-
-		let periodStart = ""; 
-		let periodEnd = "";
-
-		if(req.body.sale.periodStart && req.body.sale.periodEnd){
-			periodStart = req.body.sale.periodStart;
-			periodEnd = req.body.sale.periodEnd;
-		} else {
-			periodStart = "";
-			periodEnd = "";
-		};
-
-		if(req.body.sale.code){
-			params.push("code");
-			values.push(req.body.sale.code);
-		};
-
-		if(req.body.sale.customer_name){
-			params.push("customer_name");
-			values.push(req.body.sale.customer_name);
-		};
-
-		if(req.body.sale.customer_user){
-			params.push("customer_user");
-			values.push(req.body.sale.customer_user);
-		};
-
-		if(req.body.sale.tracker){
-			params.push("tracker");
-			values.push(req.body.sale.tracker);
-		};
-
-		if(req.body.sale.status){
-			strict_params.push("status");
-			strict_values.push(req.body.sale.status);
-		};
+		let params = []; let values = [];
+		let strict_params = []; let strict_values = [];
+		let period = { start: "", end: "" };
+		
+		lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
+		lib.insertParam("origin", req.body.sale.origin, params, values);
+		lib.insertParam("code", req.body.sale.code, params, values);
+		lib.insertParam("customer_name", req.body.sale.customer_name, params, values);
+		lib.insertParam("customer_user", req.body.sale.customer_user, params, values);
+		lib.insertParam("tracker", req.body.sale.tracker, params, values);
+		lib.insertParam("status", req.body.sale.status, strict_params, strict_values);
 
 		try {
-			let sales = await Sale.filter(periodStart, periodEnd, params, values, strict_params, strict_values);
+			let sales = await Sale.filter(period, params, values, strict_params, strict_values);
 			res.send({ sales });
 		} catch (err) {
 			console.log(err);

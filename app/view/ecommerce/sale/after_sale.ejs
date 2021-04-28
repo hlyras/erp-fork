@@ -40,8 +40,8 @@
         <script src="/javascripts/scripts/ecommerce/sale/controller/after_sale.js"></script>
 
         <script>
-            document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodStart").value = lib.timestampToDatetime(lib.genTimestamp() - 3024000000);
-            document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodEnd").value = lib.timestampToDatetime(lib.genTimestamp() - 2678400000);
+            document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodStart").value = lib.timestampToDatetime(lib.genTimestamp() - (lib.timestampDay()*36));
+            document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodEnd").value = lib.timestampToDatetime(lib.genTimestamp() - (lib.timestampDay()*31));
 
             Ecommerce.sale.controller.filter.submit.click();
         </script>

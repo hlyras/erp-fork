@@ -6,6 +6,9 @@ if(Ecommerce.sale.controller.filter){
 		event.preventDefault();
 
 		let sale = {
+			periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),
+			periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value),
+			origin: event.target.elements.namedItem("origin").value,
 			code: event.target.elements.namedItem("code").value,
 			customer_name: event.target.elements.namedItem("customer").value,
 			customer_user: event.target.elements.namedItem("customer").value,

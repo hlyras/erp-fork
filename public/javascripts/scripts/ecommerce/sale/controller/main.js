@@ -21,6 +21,7 @@ if(Ecommerce.sale.controller.save){
 			customer_phone: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-phone").value.trim(),
 			tracker: document.getElementById("ecommerce-sale-create-form").elements.namedItem("tracker").value.trim(),
 			status: document.getElementById("ecommerce-sale-create-form").elements.namedItem("status").value,
+			obs: document.getElementById("ecommerce-sale-create-form").elements.namedItem("obs").value,
 			products: JSON.stringify(Ecommerce.sale.product.kart.items),
 			packages: JSON.stringify(Ecommerce.sale.package.kart.items)
 		};
@@ -46,6 +47,8 @@ if(Ecommerce.sale.controller.save){
 		lib.localStorage.remove("ecommerce-sale-tracker");
 		document.getElementById("ecommerce-sale-create-form").elements.namedItem("status").value = "";
 		lib.localStorage.remove("ecommerce-sale-status");
+		document.getElementById("ecommerce-sale-create-form").elements.namedItem("obs").value = "";
+		lib.localStorage.remove("ecommerce-sale-obs");
 		Ecommerce.sale.product.kart.items = [];
 		lib.localStorage.remove("ecommerce-sale-product-kart");
 		Ecommerce.sale.package.kart.items = [];
@@ -75,8 +78,6 @@ if(Ecommerce.sale.controller.filter){
 			periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),
 			periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value)
 		};
-
-		console.log(sale);
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let sales = await Ecommerce.sale.filter(sale);
