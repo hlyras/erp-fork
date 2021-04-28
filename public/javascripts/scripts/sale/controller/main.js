@@ -1,5 +1,6 @@
 Sale.controller = {};
 
+
 lib.findCheckedInput = (radio_name) => {
 	let radios = document.getElementsByName(radio_name);
 	for(let i in radios){
@@ -10,6 +11,22 @@ lib.findCheckedInput = (radio_name) => {
 	radios = false;
 	radios.value = false;
 	return radios;
+};
+
+Sale.controller.category = document.getElementById("sale-category-select");
+if(Sale.controller.category){
+	Sale.controller.category.addEventListener("change", event => {
+		// console.log(event.target.value);
+		if(event.target.value == "Representantes"){
+			Sale.controller.category = 3;
+			document.getElementById("sale-category-select").style.display = "none";
+			document.getElementById("sale-edit-box").style.display = "";
+		} else if(event.target.value == "Atacado"){
+			Sale.controller.category = 2;
+			document.getElementById("sale-category-select").style.display = "none";
+			document.getElementById("sale-edit-box").style.display = "";
+		};
+	});
 };
 
 Sale.controller.save = document.getElementById("sale-create-submit");

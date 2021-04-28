@@ -62,7 +62,7 @@ if(Sale.package.kart.add){
 		};
 
 
-		let price = { category_id: 3, package_id: package.id };
+		let price = { category_id: Sale.controller.category, package_id: package.id };
 		
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		price = await Sale.package.price.find(price);
