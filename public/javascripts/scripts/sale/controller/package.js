@@ -77,7 +77,7 @@ if(Sale.package.kart.add){
 		Sale.package.kart.insert("id", package);
 		Sale.package.kart.update("code");
 
-		let stringified_kart = JSON.stringify(Sale.package.kart.items);
+		// let stringified_kart = JSON.stringify(Sale.package.kart.items);
 		// lib.localStorage.update(Sale.package.kart.name, stringified_kart);
 
 		for(let i in Sale.package.kart.items){

@@ -1,7 +1,6 @@
 Sale.controller = {};
 
-
-lib.findCheckedInput = (radio_name) => {
+lib.findCheckedRadios = (radio_name) => {
 	let radios = document.getElementsByName(radio_name);
 	for(let i in radios){
 		if(radios[i].checked){
@@ -16,15 +15,14 @@ lib.findCheckedInput = (radio_name) => {
 Sale.controller.category = document.getElementById("sale-category-select");
 if(Sale.controller.category){
 	Sale.controller.category.addEventListener("change", event => {
-		// console.log(event.target.value);
 		if(event.target.value == "Representantes"){
+			document.getElementById("sale-category-select").style.display = "none";
+			document.getElementById("sale-edit-box").style.display = "";
 			Sale.controller.category = 3;
-			document.getElementById("sale-category-select").style.display = "none";
-			document.getElementById("sale-edit-box").style.display = "";
 		} else if(event.target.value == "Atacado"){
-			Sale.controller.category = 2;
 			document.getElementById("sale-category-select").style.display = "none";
 			document.getElementById("sale-edit-box").style.display = "";
+			Sale.controller.category = 2;
 		};
 	});
 };
@@ -50,7 +48,7 @@ if(Sale.controller.save){
 			sale_date: lib.dateToTimestamp(lib.genPatternDate()),
 			customer_id: customer.id,
 			customer_name: customer[0],
-			customer_address_id: lib.findCheckedInput("sale-customer-address").value,
+			customer_address_id: lib.findCheckedRadios("sale-customer-address").value,
 			products: JSON.stringify(Sale.product.kart.items),
 			packages: JSON.stringify(Sale.package.kart.items),
 			shipment_method: document.getElementById("shipment-method").value,
@@ -59,10 +57,12 @@ if(Sale.controller.save){
 			status: document.getElementById("status").value,
 			product_value: Sale.product.kart.total_value,
 			package_value: Sale.package.kart.total_value,
-			shipment_value: Sale.pos.shipment_value,
-			discount_value: Sale.pos.discount_value,
+			shipment_value: Sale.pos.shipment_value.value,
+			discount_value: Sale.pos.discount_value.value,
 			value: Sale.pos.total_value
 		};
+
+		console.log(sale);
 
 		if(customer.person_type == "legal-entity"){ sale.customer_cnpj = customer[3]; }
 		else if(customer.person_type == "natural-person"){ sale.customer_cnpj = customer[1]; }
@@ -94,6 +94,10 @@ if(Sale.controller.save){
 		Sale.pos.discount = 0;
 		document.getElementById("sale-discount-value").value = '0.00';
 		lib.localStorage.remove("sale-discount-value");
+
+		Sale.pos.shipment = 0;
+		document.getElementById("sale-shipment-value").value = '0.00';
+		lib.localStorage.remove("sale-shipment-value");
 
 		Sale.product.kart.items = [];
 		lib.localStorage.remove("sale-product-kart");
@@ -129,6 +133,7 @@ if(Sale.controller.filter){
 		document.getElementById("sale-filter-box").style.display = "";
 		document.getElementById("sale-show-box").style.display = "none";
 		if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
+		if(document.getElementById("sale-category-select")){ document.getElementById("sale-category-select").style.display = "none"; };
 
 		const setup = { pageSize: 10, page: 0, status: sale.status };
 		$(() => { lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, setup); });
@@ -145,6 +150,7 @@ Sale.controller.show = async (sale_id, status) => {
 	document.getElementById("sale-filter-box").style.display = "none";
 	document.getElementById("sale-show-box").style.display = "";
 	if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
+	if(document.getElementById("sale-category-select")){ document.getElementById("sale-category-select").style.display = "none"; };
 };
 
 Sale.controller.edit = async sale_id => {
@@ -157,7 +163,7 @@ Sale.controller.edit = async sale_id => {
 
 	document.getElementById("sale-filter-box").style.display = "none";
 	document.getElementById("sale-show-box").style.display = "none";
-	if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = ""; };
+	if(document.getElementById("sale-category-select")){ document.getElementById("sale-category-select").style.display = ""; };
 };
 
 Sale.controller.cancel = async sale_id => {
