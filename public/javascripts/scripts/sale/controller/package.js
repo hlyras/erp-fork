@@ -61,8 +61,9 @@ if(Sale.package.kart.add){
 			};
 		};
 
+		console.log(Sale.controller.category.value);
 
-		let price = { category_id: Sale.controller.category, package_id: package.id };
+		let price = { category_id: parseInt(Sale.controller.category.value), package_id: package.id };
 		
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		price = await Sale.package.price.find(price);

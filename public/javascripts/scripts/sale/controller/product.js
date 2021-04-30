@@ -58,7 +58,7 @@ if(Sale.product.kart.add){
 			amount: parseInt(amount)
 		};
 
-		let price = { category_id: Sale.controller.category, product_id: product.id };
+		let price = { category_id: parseInt(Sale.controller.category.value), product_id: product.id };
 		
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		price = await Sale.product.price.find(price);
