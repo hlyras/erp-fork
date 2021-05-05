@@ -61,8 +61,6 @@ if(Sale.package.kart.add){
 			};
 		};
 
-		console.log(Sale.controller.category.value);
-
 		let price = { category_id: parseInt(Sale.controller.category.value), package_id: package.id };
 		
 		document.getElementById('ajax-loader').style.visibility = 'visible';
@@ -80,6 +78,10 @@ if(Sale.package.kart.add){
 
 		// let stringified_kart = JSON.stringify(Sale.package.kart.items);
 		// lib.localStorage.update(Sale.package.kart.name, stringified_kart);
+
+		for(let i in Sale.package.product){
+			console.log(Sale.package.product[i]);
+		};
 
 		for(let i in Sale.package.kart.items){
 			Sale.package.product["kart"+Sale.package.kart.items[i].package_id] = new lib.kart("sale-package-product-kart"+Sale.package.kart.items[i].package_id, "Sale.package.product.kart"+Sale.package.kart.items[i].package_id, [{"product_info":"Descrição"}]);
@@ -271,6 +273,13 @@ Sale.package.kart.set = (id) => {
 			Sale.package.product["kart"+id].list(Sale.package.product["kart"+id].name, Sale.package.product["kart"+id].props);
 
 			Sale.package.updateSetup(id);
+
+			// for(let i in Sale.package.kart.items){
+			// 	if(Sale.package.kart.items[i].id == id){
+			// 		Sale.package.kart.items[i].items = Sale.package.product["kart"+id].items;
+			// 		console.log(Sale.package.kart.items[i].items); 
+			// 	};
+			// };
 
 			event.target.elements.namedItem("product").dataset.id = "";
 			event.target.elements.namedItem("product").value = "";

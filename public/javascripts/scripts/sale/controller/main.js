@@ -203,9 +203,6 @@ Sale.pos = {
 Sale.pos.updateValue = () => {
 	Sale.pos.total_value = 0;
 
-	console.log(Sale.pos.discount_value);
-	console.log(Sale.pos.shipment_value);
-
 	if(isNaN(Sale.product.kart.total_value)){ Sale.product.kart.total_value = 0; } else { Sale.pos.total_value += Sale.product.kart.total_value };
 	if(isNaN(Sale.package.kart.total_value)){ Sale.package.kart.total_value = 0; } else { Sale.pos.total_value += Sale.package.kart.total_value };
 	if(!isNaN(Sale.pos.discount_value)){ Sale.pos.total_value -= Sale.pos.discount_value; };
@@ -221,7 +218,7 @@ if(Sale.discount_value){
 
 		if(!Sale.discount_value){
 			Sale.pos.discount_value = 0;
-			document.getElementById("sale-discount-value").value = 0;
+			document.getElementById("sale-discount-value").value = Sale.pos.discount_value.toFixed(2);
 		} else {
 			document.getElementById("sale-discount-value").value = Sale.pos.discount_value.toFixed(2);
 		};
@@ -236,7 +233,7 @@ if(Sale.shipment_value){
 
 		if(!Sale.shipment_value){
 			Sale.pos.shipment_value = 0;
-			document.getElementById("sale-shipment-value").value = Sale.pos.shipment_value;
+			document.getElementById("sale-shipment-value").value = Sale.pos.shipment_value.toFixed(2);
 		} else {
 			document.getElementById("sale-shipment-value").value = Sale.pos.shipment_value.toFixed(2);
 		};

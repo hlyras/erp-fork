@@ -269,4 +269,6 @@ Sale.view.edit = async (sale) => {
 
 	Sale.package.kart.list("Sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"}]);
 	for(let i in Sale.package.product){ Sale.package.kart.set(Sale.package.product[i].id); };
+
+	console.log(Sale.package);
 };
