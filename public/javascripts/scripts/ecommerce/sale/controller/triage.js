@@ -10,8 +10,8 @@ if(Ecommerce.sale.controller.filter){
 			periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value),
 			origin: event.target.elements.namedItem("origin").value,
 			code: event.target.elements.namedItem("code").value,
-			customer_name: event.target.elements.namedItem("customer").value,
-			customer_user: event.target.elements.namedItem("customer").value,
+			customer_name: event.target.elements.namedItem("customer_name").value,
+			customer_user: event.target.elements.namedItem("customer_user").value,
 			status: event.target.elements.namedItem("status").value,
 			tracker: event.target.elements.namedItem("tracker").value
 		};
