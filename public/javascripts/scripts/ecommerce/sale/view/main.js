@@ -56,15 +56,15 @@ Ecommerce.sale.view.edit = (sale) => {
 
 	Ecommerce.sale.package.kart.items = sale.packages;
 
-	for(let i in Ecommerce.sale.package.kart.items){
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id] = new lib.kart("ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].id, "Ecommerce.sale.package.product.kart"+Ecommerce.sale.package.kart.items[i].id, [{"product_info":"Descrição"}]);
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].id = Ecommerce.sale.package.kart.items[i].id;
-		
-		for(let j in Ecommerce.sale.package.kart.items[i].products){
-			Ecommerce.sale.package.kart.items[i].products[j].product_code = Ecommerce.sale.package.kart.items[i].products[j].product_info.split(" | ")[0];		
-			Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].insert("id", Ecommerce.sale.package.kart.items[i].products[j]);
+	for(let i in sale.packages){
+		Ecommerce.sale.package.product["kart"+sale.packages[i].id] = new lib.kart("ecommerce-sale-package-product-kart"+sale.packages[i].id, "Ecommerce.sale.package.product.kart"+sale.packages[i].id, [{"product_info":"Descrição"}]);
+		Ecommerce.sale.package.product["kart"+sale.packages[i].id].id = sale.packages[i].id;
+
+		for(let j in sale.packages[i].products){
+			sale.packages[i].products[j].product_code = sale.packages[i].products[j].product_info.split(" | ")[0];		
+			Ecommerce.sale.package.product["kart"+sale.packages[i].id].insert("id", sale.packages[i].products[j]);
 		};
-		Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].id].update("product_code");
+		Ecommerce.sale.package.product["kart"+sale.packages[i].id].update("product_code");
 	};
 
 	Ecommerce.sale.package.kart.list("Ecommerce.sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"}]);

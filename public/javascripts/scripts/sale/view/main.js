@@ -256,19 +256,17 @@ Sale.view.edit = async (sale) => {
 
 	Sale.package.kart.items = sale.packages;
 
-	for(let i in Sale.package.kart.items){
-		Sale.package.product["kart"+Sale.package.kart.items[i].id] = new lib.kart("sale-package-product-kart"+Sale.package.kart.items[i].id, "Sale.package.product.kart"+Sale.package.kart.items[i].id, [{"product_info":"Descrição"}]);
-		Sale.package.product["kart"+Sale.package.kart.items[i].id].id = Sale.package.kart.items[i].id;
-		
-		for(let j in Sale.package.kart.items[i].products){
-			Sale.package.kart.items[i].products[j].product_code = Sale.package.kart.items[i].products[j].product_info.split(" | ")[0];		
-			Sale.package.product["kart"+Sale.package.kart.items[i].id].insert("id", Sale.package.kart.items[i].products[j]);
+	for(let i in sale.packages){
+		Sale.package.product["kart"+sale.packages[i].id] = new lib.kart("sale-package-product-kart"+sale.packages[i].id, "Sale.package.product.kart"+sale.packages[i].id, [{"product_info":"Descrição"}]);
+		Sale.package.product["kart"+sale.packages[i].id].id = sale.packages[i].id;
+
+		for(let j in sale.packages[i].products){
+			sale.packages[i].products[j].product_code = sale.packages[i].products[j].product_info.split(" | ")[0];		
+			Sale.package.product["kart"+sale.packages[i].id].insert("id", sale.packages[i].products[j]);
 		};
-		Sale.package.product["kart"+Sale.package.kart.items[i].id].update("product_code");
+		Sale.package.product["kart"+sale.packages[i].id].update("product_code");
 	};
 
 	Sale.package.kart.list("Sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"}]);
 	for(let i in Sale.package.product){ Sale.package.kart.set(Sale.package.product[i].id); };
-
-	console.log(Sale.package);
 };

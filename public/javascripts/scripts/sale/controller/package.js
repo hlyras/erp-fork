@@ -79,19 +79,23 @@ if(Sale.package.kart.add){
 		// let stringified_kart = JSON.stringify(Sale.package.kart.items);
 		// lib.localStorage.update(Sale.package.kart.name, stringified_kart);
 
-		for(let i in Sale.package.product){
-			console.log(Sale.package.product[i]);
-		};
-
-		for(let i in Sale.package.kart.items){
-			Sale.package.product["kart"+Sale.package.kart.items[i].package_id] = new lib.kart("sale-package-product-kart"+Sale.package.kart.items[i].package_id, "Sale.package.product.kart"+Sale.package.kart.items[i].package_id, [{"product_info":"Descrição"}]);
-			Sale.package.product["kart"+Sale.package.kart.items[i].package_id].id = Sale.package.kart.items[i].package_id;
-			
-			for(let j in Sale.package.kart.items[i].products){
-				Sale.package.product["kart"+Sale.package.kart.items[i].package_id].insert("product_id", Sale.package.kart.items[i].products[j]);
+		Sale.package.product = Sale.package.kart.items.reduce((kart_package, backup_package) => {
+			for(let i in Sale.package.product){
+				if(Sale.package.product[i].id == backup_package.id){
+					return Sale.package.product;
+				};
 			};
-			Sale.package.product["kart"+Sale.package.kart.items[i].package_id].update("product_code");
-		};
+
+			Sale.package.product["kart"+backup_package.id] = new lib.kart("sale-package-product-kart"+backup_package.id, "Sale.package.product.kart"+backup_package.id, [{"product_info":"Descrição"}]);
+			Sale.package.product["kart"+backup_package.id].id = backup_package.id;
+
+			for(let j in backup_package.products){
+				Sale.package.product["kart"+backup_package.id].insert("product_id", backup_package.products[j]);
+			};
+			Sale.package.product["kart"+backup_package.id].update("product_code");
+
+			return Sale.package.product;
+		}, Sale.package.product);
 
 		Sale.package.kart.list("Sale.package.kart", Sale.package.kart.props);
 	

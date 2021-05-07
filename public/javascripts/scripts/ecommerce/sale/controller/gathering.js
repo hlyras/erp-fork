@@ -207,21 +207,29 @@ if(Ecommerce.sale.package.kart.add){
 			
 		package.id = package.package_id;
 
-		Ecommerce.sale.package.kart.insert("package_id", package);
+		Ecommerce.sale.package.kart.insert("id", package);
 		Ecommerce.sale.package.kart.update("code");
 
-		let stringified_kart = JSON.stringify(Ecommerce.sale.package.kart.items);
-		lib.localStorage.update(Ecommerce.sale.package.kart.name, stringified_kart);
+		// let stringified_kart = JSON.stringify(Ecommerce.sale.package.kart.items);
+		// lib.localStorage.update(Ecommerce.sale.package.kart.name, stringified_kart);
 
-		for(let i in Ecommerce.sale.package.kart.items){
-			Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id] = new lib.kart("ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id, "Ecommerce.sale.package.product.kart"+Ecommerce.sale.package.kart.items[i].package_id, [{"product_info":"Descrição"}]);
-			Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].id = Ecommerce.sale.package.kart.items[i].package_id;
-			
-			for(let j in Ecommerce.sale.package.kart.items[i].products){
-				Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].insert("product_id", Ecommerce.sale.package.kart.items[i].products[j]);
+		Ecommerce.sale.package.product = Ecommerce.sale.package.kart.items.reduce((kart_package, backup_package) => {
+			for(let i in Ecommerce.sale.package.product){
+				if(Ecommerce.sale.package.product[i].id == backup_package.id){
+					return Ecommerce.sale.package.product;
+				};
 			};
-			Ecommerce.sale.package.product["kart"+Ecommerce.sale.package.kart.items[i].package_id].update("product_code");
-		};
+
+			Ecommerce.sale.package.product["kart"+backup_package.id] = new lib.kart("ecommerce-sale-package-product-kart"+backup_package.id, "Ecommerce.sale.package.product.kart"+backup_package.id, [{"product_info":"Descrição"}]);
+			Ecommerce.sale.package.product["kart"+backup_package.id].id = backup_package.id;
+
+			for(let j in backup_package.products){
+				Ecommerce.sale.package.product["kart"+backup_package.id].insert("product_id", backup_package.products[j]);
+			};
+			Ecommerce.sale.package.product["kart"+backup_package.id].update("product_code");
+
+			return Ecommerce.sale.package.product;
+		}, Ecommerce.sale.package.product);
 
 		Ecommerce.sale.package.kart.list("Ecommerce.sale.package.kart", Ecommerce.sale.package.kart.props);
 	
