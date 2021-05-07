@@ -53,10 +53,11 @@ if(Ecommerce.sale.controller.save){
 		lib.localStorage.remove("ecommerce-sale-product-kart");
 		Ecommerce.sale.package.kart.items = [];
 		lib.localStorage.remove("ecommerce-sale-package-kart");
-		Ecommerce.sale.product = [];
 
 		Ecommerce.sale.product.kart.list(Ecommerce.sale.product.kart.variable, Ecommerce.sale.product.kart.props);
 		Ecommerce.sale.package.kart.list(Ecommerce.sale.package.kart.variable, Ecommerce.sale.package.kart.props);
+		
+		Ecommerce.sale.package.product = [];
 
 		if(document.getElementById("ecommerce-sale-create-form").elements.namedItem("id").value){
 			document.getElementById("ecommerce-sale-create-form").elements.namedItem("id").value = "";
