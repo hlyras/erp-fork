@@ -55,17 +55,21 @@ const customerController = {
 				customer.id = row.insertId;
 				res.send({ done: "Cliente cadastrado com sucesso!", customer });
 			} else {
-				let cpf = await Customer.findBy.cpf(customer.cpf);
-				if(cpf[0].length){
-					if(cpf[0].id != customer.id){
-						return res.send({ msg: 'Este CPF já está cadastrado.' });
+				if(customer.cpf){
+					let cpf = await Customer.findBy.cpf(customer.cpf);
+					if(cpf.length){
+						if(cpf[0].id != customer.id){
+							return res.send({ msg: 'Este CPF já está cadastrado.' });
+						};
 					};
 				};
 
-				let cnpj = await Customer.findBy.cnpj(customer.cnpj);
-				if(cnpj[0].length){
-					if(cnpj[0].id != customer.id){
-						return res.send({ msg: 'Este CNPJ já está cadastrado.' });
+				if(customer.cnpj){
+					let cnpj = await Customer.findBy.cnpj(customer.cnpj);
+					if(cnpj.length){
+						if(cnpj[0].id != customer.id){
+							return res.send({ msg: 'Este CNPJ já está cadastrado.' });
+						};
 					};
 				};
 
