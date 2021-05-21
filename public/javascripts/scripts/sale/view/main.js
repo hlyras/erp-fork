@@ -4,6 +4,16 @@ Sale.view.filter = (sales, setup) => {
 	let html = "";
 	if(sales.length){
 		if(!setup.status){
+			let total_value = 0;
+			for(let i in sales){
+				if(sales[i].status == "Ag. embalo" || sales[i].status == "Ag. nota fiscal" || sales[i].status == "Ag. envio" || sales[i].status == "Enviado"){
+					total_value += (sales[i].value-sales[i].shipment_value-sales[i].discount_value);
+				};
+			};
+			html += "<div class='mobile-box container a1 padding-15 border-explicit'>";
+				html += "<div class='mobile-box b2 em13 center'>Faturamento Líquido:</div>";
+				html += "<div class='mobile-box b2 em15 center'>$"+total_value.toFixed(2)+"</div>";
+			html += "</div>";
 			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
 				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
 					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`)'><h4>"+sales[i].id+"</h4></div>";
@@ -83,6 +93,16 @@ Sale.view.filter = (sales, setup) => {
 				html += "</div>";
 			};
 		} else if(setup.status == "Cancelada"){
+			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
+				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
+					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
+					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
+					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
+				html += "</div>";
+			};
+		} else if(setup.status == "Enviado"){
 			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
 				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
 					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
