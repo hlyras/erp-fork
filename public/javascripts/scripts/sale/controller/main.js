@@ -159,10 +159,14 @@ if(Sale.controller.filter){
 			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
 			status: event.target.elements.namedItem("status").value
 		};
+
+		if(sale.status == "Confirmadas"){ sale.status = ""; };
 		
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let sales = await Sale.filter(sale);
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
+
+		if(event.target.elements.namedItem("status").value == "Confirmadas"){ sale.status = "Confirmadas"; };
 
 		document.getElementById("sale-filter-box").style.display = "";
 		document.getElementById("sale-show-box").style.display = "none";
