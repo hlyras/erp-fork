@@ -3,77 +3,22 @@ Sale.view = {};
 Sale.view.filter = (sales, setup) => {
 	let html = "";
 	if(sales.length){
-		if(!setup.status){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Em negociação"){
+		sales = lib.sort(sales, "estimated_shipment_date");
+		if(setup.status == "Ag. embalo"){
 			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
 				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
 					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
 					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/edit.png' onclick='Sale.controller.edit("+sales[i].id+")'></div>";
-					html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/trash.png' onclick='Sale.controller.delete("+sales[i].id+")'></div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Ag. pagamento"){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
+					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
 					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Ag. embalo"){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-				console.log(setup.status);
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Ag. nota fiscal"){
-			for(let i = setup.page * setup.pageSize; i < sales.length&& i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Ag. envio"){
-			for(let i = setup.page * setup.pageSize; i < sales.length&& i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Enviado"){
-			for(let i = setup.page * setup.pageSize; i < sales.length&& i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
+					html += "<div class='mobile-box container b2 border center padding-5 margin-top-5'>";
+					html += "<div class='mobile-box b2 em08 bold'>Data p/ envio:</div>";
+						if(sales[i].estimated_shipment_date < lib.genTimestamp()){
+							html += "<div class='mobile-box b2 bold' style='color:red'>"+lib.timestampToDate(sales[i].estimated_shipment_date)+"</div>";
+						} else {
+							html += "<div class='mobile-box b2 bold'>"+lib.timestampToDate(sales[i].estimated_shipment_date)+"</div>";
+						};
+					html += "</div>";
 				html += "</div>";
 			};
 		};
