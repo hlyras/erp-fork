@@ -12,7 +12,7 @@ Sale.view.filter = (sales, setup) => {
 					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
 					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
 					html += "<div class='mobile-box container b2 border center padding-5 margin-top-5'>";
-					html += "<div class='mobile-box b2 em08 bold'>Data p/ envio:</div>";
+						html += "<div class='mobile-box b2 em08 bold'>Data p/ envio:</div>";
 						if(sales[i].estimated_shipment_date < lib.genTimestamp()){
 							html += "<div class='mobile-box b2 bold' style='color:red'>"+lib.timestampToDate(sales[i].estimated_shipment_date)+"</div>";
 						} else {

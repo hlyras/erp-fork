@@ -75,7 +75,11 @@ Ecommerce.sale.view.triage.show = (sale) => {
 		for(let i in sale.products){
 			html += "<div class='box one one container ground box-hover border-explicit padding-10 margin-top-5'>";
 				html += "<div class='mobile-box three-fourths'>"+sale.products[i].info+"</div>";
-				html += "<div class='mobile-box four em12 center bold' style='color:red'>"+sale.products[i].amount+"un</div>";
+				if(sale.products[i].amount > 1){
+					html += "<div class='mobile-box four em14 center bold' style='color:red'>"+sale.products[i].amount+"un</div>";
+				} else {
+					html += "<div class='mobile-box four em12 center bold'>"+sale.products[i].amount+"un</div>";
+				};
 			html += "</div>";
 		};
 		html += "</div>";
@@ -88,12 +92,20 @@ Ecommerce.sale.view.triage.show = (sale) => {
 					html += "<div class='mobile-box eight center pointer box-hover border-explicit' onclick='lib.displayDiv(`ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div`, this);'>P"+sale.packages[i].package_id+"</div>";
 					html += "<div class='mobile-box two center'>"+sale.packages[i].info+"</div>";
 					html += "<h5 class='mobile-box four center border-explicit'>"+sale.packages[i].setup+"</h5>";
-					html += "<div class='mobile-box eight em12 center bold' style='color:red'>"+sale.packages[i].amount+"un</div>";
+					if(sale.packages[i].amount > 1){
+						html += "<div class='mobile-box eight em14 center bold' style='color:red'>"+sale.packages[i].amount+"un</div>";
+					} else {
+						html += "<div class='mobile-box eight em12 center bold'>"+sale.packages[i].amount+"un</div>";
+					}
 				html += "</div>";
 				html += "<div id='ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div' class='box one container' style='display:none'>";
 				for(let j in sale.packages[i].products){
 					html += "<div class='box one container border box-hover padding-5 margin-top-5'>";
-						html += "<div class='mobile-box five center bold'>"+sale.packages[i].products[j].amount+"un</div>";
+						if(sale.packages[i].products[j].amount > 1){
+							html += "<div class='mobile-box five center bold' style='color:red'>"+sale.packages[i].products[j].amount+"un</div>";
+						} else {
+							html += "<div class='mobile-box five center bold'>"+sale.packages[i].products[j].amount+"un</div>";
+						};
 						html += "<div class='mobile-box four-fifths'>"+sale.packages[i].products[j].product_info+"</div>";
 					html += "</div>";
 				};
