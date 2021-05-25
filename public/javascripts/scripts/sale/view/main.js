@@ -263,6 +263,8 @@ Sale.view.show = (sale, status) => {
 		html += "<input type='button' class='box b4 submit-generic margin-top-10' onclick='Sale.controller.confirmNF(`"+sale.id+"`)' value='Anexar NF'>";
 	};
 
+    if(status == "Ag. envio"){ html += "<input type='button' id='sale-create-submit' class='box b1 height-35 input-confirm bold margin-top-15 margin-bottom-15' value='CONFIRMAR ENVIO' onclick='Sale.controller.confirmShipment("+sale.id+")'>"; };
+
 	document.getElementById("sale-show-box").innerHTML = html;
 };
 
