@@ -49,15 +49,3 @@ Sale.controller.confirmPackment = async sale_id => {
 		Sale.controller.filter.submit.click();
 	};
 };
-
-Sale.controller.confirmShipment = async sale_id => {
-	let r = confirm("Deseja confirmar anexo de Nota Fiscal?");
-	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Sale.confirmShipment(sale_id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
-		if(!response){ return false; };
-		alert(response);
-		Sale.controller.filter.submit.click();
-	};
-};

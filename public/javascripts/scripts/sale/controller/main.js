@@ -239,6 +239,18 @@ Sale.controller.confirmNF = async sale_id => {
 	};
 };
 
+Sale.controller.confirmShipment = async sale_id => {
+	let r = confirm("Deseja confirmar envio?");
+	if(r){
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		let response = await Sale.confirmShipment(sale_id);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!response){ return false; };
+		alert(response);
+		Sale.controller.filter.submit.click();
+	};
+};
+
 Sale.pos = {
 	shipment_value: 0,
 	discount_value: 0,
