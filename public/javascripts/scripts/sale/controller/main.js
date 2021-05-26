@@ -65,7 +65,7 @@ if(Sale.controller.payment_period){
 		let html = "";
 
 		for(let i = 1; i <= parseInt(installment); i++){
-			html += "<input class='box b"+installment+" margin-top-5 input-generic center' placeholder='"+i+"ª parcela'>";
+			html += "<input id='installment-"+i+"' class='box b"+installment+" margin-top-5 input-generic center' placeholder='"+i+"ª parcela'>";
 		};
 
 		document.getElementById("payment-days").innerHTML = html;

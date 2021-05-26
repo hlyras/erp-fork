@@ -14,7 +14,7 @@ Sale.view.filter = (sales, setup) => {
 					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
 					html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
 						html += "<div class='mobile-box em08 a3 center bold'>total:</div>";
-						html += "<div class='mobile-box b2-3 center bold'>$"+(sales[i].value+sales[i].shipment_value+sales[i].discount_value).toFixed(2)+"</div>";
+						html += "<div class='mobile-box b2-3 center bold'>$"+(sales[i].value).toFixed(2)+"</div>";
 					html += "</div>";
 					html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
 						html += "<div class='mobile-box em08 a3 center bold'>Frete:</div>";
@@ -26,7 +26,7 @@ Sale.view.filter = (sales, setup) => {
 					html += "</div>";
 					html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
 						html += "<div class='mobile-box em08 a3 center bold'>Valor:</div>";
-						html += "<div class='mobile-box a2-3 center'>$"+sales[i].value.toFixed(2)+"</div>";
+						html += "<div class='mobile-box a2-3 center'>$"+(sales[i].value-sales[i].shipment_value).toFixed(2)+"</div>";
 					html += "</div>";
 				html += "</div>";
 			};
@@ -34,7 +34,7 @@ Sale.view.filter = (sales, setup) => {
 			let total_value = 0;
 			for(let i in sales){
 				if(sales[i].status == "Ag. embalo" || sales[i].status == "Ag. nota fiscal" || sales[i].status == "Ag. envio" || sales[i].status == "Enviado"){
-					total_value += sales[i].value;
+					total_value += (sales[i].value-sales[i].shipment_value);
 				};
 			};
 			html += "<div class='mobile-box container a1 padding-15 border-explicit'>";
@@ -52,7 +52,7 @@ Sale.view.filter = (sales, setup) => {
 						html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
 						html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
 							html += "<div class='mobile-box em08 a3 center bold'>total:</div>";
-							html += "<div class='mobile-box b2-3 center bold'>$"+(sales[i].value+sales[i].shipment_value+sales[i].discount_value).toFixed(2)+"</div>";
+							html += "<div class='mobile-box b2-3 center bold'>$"+(sales[i].value).toFixed(2)+"</div>";
 						html += "</div>";
 						html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
 							html += "<div class='mobile-box em08 a3 center bold'>Frete:</div>";
@@ -64,7 +64,7 @@ Sale.view.filter = (sales, setup) => {
 						html += "</div>";
 						html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
 							html += "<div class='mobile-box em08 a3 center bold'>Valor:</div>";
-							html += "<div class='mobile-box a2-3 center'>$"+sales[i].value.toFixed(2)+"</div>";
+							html += "<div class='mobile-box a2-3 center'>$"+(sales[i].value-sales[i].shipment_value).toFixed(2)+"</div>";
 						html += "</div>";
 					html += "</div>";
 				};
