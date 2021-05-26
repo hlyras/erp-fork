@@ -18,8 +18,6 @@ if(Product.controller.manage.create){
 			announcement: event.target.elements.namedItem("announcement").value
 		};
 
-		console.log(product.announcement);
-
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		product = await Product.save(product, "product-create-form");
 		event.target.elements.namedItem("submit").disabled = false;

@@ -47,9 +47,13 @@ if(Sale.controller.payment_method){
 		html += "<option value='' disabled selected>Prazo de Pagamento</option>";
 		for(let i in sale_payment_period){
 			if(event.target.value == sale_payment_period[i].method_id){
-				html += "<option value='"+sale_payment_period[i].id+"'>"+sale_payment_period[i].name+"</option>";
+				html += "<option value='"+sale_payment_period[i].name+"'>"+sale_payment_period[i].name+"</option>";
 			};
 		};
+		
+		if(event.target.value == 4){ document.getElementById("payment-days").style.display = ""; } 
+		else { document.getElementById("payment-days").style.display = "none"; };
+
 		document.getElementById("payment-period").innerHTML = html;
 	});
 };
@@ -57,7 +61,14 @@ if(Sale.controller.payment_method){
 Sale.controller.payment_period = document.getElementById("payment-period");
 if(Sale.controller.payment_period){
 	Sale.controller.payment_period.addEventListener("change", event => {
-		console.log(event.target.value);
+		let installment = event.target.value.split(" ")[0];
+		let html = "";
+
+		for(let i = 1; i <= parseInt(installment); i++){
+			html += "<input class='box b"+installment+" margin-top-5 input-generic center' placeholder='"+i+"ª parcela'>";
+		};
+
+		document.getElementById("payment-days").innerHTML = html;
 	});
 };
 
@@ -229,7 +240,6 @@ Sale.controller.confirmNF = async sale_id => {
 	let r = confirm("Deseja confirmar anexo de Nota Fiscal?");
 	if(r){
 		let sale = { id: sale_id, nf: document.getElementById("sale-nf-url").value };
-		console.log(sale);
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let response = await Sale.confirmNF(sale);
 		document.getElementById('ajax-loader').style.visibility = 'hidden';
