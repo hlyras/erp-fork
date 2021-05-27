@@ -260,7 +260,7 @@ const saleController = {
 			strict_values.push(req.body.sale.status);
 		};
 
-		if(req.body.sale.user_id){
+		if(req.body.sale.user_id && req.body.sale.status != "Em negociação"){
 			strict_params.push("user_id");
 			strict_values.push(req.body.sale.user_id);
 		};
