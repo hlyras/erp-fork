@@ -260,16 +260,15 @@ const saleController = {
 			strict_values.push(req.body.sale.status);
 		};
 
-		if(req.body.sale.user_id && req.body.sale.status != "Em negociação"){
-			strict_params.push("user_id");
-			strict_values.push(req.body.sale.user_id);
-		};
-
 		if(req.body.sale.status == "Em negociação"){
 			strict_params.push("user_id");
 			strict_values.push(req.user.id);
+		} else {
+			if(req.body.sale.user_id){
+				strict_params.push("user_id");
+				strict_values.push(req.body.sale.user_id);
+			};
 		};
-
 
 		try {
 			let sales = await Sale.filter(periodStart, periodEnd, params, values, strict_params, strict_values);
