@@ -39,7 +39,8 @@ const saleController = {
 		};
 
 		try {
-			res.render('sale/manage', { user: req.user });
+			let users = await User.list();
+			res.render('sale/manage', { user: req.user, users: users });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -259,10 +260,16 @@ const saleController = {
 			strict_values.push(req.body.sale.status);
 		};
 
+		if(req.body.sale.user_id){
+			strict_params.push("user_id");
+			strict_values.push(req.body.sale.user_id);
+		};
+
 		if(req.body.sale.status == "Em negociação"){
 			strict_params.push("user_id");
 			strict_values.push(req.user.id);
 		};
+
 
 		try {
 			let sales = await Sale.filter(periodStart, periodEnd, params, values, strict_params, strict_values);

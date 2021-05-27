@@ -168,7 +168,8 @@ if(Sale.controller.filter){
 			customer_cnpj: event.target.elements.namedItem("customer_cnpj").value,
 			periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
 			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
-			status: event.target.elements.namedItem("status").value
+			status: event.target.elements.namedItem("status").value,
+			user_id: event.target.elements.namedItem("user_id").value
 		};
 
 		if(sale.status == "Confirmadas"){ sale.status = ""; };
