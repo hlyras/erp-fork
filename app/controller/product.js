@@ -523,6 +523,55 @@ const productController = {
 				res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 			};
 		},
+		filter: async (req, res) => {
+			let params = [];
+			let values = [];
+
+			if(isNaN(req.body.code) || req.body.code < 0 || req.body.code > 9999){
+				req.body.code = "";
+			};
+
+			// if(req.body.code){
+			// 	params.push("code");
+			// 	values.push(req.body.code);
+			// };
+
+			if(req.body.name){
+				params.push("name");
+				values.push(req.body.name);
+			};
+
+			// if(req.body.color){
+			// 	params.push("color");
+			// 	values.push(req.body.color);
+			// };
+
+			if(req.body.brand){
+				params.push("brand");
+				values.push(req.body.brand);
+			};
+
+			let status = "Disponível";
+
+			let product_inners = [
+				["cms_wt_erp.product.id","cms_wt_erp.product_price.product_id"],
+				["cms_wt_erp.product_price.category_id", req.body.category_id]
+			];
+
+			let package_inners = [
+				["cms_wt_erp.product_package.id","cms_wt_erp.product_package_price.package_id"],
+				["cms_wt_erp.product_package_price.category_id", req.body.category_id]
+			];
+
+			try {
+				let products = await Product.price.filter(params, values, product_inners, status);
+				let packages = await Product.package.price.filter(params, values, package_inners, status);
+				res.send({ products: products, packages: packages });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });
+			};
+		},
 		find: async (req, res) => {
 			// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
 				// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });

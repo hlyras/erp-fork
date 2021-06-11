@@ -189,6 +189,7 @@ Sale.view.show = (sale, status) => {
 			if(sale.payment_period == 1){ html += "<div class='box a1 padding-5'>Prazo: à vista</div>"; };
 			if(sale.payment_period != 1){ html += "<div class='box a1 padding-5'>Prazo: "+sale.payment_period+" dias</div>"; };
 			html += "<div class='box a1 padding-5'>Status: "+sale.status+"</div>";
+			if(sale.nf != 1){ html += "<div class='box a1 padding-5'><a href='"+sale.nf+"'>Nota fiscal</a></div>"; };
 		html += "</div>";
 		html += "<div class='box a1 container box-border padding-10'>";
 			html += "<div class='underline center avant-garde italic bold'>Logística de envio</div>";

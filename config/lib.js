@@ -252,6 +252,59 @@ module.exports = {
 		query += "ORDER BY "+orderParam+" "+order+"";
 		return query;
 	},
+	filterByLikeAndInnerJoin: function(params, values, innerTbl, inners, db, tbl, orderParam, order){
+		var query = "SELECT * FROM "+db+"."+tbl+" ";
+		if(inners.length){
+			query += "INNER JOIN "+db+"."+innerTbl+" ON ";
+			for(let i in inners){
+				if(i == inners.length - 1){
+					query += inners[i][0]+"="+inners[i][1]+" ";
+				} else {
+					query += inners[i][0]+"="+inners[i][1]+" AND ";
+				};
+			};
+		};
+		if(params.length){
+			query += "WHERE ";
+			for(i in params){
+				if(i == params.length - 1){
+					query += ""+params[i]+" like '%"+values[i]+"%' ";
+				} else {
+					query += ""+params[i]+" like '%"+values[i]+"%' AND ";
+				};
+			};
+		};
+		query += "ORDER BY "+orderParam+" "+order+";";
+
+		return query;
+	},
+	filterByLikeAndInnerJoinAndByStatus: function(params, values, innerTbl, inners, status, status_value, db, tbl, orderParam, order){
+		var query = "SELECT * FROM "+db+"."+tbl+" ";
+		if(inners.length){
+			query += "INNER JOIN "+db+"."+innerTbl+" ON ";
+			for(let i in inners){
+				if(i == inners.length - 1){
+					query += inners[i][0]+"="+inners[i][1]+" ";
+				} else {
+					query += inners[i][0]+"="+inners[i][1]+" AND ";
+				};
+			};
+		};
+		if(params.length){
+			query += "WHERE ";
+			for(i in params){
+				if(i == params.length - 1){
+					query += params[i]+" like '%"+values[i]+"%' AND "+status+" = '"+status_value+"' ";
+				} else {
+					query += params[i]+" like '%"+values[i]+"%' AND ";
+				};
+			};
+		};
+		if(!params.length){ query += "WHERE "+status+" = '"+status_value+"' ";	};
+		query += "ORDER BY "+orderParam+" "+order+";";
+
+		return query;
+	},
 	insertParam: (param, value, params, values) => {
 		if(param && value && params && values){ params.push(param); values.push(value); } else { return false; };
 	},
@@ -317,32 +370,6 @@ module.exports = {
 			};
 		};
 
-		query += "ORDER BY "+orderParam+" "+order+";";
-
-		return query;
-	},
-	filterByLikeAndInnerJoin: function(params, values, innerTbl, inners, db, tbl, orderParam, order){
-		var query = "SELECT * FROM "+db+"."+tbl+" ";
-		if(inners.length){
-			query += "INNER JOIN "+db+"."+innerTbl+" ON ";
-			for(let i in inners){
-				if(i == inners.length - 1){
-					query += inners[i][0]+"="+inners[i][1]+" ";
-				} else {
-					query += inners[i][0]+"="+inners[i][1]+" AND ";
-				};
-			};
-		};
-		if(params.length){
-			query += "WHERE ";
-			for(i in params){
-				if(i == params.length - 1){
-					query += ""+params[i]+" like '%"+values[i]+"%' ";
-				} else {
-					query += ""+params[i]+" like '%"+values[i]+"%' AND ";
-				};
-			};
-		};
 		query += "ORDER BY "+orderParam+" "+order+";";
 
 		return query;

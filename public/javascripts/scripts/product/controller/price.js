@@ -1,5 +1,35 @@
 Product.price.controller = {};
 
+Product.price.controller.filter = document.getElementById("product-price-filter-form");
+if(Product.price.controller.filter){
+	Product.price.controller.filter.addEventListener("submit", async event => {
+		event.preventDefault();
+
+		let product = {
+			name: event.target.elements.namedItem("name").value,
+			brand: "J.A Rio Militar",
+			category_id: event.target.elements.namedItem("category_id").value
+		};
+
+		document.getElementById('ajax-loader').style.visibility = 'visible';
+		let response = await Product.price.filter(product);
+		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!response){ return false };
+
+		let catalog_products = [...response.products];
+
+		for(let i in response.packages){
+			response.packages[i].pack = true;
+			catalog_products.push(response.packages[i]);
+		};
+
+		catalog_products = lib.sort(catalog_products, "code");
+
+		const pagination = { pageSize: 21, page: 0};
+		(function(){ lib.carousel.execute("product-price-filter-box", Product.price.view.filter, catalog_products, pagination); }());
+	});
+};
+
 Product.price.controller.updatePrice = async (price_id, input_id) => {
 	let price = {
 		id: price_id,
@@ -134,7 +164,7 @@ Product.price.category.controller.home.show = async (category_id) => {
 
 	document.getElementById("product-price-category-home-show-id").value = category_id;
 
-	Product.price.category.view.home.show(category);
+	// Product.price.category.view.home.show(category);
 
 	document.getElementById("product-price-category-home-show-box").style.display = "";
 	// const pagination = { pageSize: 10, page: 0};

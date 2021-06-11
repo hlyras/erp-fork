@@ -28,6 +28,7 @@ router.post('/feedstock/category/save', productController.feedstock.category.sav
 router.get('/feedstock/category/list/product_id/:product_id', productController.feedstock.category.list);
 
 router.get('/price', productController.price.index);
+router.post('/price/filter', productController.price.filter);
 router.post('/price/find', productController.price.find);
 router.post('/price/update', productController.price.update);
 router.post('/price/category/save', productController.price.category.save);
@@ -43,6 +44,7 @@ router.delete('/package/delete', productController.package.delete);
 router.post('/package/product/update', productController.package.product.update);
 
 router.post('/package/price/find', productController.package.price.find);
+// router.post('/package/price/filter', productController.package.price.filter);
 router.post('/package/price/update', productController.package.price.update);
 
 router.post('/package/image/add', productController.package.image.add);

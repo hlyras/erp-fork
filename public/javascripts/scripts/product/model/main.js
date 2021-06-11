@@ -42,3 +42,4 @@ Product.delete = async (id) => {
 	
 	return true;
 };
+

@@ -1,5 +1,46 @@
 Product.price.view = {};
 
+Product.price.view.filter = async (products, pagination) => {
+	var html = "";
+	// for(let i in products){
+	for (let i = pagination.page * pagination.pageSize; i < products.length && i < (pagination.page + 1) * pagination.pageSize; i++){
+		if(!products[i].pack){
+			html += "<div class='box b1 container ground pointer padding-10 margin-top-5 shadow-hover'>";
+		} else {
+			html += "<div class='box b1 container ground pointer padding-10 margin-top-5 shadow-hover'>";
+		};
+		if(products[i].image){
+			html += "<div class='mobile-box b4 center'><img class='height-50' src='"+products[i].image+"' alt=''/></div>";
+		} else {
+			html += "<div class='mobile-box b4 center'><img class='height-50' src='/images/product/no-product.png' alt=''/></div>";
+		};
+		html += `<div class="mobile-box b2 avant-garde center em12 padding-10 margin-bottom-5 italic bold" style="color:#323232;">`+products[i].name+` - `+products[i].color+`</div>`;
+		html += "<div class='mobile-box b4 center padding-5 container'>";
+			html += "<div class='mobile-box b1 em08 italic'>À vista</div>";
+			html += "<div class='mobile-box b1 em10 center italic bold' style='color:#467846;'>$"+products[i].price.toFixed(2)+"</div>";
+		html += "</div>";
+		html += "</div>";
+	};
+	document.getElementById("product-price-filter-div").innerHTML = html;
+};
+
+// Product.price.view.card = {
+// 	image: {
+// 		show: (images, pagination, params) => {
+// 			let html = "";
+// 		    if(images.length){
+// 			    for (let i = pagination.page * pagination.pageSize; i < images.length && i < (pagination.page + 1) * pagination.pageSize;i++){
+// 					document.getElementById("product-"+images[i].product_id+"-catalog-card-img").src = images[i].url;
+// 				};
+// 		    } else {
+// 				document.getElementById("product-"+params[0]+"-catalog-card-img").src = "/images/product/no-product.png";
+// 		    };
+// 		}
+// 	}
+// };
+
+// old
+
 Product.price.category.view = {};
 
 Product.price.category.view.filter = (categories, pagination) => {
@@ -67,7 +108,7 @@ Product.price.category.view.show = (category) => {
 Product.price.category.view.home = {};
 
 Product.price.category.view.home.filter = (categories, pagination) => {
-		if(categories.length){
+	if(categories.length){
 		let html = "";
 		for (let i = pagination.page * pagination.pageSize; i < categories.length && i < (pagination.page + 1) * pagination.pageSize; i++){
 			html += "<div class='box one container border padding-5 margin-top-5'>";
@@ -81,6 +122,28 @@ Product.price.category.view.home.filter = (categories, pagination) => {
 		document.getElementById("product-price-category-home-filter-box").style.display = "";
 		document.getElementById("product-price-category-home-filter-div").innerHTML = "<div class='mobile-box one center'>Sem resultados</div>";
 	};
+};
+
+// var patients = [
+//     "Greg",
+//     "Anna",
+//     "Slartibartfarst"
+//     ];
+
+// var input = "Gr";
+// var re = new RegExp(input+'.+$', 'i');
+// patients = patients.filter(function(e, i, a){
+//     return e.search(re) != -1;
+// });
+// console.log(patients);
+
+lib.filterArrayByName = (input, param, array) => {
+	let reg = new RegExp(input+'.+$', 'i');
+	array = array.filter(function(cur, ind, arr){
+		console.log(cur[param]);
+	    return cur[param].search(reg) != -1;
+	});
+	return array;
 };
 
 Product.price.category.view.home.show = (category) => {
@@ -97,7 +160,7 @@ Product.price.category.view.home.show = (category) => {
 			html += "<div class='box one container box-hover border padding-5 margin-top-5'>";
 				html += "<div class='mobile-box b8 padding-5 bold center'>"+category.products[i].code+"</div>";
 				html += "<div class='mobile-box b5-8 padding-5 bold center'>"+category.products[i].name+" | "+category.products[i].color+" | "+category.products[i].size+"</div>";
-				html += "<div class='mobile-box b4 padding-5 avant-garde bold'>$"+category.products[i].price.toFixed(2)+"</div>"
+				html += "<div class='mobile-box b4 padding-5 avant-garde bold'>$"+category.products[i].price.toFixed(2)+"</div>";
 			html += "</div>";
 		};
 	};

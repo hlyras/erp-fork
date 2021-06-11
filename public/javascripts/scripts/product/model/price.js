@@ -14,6 +14,19 @@ Product.price.update = async (price) => {
 	return response.price;
 };
 
+Product.price.filter = async (product) => {
+	let response = await fetch("/product/price/filter", {
+		method: "POST",
+		headers: {'Content-Type': 'application/json'},
+	    body: JSON.stringify(product)
+	});
+	response = await response.json();
+
+	if(API.verifyResponse(response)){ return false };
+
+	return response;
+};
+
 Product.price.category = {};
 
 Product.price.category.save = async (category) => {
