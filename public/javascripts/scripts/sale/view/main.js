@@ -120,9 +120,10 @@ Sale.view.filter = (sales, setup) => {
 					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
 					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
 					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5 pointer' onclick='lib.openExternalLink(`"+sales[i].nf+"`)'>Ver Nota Fiscal</div>";
 				html += "</div>";
 			};
 		} else if(setup.status == "Cancelada"){
@@ -131,9 +132,10 @@ Sale.view.filter = (sales, setup) => {
 					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
 					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
 					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5 pointer' onclick='lib.openExternalLink(`"+sales[i].nf+"`)'>Ver Nota Fiscal</div>";
 				html += "</div>";
 			};
 		} else if(setup.status == "Enviado"){
@@ -142,9 +144,10 @@ Sale.view.filter = (sales, setup) => {
 					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
 					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
 					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
+					html += "<div class='mobile-box b4 border center padding-5 margin-top-5 pointer' onclick='lib.openExternalLink(`"+sales[i].nf+"`)'>Ver Nota Fiscal</div>";
 				html += "</div>";
 			};
 		};

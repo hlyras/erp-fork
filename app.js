@@ -6,7 +6,6 @@ const app = express();
 
 require('dotenv').config();
 
-
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const passport = require('./config/passport');

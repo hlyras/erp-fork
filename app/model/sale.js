@@ -102,7 +102,6 @@ Sale.product = {
 	},
 	list: async (sale_id) => {
 		let query = "SELECT * FROM cms_wt_erp.sale_product WHERE sale_id='"+sale_id+"';";
-		console.log()
 		return db(query);		
 	},
 	update: async (sale_product_id, product) => {
