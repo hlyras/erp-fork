@@ -1,7 +1,7 @@
 const User = require('../model/user');
 const userController = require('./user');
 
-const lib = require('../../config/lib');
+const lib = require("jarmlibyster");
 
 const Sale = require('../model/sale');
 const Product = require('../model/product');

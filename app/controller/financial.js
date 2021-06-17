@@ -1,5 +1,5 @@
 const userController = require('./user');
-const lib = require('../../config/lib');
+const lib = require("jarmlibyster");
 
 const Financial = require('../model/financial');
 
