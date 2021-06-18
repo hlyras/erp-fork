@@ -22,7 +22,7 @@
                     </select>
                     <input type="date" name="periodStart" class="box b4 input-generic center margin-top-5" autocomplete="off">
                     <input type="date" name="periodEnd" class="box b4 input-generic center margin-top-5" autocomplete="off">
-                    <select id="user_id" class="box b4 input-generic center margin-top-5" autocomplete="off">
+                    <select name="user_id" class="box b4 input-generic center margin-top-5" autocomplete="off">
                     <option value="">Vendedor</option>
                     <% for(let i in users){ %>
                         <option value="<%= users[i].id %>"><%= users[i].name %></option>

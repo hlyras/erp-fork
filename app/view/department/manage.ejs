@@ -7,36 +7,32 @@
         <% include ./../partials/nav %>
 		<section>
 			<div class="container">
-				<div class="box-2">
-					<form id="department-create-form" class="box-1" name="departmentcreateform">
-						<h3>Cadastrar Departamento</h3>
-						<input type="hidden" name="id" value="">
-						<input type="text" name="name" class="btn-generic-big" placeholder="Nome do departamento" maxlength="40" autocomplete="off">
-						<input type="text" name="abbreviation" class="btn-generic-big" placeholder="Abreviação em 2 ou 3 letras" maxlength="3" autocomplete="off">
-						<button type="submit" name="submit" class="btn-submit">Cadastrar</button>
-					</form>
-				</div>
-				<div class="box-2">
-					<form id="department-role-create-form" class="box-1">
-						<h3>Cadastrar Cargo</h3>
-						<input type="hidden" name="id" value="">
-						<select name="department_id" class="hide-disabled btn-generic-big">
-							<option value="" disabled selected>Departamento</option>
-							<!-- for i in department -->
-							<% for(i in departments){ %>
-								<option value="<%= departments[i].id %>"><%= departments[i].name %></option>
-							<% } %>
-						</select>
-						<input type="text" name="name" class="btn-generic-big" placeholder="Nome do cargo" maxlength="40" autocomplete="off">
-						<input type="text" name="abbreviation" class="btn-generic-big" placeholder="Abreviação em 2 ou 3 letras" maxlength="3" autocomplete="off">
-						<button type="submit" name="submit" class="btn-submit">Cadastrar</button>
-					</form>
-				</div>
-				<div class="box-2">
+				<form id="department-create-form" class="box b2 ground container padding-10" name="departmentcreateform">
+					<div class="box b1 underline center">Cadastrar Departamento</div>
+					<input type="hidden" name="id" value="">
+					<input type="text" name="name" class="box b2 input-generic margin-top-5 center" placeholder="Nome do departamento" maxlength="40" autocomplete="off">
+					<input type="text" name="abbreviation" class="box b2 input-generic margin-top-5 center" placeholder="Abreviação em 2 ou 3 letras" maxlength="3" autocomplete="off">
+					<button type="submit" name="submit" class="box b1 submit-generic margin-top-5 pointer">Cadastrar</button>
+				</form>
+				<form id="department-role-create-form" class="box b2 ground container padding-10">
+					<div class="box b1 underline center">Cadastrar Cargo</div>
+					<input type="hidden" name="id" value="">
+					<select name="department_id" class="box b1 hide-disabled input-generic margin-top-5">
+						<option value="" disabled selected>Departamento</option>
+						<!-- for i in department -->
+						<% for(i in departments){ %>
+							<option value="<%= departments[i].id %>"><%= departments[i].name %></option>
+						<% } %>
+					</select>
+					<input type="text" name="name" class="box b2 input-generic margin-top-5" placeholder="Nome do cargo" maxlength="40" autocomplete="off">
+					<input type="text" name="abbreviation" class="box b2 input-generic margin-top-5" placeholder="Abreviação em 2 ou 3 letras" maxlength="3" autocomplete="off">
+					<button type="submit" name="submit" class="box b1 submit-generic margin-top-5 pointer">Cadastrar</button>
+				</form>
+				<div class="box b2">
 					<form id="department-list-form">
 						<button type="submit" name="submit" class="btn-generic-full">Departamentos</button>
 					</form>
-					<div id="department-list-box" class="box-1" style="display:none">
+					<div id="department-list-box" class="box b1" style="display:none">
 						<table id="department-list-table" class="tbl-info width-fill"></table>
 						<br>
 						<div name="carousel-navigation">
@@ -46,7 +42,7 @@
 						</div>
 					</div>
 				</div>
-				<div id="department-show-box" class="box-2" style="display:none">
+				<div id="department-show-box" class="box b2" style="display:none">
 					<div id="department-info-box"></div>
 
 					<div id="department-role-list-box">

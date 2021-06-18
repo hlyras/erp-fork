@@ -8,6 +8,13 @@ router.get("/", adminController.index);
 
 router.get("/product", adminController.product);
 
+router.get("/sale", adminController.sale.index);
+router.post("/sale/filter", adminController.sale.filter);
+router.get("/sale/report/product", adminController.sale.report.product);
+router.get("/sale/report/package", adminController.sale.report.package);
+
+router.get("/ecommerce_sale", adminController.ecommerce_sale);
+
 router.get("/user", adminController.user);
 
 module.exports = router;

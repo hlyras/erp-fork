@@ -8,19 +8,18 @@
 	        <% include ./../partials/nav %>
 			<section>
 				<div class="container">
-					<div class="box-1">
+					<div class="box b1">
 						<% if (message.length > 0) { %>
                             <div class="alert-msg"><%= message %></div>
                         <% } %>
-					<form action="/user/signup" class="box-1" method="post">
-							<h4 class="underline">Preencha as informações para realizar seu cadastro!</h4>
-							<input type="text" class="btn-generic-big" name="name" maxlength="60" autocomplete="off" placeholder="Nome">
-							<input type="email" class="btn-generic-big" name="email" id="email" maxlength="60" autocomplete="off" placeholder="E-mail">
-							<input type="password" class="btn-generic-big" name="password" maxlength="45" autocomplete="off" placeholder="Senha">
-							<input type="password" class="btn-generic-big" name="confirmPassword" maxlength="45" autocomplete="off" placeholder="Confirmar senha">
-							<p class="underline"></p>
-							<button type="submit" class="btn-submit">Cadastrar</button>
-					</form>
+						<form action="/user/signup" class="box b1 container padding-10" method="post">
+							<h4 class="box b1 underline center">Preencha as informações do colaborador</h4>
+							<input type="text" class="box b2 input-generic center margin-top-5" name="name" maxlength="60" autocomplete="off" placeholder="Nome">
+							<input type="email" class="box b2 input-generic center margin-top-5" name="email" id="email" maxlength="60" autocomplete="off" placeholder="E-mail">
+							<input type="password" class="box b2 input-generic center margin-top-5" name="password" maxlength="45" autocomplete="off" placeholder="Senha">
+							<input type="password" class="box b2 input-generic center margin-top-5" name="confirmPassword" maxlength="45" autocomplete="off" placeholder="Confirmar senha">
+							<button type="submit" class="box b1 submit-generic margin-top-5 pointer">Cadastrar</button>
+						</form>
 					</div>
 				</div>
 			</section>

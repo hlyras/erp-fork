@@ -5,24 +5,22 @@
   <body>
     <% include ./../partials/header %>
     <% include ./../partials/nav %>
-    <section>
-      <div class="container">
-        <div class="box-2">
-          <h3 class="title-soft underline">Administrativo</h3>
-          <div class="menu-box box-1">
-            <span class="span-menu" onclick="window.location.href='/department/manage'">Gerir departamentos e funções</span>
-            <span class="span-menu" onclick="window.location.href='/signup'">Novo Colaborador</span>
-            <span class="span-menu" onclick="window.location.href='/admin/user'">Gerir funcionários</span>
-          </div>
-        </div>
-        <div class="box-2">
-          <h3 class="title-soft underline">Produtos</h3>
-          <div class="menu-box box-1">
-            <span class="span-menu" onclick="window.location.href='/product/manage'">Gerir produtos</span>
-          </div>
-        </div>
+    <section class="container">
+      <div class="box b3 container ground padding-10">
+        <h3 class="box a1 underline center">Administrativo</h3>
+        <button class="box b1 border-explicit em11 margin-top-5 padding-5 box-hover pointer center" onclick="window.location.href='/department/manage'">Gerir departamentos e funções</button>
+        <button class="box b1 border-explicit em11 margin-top-5 padding-5 box-hover pointer center" onclick="window.location.href='/signup'">Novo Colaborador</button>
+        <button class="box b1 border-explicit em11 margin-top-5 padding-5 box-hover pointer center" onclick="window.location.href='/admin/user'">Gerir funcionários</button>
       </div>
+
+      <div class="box b3 container ground padding-10">
+        <h3 class="box a1 underline center">Vendas</h3>
+        <button class="box b1 border-explicit em11 margin-top-5 padding-5 box-hover pointer center" onclick="window.location.href='/admin/sale'">Atacado/Representantes</button>
+        <button class="box b1 border-explicit em11 margin-top-5 padding-5 box-hover pointer center" onclick="window.location.href='/admin/ecommerce_sale'">E-commerce</button>
+      </div>
+
     </section>
+    <% include ./../partials/loader %>
   </body>
   <footer>
     <% include ./../partials/footer %>
