@@ -185,7 +185,6 @@ Sale.admin = {
 	product: {
 		filter: (props, inners, period, params, values, strict_params, strict_values) => {
 			let query = lib.filter_inner_by_period_params_strict(props, "cms_wt_erp.sale", "cms_wt_erp.sale_product", inners, "sale_date", period.start, period.end, params, values, strict_params, strict_values, "cms_wt_erp.sale.id", "DESC");
-			console.log(query);
 			return db(query);
 		}
 	},

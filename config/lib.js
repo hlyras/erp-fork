@@ -403,8 +403,6 @@ module.exports = {
 			};
 		};
 
-		console.log(periodStart);
-		console.log(periodEnd);
 		if(periodStart && periodEnd){
 			query += "WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
 			if(params.length){
