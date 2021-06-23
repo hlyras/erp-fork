@@ -25,7 +25,7 @@ const adminController = {
 	},
 	sale: {
 		index: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm'])){
+			if(!await userController.verifyAccess(req, res, ['adm', 'pro-man'])){
 				return res.redirect('/');
 			};
 			let users = await User.list();
@@ -65,13 +65,13 @@ const adminController = {
 		},
 		report: {
 			product: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm'])){
+				if(!await userController.verifyAccess(req, res, ['adm', 'pro-man'])){
 					return res.redirect('/');
 				};
 				res.render('product/index', { user: req.user });
 			},
 			package: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm'])){
+				if(!await userController.verifyAccess(req, res, ['adm', 'pro-man'])){
 					return res.redirect('/');
 				};
 				res.render('package/index', { user: req.user });

@@ -152,7 +152,7 @@ if(Sale.controller.save){
 		lib.localStorage.remove("sale-package-kart");
 		Sale.package.kart.list("Sale.package.kart", Sale.package.kart.props);
 
-		if(sale.id > 0){ Sale.controller.filter.submit.click(); };
+		if(sale.id > 0 && Sale.controller.filter.submit){ Sale.controller.filter.submit.click(); };
 		alert("Venda confirmada\n código: #"+sale.id+"\n data: "+lib.timestampToDate(sale.sale_date)+"\n previsão de envio: "+lib.timestampToDate(sale.estimated_shipment_date)+"\n cliente: "+sale.customer_name+"\n Método de pagamento: "+sale.payment_method+"\n status: "+sale.status+"\n Valor: "+sale.value);
 		if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; }
 		document.getElementById("sale-category-select").value = ""; 

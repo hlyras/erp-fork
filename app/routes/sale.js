@@ -7,6 +7,7 @@ router.get('/', saleController.index);
 router.get('/manage', saleController.manage);
 router.get('/triage', saleController.triage);
 router.get('/financial', saleController.financial);
+router.get('/report', saleController.report.index);
 
 router.get('/id/:id', saleController.findById);
 router.get('/confirm-payment/id/:id', saleController.confirmPayment);

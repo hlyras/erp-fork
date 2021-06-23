@@ -411,6 +411,21 @@ const saleController = {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 		};
+	},
+	report: {
+		index: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+				return res.redirect('/');
+			};
+
+			try {
+				let users = await User.list();
+				res.render('sale/report/index', { user: req.user, users: users });
+			} catch (err) {
+				console.log(err);
+				res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+			};
+		}
 	}
 };
 
