@@ -40,10 +40,10 @@ const adminController = {
 			let strict_params = []; let strict_values = [];
 			let period = { start: "", end: "" };
 
-			let product_props = ["cms_wt_erp.sale.id","cms_wt_erp.sale.customer_name","cms_wt_erp.sale_product.product_id","cms_wt_erp.sale_product.product_info","cms_wt_erp.sale_product.amount"];
+			let product_props = ["cms_wt_erp.sale.id","cms_wt_erp.product.name","cms_wt_erp.sale_product.product_id","cms_wt_erp.sale_product.product_info","cms_wt_erp.sale_product.amount"];
 			let package_product_props = ["cms_wt_erp.sale.id","cms_wt_erp.sale.customer_name","cms_wt_erp.sale_package_product.product_id","cms_wt_erp.sale_package_product.product_info","cms_wt_erp.sale_package_product.amount"];
 
-			let product_inners = [["cms_wt_erp.sale.id","cms_wt_erp.sale_product.sale_id"]];
+			let product_inners = [["cms_wt_erp.sale.id","cms_wt_erp.sale_product.sale_id"],["cms_wt_erp.sale_product.product_id","cms_wt_erp.product.id"]];
 			let package_product_inners = [["cms_wt_erp.sale.id","cms_wt_erp.sale_package_product.sale_id"]];
 
 			lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
