@@ -13,149 +13,115 @@
     <% include ./../partials/header %>
     <% include ./../partials/nav %>
     <section class="container">
-      <div class="box b2">
-        <form id="sale-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
-          <input type="text" name="customer_name" placeholder="Nome" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <input type="text" name="customer_cnpj" placeholder="CNPJ" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <select name="status" class="box b3 input-generic margin-top-5 hide-disabled">
-            <option value="">Status da venda</option>
-            <option value="Confirmadas">Confirmadas</option>
-            <option value="Em negociação">Em negociação</option>
-            <option value="Ag. pagamento">Ag. pagamento</option>
-            <option value="Ag. embalo">Ag. embalo</option>
-            <option value="Ag. nota fiscal">Ag. nota fiscal</option>
-            <option value="Ag. envio">Ag. Envio</option>
+      <form id="ecommerce-sale-admin-filter-form" class="box one container border padding-10 margin-top-5 shadow">
+        <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
+            <option value="" selected disabled>Plataforma da venda</option>
+            <option value="MLJC">MLJC</option>
+            <option value="MLCHRIS">MLCHRIS</option>
+            <option value="SITE">SITE</option>
+            <option value="SHOPEE">SHOPEE</option>
+            <option value="B2W">B2W</option>
+            <option value="Reclamação">Reclamação</option>
+        </select>
+        <input type="text" name="code" class="box b4 input-generic center margin-top-5" placeholder="Código da venda" autocomplete="off">
+        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodStart">
+        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodEnd">
+        <input type="text" name="customer_name" class="box b2 input-generic center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+        <input type="text" name="customer_user" class="box b2 input-generic center margin-top-5" placeholder="Usuário do cliente" autocomplete="off">
+        <select name="status" class="box b3 input-generic center margin-top-5 hide-disabled">
+            <option value="" selected>Status</option>
+            <option value="Ag. Informações">Ag. Informações</option>
+            <option value="Ag. Embalo">Ag. Embalo</option>
+            <option value="Ag. Coleta">Ag. Coleta</option>
             <option value="Enviado">Enviado</option>
-          </select>
-          <input type="date" name="periodStart" class="box b4 input-generic center margin-top-5" autocomplete="off">
-          <input type="date" name="periodEnd" class="box b4 input-generic center margin-top-5" autocomplete="off">
-          <select id="user_id" class="box b4 input-generic center margin-top-5" autocomplete="off">
-          <option value="">Vendedor</option>
-          <% for(let i in users){ %>
-              <option value="<%= users[i].id %>"><%= users[i].name %></option>
-          <% } %>
-          </select>
-          <input type="submit" name="submit" class="box b4 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
-        </form>
-        <div id="sale-filter-box" class="box b1 ground" style="display:none">
-          <div id="sale-filter-div" class="box b1"></div>
-          <% include ./../partials/carousel %>
-        </div>
-        <div id="sale-show-box" class="box b1 container ground margin-top-10 margin-bottom-15"></div>
-      </div>
-
-      <div class="box b2">
-        <form id="sale-admin-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
-          <input type="text" name="customer_name" placeholder="Nome" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <input type="text" name="customer_cnpj" placeholder="CNPJ" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <select name="status" class="box b3 input-generic margin-top-5 hide-disabled">
-            <option value="">Status da venda</option>
-            <option value="Confirmadas">Confirmadas</option>
-            <option value="Em negociação">Em negociação</option>
-            <option value="Ag. pagamento">Ag. pagamento</option>
-            <option value="Ag. embalo">Ag. embalo</option>
-            <option value="Ag. nota fiscal">Ag. nota fiscal</option>
-            <option value="Ag. envio">Ag. Envio</option>
-            <option value="Enviado">Enviado</option>
-          </select>
-          <input type="date" name="periodStart" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <input type="date" name="periodEnd" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <select name="user_id" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <option value="">Vendedor</option>
-          <% for(let i in users){ %>
-              <option value="<%= users[i].id %>"><%= users[i].name %></option>
-          <% } %>
-          </select>
-          <select name="order" class="box b2 input-generic margin-top-5 hide-disabled">
-            <option value="amount">Quantidade</option>
-            <option value="code">Código</option>
-          </select>
-          <input type="submit" name="submit" class="box b2 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
-        </form>
-        <div id="sale-admin-filter-box" class="box b1 ground" style="display:none">
-            <div id="sale-admin-filter-div" class="box b1"></div>
-            <% include ./../partials/carousel %>
-        </div>
-      </div>
+            <option value="Cancelada">Cancelada</option>
+        </select>
+        <input type="text" name="tracker" class="box b3 input-generic center margin-top-5" placeholder="Rastreio" autocomplete="off">
+        <input type="submit" name="submit" class="box b3 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
+    </form>
+      <div id="ecommerce-sale-filter-box" class="box one container padding-5 margin-top-5"></div>
+      <div id="ecommerce-sale-show-box" class="box one container ground padding-5 margin-top-5" style="display:none"></div>
     </section>
     <% include ./../partials/loader %>
   </body>
   <footer>
     <% include ./../partials/footer %>
-    <script src="/javascripts/scripts/sale/model/main.js"></script>
-    <script src="/javascripts/scripts/sale/controller/main.js"></script>
-    <script src="/javascripts/scripts/sale/view/main.js"></script>
+    <script src="/javascripts/scripts/ecommerce/sale/model/main.js"></script>
+    <script src="/javascripts/scripts/ecommerce/sale/controller/main.js"></script>
+    <script src="/javascripts/scripts/ecommerce/sale/view/main.js"></script>
 
     <script type="text/javascript">
-      Sale.admin = {};
-      Sale.controller.admin = {};
-      Sale.view.admin = {};
+      Ecommerce.sale.admin = {};
+      Ecommerce.sale.controller.admin = {};
+      Ecommerce.sale.view.admin = {};
 
-      Sale.controller.admin.filter = document.getElementById("sale-admin-filter-form");
-      if(Sale.controller.admin.filter){
-        Sale.controller.admin.filter.addEventListener("submit", async event => {
+      Ecommerce.sale.controller.admin.filter = document.getElementById("ecommerce-sale-admin-filter-form");
+      if(Ecommerce.sale.controller.admin.filter){
+        Ecommerce.sale.controller.admin.filter.addEventListener("submit", async event => {
           event.preventDefault();
 
           let sale = {
+            origin: event.target.elements.namedItem("origin").value,
+            code: event.target.elements.namedItem("code").value,
             customer_name: event.target.elements.namedItem("customer_name").value,
-            customer_cnpj: event.target.elements.namedItem("customer_cnpj").value,
-            periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
-            periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
+            customer_user: event.target.elements.namedItem("customer_user").value,
             status: event.target.elements.namedItem("status").value,
-            user_id: event.target.elements.namedItem("user_id").value
+            tracker: event.target.elements.namedItem("tracker").value,
+            periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),
+            periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value)
           };
 
-          if(sale.status == "Confirmadas"){ sale.status = ""; };
-          
+          console.log(sale);
+
           document.getElementById('ajax-loader').style.visibility = 'visible';
-          let response = await Sale.admin.filter(sale);
+          let response = await Ecommerce.sale.admin.filter(sale);
           document.getElementById('ajax-loader').style.visibility = 'hidden';
 
-          if(event.target.elements.namedItem("status").value == "Confirmadas"){ sale.status = "Confirmadas"; };
+          console.log(response);
 
-          const productAmountById = {};
-          response.sale_products.forEach(function (product) {
-            productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
-          });
+          // const productAmountById = {};
+          // response.sale_products.forEach(function (product) {
+          //   productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
+          // });
 
-          response.sale_package_products.forEach(function (product) {
-            productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
-          });
+          // response.sale_package_products.forEach(function (product) {
+          //   productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
+          // });
 
-          let products = [];
+          // let products = [];
 
-          for (let [key, value] of Object.entries(productAmountById)) {
-            let product = { id: key, code: "", info: "", amount: value };
-            for(let i in response.sale_products){ 
-              if(key == response.sale_products[i].product_id){ 
-                product.info = response.sale_products[i].product_info; 
-                product.code = response.sale_products[i].product_info.split(" | ")[0]; 
-              } 
-            };
-            for(let i in response.sale_package_products){ 
-              if(key == response.sale_package_products[i].product_id){ 
-                product.info = response.sale_package_products[i].product_info; 
-                product.code = response.sale_package_products[i].product_info.split(" | ")[0]; 
-              } 
-            };
-            products.push(product);
-          };
+          // for (let [key, value] of Object.entries(productAmountById)) {
+          //   let product = { id: key, code: "", info: "", amount: value };
+          //   for(let i in response.sale_products){ 
+          //     if(key == response.sale_products[i].product_id){ 
+          //       product.info = response.sale_products[i].product_info; 
+          //       product.code = response.sale_products[i].product_info.split(" | ")[0]; 
+          //     } 
+          //   };
+          //   for(let i in response.sale_package_products){ 
+          //     if(key == response.sale_package_products[i].product_id){ 
+          //       product.info = response.sale_package_products[i].product_info; 
+          //       product.code = response.sale_package_products[i].product_info.split(" | ")[0]; 
+          //     } 
+          //   };
+          //   products.push(product);
+          // };
 
-          if(event.target.elements.namedItem("order").value == "amount"){
-            products = lib.sort(products, "amount", "desc");
-          } else {
-            products = lib.sort(products, "code");
-          }
+          // if(event.target.elements.namedItem("order").value == "amount"){
+          //   products = lib.sort(products, "amount", "desc");
+          // } else {
+          //   products = lib.sort(products, "code");
+          // }
 
-          document.getElementById("sale-admin-filter-box").style.display = "";
+          // document.getElementById("sale-admin-filter-box").style.display = "";
 
-          const setup = { pageSize: 10, page: 0, status: sale.status };
-          $(() => { lib.carousel.execute("sale-admin-filter-box", Sale.view.admin.filter, products, setup); });
+          // const setup = { pageSize: 10, page: 0, status: sale.status };
+          // $(() => { lib.carousel.execute("sale-admin-filter-box", Ecommerce.sale.view.admin.filter, products, setup); });
         });
       };
 
-      Sale.admin.filter = async (sale) => {
-        let response = await fetch("/admin/sale/filter", {
+      Ecommerce.sale.admin.filter = async (sale) => {
+        let response = await fetch("/admin/ecommerce_sale/filter", {
           method: "POST",
           headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ sale })
@@ -167,7 +133,7 @@
         return response;
       };
 
-      Sale.view.admin.filter = (products, setup) => {
+      Ecommerce.sale.view.admin.filter = (products, setup) => {
         let html = "";
         html += "<div class='box b1 container box-hover border-explicit center'>";
           html += "<div class='mobile-box b5-6 em08 padding-10'>Informações</div>";

@@ -374,7 +374,7 @@ module.exports = {
 
 		return query;
 	},
-	filter_inner_by_period_params_strict: function(props, tbl, innerTbl, inners, date, periodStart, periodEnd, params, values, strict_params, strict_values, orderParam, order){
+	filter_inner_by_period_params_strict: function(props, tbl, inners, date, periodStart, periodEnd, params, values, strict_params, strict_values, orderParam, order){
 		let query = "";
 		query = "SELECT ";
 
@@ -390,18 +390,13 @@ module.exports = {
 			query += "* ";
 		};
 
-		query += "FROM "+tbl+" "
+		query += "FROM "+tbl+" ";
 
 		if(inners.length){
-			query += "INNER JOIN "+innerTbl+" ON ";
 			for(let i in inners){
-				if(i == inners.length - 1){
-					query += inners[i][0]+"="+inners[i][1]+" ";
-				} else {
-					query += inners[i][0]+"="+inners[i][1]+" AND ";
-				};
+				query += "INNER JOIN "+inners[i][0]+" ON "+inners[i][1]+"="+inners[i][2]+" ";
 			};
-		};
+		}
 
 		if(periodStart && periodEnd){
 			query += "WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";

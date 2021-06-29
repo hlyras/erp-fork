@@ -74,7 +74,6 @@ if(Ecommerce.sale.controller.filter){
 		let sale = {
 			code: event.target.elements.namedItem("code").value,
 			customer_name: event.target.elements.namedItem("customer").value,
-			customer_user: event.target.elements.namedItem("customer").value,
 			status: event.target.elements.namedItem("status").value,
 			tracker: event.target.elements.namedItem("tracker").value,
 			periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),

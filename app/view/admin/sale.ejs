@@ -114,6 +114,7 @@
           if(event.target.elements.namedItem("status").value == "Confirmadas"){ sale.status = "Confirmadas"; };
 
           const productAmountById = {};
+
           response.sale_products.forEach(function (product) {
             productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
           });
@@ -125,18 +126,20 @@
           let products = [];
 
           for (let [key, value] of Object.entries(productAmountById)) {
-            let product = { id: key, code: "", info: "", amount: value };
+            let product = { id: key, code: 0, name: "", color: "", amount: value };
             for(let i in response.sale_products){ 
-              if(key == response.sale_products[i].product_id){ 
-                product.info = response.sale_products[i].product_info; 
-                product.code = response.sale_products[i].product_info.split(" | ")[0]; 
-              } 
+              if(key == response.sale_products[i].product_id){
+                product.code = response.sale_products[i].code;
+                product.name = response.sale_products[i].name;
+                product.color = response.sale_products[i].color;
+              }
             };
             for(let i in response.sale_package_products){ 
               if(key == response.sale_package_products[i].product_id){ 
-                product.info = response.sale_package_products[i].product_info; 
-                product.code = response.sale_package_products[i].product_info.split(" | ")[0]; 
-              } 
+                product.code = response.sale_package_products[i].code;
+                product.name = response.sale_package_products[i].name;
+                product.color = response.sale_package_products[i].color;
+              }
             };
             products.push(product);
           };
@@ -170,13 +173,17 @@
       Sale.view.admin.filter = (products, setup) => {
         console.log(products);
         let html = "";
-        html += "<div class='box b1 container box-hover border-explicit center'>";
-          html += "<div class='mobile-box b5-6 em08 padding-10'>Informações</div>";
-          html += "<div class='mobile-box b6 em07 padding-10'>Quantidade</div>";
+        html += "<div class='box b1 container box-hover border-explicit'>";
+          html += "<div class='mobile-box b6 em08 padding-10 center'>Código</div>";
+          html += "<div class='mobile-box b2 em08 padding-10 center'>Nome</div>";
+          html += "<div class='mobile-box b6 em07 padding-10 center'>Cor</div>";
+          html += "<div class='mobile-box b6 em07 padding-10 center'>Quantidade</div>";
         html += "</div>";
         for(let i = setup.page * setup.pageSize; i < products.length && i < (setup.page + 1) * setup.pageSize; i++){
           html += "<div class='box a1 container box-hover border margin-top-5'>";
-            html += "<div class='mobile-box a5-6 em12 padding-10'>"+products[i].info+"</div>";
+            html += "<div class='mobile-box a6 em12 padding-10 center'>"+products[i].code+"</div>";
+            html += "<div class='mobile-box a2 em12 padding-10'>"+products[i].name+"</div>";
+            html += "<div class='mobile-box a6 em12 padding-10 center'>"+products[i].color+"</div>";
             html += "<div class='mobile-box a6 em12 bold padding-10 center'>"+products[i].amount+"</div>";
           html += "</div>";
         };
