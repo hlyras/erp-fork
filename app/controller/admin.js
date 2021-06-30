@@ -7,7 +7,7 @@ const lib = require('../../config/lib');
 
 const adminController = {
 	index: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 			return res.redirect('/');
 		};
 		res.render('admin/index', { user: req.user });
@@ -26,7 +26,7 @@ const adminController = {
 	},
 	sale: {
 		index: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm', 'pro-man'])){
+			if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 				return res.redirect('/');
 			};
 			let users = await User.list();
@@ -74,13 +74,13 @@ const adminController = {
 		},
 		report: {
 			product: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm', 'pro-man'])){
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 					return res.redirect('/');
 				};
 				res.render('product/index', { user: req.user });
 			},
 			package: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm', 'pro-man'])){
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 					return res.redirect('/');
 				};
 				res.render('package/index', { user: req.user });
@@ -89,7 +89,7 @@ const adminController = {
 	},
 	ecommerce_sale: {
 		index: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm'])){
+			if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 				return res.redirect('/');
 			};
 			let users = await User.list();
@@ -137,13 +137,13 @@ const adminController = {
 		},
 		report: {
 			product: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm', 'pro-man'])){
+				if(!await userController.verifyAccess(req, res, ['adm', 'pro-man','COR-GER'])){
 					return res.redirect('/');
 				};
 				res.render('product/index', { user: req.user });
 			},
 			package: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm', 'pro-man'])){
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 					return res.redirect('/');
 				};
 				res.render('package/index', { user: req.user });
