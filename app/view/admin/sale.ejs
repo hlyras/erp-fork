@@ -13,40 +13,10 @@
     <% include ./../partials/header %>
     <% include ./../partials/nav %>
     <section class="container">
-      <div class="box b2">
-        <form id="sale-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
-          <input type="text" name="customer_name" placeholder="Nome" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <input type="text" name="customer_cnpj" placeholder="CNPJ" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <select name="status" class="box b3 input-generic margin-top-5 hide-disabled">
-            <option value="">Status da venda</option>
-            <option value="Confirmadas">Confirmadas</option>
-            <option value="Em negociação">Em negociação</option>
-            <option value="Ag. pagamento">Ag. pagamento</option>
-            <option value="Ag. embalo">Ag. embalo</option>
-            <option value="Ag. nota fiscal">Ag. nota fiscal</option>
-            <option value="Ag. envio">Ag. Envio</option>
-            <option value="Enviado">Enviado</option>
-          </select>
-          <input type="date" name="periodStart" class="box b4 input-generic center margin-top-5" autocomplete="off">
-          <input type="date" name="periodEnd" class="box b4 input-generic center margin-top-5" autocomplete="off">
-          <select id="user_id" class="box b4 input-generic center margin-top-5" autocomplete="off">
-          <option value="">Vendedor</option>
-          <% for(let i in users){ %>
-              <option value="<%= users[i].id %>"><%= users[i].name %></option>
-          <% } %>
-          </select>
-          <input type="submit" name="submit" class="box b4 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
-        </form>
-        <div id="sale-filter-box" class="box b1 ground" style="display:none">
-            <div id="sale-filter-div" class="box b1"></div>
-            <% include ./../partials/carousel %>
-        </div>
-        <div id="sale-show-box" class="box b1 container ground margin-top-10 margin-bottom-15"></div>
-      </div>
-
-      <div class="box b2">
+      <div class="box b1">
         <form id="sale-admin-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
-          <input type="text" name="customer_name" placeholder="Nome" class="box b3 input-generic center margin-top-5" autocomplete="off">
+          <input type="text" name="product_name" placeholder="Nome do Produto" class="box b2 input-generic center margin-top-5" autocomplete="off">
+          <input type="text" name="customer_name" placeholder="Nome do Cliente" class="box b2 input-generic center margin-top-5" autocomplete="off">
           <input type="text" name="customer_cnpj" placeholder="CNPJ" class="box b3 input-generic center margin-top-5" autocomplete="off">
           <select name="status" class="box b3 input-generic margin-top-5 hide-disabled">
             <option value="">Status da venda</option>
@@ -58,19 +28,13 @@
             <option value="Ag. envio">Ag. Envio</option>
             <option value="Enviado">Enviado</option>
           </select>
-          <input type="date" name="periodStart" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <input type="date" name="periodEnd" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <select name="user_id" class="box b3 input-generic center margin-top-5" autocomplete="off">
-          <option value="">Vendedor</option>
-          <% for(let i in users){ %>
-              <option value="<%= users[i].id %>"><%= users[i].name %></option>
-          <% } %>
-          </select>
-          <select name="order" class="box b2 input-generic margin-top-5 hide-disabled">
+          <select name="order" class="box b3 input-generic margin-top-5 hide-disabled">
             <option value="amount">Quantidade</option>
             <option value="code">Código</option>
           </select>
-          <input type="submit" name="submit" class="box b2 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
+          <input type="date" name="periodStart" class="box b3 input-generic center margin-top-5" autocomplete="off">
+          <input type="date" name="periodEnd" class="box b3 input-generic center margin-top-5" autocomplete="off">
+          <input type="submit" name="submit" class="box b3 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
         </form>
         <div id="sale-admin-filter-box" class="box b1 ground" style="display:none">
             <div id="sale-admin-filter-div" class="box b1"></div>
@@ -97,12 +61,12 @@
           event.preventDefault();
 
           let sale = {
+            product_name: event.target.elements.namedItem("product_name").value,
             customer_name: event.target.elements.namedItem("customer_name").value,
             customer_cnpj: event.target.elements.namedItem("customer_cnpj").value,
             periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
             periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
-            status: event.target.elements.namedItem("status").value,
-            user_id: event.target.elements.namedItem("user_id").value
+            status: event.target.elements.namedItem("status").value
           };
 
           if(sale.status == "Confirmadas"){ sale.status = ""; };
@@ -132,6 +96,7 @@
                 product.code = response.sale_products[i].code;
                 product.name = response.sale_products[i].name;
                 product.color = response.sale_products[i].color;
+                product.size = response.sale_products[i].size;
               }
             };
             for(let i in response.sale_package_products){ 
@@ -139,6 +104,7 @@
                 product.code = response.sale_package_products[i].code;
                 product.name = response.sale_package_products[i].name;
                 product.color = response.sale_package_products[i].color;
+                product.size = response.sale_package_products[i].size;
               }
             };
             products.push(product);
@@ -165,25 +131,26 @@
         });
         response = await response.json();
 
-        if(API.verifyResponse(response)){ return false };
+        if(API.verifyResponse(response)){ return false }
 
         return response;
       };
 
       Sale.view.admin.filter = (products, setup) => {
-        console.log(products);
         let html = "";
         html += "<div class='box b1 container box-hover border-explicit'>";
-          html += "<div class='mobile-box b6 em08 padding-10 center'>Código</div>";
-          html += "<div class='mobile-box b2 em08 padding-10 center'>Nome</div>";
-          html += "<div class='mobile-box b6 em07 padding-10 center'>Cor</div>";
-          html += "<div class='mobile-box b6 em07 padding-10 center'>Quantidade</div>";
+          html += "<div class='mobile-box a9 em06 padding-10 center'>Código</div>";
+          html += "<div class='mobile-box a2 em08 padding-10 center'>Nome</div>";
+          html += "<div class='mobile-box a9 em07 padding-10 center'>Cor</div>";
+          html += "<div class='mobile-box a9 em06 padding-10 center'>Tamanho</div>";
+          html += "<div class='mobile-box a6 em06 padding-10 center'>Quantidade</div>";
         html += "</div>";
         for(let i = setup.page * setup.pageSize; i < products.length && i < (setup.page + 1) * setup.pageSize; i++){
           html += "<div class='box a1 container box-hover border margin-top-5'>";
-            html += "<div class='mobile-box a6 em12 padding-10 center'>"+products[i].code+"</div>";
+            html += "<div class='mobile-box a9 em12 padding-10 center'>"+products[i].code+"</div>";
             html += "<div class='mobile-box a2 em12 padding-10'>"+products[i].name+"</div>";
-            html += "<div class='mobile-box a6 em12 padding-10 center'>"+products[i].color+"</div>";
+            html += "<div class='mobile-box a9 padding-10 center'>"+products[i].color+"</div>";
+            html += "<div class='mobile-box a9 padding-10 center'>"+products[i].size+"</div>";
             html += "<div class='mobile-box a6 em12 bold padding-10 center'>"+products[i].amount+"</div>";
           html += "</div>";
         };

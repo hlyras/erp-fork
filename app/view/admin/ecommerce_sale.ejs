@@ -23,12 +23,7 @@
             <option value="B2W">B2W</option>
             <option value="Reclamação">Reclamação</option>
         </select>
-        <input type="text" name="code" class="box b4 input-generic center margin-top-5" placeholder="Código da venda" autocomplete="off">
-        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodStart">
-        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodEnd">
-        <input type="text" name="customer_name" class="box b2 input-generic center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
-        <input type="text" name="customer_user" class="box b2 input-generic center margin-top-5" placeholder="Usuário do cliente" autocomplete="off">
-        <select name="status" class="box b3 input-generic center margin-top-5 hide-disabled">
+        <select name="status" class="box b4 input-generic center margin-top-5 hide-disabled">
             <option value="" selected>Status</option>
             <option value="Ag. Informações">Ag. Informações</option>
             <option value="Ag. Embalo">Ag. Embalo</option>
@@ -36,11 +31,20 @@
             <option value="Enviado">Enviado</option>
             <option value="Cancelada">Cancelada</option>
         </select>
-        <input type="text" name="tracker" class="box b3 input-generic center margin-top-5" placeholder="Rastreio" autocomplete="off">
-        <input type="submit" name="submit" class="box b3 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
+        <input type="text" name="customer_name" class="box b4 input-generic center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+        <input type="text" name="product_name" placeholder="Nome do Produto" class="box b4 input-generic center margin-top-5" autocomplete="off">
+        <select name="order" class="box b4 input-generic margin-top-5 hide-disabled">
+          <option value="amount">Quantidade</option>
+          <option value="code">Código</option>
+        </select>
+        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodStart">
+        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodEnd">
+        <input type="submit" name="submit" class="box b4 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
     </form>
-      <div id="ecommerce-sale-filter-box" class="box one container padding-5 margin-top-5"></div>
-      <div id="ecommerce-sale-show-box" class="box one container ground padding-5 margin-top-5" style="display:none"></div>
+      <div id="ecommerce-sale-admin-filter-box" class="box b1 ground" style="display:none">
+          <div id="ecommerce-sale-admin-filter-div" class="box b1"></div>
+          <% include ./../partials/carousel %>
+      </div>
     </section>
     <% include ./../partials/loader %>
   </body>
@@ -62,61 +66,59 @@
 
           let sale = {
             origin: event.target.elements.namedItem("origin").value,
-            code: event.target.elements.namedItem("code").value,
+            product_name: event.target.elements.namedItem("product_name").value,
             customer_name: event.target.elements.namedItem("customer_name").value,
-            customer_user: event.target.elements.namedItem("customer_user").value,
             status: event.target.elements.namedItem("status").value,
-            tracker: event.target.elements.namedItem("tracker").value,
             periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),
             periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value)
           };
-
-          console.log(sale);
 
           document.getElementById('ajax-loader').style.visibility = 'visible';
           let response = await Ecommerce.sale.admin.filter(sale);
           document.getElementById('ajax-loader').style.visibility = 'hidden';
 
-          console.log(response);
+          const productAmountById = {};
+          response.sale_products.forEach(function (product) {
+            productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
+          });
 
-          // const productAmountById = {};
-          // response.sale_products.forEach(function (product) {
-          //   productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
-          // });
+          response.sale_package_products.forEach(function (product) {
+            productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
+          });
 
-          // response.sale_package_products.forEach(function (product) {
-          //   productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
-          // });
+          let products = [];
 
-          // let products = [];
+          for (let [key, value] of Object.entries(productAmountById)) {
+            let product = { id: key, code: 0, name: "", color: "", amount: value };
+            for(let i in response.sale_products){ 
+              if(key == response.sale_products[i].product_id){
+                product.code = response.sale_products[i].code;
+                product.name = response.sale_products[i].name;
+                product.color = response.sale_products[i].color;
+                product.size = response.sale_products[i].size;
+              }
+            };
+            for(let i in response.sale_package_products){ 
+              if(key == response.sale_package_products[i].product_id){ 
+                product.code = response.sale_package_products[i].code;
+                product.name = response.sale_package_products[i].name;
+                product.color = response.sale_package_products[i].color;
+                product.size = response.sale_package_products[i].size;
+              }
+            };
+            products.push(product);
+          };
 
-          // for (let [key, value] of Object.entries(productAmountById)) {
-          //   let product = { id: key, code: "", info: "", amount: value };
-          //   for(let i in response.sale_products){ 
-          //     if(key == response.sale_products[i].product_id){ 
-          //       product.info = response.sale_products[i].product_info; 
-          //       product.code = response.sale_products[i].product_info.split(" | ")[0]; 
-          //     } 
-          //   };
-          //   for(let i in response.sale_package_products){ 
-          //     if(key == response.sale_package_products[i].product_id){ 
-          //       product.info = response.sale_package_products[i].product_info; 
-          //       product.code = response.sale_package_products[i].product_info.split(" | ")[0]; 
-          //     } 
-          //   };
-          //   products.push(product);
-          // };
+          if(event.target.elements.namedItem("order").value == "amount"){
+            products = lib.sort(products, "amount", "desc");
+          } else {
+            products = lib.sort(products, "code");
+          }
 
-          // if(event.target.elements.namedItem("order").value == "amount"){
-          //   products = lib.sort(products, "amount", "desc");
-          // } else {
-          //   products = lib.sort(products, "code");
-          // }
+          document.getElementById("ecommerce-sale-admin-filter-box").style.display = "";
 
-          // document.getElementById("sale-admin-filter-box").style.display = "";
-
-          // const setup = { pageSize: 10, page: 0, status: sale.status };
-          // $(() => { lib.carousel.execute("sale-admin-filter-box", Ecommerce.sale.view.admin.filter, products, setup); });
+          const setup = { pageSize: 10, page: 0, status: sale.status };
+          $(() => { lib.carousel.execute("ecommerce-sale-admin-filter-box", Ecommerce.sale.view.admin.filter, products, setup); });
         });
       };
 
@@ -135,17 +137,23 @@
 
       Ecommerce.sale.view.admin.filter = (products, setup) => {
         let html = "";
-        html += "<div class='box b1 container box-hover border-explicit center'>";
-          html += "<div class='mobile-box b5-6 em08 padding-10'>Informações</div>";
-          html += "<div class='mobile-box b6 em07 padding-10'>Quantidade</div>";
+        html += "<div class='box b1 container box-hover border-explicit'>";
+          html += "<div class='mobile-box a9 em06 padding-10 center'>Código</div>";
+          html += "<div class='mobile-box a2 em08 padding-10 center'>Nome</div>";
+          html += "<div class='mobile-box a9 em07 padding-10 center'>Cor</div>";
+          html += "<div class='mobile-box a9 em06 padding-10 center'>Tamanho</div>";
+          html += "<div class='mobile-box a6 em06 padding-10 center'>Quantidade</div>";
         html += "</div>";
         for(let i = setup.page * setup.pageSize; i < products.length && i < (setup.page + 1) * setup.pageSize; i++){
           html += "<div class='box a1 container box-hover border margin-top-5'>";
-            html += "<div class='mobile-box a5-6 em12 padding-10'>"+products[i].info+"</div>";
+            html += "<div class='mobile-box a9 em12 padding-10 center'>"+products[i].code+"</div>";
+            html += "<div class='mobile-box a2 em12 padding-10'>"+products[i].name+"</div>";
+            html += "<div class='mobile-box a9 padding-10 center'>"+products[i].color+"</div>";
+            html += "<div class='mobile-box a9 padding-10 center'>"+products[i].size+"</div>";
             html += "<div class='mobile-box a6 em12 bold padding-10 center'>"+products[i].amount+"</div>";
           html += "</div>";
         };
-        document.getElementById("sale-admin-filter-div").innerHTML = html;
+        document.getElementById("ecommerce-sale-admin-filter-div").innerHTML = html;
       };
     </script>
   </footer>

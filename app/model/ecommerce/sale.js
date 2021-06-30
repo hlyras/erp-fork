@@ -250,14 +250,14 @@ Sale.after_sale = {
 Sale.admin = {
 	product: {
 		filter: (props, inners, period, params, values, strict_params, strict_values) => {
-			let query = lib.filter_inner_by_period_params_strict(props, "cms_wt_erp.ecommerce_sale", inners, "sale_date", period.start, period.end, params, values, strict_params, strict_values, "cms_wt_erp.ecommerce_sale.id", "DESC");
+			let query = lib.filter_inner_by_period_params_strict(props, "cms_wt_erp.ecommerce_sale", inners, "datetime", period.start, period.end, params, values, strict_params, strict_values, "cms_wt_erp.ecommerce_sale.id", "DESC");
 			return db(query);
 		}
 	},
 	package: {
 		product: {
 			filter: (props, inners, period, params, values, strict_params, strict_values) => {
-				let query = lib.filter_inner_by_period_params_strict(props, "cms_wt_erp.ecommerce_sale", inners, "sale_date", period.start, period.end, params, values, strict_params, strict_values, "cms_wt_erp.ecommerce_sale.id", "DESC");
+				let query = lib.filter_inner_by_period_params_strict(props, "cms_wt_erp.ecommerce_sale", inners, "datetime", period.start, period.end, params, values, strict_params, strict_values, "cms_wt_erp.ecommerce_sale.id", "DESC");
 				return db(query);
 			}
 		}
