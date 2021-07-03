@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const lib = require('../../config/lib');
 
 const departmentController = require('../controller/department');
 
