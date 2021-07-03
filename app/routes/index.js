@@ -1,12 +1,13 @@
 const router = require("express").Router();
+const lib = require('../../config/lib');
 
 const homeController = require("../controller/home");
 
-router.get("/", homeController.index);
+router.get("/", lib.routeToHttps, homeController.index);
 
-router.get("/login", homeController.login);
-router.get("/signup", homeController.signup);
-router.get("/logout", homeController.logout);
+router.get("/login", lib.routeToHttps, homeController.login);
+router.get("/signup", lib.routeToHttps, homeController.signup);
+router.get("/logout", lib.routeToHttps, homeController.logout);
 
 router.use("/admin", require("./admin"));
 router.use("/department", require("./department"));

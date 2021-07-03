@@ -5,41 +5,39 @@
 	<body>
 		<% include ./../partials/header %>
         <% include ./../partials/nav %>
-		<section>
-			<div class="container">
-				<div class="box-1">
-					<h4>Comprar Matéria-Prima</h4>
-					<form id="feedstock-supplier-storage-filter-form" class="box-1">
-						<input type="hidden" name="location" value="purchaseFeedstock">
-						<select name="supplier_id" class="btn-generic-medium">
-							<option value="">Fornecedor</option>
-							<% for(i in feedstockSuppliers){ %>
-								<option value="<%= feedstockSuppliers[i].id %>"><%= feedstockSuppliers[i].name %></option>
-							<% } %>
-						</select>
-						<input type="submit" id="feedstock-supplier-storage-filter-submit" class="btn-submit" value="Filtrar">
-					</form>
-					<form class="box-1" id="feedstock-purchase-kart-form">
-						<select name="feedstock_id" class="btn-generic-big"></select>
-						<input type="number" name="feedstock_amount" class="btn-generic-small price" step="0.01" placeholder="cm/un" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}"/>
-						<input type="submit" class="btn-submit" id="feedstock-purchase-kart-submit" value="Adicionar">
-					</form>
-					<table id="feedstock-purchase-kart-tbl" class="tbl-info box-1"></table>
-				</div>
-				<div class="box-1">
-					<form id="feedstock-purchase-form" class="box-1">
-						<h3 class="underline">Incluir Compra em</h3>
-						<select name="storage_id" class="btn-generic-medium">
-							<option value="">Estoque</option>
-							<% for(i in feedstockStorages){ %>
-								<option value="<%= feedstockStorages[i].id %>"><%= feedstockStorages[i].name %></option>
-							<% } %>
-						</select>
-						<input type="submit" name="submit" class="btn-submit" value="Confirmar">
-					</form>
-				</div>
+		<div class="container">
+			<div class="box b1">
+				<div class="box b1 padding-10 center underline">Comprar Matéria-Prima</div>
+				<form id="feedstock-supplier-storage-filter-form" class="box b1">
+					<input type="hidden" name="location" value="purchaseFeedstock">
+					<select name="supplier_id" class="box b4 input-generic">
+						<option value="">Fornecedor</option>
+						<% for(i in feedstockSuppliers){ %>
+							<option value="<%= feedstockSuppliers[i].id %>"><%= feedstockSuppliers[i].name %></option>
+						<% } %>
+					</select>
+					<input type="submit" id="feedstock-supplier-storage-filter-submit" class="box b4 submit-generic" value="Filtrar">
+				</form>
+				<form class="box b1" id="feedstock-purchase-kart-form">
+					<select name="feedstock_id" class="btn-generic-big"></select>
+					<input type="number" name="feedstock_amount" class="btn-generic-small price" step="0.01" placeholder="cm/un" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}"/>
+					<input type="submit" class="btn-submit" id="feedstock-purchase-kart-submit" value="Adicionar">
+				</form>
+				<table id="feedstock-purchase-kart-tbl" class="box b1 border"></table>
 			</div>
-		</section>
+			<div class="box b1">
+				<form id="feedstock-purchase-form" class="box b1">
+					<h3 class="underline">Incluir Compra em</h3>
+					<select name="storage_id" class="btn-generic-medium">
+						<option value="">Estoque</option>
+						<% for(i in feedstockStorages){ %>
+							<option value="<%= feedstockStorages[i].id %>"><%= feedstockStorages[i].name %></option>
+						<% } %>
+					</select>
+					<input type="submit" name="submit" class="btn-submit" value="Confirmar">
+				</form>
+			</div>
+		</div>
 		<div id="ajax-loader" class="ajax-loader">
 			<div class="loader"></div>
 		</div>
