@@ -566,10 +566,8 @@ module.exports = {
 	},
 	routeToHttps: (req, res, next) => {
 	    if ((req.headers["x-forwarded-proto"] || "").endsWith("http")){
-	    	console.log(req.headers["x-forwarded-proto"]);
 	        res.redirect(`https://${req.hostname}${req.url}`);
 	    } else {
-	    	console.log(req.headers["x-forwarded-proto"]);
 	        next();
 	    }
 	}

@@ -1,48 +1,49 @@
 const router = require("express").Router();
+const lib = require('../../config/lib');
 
 const financialController = require('../controller/financial');
 
 //API ROUTES
-router.get('/index', financialController.index);
+router.get('/index', lib.routeToHttps, financialController.index);
 
 // ------------------
 // income routes
 // ------------------
 
-router.post('/balance', financialController.balance);
+router.post('/balance', lib.routeToHttps, financialController.balance);
 
-router.get('/income', financialController.income);
-router.post('/income/save', financialController.incomeSave);
-router.get('/income/id/:id', financialController.incomeFindById);
-router.post('/income/filter', financialController.incomeFilter);
-router.post('/incomecategory/save', financialController.incomeCategorySave);
-router.get('/incomecategory/filter', financialController.incomeCategoryFilter);
-router.get('/incomecategory/list', financialController.incomeCategoryList);
-router.post('/incomeorigin/save', financialController.incomeOriginSave);
-router.get('/incomeorigin/filterbycategory', financialController.incomeOriginFilterByCategory);
-router.get('/incomeorigin/filter', financialController.incomeOriginFilter);
-// router.get('/incomecategory/list', financialController.incomeCategoryList);
-router.delete('/incomecategory/remove', financialController.incomeCategoryRemove);
-router.delete('/incomeorigin/remove', financialController.incomeOriginRemove);
+router.get('/income', lib.routeToHttps, financialController.income);
+router.post('/income/save', lib.routeToHttps, financialController.incomeSave);
+router.get('/income/id/:id', lib.routeToHttps, financialController.incomeFindById);
+router.post('/income/filter', lib.routeToHttps, financialController.incomeFilter);
+router.post('/incomecategory/save', lib.routeToHttps, financialController.incomeCategorySave);
+router.get('/incomecategory/filter', lib.routeToHttps, financialController.incomeCategoryFilter);
+router.get('/incomecategory/list', lib.routeToHttps, financialController.incomeCategoryList);
+router.post('/incomeorigin/save', lib.routeToHttps, financialController.incomeOriginSave);
+router.get('/incomeorigin/filterbycategory', lib.routeToHttps, financialController.incomeOriginFilterByCategory);
+router.get('/incomeorigin/filter', lib.routeToHttps, financialController.incomeOriginFilter);
+// router.get('/incomecategory/list', lib.routeToHttps, financialController.incomeCategoryList);
+router.delete('/incomecategory/remove', lib.routeToHttps, financialController.incomeCategoryRemove);
+router.delete('/incomeorigin/remove', lib.routeToHttps, financialController.incomeOriginRemove);
 
 // ------------------
 // outcome routes
 // ------------------
 
-router.get('/outcome', financialController.outcome);
-router.post('/outcome/save', financialController.outcomeSave);
-router.get('/outcome/id/:id', financialController.outcomeFindById);
-router.post('/outcome/filter', financialController.outcomeFilter);
-router.delete('/outcome/delete', financialController.outcomeDelete);
+router.get('/outcome', lib.routeToHttps, financialController.outcome);
+router.post('/outcome/save', lib.routeToHttps, financialController.outcomeSave);
+router.get('/outcome/id/:id', lib.routeToHttps, financialController.outcomeFindById);
+router.post('/outcome/filter', lib.routeToHttps, financialController.outcomeFilter);
+router.delete('/outcome/delete', lib.routeToHttps, financialController.outcomeDelete);
 
-router.post('/outcomecategory/save', financialController.outcomeCategorySave);
-router.get('/outcomecategory/filter', financialController.outcomeCategoryFilter);
-router.get('/outcomecategory/list', financialController.outcomeCategoryList);
-router.post('/outcomeorigin/save', financialController.outcomeOriginSave);
-router.get('/outcomeorigin/filterbycategory', financialController.outcomeOriginFilterByCategory);
-router.get('/outcomeorigin/filter', financialController.outcomeOriginFilter);
-// router.get('/outcomecategory/list', financialController.outcomeCategoryList);
-router.delete('/outcomecategory/remove', financialController.outcomeCategoryRemove);
-router.delete('/outcomeorigin/remove', financialController.outcomeOriginRemove);
+router.post('/outcomecategory/save', lib.routeToHttps, financialController.outcomeCategorySave);
+router.get('/outcomecategory/filter', lib.routeToHttps, financialController.outcomeCategoryFilter);
+router.get('/outcomecategory/list', lib.routeToHttps, financialController.outcomeCategoryList);
+router.post('/outcomeorigin/save', lib.routeToHttps, financialController.outcomeOriginSave);
+router.get('/outcomeorigin/filterbycategory', lib.routeToHttps, financialController.outcomeOriginFilterByCategory);
+router.get('/outcomeorigin/filter', lib.routeToHttps, financialController.outcomeOriginFilter);
+// router.get('/outcomecategory/list', lib.routeToHttps, financialController.outcomeCategoryList);
+router.delete('/outcomecategory/remove', lib.routeToHttps, financialController.outcomeCategoryRemove);
+router.delete('/outcomeorigin/remove', lib.routeToHttps, financialController.outcomeOriginRemove);
 
 module.exports = router;

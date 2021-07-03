@@ -1,11 +1,12 @@
 const router = require("express").Router();
+const lib = require('../../config/lib');
 
 const passport = require('../../config/passport');
 
 const userController = require("../controller/user");
 const homeController = require("../controller/home");
 
-router.get('/', userController.verify, userController.index);
+router.get('/', lib.routeToHttps, userController.verify, userController.index);
 
 router.post('/login', passport.authenticate('local-login', { 
 	failureRedirect: '/login',
@@ -17,9 +18,9 @@ router.post('/signup', passport.authenticate('local-signup', {
 	failureFlash: true
 }), homeController.successfulSignup);
 
-router.get('/list', userController.list);
-router.post('/show', userController.show);
-router.post('/updateInfo', userController.updateInfo);
-router.post('/updatePassword', userController.updatePassword);
+router.get('/list', lib.routeToHttps, userController.list);
+router.post('/show', lib.routeToHttps, userController.show);
+router.post('/updateInfo', lib.routeToHttps, userController.updateInfo);
+router.post('/updatePassword', lib.routeToHttps, userController.updatePassword);
 
 module.exports = router;
