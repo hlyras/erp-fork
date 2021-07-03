@@ -1,4 +1,3 @@
-<!-- geometria analítica -->
 <html>
   <head>
     <% include ./../partials/head %>
@@ -15,7 +14,7 @@
     <section class="container">
       <form id="ecommerce-sale-admin-filter-form" class="box one container border padding-10 margin-top-5 shadow">
         <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
-            <option value="" selected disabled>Plataforma da venda</option>
+            <option value="">Plataforma da venda</option>
             <option value="MLJC">MLJC</option>
             <option value="MLCHRIS">MLCHRIS</option>
             <option value="SITE">SITE</option>
@@ -31,8 +30,13 @@
             <option value="Enviado">Enviado</option>
             <option value="Cancelada">Cancelada</option>
         </select>
-        <input type="text" name="customer_name" class="box b4 input-generic center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
-        <input type="text" name="product_name" placeholder="Nome do Produto" class="box b4 input-generic center margin-top-5" autocomplete="off">
+        <input type="text" name="product-name" placeholder="Nome do Produto" class="box b4 input-generic center margin-top-5" autocomplete="off">
+        <select name="product-color" class="box b4 input-generic margin-top-5 center" autocomplete="off">
+          <option value="">Cor</option>
+          <% for(let i in colors){ %>
+            <option value="<%= colors[i].shortcut %>"><%= colors[i].name %></option>
+          <% } %>
+        </select>
         <select name="order" class="box b4 input-generic margin-top-5 hide-disabled">
           <option value="amount">Quantidade</option>
           <option value="code">Código</option>
@@ -66,8 +70,8 @@
 
           let sale = {
             origin: event.target.elements.namedItem("origin").value,
-            product_name: event.target.elements.namedItem("product_name").value,
-            customer_name: event.target.elements.namedItem("customer_name").value,
+            product_name: event.target.elements.namedItem("product-name").value,
+            product_color: event.target.elements.namedItem("product-color").value,
             status: event.target.elements.namedItem("status").value,
             periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),
             periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value)

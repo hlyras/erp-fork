@@ -7,4 +7,8 @@ const Expense = function(){
 	this.payment_date;
 };
 
+Expense.category = function(){
+	
+}
+
 module.exports = Expense;

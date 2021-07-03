@@ -1,4 +1,5 @@
 const User = require('../model/user');
+const Product = require('../model/product');
 const Sale = require('../model/sale');
 const Ecommerce_sale = require('../model/ecommerce/sale');
 const userController = require('./user');
@@ -29,8 +30,9 @@ const adminController = {
 			if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 				return res.redirect('/');
 			};
+			let colors = await Product.colorList();
 			let users = await User.list();
-			res.render('admin/sale', { user: req.user, users: users });
+			res.render('admin/sale', { user: req.user, users: users, colors: colors });
 		},
 		filter: async (req, res) => {
 			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
@@ -59,6 +61,7 @@ const adminController = {
 			lib.insertParam("code", req.body.sale.code, params, values);
 			lib.insertParam("customer_name", req.body.sale.customer_name, params, values);
 			lib.insertParam("cms_wt_erp.product.name", req.body.sale.product_name, params, values);
+			lib.insertParam("cms_wt_erp.product.color", req.body.sale.product_color, params, values);
 			lib.insertParam("customer_user", req.body.sale.customer_user, params, values);
 			lib.insertParam("tracker", req.body.sale.tracker, params, values);
 			lib.insertParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params, strict_values);
@@ -92,8 +95,9 @@ const adminController = {
 			if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 				return res.redirect('/');
 			};
+			let colors = await Product.colorList();
 			let users = await User.list();
-			res.render('admin/ecommerce_sale', { user: req.user, users: users });
+			res.render('admin/ecommerce_sale', { user: req.user, users: users, colors: colors });
 		},
 		filter: async (req, res) => {
 			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
@@ -122,6 +126,7 @@ const adminController = {
 			lib.insertParam("code", req.body.sale.code, params, values);
 			lib.insertParam("customer_name", req.body.sale.customer_name, params, values);
 			lib.insertParam("cms_wt_erp.product.name", req.body.sale.product_name, params, values);
+			lib.insertParam("cms_wt_erp.product.color", req.body.sale.product_color, params, values);
 			lib.insertParam("customer_user", req.body.sale.customer_user, params, values);
 			lib.insertParam("tracker", req.body.sale.tracker, params, values);
 			lib.insertParam("cms_wt_erp.ecommerce_sale.status", req.body.sale.status, strict_params, strict_values);
