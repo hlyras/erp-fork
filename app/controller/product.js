@@ -98,7 +98,7 @@ const productController = {
 		};
 	},
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','adm-man'])){
+		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -261,7 +261,7 @@ const productController = {
 		};
 	},
 	delete: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','man','adm-man'])){
+		if(!await userController.verifyAccess(req, res, ['adm'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -311,7 +311,7 @@ const productController = {
 	},
 	feedstock: {
 		add: async(req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','COR-GER'])){
+			if(!await userController.verifyAccess(req, res, ['adm'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
@@ -412,7 +412,7 @@ const productController = {
 			};
 		},
 		remove: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','COR-GER'])){
+			if(!await userController.verifyAccess(req, res, ['adm'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
@@ -426,7 +426,7 @@ const productController = {
 		},
 		category: {
 			save: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm'])){
 					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 				};
 
@@ -470,7 +470,7 @@ const productController = {
 				};
 			},
 			delete: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm'])){
 					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 				};
 
@@ -483,7 +483,7 @@ const productController = {
 				};
 			},
 			add: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm'])){
 					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 				};
 
@@ -496,7 +496,7 @@ const productController = {
 				};
 			},
 			remove: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm'])){
 					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 				};
 
@@ -588,9 +588,9 @@ const productController = {
 			};
 		},
 		update: async (req, res) => {
-			// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-				// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-			// };
+			if(!await userController.verifyAccess(req, res, ['adm'])){
+				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+			};
 
 			let price = req.body.price;
 
@@ -604,9 +604,9 @@ const productController = {
 		},
 		category: {
 			save: async (req, res) => {
-				// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-					// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-				// };
+				if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+				};
 
 				let category = req.body.category;
 
@@ -721,7 +721,7 @@ const productController = {
 				};
 			},
 			delete: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','man','adm-man'])){
+				if(!await userController.verifyAccess(req, res, ['adm'])){
 					return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 				};
 
@@ -847,7 +847,7 @@ const productController = {
 			};
 		},
 		delete: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','man','adm-man'])){
+			if(!await userController.verifyAccess(req, res, ['adm'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 

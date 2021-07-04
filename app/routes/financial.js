@@ -2,6 +2,7 @@ const router = require("express").Router();
 const lib = require('../../config/lib');
 
 const financialController = require('../controller/financial');
+const expenseController = require('../controller/expense');
 
 //API ROUTES
 router.get('/index', lib.routeToHttps, financialController.index);
@@ -45,5 +46,7 @@ router.get('/outcomeorigin/filter', lib.routeToHttps, financialController.outcom
 // router.get('/outcomecategory/list', lib.routeToHttps, financialController.outcomeCategoryList);
 router.delete('/outcomecategory/remove', lib.routeToHttps, financialController.outcomeCategoryRemove);
 router.delete('/outcomeorigin/remove', lib.routeToHttps, financialController.outcomeOriginRemove);
+
+router.get('/expense', lib.routeToHttps, expenseController.index);
 
 module.exports = router;
