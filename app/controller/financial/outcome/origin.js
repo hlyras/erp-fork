@@ -40,7 +40,7 @@ const originController = {
 		let params = []; let values = [];
 		let strict_params = []; let strict_values = [];
 		
-		lib.insertParam("cms_wt_erp.financial_outcome_origin.category_id", req.query.category_id, params, values);
+		lib.insertParam("cms_wt_erp.financial_outcome_origin.category_id", req.query.category_id, strict_params, strict_values);
 		lib.insertParam("cms_wt_erp.financial_outcome_origin.name", req.query.name, params, values);
 
 		try {
