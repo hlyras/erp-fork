@@ -1,17 +1,5 @@
 Sale.controller = {};
 
-lib.findCheckedRadios = (radio_name) => {
-	let radios = document.getElementsByName(radio_name);
-	for(let i in radios){
-		if(radios[i].checked){
-			return radios[i];
-		};
-	};
-	radios = false;
-	radios.value = false;
-	return radios;
-};
-
 Sale.controller.category = document.getElementById("sale-category-select");
 if(Sale.controller.category){
 	Sale.controller.category.addEventListener("change", event => {

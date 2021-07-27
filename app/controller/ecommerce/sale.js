@@ -186,9 +186,7 @@ const saleController = {
 					for(let i in sale.package_actions.remove){ await Sale.package.remove(sale.package_actions.remove[i].id); await Sale.package.product.removeAll(sale.id, sale.package_actions.remove[i].package_id); };
 				};
 
-				// // // // // // // // 
 				// sale package products updates
-				// // // // // // // // 
 				for(let i in sale.packages){
 					let db_sale_package_products = await Sale.package.product.list(sale.id, sale.packages[i].package_id);
 

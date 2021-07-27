@@ -1,5 +1,5 @@
 const db = require('../../config/connection');
-const lib = require('../../config/lib');
+const lib = require("../../config/lib");
 
 const Product = function(){
 	this.id;

@@ -3,131 +3,131 @@
         <% include ./../partials/head %>
 	</head>
 	<style>
-		/** { font-weight: bold; }*/
+		.mob-b2 {
+
+		}
+
+		@media (max-width: 800px) {
+			.mob-b1 { width:100%; }
+		}
 	</style>
 	<body>
 		<% include ./../partials/header %>
         <% include ./../partials/nav %>
 			<section class="container">
-				<div class="box two container ground margin-top-15 padding-10 center">
-                    <h3 class="underline">Nova Receita</h3>
-					<form id="financial-income-create-form" class="box one container">
-						<select class="box two input-generic center margin-top-5" name="income_category" onchange="this.options[this.selectedIndex].value && lib.fillSelect('Origem', 'financial-income-create-origin-select', '/financial/incomeorigin/filterbycategory?id='+this.options[this.selectedIndex].value, 'get');">
-						    <option value="0">Categoria</option>
+				<div class="box b2 container ground margin-top-10 padding-10">
+                    <h3 class="underline center">Nova Receita</h3>
+					<form id="income-create-form" class="box b1 container">
+						<input type="hidden" name="id" value="">
+                        <input type="date" name="date" class="box b1 input-generic margin-top-5 center">
+						<select name="category-id" class="box b2 input-generic center margin-top-5">
+						    <option value="">Categoria</option>
 							<% for(i in incomeCategories){ %>
 								<option value="<%= incomeCategories[i].id %>"><%= incomeCategories[i].name %></option>
 							<% } %>
 						</select>
-						<select class="box two input-generic center margin-top-5" name="income_origin" id="financial-income-create-origin-select">
-							<option value="0">Origem</option>
+						<select name="origin-id" class="box b2 input-generic center margin-top-5">
+							<option value="">Origem</option>
 						</select>
-						<input type="number" class="box two input-generic center margin-top-5 bold" name="income_value" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}"/>
-						<input type="text" class="box two input-generic center margin-top-5" name="income_obs" placeholder="Observação" maxlength="80" autocomplete="off" />
-						<input type="submit" class="box one submit-generic center margin-top-5" id="financial-income-create-submit" value="Cadastrar">
+						<input type="number" name="cash" class="box b2 input-generic center margin-top-5 bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}"/>
+						<input type="text" name="description" class="box b2 input-generic center margin-top-5" placeholder="Descrição da entrada" maxlength="300" autocomplete="off" />
+						<input type="submit" name="submit" class="box b1 submit-generic center margin-top-5" value="Cadastrar">
 					</form>
 				</div>
-				<div class="box two container ground margin-top-15 padding-10 center">
-                    <h3 class="underline">Nova Despesa</h3>
-					<form id="financial-outcome-create-form" class="box one container">
-						<select class="box two input-generic center margin-top-5" name="outcome_category" id="financial-outcome-create-category-select" onchange="this.options[this.selectedIndex].value && lib.fillSelect('Origem', 'financial-outcome-create-origin-select', '/financial/outcomeorigin/filterbycategory?id='+this.options[this.selectedIndex].value, 'get');">
-							<option value="0">Categoria</option>
+				<div class="box b2 container ground margin-top-10 padding-10">
+                    <h3 class="underline center">Nova Despesa</h3>
+					<form id="outcome-create-form" class="box b1 container">
+						<input type="hidden" name="id" value="">
+                        <input type="date" name="date" class="box b1 input-generic margin-top-5 center">
+						<select name="category-id" class="box b2 input-generic center margin-top-5">
+							<option value="">Categoria</option>
 							<% for(i in outcomeCategories){ %>
 								<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
-							<% }%>
+							<% } %>
 						</select>
-						<select class="box two input-generic center margin-top-5" name="outcome_origin" id="financial-outcome-create-origin-select">
-							<option value="0">Origem</option>
+						<select name="origin-id" class="box b2 input-generic center margin-top-5">
+							<option value="">Origem</option>
 						</select>
-						<select class="box two-fifths input-generic center margin-top-5" name="outcome_payment">
-						    <option value="0">Método de pagamento</option>
+						<select name="income-category-id" class="box b2-5 input-generic center margin-top-5">
+						    <option value="">Método de pagamento</option>
 							<% for(i in incomeCategories){ %>
 								<option value="<%= incomeCategories[i].id %>"><%= incomeCategories[i].name %></option>
 							<% } %>
 						</select>
-						<input type="number" class="box five input-generic center margin-top-5 bold" name="outcome_value" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}" />
-						<input type="text" class="box two-fifths input-generic center margin-top-5" name="outcome_obs" placeholder="Observação" autocomplete="off"/>
-						<input type="submit" class="box one submit-generic center margin-top-5" id="financial-outcome-create-submit" value="Cadastrar">
+						<input type="number" name="cost" class="box b5 input-generic center margin-top-5 bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value='0.00'}" />
+						<input type="text" name="description" class="box b2-5 input-generic center margin-top-5" placeholder="Observação" autocomplete="off"/>
+						<input type="submit" name="submit" class="box b1 submit-generic center margin-top-5" value="Cadastrar">
 					</form>
 				</div>
 
 				<!-- BALANCE DIV -->
-
-				<div class="box one container ground margin-top-15 padding-10 center">
-                    <div class="box one">
-    	                <h3 class="underline">Balanço</h3>
-	                    <h1 id="balance_value" class="box one"></h1>
+				<!-- <div class="box b1 container ground margin-top-10 padding-10">
+                    <div class="box b1">
+    	                <h3 class="underline center">Balanço</h3>
+	                    <h1 id="balance_value" class="box b1"></h1>
                     </div>
-                    <div class="box three"></div>
-                    <form id="balance-report-form" class="box three container">
-						<input type="date" class="box two input-generic center margin-top-5" name="balance_periodStart">
-						<input type="date" class="box two input-generic center margin-top-5" name="balance_periodEnd">
-						<input type="submit" class="box one submit-generic center margin-top-5" id="balance-report-submit" value="Filtrar">
+                    <div class="box b3"></div>
+                    <form id="balance-report-form" class="box b3 container">
+						<input type="date" class="box b2 input-generic center margin-top-5" name="balance_periodStart">
+						<input type="date" class="box b2 input-generic center margin-top-5" name="balance_periodEnd">
+						<input type="submit" class="box b1 submit-generic center margin-top-5" id="balance-report-submit" value="Filtrar">
 					</form>
-				</div>
+				</div> -->
 
-				<!-- INCOME DIV -->
-
-				<div class="box two container ground margin-top-15 padding-10 center">
-                    <h3 class="underline">Relatório de Entradas</h3>
-					<form id="financial-income-report-form" class="box one container">
-						<input type="date" class="box two input-generic center margin-top-5" name="income_periodStart">
-						<input type="date" class="box two input-generic center margin-top-5" name="income_periodEnd">
-	                    <select class="box two input-generic center margin-top-5" name="income_category" onchange="this.options[this.selectedIndex].value && lib.fillSelect('Origem', 'financial-income-report-origin-select', '/financial/incomeorigin/filterbycategory?id='+this.options[this.selectedIndex].value, 'get');">
-						    <option value="0">Categoria</option>
+				<div id="income-filter-box" class="box b2 container ground margin-top-10 padding-10">
+                    <h3 class="underline center">Relatório de Entradas</h3>
+					<form id="income-filter-form" class="box b1 container">
+						<input type="date" name="periodStart" class="box b2 input-generic center margin-top-5">
+						<input type="date" name="periodEnd" class="box b2 input-generic center margin-top-5">
+	                    <select name="category-id" class="box b2 input-generic center margin-top-5">
+						    <option value="">Categoria</option>
 							<% for(i in incomeCategories){ %>
 								<option value="<%= incomeCategories[i].id %>"><%= incomeCategories[i].name %></option>
 							<% } %>
 						</select>
-						<select class="box two input-generic center margin-top-5" name="income_origin" id="financial-income-report-origin-select">
-							<option value="0">Origem</option>
+						<select name="origin-id" class="box b2 input-generic center margin-top-5">
+							<option value="">Origem</option>
 						</select>
-						<input type="submit" class="box one submit-generic center margin-top-5" id="financial-income-report-submit" value="Filtrar">
+						<input type="submit" name="submit" class="box b1 submit-generic center margin-top-5" value="Filtrar">
 					</form>
-                    <h1 id="income_totalValue" class="box one center margin-top-10"></h1>
-					<div id="financial-income-report-div" class="box one center">
-						<table class="tbl-info width-fill" id="financial-income-report-tbl"></table>
-						<br>
-						<button id="incomeReportPrevious" class="btn-pagination" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-	                    <span id="incomeReportPageNumber"></span>
-	                    <button id="incomeReportNext" class="btn-pagination" autocomplete="off" disabled>&rsaquo;&rsaquo;</button><br><br>
-					</div>
+                    <h1 id="income_totalValue" class="box b1 center margin-top-10"></h1>
+					<div id="income-filter-div" class="box b1 container"></div>
+	                <% include ./../partials/carousel %>
 				</div>
 
-				<!-- INCOME DIV -->
-
-				<div class="box two container ground margin-top-15 padding-10 center">
-                    <h3 class="underline">Relatório de Saídas</h3>
-					<form id="financial-outcome-report-form" class="box one container">
-						<input type="date" class="box two input-generic center margin-top-5" name="outcome_periodStart">
-						<input type="date" class="box two input-generic center margin-top-5" name="outcome_periodEnd">
-	                    <select class="box three input-generic center margin-top-5" name="outcome_category" onchange="this.options[this.selectedIndex].value && lib.fillSelect('Origem', 'financial-outcome-report-origin-select', '/financial/outcomeorigin/filterbycategory?id='+this.options[this.selectedIndex].value, 'get');">
-						    <option value="0">Categoria</option>
+				<div id="outcome-filter-box" class="box b2 container ground margin-top-10 padding-10">
+                    <h3 class="box b1 underline center">Relatório de Saídas</h3>
+					<form id="outcome-filter-form" class="box b1 container">
+						<input type="date" name="periodStart" class="box b2 input-generic center margin-top-5">
+						<input type="date" name="periodEnd" class="box b2 input-generic center margin-top-5">
+	                    <select name="category-id" class="box b4 input-generic center margin-top-5">
+						    <option value="">Categoria</option>
 							<% for(i in outcomeCategories){ %>
 								<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
 							<% } %>
 						</select>
-						<select class="box three input-generic center margin-top-5" name="outcome_origin" id="financial-outcome-report-origin-select">
-							<option value="0">Origem</option>
+						<select name="origin-id" class="box b4 input-generic center margin-top-5">
+							<option value="">Origem</option>
 						</select>
-						<select class="box three input-generic center margin-top-5" name="outcome_payment">
-						    <option value="0">Método de pagamento</option>
+						<select name="income-category-id" class="box b4 input-generic center margin-top-5">
+						    <option value="">Método de pagamento</option>
 							<% for(i in incomeCategories){ %>
 								<option value="<%= incomeCategories[i].id %>"><%= incomeCategories[i].name %></option>
 							<% } %>
 						</select>
-						<input type="submit" class="box one submit-generic center margin-top-5" id="financial-outcome-report-submit" value="Filtrar">
+						<select name="status" class="box b4 input-generic margin-top-5">
+							<option value="">Selecionar status</option>
+							<option value="Ag. aprovação">Ag. aprovação</option>
+							<option value="A pagar">A pagar</option>
+							<option value="Pago">Pago</option>
+						</select>
+						<input type="submit" name="submit" class="box b1 submit-generic center margin-top-5" value="Filtrar">
 					</form>
-                    <h1 id="outcome_totalValue" class="box one center margin-top-10"></h1>
-					<div id="financial-outcome-report-div" class="box one center">
-						<table id="financial-outcome-report-tbl" class="tbl-info width-fill"></table>
-						<br>
-						<button id="outcomeReportPrevious" class="btn-pagination" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-	                    <span id="outcomeReportPageNumber"></span>
-	                    <button id="outcomeReportNext" class="btn-pagination" autocomplete="off" disabled>&rsaquo;&rsaquo;</button><br><br>
-					</div>
+                    <h1 id="outcome_totalValue" class="box b1 center margin-top-10"></h1>
+					<div id="outcome-filter-div" class="box b1 container"></div>
+	                <% include ./../partials/carousel %>
+					<div id="outcome-show-box" class="box b1 container border-explicit" style="display:none"></div>
 				</div>
-
-				<div id="financial-show-box" class="box one container ground padding-10 margin-top-10" style="display:none"></div>
 			</section>
 		<div id="ajax-loader" class="ajax-loader">
 			<div class="loader"></div>
@@ -136,17 +136,57 @@
 	<footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
+        <% include ./income/partial %>
+        <% include ./outcome/partial %>
 
+		<script src="/javascripts/scripts/financial/income/model/category.js"></script>
+		<script src="/javascripts/scripts/financial/income/model/origin.js"></script>
+
+		<script src="/javascripts/scripts/financial/outcome/model/category.js"></script>
+		<script src="/javascripts/scripts/financial/outcome/model/origin.js"></script>
+        
         <script>
+        	// Income category fill origin when changed
+        	Income.controller.create_category = document.getElementById("income-create-form").elements.namedItem("category-id");
+			if(Income.controller.create_category){
+				Income.controller.create_category.addEventListener("change", async event => {
+					Income.controller.fillOriginSelect(event.target.value, "income-create-form");
+				});
+			}
+
+			Income.controller.filter_category = document.getElementById("income-filter-form").elements.namedItem("category-id");
+			if(Income.controller.filter_category){
+				Income.controller.filter_category.addEventListener("change", async event => {
+					Income.controller.fillOriginSelect(event.target.value, "income-filter-form");
+				});
+			}
+
+        	// Outcome category fill origin when changed
+        	Outcome.controller.create_category = document.getElementById("outcome-create-form").elements.namedItem("category-id");
+			if(Outcome.controller.create_category){
+				Outcome.controller.create_category.addEventListener("change", async event => {
+					Outcome.controller.fillOriginSelect(event.target.value, "outcome-create-form");
+				});
+			}
+
+			Outcome.controller.filter_category = document.getElementById("outcome-filter-form").elements.namedItem("category-id");
+			if(Outcome.controller.filter_category){
+				Outcome.controller.filter_category.addEventListener("change", async event => {
+					Outcome.controller.fillOriginSelect(event.target.value, "outcome-filter-form");
+				});
+			}
+
         	//fill date inputs
-        	lib.fillDateInput(document.getElementById("balance-report-form").elements.namedItem('balance_periodStart'));
-        	lib.fillDateInput(document.getElementById("balance-report-form").elements.namedItem('balance_periodEnd'));
+        	// lib.fillDateInput(document.getElementById("balance-report-form").elements.namedItem('balance_periodStart'));
+        	// lib.fillDateInput(document.getElementById("balance-report-form").elements.namedItem('balance_periodEnd'));
 
-        	lib.fillDateInput(document.getElementById("financial-income-report-form").elements.namedItem('income_periodStart'));
-        	lib.fillDateInput(document.getElementById("financial-income-report-form").elements.namedItem('income_periodEnd'));
+        	// lib.fillDateInput(document.getElementById("income-create-form").elements.namedItem('date'));
+        	lib.fillDateInput(document.getElementById("income-filter-form").elements.namedItem('periodStart'));
+        	lib.fillDateInput(document.getElementById("income-filter-form").elements.namedItem('periodEnd'));
 
-        	lib.fillDateInput(document.getElementById("financial-outcome-report-form").elements.namedItem('outcome_periodStart'));
-        	lib.fillDateInput(document.getElementById("financial-outcome-report-form").elements.namedItem('outcome_periodEnd'));
+        	// lib.fillDateInput(document.getElementById("outcome-create-form").elements.namedItem('date'));
+        	lib.fillDateInput(document.getElementById("outcome-filter-form").elements.namedItem('periodStart'));
+        	lib.fillDateInput(document.getElementById("outcome-filter-form").elements.namedItem('periodEnd'));
         </script>
 	</footer>
 </html>

@@ -1,4 +1,145 @@
 module.exports = {
+	query: {
+		filter: function(props, tbl, params, values, strict_params, strict_values, orderParam, order){
+			let query = "";
+			query = "SELECT ";
+
+			if(props.length){
+				for(let i in props){
+					if(i == props.length - 1){
+						query += props[i]+" ";
+					} else {
+						query += props[i]+", ";
+					};
+				};
+			} else {
+				query += "* ";
+			};
+
+			query += "FROM "+tbl+" ";
+
+			if(params.length){
+				query += "WHERE ";
+				for(i in params){
+					if(i == params.length - 1){
+						query += params[i]+" like '%"+values[i]+"%' ";
+					} else {
+						query += params[i]+" like '%"+values[i]+"%' AND ";
+					};
+				};
+			};
+
+			if(params.length){
+				if(strict_params.length){
+					query += "AND ";
+					for(i in strict_params){
+						if(i == strict_params.length - 1){
+							query += strict_params[i]+"='"+strict_values[i]+"' ";
+						} else {
+							query += strict_params[i]+"='"+strict_values[i]+"' AND ";
+						};
+					};
+				};
+			} else {
+				if(strict_params.length){
+					query += "WHERE ";
+					for(i in strict_params){
+						if(i == strict_params.length - 1){
+							query += strict_params[i]+"='"+strict_values[i]+"' ";
+						} else {
+							query += strict_params[i]+"='"+strict_values[i]+"' AND ";
+						};
+					};
+				};
+			};
+
+			query += "ORDER BY "+orderParam+" "+order+";";
+
+			return query;
+		},
+		filterDate: function(props, tbl, inners, date, periodStart, periodEnd, params, values, strict_params, strict_values, orderParam, order){
+			let query = "";
+			query = "SELECT ";
+
+			if(props.length){
+				for(let i in props){
+					if(i == props.length - 1){
+						query += props[i]+" ";
+					} else {
+						query += props[i]+", ";
+					};
+				};
+			} else {
+				query += "* ";
+			};
+
+			query += "FROM "+tbl+" ";
+
+			if(inners.length){
+				for(let i in inners){
+					query += "INNER JOIN "+inners[i][0]+" ON "+inners[i][1]+"="+inners[i][2]+" ";
+				};
+			}
+
+			if(periodStart && periodEnd){
+				query += "WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
+				if(params.length){
+					query += "AND ";
+					for(i in params){
+						if(i == params.length - 1){
+							query += params[i]+" like '%"+values[i]+"%' ";
+						} else {
+							query += params[i]+" like '%"+values[i]+"%' AND ";
+						};
+					};
+				};
+			} else {
+				if(params.length){
+					query += "WHERE ";
+					for(i in params){
+						if(i == params.length - 1){
+							query += params[i]+" like '%"+values[i]+"%' ";
+						} else {
+							query += params[i]+" like '%"+values[i]+"%' AND ";
+						};
+					};
+				};
+			};
+
+			if(params.length || periodStart && periodEnd){
+				if(strict_params.length){
+					query += "AND ";
+					for(i in strict_params){
+						if(i == strict_params.length - 1){
+							query += strict_params[i]+"='"+strict_values[i]+"' ";
+						} else {
+							query += strict_params[i]+"='"+strict_values[i]+"' AND ";
+						};
+					};
+				};
+			} else {
+				if(strict_params.length){
+					query += "WHERE ";
+					for(i in strict_params){
+						if(i == strict_params.length - 1){
+							query += strict_params[i]+"='"+strict_values[i]+"' ";
+						} else {
+							query += strict_params[i]+"='"+strict_values[i]+"' AND ";
+						};
+					};
+				};
+			};
+
+			query += "ORDER BY "+orderParam+" "+order+";";
+
+			return query;
+		}
+	},
+	genTimestamp: function(){
+		const currentDate = new Date();
+		const timestamp = currentDate.getTime();
+		return timestamp;
+	},
 	convertDate:function(date){
 		let str = date.split('-');
 		if(str!=""){
@@ -16,6 +157,17 @@ module.exports = {
 			var convertedDate = "";
 		};
 		return convertedDate;
+	},
+	dateToTimestamp: (date) => {
+		if(date){
+			let splited_date = date.split('-');
+			splited_date.year = splited_date[0];
+			splited_date.month = splited_date[1];
+			splited_date.day = splited_date[2];
+			date = new Date(splited_date.year, (splited_date.month-1), splited_date.day);
+			return date.getTime();
+		};
+		return false;
 	},
 	datetimeToTimestamp: (datetime) => {
 		let date = datetime.split("T");

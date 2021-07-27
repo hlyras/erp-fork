@@ -1,4 +1,5 @@
 const db = require('../../config/connection');
+const lib = require("jarmlib");
 
 const Department = function(){
 	this.id;
