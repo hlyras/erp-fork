@@ -64,26 +64,29 @@ if(Expense.controller.create){
 
 		document.getElementById("expense-payment-method-div").innerHTML = "";
 		document.getElementById("expense-payment-method-box").style.display = "none";
-		
+
+
 		Expense.controller.filter.submit.click();
 	});
-}
 
-Expense.controller.fillOriginPayments = async (origin_id, box, render) => {
-	let payment = { origin_id: origin_id };
+	Expense.controller.create.elements.namedItem("origin-payment-id").addEventListener("click", async event => {
+		document.getElementById("expense-create-form").elements.namedItem("payment-method").value = "Boleto";
+	});
 
-	let payments = await API.response(Outcome.origin.payment.filter, payment);
-	if(!payments){ return false; }
-
-	const pagination = { pageSize: 5, page: 0};
-	$(() => { lib.carousel.execute(box, render, payments, pagination); });	
-};
-
-if(Expense.controller.create){
 	Expense.controller.create.elements.namedItem("origin-id").addEventListener("change", async event => {
 		await Expense.controller.fillOriginPayments(event.target.value, "expense-payment-method-box", Expense.view.originPayments);
 	});
 }
+
+Expense.controller.fillOriginPayments = async (origin_id, box, render) => {
+	let payment = origin_id ? { origin_id: origin_id } : { origin_id: 0 };
+
+	let payments = await API.response(Outcome.origin.payment.filter, payment);
+	if(!payments){ return false; }
+
+	let pagination = { pageSize: 5, page: 0};
+	$(() => { lib.carousel.execute(box, render, payments, pagination); });	
+};
 
 Expense.controller.filter = document.getElementById("expense-filter-form");
 if(Expense.controller.filter){

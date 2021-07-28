@@ -133,6 +133,7 @@
 		if(Expense.controller.create_category){
 			Expense.controller.create_category.addEventListener("change", async event => {
 				Outcome.controller.fillOriginSelect(event.target.value, "expense-create-form");
+				await Expense.controller.fillOriginPayments(0, "expense-payment-method-box", Expense.view.originPayments);
 			});
 		}
 

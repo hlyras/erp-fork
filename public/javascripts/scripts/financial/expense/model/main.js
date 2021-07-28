@@ -11,8 +11,6 @@ Expense.save = async expense => {
 	if(API.verifyResponse(response)){ return false };
 	alert(response.done);
 
-	console.log(response);
-
 	return response.expense;
 };
 
