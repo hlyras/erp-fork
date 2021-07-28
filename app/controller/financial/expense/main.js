@@ -52,6 +52,7 @@ const expenseController = {
 		outcome.origin_id = req.body.expense.origin_id;
 		outcome.description = req.body.expense.description;
 		outcome.cost = parseFloat(req.body.expense.cost);
+		outcome.status = "Ag. aprovação";
 		outcome.user_id = req.user.id;
 
 		if(!outcome.datetime){ return res.send({ msg: "Não foi possível identificar o momento do cadastro." }); };
@@ -66,7 +67,6 @@ const expenseController = {
 		expense.outcome_id = parseInt(req.body.expense.outcome_id);
 		expense.payment_method = req.body.expense.payment_method;
 		expense.origin_payment_id = parseInt(req.body.expense.origin_payment_id);
-		expense.status = "Ag. aprovação";
 		expense.user_id = req.user.id;
 
 		if(!expense.payment_method){ return res.send({ msg: "É necessário selecionar um método de pagamento válido." }); };
@@ -110,8 +110,9 @@ const expenseController = {
 				
 				res.send({ done: "Despesa '"+expense.id+"' cadastrada com sucesso!", expense });
 			} else {
-				let outcomeRow = await outcome.update();
-				let expenseRow = await expense.update();
+				await outcome.update();
+				await Outcome.update.status(outcome);
+				await expense.update();
 				
 				res.send({ done: "Despesa '"+expense.id+"' atualizada com sucesso!", expense });
 			};
@@ -140,7 +141,7 @@ const expenseController = {
 			"outcome.income_category_id",
 			"outcome.description",
 			"outcome.cost",
-			"expense.status",
+			"outcome.status",
 			"outcome.user_id",
 			"user.name user_name",
 			"user.access user_access"
@@ -186,7 +187,7 @@ const expenseController = {
 			"outcome.cost",
 			"outcome.user_id",
 			"user.name user_name",
-			"expense.status"
+			"outcome.status"
 		];
 		
 		let inners = [
@@ -200,7 +201,7 @@ const expenseController = {
 		lib.insertParam("outcome.id", req.body.expense.id, strict_params, strict_values);
 		lib.insertParam("outcome.category_id", req.body.expense.category_id, strict_params, strict_values);
 		lib.insertParam("outcome.origin_id", req.body.expense.origin_id, strict_params, strict_values);
-		lib.insertParam("expense.status", req.body.expense.status, strict_params, strict_values);
+		lib.insertParam("outcome.status", req.body.expense.status, strict_params, strict_values);
 		
 		if(req.user.access != "adm"){
 			lib.insertParam("outcome.user_id", req.user.id, strict_params, strict_values);
@@ -231,14 +232,20 @@ const expenseController = {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
-		const expense = new Expense();
+		let expense = new Expense();
 		expense.id = req.body.expense.id;
 		expense.approval_date = lib.genTimestamp();
 		expense.approval_user_id = req.user.id;
 		expense.approval_user_name = req.user.name;
 
 		try {
+			let exp = await Expense.findById(req.body.expense.id);
+			let outcome = { id: exp[0].outcome_id, status: "A pagar" }
+
+			console.log(outcome);
+
 			await Expense.confirm(expense);
+			await Outcome.update.status(outcome);
 			res.send({ done: 'Despesa aprovada com sucesso!' });
 		} catch (err) {
 			console.log(err);
@@ -261,12 +268,15 @@ const expenseController = {
 		const outcome = new Outcome();
 		outcome.id = req.body.expense.outcome_id;
 		outcome.income_category_id = req.body.expense.income_category_id;
+		outcome.status = 'Pago';
 		
 		if(!outcome.id){ return res.send({ msg: "Saída inválida." }); };
 		if(!outcome.income_category_id){ return res.send({ msg: "Informe o banco do pagamento." }); };
+		if(!outcome.status){ return res.send({ msg: "Status inválido." }); };
 
 		try {
 			await Outcome.update.income_category_id(outcome);
+			await Outcome.update.status(outcome);
 			await Expense.pay(expense);
 			res.send({ done: 'Pagamento da despesa confirmado!' });
 		} catch (err) {
@@ -287,9 +297,14 @@ const expenseController = {
 
 		try {
 			let exp = await Expense.findById(expense.id)
-			if(exp[0].status == "Pago"){ return res.send({ msg: 'Despesas pagas não podem ser canceladas!' }); }
-			
+			let out = await Outcome.findById(exp[0].outcome_id);
+			console.log(out);
+			if(out[0].status == "Pago"){ return res.send({ msg: 'Despesas pagas não podem ser canceladas!' }); }
+				
+			let outcome = { id: out[0].id, status: "Cancelada" };
+
 			await Expense.cancel(expense);
+			await Outcome.update.status(outcome);
 			res.send({ done: 'Despesa cancelada com sucesso!' });
 		} catch (err) {
 			console.log(err);

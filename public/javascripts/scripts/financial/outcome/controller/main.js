@@ -38,7 +38,6 @@ if(Outcome.controller.filter){
 		event.preventDefault();
 
 		let outcome = {
-			id: "",
 			periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
 			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
 			category_id: event.target.elements.namedItem("category-id").value,
@@ -81,7 +80,9 @@ Outcome.controller.delete = async (id) => {
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!outcome){ return false };
 
-	if(outcome.status){ return alert("Não é possível excluir saídas criadas por despesas."); };
+	console.log(outcome);
+
+	if(outcome.expense_id){ return alert("Não é possível excluir saídas criadas por despesas."); };
 
 	let r = confirm('Deseja realmente excluir a saída?');
 	if(r){

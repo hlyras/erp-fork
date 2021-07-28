@@ -11,10 +11,11 @@ const Outcome = function() {
 	this.income_category_id = 0;
 	this.description = "";
 	this.cost = "";
+	this.status = "";
 	this.user_id = "";
 
 	this.save = () => {
-		let query = "INSERT INTO cms_wt_erp.financial_outcome (datetime, date, category_id, origin_id, income_category_id, description, cost, user_id) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.financial_outcome (datetime, date, category_id, origin_id, income_category_id, description, cost, status, user_id) VALUES ('"
 		+this.datetime+"', '"
 		+this.date+"', '"
 		+this.category_id+"', '"
@@ -22,6 +23,7 @@ const Outcome = function() {
 		+this.income_category_id+"', '"
 		+this.description+"', '"
 		+this.cost+"', '"
+		+this.status+"', '"
         +this.user_id+"')";
 		return db(query);
 	};
@@ -51,6 +53,10 @@ Outcome.update = {
 	},
 	datetime: (outcome) => {
 		let query = "UPDATE cms_wt_erp.financial_outcome SET datetime='"+outcome.datetime+"' WHERE id='"+outcome.id+"';";
+		return db(query);
+	},
+	status: (outcome) => {
+		let query = "UPDATE cms_wt_erp.financial_outcome SET status='"+outcome.status+"' WHERE id='"+outcome.id+"';";
 		return db(query);
 	}
 }

@@ -26,12 +26,10 @@ const Expense = function(){
 	this.transfer_account = "";
 	this.transfer_account_type = "";
 
-	this.status = "Ag. aprovação";
-
 	this.user_id = "";
 
 	this.save = () => {
-		let query = "INSERT INTO cms_wt_erp.financial_expense (outcome_id, payment_method, billet_bank, billet_receiver, billet_code, pix_receiver, pix_key, transfer_receiver, transfer_register, transfer_bank, transfer_agency, transfer_account, transfer_account_type, status, user_id) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.financial_expense (outcome_id, payment_method, billet_bank, billet_receiver, billet_code, pix_receiver, pix_key, transfer_receiver, transfer_register, transfer_bank, transfer_agency, transfer_account, transfer_account_type, user_id) VALUES ('"
 		+this.outcome_id+"', '"
 		+this.payment_method+"', '"
 		+this.billet_bank+"', '"
@@ -45,7 +43,6 @@ const Expense = function(){
 		+this.transfer_agency+"', '"
 		+this.transfer_account+"', '"
 		+this.transfer_account_type+"', '"
-		+this.status+"', '"
         +this.user_id+"')";
 		return db(query);
 	};
@@ -64,7 +61,7 @@ const Expense = function(){
 		+"', transfer_agency='"+this.transfer_agency
 		+"', transfer_account='"+this.transfer_account
 		+"', transfer_account_type='"+this.transfer_account_type
-		+"', status='Ag. aprovação', user_id='"+this.user_id
+		+"', user_id='"+this.user_id
 		+"' WHERE id='"+this.id+"';";
 		return db(query);
 	};
@@ -89,7 +86,7 @@ Expense.confirm = async (expense) => {
 	let query = "UPDATE cms_wt_erp.financial_expense SET approval_date='"+expense.approval_date
 	+"', approval_user_id='"+expense.approval_user_id
 	+"', approval_user_name='"+expense.approval_user_name
-	+"', status='A pagar' WHERE id='"+expense.id+"';";
+	+"' WHERE id='"+expense.id+"';";
 	return db(query);
 };
 
@@ -97,7 +94,7 @@ Expense.pay = async (expense) => {
 	let query = "UPDATE cms_wt_erp.financial_expense SET payment_date='"+expense.payment_date
 	+"', payment_user_id='"+expense.payment_user_id
 	+"', payment_user_name='"+expense.payment_user_name
-	+"', status='Pago' WHERE id='"+expense.id+"';";
+	+"' WHERE id='"+expense.id+"';";
 	return db(query);
 };
 
@@ -105,7 +102,7 @@ Expense.cancel = async (expense) => {
 	let query = "UPDATE cms_wt_erp.financial_expense SET cancel_date='"+expense.cancel_date
 	+"', cancel_user_id='"+expense.cancel_user_id
 	+"', cancel_user_name='"+expense.cancel_user_name
-	+"', status='Cancelada' WHERE id='"+expense.id+"';";
+	+"' WHERE id='"+expense.id+"';";
 	return db(query);
 };
 

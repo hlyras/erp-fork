@@ -28,6 +28,7 @@ const outcomeController = {
 		outcome.income_category_id = req.body.outcome.income_category_id;
 		outcome.cost = req.body.outcome.cost;
 		outcome.description = req.body.outcome.description;
+		outcome.status = "Pago";
 		outcome.user_id = req.user.id;
 
 		if(!outcome.datetime){ return res.send({ msg: "Não foi possível identificar o momento do cadastro." }); };
@@ -72,6 +73,7 @@ const outcomeController = {
 			"outcome.description",
 			"outcome.cost",
 			"outcome.user_id",
+			"outcome.status",
 			"user.name user_name"
 		];
 		
@@ -82,16 +84,11 @@ const outcomeController = {
 		];
 		
 		lib.fillDate(period, req.body.outcome.periodStart, req.body.outcome.periodEnd);
-		lib.insertParam("outcome.id", req.body.outcome.id, strict_params, strict_values);
+
 		lib.insertParam("outcome.category_id", req.body.outcome.category_id, strict_params, strict_values);
 		lib.insertParam("outcome.origin_id", req.body.outcome.origin_id, strict_params, strict_values);
+		lib.insertParam("outcome.status", req.body.outcome.status, strict_params, strict_values);
 		
-		if(req.body.outcome.status){
-			props.push("expense.status");
-			inners.push(["cms_wt_erp.financial_expense expense","expense.outcome_id","outcome.id"]);
-			lib.insertParam("expense.status", req.body.outcome.status, strict_params, strict_values);
-		}
-			
 		if(req.body.outcome.income_category_id){
 			props.push("income_category.name income_category_name");
 			inners.push(["cms_wt_erp.financial_income_category income_category","outcome.income_category_id","income_category.id"]);
@@ -126,6 +123,7 @@ const outcomeController = {
 			"outcome.description",
 			"outcome.cost",
 			"outcome.user_id",
+			"outcome.status",
 			"user.name user_name"
 		];
 		
@@ -138,7 +136,7 @@ const outcomeController = {
 		lib.insertParam("outcome.id", req.params.id, strict_params, strict_values);
 
 		try {
-			const expense = await Expense.findByOutcomeId(req.params.id);
+			let expense = await Expense.findByOutcomeId(req.params.id);
 
 			if(expense.length){
 				props.push("expense.id expense_id");
@@ -160,12 +158,12 @@ const outcomeController = {
 				props.push("expense.transfer_agency");
 				props.push("expense.transfer_account");
 				props.push("expense.transfer_account_type");
-				props.push("expense.status");
 
 				inners.push(["cms_wt_erp.financial_expense expense","outcome.id","expense.outcome_id"]);
 			}
 
 			const outcome = await Outcome.filter(props, inners, period, params, values, strict_params, strict_values);
+			outcome.expense_id = expense.length ? expense[0].id : null;
 			res.send({ outcome });
 		} catch (err){
 			console.log(err);
