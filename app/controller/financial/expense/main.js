@@ -12,10 +12,22 @@ const expenseController = {
 			return res.redirect('/');
 		};
 
-		const incomeCategories = await Income.category.list();
-		const outcomeCategories = await Outcome.category.list();
+		let props = [];
+		let params = []; let values = [];
+		let strict_params = []; let strict_values = [];
+		
+		if(lib.splitTextBy(req.user.access, "-")[0] != "adm" && lib.splitTextBy(req.user.access, "-")[0] != "fin"){
+			lib.insertParam("cms_wt_erp.financial_outcome_category.name", lib.splitTextBy(req.user.access, "-")[0], params, values);
+		};
 
-		res.render('financial/expense/index', { user: req.user, incomeCategories, outcomeCategories });
+		try {
+			const incomeCategories = await Income.category.list();
+			const outcomeCategories = await Outcome.category.filter(props, params, values, strict_params, strict_values);
+			res.render('financial/expense/index', { user: req.user, incomeCategories, outcomeCategories });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao filtrar as categorias e origens, favor contatar o suporte" });
+		};
 	},
 	manage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm'])){

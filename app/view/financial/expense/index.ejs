@@ -22,9 +22,9 @@
 					<div class="box b1 em08 georgia">Categoria</div>
 					<select name="category-id" class="box b1 input-generic center">
 					    <option value="">Categoria</option>
-						<option value="21">Combustível</option>
-						<option value="10">Costura Externa</option>
-						<option value="4">Custo Fixo</option>
+						<% for(i in outcomeCategories){ %>
+							<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
+						<% } %>
 					</select>
 				</div>
 				<div class="box b3 container margin-top-5">
