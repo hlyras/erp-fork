@@ -62,7 +62,7 @@ Outcome.controller.edit = async (id) => {
 	document.getElementById('ajax-loader').style.visibility = 'hidden';
 	if(!outcome){ return false };
 
-	if(outcome.status){ return alert("Não é possível realizar alterações em saídas que contenham despesas."); };
+	if(outcome.expense_id){ return alert("Não é possível editar saídas criadas por despesas."); };
 
 	document.getElementById("outcome-create-form").elements.namedItem("id").value = outcome.id;
 	document.getElementById("outcome-create-form").elements.namedItem("date").value = lib.convertDate(lib.timestampToDate(outcome.date));

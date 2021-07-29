@@ -68,6 +68,13 @@ Income.controller.edit = async (id) => {
 	document.getElementById("income-create-form").elements.namedItem("cash").value = income.cash;
 };
 
+Income.controller.show = async (id) => {
+	let income = await API.response(Income.findById, id);
+	if(!income){ return false };
+
+	Income.view.show(income);
+};
+
 Income.controller.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir a entrada?');
 	if(r){

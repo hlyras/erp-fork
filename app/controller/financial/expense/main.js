@@ -17,7 +17,7 @@ const expenseController = {
 		let strict_params = []; let strict_values = [];
 		
 		if(lib.splitTextBy(req.user.access, "-")[0] != "adm" && lib.splitTextBy(req.user.access, "-")[0] != "fin"){
-			lib.insertParam("cms_wt_erp.financial_outcome_category.name", lib.splitTextBy(req.user.access, "-")[0], params, values);
+			lib.insertParam("cms_wt_erp.financial_outcome_category.name", lib.splitTextBy(req.user.access, "-")[0]+"-", params, values);
 		};
 
 		try {
@@ -232,7 +232,7 @@ const expenseController = {
 		}
 
 		try {
-			let expenses = await Expense.filter(props, inners, period, params, values, strict_params, strict_values, "ASC");
+			let expenses = await Expense.filter(props, inners, period, params, values, strict_params, strict_values, "DESC");
 			res.send({ expenses });
 		} catch (err) {
 			console.log(err);
@@ -253,8 +253,6 @@ const expenseController = {
 		try {
 			let exp = await Expense.findById(req.body.expense.id);
 			let outcome = { id: exp[0].outcome_id, status: "A pagar" }
-
-			console.log(outcome);
 
 			await Expense.confirm(expense);
 			await Outcome.update.status(outcome);

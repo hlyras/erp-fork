@@ -26,3 +26,10 @@ Income.view.filter = (incomes, pagination) => {
 		document.getElementById("income-filter-box").style.display = "";
 	};
 };
+
+Income.view.show = (income) => {
+	let html = "";
+	html += "<div class='mobile-box b4 em12 avant-garde center'>"+income.id+"</div>";
+	html += "<div class='mobile-box b2 avant-garde center'>"+income.category_name+"</div>";
+	document.getElementById("income-show-box").innerHTML = html;
+};
