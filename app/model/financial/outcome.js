@@ -66,13 +66,13 @@ Outcome.findById = (outcome_id) => {
 	return db(query);
 };
 
-Outcome.filter = (props, inners, period, params, values, strict_params, strict_values) => {
-	let query = lib.query.filterDate(props, "cms_wt_erp.financial_outcome outcome", inners, "date", period.start, period.end, params, values, strict_params, strict_values, "date", "DESC");
+Outcome.filter = (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
+	let query = lib.query.filterDate(props, "cms_wt_erp.financial_outcome outcome", inners, "date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
 	return db(query);
 };
 
 Outcome.list = () => {
-	let query = "SELECT * FROM cms_wt_erp.financial_outcome;";
+	let query = "SELECT * FROM cms_wt_erp.financial_outcome ORDER BY date DESC;";
 	return db(query);
 };
 
@@ -107,8 +107,8 @@ Outcome.category.list = () => {
 	return db(query);
 };
 
-Outcome.category.filter = (props, params, values, strict_params, strict_values) => {
-	let query = lib.query.filter(props, "cms_wt_erp.financial_outcome_category", params, values, strict_params, strict_values, "cms_wt_erp.financial_outcome_category.name", "ASC");
+Outcome.category.filter = (props, params, values, strict_params, strict_values, orderParams) => {
+	let query = lib.query.filter(props, "cms_wt_erp.financial_outcome_category", params, values, strict_params, strict_values, orderParams);
 	return db(query);
 };
 
@@ -149,8 +149,8 @@ Outcome.origin.list = () => {
 	return db(query);
 };
 
-Outcome.origin.filter = (props, params, values, strict_params, strict_values) => {
-	let query = lib.query.filter(props, "cms_wt_erp.financial_outcome_origin", params, values, strict_params, strict_values, "cms_wt_erp.financial_outcome_origin.name", "ASC");
+Outcome.origin.filter = (props, params, values, strict_params, strict_values, orderParams) => {
+	let query = lib.query.filter(props, "cms_wt_erp.financial_outcome_origin", params, values, strict_params, strict_values, orderParams);
 	return db(query);
 };
 
@@ -211,8 +211,8 @@ Outcome.origin.payment = function() {
 	};
 };
 
-Outcome.origin.payment.filter = (props, params, values, strict_params, strict_values) => {
-	let query = lib.query.filter(props, "cms_wt_erp.financial_outcome_origin_payment", params, values, strict_params, strict_values, "cms_wt_erp.financial_outcome_origin_payment.id", "ASC");
+Outcome.origin.payment.filter = (props, params, values, strict_params, strict_values, orderParams) => {
+	let query = lib.query.filter(props, "cms_wt_erp.financial_outcome_origin_payment", params, values, strict_params, strict_values, orderParams);
 	return db(query);
 };
 

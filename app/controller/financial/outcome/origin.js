@@ -43,8 +43,10 @@ const originController = {
 		lib.insertParam("cms_wt_erp.financial_outcome_origin.category_id", req.query.category_id, strict_params, strict_values);
 		lib.insertParam("cms_wt_erp.financial_outcome_origin.name", req.query.name, params, values);
 
+		let orderParams = [ ["cms_wt_erp.financial_outcome_origin.name","ASC"] ];
+
 		try {
-			let categories = await Outcome.origin.filter(props, params, values, strict_params, strict_values);
+			let categories = await Outcome.origin.filter(props, params, values, strict_params, strict_values, orderParams);
 			res.send({ categories });
 		} catch (err) {
 			console.log(err);
@@ -155,8 +157,10 @@ const originController = {
 			
 			lib.insertParam("cms_wt_erp.financial_outcome_origin_payment.origin_id", req.query.origin_id, strict_params, strict_values);
 
+			let orderParams = [ ["cms_wt_erp.financial_outcome_origin_payment.id", "ASC"] ];
+
 			try {
-				let payments = await Outcome.origin.payment.filter(props, params, values, strict_params, strict_values);
+				let payments = await Outcome.origin.payment.filter(props, params, values, strict_params, strict_values, orderParams);
 				res.send({ payments });
 			} catch (err) {
 				console.log(err);

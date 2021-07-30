@@ -81,8 +81,10 @@ const incomeController = {
 		lib.insertParam("income.category_id", req.query.category_id, strict_params, strict_values);
 		lib.insertParam("income.origin_id", req.query.origin_id, strict_params, strict_values);
 
+		let orderParams = [ ["date","DESC"], ["id","DESC"] ];
+
 		try {
-			let incomes = await Income.filter(props, inners, period, params, values, strict_params, strict_values);
+			let incomes = await Income.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
 			res.send({ incomes });
 		} catch (err) {
 			console.log(err);

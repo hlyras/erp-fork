@@ -67,8 +67,8 @@ const Expense = function(){
 	};
 };
 
-Expense.filter = (props, inners, period, params, values, strict_params, strict_values, order) => {
-	let query = lib.query.filterDate(props, "cms_wt_erp.financial_expense expense", inners, "cms_wt_erp.outcome.date", period.start, period.end, params, values, strict_params, strict_values, "cms_wt_erp.outcome.date", order);
+Expense.filter = (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
+	let query = lib.query.filterDate(props, "cms_wt_erp.financial_expense expense", inners, "cms_wt_erp.outcome.date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
 	return db(query);
 };
 

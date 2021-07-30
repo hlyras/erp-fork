@@ -95,8 +95,10 @@ const outcomeController = {
 			lib.insertParam("outcome.income_category_id", req.body.outcome.income_category_id, strict_params, strict_values);
 		}
 
+		let orderParams = [ ["date","DESC"], ["id","DESC"] ];
+
 		try {
-			let outcomes = await Outcome.filter(props, inners, period, params, values, strict_params, strict_values);
+			let outcomes = await Outcome.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
 			res.send({ outcomes });
 		} catch (err) {
 			console.log(err);
@@ -162,7 +164,9 @@ const outcomeController = {
 				inners.push(["cms_wt_erp.financial_expense expense","outcome.id","expense.outcome_id"]);
 			}
 
-			const outcome = await Outcome.filter(props, inners, period, params, values, strict_params, strict_values);
+			let orderParams = [ ["date","DESC"], ["id","DESC"] ];
+
+			const outcome = await Outcome.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
 			outcome.expense_id = expense.length ? expense[0].id : null;
 			res.send({ outcome });
 		} catch (err){

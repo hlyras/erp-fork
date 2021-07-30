@@ -1,6 +1,6 @@
 module.exports = {
 	query: {
-		filter: function(props, tbl, params, values, strict_params, strict_values, orderParam, order){
+		filter: function(props, tbl, params, values, strict_params, strict_values, orderParams){
 			let query = "";
 			query = "SELECT ";
 
@@ -53,11 +53,22 @@ module.exports = {
 				};
 			};
 
-			query += "ORDER BY "+orderParam+" "+order+";";
+			if(orderParams.length){
+				query += "ORDER BY ";
+				for(i in orderParams){
+					if(i == orderParams.length - 1){
+						query += orderParams[i][0]+" "+orderParams[i][1]+";";
+					} else {
+						query += orderParams[i][0]+" "+orderParams[i][1]+", ";
+					};
+				};
+			} else {
+				query += ";";
+			}
 
 			return query;
 		},
-		filterDate: function(props, tbl, inners, date, periodStart, periodEnd, params, values, strict_params, strict_values, orderParam, order){
+		filterDate: function(props, tbl, inners, date, periodStart, periodEnd, params, values, strict_params, strict_values, orderParams){
 			let query = "";
 			query = "SELECT ";
 
@@ -130,7 +141,18 @@ module.exports = {
 				};
 			};
 
-			query += "ORDER BY "+orderParam+" "+order+";";
+			if(orderParams.length){
+				query += "ORDER BY ";
+				for(i in orderParams){
+					if(i == orderParams.length - 1){
+						query += orderParams[i][0]+" "+orderParams[i][1]+";";
+					} else {
+						query += orderParams[i][0]+" "+orderParams[i][1]+", ";
+					};
+				};
+			} else {
+				query += ";";
+			}
 
 			return query;
 		}

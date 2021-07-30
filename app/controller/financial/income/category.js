@@ -41,8 +41,10 @@ const categoryController = {
 		
 		lib.insertParam("cms_wt_erp.financial_income_category.name", req.query.name, params, values);
 
+		let orderParams = [ ["cms_wt_erp.financial_income_category.name","ASC"] ];
+		
 		try {
-			let categories = await Income.category.filter(props, params, values, strict_params, strict_values);
+			let categories = await Income.category.filter(props, params, values, strict_params, strict_values, orderParams);
 			res.send({ categories });
 		} catch (err) {
 			console.log(err);

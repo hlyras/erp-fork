@@ -68,7 +68,7 @@ router.delete('/outcome/origin/payment/id/:id', lib.routeToHttps, outcomeOriginC
 
 router.get('/expense', lib.routeToHttps, expenseController.index);
 router.get('/expense/manage', lib.routeToHttps, expenseController.manage);
-router.get('/expense/triage', lib.routeToHttps, expenseController.triage);
+router.get('/expense/payment', lib.routeToHttps, expenseController.payment);
 router.post('/expense/save', lib.routeToHttps, expenseController.save);
 router.get('/expense/id/:id', lib.routeToHttps, expenseController.findById);
 router.post('/expense/filter', lib.routeToHttps, expenseController.filter);

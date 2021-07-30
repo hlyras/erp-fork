@@ -40,7 +40,7 @@ const expenseController = {
 
 		res.render('financial/expense/manage', { user: req.user, users, incomeCategories, outcomeCategories });
 	},
-	triage: async (req, res) => {
+	payment: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','fin-man'])){
 			return res.redirect('/');
 		};
@@ -49,7 +49,7 @@ const expenseController = {
 		const incomeCategories = await Income.category.list();
 		const outcomeCategories = await Outcome.category.list();
 
-		res.render('financial/expense/triage', { user: req.user, users, incomeCategories, outcomeCategories });
+		res.render('financial/expense/payment', { user: req.user, users, incomeCategories, outcomeCategories });
 	},
 	save: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
@@ -167,9 +167,11 @@ const expenseController = {
 		];
 		
 		lib.insertParam("expense.id", req.params.id, strict_params, strict_values);
-		
+
+		let orderParams = [ ["cms_wt_erp.outcome.date","DESC"], ["cms_wt_erp.outcome.datetime","DESC"] ];
+
 		try {
-			let expenses = await Expense.filter(props, inners, period, params, values, strict_params, strict_values, "DESC");
+			let expenses = await Expense.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
 			res.send({ expenses });
 		} catch (err){
 			console.log(err);
@@ -231,8 +233,10 @@ const expenseController = {
 			lib.insertParam("expense.payment_method", req.body.expense.payment_method, strict_params, strict_values);
 		}
 
+		let orderParams = [ ["outcome.date","DESC"], ["expense.id","DESC"] ];
+
 		try {
-			let expenses = await Expense.filter(props, inners, period, params, values, strict_params, strict_values, "DESC");
+			let expenses = await Expense.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
 			res.send({ expenses });
 		} catch (err) {
 			console.log(err);

@@ -52,8 +52,8 @@ Income.findById = (income_id) => {
 	return db(query);
 };
 
-Income.filter = (props, inners, period, params, values, strict_params, strict_values) => {
-	let query = lib.query.filterDate(props, "cms_wt_erp.financial_income income", inners, "date", period.start, period.end, params, values, strict_params, strict_values, "date", "DESC");
+Income.filter = (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
+	let query = lib.query.filterDate(props, "cms_wt_erp.financial_income income", inners, "date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
 	return db(query);
 };
 
@@ -93,8 +93,8 @@ Income.category.list = () => {
 	return db(query);
 };
 
-Income.category.filter = (props, params, values, strict_params, strict_values) => {
-	let query = lib.query.filter(props, "cms_wt_erp.financial_income_category", params, values, strict_params, strict_values, "cms_wt_erp.financial_income_category.name", "ASC");
+Income.category.filter = (props, params, values, strict_params, strict_values, orderParams) => {
+	let query = lib.query.filter(props, "cms_wt_erp.financial_income_category", params, values, strict_params, strict_values, orderParams);
 	return db(query);
 };
 
@@ -135,8 +135,8 @@ Income.origin.list = () => {
 	return db(query);
 };
 
-Income.origin.filter = (props, params, values, strict_params, strict_values) => {
-	let query = lib.query.filter(props, "cms_wt_erp.financial_income_origin", params, values, strict_params, strict_values, "cms_wt_erp.financial_income_origin.name", "ASC");
+Income.origin.filter = (props, params, values, strict_params, strict_values, orderParams) => {
+	let query = lib.query.filter(props, "cms_wt_erp.financial_income_origin", params, values, strict_params, strict_values, orderParams);
 	return db(query);
 };
 
