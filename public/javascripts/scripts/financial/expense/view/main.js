@@ -200,8 +200,16 @@ Expense.view.show = (expense) => {
 		html += "</div>";
 	html += "</div>";
 
-	if(expense.user_access == "adm" && expense.status == "Ag. aprovação"){
-		html += "<button class='mobile-box b1 submit-generic margin-bottom-5 center' onclick='Expense.controller.confirm("+expense.id+")'>Aprovar Despesa</button>";
+	if(expense.status == "Ag. aprovação"){
+		if(document.getElementById("expense-confirm-btn")){
+			document.getElementById("expense-confirm-btn").style.display = "";
+			document.getElementById("expense-confirm-btn").setAttribute("onClick", "javascript: Expense.controller.confirm("+expense.id+");" );
+		}
+	} else {
+		if(document.getElementById("expense-confirm-btn")){
+			document.getElementById("expense-confirm-btn").style.display = "none";
+			document.getElementById("expense-confirm-btn").setAttribute("onClick", "javascript: alert('Não é permitido confirmar essa despesa!');" );
+		}
 	}
 
 	document.getElementById("expense-show-box").innerHTML = html;

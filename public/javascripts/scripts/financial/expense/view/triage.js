@@ -7,9 +7,9 @@ Expense.triage.view.filter = (expenses, pagination) => {
 			html += "<div class='container box b3 ground margin-top-5 padding-5 border-explicit-2'>";
 		   		html += "<div class='box b1 container h-center margin-top-5'>";
 					if(expenses[i].status == "A pagar"){
-						if(expenses[i].date < lib.genTimestamp()){
+						if(parseInt(expenses[i].date) < lib.genTimestamp()){
 							html += "<div class='mobile-box a2-3 em13 bold center bg-red radius-10 font-white'>"+expenses[i].status+"</div>";
-						} else if((expenses[i].date - lib.timestampDay()) < lib.genTimestamp()){
+						} else if((parseInt(expenses[i].date) - parseInt(lib.timestampDay())) < lib.genTimestamp()){
 							html += "<div class='mobile-box a2-3 em13 bold center bg-orange radius-10 font-white'>"+expenses[i].status+"</div>";
 						} else {
 							html += "<div class='mobile-box a2-3 em13 bold center bg-blue radius-10 font-white'>"+expenses[i].status+"</div>";
@@ -17,7 +17,7 @@ Expense.triage.view.filter = (expenses, pagination) => {
 					} else if(expenses[i].status == "Pago"){
 						html += "<div class='mobile-box a2-3 em13 bold center bg-gray radius-10 font-white'>"+expenses[i].status+"</div>";
 					}
-					html += "<div class='mobile-box a2-3 em11 bg-gray radius-10 margin-top-5 center font-white'>"+lib.timestampToDate(expenses[i].date)+"</div>"; 
+					html += "<div class='mobile-box a2-3 em11 bg-gray radius-10 margin-top-5 center font-white'>"+lib.timestampToDate(parseInt(expenses[i].date))+"</div>"; 
 				html += "</div>";
 				html += "<div class='box b1 container border-explicit margin-top-5'>";
 					html += "<img class='width-25 padding-5' src='/images/icon/label.png'>";
@@ -51,13 +51,17 @@ Expense.triage.view.show = (expense) => {
 		html += "<div class='box b3 em08 bold margin-top-10'>Despesa cadastrada por: "+expense.user_name+"</div>"
 		html += "<div class='box b1 container h-center margin-top-5'>";
 			if(expense.status == "A pagar"){
-				if(expense.date < lib.genTimestamp()){ html += "<div class='box b3 bg-red radius-10 padding-5'>"; } 
-				else if((expense.date - lib.timestampDay()) < lib.genTimestamp()){ html += "<div class='box b3 bg-orange radius-10 padding-5'>"; } 
+				if(parseInt(expense.date) < lib.genTimestamp()){ html += "<div class='box b3 bg-red radius-10 padding-5'>"; } 
+				else if((parseInt(expense.date) - parseInt(lib.timestampDay())) < lib.genTimestamp()){ html += "<div class='box b3 bg-orange radius-10 padding-5'>"; } 
 				else { html += "<div class='box b3 bg-blue radius-10 padding-5'>"; }
 			} else if(expense.status == "Pago"){
-				if(expense.date + lib.timestampDay() > expense.payment_date){
+				if(parseInt(expense.date) + parseInt(lib.timestampDay()) > expense.payment_date){
+					console.log(parseInt(expense.date) + parseInt(lib.timestampDay()));
+					console.log(expense.payment_date);
 					html += "<div class='box b3 bg-green radius-10 padding-5'>";
 				} else {
+					console.log(parseInt(expense.date) + parseInt(lib.timestampDay()));
+					console.log(expense.payment_date);
 					html += "<div class='box b3 bg-red radius-10 padding-5'>";
 				}
 			}
@@ -66,7 +70,7 @@ Expense.triage.view.show = (expense) => {
 		html += "</div>";
 		html += "<div class='box b1 container h-center margin-top-5'>";
 			html += "<div class='box b3 bg-gray radius-10 padding-5'>";
-				html += "<div class='box a1 em08 center font-white'>Vencimento: "+lib.timestampToDate(expense.date)+"</div>";
+				html += "<div class='box a1 em08 center font-white'>Vencimento: "+lib.timestampToDate(parseInt(expense.date))+"</div>";
 			html += "</div>";
 		html += "</div>";
 

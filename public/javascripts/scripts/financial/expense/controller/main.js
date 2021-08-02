@@ -111,6 +111,11 @@ if(Expense.controller.filter){
 
 		document.getElementById("expense-show-box").style.display = "none";
 
+		if(document.getElementById("expense-confirm-btn")){
+			document.getElementById("expense-confirm-btn").style.display = "none";
+			document.getElementById("expense-confirm-btn").setAttribute("onClick", "javascript: alert('Não é permitido confirmar essa despesa!');" );
+		}
+
 		const pagination = { pageSize: 10, page: 0};
 		$(() => { lib.carousel.execute("expense-filter-box", Expense.view.filter, expenses, pagination); });
 	});
