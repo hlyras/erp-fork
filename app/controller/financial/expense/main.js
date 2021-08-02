@@ -22,7 +22,7 @@ const expenseController = {
 
 		try {
 			const incomeCategories = await Income.category.list();
-			const outcomeCategories = await Outcome.category.filter(props, params, values, strict_params, strict_values);
+			const outcomeCategories = await Outcome.category.filter(props, params, values, strict_params, strict_values, [ [ "cms_wt_erp.financial_outcome_category.name","ASC"] ]);
 			res.render('financial/expense/index', { user: req.user, incomeCategories, outcomeCategories });
 		} catch (err) {
 			console.log(err);
