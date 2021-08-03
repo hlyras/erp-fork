@@ -104,7 +104,7 @@ if(Outcome.origin.payment.controller.create){
 
 		if(payment.method == "Pix"){
 			payment.pix_receiver = event.target.elements.namedItem("pix-receiver").value;
-			payment.pix_key = event.target.elements.namedItem("pix-key").value;
+			payment.pix_key = lib.removeChar(event.target.elements.namedItem("pix-key").value, ['/\./g','/\ /g']);
 		} else if(payment.method == "Transferência bancária"){
 			payment.transfer_receiver = event.target.elements.namedItem("transfer-receiver").value;
 			payment.transfer_register = event.target.elements.namedItem("transfer-register").value;
