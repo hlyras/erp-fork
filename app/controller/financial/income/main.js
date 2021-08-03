@@ -96,12 +96,39 @@ const incomeController = {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
+		let params = []; let values = [];
+		let strict_params = []; let strict_values = [];
+		let period = { start: "", end: "" };
+
+		let props = ["cms_wt_erp.income.id",
+			"income.datetime",
+			"income.date",
+			"income.category_id",
+			"category.name category_name",
+			"income.origin_id",
+			"origin.name origin_name",
+			"income.description",
+			"income.cash",
+			"income.user_id",
+			"user.name user_name"
+		];
+
+		let inners = [
+			["cms_wt_erp.financial_income_category category","income.category_id","category.id"],
+			["cms_wt_erp.financial_income_origin origin","income.origin_id","origin.id"],
+			["cms_wt_erp.user user","income.user_id","user.id"]
+		];
+		
+		lib.insertParam("income.id", req.params.id, strict_params, strict_values);
+
+		let orderParams = [ ["date","DESC"], ["id","DESC"] ];
+
 		try {
-			const income = await Income.findById(req.params.id);
+			let income = await Income.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
 			res.send({ income });
-		} catch (err){
+		} catch (err) {
 			console.log(err);
-			res.send({ msg: "Ocorreu um erro ao buscar a entrada, favor contatar o suporte." });
+			res.send({ msg: "Ocorreu um erro ao filtrar as entradas, favor contatar o suporte" });
 		};
 	},
 	delete: async (req, res) => {

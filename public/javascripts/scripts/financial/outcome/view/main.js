@@ -143,4 +143,5 @@ Outcome.view.show = (outcome) => {
 	html += "</div>";
 
 	document.getElementById("outcome-show-box").innerHTML = html;
+	document.getElementById("outcome-show-box").style.display = "";
 };

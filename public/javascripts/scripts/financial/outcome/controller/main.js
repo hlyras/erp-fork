@@ -51,6 +51,8 @@ if(Outcome.controller.filter){
 		document.getElementById("ajax-loader").style.visibility = "hidden";
 		if(!outcomes) { return false };
 
+		document.getElementById("outcome-show-box").style.display = "none";
+
 		const pagination = { pageSize: 10, page: 0};
 		$(() => { lib.carousel.execute("outcome-filter-box", Outcome.view.filter, outcomes, pagination); });
 	});
@@ -100,7 +102,7 @@ Outcome.controller.show = async (id) => {
 	document.getElementById("ajax-loader").style.visibility = "hidden";
 	if(!outcome) { return false };
 
-	document.getElementById("outcome-show-box").style.display = "";
+	document.getElementById("outcome-filter-box").style.display = "none";
 
 	Outcome.view.show(outcome);
 };

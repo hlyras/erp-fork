@@ -48,6 +48,8 @@ if(Income.controller.filter){
 		document.getElementById("ajax-loader").style.visibility = "hidden";
 		if(!incomes) { return false };
 
+		document.getElementById("income-show-box").style.display = "none";
+
 		const pagination = { pageSize: 10, page: 0};
 		$(() => { lib.carousel.execute("income-filter-box", Income.view.filter, incomes, pagination); });
 	});
@@ -71,6 +73,8 @@ Income.controller.edit = async (id) => {
 Income.controller.show = async (id) => {
 	let income = await API.response(Income.findById, id);
 	if(!income){ return false };
+
+	document.getElementById("income-filter-box").style.display = "none";
 
 	Income.view.show(income);
 };

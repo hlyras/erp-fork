@@ -28,8 +28,37 @@ Income.view.filter = (incomes, pagination) => {
 };
 
 Income.view.show = (income) => {
+	console.log(income);
 	let html = "";
-	html += "<div class='mobile-box b4 em12 avant-garde center'>"+income.id+"</div>";
-	html += "<div class='mobile-box b2 avant-garde center'>"+income.category_name+"</div>";
+	html += "<div class='mobile-box b7 container margin-top-5'>";
+		html += "<div class='box b1 em06 bold'>Id</div>";
+		html += "<div class='box b1 border padding-5 center'>"+income.id+"</div>";
+	html += "</div>";
+	html += "<div class='mobile-box b3-7 container margin-top-5'>";
+		html += "<div class='box b1 em06 bold'>Categoria</div>";
+		html += "<div class='box b1 border padding-5 center'>"+income.category_name+"</div>";
+	html += "</div>";
+	html += "<div class='mobile-box b3-7 container margin-top-5'>";
+		html += "<div class='box b1 em06 bold'>Origem</div>";
+		html += "<div class='box b1 border padding-5 center'>"+income.origin_name+"</div>";
+	html += "</div>";
+	html += "<div class='mobile-box b3 container margin-top-5'>";
+		html += "<div class='box b1 em06 bold'>Data</div>";
+		html += "<div class='box b1 border padding-5 center'>"+lib.timestampToDate(income.date)+"</div>";
+	html += "</div>";
+	html += "<div class='mobile-box b3 container margin-top-5'>";
+		html += "<div class='box b1 em06 bold'>Valor</div>";
+		html += "<div class='box b1 border padding-5 center bold'>$"+income.cash+"</div>";
+	html += "</div>";
+	html += "<div class='mobile-box b3 container margin-top-5'>";
+		html += "<div class='box b1 em06 bold'>Valor</div>";
+		html += "<div class='box b1 border padding-5 center'>"+income.user_name+"</div>";
+	html += "</div>";
+	html += "<div class='mobile-box b1 container margin-top-5 margin-bottom-5'>";
+		html += "<div class='box b1 em06 bold'>Descrição</div>";
+		html += "<div class='box b1 border padding-5 center pre-wrap'>"+income.description+"</div>";
+	html += "</div>";
+
 	document.getElementById("income-show-box").innerHTML = html;
+	document.getElementById("income-show-box").style.display = "";
 };
