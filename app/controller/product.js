@@ -278,7 +278,7 @@ const productController = {
 	},
 	image: {
 		add: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','n/a','adm-vi'])){
+			if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','n/a','adm-vis'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
