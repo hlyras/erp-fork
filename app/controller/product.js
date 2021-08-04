@@ -46,7 +46,7 @@ const productController = {
 		};
 	},
 	manage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm', 'man','adm-man','COR-GER'])){
+		if(!await userController.verifyAccess(req, res, ['adm', 'man','adm-man','COR-GER','adm-vis'])){
 			return res.redirect("/");
 		};
 
@@ -278,7 +278,7 @@ const productController = {
 	},
 	image: {
 		add: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','n/a'])){
+			if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','n/a','adm-vi'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
@@ -296,7 +296,7 @@ const productController = {
 			};
 		},
 		remove: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','man','adm-man'])){
+			if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','adm-vis'])){
 				return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 			};
 
