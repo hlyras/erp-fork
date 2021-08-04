@@ -739,7 +739,7 @@ const productController = {
 	},
 	package: {
 		index: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','adm-man'])){
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-vis'])){
 				return res.redirect('/');
 			};
 
