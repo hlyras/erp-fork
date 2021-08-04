@@ -25,11 +25,11 @@ Expense.triage.view.filter = (expenses, pagination) => {
 				html += "</div>";
 				html += "<div class='box b1 container border-explicit margin-top-5 padding-5'>";
 					html += "<div class='mobile-box b9 center'><img class='width-25' src='/images/icon/wallet.png'></div>";
-					html += "<div class='center'>"+expenses[i].payment_method+"</div>";
+					html += "<div class='mobile-box b8-9 center bold'>"+expenses[i].payment_method+"</div>";
 				html += "</div>";
 				html += "<div class='box b1 container border-explicit margin-top-5 padding-5'>";
 					html += "<div class='mobile-box b9 center'><img class='width-25' src='/images/icon/dollar.png'></div>";
-					html += "<div class='center em12 bold'>R$"+expenses[i].cost+"</div>";
+					html += "<div class='mobile-box b8-9 em12 center bold'>R$"+expenses[i].cost+"</div>";
 				html += "</div>";
 				html += "<button class='box a1 center bg-green radius-10 font-white input-generic noborder margin-top-5 pointer opacity-out-09' onclick='Expense.triage.controller.show("+expenses[i].id+")'>Conferir</button>";
 		   	html += "</div>";
