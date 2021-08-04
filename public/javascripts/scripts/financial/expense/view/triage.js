@@ -74,13 +74,17 @@ Expense.triage.view.show = (expense) => {
 			html += "</div>";
 		html += "</div>";
 
-		html += "<div class='mobile-box b2 container border padding-5 margin-top-10'>";
+		html += "<div class='mobile-box b2-5 container border padding-5 margin-top-10'>";
 			html += "<div class='mobile-box b6 center'><img class='width-25' src='/images/icon/bill.png'></div>";
 			html += "<div class='mobile-box b5-6 center'>"+expense.category_name+"</div>";
 		html += "</div>";
-		html += "<div class='mobile-box b2 container border padding-5 margin-top-10'>";
+		html += "<div class='mobile-box b2-5 container border padding-5 margin-top-10'>";
 			html += "<div class='mobile-box b6 center'><img class='width-25' src='/images/icon/tag.png'></div>";
 			html += "<div class='mobile-box b5-6 center'>"+expense.origin_name+"</div>";
+		html += "</div>";
+		html += "<div class='mobile-box b5 container border padding-5 margin-top-10'>";
+			html += "<div class='mobile-box b6 center'><img class='width-25' src='/images/icon/dollar.png'></div>";
+			html += "<div class='mobile-box b5-6 center bold'>"+expense.cost+"</div>";
 		html += "</div>";
 		html += "<div class='mobile-box b1 container margin-top-5 margin-bottom-5'>";
 			html += "<div class='box b1 em06 bold'>Descrição</div>";
