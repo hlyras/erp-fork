@@ -1,7 +1,11 @@
 Outcome.view = {};
 
 Outcome.view.filter = (outcomes, pagination) => {
+	let outcomeTotalValue = 0;
 	if(outcomes.length){
+		for(let i in outcomes){ outcomeTotalValue += parseFloat(outcomes[i].cost); };
+		document.getElementById("outcome-total-value").innerHTML = "$"+outcomeTotalValue.toFixed(2);
+
 		let html = "";
 		html += "<div class='box b1 container border-explicit'>";
 			html += "<div class='mobile-box a6 em07 padding-5'><div class='center'>Código</div></div>";
@@ -22,6 +26,7 @@ Outcome.view.filter = (outcomes, pagination) => {
 		document.getElementById("outcome-filter-div").innerHTML = html;
 		document.getElementById("outcome-filter-box").style.display = "";
 	} else {
+		document.getElementById("outcome-total-value").innerHTML = "$"+outcomeTotalValue.toFixed(2);
 		document.getElementById("outcome-filter-div").innerHTML = "<div class='box b1 border-explicit padding-5 margin-top-5 center'>Sem resultados</div>";
 		document.getElementById("outcome-filter-box").style.display = "";
 	};

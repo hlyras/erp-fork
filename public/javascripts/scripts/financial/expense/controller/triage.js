@@ -60,7 +60,7 @@ if(Expense.triage.controller.pay){
 			id: event.target.elements.namedItem("id").value,
 			outcome_id: event.target.elements.namedItem("outcome-id").value,
 			income_category_id: event.target.elements.namedItem("income-category-id").value
-		}
+		};
 
 		document.getElementById('ajax-loader').style.visibility = 'visible';
 		let response = await Expense.pay(expense);

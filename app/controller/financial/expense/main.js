@@ -312,7 +312,6 @@ const expenseController = {
 		try {
 			let exp = await Expense.findById(expense.id)
 			let out = await Outcome.findById(exp[0].outcome_id);
-			console.log(out);
 			if(out[0].status == "Pago"){ return res.send({ msg: 'Despesas pagas não podem ser canceladas!' }); }
 				
 			let outcome = { id: out[0].id, status: "Cancelada" };

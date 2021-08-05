@@ -1,8 +1,13 @@
 Income.view = {};
 
 Income.view.filter = (incomes, pagination) => {
+	let incomeTotalValue = 0;
 	if(incomes.length){
 		let html = "";
+
+		for(let i in incomes){ incomeTotalValue += parseFloat(incomes[i].cash); };
+		document.getElementById("income-total-value").innerHTML = "$"+incomeTotalValue.toFixed(2);
+
 		html += "<div class='box b1 container border-explicit'>";
 			html += "<div class='mobile-box a6 em07 padding-5'><div class='center'>Código</div></div>";
 			html += "<div class='mobile-box a4 em07 padding-5'><div class='center'>Categoria</div></div>";
@@ -14,7 +19,7 @@ Income.view.filter = (incomes, pagination) => {
 				html += "<div class='mobile-box b6 border-explicit avant-garde bold center nowrap tbl-show-link' onclick='Income.controller.show("+incomes[i].id+")'>"+incomes[i].id+"</div>";
 				html += "<div class='mobile-box b4 padding-5 v-center'>"+incomes[i].category_name+"</div>";
 				html += "<div class='mobile-box b4 padding-5 v-center'>"+incomes[i].origin_name+"</div>";
-				html += "<div class='mobile-box b6 padding-5 v-center bold'>$"+incomes[i].cash+"</div>";
+				html += "<div class='mobile-box b6 padding-5 v-center bold'>$"+incomes[i].cash.toFixed(2)+"</div>";
 				html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><img class='icon size-20' src='/images/icon/edit.png' onclick='Income.controller.edit("+incomes[i].id+")'></div>";
 				html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><img class='icon size-20' src='/images/icon/trash.png' onclick='Income.controller.delete("+incomes[i].id+")'></div>";
 			html += "</div>";
@@ -22,13 +27,13 @@ Income.view.filter = (incomes, pagination) => {
 		document.getElementById("income-filter-div").innerHTML = html;
 		document.getElementById("income-filter-box").style.display = "";
 	} else {
+		document.getElementById("income-total-value").innerHTML = "$"+incomeTotalValue.toFixed(2);
 		document.getElementById("income-filter-div").innerHTML = "<div class='box b1 border-explicit padding-5 margin-top-5 center'>Sem resultados</div>";
 		document.getElementById("income-filter-box").style.display = "";
 	};
 };
 
 Income.view.show = (income) => {
-	console.log(income);
 	let html = "";
 	html += "<div class='mobile-box b7 container margin-top-5'>";
 		html += "<div class='box b1 em06 bold'>Id</div>";
