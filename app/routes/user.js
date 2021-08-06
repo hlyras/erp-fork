@@ -20,7 +20,7 @@ router.post('/signup', passport.authenticate('local-signup', {
 
 router.get('/list', lib.routeToHttps, userController.list);
 router.post('/show', lib.routeToHttps, userController.show);
-router.post('/updateInfo', lib.routeToHttps, userController.updateInfo);
-router.post('/updatePassword', lib.routeToHttps, userController.updatePassword);
+router.put('/updateInfo', lib.routeToHttps, userController.updateInfo);
+router.put('/updatePassword', lib.routeToHttps, userController.updatePassword);
 
 module.exports = router;
