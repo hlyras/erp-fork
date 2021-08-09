@@ -26,7 +26,7 @@ if(Expense.triage.controller.filter){
 		document.getElementById("expense-triage-show-box").style.display = "none";
 		document.getElementById("expense-pay-form").style.display = "none";
 
-		const pagination = { pageSize: 10, page: 0};
+		const pagination = { pageSize: 12, page: 0};
 		$(() => { lib.carousel.execute("expense-triage-filter-box", Expense.triage.view.filter, expenses, pagination); });
 	});
 }

@@ -56,12 +56,8 @@ Expense.triage.view.show = (expense) => {
 				else { html += "<div class='box b3 bg-blue radius-10 padding-5'>"; }
 			} else if(expense.status == "Pago"){
 				if(parseInt(expense.date) + parseInt(lib.timestampDay()) > expense.payment_date){
-					console.log(parseInt(expense.date) + parseInt(lib.timestampDay()));
-					console.log(expense.payment_date);
 					html += "<div class='box b3 bg-green radius-10 padding-5'>";
 				} else {
-					console.log(parseInt(expense.date) + parseInt(lib.timestampDay()));
-					console.log(expense.payment_date);
 					html += "<div class='box b3 bg-red radius-10 padding-5'>";
 				}
 			}

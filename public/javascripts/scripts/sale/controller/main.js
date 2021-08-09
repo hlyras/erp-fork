@@ -153,8 +153,6 @@ if(Sale.controller.filter){
 	Sale.controller.filter.addEventListener("submit", async event => {
 		event.preventDefault();
 
-		console.log(event.target.elements.namedItem("user_id").value);
-
 		let sale = {
 			customer_name: event.target.elements.namedItem("customer_name").value,
 			customer_cnpj: event.target.elements.namedItem("customer_cnpj").value,

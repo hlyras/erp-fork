@@ -162,47 +162,146 @@ Sale.view.filter = (sales, setup) => {
 Sale.view.show = (sale, status) => {
 	let html = "";
 	html += "<div class='box a1 underline center avant-garde margin-top-10 bold'>Dados da venda #"+sale.id+"</div>";
-	html += "<div class='box b3 container'>";
+	html += "<div class='box a3 container'>";
 		html += "<div class='box a1 container box-border padding-10'>";
 			html += "<div class='underline center avant-garde italic bold'>Cliente</div>";
-			html += "<div class='box a1 padding-5'>Nome: "+sale.customer.name+"</div>";
-			if(sale.customer.cpf){ html += "<div class='box a1 padding-5'>CPF: "+sale.customer.cpf+"</div>"; };
+
+			html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
+				html += "<div class='box a1 em06 bold'>Nome completo</div>";
+				html += "<div class='box a1'>"+sale.customer.name+"</div>"; 
+			html += "</div>";
+
+			if(sale.customer.cpf){ 
+				html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
+					html += "<div class='box a1 em06 bold'>CPF</div>";
+					html += "<div class='box a1'>"+sale.customer.cpf+"</div>"; 
+				html += "</div>";
+			};
 		html += "</div>";
+
 		if(sale.customer.person_type=="legal-entity"){
 			html += "<div class='box a1 container box-border padding-10'>";
 				html += "<div class='underline center avant-garde italic bold'>Empresa</div>";
-				html += "<div class='box a1 padding-5'>Razão Social: "+sale.customer.trademark+"</div>";
-				html += "<div class='box a1 padding-5'>Marca: "+sale.customer.brand+"</div>";
-				if(sale.customer.cnpj){ html += "<div class='box a1 padding-5'>CNPJ: "+sale.customer.cnpj+"</div>"; };
+				if(sale.customer.trademark){ 
+					html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
+						html += "<div class='box a1 em06 bold'>Razão Social</div>";
+						html += "<div class='box a1'>"+sale.customer.trademark+"</div>"; 
+					html += "</div>";
+				};
+				if(sale.customer.brand){ 
+					html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
+						html += "<div class='box a1 em06 bold'>Marca</div>";
+						html += "<div class='box a1'>"+sale.customer.brand+"</div>"; 
+					html += "</div>";
+				};
+				if(sale.customer.cnpj){ 
+					html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
+						html += "<div class='box a1 em06 bold'>CNPJ</div>";
+						html += "<div class='box a1'>"+sale.customer.cnpj+"</div>"; 
+					html += "</div>";
+				};
 			html += "</div>";
 		};
 		html += "<div class='box a1 container box-border padding-10'>";
 			html += "<div class='underline center avant-garde italic bold'>Contato</div>";
-			if(sale.customer.email){ html += "<div class='box a1 padding-5'>E-mail: "+sale.customer.email+"</div>"; };
-			if(sale.customer.phone){ html += "<div class='box a1 padding-5'>Tel: "+sale.customer.phone+"</div>"; };
-			if(sale.customer.cellphone){ html += "<div class='box a1 padding-5'>Cel: "+sale.customer.cellphone+"</div>"; };
+			if(sale.customer.email){ 
+				html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
+					html += "<div class='box a1 em06 bold'>E-mail</div>";
+					html += "<div class='box a1'>"+sale.customer.email.toLowerCase()+"</div>"; 
+				html += "</div>";
+			};
+			if(sale.customer.phone){ 
+				html += "<div class='mobile-box a2 container margin-top-5 padding-5'>";
+					html += "<div class='box a1 em06 bold'>Telefone</div>";
+					html += "<div class='box a1'>"+sale.customer.phone+"</div>"; 
+				html += "</div>";
+			};
+			if(sale.customer.cellphone){ 
+				html += "<div class='mobile-box a2 container margin-top-5 padding-5'>";
+					html += "<div class='box a1 em06 bold'>Telefone móvel</div>";
+					html += "<div class='box a1'>"+sale.customer.cellphone+"</div>"; 
+				html += "</div>";
+			};
 		html += "</div>";
 	html += "</div>";
 
-	html += "<div class='box b3 container'>";
-		html += "<div class='box a1 container box-border padding-10'>";
-			html += "<div class='underline center avant-garde italic bold'>Informações da venda</div>";
-			html += "<div class='box a1 padding-5'>Data: "+lib.timestampToFulldate(sale.sale_date)+"</div>";
-			html += "<div class='box a1 padding-5'>Metódo: "+sale.payment_method+"</div>";
-			if(sale.payment_period == 1){ html += "<div class='box a1 padding-5'>Prazo: à vista</div>"; };
-			if(sale.payment_period != 1){ html += "<div class='box a1 padding-5'>Prazo: "+sale.payment_period+" dias</div>"; };
-			html += "<div class='box a1 padding-5'>Status: "+sale.status+"</div>";
-			if(sale.nf != 1){ html += "<div class='box a1 padding-5'><a href='"+sale.nf+"'>Nota fiscal</a></div>"; };
+	html += "<div class='box a3 container'>";
+		html += "<div class='box a1 container box-border padding-5'>";
+			html += "<div class='mobile-box b1 underline center avant-garde italic bold'>Informações da venda</div>";
+
+			html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
+				html += "<div class='mobile-box b3-8 container'>";
+					html += "<div class='box b1 em06 bold'>Data da venda</div>";
+					html += "<div class='box b1'>"+lib.timestampToDate(sale.sale_date)+"</div>";
+				html += "</div>";
+				html += "<div class='mobile-box b2 container'>";
+					html += "<div class='box b1 em06 bold'>Status</div>";
+					html += "<div class='box b1'>"+sale.status+"</div>"; 
+				html += "</div>";
+				if(sale.nf){
+					html += "<div class='mobile-box b8 margin-top-5 center'><img class='icon size-35' src='/images/icon/nf-e.png' onclick='lib.openExternalLink(`"+sale.nf+"`)'></div>";
+				};
+			html += "</div>";
 		html += "</div>";
-		html += "<div class='box a1 container box-border padding-10'>";
+
+
+		html += "<div class='box a1 container box-border padding-5'>";
 			html += "<div class='underline center avant-garde italic bold'>Logística de envio</div>";
-			html += "<div class='box a1 padding-5'>Método: "+sale.shipment_method+"</div>";
-			if(sale.estimated_shipment_date){ html += "<div class='box a1 padding-5'>Data estimada: "+lib.timestampToDate(sale.estimated_shipment_date)+"</div>"; };
-			if(sale.shipment_date){ html += "<div class='box a1 padding-5'>Data: "+lib.timestampToDate(sale.shipment_date)+"</div>"; };
+			if(sale.estimated_shipment_date){ 
+				html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
+					html += "<div class='mobile-box b2 container'>";
+						html += "<div class='box b1 em06 bold'>Método de envio</div>";
+						html += "<div class='box b1'>"+sale.shipment_method+"</div>";
+					html += "</div>";
+					html += "<div class='mobile-box b2 container'>";
+						html += "<div class='box b1 em06 bold'>Prazo de embalo</div>";
+						html += "<div class='box b1 em09'>"+lib.timestampToDate(sale.estimated_shipment_date)+"</div>"; 
+					html += "</div>";
+				html += "</div>";
+			};
+
+			if(sale.payment_confirmation_date){ 
+				html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
+					html += "<div class='mobile-box b2 container'>";
+						html += "<div class='box b1 em06 bold'>Confirmação do pagamento</div>";
+						html += "<div class='box b1 em09'>"+lib.timestampToFulldate(sale.payment_confirmation_date)+"</div>"; 
+					html += "</div>";
+					html += "<div class='mobile-box b2 container'>";
+						html += "<div class='box b1 em06 bold'>Confirmado por</div>";
+						html += "<div class='box b1'>"+sale.payment_user_name+"</div>"; 
+					html += "</div>";
+				html += "</div>";
+			};
+
+			if(sale.packment_confirmation_date){ 
+				html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
+					html += "<div class='mobile-box b2 container'>";
+						html += "<div class='box b1 em06 bold'>Data de embalo</div>";
+						html += "<div class='box b1 em09'>"+lib.timestampToFulldate(sale.packment_confirmation_date)+"</div>"; 
+					html += "</div>";
+					html += "<div class='mobile-box b2 container'>";
+						html += "<div class='box b1 em06 bold'>Embalado por</div>";
+						html += "<div class='box b1'>"+sale.packment_user_name+"</div>"; 
+					html += "</div>";
+				html += "</div>";
+			};
+
+			if(sale.shipment_confirmation_date){ 
+				html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
+					html += "<div class='mobile-box b2 container'>";
+						html += "<div class='box b1 em06 bold'>Data de envio</div>";
+						html += "<div class='box b1 em09'>"+lib.timestampToFulldate(sale.shipment_confirmation_date)+"</div>"; 
+					html += "</div>";
+					html += "<div class='mobile-box b2 container'>";
+						html += "<div class='box b1 em06 bold'>Enviado por</div>";
+						html += "<div class='box b1'>"+sale.shipment_user_name+"</div>"; 
+					html += "</div>";
+				html += "</div>";
+			};
 		html += "</div>";
 	html += "</div>";
 
-	html += "<div class='box b3 container'>";
+	html += "<div class='box a3 container'>";
 		html += "<div class='box a1 container box-border padding-10'>";
 			html += "<div class='underline center avant-garde italic bold'>Financeiro</div>";
 			html += "<div class='box a1 container'>";
@@ -240,8 +339,6 @@ Sale.view.show = (sale, status) => {
 			html += "</div>";
 		};
 		html += "</div>";
-
-		// IMPLEMENTAR VALOR DO FRETE, DESCONTO E TOTAL
 
 		html += "<div class='box two container ground border padding-5 margin-top-5'>";
 		html += "<div class='box one underline center bold'>Pacotes</div>";
