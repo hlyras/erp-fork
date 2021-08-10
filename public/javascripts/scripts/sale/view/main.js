@@ -406,7 +406,9 @@ Sale.view.edit = async (sale) => {
 	document.getElementById("sale-shipment-value").value = sale.shipment_value.toFixed(2);
 	Sale.pos.discount_value = sale.discount_value;
 	document.getElementById("sale-discount-value").value = sale.discount_value.toFixed(2);
+	
 	Sale.pos.updateValue();
+	Sale.pos.updateWeight();
 
 	for(let i in sale.products){
 		sale.products[i].code = sale.products[i].product_info.split(" | ")[0];

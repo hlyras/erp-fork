@@ -8,6 +8,12 @@ Sale.pos.updateValue = () => {
 	document.getElementById("sale-value").innerHTML = "$"+Sale.pos.total_value.toFixed(2);
 };
 
+Sale.pos.updateWeight = () => {
+	Sale.pos.total_weight = 0;
+	Sale.pos.total_weight = Sale.product.kart.total_weight + Sale.package.kart.total_weight;
+	document.getElementById("sale-weight").innerHTML = Sale.pos.total_value+"g";
+};
+
 Sale.pos.estimated_shipment_date = document.getElementById("estimated-shipment-date");
 if(Sale.pos.estimated_shipment_date){
 	Sale.pos.estimated_shipment_date.addEventListener("change", event => {

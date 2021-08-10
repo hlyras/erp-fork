@@ -15,14 +15,14 @@ Sale.package.controller.dropdown = {
 			let products = await Product.package.filter(package);
 			if(!products){ return false; };
 
-			lib.dropdown.render(products, input.id, dropdown_id, "input", "id", ["code","name","color"]);
+			lib.dropdown.render(products, input.id, dropdown_id, "input", "id", ["code","name","color","weight"]);
 		} else {
-			lib.dropdown.render([], input.id, dropdown_id, "input", "id", ["code","name","color"]);
+			lib.dropdown.render([], input.id, dropdown_id, "input", "id", ["code","name","color","weight"]);
 		};
 	}
 };
 
-Sale.package.kart = new lib.kart("sale-package-kart", "Sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"price":"Preço"}]);
+Sale.package.kart = new lib.kart("sale-package-kart", "Sale.package.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"price":"Preço"},{"weight":"Peso"}]);
 
 Sale.package.kart.add = document.getElementById("sale-package-kart-form");
 if(Sale.package.kart.add){
@@ -61,6 +61,8 @@ if(Sale.package.kart.add){
 			};
 		};
 
+		package.total_weight = package.amount * package.weight;
+		
 		let price = { category_id: parseInt(Sale.controller.category.value), package_id: package.id };
 		
 		document.getElementById('ajax-loader').style.visibility = 'visible';
@@ -75,9 +77,6 @@ if(Sale.package.kart.add){
 
 		Sale.package.kart.insert("id", package);
 		Sale.package.kart.update("code");
-
-		// let stringified_kart = JSON.stringify(Sale.package.kart.items);
-		// lib.localStorage.update(Sale.package.kart.name, stringified_kart);
 
 		Sale.package.product = Sale.package.kart.items.reduce((kart_package, backup_package) => {
 			for(let i in Sale.package.product){
@@ -154,13 +153,16 @@ Sale.package.kart.list = (kart, props) => {
 			Sale.package.product["kart"+Sale.package.kart.items[i].id].list(Sale.package.product["kart"+Sale.package.kart.items[i].id].name, Sale.package.product["kart"+Sale.package.kart.items[i].id].props)
 		};
 		Sale.package.kart.updateValue();
+		Sale.package.kart.updateWeight();
 		Sale.pos.updateValue();
+		Sale.pos.updateWeight();
 	} else {
 		document.getElementById(Sale.package.kart.name+"-div").innerHTML = "";
 		
 		Sale.package.kart.updateValue();
+		Sale.package.kart.updateWeight();
 		Sale.pos.updateValue();
-		lib.localStorage.update("sale-package-product-kart-id", 1);
+		Sale.pos.updateWeight();
 	};
 };
 
@@ -169,10 +171,9 @@ Sale.package.kart.decrease = (obj_id) => {
 		if(Sale.package.kart.items[i].id == obj_id && Sale.package.kart.items[i].amount > 1){
 			Sale.package.kart.items[i].amount -= 1;
 			Sale.package.kart.items[i].total_price = Sale.package.kart.items[i].amount * Sale.package.kart.items[i].price;
+			Sale.package.kart.items[i].total_weight = Sale.package.kart.items[i].amount * Sale.package.kart.items[i].weight;
 		};
 	};
-	let stringified_kart = JSON.stringify(Sale.package.kart.items);
-	lib.localStorage.update(Sale.package.kart.name, stringified_kart);
 	
 	Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
 	Sale.package.kart.activate();
@@ -183,34 +184,12 @@ Sale.package.kart.increase = (obj_id) => {
 		if(Sale.package.kart.items[i].id == obj_id){
 			Sale.package.kart.items[i].amount += 1;
 			Sale.package.kart.items[i].total_price = Sale.package.kart.items[i].amount * Sale.package.kart.items[i].price;
+			Sale.package.kart.items[i].total_weight = Sale.package.kart.items[i].amount * Sale.package.kart.items[i].weight;
 		};
 	};
-	let stringified_kart = JSON.stringify(Sale.package.kart.items);
-	lib.localStorage.update(Sale.package.kart.name, stringified_kart);
 	
 	Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
 	Sale.package.kart.activate();
-};
-
-Sale.package.kart.updateAmount = async (obj_id, amount) => {
-	if(amount < 1 || isNaN(amount)){
-		alert("Quantidade Inválida");
-		return Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
-	};
-
-	for(i in Sale.package.kart.items){
-		if(Sale.package.kart.items[i].id == obj_id){
-			Sale.package.kart.items[i].amount = parseInt(amount);
-			Sale.package.kart.items[i].total_price = Sale.package.kart.items[i].amount * Sale.package.kart.items[i].price;
-			
-			// let stringified_kart = JSON.stringify(Sale.package.kart.items);
-			// lib.localStorage.update(Sale.package.kart.name, stringified_kart);
-
-			Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
-			Sale.package.kart.activate();
-			return true;
-		};
-	};
 };
 
 Sale.package.kart.remove = (obj_id) => {
@@ -229,9 +208,6 @@ Sale.package.kart.remove = (obj_id) => {
 		};
 	};
 
-	// let stringified_kart = JSON.stringify(Sale.package.kart.items);
-	// lib.localStorage.update(Sale.package.kart.name, stringified_kart);
-	// lib.localStorage.remove("sale-package-product-kart"+obj_id);
 	
 	Sale.package.kart.list(Sale.package.kart.variable, Sale.package.kart.props);
 	Sale.package.kart.activate();
@@ -296,8 +272,6 @@ Sale.package.kart.set = (id) => {
 				Sale.package.product["kart"+id].items[i].amount -= 1;
 			};
 		};
-		let stringified_kart = JSON.stringify(Sale.package.product["kart"+id].items);
-		lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
 		Sale.package.product["kart"+id].list(Sale.package.product["kart"+id].variable, Sale.package.product["kart"+id].props);
 	
 		Sale.package.updateSetup(id);
@@ -309,8 +283,6 @@ Sale.package.kart.set = (id) => {
 				Sale.package.product["kart"+id].items[i].amount += 1;
 			};
 		};
-		let stringified_kart = JSON.stringify(Sale.package.product["kart"+id].items);
-		lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
 		Sale.package.product["kart"+id].list(Sale.package.product["kart"+id].variable, Sale.package.product["kart"+id].props);
 		
 		Sale.package.updateSetup(id);
@@ -326,8 +298,6 @@ Sale.package.kart.set = (id) => {
 			if(Sale.package.product["kart"+id].items[i].id == obj_id){
 				Sale.package.product["kart"+id].items[i].amount = parseInt(amount);
 				
-				let stringified_kart = JSON.stringify(Sale.package.product["kart"+id].items);
-				lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
 
 				Sale.package.product["kart"+id].list(Sale.package.product["kart"+id].variable, Sale.package.product["kart"+id].props);
 				return Sale.package.updateSetup(id);
@@ -344,9 +314,6 @@ Sale.package.kart.set = (id) => {
 		};
 
 		Sale.package.product["kart"+id].items = kart_backup;
-
-		let stringified_kart = JSON.stringify(Sale.package.product["kart"+id].items);
-		lib.localStorage.update(Sale.package.product["kart"+id].name, stringified_kart);
 
 		if(!Sale.package.product["kart"+id].items.length){ return Sale.package.kart.remove(id);/**/ };
 
@@ -375,4 +342,16 @@ Sale.package.kart.updateValue = () => {
 		Sale.package.kart.total_value = 0;
 	};
 	document.getElementById("sale-package-value").innerHTML = "$"+Sale.package.kart.total_value.toFixed(2);
+};
+
+Sale.package.kart.updateWeight = () => {
+	Sale.package.kart.total_weight = 0;
+	if(Sale.package.kart.items.length){
+		for(i in Sale.package.kart.items){
+			Sale.package.kart.total_weight += Sale.package.kart.items[i].amount * Sale.package.kart.items[i].weight;
+		};
+	} else {
+		Sale.package.kart.total_weight = 0;
+	};
+	document.getElementById("sale-package-weight").innerHTML = Sale.package.kart.total_weight+"g";
 };

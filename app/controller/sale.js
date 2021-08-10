@@ -71,6 +71,7 @@ const saleController = {
 		sale.packages = JSON.parse(req.body.sale.packages);
 		sale.package_actions = { add: [], update: [], remove: [] } ;
 		sale.package_product_actions = { add: [], update: [], remove: [] } ;
+		sale.weight = parseInt(req.body.sale.weight);
 
 		if(!sale.customer_id){ return res.send({ msg: "É necessário selecionar o cliente" }); };
 		if(sale.customer_address_id == undefined){ return res.send({ msg: "É necessário selecionar o endereço do cliente" }); };
@@ -82,6 +83,7 @@ const saleController = {
 		if(!sale.payment_period){ return res.send({ msg: "É necessário selecionar o prazo de pagamento" }); };
 		if(!sale.status){ return res.send({ msg: "É necessário selecionar o status da venda" }); };
 		if(!sale.products.length && !sale.packages.length){ return res.send({ msg: "É necessário selecionar ao menos um produto ou pacote." }); };
+		if(sale.weight < 0){ return res.send({ msg: "O peso da venda é inválido!" }); };
 		if(sale.value < 0){ return res.send({ msg: "O valor da venda é inválido!" }); };
 		if(!sale.shipment_date){ sale.shipment_date = ""; };
 

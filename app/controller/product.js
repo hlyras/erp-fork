@@ -108,6 +108,7 @@ const productController = {
 			name: req.body.name,
 			color: req.body.color,
 			size: req.body.size,
+			weight: parseInt(req.body.weight),
 			brand: req.body.brand,
 			status: req.body.status,
 			image: req.body.image,
@@ -118,6 +119,7 @@ const productController = {
 		if(!product.name || product.name.length > 30){return res.send({ msg: 'Preencha o nome do produto.' })};
 		if(!product.color || product.color.length > 10){return res.send({ msg: 'Preencha a cor do produto.' })};
 		if(!product.size || product.size.length > 4){return res.send({ msg: 'Preencha o tamanho do produto.' })};
+		if(!product.weight || isNaN(product.weight)){return res.send({ msg: 'Preencha o peso do produto.' })};
 		if(!product.brand.length || product.brand.length < 3 || product.brand.length > 45){ return res.send({ msg: 'Preencha a marca do produto.' })};
 
 		try {
@@ -758,10 +760,12 @@ const productController = {
 
 			let package = req.body.package;
 
+			console.log(package);
 			if(!package.code || package.code < 1 || package.code > 9999){return res.send({ msg: 'Código de pacote inválido.' })};
 			if(!package.name || package.name.length > 50){return res.send({ msg: 'O nome do pacote é inválido.' })};
 			if(!package.color){return res.send({ msg: 'A cor do pacote é inválida.' })};
 			if(!package.price || isNaN(package.price)){ return res.send({ msg: 'O preço do pacote é inválido.' }); };
+			if(!package.weight || isNaN(package.weight)){ return res.send({ msg: 'O peso do pacote é inválido.' }); };
 				
 			var row = await Product.package.findByCode(package.code);
 			if(row.length){
@@ -769,6 +773,7 @@ const productController = {
 					return res.send({ msg: 'Este código de produto já está cadastrado.' });
 				};
 			};
+
 
 			try {
 				if(!package.id){

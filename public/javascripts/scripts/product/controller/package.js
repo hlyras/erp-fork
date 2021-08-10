@@ -11,6 +11,7 @@ if(Product.controller.package.create){
 			name: event.target.elements.namedItem("name").value,
 			color: event.target.elements.namedItem("color").value,
 			price: event.target.elements.namedItem("price").value,
+			weight: event.target.elements.namedItem("weight").value,
 			image: event.target.elements.namedItem("image").value,
 			announcement: event.target.elements.namedItem("announcement").value
 		};
@@ -25,6 +26,7 @@ if(Product.controller.package.create){
 		event.target.elements.namedItem("name").value = "";
 		event.target.elements.namedItem("color").value = "";
 		event.target.elements.namedItem("price").value = "0.00";
+		event.target.elements.namedItem("weight").value = "";
 		event.target.elements.namedItem("image").value = "";
 		event.target.elements.namedItem("announcement").value = "";
 
@@ -132,6 +134,7 @@ Product.controller.package.edit = async (id) => {
 	document.getElementById('product-package-create-form').elements.namedItem("name").value = package.name;
 	document.getElementById('product-package-create-form').elements.namedItem("color").value = package.color;
 	document.getElementById('product-package-create-form').elements.namedItem("price").value = package.price;
+	document.getElementById('product-package-create-form').elements.namedItem("weight").value = package.weight;
 	document.getElementById('product-package-create-form').elements.namedItem("image").value = package.image;
 	document.getElementById('product-package-create-form').elements.namedItem("announcement").value = package.announcement;
 };

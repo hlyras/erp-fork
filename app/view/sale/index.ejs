@@ -99,7 +99,17 @@
                     </div>
                 </div>
                 <div class="box two ground padding-10 margin-top-10">
-                    <div class="box one container padding-5">
+                    <div class="box b1 container border padding-5">
+                        <div class="mobile-box b2 center">Peso dos produtos:</div>
+                        <div id="sale-product-weight" class="mobile-box b2 center bold">0g</div>
+                        <div class="mobile-box b2 center">Peso dos pacotes:</div>
+                        <div id="sale-package-weight" class="mobile-box b2 center bold">0g</div>
+                        <div class="mobile-box two center"></div><div class="mobile-box two underline"></div>
+                        <div class="mobile-box b2 center">Peso total:</div>
+                        <div id="sale-weight" class="mobile-box b2 center bold">0g</div>
+                    </div>
+
+                    <div class="box one container border padding-5 margin-top-10">
                         <div class="mobile-box two center">Valor dos produtos:</div>
                         <div id="sale-product-value" class="mobile-box two center bold">$0,00</div>
                         <div class="mobile-box two center">Valor dos pacotes:</div>
@@ -108,8 +118,7 @@
                         <input type="number" id="sale-shipment-value" class="mobile-box two border padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
                         <div class="mobile-box two center">Valor do desconto:</div>
                         <input type="number" id="sale-discount-value" class="mobile-box two border padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
-                        <div class="mobile-box two center"></div>
-                        <div class="mobile-box two underline"></div>
+                        <div class="mobile-box two center"></div><div class="mobile-box two underline"></div>
                         <div class="mobile-box two center">Valor total:</div>
                         <div id="sale-value" class="mobile-box two center bold">$0.00</div>
                     </div>

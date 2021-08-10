@@ -42,8 +42,6 @@ if(Sale.controller.payment_method){
 		if(event.target.value == 4){ document.getElementById("payment-days").style.display = ""; } 
 		else { document.getElementById("payment-days").style.display = "none"; };
 
-		console.log(html);
-
 		document.getElementById("payment-period").innerHTML = html;
 	});
 };
@@ -86,6 +84,7 @@ if(Sale.controller.save){
 			customer_address_id: lib.findCheckedRadios("sale-customer-address").value,
 			products: JSON.stringify(Sale.product.kart.items),
 			packages: JSON.stringify(Sale.package.kart.items),
+			weight: Sale.pos.total_weight,
 			shipment_method: document.getElementById("shipment-method").value,
 			payment_method: document.getElementById("payment-method").value,
 			payment_period: document.getElementById("payment-period").value,
@@ -140,11 +139,11 @@ if(Sale.controller.save){
 		lib.localStorage.remove("sale-package-kart");
 		Sale.package.kart.list("Sale.package.kart", Sale.package.kart.props);
 
-		if(sale.id > 0 && Sale.controller.filter.submit){ Sale.controller.filter.submit.click(); };
+		if(Sale.controller.filter){ if(sale.id > 0){ Sale.controller.filter.submit.click(); } }
 		alert("Venda confirmada\n código: #"+sale.id+"\n data: "+lib.timestampToDate(sale.sale_date)+"\n previsão de envio: "+lib.timestampToDate(sale.estimated_shipment_date)+"\n cliente: "+sale.customer_name+"\n Método de pagamento: "+sale.payment_method+"\n status: "+sale.status+"\n Valor: "+sale.value);
 		if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; }
 		document.getElementById("sale-category-select").value = ""; 
-		document.getElementById("sale-category-select").style.display = ""; 
+		document.getElementById("sale-category-select").style.display = "";
 	});
 };
 
@@ -255,7 +254,8 @@ Sale.controller.confirmShipment = async sale_id => {
 Sale.pos = {
 	shipment_value: 0,
 	discount_value: 0,
-	total_value: 0 
+	total_value: 0,
+	total_weight: 0 
 };
 
 Sale.pos.updateValue = () => {
@@ -267,6 +267,15 @@ Sale.pos.updateValue = () => {
 	if(!isNaN(Sale.pos.shipment_value)){ Sale.pos.total_value += Sale.pos.shipment_value; };
 	Sale.pos.total_value = lib.roundValue(Sale.pos.total_value);
 	document.getElementById("sale-value").innerHTML = "$"+Sale.pos.total_value.toFixed(2);
+};
+
+Sale.pos.updateWeight = () => {
+	Sale.pos.total_weight = 0;
+
+	if(isNaN(Sale.product.kart.total_weight)){ Sale.product.kart.total_weight = 0; } else { Sale.pos.total_weight += Sale.product.kart.total_weight };
+	if(isNaN(Sale.package.kart.total_weight)){ Sale.package.kart.total_weight = 0; } else { Sale.pos.total_weight += Sale.package.kart.total_weight };
+	Sale.pos.total_weight = lib.roundValue(Sale.pos.total_weight);
+	document.getElementById("sale-weight").innerHTML = Sale.pos.total_weight+"g";
 };
 
 Sale.discount_value = document.getElementById("sale-discount-value");

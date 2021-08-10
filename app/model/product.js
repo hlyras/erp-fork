@@ -10,11 +10,12 @@ const Product = function(){
 };
 
 Product.save = async (product) => {
-	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, brand, status, image, announcement) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, weight, brand, status, image, announcement) VALUES ('"
 		+product.code+"', '"
 		+product.name+"','"
 		+product.color+"','"
 		+product.size+"','"
+		+product.weight+"','"
 		+product.brand+"','"
 		+product.status+"','"
 		+product.image+"','"
@@ -27,6 +28,7 @@ Product.update = async (product) => {
 		+"', name='"+product.name
 		+"', color='"+product.color
 		+"', size='"+product.size
+		+"', weight='"+product.weight
 		+"', brand='"+product.brand
 		+"', status='"+product.status
 		+"', image='"+product.image
@@ -204,10 +206,11 @@ Product.price = {
 
 Product.package = {
 	save: async (package) => {
-		let query = "INSERT INTO cms_wt_erp.product_package (code, name, color, image, announcement) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.product_package (code, name, color, weight, image, announcement) VALUES ('"
 			+package.code+"', '"
 			+package.name+"', '"
 			+package.color+"', '"
+			+package.weight+"', '"
 			+package.image+"', '"
 			+package.announcement+"');";
 		return db(query);
@@ -216,6 +219,7 @@ Product.package = {
 		let query = "UPDATE cms_wt_erp.product_package SET code='"+package.code
 			+"', name='"+package.name
 			+"', color='"+package.color
+			+"', weight='"+package.weight
 			+"', image='"+package.image
 			+"', announcement='"+package.announcement+"' WHERE id='"+package.id+"';";
 		return db(query);

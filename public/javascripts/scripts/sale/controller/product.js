@@ -11,7 +11,7 @@ Sale.product.controller.dropdown = {
 			 brand: ""
 		};
 		
-		let properties = ["code","name","color","size"];
+		let properties = ["code","name","color","size","weight"];
 
 		if(product.name.length > 2){
 			let products = await Product.filter(product);
@@ -24,7 +24,7 @@ Sale.product.controller.dropdown = {
 	}
 };
 
-Sale.product.kart = new lib.kart("sale-product-kart", "Sale.product.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"size":"Tamanho"}]);
+Sale.product.kart = new lib.kart("sale-product-kart", "Sale.product.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"size":"Tamanho"},{"weight":"Peso"}]);
 
 Sale.product.kart.add = document.getElementById("sale-product-kart-form");
 if(Sale.product.kart.add){
@@ -55,6 +55,7 @@ if(Sale.product.kart.add){
 			name: splitedProduct[1],
 			color: splitedProduct[2],
 			size: splitedProduct[3],
+			weight: splitedProduct[4],
 			amount: parseInt(amount)
 		};
 
@@ -67,6 +68,7 @@ if(Sale.product.kart.add){
 
 		product.price = price.price;
 		product.total_price = product.amount * product.price;
+		product.total_weight = product.amount * product.weight;
 
 		Sale.product.kart.insert("id", product);
 		Sale.product.kart.update("code");
@@ -97,11 +99,15 @@ Sale.product.kart.list = function(kart, props){
 		};
 		document.getElementById(Sale.product.kart.name+"-div").innerHTML = html;
 		Sale.product.kart.updateValue();
+		Sale.product.kart.updateWeight();
 		Sale.pos.updateValue();
+		Sale.pos.updateWeight();
 	} else {
 		document.getElementById(Sale.product.kart.name+"-div").innerHTML = "";
 		Sale.product.kart.updateValue();
+		Sale.product.kart.updateWeight();
 		Sale.pos.updateValue();
+		Sale.pos.updateWeight();
 	};
 };
 
@@ -110,11 +116,10 @@ Sale.product.kart.decrease = (obj_id) => {
 		if(Sale.product.kart.items[i].id == obj_id && Sale.product.kart.items[i].amount > 1){
 			Sale.product.kart.items[i].amount -= 1;
 			Sale.product.kart.items[i].total_price = Sale.product.kart.items[i].amount * Sale.product.kart.items[i].price;
+			Sale.product.kart.items[i].total_weight = Sale.product.kart.items[i].amount * Sale.product.kart.items[i].weight;
 		};
 	};
 
-	let stringified_kart = JSON.stringify(Sale.product.kart.items);
-	lib.localStorage.update(Sale.product.kart.name, stringified_kart);
 	Sale.product.kart.list(Sale.product.kart.variable, Sale.product.kart.props);
 };
 
@@ -123,31 +128,11 @@ Sale.product.kart.increase = (obj_id) => {
 		if(Sale.product.kart.items[i].id == obj_id){
 			Sale.product.kart.items[i].amount += 1;
 			Sale.product.kart.items[i].total_price = Sale.product.kart.items[i].amount * Sale.product.kart.items[i].price;
+			Sale.product.kart.items[i].total_weight = Sale.product.kart.items[i].amount * Sale.product.kart.items[i].weight;
 		};
 	};
 
-	let stringified_kart = JSON.stringify(Sale.product.kart.items);
-	lib.localStorage.update(Sale.product.kart.name, stringified_kart);
 	Sale.product.kart.list(Sale.product.kart.variable, Sale.product.kart.props);
-};
-
-Sale.product.kart.updateAmount = async (obj_id, amount) => {
-	if(amount < 1){
-		alert("Quantidade Inválida");
-		return Sale.product.kart.list(Sale.product.kart.variable, Sale.product.kart.props);
-	};
-
-	for(i in Sale.product.kart.items){
-		if(Sale.product.kart.items[i].id == obj_id){
-			Sale.product.kart.items[i].amount = parseInt(amount);
-			Sale.product.kart.items[i].total_price = Sale.product.kart.items[i].amount * Sale.product.kart.items[i].price;
-			
-			let stringified_kart = JSON.stringify(Sale.product.kart.items);
-			lib.localStorage.update(Sale.product.kart.name, stringified_kart);
-
-			return Sale.product.kart.list(Sale.product.kart.variable, Sale.product.kart.props);
-		};
-	};
 };
 
 Sale.product.kart.updateValue = () => {
@@ -160,4 +145,16 @@ Sale.product.kart.updateValue = () => {
 		Sale.product.kart.total_value = 0;
 	};
 	document.getElementById("sale-product-value").innerHTML = "$"+Sale.product.kart.total_value.toFixed(2);
+};
+
+Sale.product.kart.updateWeight = () => {
+	Sale.product.kart.total_weight = 0;
+	if(Sale.product.kart.items.length){
+		for(i in Sale.product.kart.items){
+			Sale.product.kart.total_weight += Sale.product.kart.items[i].amount * Sale.product.kart.items[i].weight;
+		};
+	} else {
+		Sale.product.kart.total_weight = 0;
+	};
+	document.getElementById("sale-product-weight").innerHTML = Sale.product.kart.total_weight+"g";
 };

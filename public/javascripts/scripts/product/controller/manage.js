@@ -12,6 +12,7 @@ if(Product.controller.manage.create){
 			name: event.target.elements.namedItem("name").value,
 			color: event.target.elements.namedItem("color").value,
 			size: event.target.elements.namedItem("size").value,
+			weight: event.target.elements.namedItem("weight").value,
 			brand: event.target.elements.namedItem("brand").value,
 			status: event.target.elements.namedItem("status").value,
 			image: event.target.elements.namedItem("image").value,
@@ -32,6 +33,7 @@ if(Product.controller.manage.create){
 		event.target.elements.namedItem("name").value = "";
 		event.target.elements.namedItem("color").value = "";
 		event.target.elements.namedItem("size").value = "";
+		event.target.elements.namedItem("weight").value = "";
 		event.target.elements.namedItem("brand").value = "";
 		event.target.elements.namedItem("status").value = "";
 		event.target.elements.namedItem("image").value = "";
@@ -50,6 +52,7 @@ Product.controller.manage.edit = async (id) => {
 	document.getElementById('product-create-form').elements.namedItem("code").value = product.code;
 	document.getElementById('product-create-form').elements.namedItem("color").value = product.color;
 	document.getElementById('product-create-form').elements.namedItem("size").value = product.size;
+	document.getElementById('product-create-form').elements.namedItem("weight").value = product.weight;
 	document.getElementById('product-create-form').elements.namedItem("brand").value = product.brand;
 	document.getElementById('product-create-form').elements.namedItem("status").value = product.status;
 	document.getElementById('product-create-form').elements.namedItem("image").value = product.image;

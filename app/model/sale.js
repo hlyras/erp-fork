@@ -15,7 +15,7 @@ const Sale = function(){
 };
 
 Sale.save = async sale => {
-	let query = "INSERT INTO cms_wt_erp.sale (sale_date, customer_id, customer_name, customer_cnpj, customer_address_id, shipment_method, payment_method, payment_period, status, user_id, user_name, product_value, package_value, shipment_value, discount_value, value) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.sale (sale_date, customer_id, customer_name, customer_cnpj, customer_address_id, shipment_method, payment_method, payment_period, status, user_id, user_name, product_value, package_value, shipment_value, discount_value, weight, value) VALUES ('"
 		+sale.sale_date+"', '"
 		+sale.customer_id+"','"
 		+sale.customer_name+"','"
@@ -31,6 +31,7 @@ Sale.save = async sale => {
 		+sale.package_value+"','"
 		+sale.shipment_value+"','"
 		+sale.discount_value+"','"
+		+sale.weight+"','"
 		+sale.value+"');";
 	return db(query);
 };
@@ -51,6 +52,7 @@ Sale.update = async (sale) => {
 		+"', package_value='"+sale.package_value
 		+"', shipment_value='"+sale.shipment_value
 		+"', discount_value='"+sale.discount_value
+		+"', weight='"+sale.weight
 		+"', value='"+sale.value+"' WHERE id='"+sale.id+"';";
 	return db(query);
 };
@@ -92,11 +94,12 @@ Sale.confirmShipment = async (sale) => {
 
 Sale.product = {
 	add: async (sale_id, product) => {
-		let query = "INSERT INTO cms_wt_erp.sale_product (sale_id, product_id, product_info, amount, price) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.sale_product (sale_id, product_id, product_info, amount, weight, price) VALUES ('"
 			+sale_id+"', '"
 			+product.id+"','"
 			+product.product_info+"','"
 			+product.amount+"','"
+			+product.weight+"','"
 			+product.price+"');";
 		return db(query);	
 	},
@@ -120,12 +123,13 @@ Sale.product = {
 
 Sale.package = {
 	add: async (sale_id, package) => {
-		let query = "INSERT INTO cms_wt_erp.sale_package (sale_id, package_id, info, setup, amount, price) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.sale_package (sale_id, package_id, info, setup, amount, weight, price) VALUES ('"
 			+sale_id+"', '"
 			+package.package_id+"','"
 			+package.info+"','"
 			+package.setup+"','"
 			+package.amount+"','"
+			+package.weight+"','"
 			+package.price+"');";
 		return db(query);
 	},
