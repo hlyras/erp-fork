@@ -235,7 +235,7 @@ const saleController = {
 
 		try {
 			if(sale.id && sale.status){
-				sale.datetime = lib.genFullDate();
+				sale.datetime = lib.genTimestamp();
 				sale.user_id = req.user.id;
 				sale.user_name = req.user.name;
 				await Sale.updateStatus(sale);
