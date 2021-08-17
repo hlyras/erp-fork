@@ -33,6 +33,13 @@ if(Sale.packment.report.controller.filter){
       packments.push(packment);
     };
 
+    if(packments.length){
+      let index = packments.reduce((total, packment) => total + packment.amount, 0); //Total embalado
+      for(let i in packments){
+        packments[i].percentage = lib.ruleOfThree(index, 100, packments[i].amount).toFixed(2);
+      };
+    }
+
     document.getElementById("sale-packment-report-filter-box").style.display = "";
     
     const setup = { pageSize: 10, page: 0 };
