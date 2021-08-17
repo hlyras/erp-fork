@@ -1,7 +1,7 @@
 const User = require('../../model/user');
 const userController = require('./../user');
 
-const lib = require("jarmlib");
+const lib = require('../../../config/lib');
 
 const Sale = require('../../model/ecommerce/sale');
 const Product = require('../../model/product');
@@ -563,6 +563,118 @@ const saleController = {
 				} catch (err) {
 					console.log(err);
 					res.send({ msg: "Ocorreu um erro ao cadastrar sua venda, favor contatar o suporte." });
+				};
+			}
+		}
+	},
+	report: {
+		index: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+				return res.redirect('/');
+			};
+			let users = await User.list();
+			res.render('ecommerce/sale/report/index', { user: req.user, users: users });
+		},
+		product: {
+			index: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+					return res.redirect('/');
+				};
+				let colors = await Product.colorList();
+				let users = await User.list();
+				res.render('ecommerce/sale/report/product', { user: req.user, users: users, colors: colors });
+			},
+			filter: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+				};
+
+				let params = []; let values = [];
+				let strict_params = []; let strict_values = [];
+				let period = { start: "", end: "" };
+
+				let product_props = ["ecommerce_sale.id",
+					"product.code",
+					"product.name",
+					"product.color",
+					"product.size",
+					"ecommerce_sale_product.product_id",
+					"ecommerce_sale_product.amount"
+				];
+
+				let package_product_props = ["ecommerce_sale.id",
+					"product.code",
+					"product.name",
+					"product.color",
+					"product.size",
+					"ecommerce_sale_package_product.product_id",
+					"ecommerce_sale_package_product.amount"
+				];
+		
+				let product_inners = [
+					["cms_wt_erp.ecommerce_sale_product ecommerce_sale_product","cms_wt_erp.ecommerce_sale.id","cms_wt_erp.ecommerce_sale_product.sale_id"],
+					["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.ecommerce_sale_product.product_id"]
+				];
+
+				let package_product_inners = [
+					["cms_wt_erp.ecommerce_sale_package_product ecommerce_sale_package_product","cms_wt_erp.ecommerce_sale.id","cms_wt_erp.ecommerce_sale_package_product.sale_id"],
+					["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.ecommerce_sale_package_product.product_id"]
+				];
+
+				lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
+				lib.insertParam("origin", req.body.sale.origin, params, values);
+				lib.insertParam("cms_wt_erp.product.name", req.body.sale.product_name, params, values);
+				lib.insertParam("cms_wt_erp.product.color", req.body.sale.product_color, params, values);
+				lib.insertParam("cms_wt_erp.ecommerce_sale.status", req.body.sale.status, strict_params, strict_values);
+
+				let orderParams = [ ["ecommerce_sale.id", "DESC"] ];
+				
+				try {
+					let sale_products = await Sale.report.product.filter(product_props, product_inners, period, params, values, strict_params, strict_values, orderParams);
+					let sale_package_products = await Sale.report.package.product.filter(package_product_props, package_product_inners, period, params, values, strict_params, strict_values, orderParams);
+					res.send({ sale_products: sale_products, sale_package_products: sale_package_products });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
+				};
+			}
+		},
+		packment: {
+			index: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+					return res.redirect('/');
+				};
+				let colors = await Product.colorList();
+				let users = await User.list();
+				res.render('ecommerce/sale/report/packment', { user: req.user, users: users, colors: colors });
+			},
+			filter: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+				};
+
+				let params = []; let values = [];
+				let strict_params = []; let strict_values = [];
+				let period = { start: "", end: "" };
+
+				let props = ["ecommerce_sale.id",
+					"ecommerce_sale.packing_user_id",
+					"ecommerce_sale.packing_user_name"
+				];
+				
+				let inners = [];
+
+				lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
+				lib.insertParam("cms_wt_erp.ecommerce_sale.packing_user_id", req.body.sale.packment_user_id, strict_params, strict_values);
+
+				let orderParams = [ ["ecommerce_sale.id", "DESC"] ];
+				
+				try {
+					let sale_packments = await Sale.report.packment.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
+					res.send({ sale_packments });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
 				};
 			}
 		}

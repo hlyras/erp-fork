@@ -86,6 +86,11 @@ Sale.findByCode = async (code) => {
 	return db(query);
 };
 
+Sale.list = async () => {
+	let query = "SELECT * FROM cms_wt_erp.ecommerce_sale;";
+	return db(query);	
+};
+
 Sale.product = {
 	add: async (sale_id, product) => {
 		let query = "INSERT INTO cms_wt_erp.ecommerce_sale_product (sale_id, product_id, info, amount) VALUES ('"
@@ -247,19 +252,25 @@ Sale.after_sale = {
 	}
 };
 
-Sale.admin = {
+Sale.report = {
 	product: {
-		filter: (props, inners, period, params, values, strict_params, strict_values) => {
-			let query = lib.filter_inner_by_period_params_strict(props, "cms_wt_erp.ecommerce_sale", inners, "datetime", period.start, period.end, params, values, strict_params, strict_values, "cms_wt_erp.ecommerce_sale.id", "DESC");
+		filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
+			let query = lib.query.filterDate(props, "cms_wt_erp.ecommerce_sale ecommerce_sale", inners, "datetime", period.start, period.end, params, values, strict_params, strict_values, orderParams);
 			return db(query);
 		}
 	},
 	package: {
 		product: {
-			filter: (props, inners, period, params, values, strict_params, strict_values) => {
-				let query = lib.filter_inner_by_period_params_strict(props, "cms_wt_erp.ecommerce_sale", inners, "datetime", period.start, period.end, params, values, strict_params, strict_values, "cms_wt_erp.ecommerce_sale.id", "DESC");
+			filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
+				let query = lib.query.filterDate(props, "cms_wt_erp.ecommerce_sale ecommerce_sale", inners, "datetime", period.start, period.end, params, values, strict_params, strict_values, orderParams);
 				return db(query);
 			}
+		}
+	},
+	packment: {
+		filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
+			let query = lib.query.filterDate(props, "cms_wt_erp.ecommerce_sale ecommerce_sale", inners, "packing_datetime", period.start, period.end, params, values, strict_params, strict_values, orderParams);
+			return db(query);
 		}
 	}
 };

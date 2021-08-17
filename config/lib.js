@@ -20,7 +20,7 @@ module.exports = {
 
 			if(params.length){
 				query += "WHERE ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' ";
 					} else {
@@ -32,7 +32,7 @@ module.exports = {
 			if(params.length){
 				if(strict_params.length){
 					query += "AND ";
-					for(i in strict_params){
+					for(let i in strict_params){
 						if(i == strict_params.length - 1){
 							query += strict_params[i]+"='"+strict_values[i]+"' ";
 						} else {
@@ -43,7 +43,7 @@ module.exports = {
 			} else {
 				if(strict_params.length){
 					query += "WHERE ";
-					for(i in strict_params){
+					for(let i in strict_params){
 						if(i == strict_params.length - 1){
 							query += strict_params[i]+"='"+strict_values[i]+"' ";
 						} else {
@@ -55,7 +55,7 @@ module.exports = {
 
 			if(orderParams.length){
 				query += "ORDER BY ";
-				for(i in orderParams){
+				for(let i in orderParams){
 					if(i == orderParams.length - 1){
 						query += orderParams[i][0]+" "+orderParams[i][1]+";";
 					} else {
@@ -96,7 +96,7 @@ module.exports = {
 				query += "WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
 				if(params.length){
 					query += "AND ";
-					for(i in params){
+					for(let i in params){
 						if(i == params.length - 1){
 							query += params[i]+" like '%"+values[i]+"%' ";
 						} else {
@@ -107,7 +107,7 @@ module.exports = {
 			} else {
 				if(params.length){
 					query += "WHERE ";
-					for(i in params){
+					for(let i in params){
 						if(i == params.length - 1){
 							query += params[i]+" like '%"+values[i]+"%' ";
 						} else {
@@ -120,7 +120,7 @@ module.exports = {
 			if(params.length || periodStart && periodEnd){
 				if(strict_params.length){
 					query += "AND ";
-					for(i in strict_params){
+					for(let i in strict_params){
 						if(i == strict_params.length - 1){
 							query += strict_params[i]+"='"+strict_values[i]+"' ";
 						} else {
@@ -131,7 +131,7 @@ module.exports = {
 			} else {
 				if(strict_params.length){
 					query += "WHERE ";
-					for(i in strict_params){
+					for(let i in strict_params){
 						if(i == strict_params.length - 1){
 							query += strict_params[i]+"='"+strict_values[i]+"' ";
 						} else {
@@ -143,7 +143,7 @@ module.exports = {
 
 			if(orderParams.length){
 				query += "ORDER BY ";
-				for(i in orderParams){
+				for(let i in orderParams){
 					if(i == orderParams.length - 1){
 						query += orderParams[i][0]+" "+orderParams[i][1]+";";
 					} else {
@@ -192,14 +192,30 @@ module.exports = {
 		return false;
 	},
 	datetimeToTimestamp: (datetime) => {
-		let date = datetime.split("T");
-		date.year = date[0].split("-")[0];
-		date.month = date[0].split("-")[1];
-		date.day = date[0].split("-")[2];
-		date.hour = date[1].split(":")[0];
-		date.minute = date[1].split(":")[1];
-		date = new Date(date.year,date.month,date.day,date.hour,date.minute);
-		return date.getTime();
+		if(datetime){
+			let date = datetime.split("T");
+			date.year = date[0].split("-")[0];
+			date.month = date[0].split("-")[1];
+			date.day = date[0].split("-")[2];
+			date.hour = date[1].split(":")[0];
+			date.minute = date[1].split(":")[1];
+			date = new Date(date.year,date.month-1,date.day,date.hour,date.minute);
+			return date.getTime();
+		};
+		return false;
+	},
+	fulldateToTimestamp: (fulldate) => {
+		if(fulldate){
+			let date = fulldate.split("-");
+			date.day = date[0];
+			date.month = date[1];
+			date.year = date[2];
+			date.hour = date[3].split(":")[0];
+			date.minute = date[3].split(":")[1];
+			date = new Date(date.year,date.month-1,date.day,date.hour,date.minute);
+			return date.getTime();
+		};
+		return false;
 	},
 	timestampDay: () => { return 86400000; },
 	timestampToDate: (timestamp) => {
@@ -304,7 +320,7 @@ module.exports = {
 				var query = "SELECT * FROM "+db+"."+tbl+" ";
 			};
 		};
-		for(i in params){
+		for(let i in params){
 			if(i == params.length - 1){
 				query += params[i]+"='"+values[i]+"' ";
 			} else {
@@ -320,7 +336,7 @@ module.exports = {
 			var query = "SELECT * FROM "+db+"."+tbl+" WHERE date>='"+periodStart+"' AND date<='"+periodEnd+"' ";
 			if(params.length){
 				query += "AND ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += ""+params[i]+"='"+values[i]+"' ";
 					} else {
@@ -332,7 +348,7 @@ module.exports = {
 			var query = "SELECT * FROM "+db+"."+tbl+" ";
 			if(params.length){
 				query += "WHERE ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += ""+params[i]+"='"+values[i]+"' ";
 					} else {
@@ -350,7 +366,7 @@ module.exports = {
 			var query = "SELECT * FROM "+db+"."+tbl+" WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
 			if(params.length){
 				query += "AND ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += ""+params[i]+" like '%"+values[i]+"%' ";
 					} else {
@@ -362,7 +378,7 @@ module.exports = {
 			var query = "SELECT * FROM "+db+"."+tbl+" ";
 			if(params.length){
 				query += "WHERE ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += ""+params[i]+" like '%"+values[i]+"%' ";
 					} else {
@@ -383,7 +399,7 @@ module.exports = {
 			query = "SELECT * FROM "+db+"."+tbl+" WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
 			if(params.length){
 				query += "AND ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' ";
 						if(status_value){ 
@@ -404,7 +420,7 @@ module.exports = {
 			if(params.length){
 				only_status = false;
 				query += "WHERE ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' ";
 						if(status_value){ 
@@ -440,7 +456,7 @@ module.exports = {
 		};
 		if(params.length){
 			query += "WHERE ";
-			for(i in params){
+			for(let i in params){
 				if(i == params.length - 1){
 					query += ""+params[i]+" like '%"+values[i]+"%' ";
 				} else {
@@ -466,7 +482,7 @@ module.exports = {
 		};
 		if(params.length){
 			query += "WHERE ";
-			for(i in params){
+			for(let i in params){
 				if(i == params.length - 1){
 					query += params[i]+" like '%"+values[i]+"%' AND "+status+" = '"+status_value+"' ";
 				} else {
@@ -499,7 +515,7 @@ module.exports = {
 			query += "WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
 			if(params.length){
 				query += "AND ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' ";
 					} else {
@@ -510,7 +526,7 @@ module.exports = {
 		} else {
 			if(params.length){
 				query += "WHERE ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' ";
 					} else {
@@ -523,7 +539,7 @@ module.exports = {
 		if(params.length || periodStart && periodEnd){
 			if(strict_params.length){
 				query += "AND ";
-				for(i in strict_params){
+				for(let i in strict_params){
 					if(i == strict_params.length - 1){
 						query += strict_params[i]+" like '%"+strict_values[i]+"%' ";
 					} else {
@@ -534,7 +550,7 @@ module.exports = {
 		} else {
 			if(strict_params.length){
 				query += "WHERE ";
-				for(i in strict_params){
+				for(let i in strict_params){
 					if(i == strict_params.length - 1){
 						query += strict_params[i]+"='"+strict_values[i]+"' ";
 					} else {
@@ -576,7 +592,7 @@ module.exports = {
 			query += "WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
 			if(params.length){
 				query += "AND ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' ";
 					} else {
@@ -587,7 +603,7 @@ module.exports = {
 		} else {
 			if(params.length){
 				query += "WHERE ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' ";
 					} else {
@@ -600,7 +616,7 @@ module.exports = {
 		if(params.length || periodStart && periodEnd){
 			if(strict_params.length){
 				query += "AND ";
-				for(i in strict_params){
+				for(let i in strict_params){
 					if(i == strict_params.length - 1){
 						query += strict_params[i]+" like '%"+strict_values[i]+"%' ";
 					} else {
@@ -611,7 +627,7 @@ module.exports = {
 		} else {
 			if(strict_params.length){
 				query += "WHERE ";
-				for(i in strict_params){
+				for(let i in strict_params){
 					if(i == strict_params.length - 1){
 						query += strict_params[i]+"='"+strict_values[i]+"' ";
 					} else {
@@ -652,7 +668,7 @@ module.exports = {
 			query += "WHERE "+date+">='"+periodStart+"' AND "+date+"<='"+periodEnd+"' ";
 			if(params.length){
 				query += "AND ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' ";
 					} else {
@@ -663,7 +679,7 @@ module.exports = {
 		} else {
 			if(params.length){
 				query += "WHERE ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += params[i]+" like '%"+values[i]+"%' ";
 					} else {
@@ -676,7 +692,7 @@ module.exports = {
 		if(params.length){
 			if(strict_params.length){
 				query += "AND ";
-				for(i in strict_params){
+				for(let i in strict_params){
 					if(i == strict_params.length - 1){
 						query += strict_params[i]+" like '%"+strict_values[i]+"%' ";
 					} else {
@@ -687,7 +703,7 @@ module.exports = {
 		} else {
 			if(strict_params.length){
 				query += "wHERE ";
-				for(i in strict_params){
+				for(let i in strict_params){
 					if(i == strict_params.length - 1){
 						query += strict_params[i]+"='"+strict_values[i]+"' ";
 					} else {
@@ -706,7 +722,7 @@ module.exports = {
 			var query = "SELECT SUM("+value+") as totalValue FROM "+db+"."+tbl+" WHERE date>='"+periodStart+"' AND date<='"+periodEnd+"' ";
 			if(params.length){
 				query += "AND ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += ""+params[i]+"='"+values[i]+"';";
 					} else {
@@ -718,7 +734,7 @@ module.exports = {
 			var query = "SELECT SUM("+value+") as totalValue FROM "+db+"."+tbl+" ";
 			if(params.length){
 				query += "WHERE ";
-				for(i in params){
+				for(let i in params){
 					if(i == params.length - 1){
 						query += ""+params[i]+"='"+values[i]+"';";
 					} else {

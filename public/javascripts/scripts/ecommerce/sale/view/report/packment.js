@@ -1,0 +1,20 @@
+Ecommerce.sale.packment.report.view = {};
+
+Ecommerce.sale.packment.report.view.filter = (packments, setup) => {
+  let html = "";
+  html += "<div class='box b1 container box-hover border-explicit'>";
+    html += "<div class='mobile-box a2-3 em06 padding-10 center'>Embalador</div>";
+    html += "<div class='mobile-box a3 em06 padding-10 center'>Quantidade</div>";
+  html += "</div>";
+  for(let i = setup.page * setup.pageSize; i < packments.length && i < (setup.page + 1) * setup.pageSize; i++){
+    html += "<div class='box a1 container box-hover border margin-top-5'>";
+    if(!packments[i].packment_user_name){
+      html += "<div class='mobile-box a2-3 em12 padding-10 center'>Não embalados</div>";
+    } else {
+      html += "<div class='mobile-box a2-3 em12 padding-10 center'>"+packments[i].packment_user_name+"</div>";
+    }
+    html += "<div class='mobile-box a3 em12 bold padding-10 center'>"+packments[i].amount+"</div>";
+    html += "</div>";
+  };
+  document.getElementById("ecommerce-sale-packment-report-filter-div").innerHTML = html;
+};

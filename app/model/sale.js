@@ -185,19 +185,25 @@ Sale.package = {
 	}
 };
 
-Sale.admin = {
+Sale.report = {
 	product: {
-		filter: (props, inners, period, params, values, strict_params, strict_values) => {
-			let query = lib.filter_inner_by_period_params_strict(props, "cms_wt_erp.sale", inners, "sale_date", period.start, period.end, params, values, strict_params, strict_values, "cms_wt_erp.sale.id", "DESC");
+		filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
+			let query = lib.query.filterDate(props, "cms_wt_erp.sale sale", inners, "cms_wt_erp.sale.sale_date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
 			return db(query);
 		}
 	},
 	package: {
 		product: {
-			filter: (props, inners, period, params, values, strict_params, strict_values) => {
-				let query = lib.filter_inner_by_period_params_strict(props, "cms_wt_erp.sale", inners, "sale_date", period.start, period.end, params, values, strict_params, strict_values, "cms_wt_erp.sale.id", "DESC");
+			filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
+				let query = lib.query.filterDate(props, "cms_wt_erp.sale sale", inners, "sale.sale_date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
 				return db(query);
 			}
+		}
+	},
+	packment: {
+		filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
+			let query = lib.query.filterDate(props, "cms_wt_erp.sale sale", inners, "sale.packment_confirmation_date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
+			return db(query);
 		}
 	}
 };

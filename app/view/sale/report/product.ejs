@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <% include ./../../partials/head %>
+    <style type="text/css">
+      ::-webkit-scrollbar { width: 10px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+  </head>
+  <body>
+    <% include ./../../partials/header %>
+    <% include ./../../partials/nav %>
+    <section class="container">
+      <div class="box b1">
+        <form id="sale-product-report-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
+          <div class="box b1 underline center bold">Relatório de produtos vendidos</div>
+          <select name="status" class="box b3 input-generic margin-top-5 hide-disabled">
+            <option value="">Status da venda</option>
+            <option value="Confirmadas">Confirmadas</option>
+            <option value="Em negociação">Em negociação</option>
+            <option value="Ag. pagamento">Ag. pagamento</option>
+            <option value="Ag. embalo">Ag. embalo</option>
+            <option value="Ag. nota fiscal">Ag. nota fiscal</option>
+            <option value="Ag. envio">Ag. Envio</option>
+            <option value="Enviado">Enviado</option>
+          </select>
+          <input type="date" name="periodStart" class="box b3 input-generic center margin-top-5" autocomplete="off">
+          <input type="date" name="periodEnd" class="box b3 input-generic center margin-top-5" autocomplete="off">
+          <input type="text" name="product-name" placeholder="Nome do Produto" class="box b2-5 input-generic center margin-top-5" autocomplete="off">
+          <select name="product-color" class="box b5 input-generic margin-top-5 center" autocomplete="off">
+            <option value="">Cor</option>
+            <% for(let i in colors){ %>
+              <option value="<%= colors[i].shortcut %>"><%= colors[i].name %></option>
+            <% } %>
+          </select>
+          <select name="order" class="box b5 input-generic margin-top-5 hide-disabled">
+            <option value="amount">Quantidade</option>
+            <option value="code">Código</option>
+          </select>
+          <input type="submit" name="submit" class="box b5 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
+        </form>
+        <div id="sale-product-report-filter-box" class="box b1 ground" style="display:none">
+            <div id="sale-product-report-filter-div" class="box b1"></div>
+            <% include ./../../partials/carousel %>
+        </div>
+      </div>
+    </section>
+    <% include ./../../partials/loader %>
+  </body>
+  <footer>
+    <% include ./../../partials/footer %>
+    <% include ./../partial %>
+    <script src="/javascripts/scripts/sale/model/product.js"></script>
+    <script src="/javascripts/scripts/sale/controller/product.js"></script>
+    <script src="/javascripts/scripts/sale/view/product.js"></script>
+
+    <script src="/javascripts/scripts/sale/model/report/product.js"></script>
+    <script src="/javascripts/scripts/sale/controller/report/product.js"></script>
+    <script src="/javascripts/scripts/sale/view/report/product.js"></script>
+  </footer>
+</html>

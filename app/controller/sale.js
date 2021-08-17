@@ -416,17 +416,114 @@ const saleController = {
 	},
 	report: {
 		index: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+			if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 				return res.redirect('/');
 			};
-
-			try {
+			let users = await User.list();
+			res.render('sale/report/index', { user: req.user, users: users });
+		},
+		product: {
+			index: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+					return res.redirect('/');
+				};
+				let colors = await Product.colorList();
 				let users = await User.list();
-				res.render('sale/report/index', { user: req.user, users: users });
-			} catch (err) {
-				console.log(err);
-				res.send({ msg: "Ocorreu um erro ao realizar requisição." });
-			};
+				res.render('sale/report/product', { user: req.user, users: users, colors: colors });
+			},
+			filter: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+				};
+
+				let params = []; let values = [];
+				let strict_params = []; let strict_values = [];
+				let period = { start: "", end: "" };
+
+				let product_props = ["sale.id",
+					"product.code",
+					"product.name",
+					"product.color",
+					"product.size",
+					"sale_product.product_id",
+					"sale_product.amount"
+				];
+				
+				let package_product_props = ["sale.id",
+					"product.code",
+					"product.name",
+					"product.color",
+					"product.size",
+					"sale_package_product.product_id",
+					"sale_package_product.amount"
+				];
+		
+				let product_inners = [
+					["cms_wt_erp.sale_product sale_product","cms_wt_erp.sale.id","cms_wt_erp.sale_product.sale_id"],
+					["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.sale_product.product_id"]
+				];
+
+				let package_product_inners = [
+					["cms_wt_erp.sale_package_product sale_package_product","cms_wt_erp.sale.id","cms_wt_erp.sale_package_product.sale_id"],
+					["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.sale_package_product.product_id"]
+				];
+
+				lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
+				lib.insertParam("cms_wt_erp.product.name", req.body.sale.product_name, params, values);
+				lib.insertParam("cms_wt_erp.product.color", req.body.sale.product_color, params, values);
+				lib.insertParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params, strict_values);
+
+				let orderParams = [ ["sale.id", "DESC"] ];
+				
+				try {
+					let sale_products = await Sale.report.product.filter(product_props, product_inners, period, params, values, strict_params, strict_values, orderParams);
+					let sale_package_products = await Sale.report.package.product.filter(package_product_props, package_product_inners, period, params, values, strict_params, strict_values, orderParams);
+					res.send({ sale_products: sale_products, sale_package_products: sale_package_products });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
+				};
+			}
+		},
+		packment: {
+			index: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+					return res.redirect('/');
+				};
+				let colors = await Product.colorList();
+				let users = await User.list();
+				res.render('sale/report/packment', { user: req.user, users: users, colors: colors });
+			},
+			filter: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+				};
+
+				let params = []; let values = [];
+				let strict_params = []; let strict_values = [];
+				let period = { start: "", end: "" };
+
+				let props = ["sale.id",
+					"sale.packment_user_id",
+					"sale.packment_user_name"
+				];
+				
+				let inners = [];
+
+				lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
+				lib.insertParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params, strict_values);
+				lib.insertParam("cms_wt_erp.sale.packment_user_id", req.body.sale.packment_user_id, strict_params, strict_values);
+
+				let orderParams = [ ["sale.id", "DESC"] ];
+				
+				try {
+					let sale_packments = await Sale.report.packment.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
+					res.send({ sale_packments });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
+				};
+			}
 		}
 	}
 };

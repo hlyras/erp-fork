@@ -26,4 +26,10 @@ router.post('/sale/after-sale/flow/add', lib.routeToHttps, saleController.after_
 router.post('/sale/after-sale/flow/filter', lib.routeToHttps, saleController.after_sale.flow.filter);
 router.post('/sale/after-sale/flow/update', lib.routeToHttps, saleController.after_sale.flow.update);
 
+router.get('/sale/report', lib.routeToHttps, saleController.report.index);
+router.get('/sale/report/product', lib.routeToHttps, saleController.report.product.index);
+router.post("/sale/report/product/filter", lib.routeToHttps, saleController.report.product.filter);
+router.get("/sale/report/packment", lib.routeToHttps, saleController.report.packment.index);
+router.post("/sale/report/packment/filter", lib.routeToHttps, saleController.report.packment.filter);
+
 module.exports = router;

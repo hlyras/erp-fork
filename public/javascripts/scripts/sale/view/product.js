@@ -1,6 +1,6 @@
-Sale.view.product = {};
+Sale.product.view = {};
 
-Sale.view.product.fillInput = (products) => {
+Sale.product.view.fillInput = (products) => {
 	let html = "";
 	html += "<option value=''>Selecionar produto</option>";
 	for(i in products){

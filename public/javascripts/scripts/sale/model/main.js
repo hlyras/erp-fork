@@ -53,6 +53,9 @@ Sale.confirmPayment = async sale_id => {
 	return response.done;	
 };
 
+Sale.packment = {};
+//Change confirmPackment to Sale.packment.confirm()
+
 Sale.confirmPackment = async sale_id => {
 	let response = await fetch("/sale/confirm-packment/id/" + sale_id);
 	response = await response.json();
@@ -61,6 +64,7 @@ Sale.confirmPackment = async sale_id => {
 	
 	return response.done;	
 };
+
 
 Sale.confirmNF = async (sale) => {
 	let response = await fetch("/sale/confirm-nf", {

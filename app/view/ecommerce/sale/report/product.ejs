@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <% include ./../../../partials/head %>
+    <style type="text/css">
+      ::-webkit-scrollbar { width: 10px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+  </head>
+  <body>
+    <% include ./../../../partials/header %>
+    <% include ./../../../partials/nav %>
+    <section class="container">
+      <form id="ecommerce-sale-product-report-filter-form" class="box one container border padding-10 margin-top-5 shadow">
+        <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
+            <option value="">Plataforma da venda</option>
+            <option value="MLJC">MLJC</option>
+            <option value="MLCHRIS">MLCHRIS</option>
+            <option value="MLSHEYLA">MLSHEYLA</option>
+            <option value="SITE">SITE</option>
+            <option value="SHOPEE">SHOPEE</option>
+            <option value="B2W">B2W</option>
+            <option value="Reclamação">Reclamação</option>
+        </select>
+        <select name="status" class="box b4 input-generic center margin-top-5 hide-disabled">
+            <option value="" selected>Status</option>
+            <option value="Ag. Informações">Ag. Informações</option>
+            <option value="Ag. Embalo">Ag. Embalo</option>
+            <option value="Ag. Coleta">Ag. Coleta</option>
+            <option value="Enviado">Enviado</option>
+            <option value="Cancelada">Cancelada</option>
+        </select>
+        <input type="text" name="product-name" placeholder="Nome do Produto" class="box b4 input-generic center margin-top-5" autocomplete="off">
+        <select name="product-color" class="box b4 input-generic margin-top-5 center" autocomplete="off">
+          <option value="">Cor</option>
+          <% for(let i in colors){ %>
+            <option value="<%= colors[i].shortcut %>"><%= colors[i].name %></option>
+          <% } %>
+        </select>
+        <select name="order" class="box b4 input-generic margin-top-5 hide-disabled">
+          <option value="amount">Quantidade</option>
+          <option value="code">Código</option>
+        </select>
+        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodStart">
+        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodEnd">
+        <input type="submit" name="submit" class="box b4 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
+    </form>
+      <div id="ecommerce-sale-product-report-filter-box" class="box b1 ground" style="display:none">
+          <div id="ecommerce-sale-product-report-filter-div" class="box b1"></div>
+          <% include ./../../../partials/carousel %>
+      </div>
+    </section>
+    <% include ./../../../partials/loader %>
+  </body>
+  <footer>
+    <% include ./../../../partials/footer %>
+    <% include ./../partial %>
+
+    <script src="/javascripts/scripts/ecommerce/sale/model/product.js"></script>
+    <script src="/javascripts/scripts/ecommerce/sale/controller/product.js"></script>
+    <script src="/javascripts/scripts/ecommerce/sale/view/product.js"></script>
+
+    <script src="/javascripts/scripts/ecommerce/sale/model/report/product.js"></script>
+    <script src="/javascripts/scripts/ecommerce/sale/controller/report/product.js"></script>
+    <script src="/javascripts/scripts/ecommerce/sale/view/report/product.js"></script>
+  </footer>
+</html>
