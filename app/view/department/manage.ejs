@@ -5,13 +5,13 @@
 	<body>
 		<% include ./../partials/header %>
         <% include ./../partials/nav %>
-		<section>
-			<div class="container">
-				<form id="department-create-form" class="box b2 ground container padding-10" name="departmentcreateform">
+		<section class="container">
+			<div class="box b2 container ground">
+				<form id="department-create-form" class="box b2 container padding-10">
 					<div class="box b1 underline center">Cadastrar Departamento</div>
 					<input type="hidden" name="id" value="">
 					<input type="text" name="name" class="box b2 input-generic margin-top-5 center" placeholder="Nome do departamento" maxlength="40" autocomplete="off">
-					<input type="text" name="abbreviation" class="box b2 input-generic margin-top-5 center" placeholder="Abreviação em 2 ou 3 letras" maxlength="3" autocomplete="off">
+					<input type="text" name="acronym" class="box b2 input-generic margin-top-5 center" placeholder="Abreviação em 2 ou 3 letras" maxlength="3" autocomplete="off">
 					<button type="submit" name="submit" class="box b1 submit-generic margin-top-5 pointer">Cadastrar</button>
 				</form>
 				<form id="department-role-create-form" class="box b2 ground container padding-10">
@@ -25,36 +25,9 @@
 						<% } %>
 					</select>
 					<input type="text" name="name" class="box b2 input-generic margin-top-5" placeholder="Nome do cargo" maxlength="40" autocomplete="off">
-					<input type="text" name="abbreviation" class="box b2 input-generic margin-top-5" placeholder="Abreviação em 2 ou 3 letras" maxlength="3" autocomplete="off">
+					<input type="text" name="acronym" class="box b2 input-generic margin-top-5" placeholder="Abreviação em 2 ou 3 letras" maxlength="3" autocomplete="off">
 					<button type="submit" name="submit" class="box b1 submit-generic margin-top-5 pointer">Cadastrar</button>
 				</form>
-				<div class="box b2">
-					<form id="department-list-form">
-						<button type="submit" name="submit" class="btn-generic-full">Departamentos</button>
-					</form>
-					<div id="department-list-box" class="box b1" style="display:none">
-						<table id="department-list-table" class="tbl-info width-fill"></table>
-						<br>
-						<div name="carousel-navigation">
-							<button name="carousel-previous" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-		                    <span name="carousel-page"></span>
-		                    <button name="carousel-next" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
-						</div>
-					</div>
-				</div>
-				<div id="department-show-box" class="box b2" style="display:none">
-					<div id="department-info-box"></div>
-
-					<div id="department-role-list-box">
-						<table id="department-role-list-table" class="tbl-info width-fill"></table>
-						<br>
-						<div name="carousel-navigation">
-							<button name="carousel-previous" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-		                    <span name="carousel-page"></span>
-		                    <button name="carousel-next" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
-						</div>
-					</div>
-				</div>
 			</div>
 			<div id="ajax-loader" class="ajax-loader">
 				<div class="loader"></div>

@@ -29,14 +29,14 @@ const departmentController = {
 		const department = {
 			id: req.body.id,
 			name: req.body.name,
-			abbreviation: req.body.abbreviation
+			acronym: req.body.acronym
 		};
 
 		if(department.name.length < 3 || department.name.length > 45){
 			return res.send({ msg: "O nome do departamento deve conter mais de 3 caracteres." });
 		};
 
-		if(department.abbreviation.length < 2 || department.abbreviation.length > 3){
+		if(department.acronym.length < 2 || department.acronym.length > 3){
 			return res.send({ msg: "A abreviação do departamento deve conter 3 caracteres." });
 		};
 
@@ -109,7 +109,7 @@ const departmentController = {
 				id: req.body.id,
 				department_id: req.body.department_id,
 				name: req.body.name,
-				abbreviation: req.body.abbreviation
+				acronym: req.body.acronym
 			};
 
 			if(!role.department_id){
@@ -120,7 +120,7 @@ const departmentController = {
 				return res.send({ msg: "O nome do cargo deve conter o mínimo de 3 caracteres." });
 			};
 
-			if(role.abbreviation.length < 2 || role.abbreviation.length > 3){
+			if(role.acronym.length < 2 || role.acronym.length > 3){
 				return res.send({ msg: "A abreviação do cargo deve conter o mínimo de 2 caracteres." });
 			};
 

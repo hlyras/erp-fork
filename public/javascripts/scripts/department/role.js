@@ -12,7 +12,7 @@ $(() => {
 				alert(response.done);
 				document.getElementById("department-role-create-form").elements.namedItem('department_id').value = "";
 				document.getElementById("department-role-create-form").elements.namedItem('name').value = "";
-				document.getElementById("department-role-create-form").elements.namedItem('abbreviation').value = "";
+				document.getElementById("department-role-create-form").elements.namedItem('acronym').value = "";
 				document.getElementById('department-role-create-form').elements.namedItem("submit").disabled = false;
 
 				document.getElementById("department-role-list-box").style.display = "none";
@@ -35,7 +35,7 @@ function editDepartmentRole(id){
 			document.getElementById("department-role-create-form").elements.namedItem("id").value = response.department_role[0].id;
 			document.getElementById("department-role-create-form").elements.namedItem("department_id").value = response.department_role[0].department_id;
 			document.getElementById("department-role-create-form").elements.namedItem("name").value = response.department_role[0].name;
-			document.getElementById("department-role-create-form").elements.namedItem("abbreviation").value = response.department_role[0].abbreviation;
+			document.getElementById("department-role-create-form").elements.namedItem("acronym").value = response.department_role[0].acronym;
 			
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}

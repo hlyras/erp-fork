@@ -17,7 +17,7 @@ $(() => {
 				
 				document.getElementById("department-create-form").elements.namedItem('id').value = "";
 				document.getElementById("department-create-form").elements.namedItem('name').value = "";
-				document.getElementById("department-create-form").elements.namedItem('abbreviation').value = "";
+				document.getElementById("department-create-form").elements.namedItem('acronym').value = "";
 				document.getElementById('department-create-form').elements.namedItem("submit").disabled = false;
 				$("#department-list-form").submit();
 			}
@@ -85,7 +85,7 @@ function editDepartment(id){
 
 			document.getElementById("department-create-form").elements.namedItem("id").value = response.department[0].id;
 			document.getElementById("department-create-form").elements.namedItem("name").value = response.department[0].name;
-			document.getElementById("department-create-form").elements.namedItem("abbreviation").value = response.department[0].abbreviation;
+			document.getElementById("department-create-form").elements.namedItem("acronym").value = response.department[0].acronym;
 			
 			document.getElementById('ajax-loader').style.visibility = 'hidden';
 		}

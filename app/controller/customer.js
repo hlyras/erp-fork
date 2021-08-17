@@ -163,7 +163,7 @@ const customerController = {
 				customer_id: req.body.customer_id,
 				postal_code: req.body.postal_code,
 				street: req.body.street,
-				number: parseInt(req.body.number),
+				number: req.body.number,
 				complement: req.body.complement,
 				neighborhood: req.body.neighborhood,
 				city: req.body.city,
