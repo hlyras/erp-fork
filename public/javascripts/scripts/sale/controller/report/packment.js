@@ -37,6 +37,7 @@ if(Sale.packment.report.controller.filter){
       let index = packments.reduce((total, packment) => total + packment.amount, 0); //Total embalado
       for(let i in packments){
         packments[i].percentage = lib.ruleOfThree(index, 100, packments[i].amount).toFixed(2);
+        // packments[i].commission = lib.ruleOfThree(100, 20, packments[i].percentage).toFixed(2);
       };
     }
 
