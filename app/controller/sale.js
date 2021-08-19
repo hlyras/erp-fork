@@ -339,7 +339,7 @@ const saleController = {
 			payment_user_name: req.user.name,
 			payment_confirmation_date: new Date().getTime(),
 			status: "Ag. embalo",
-			estimated_shipment_date: new Date().getTime() + (lib.timestampDay() * 7)
+			estimated_shipment_date: new Date().getTime() + (lib.timestampDay() * 2)
 		};
 
 		try {
