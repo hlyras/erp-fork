@@ -1,12 +1,6 @@
 const mysql = require('mysql');
 const dbconfig = require('./database');
 
-// DB_PRODUCTION_HOST=mysql669.umbler.com
-// DB_PRODUCTION_PORT=41890
-// DB_PRODUCTION_DATABASE=cms_wt_erp
-// DB_PRODUCTION_USER=hlyras
-// DB_PRODUCTION_PASSWORD=root1234
-
 // environments: development | production
 const pool  = mysql.createPool({
 	connectionLimit : 20,
