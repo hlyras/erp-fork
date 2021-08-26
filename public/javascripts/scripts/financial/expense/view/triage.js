@@ -106,7 +106,7 @@ Expense.triage.view.show = (expense) => {
 			html += "</div>";
 			html += "<div class='box b1 container border pointer opacity-in-08 margin-top-5 padding-5'>";
 				html += "<input type='text' id='expense-billet-code' class='mobile-box b8-9 em08 border padding-5 center wrap' value='"+expense.billet_code+"'>";
-				html += "<div class='mobile-box b9 center'><img class='width-25' onclick='lib.copyToClipboard(`expense-billet-code`)' src='/images/icon/copy.png'></div>";
+				html += "<div class='mobile-box b9 center'><img class='width-25' onclick='lib.copyToClipboard(`expense-billet-code`,``,[`.`,`,`,` `])' src='/images/icon/copy.png'></div>";
 			html += "</div>";
 		} else if(expense.payment_method == "Pix"){
 			html += "<div class='mobile-box b2-3 container margin-top-5'>";
@@ -120,7 +120,7 @@ Expense.triage.view.show = (expense) => {
 			html += "<div class='box b1 container margin-top-5'>";
 				html += "<div class='box a1 em06 bold'>Chave</div>";
 				html += "<input type='text' id='expense-pix-key' class='mobile-box b8-9 em08 border padding-5 center wrap' value='"+expense.pix_key+"'>";
-				html += "<div class='mobile-box b9 center'><img class='width-25 opacity-in-08 pointer' onclick='lib.copyToClipboard(`expense-pix-key`)' src='/images/icon/copy.png'></div>";
+				html += "<div class='mobile-box b9 center'><img class='width-25 opacity-in-08 pointer' onclick='lib.copyToClipboard(`expense-pix-key`,``,[`.`,`,`,` `])' src='/images/icon/copy.png'></div>";
 			html += "</div>";
 		} else if(expense.payment_method == "Transferência bancária"){
 			html += "<div class='mobile-box b2 container margin-top-5'>";
