@@ -2,7 +2,7 @@ const userController = require('./../../user');
 const Outcome = require('../../../model/financial/outcome');
 const Expense = require('../../../model/financial/expense');
 
-const lib = require("../../../../config/lib");
+const lib = require("jarmlib");
 
 const outcomeController = {
 	index: async (req, res) => {
@@ -21,7 +21,7 @@ const outcomeController = {
 
 		let outcome = new Outcome();
 		outcome.id = req.body.outcome.id;
-		outcome.datetime = lib.genTimestamp();
+		outcome.datetime = lib.date.timestamp.generate();
 		outcome.date = req.body.outcome.date;
 		outcome.category_id = req.body.outcome.category_id;
 		outcome.origin_id = req.body.outcome.origin_id;
@@ -58,10 +58,6 @@ const outcomeController = {
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
-		let params = []; let values = [];
-		let strict_params = []; let strict_values = [];
-		let period = { start: "", end: "" };
-
 		let props = ["outcome.id",
 			"outcome.datetime",
 			"outcome.date",
@@ -82,23 +78,26 @@ const outcomeController = {
 			["cms_wt_erp.financial_outcome_origin origin","outcome.origin_id","origin.id"],
 			["cms_wt_erp.user user","outcome.user_id","user.id"]
 		];
-		
-		lib.fillDate(period, req.body.outcome.periodStart, req.body.outcome.periodEnd);
 
-		lib.insertParam("outcome.category_id", req.body.outcome.category_id, strict_params, strict_values);
-		lib.insertParam("outcome.origin_id", req.body.outcome.origin_id, strict_params, strict_values);
-		lib.insertParam("outcome.status", req.body.outcome.status, strict_params, strict_values);
+		let period = { key: "outcome.date", start: req.body.outcome.periodStart, end: req.body.outcome.periodEnd };
+		let params = { keys: [], values: [] }
+		let strict_params = { keys: [], values: [] }
+		
+		lib.Query.fillParam("outcome.category_id", req.body.outcome.category_id, strict_params);
+		lib.Query.fillParam("outcome.origin_id", req.body.outcome.origin_id, strict_params);
+		lib.Query.fillParam("outcome.status", req.body.outcome.status, strict_params);
 		
 		if(req.body.outcome.income_category_id){
 			props.push("income_category.name income_category_name");
 			inners.push(["cms_wt_erp.financial_income_category income_category","outcome.income_category_id","income_category.id"]);
-			lib.insertParam("outcome.income_category_id", req.body.outcome.income_category_id, strict_params, strict_values);
+			lib.Query.fillParam("outcome.income_category_id", req.body.outcome.income_category_id, strict_params);
 		}
 
-		let orderParams = [ ["date","DESC"], ["id","DESC"] ];
+		let order_params = [ ["date","DESC"], ["id","DESC"] ];
+		let limit = 0;
 
 		try {
-			let outcomes = await Outcome.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
+			let outcomes = await Outcome.filter(props, inners, period, params, strict_params, order_params, limit);
 			res.send({ outcomes });
 		} catch (err) {
 			console.log(err);
@@ -110,10 +109,6 @@ const outcomeController = {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
-		let params = []; let values = [];
-		let strict_params = []; let strict_values = [];
-		let period = { start: "", end: "" };
-
 		let props = ["outcome.id",
 			"outcome.datetime",
 			"outcome.date",
@@ -135,7 +130,11 @@ const outcomeController = {
 			["cms_wt_erp.user user","outcome.user_id","user.id"]
 		];
 		
-		lib.insertParam("outcome.id", req.params.id, strict_params, strict_values);
+		let period = { key: "", start: "", end: "" };
+		let params = { keys: [], values: [] }
+		let strict_params = { keys: [], values: [] }
+		
+		lib.Query.fillParam("outcome.id", req.params.id, strict_params);
 
 		try {
 			let expense = await Expense.findByOutcomeId(req.params.id);
@@ -164,9 +163,10 @@ const outcomeController = {
 				inners.push(["cms_wt_erp.financial_expense expense","outcome.id","expense.outcome_id"]);
 			}
 
-			let orderParams = [ ["date","DESC"], ["id","DESC"] ];
+			let order_params = [ ["date","DESC"], ["id","DESC"] ];
+			let limit = 0;
 
-			const outcome = await Outcome.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
+			const outcome = await Outcome.filter(props, inners, period, params, strict_params, order_params, limit);
 			outcome.expense_id = expense.length ? expense[0].id : null;
 			res.send({ outcome });
 		} catch (err){

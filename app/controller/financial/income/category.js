@@ -1,7 +1,7 @@
 const userController = require('./../../user');
 const Income = require('../../../model/financial/income');
 
-const lib = require("../../../../config/lib");
+const lib = require("jarmlib");
 
 const categoryController = {
 	save: async (req, res) => {
@@ -36,15 +36,15 @@ const categoryController = {
 		};
 
 		let props = [];
-		let params = []; let values = [];
-		let strict_params = []; let strict_values = [];
+		let params = { keys: [], values: [] };
+		let strict_params = { keys: [], values: [] };
 		
-		lib.insertParam("cms_wt_erp.financial_income_category.name", req.query.name, params, values);
+		lib.Query.fillParam("income_category.name", req.query.name, params);
 
-		let orderParams = [ ["cms_wt_erp.financial_income_category.name","ASC"] ];
+		let order_params = [ ["income_category.name","ASC"] ];
 		
 		try {
-			let categories = await Income.category.filter(props, params, values, strict_params, strict_values, orderParams);
+			let categories = await Income.category.filter(props, params, strict_params, order_params);
 			res.send({ categories });
 		} catch (err) {
 			console.log(err);

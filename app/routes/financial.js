@@ -16,7 +16,7 @@ const expenseController = require('../controller/financial/expense/main');
 //API ROUTES
 router.get('/index', lib.route.toHttps, financialController.index);
 
-router.post('/balance', lib.route.toHttps, financialController.balance);
+// router.post('/balance', lib.route.toHttps, financialController.balance);
 // ------------------
 // income routes
 // ------------------

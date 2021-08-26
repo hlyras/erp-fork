@@ -4,7 +4,7 @@ const Expense = require('../../../model/financial/expense');
 const Income = require('../../../model/financial/income');
 const Outcome = require('../../../model/financial/outcome');
 
-const lib = require("../../../../config/lib");
+const lib = require("jarmlib");
 
 const expenseController = {
 	index: async (req, res) => {
@@ -13,16 +13,18 @@ const expenseController = {
 		};
 
 		let props = [];
-		let params = []; let values = [];
-		let strict_params = []; let strict_values = [];
+		let params = { keys: [], values: [] }
+		let strict_params = { keys: [], values: [] }
 		
-		if(lib.splitTextBy(req.user.access, "-")[0] != "adm" && lib.splitTextBy(req.user.access, "-")[0] != "fin"){
-			lib.insertParam("cms_wt_erp.financial_outcome_category.name", lib.splitTextBy(req.user.access, "-")[0]+"-", params, values);
+		if(lib.string.splitBy(req.user.access, "-")[0] != "adm" && lib.string.splitBy(req.user.access, "-")[0] != "fin"){
+			lib.Query.fillParam("outcome_category.name", lib.string.splitBy(req.user.access, "-")[0]+"-", params);
 		};
+
+		let order_params = [ [ "outcome_category.name","ASC"] ];
 
 		try {
 			const incomeCategories = await Income.category.list();
-			const outcomeCategories = await Outcome.category.filter(props, params, values, strict_params, strict_values, [ [ "cms_wt_erp.financial_outcome_category.name","ASC"] ]);
+			const outcomeCategories = await Outcome.category.filter(props, params, strict_params, order_params);
 			res.render('financial/expense/index', { user: req.user, incomeCategories, outcomeCategories });
 		} catch (err) {
 			console.log(err);
@@ -58,7 +60,7 @@ const expenseController = {
 
 		const outcome = new Outcome();
 		outcome.id = parseInt(req.body.expense.outcome_id);
-		outcome.datetime = lib.genTimestamp();
+		outcome.datetime = lib.date.timestamp.generate();
 		outcome.date = req.body.expense.date;
 		outcome.category_id = req.body.expense.category_id;
 		outcome.origin_id = req.body.expense.origin_id;
@@ -68,7 +70,7 @@ const expenseController = {
 		outcome.user_id = req.user.id;
 
 		if(!outcome.datetime){ return res.send({ msg: "Não foi possível identificar o momento do cadastro." }); };
-		if(!outcome.date || outcome.date < lib.genTimestamp()){ return res.send({ msg: "Data de vencimento inválida." }); };
+		if(!outcome.date || outcome.date < lib.date.timestamp.generate()){ return res.send({ msg: "Data de vencimento inválida." }); };
 		if(!outcome.category_id){ return res.send({ msg: "É necessário selecionar a categoria." }); };
 		if(!outcome.origin_id){ return res.send({ msg: "É necessário selecionar a origem." }); };
 		if(!outcome.cost){ return res.send({ msg: "É necessário selecionar o valor da entrada." }); };
@@ -138,10 +140,6 @@ const expenseController = {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
-		let params = []; let values = [];
-		let strict_params = []; let strict_values = [];
-		let period = { start: "", end: "" };
-
 		let props = [
 			"expense.*",
 			"outcome.datetime",
@@ -165,13 +163,18 @@ const expenseController = {
 			["cms_wt_erp.financial_outcome_origin origin","outcome.origin_id","origin.id"],
 			["cms_wt_erp.user user","expense.user_id","user.id"]
 		];
-		
-		lib.insertParam("expense.id", req.params.id, strict_params, strict_values);
 
-		let orderParams = [ ["cms_wt_erp.outcome.date","DESC"], ["cms_wt_erp.outcome.datetime","DESC"] ];
+		let period = { key: "", start: "", end: "" };
+		let params = { keys: [], values: [] }
+		let strict_params = { keys: [], values: [] }
+		
+		lib.Query.fillParam("expense.id", req.params.id, strict_params);
+
+		let order_params = [];
+		let limit = 0;
 
 		try {
-			let expenses = await Expense.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
+			let expenses = await Expense.filter(props, inners, period, params, strict_params, order_params, limit);
 			res.send({ expenses });
 		} catch (err){
 			console.log(err);
@@ -182,10 +185,6 @@ const expenseController = {
 		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
-
-		let params = []; let values = [];
-		let strict_params = []; let strict_values = [];
-		let period = { start: "", end: "" };
 
 		let props = ["expense.id",
 			"expense.payment_method",
@@ -210,33 +209,38 @@ const expenseController = {
 			["cms_wt_erp.financial_outcome_origin origin","outcome.origin_id","origin.id"],
 			["cms_wt_erp.user user","outcome.user_id","user.id"]
 		];
+
+		let period = { key: "outcome.date", start: req.body.expense.periodStart, end: req.body.expense.periodEnd };
 		
-		lib.fillDate(period, req.body.expense.periodStart, req.body.expense.periodEnd);
-		lib.insertParam("outcome.id", req.body.expense.id, strict_params, strict_values);
-		lib.insertParam("outcome.category_id", req.body.expense.category_id, strict_params, strict_values);
-		lib.insertParam("outcome.origin_id", req.body.expense.origin_id, strict_params, strict_values);
-		lib.insertParam("outcome.status", req.body.expense.status, strict_params, strict_values);
+		let params = { keys: [], values: [] }
+		let strict_params = { keys: [], values: [] }
+		
+		lib.Query.fillParam("outcome.id", req.body.expense.id, strict_params);
+		lib.Query.fillParam("outcome.category_id", req.body.expense.category_id, strict_params);
+		lib.Query.fillParam("outcome.origin_id", req.body.expense.origin_id, strict_params);
+		lib.Query.fillParam("outcome.status", req.body.expense.status, strict_params);
 		
 		if(req.user.access != "adm"){
-			lib.insertParam("outcome.user_id", req.user.id, strict_params, strict_values);
+			lib.Query.fillParam("outcome.user_id", req.user.id, strict_params);
 		} else {
-			lib.insertParam("outcome.user_id", req.body.expense.user_id, strict_params, strict_values);
+			lib.Query.fillParam("outcome.user_id", req.body.expense.user_id, strict_params);
 		}
 		
 		if(req.body.expense.income_category_id){
 			props.push("income_category.name income_category_name");
 			inners.push(["cms_wt_erp.financial_income_category income_category","outcome.income_category_id","income_category.id"]);
-			lib.insertParam("outcome.income_category_id", req.body.expense.income_category_id, strict_params, strict_values);
+			lib.Query.fillParam("outcome.income_category_id", req.body.expense.income_category_id, strict_params);
 		}
 
 		if(req.body.expense.payment_method){
-			lib.insertParam("expense.payment_method", req.body.expense.payment_method, strict_params, strict_values);
+			lib.Query.fillParam("expense.payment_method", req.body.expense.payment_method, strict_params);
 		}
 
-		let orderParams = [ ["outcome.date","DESC"], ["expense.id","DESC"] ];
+		let order_params = [ ["outcome.date","DESC"], ["expense.id","DESC"] ];
+		let limit = 0;
 
 		try {
-			let expenses = await Expense.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
+			let expenses = await Expense.filter(props, inners, period, params, strict_params, order_params, limit);
 			res.send({ expenses });
 		} catch (err) {
 			console.log(err);
@@ -250,7 +254,7 @@ const expenseController = {
 
 		let expense = new Expense();
 		expense.id = req.body.expense.id;
-		expense.approval_date = lib.genTimestamp();
+		expense.approval_date = lib.date.timestamp.generate();
 		expense.approval_user_id = req.user.id;
 		expense.approval_user_name = req.user.name;
 
@@ -273,7 +277,7 @@ const expenseController = {
 
 		const expense = new Expense();
 		expense.id = req.body.expense.id;
-		expense.payment_date = lib.genTimestamp();
+		expense.payment_date = lib.date.timestamp.generate();
 		expense.payment_user_id = req.user.id;
 		expense.payment_user_name = req.user.name;
 		
@@ -305,7 +309,7 @@ const expenseController = {
 
 		expense = new Expense();
 		expense.id = req.params.id;
-		expense.cancel_date = lib.genTimestamp();
+		expense.cancel_date = lib.date.timestamp.generate();
 		expense.cancel_user_id = req.user.id;
 		expense.cancel_user_name = req.user.name;
 

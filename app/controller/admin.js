@@ -4,8 +4,6 @@ const Sale = require('../model/sale');
 const Ecommerce_sale = require('../model/ecommerce/sale');
 const userController = require('./user');
 
-const lib = require('../../config/lib');
-
 const adminController = {
 	index: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){

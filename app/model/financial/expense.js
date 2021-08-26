@@ -1,5 +1,5 @@
 const db = require('../../../config/connection');
-const lib = require("../../../config/lib");
+const lib = require("jarmlib");
 
 const Expense = function(){
 	this.id = 0;
@@ -67,8 +67,9 @@ const Expense = function(){
 	};
 };
 
-Expense.filter = (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
-	let query = lib.query.filterDate(props, "cms_wt_erp.financial_expense expense", inners, "cms_wt_erp.outcome.date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
+Expense.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.financial_expense expense")
+		.inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build().query;
 	return db(query);
 };
 

@@ -1,7 +1,7 @@
 const userController = require('./../../user');
 const Income = require('../../../model/financial/income');
 
-const lib = require("../../../../config/lib");
+const lib = require("jarmlib");
 
 const incomeController = {
 	index: async (req, res) => {
@@ -20,7 +20,7 @@ const incomeController = {
 
 		let income = new Income();
 		income.id = req.body.income.id;
-		income.datetime = lib.genTimestamp();
+		income.datetime = lib.date.timestamp.generate();
 		income.date = req.body.income.date;
 		income.category_id = req.body.income.category_id;
 		income.origin_id = req.body.income.origin_id;
@@ -52,10 +52,9 @@ const incomeController = {
 		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
-
-		let params = []; let values = [];
-		let strict_params = []; let strict_values = [];
-		let period = { start: "", end: "" };
+		
+		let params = { keys: [], values: [] }
+		let strict_params = { keys: [], values: [] }
 
 		let props = ["cms_wt_erp.income.id",
 			"income.datetime",
@@ -76,15 +75,16 @@ const incomeController = {
 			["cms_wt_erp.user user","income.user_id","user.id"]
 		];
 		
-		lib.fillDate(period, req.query.periodStart, req.query.periodEnd);
-		lib.insertParam("income.id", req.query.id, strict_params, strict_values);
-		lib.insertParam("income.category_id", req.query.category_id, strict_params, strict_values);
-		lib.insertParam("income.origin_id", req.query.origin_id, strict_params, strict_values);
+		let period = { key: "date", start: req.query.periodStart, end: req.query.periodEnd };
+		lib.Query.fillParam("income.id", req.query.id, strict_params);
+		lib.Query.fillParam("income.category_id", req.query.category_id, strict_params);
+		lib.Query.fillParam("income.origin_id", req.query.origin_id, strict_params);
 
-		let orderParams = [ ["date","DESC"], ["id","DESC"] ];
+		let order_params = [ ["date","DESC"], ["id","DESC"] ];
+		let limit = 0;
 
 		try {
-			let incomes = await Income.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
+			let incomes = await Income.filter(props, inners, period, params, strict_params, order_params, limit);
 			res.send({ incomes });
 		} catch (err) {
 			console.log(err);
@@ -96,11 +96,7 @@ const incomeController = {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
-		let params = []; let values = [];
-		let strict_params = []; let strict_values = [];
-		let period = { start: "", end: "" };
-
-		let props = ["cms_wt_erp.income.id",
+		let props = ["income.id",
 			"income.datetime",
 			"income.date",
 			"income.category_id",
@@ -118,13 +114,18 @@ const incomeController = {
 			["cms_wt_erp.financial_income_origin origin","income.origin_id","origin.id"],
 			["cms_wt_erp.user user","income.user_id","user.id"]
 		];
-		
-		lib.insertParam("income.id", req.params.id, strict_params, strict_values);
 
-		let orderParams = [ ["date","DESC"], ["id","DESC"] ];
+		let period = { key: "", start: '', end: '' };
+		let params = { keys: [], values: [] };
+		let strict_params = { keys: [], values: [] };
+		
+		lib.Query.fillParam("income.id", req.params.id, strict_params);
+
+		let order_params = [ ["date","DESC"], ["id","DESC"] ];
+		let limit = 0;
 
 		try {
-			let income = await Income.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
+			let income = await Income.filter(props, inners, period, params, strict_params, order_params, limit);
 			res.send({ income });
 		} catch (err) {
 			console.log(err);

@@ -60,6 +60,8 @@ Income.category.controller.show = async (id) => {
 	document.getElementById("income-origin-filter-form").elements.namedItem("category-id").value = category.id;
 	
 	Income.category.view.show(category);
+
+	Income.origin.controller.filter.submit.click();
 };
 
 Income.category.controller.edit = async (id) => {

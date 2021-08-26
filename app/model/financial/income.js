@@ -1,5 +1,5 @@
 const db = require('../../../config/connection');
-const lib = require("../../../config/lib");
+const lib = require("jarmlib");
 
 const Income = function() {
 	this.id = 0;
@@ -52,8 +52,9 @@ Income.findById = (income_id) => {
 	return db(query);
 };
 
-Income.filter = (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
-	let query = lib.query.filterDate(props, "cms_wt_erp.financial_income income", inners, "date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
+Income.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.financial_income income")
+		.inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build().query;
 	return db(query);
 };
 
@@ -93,8 +94,9 @@ Income.category.list = () => {
 	return db(query);
 };
 
-Income.category.filter = (props, params, values, strict_params, strict_values, orderParams) => {
-	let query = lib.query.filter(props, "cms_wt_erp.financial_income_category", params, values, strict_params, strict_values, orderParams);
+Income.category.filter = (props, params, strict_params, order_params) => {
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.financial_income_category income_category")
+		.params(params).strictParams(strict_params).order(order_params).build().query;
 	return db(query);
 };
 
@@ -135,8 +137,9 @@ Income.origin.list = () => {
 	return db(query);
 };
 
-Income.origin.filter = (props, params, values, strict_params, strict_values, orderParams) => {
-	let query = lib.query.filter(props, "cms_wt_erp.financial_income_origin", params, values, strict_params, strict_values, orderParams);
+Income.origin.filter = (props, params, strict_params, order_params) => {
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.financial_income_origin income_origin")
+		.params(params).strictParams(strict_params).order(order_params).build().query;
 	return db(query);
 };
 

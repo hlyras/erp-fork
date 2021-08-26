@@ -81,9 +81,9 @@
 				<input type="date" name="periodEnd" class="box b2 input-generic center margin-top-5">
 	            <select name="category-id" class="box b4 input-generic center margin-top-5">
 				    <option value="">Categoria</option>
-					<option value="21">Combustível</option>
-					<option value="10">Costura Externa</option>
-					<option value="4">Custo Fixo</option>
+					<% for(i in outcomeCategories){ %>
+						<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
+					<% } %>
 				</select>
 				<select name="origin-id" class="box b4 input-generic center margin-top-5">
 					<option value="">Origem</option>
