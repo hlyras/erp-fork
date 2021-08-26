@@ -230,50 +230,30 @@ const saleController = {
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
-		let params = [];
-		let values = [];
+		const props = [];
+		const inners = [];
 
-		let strict_params = [];
-		let strict_values = [];
+		const period = { key: "sale_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
+		const params = { keys: [], values: [] }
+		const strict_params = { keys: [], values: [] }
 
-		let periodStart = ""; 
-		let periodEnd = "";
-
-		if(req.body.sale.periodStart && req.body.sale.periodEnd){
-			periodStart = req.body.sale.periodStart;
-			periodEnd = req.body.sale.periodEnd;
-		} else {
-			periodStart = "";
-			periodEnd = "";
-		};
-
-		if(req.body.sale.customer_name){
-			params.push("customer_name");
-			values.push(req.body.sale.customer_name);
-		};
-
-		if(parseInt(req.body.sale.customer_cnpj)){
-			params.push("customer_cnpj");
-			values.push(req.body.sale.customer_cnpj);
-		};
-
-		if(req.body.sale.status){
-			strict_params.push("status");
-			strict_values.push(req.body.sale.status);
-		};
+		lib.Query.fillParam("sale.customer_name", req.body.sale.customer_name, params);
+		lib.Query.fillParam("sale.customer_cnpj", req.body.sale.customer_cnpj, params);
+		lib.Query.fillParam("sale.status", req.body.sale.status, strict_params);
 
 		if(req.body.sale.status == "Em negociação"){
-			strict_params.push("user_id");
-			strict_values.push(req.user.id);
+			lib.Query.fillParam("sale.user_id", req.user.id, strict_params);
 		} else {
 			if(req.body.sale.user_id){
-				strict_params.push("user_id");
-				strict_values.push(req.body.sale.user_id);
+				lib.Query.fillParam("sale.user_id", req.body.sale.user_id, strict_params);
 			};
 		};
 
+		const order_params = [ ["id","DESC"] ];
+		const limit = 0;
+		
 		try {
-			let sales = await Sale.filter(periodStart, periodEnd, params, values, strict_params, strict_values);
+			let sales = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
 			res.send({ sales });
 		} catch (err) {
 			console.log(err);
@@ -339,7 +319,7 @@ const saleController = {
 			payment_user_name: req.user.name,
 			payment_confirmation_date: new Date().getTime(),
 			status: "Ag. embalo",
-			estimated_shipment_date: new Date().getTime() + (lib.timestampDay() * 2)
+			estimated_shipment_date: new Date().getTime() + (lib.date.timestamp.day() * 2)
 		};
 
 		try {
@@ -436,9 +416,9 @@ const saleController = {
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 				};
 
-				let params = []; let values = [];
-				let strict_params = []; let strict_values = [];
-				let period = { start: "", end: "" };
+				const params = { keys: [], values: [] }
+				const strict_params = { keys: [], values: [] }
+				const period = { key: "sale_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
 
 				let product_props = ["sale.id",
 					"product.code",
@@ -468,16 +448,16 @@ const saleController = {
 					["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.sale_package_product.product_id"]
 				];
 
-				lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
-				lib.insertParam("cms_wt_erp.product.name", req.body.sale.product_name, params, values);
-				lib.insertParam("cms_wt_erp.product.color", req.body.sale.product_color, params, values);
-				lib.insertParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params, strict_values);
+				lib.Query.fillParam("cms_wt_erp.product.name", req.body.sale.product_name, params);
+				lib.Query.fillParam("cms_wt_erp.product.color", req.body.sale.product_color, strict_params);
+				lib.Query.fillParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params);
 
-				let orderParams = [ ["sale.id", "DESC"] ];
+				let order_params = [ ["sale.id", "DESC"] ];
+				let limit = 0;
 				
 				try {
-					let sale_products = await Sale.report.product.filter(product_props, product_inners, period, params, values, strict_params, strict_values, orderParams);
-					let sale_package_products = await Sale.report.package.product.filter(package_product_props, package_product_inners, period, params, values, strict_params, strict_values, orderParams);
+					let sale_products = await Sale.filter(product_props, product_inners, period, params, strict_params, order_params, limit);
+					let sale_package_products = await Sale.filter(package_product_props, package_product_inners, period, params, strict_params, order_params, limit);
 					res.send({ sale_products: sale_products, sale_package_products: sale_package_products });
 				} catch (err) {
 					console.log(err);
@@ -499,10 +479,6 @@ const saleController = {
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 				};
 
-				let params = []; let values = [];
-				let strict_params = []; let strict_values = [];
-				let period = { start: "", end: "" };
-
 				let props = ["sale.id",
 					"sale.packment_user_id",
 					"sale.packment_user_name"
@@ -510,14 +486,18 @@ const saleController = {
 				
 				let inners = [];
 
-				lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
-				lib.insertParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params, strict_values);
-				lib.insertParam("cms_wt_erp.sale.packment_user_id", req.body.sale.packment_user_id, strict_params, strict_values);
+				const period = { key: "sale.packment_confirmation_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
+				const params = { keys: [], values: [] }
+				const strict_params = { keys: [], values: [] }
 
-				let orderParams = [ ["sale.id", "DESC"] ];
+				lib.Query.fillParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params);
+				lib.Query.fillParam("cms_wt_erp.sale.packment_user_id", req.body.sale.packment_user_id, strict_params);
+
+				let order_params = [ ["sale.id", "DESC"] ];
+				let limit = 0;
 				
 				try {
-					let sale_packments = await Sale.report.packment.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
+					let sale_packments = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
 					res.send({ sale_packments });
 				} catch (err) {
 					console.log(err);

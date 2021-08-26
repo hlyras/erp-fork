@@ -71,15 +71,15 @@ Expense.triage.view.show = (expense) => {
 		html += "</div>";
 
 		html += "<div class='mobile-box b2-5 container border padding-5 margin-top-10'>";
-			html += "<div class='mobile-box b6 center'><img class='width-25' src='/images/icon/bill.png'></div>";
+			html += "<div class='mobile-box b6 center'><img class='width-20' src='/images/icon/bill.png'></div>";
 			html += "<div class='mobile-box b5-6 center'>"+expense.category_name+"</div>";
 		html += "</div>";
 		html += "<div class='mobile-box b2-5 container border padding-5 margin-top-10'>";
-			html += "<div class='mobile-box b6 center'><img class='width-25' src='/images/icon/tag.png'></div>";
+			html += "<div class='mobile-box b6 center'><img class='width-20' src='/images/icon/tag.png'></div>";
 			html += "<div class='mobile-box b5-6 center'>"+expense.origin_name+"</div>";
 		html += "</div>";
 		html += "<div class='mobile-box b5 container border padding-5 margin-top-10'>";
-			html += "<div class='mobile-box b6 center'><img class='width-25' src='/images/icon/dollar.png'></div>";
+			html += "<div class='mobile-box b6 center'><img class='width-20' src='/images/icon/dollar.png'></div>";
 			html += "<div class='mobile-box b5-6 center bold'>"+expense.cost+"</div>";
 		html += "</div>";
 		html += "<div class='mobile-box b1 container margin-top-5 margin-bottom-5'>";
@@ -93,11 +93,11 @@ Expense.triage.view.show = (expense) => {
 
 		if(expense.payment_method == "Boleto"){
 			html += "<div class='mobile-box b5 container border margin-top-5'>";
-				html += "<div class='box a1 em06 bold padding-5'>Beneficiário</div>";
+				html += "<div class='box a1 em06 bold padding-5'>Banco</div>";
 				html += "<div class='box a1 padding-5'>"+expense.billet_bank+"</div>";
 			html += "</div>";
 			html += "<div class='mobile-box b3-5 container border margin-top-5'>";
-				html += "<div class='box a1 em06 bold padding-5'>Banco</div>";
+				html += "<div class='box a1 em06 bold padding-5'>Beneficiário</div>";
 				html += "<div class='box a1 padding-5'>"+expense.billet_receiver+"</div>";
 			html += "</div>";
 			html += "<div class='mobile-box b5 container border margin-top-5'>";

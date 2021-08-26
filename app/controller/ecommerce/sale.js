@@ -1,7 +1,7 @@
 const User = require('../../model/user');
 const userController = require('./../user');
 
-const lib = require('../../../config/lib');
+const lib = require("jarmlib");
 
 const Sale = require('../../model/ecommerce/sale');
 const Product = require('../../model/product');
@@ -235,7 +235,7 @@ const saleController = {
 
 		try {
 			if(sale.id && sale.status){
-				sale.datetime = lib.genTimestamp();
+				sale.datetime = lib.date.timestamp.generate();
 				sale.user_id = req.user.id;
 				sale.user_name = req.user.name;
 				await Sale.updateStatus(sale);
@@ -274,20 +274,25 @@ const saleController = {
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
-		let params = []; let values = [];
-		let strict_params = []; let strict_values = [];
-		let period = { start: "", end: "" };
+		let props = [];
+		let inners = [];
+
+		let period = { key: "datetime", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
+		let params = { keys: [], values: [] }
+		let strict_params = { keys: [], values: [] }
 		
-		lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
-		lib.insertParam("origin", req.body.sale.origin, params, values);
-		lib.insertParam("code", req.body.sale.code, params, values);
-		lib.insertParam("customer_name", req.body.sale.customer_name, params, values);
-		lib.insertParam("customer_user", req.body.sale.customer_user, params, values);
-		lib.insertParam("tracker", req.body.sale.tracker, params, values);
-		lib.insertParam("status", req.body.sale.status, strict_params, strict_values);
+		lib.Query.fillParam("origin", req.body.sale.origin, params);
+		lib.Query.fillParam("code", req.body.sale.code, params);
+		lib.Query.fillParam("customer_name", req.body.sale.customer_name, params);
+		lib.Query.fillParam("customer_user", req.body.sale.customer_user, params);
+		lib.Query.fillParam("tracker", req.body.sale.tracker, params);
+		lib.Query.fillParam("status", req.body.sale.status, strict_params);
+
+		let order_params = [ ["datetime","ASC"] ];
+		let limit = 0;
 
 		try {
-			let sales = await Sale.filter(period, params, values, strict_params, strict_values);
+			let sales = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
 			res.send({ sales });
 		} catch (err) {
 			console.log(err);
@@ -325,7 +330,7 @@ const saleController = {
 
 			let service_order = {
 				date: new Date().getTime(),
-				datetime: lib.datetimeToTimestamp(req.body.service_order.datetime),
+				datetime: lib.date.datetime.toTimestamp(req.body.service_order.datetime),
 				code: req.body.service_order.code,
 				sales: req.body.service_order.sales,
 				sale_amount: req.body.service_order.sale_amount
@@ -503,12 +508,12 @@ const saleController = {
 					periodEnd = "";
 				};
 
-				let properties = ["cms_wt_erp.ecommerce_sale_after_sale.id","cms_wt_erp.ecommerce_sale_after_sale.sale_id","cms_wt_erp.ecommerce_sale.origin","cms_wt_erp.ecommerce_sale.code",
+				let props = ["cms_wt_erp.ecommerce_sale_after_sale.id","cms_wt_erp.ecommerce_sale_after_sale.sale_id","cms_wt_erp.ecommerce_sale.origin","cms_wt_erp.ecommerce_sale.code",
 					"cms_wt_erp.ecommerce_sale.customer_name","cms_wt_erp.ecommerce_sale.customer_user",
 					"cms_wt_erp.ecommerce_sale.customer_phone","cms_wt_erp.ecommerce_sale_after_sale.datetime",
 					"cms_wt_erp.ecommerce_sale_after_sale.status","cms_wt_erp.ecommerce_sale_after_sale.user_id",
 					"cms_wt_erp.ecommerce_sale_after_sale.user_name","cms_wt_erp.ecommerce_sale_after_sale.contact_datetime",
-					"cms_wt_erp.ecommerce_sale.after_sale","cms_wt_erp.ecommerce_sale_after_sale.obs",];
+					"cms_wt_erp.ecommerce_sale.after_sale","cms_wt_erp.ecommerce_sale_after_sale.obs"];
 
 				if(req.body.sale.code){
 					params.push("cms_wt_erp.ecommerce_sale.code");
@@ -589,9 +594,9 @@ const saleController = {
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 				};
 
-				let params = []; let values = [];
-				let strict_params = []; let strict_values = [];
-				let period = { start: "", end: "" };
+				let period = { key: "datetime", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
+				let params = { keys: [], values: [] }
+				let strict_params = { keys: [], values: [] }
 
 				let product_props = ["ecommerce_sale.id",
 					"product.code",
@@ -621,17 +626,17 @@ const saleController = {
 					["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.ecommerce_sale_package_product.product_id"]
 				];
 
-				lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
-				lib.insertParam("origin", req.body.sale.origin, params, values);
-				lib.insertParam("cms_wt_erp.product.name", req.body.sale.product_name, params, values);
-				lib.insertParam("cms_wt_erp.product.color", req.body.sale.product_color, params, values);
-				lib.insertParam("cms_wt_erp.ecommerce_sale.status", req.body.sale.status, strict_params, strict_values);
+				lib.Query.fillParam("origin", req.body.sale.origin, params);
+				lib.Query.fillParam("product.name", req.body.sale.product_name, params);
+				lib.Query.fillParam("product.color", req.body.sale.product_color, params);
+				lib.Query.fillParam("ecommerce_sale.status", req.body.sale.status, strict_params);
 
-				let orderParams = [ ["ecommerce_sale.id", "DESC"] ];
-				
+				let order_params = [ ["ecommerce_sale.id", "DESC"] ];
+				let limit = 0;
+
 				try {
-					let sale_products = await Sale.report.product.filter(product_props, product_inners, period, params, values, strict_params, strict_values, orderParams);
-					let sale_package_products = await Sale.report.package.product.filter(package_product_props, package_product_inners, period, params, values, strict_params, strict_values, orderParams);
+					let sale_products = await Sale.filter(product_props, product_inners, period, params, strict_params, order_params, limit);
+					let sale_package_products = await Sale.filter(package_product_props, package_product_inners, period, params, strict_params, order_params, limit);
 					res.send({ sale_products: sale_products, sale_package_products: sale_package_products });
 				} catch (err) {
 					console.log(err);
@@ -653,9 +658,9 @@ const saleController = {
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 				};
 
-				let params = []; let values = [];
-				let strict_params = []; let strict_values = [];
-				let period = { start: "", end: "" };
+				let period = { key: "packing_datetime", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
+				let params = { keys: [], values: [] }
+				let strict_params = { keys: [], values: [] }
 
 				let props = ["ecommerce_sale.id",
 					"ecommerce_sale.packing_user_id",
@@ -664,13 +669,13 @@ const saleController = {
 				
 				let inners = [];
 
-				lib.fillDate(period, req.body.sale.periodStart, req.body.sale.periodEnd);
-				lib.insertParam("cms_wt_erp.ecommerce_sale.packing_user_id", req.body.sale.packment_user_id, strict_params, strict_values);
+				lib.Query.fillParam("cms_wt_erp.ecommerce_sale.packing_user_id", req.body.sale.packment_user_id, strict_params);
 
-				let orderParams = [ ["ecommerce_sale.id", "DESC"] ];
-				
+				let order_params = [ ["ecommerce_sale.id", "DESC"] ];
+				let limit = 0;
+
 				try {
-					let sale_packments = await Sale.report.packment.filter(props, inners, period, params, values, strict_params, strict_values, orderParams);
+					let sale_packments = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
 					res.send({ sale_packments });
 				} catch (err) {
 					console.log(err);

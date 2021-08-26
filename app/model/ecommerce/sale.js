@@ -1,5 +1,5 @@
 const db = require('../../../config/connection');
-const lib = require('../../../config/lib');
+const lib = require("jarmlib");
 
 const Sale = function(){
 	this.id;
@@ -71,8 +71,14 @@ Sale.changeStatus = async (sale) => {
 	return db(query);
 };
 
-Sale.filter = (period, params, values, strict_params, strict_values) => {
-	let query = lib.filter_by_period_params_strict("cms_wt_erp.ecommerce_sale", "datetime", period.start, period.end, params, values, strict_params, strict_values, "datetime", "ASC");
+Sale.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.ecommerce_sale ecommerce_sale")
+		.inners(inners)
+		.period(period)
+		.params(params)
+		.strictParams(strict_params)
+		.order(order_params)
+		.limit(limit).build().query;
 	return db(query);
 };
 
@@ -217,8 +223,8 @@ Sale.after_sale = {
 			+sale.user_name+"');";
 		return db(query);
 	},
-	filter: (periodStart, periodEnd, status, params, values) => {
-		let query = lib.filterByLikeAndByPeriodAndByStatus(periodStart, periodEnd, params, values, "date", "status", status, "cms_wt_erp", "ecommerce_sale_after_sale", "date", "ASC");
+	filter: (props, period, strict_params, order_params) => {
+		let query = lib.Query().select().props(props).table('cms_wt_erp.ecommerce_sale_after_sale ecommerce_sale_after_sale').period(period).strictParams(strict_params).order(order_params).build().query;
 		return db(query);
 	},
 	findById: async (id) => {
@@ -239,37 +245,15 @@ Sale.after_sale = {
 				+sale.user_name+"');";
 			return db(query);
 		},
-		filter: (properties, inners, periodStart, periodEnd, params, values, strict_params, strict_values) => {
-			let query = lib.inner_by_period_params_status(properties, "cms_wt_erp.ecommerce_sale_after_sale", "cms_wt_erp.ecommerce_sale", inners, "cms_wt_erp.ecommerce_sale_after_sale.datetime", periodStart, periodEnd, params, values, strict_params, strict_values, "cms_wt_erp.ecommerce_sale_after_sale.datetime", "ASC");
+		filter: (props, period, ) => {
+			let query = lib.Query().select().props(props).table("cms_wt_erp.ecommerce_sale_after_sale ecommerce_sale_after_sale").period(period).params(params).order(order_params).build().query;
+			// let query = lib.Query().build().query(properties, "cms_wt_erp.ecommerce_sale_after_sale", "cms_wt_erp.ecommerce_sale", inners, "cms_wt_erp.ecommerce_sale_after_sale.datetime", periodStart, periodEnd, params, values, strict_params, strict_values, "cms_wt_erp.ecommerce_sale_after_sale.datetime", "ASC");
 			return db(query);
 		},
 		update: async (sale) => {
 			let query = "UPDATE cms_wt_erp.ecommerce_sale_after_sale SET status='"+sale.status
 				+"', contact_datetime='"+sale.contact_datetime
 				+"', obs='"+sale.obs+"' WHERE id='"+sale.id+"';";
-			return db(query);
-		}
-	}
-};
-
-Sale.report = {
-	product: {
-		filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
-			let query = lib.query.filterDate(props, "cms_wt_erp.ecommerce_sale ecommerce_sale", inners, "datetime", period.start, period.end, params, values, strict_params, strict_values, orderParams);
-			return db(query);
-		}
-	},
-	package: {
-		product: {
-			filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
-				let query = lib.query.filterDate(props, "cms_wt_erp.ecommerce_sale ecommerce_sale", inners, "datetime", period.start, period.end, params, values, strict_params, strict_values, orderParams);
-				return db(query);
-			}
-		}
-	},
-	packment: {
-		filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
-			let query = lib.query.filterDate(props, "cms_wt_erp.ecommerce_sale ecommerce_sale", inners, "packing_datetime", period.start, period.end, params, values, strict_params, strict_values, orderParams);
 			return db(query);
 		}
 	}

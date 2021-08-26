@@ -21,7 +21,7 @@ if(Expense.controller.create){
 				expense.payment_method = "Boleto";
 				expense.billet_bank = event.target.elements.namedItem("billet-bank").value;
 				expense.billet_receiver = event.target.elements.namedItem("billet-receiver").value;
-				expense.billet_code = lib.removeChar(event.target.elements.namedItem("billet-code").value, ['/\./g','/\ /g']);
+				expense.billet_code = lib.removeChar(event.target.elements.namedItem("billet-code").value, ['.',' ',',']);
 			} else {
 				return alert("Método de pagamento inválido!");
 			}
@@ -36,7 +36,7 @@ if(Expense.controller.create){
 
 			if(originPayment.method == "Pix"){
 				expense.pix_receiver = originPayment.pix_receiver;
-				expense.pix_key = lib.removeChar(originPayment.pix_key, ['/\./g','/\ /g']);
+				expense.pix_key = lib.removeChar(originPayment.pix_key, []);
 			} else if(originPayment.method == "Transferência bancária"){
 				expense.transfer_receiver = originPayment.transfer_receiver;
 				expense.transfer_register = originPayment.transfer_register;

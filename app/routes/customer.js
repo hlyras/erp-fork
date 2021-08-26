@@ -1,19 +1,19 @@
 const router = require("express").Router();
-const lib = require('../../config/lib');
+const lib = require('jarmlib');
 
 const customerController = require('../controller/customer');
 
 //API ROUTES
-router.get('/', lib.routeToHttps, customerController.index);
-router.post('/save', lib.routeToHttps, customerController.save);
-router.get('/filter', lib.routeToHttps, customerController.filter);
-router.get('/id/:id', lib.routeToHttps, customerController.findById);
-router.get('/show/id/:id', lib.routeToHttps, customerController.show);
-router.delete('/delete', lib.routeToHttps, customerController.delete);
+router.get('/', lib.route.toHttps, customerController.index);
+router.post('/save', lib.route.toHttps, customerController.save);
+router.get('/filter', lib.route.toHttps, customerController.filter);
+router.get('/id/:id', lib.route.toHttps, customerController.findById);
+router.get('/show/id/:id', lib.route.toHttps, customerController.show);
+router.delete('/delete', lib.route.toHttps, customerController.delete);
 
-router.post('/address/save', lib.routeToHttps, customerController.address.save);
-router.get('/address/id/:id', lib.routeToHttps, customerController.address.findById);
-router.get('/address/list/customer_id/:customer_id', lib.routeToHttps, customerController.address.list);
-router.delete('/address/delete', lib.routeToHttps, customerController.address.delete);
+router.post('/address/save', lib.route.toHttps, customerController.address.save);
+router.get('/address/id/:id', lib.route.toHttps, customerController.address.findById);
+router.get('/address/list/customer_id/:customer_id', lib.route.toHttps, customerController.address.list);
+router.delete('/address/delete', lib.route.toHttps, customerController.address.delete);
 
 module.exports = router;

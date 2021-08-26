@@ -1,13 +1,13 @@
 const router = require("express").Router();
-const lib = require('../../config/lib');
+const lib = require('jarmlib');
 
 const homeController = require("../controller/home");
 
-router.get("/", lib.routeToHttps, homeController.index);
+router.get("/", lib.route.toHttps, homeController.index);
 
-router.get("/login", lib.routeToHttps, homeController.login);
-router.get("/signup", lib.routeToHttps, homeController.signup);
-router.get("/logout", lib.routeToHttps, homeController.logout);
+router.get("/login", lib.route.toHttps, homeController.login);
+router.get("/signup", lib.route.toHttps, homeController.signup);
+router.get("/logout", lib.route.toHttps, homeController.logout);
 
 router.use("/admin", require("./admin"));
 router.use("/department", require("./department"));

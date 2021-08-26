@@ -1,16 +1,16 @@
 const router = require("express").Router();
-const lib = require('../../config/lib');
+const lib = require('jarmlib');
 
 const productionController = require('../controller/production');
 
-router.get('/', lib.routeToHttps, productionController.index);
-router.get('/manage', lib.routeToHttps, productionController.manage);
-router.get('/simulation', lib.routeToHttps, productionController.simulation);
-router.post('/simulate', lib.routeToHttps, productionController.simulate);
-router.post('/save', lib.routeToHttps, productionController.save);
-router.put('/confirm', lib.routeToHttps, productionController.confirm);
-router.put('/cancel', lib.routeToHttps, productionController.cancel);
-router.post('/filter', lib.routeToHttps, productionController.filter);
-router.get('/id/:id', lib.routeToHttps, productionController.findById);
+router.get('/', lib.route.toHttps, productionController.index);
+router.get('/manage', lib.route.toHttps, productionController.manage);
+router.get('/simulation', lib.route.toHttps, productionController.simulation);
+router.post('/simulate', lib.route.toHttps, productionController.simulate);
+router.post('/save', lib.route.toHttps, productionController.save);
+router.put('/confirm', lib.route.toHttps, productionController.confirm);
+router.put('/cancel', lib.route.toHttps, productionController.cancel);
+router.post('/filter', lib.route.toHttps, productionController.filter);
+router.get('/id/:id', lib.route.toHttps, productionController.findById);
 
 module.exports = router;

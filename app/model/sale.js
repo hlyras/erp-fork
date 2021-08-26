@@ -1,5 +1,5 @@
 const db = require('../../config/connection');
-const lib = require("../../config/lib");
+const lib = require("jarmlib");
 
 const Sale = function(){
 	this.id;
@@ -62,8 +62,8 @@ Sale.cancel = async (sale) => {
 	return db(query);
 };
 
-Sale.filter = (periodStart, periodEnd, params, values, strict_params, strict_values) => {
-	let query = lib.filter_by_period_params_strict("cms_wt_erp.sale", "sale_date", periodStart, periodEnd, params, values, strict_params, strict_values, "id", "DESC");
+Sale.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.sale sale").inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build().query;
 	return db(query);
 };
 
@@ -180,29 +180,6 @@ Sale.package = {
 		},
 		clear: async (sale_id) => {
 			let query = "DELETE FROM cms_wt_erp.sale_package_product WHERE sale_id='"+sale_id+"';";
-			return db(query);
-		}
-	}
-};
-
-Sale.report = {
-	product: {
-		filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
-			let query = lib.query.filterDate(props, "cms_wt_erp.sale sale", inners, "cms_wt_erp.sale.sale_date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
-			return db(query);
-		}
-	},
-	package: {
-		product: {
-			filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
-				let query = lib.query.filterDate(props, "cms_wt_erp.sale sale", inners, "sale.sale_date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
-				return db(query);
-			}
-		}
-	},
-	packment: {
-		filter: (props, inners, period, params, values, strict_params, strict_values, orderParams) => {
-			let query = lib.query.filterDate(props, "cms_wt_erp.sale sale", inners, "sale.packment_confirmation_date", period.start, period.end, params, values, strict_params, strict_values, orderParams);
 			return db(query);
 		}
 	}
