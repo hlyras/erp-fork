@@ -7,61 +7,61 @@
         <% include ./../partials/nav %>
 
         <section class="container">
-            <div class="box two container ground padding-10 margin-top-10">
-                <h3 class="box one ground underline padding-10 center">Novo Cliente</h3>
-                <div class="mobile-box two center margin-top-10">
+            <div class="box b2 container ground padding-10 margin-top-10">
+                <h3 class="box b1 underline center">Novo Cliente</h3>
+                <div class="mobile-box b2 center margin-top-10">
                     <input type="radio" id="customer-type-legal-entity-radio" name="customer-type" value="legal-entity" onclick="Customer.controller.form.switchPersonType(this);" checked="checked">
                     <label for="legal-entity">Pessoa Jurídica</label><br>
                 </div>
-                <div class="mobile-box two center margin-top-10">
+                <div class="mobile-box b2 center margin-top-10">
                     <input type="radio" id="customer-type-natural-person-radio" name="customer-type" value="natural-person" onclick="Customer.controller.form.switchPersonType(this);">
                     <label for="natural-person">Pessoa Física</label>
                 </div>
-                <form id="customer-create-form" class="container box one box-border padding-10 margin-top-5">
+                <form id="customer-create-form" class="container box b1 box-border padding-10 margin-top-5">
                     <input type="hidden" name="id" value="">
                     <input type="hidden" name="person-type" value="legal-entity">
-                    <input type="text" name="name" class="box two input-generic center ground margin-top-5" placeholder="Nome do Responsável" maxlength="100" autocomplete="off">
-                    <input type="text" name="cpf" class="box two input-generic center ground margin-top-5" placeholder="CPF" autocomplete="off" maxlength="11">
+                    <input type="text" name="name" class="box b2 input-generic center ground margin-top-5" placeholder="Nome do Responsável" maxlength="100" autocomplete="off">
+                    <input type="text" name="cpf" class="box b2 input-generic center ground margin-top-5" placeholder="CPF" autocomplete="off" maxlength="11">
                     <div id="legal-entity-form" class="container">
-                        <input type="text" name="trademark" class="box two input-generic center ground margin-top-5" placeholder="Razão Social" maxlength="100" autocomplete="off">
-                        <input type="text" name="brand" class="box two input-generic center ground margin-top-5" placeholder="Nome Fantasia" maxlength="100" autocomplete="off">
-                        <input type="text" name="cnpj" class="box two input-generic center ground margin-top-5" placeholder="CNPJ" autocomplete="off" maxlength="14">
-                        <input type="text" name="ie" class="box two input-generic center ground margin-top-5" placeholder="Inscrição Estadual" maxlength="20" autocomplete="off">
+                        <input type="text" name="trademark" class="box b2 input-generic center ground margin-top-5" placeholder="Razão Social" maxlength="100" autocomplete="off">
+                        <input type="text" name="brand" class="box b2 input-generic center ground margin-top-5" placeholder="Nome Fantasia" maxlength="100" autocomplete="off">
+                        <input type="text" name="cnpj" class="box b2 input-generic center ground margin-top-5" placeholder="CNPJ" autocomplete="off" maxlength="14">
+                        <input type="text" name="ie" class="box b2 input-generic center ground margin-top-5" placeholder="Inscrição Estadual" maxlength="20" autocomplete="off">
                     </div>
-                    <input type="text" name="social-media" class="box two input-generic center ground margin-top-5" placeholder="Rede social (url)" maxlength="100" autocomplete="off">
-                    <input type="text" name="email" class="box two input-generic center ground margin-top-5" placeholder="E-mail" maxlength="100" autocomplete="off">
-                    <input type="text" name="phone" class="box two input-generic center ground margin-top-5" placeholder="Telefone" maxlength="12" autocomplete="off">
-                    <input type="text" name="cellphone" class="box two input-generic center ground margin-top-5" placeholder="Celular" maxlength="13" autocomplete="off">
-                    <input type="submit" name="submit" class="box one submit-generic pointer center margin-top-5" value="Cadastrar">
+                    <input type="text" name="social-media" class="box b2 input-generic center ground margin-top-5" placeholder="Rede social (url)" maxlength="100" autocomplete="off">
+                    <input type="text" name="email" class="box b2 input-generic center ground margin-top-5" placeholder="E-mail" maxlength="100" autocomplete="off">
+                    <input type="text" name="phone" class="box b2 input-generic center ground margin-top-5" placeholder="Telefone" maxlength="12" autocomplete="off">
+                    <input type="text" name="cellphone" class="box b2 input-generic center ground margin-top-5" placeholder="Celular" maxlength="13" autocomplete="off">
+                    <input type="submit" name="submit" class="box b1 submit-generic pointer center margin-top-5" value="Cadastrar">
                 </form>
             </div>
 
-            <div id="customer-filter-box" class="box two ground padding-10 margin-top-10">
-                <h3 class="box one ground padding-10 center box-border">Buscar Cliente</h3>
-                <form id="customer-filter-form" class="container box one box-border padding-10 margin-top-5">
-                    <input type="text" name="name" class="box two input-generic center ground margin-top-5" placeholder="Nome" autocomplete="off">
-                    <input type="text" name="cnpj" class="box two input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
-                    <input type="submit" name="submit" class="box one submit-generic pointer center margin-top-5" value="Buscar">
+            <div id="customer-filter-box" class="box b2 ground padding-10 margin-top-10">
+                <h3 class="box b1 underline center">Buscar Cliente</h3>
+                <form id="customer-filter-form" class="container box b1 box-border padding-10 margin-top-5">
+                    <input type="text" name="name" class="box b2 input-generic center ground margin-top-5" placeholder="Nome" autocomplete="off">
+                    <input type="text" name="cnpj" class="box b2 input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
+                    <input type="submit" name="submit" class="box b1 submit-generic pointer center margin-top-5" value="Buscar">
                 </form>
-                <table id="customer-filter-div" class="box one ground avant-garde padding-10 margin-top-10"></table>
+                <table id="customer-filter-div" class="box b1 ground avant-garde padding-10 margin-top-10"></table>
                 <% include ./../partials/carousel %>
             </div>
-            <div id="customer-show-box" class="box one container ground padding-10 margin-top-10" style="display:none">
-                <div id="customer-show-info-box" class="box one container ground padding-10 margin-top-10"></div>
-                <button id="customer-address-create-form-hider" class='box one center box-border box-hover padding-10 margin-top-10 bold' onclick='lib.displayDiv(`customer-address-create-form`, this, `⇓ Novo Endereço ⇓`, `⇑ Esconder formulário ⇑`);'>⇓ Novo Endereço ⇓</button>
-                <form id='customer-address-create-form' class='box one container padding-5 margin-top-5' style='display:none'>
-                    <h4 class='box one underline center'>Cadastrar endereço</h4>
+            <div id="customer-show-box" class="box b1 container ground padding-10 margin-top-10" style="display:none">
+                <div id="customer-show-info-box" class="box b1 container ground padding-10 margin-top-10"></div>
+                <button id="customer-address-create-form-hider" class='box b1 center box-border box-hover padding-10 margin-top-10 bold' onclick='lib.displayDiv(`customer-address-create-form`, this, `⇓ Novo Endereço ⇓`, `⇑ Esconder formulário ⇑`);'>⇓ Novo Endereço ⇓</button>
+                <form id='customer-address-create-form' class='box b1 container padding-5 margin-top-5' style='display:none'>
+                    <h4 class='box b1 underline center'>Cadastrar endereço</h4>
                     <input type='hidden' name="id" value=''>
                     <input type='hidden' name="customer_id" value=''>
-                    <input type='text' name='postal_code' class='box four center input-generic margin-top-5' placeholder='CEP' onblur='if(this.value.length){lib.address.fillForm(this.value, `customer-address-create-form`)}' autocomplete='off'>
-                    <input type='text' name='street' class='box four center input-generic margin-top-5' placeholder='Logradouro'>
-                    <input type='text' name='number' class='box four center input-generic margin-top-5' placeholder='Número' autocomplete='off'>
-                    <input type='text' name='complement' class='box four center input-generic margin-top-5' placeholder='Complemento'>
-                    <input type='text' name='neighborhood' class='box four center input-generic margin-top-5' placeholder='Bairro'>
-                    <input type='text' name='city' class='box four center input-generic margin-top-5' placeholder='Cidade'>
-                    <input type='text' name='state' class='box four center input-generic margin-top-5' placeholder='UF'>
-                    <input type='submit' name='submit' class='box four center submit-generic margin-top-5' placeholder='UF'>
-                </form>";
+                    <input type='text' name='postal_code' class='box b4 center input-generic margin-top-5' placeholder='CEP' onblur='if(this.value.length){lib.address.fillForm(this.value, `customer-address-create-form`)}' autocomplete='off'>
+                    <input type='text' name='street' class='box b4 center input-generic margin-top-5' placeholder='Logradouro'>
+                    <input type='text' name='number' class='box b4 center input-generic margin-top-5' placeholder='Número' autocomplete='off'>
+                    <input type='text' name='complement' class='box b4 center input-generic margin-top-5' placeholder='Complemento'>
+                    <input type='text' name='neighborhood' class='box b4 center input-generic margin-top-5' placeholder='Bairro'>
+                    <input type='text' name='city' class='box b4 center input-generic margin-top-5' placeholder='Cidade'>
+                    <input type='text' name='state' class='box b4 center input-generic margin-top-5' placeholder='UF'>
+                    <input type='submit' name='submit' class='box b4 center submit-generic margin-top-5' placeholder='UF'>
+                </form>
             </div>
         </section>
         <% include ./../partials/loader %>

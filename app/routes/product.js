@@ -11,7 +11,7 @@ router.post('/save', lib.route.toHttps, productController.save);
 router.get('/id/:id', lib.route.toHttps, productController.findById);
 router.get('/code/:code', lib.route.toHttps, productController.findByCode);
 router.get('/name/:name', lib.route.toHttps, productController.findByName);
-router.get('/filter', lib.route.toHttps, productController.filter);
+router.post('/filter', lib.route.toHttps, productController.filter);
 router.delete('/delete', lib.route.toHttps, productController.delete);
 
 router.get('/show/:product_code', lib.route.toHttps, productController.show);

@@ -226,37 +226,22 @@ const productController = {
 			// return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		// };
 
+		let props = [];
+		let inners = [];
 
-		var params = [];
-		var values = [];
+		const params = { keys: [], values: [] };
+		const strict_params = { keys: [], values: [] };
 
-		if(isNaN(req.query.code) || req.query.code < 0 || req.query.code > 9999){
-			req.query.code = "";
-		};
+		lib.Query.fillParam("product.code", req.body.product.code, strict_params);
+		lib.Query.fillParam("product.name", req.body.product.name, params);
+		lib.Query.fillParam("product.color", req.body.product.color, strict_params);
+		lib.Query.fillParam("product.brand", req.body.product.brand, params);
 
-		if(req.query.code){
-			params.push("code");
-			values.push(req.query.code);
-		};
-
-		if(req.query.color){
-			params.push("color");
-			values.push(req.query.color);
-		};
-
-		if(req.query.brand){
-			params.push("brand");
-			values.push(req.query.brand);
-		};
+		let order_params = [ ["product.code","ASC"] ];
 
 		try {
-			if(req.query.name){
-				const products = await Product.filter(req.query.name, params, values);
-				res.send({ products });
-			} else {
-				const products = await Product.filter(false, params, values);
-				res.send({ products });
-			};
+			const products = await Product.filter(props, inners, params, strict_params, order_params);
+			res.send({ products });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });

@@ -1,5 +1,4 @@
 const db = require('../../config/connection');
-const lib = require("../../config/lib");
 
 const Customer = function(){
 	this.id;

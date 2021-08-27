@@ -28,7 +28,8 @@ if(Product.controller.filter){
 			brand: event.target.elements.namedItem("brand").value
 		};
 
-		let products = await Product.filter(product);
+		let products = await API.response(Product.filter, product);
+		if(!products) { return false; }
 
 		const pagination = { pageSize: 10, page: 0};
 		if(event.target.elements.namedItem("location").value == "product-manage"){

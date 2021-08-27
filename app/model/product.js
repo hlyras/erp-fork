@@ -1,5 +1,6 @@
 const db = require('../../config/connection');
 const lib = require("../../config/lib");
+const Lib = require("jarmlib");
 
 const Product = function(){
 	this.id;
@@ -56,8 +57,9 @@ Product.findByName = async (name) => {
 	return db(query);
 };
 
-Product.filter = async (name, params, values) => {
-	let query = lib.filterQueryName(name, params, values, "cms_wt_erp", "product", "code", "ASC");
+Product.filter = (props, inners, params, strict_params, order_params) => {
+	let query = new Lib.Query().select().props(props).table("cms_wt_erp.product product")
+		.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
 	return db(query);
 };
 
