@@ -16,9 +16,7 @@ if(Ecommerce.sale.controller.filter){
 			tracker: event.target.elements.namedItem("tracker").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let sales = await Ecommerce.sale.filter(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let sales = await API.response(Ecommerce.sale.filter, sale);
 		if(!sales) { return false }
 
 		let service_orders = [];
@@ -32,9 +30,7 @@ if(Ecommerce.sale.controller.filter){
 Ecommerce.sale.controller.manage = {};
 
 Ecommerce.sale.controller.manage.show = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let sale = await Ecommerce.sale.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let sale = await API.response(Ecommerce.sale.findById, id);
 	if(!sale) { return false };
 
 	Ecommerce.sale.view.manage.show(sale);
@@ -51,9 +47,7 @@ Ecommerce.sale.controller.manage.changeStatus = async (id) => {
 	let r = confirm("Deseja realmente atualizar o status da venda.");
 
 	if(sale.id && r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		sale = await Ecommerce.sale.changeStatus(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		sale = await API.response(Ecommerce.sale.changeStatus, sale);
 		if(!sale) { return false };
 
 		Ecommerce.sale.controller.filter.submit.click();

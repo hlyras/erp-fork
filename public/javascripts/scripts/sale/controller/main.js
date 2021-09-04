@@ -100,9 +100,7 @@ if(Sale.controller.save){
 		else if(customer.person_type == "natural-person"){ sale.customer_cnpj = customer[1]; }
 		else { return alert("Este cliente não é válido!") };
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		sale = await Sale.save(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		sale = await API.response(Sale.save, sale);
 		if(!sale) { return false };
 
 		document.getElementById("sale-id").value = "";
@@ -163,9 +161,7 @@ if(Sale.controller.filter){
 
 		if(sale.status == "Confirmadas"){ sale.status = ""; };
 		
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let sales = await Sale.filter(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let sales = await API.response(Sale.filter, sale);
 
 		if(event.target.elements.namedItem("status").value == "Confirmadas"){ sale.status = "Confirmadas"; };
 
@@ -183,9 +179,7 @@ if(Sale.controller.filter){
 };
 
 Sale.controller.show = async (sale_id, status) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let sale = await Sale.findById(sale_id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let sale = await API.response(Sale.findById, sale_id);
 
 	Sale.view.show(sale, status);
 
@@ -199,9 +193,7 @@ Sale.controller.show = async (sale_id, status) => {
 };
 
 Sale.controller.edit = async sale_id => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let sale = await Sale.findById(sale_id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let sale = await API.response(Sale.findById, sale_id);
 	if(!sale) { return false };
 
 	Sale.view.edit(sale);
@@ -217,10 +209,9 @@ Sale.controller.edit = async sale_id => {
 Sale.controller.cancel = async sale_id => {
 	let r = confirm("Deseja cancelar a venda?");
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Sale.cancel(sale_id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Sale.cancel, sale_id);
 		if(!response){ return false; };
+
 		alert(response);
 		Sale.controller.filter.submit.click();
 	};
@@ -230,10 +221,10 @@ Sale.controller.confirmNF = async sale_id => {
 	let r = confirm("Deseja confirmar anexo de Nota Fiscal?");
 	if(r){
 		let sale = { id: sale_id, nf: document.getElementById("sale-nf-url").value };
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Sale.confirmNF(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+
+		let response = await API.response(Sale.confirmNF, sale);
 		if(!response){ return false; };
+
 		alert(response);
 		Sale.controller.filter.submit.click();
 	};
@@ -242,10 +233,9 @@ Sale.controller.confirmNF = async sale_id => {
 Sale.controller.confirmShipment = async sale_id => {
 	let r = confirm("Deseja confirmar envio?");
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Sale.confirmShipment(sale_id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Sale.confirmShipment, sale_id);
 		if(!response){ return false; };
+		
 		alert(response);
 		Sale.controller.filter.submit.click();
 	};

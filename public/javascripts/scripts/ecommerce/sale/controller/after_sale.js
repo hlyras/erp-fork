@@ -15,9 +15,7 @@ if(Ecommerce.sale.controller.filter){
 			periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value)
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let sales = await Ecommerce.sale.filter(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let sales = await API.response(Ecommerce.sale.filter, sale);
 		if(!sales) { return false }
 
 		document.getElementById("ecommerce-sale-show-box").style.display = "none";
@@ -44,9 +42,7 @@ if(Ecommerce.sale.after_sale.controller.save){
 			status: document.getElementById("ecommerce-sale-after-sale-create-form").elements.namedItem("status").value,
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		sale = await Ecommerce.sale.after_sale.save(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		sale = await API.response(Ecommerce.sale.after_sale.save, sale);
 		if(!sale) { return false };
 
 		document.getElementById("ecommerce-sale-after-sale-create-form").elements.namedItem("origin").value = "";
@@ -76,9 +72,7 @@ if(Ecommerce.sale.after_sale.controller.filter){
 
 		console.log(sale)
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let sales = await Ecommerce.sale.after_sale.filter(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let sales = await API.response(Ecommerce.sale.after_sale.filter, sale);
 		if(!sales) { return false };
 
 		Ecommerce.sale.after_sale.view.filter(sales);
@@ -88,9 +82,7 @@ if(Ecommerce.sale.after_sale.controller.filter){
 Ecommerce.sale.after_sale.controller.addToFlow = async id => {
 	let r = confirm("Confirmar este cliente ao seu fluxo?");
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let sale = await Ecommerce.sale.after_sale.addToFlow(id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let sale = await API.response(Ecommerce.sale.after_sale.addToFlow, id);
 		if(!sale) { return false };
 
 		Ecommerce.sale.controller.filter.submit.click();
@@ -113,9 +105,7 @@ if(Ecommerce.sale.after_sale.controller.flow.filter){
 			status: event.target.elements.namedItem("status").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let sales = await Ecommerce.sale.after_sale.flow.filter(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let sales = await API.response(Ecommerce.sale.after_sale.flow.filter, sale);
 		if(!sales) { return false };
 
 		Ecommerce.sale.after_sale.flow.view.filter(sales);
@@ -134,9 +124,7 @@ Ecommerce.sale.after_sale.controller.flow.update = async sale_id => {
 
 	let r = confirm("Deseja realmente atualizar a venda?");
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		sale = await Ecommerce.sale.after_sale.flow.update(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		sale = await API.response(Ecommerce.sale.after_sale.flow.update, sale);
 		if(!sale) { return false };
 
 		Ecommerce.sale.after_sale.controller.flow.filter.submit.click();

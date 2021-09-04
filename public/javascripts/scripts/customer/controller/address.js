@@ -17,9 +17,7 @@ if(Customer.controller.address.create){
 			state: event.target.elements.namedItem("state").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		customer_address = await Customer.address.save(customer_address);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		customer_address = await API.response(Customer.address.save, customer_address);
 		if(!customer_address){ return false; };
 
 		Customer.controller.show(customer_address.customer_id);
@@ -37,9 +35,7 @@ if(Customer.controller.address.create){
 };
 
 Customer.controller.address.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let customer_address = await Customer.address.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let customer_address = await API.response(Customer.address.findById, id);
 	if(!await customer_address){ return false; };
 
 	if(document.getElementById("customer-address-create-form").style.display == 'none'){
@@ -60,9 +56,7 @@ Customer.controller.address.edit = async (id) => {
 Customer.controller.address.delete = async (id, customer_id) => {
 	let r = confirm('Deseja realmente excluir o endereço?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Customer.address.delete(id)){ return false; };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!await API.response(Customer.address.delete, id)){ return false; };
 		
 		Customer.controller.show(customer_id);
 		document.getElementById("customer-show-box").style.display = "none";

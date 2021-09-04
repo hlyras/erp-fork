@@ -4,13 +4,13 @@ Production.controller.simulate = document.getElementById("production-simulation-
 if(Production.controller.simulate){ 
 	Production.controller.simulate.addEventListener("submit", async (event) => {
 		event.preventDefault();
-		document.getElementById('ajax-loader').style.visibility = 'visible';
+		document.getElementById('loader').style.visibility = 'visible';
 
 		Production.controller.simulate.elements.namedItem("submit").disabled = true;
 
 		if(!Production.product.kart.length){
 			alert("É necessário selecionar algum produto para simular o gasto.");
-			document.getElementById('ajax-loader').style.visibility = 'hidden';
+			document.getElementById('loader').style.visibility = 'hidden';
 			return Production.controller.simulate.elements.namedItem("submit").disabled = false;
 		};
 
@@ -23,6 +23,6 @@ if(Production.controller.simulate){
 		Production.view.simulation(production.feedstocks);
 
 		Production.controller.simulate.elements.namedItem("submit").disabled = false;
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		document.getElementById('loader').style.visibility = 'hidden';
 	});
 };

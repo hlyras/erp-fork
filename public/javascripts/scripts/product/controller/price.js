@@ -11,9 +11,7 @@ if(Product.price.controller.filter){
 			category_id: event.target.elements.namedItem("category_id").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Product.price.filter(product);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Product.price.filter, product);
 		if(!response){ return false };
 
 		let catalog_products = [...response.products];
@@ -41,9 +39,7 @@ Product.price.controller.updatePrice = async (price_id, input_id) => {
 		return alert('Preço inválido');
 	};
 
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	price = await Product.price.update(price);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	price = await API.response(Product.price.update, price);
 	if(!price){ return false };
 };
 
@@ -59,9 +55,7 @@ if(Product.price.category.controller.create){
 			name: event.target.elements.namedItem("name").value,
 		};
 
-		document.getElementById("ajax-loader").style.visibility = "visible";
-		category = await Product.price.category.save(category);
-		document.getElementById("ajax-loader").style.visibility = "hidden";
+		category = await API.response(Product.price.category.save, category);
 		if(!category){ return false };
 
 		event.target.elements.namedItem("id").value = "";
@@ -82,9 +76,7 @@ if(Product.price.category.controller.filter){
 			name: event.target.elements.namedItem("name").value,
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let categories = await Product.price.category.filter(category);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let categories = API.response(await Product.price.category.filter, category);
 		if(!categories) { return false };
 
 		categories = lib.sort(categories, "id");
@@ -95,9 +87,7 @@ if(Product.price.category.controller.filter){
 };
 
 Product.price.category.controller.show = async (category_id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let category = await Product.price.category.findById(category_id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let category = API.response(await Product.price.category.findById, category_id);
 	if(!category){ return false };
 
 	document.getElementById("product-price-category-show-id").value = category_id;
@@ -110,9 +100,7 @@ Product.price.category.controller.show = async (category_id) => {
 };
 
 Product.price.category.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let category = await Product.price.category.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let category = API.response(await Product.price.category.findById, id);
 	if(!category){ return false };
 
 	document.getElementById('product-price-category-create-form').elements.namedItem("id").value = category.id;
@@ -122,9 +110,7 @@ Product.price.category.controller.edit = async (id) => {
 Product.price.category.controller.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir a tabela?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Product.price.category.delete(id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = API.response(await Product.price.category.delete, id);
 		if(!response){ return false };
 
 		// document.getElementById("product-package-show-box").style.display = "none";
@@ -144,9 +130,7 @@ if(Product.price.category.controller.home.filter){
 			name: event.target.elements.namedItem("name").value,
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let categories = await Product.price.category.filter(category);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let categories = await API.response(Product.price.category.filter, category);
 		if(!categories) { return false };
 
 		categories = lib.sort(categories, "id");
@@ -157,9 +141,7 @@ if(Product.price.category.controller.home.filter){
 };
 
 Product.price.category.controller.home.show = async (category_id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let category = await Product.price.category.findById(category_id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let category = await API.response(Product.price.category.findById, category_id);
 	if(!category){ return false };
 
 	document.getElementById("product-price-category-home-show-id").value = category_id;

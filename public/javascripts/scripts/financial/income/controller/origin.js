@@ -11,9 +11,7 @@ if(Income.origin.controller.create){
 			name: event.target.elements.namedItem("name").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Income.origin.save(origin);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Income.origin.save, origin);
 		if(!response){ return false };
 
 		event.target.elements.namedItem("id").value = "";
@@ -32,9 +30,7 @@ if(Income.origin.controller.filter){
 			name: event.target.elements.namedItem("name").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let origins = await Income.origin.filter(origin);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let origins = await API.response(Income.origin.filter, origin);
 		if(!origins){ return false };
 
 		document.getElementById("income-origin-filter-div").style.display = "";
@@ -45,18 +41,14 @@ if(Income.origin.controller.filter){
 }
 
 Income.origin.controller.show = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let origin = await Income.origin.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let origin = await API.response(Income.origin.findById, id);
 	if(!origin){ return false };
 
 	Income.origin.view.show(origin);
 };
 
 Income.origin.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let origin = await Income.origin.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let origin = await API.response(Income.origin.findById, id);
 	if(!origin){ return false };
 
 	document.getElementById("income-origin-create-form").elements.namedItem("id").value = origin.id;
@@ -67,9 +59,7 @@ Income.origin.controller.edit = async (id) => {
 Income.origin.controller.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir a origem?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Income.origin.delete(id)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!await API.response(Income.origin.delete, id)){ return false };
 		
 		Income.origin.controller.filter.submit.click();
 	};

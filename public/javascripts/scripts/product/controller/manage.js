@@ -19,10 +19,7 @@ if(Product.controller.manage.create){
 			announcement: event.target.elements.namedItem("announcement").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		product = await Product.save(product, "product-create-form");
-		event.target.elements.namedItem("submit").disabled = false;
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		product = await API.response(Product.save, product);
 		if(!product){ return false };
 
 		// document.getElementById("product-filter-form").elements.namedItem("name").value = product.name;
@@ -42,9 +39,7 @@ if(Product.controller.manage.create){
 };
 
 Product.controller.manage.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-
-	let product = await Product.findById(id);
+	let product = await API.response(Product.findById, id);
 	if(!product){ return false };
 
 	document.getElementById('product-create-form').elements.namedItem("id").value = product.id;
@@ -57,26 +52,18 @@ Product.controller.manage.edit = async (id) => {
 	document.getElementById('product-create-form').elements.namedItem("status").value = product.status;
 	document.getElementById('product-create-form').elements.namedItem("image").value = product.image;
 	document.getElementById('product-create-form').elements.namedItem("announcement").value = product.announcement;
-
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
 };
 
 Product.controller.manage.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir o produto?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		
-		if(!await Product.delete(id)){ return false };
+		if(!await API.response(Product.delete, id)){ return false };
 		
 		document.getElementById("product-filter-form").submit.click();
-		
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
 	};
 };
 
 Product.controller.manage.show = async (product_id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-
 	document.getElementById("product-feedstock-add-form").elements.namedItem("id").value = "";
 	document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").disabled = false;
 	
@@ -87,7 +74,7 @@ Product.controller.manage.show = async (product_id) => {
 	document.getElementById("product-feedstock-box").style.display = "none";
 	document.getElementById("product-feedstock-add-box").style.display = "none";
 
-	let product = await Product.findById(product_id);
+	let product = await API.response(Product.findById, product_id);
 	if(!product){ return false };
 
 	Product.view.manage.menu(product);
@@ -95,6 +82,4 @@ Product.controller.manage.show = async (product_id) => {
 	
 	const pagination = { pageSize: 1, page: 0 };
 	$(() => { lib.carousel.execute("product-manage-image-div", Product.view.manage.image.show, product.images, pagination); });
-
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
 };

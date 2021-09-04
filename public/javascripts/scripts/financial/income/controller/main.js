@@ -14,9 +14,7 @@ if(Income.controller.create){
 			description: event.target.elements.namedItem("description").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		income = await Income.save(income);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		income = await API.response(Income.save, income);
 		if(!income) { return false };
 
 		event.target.elements.namedItem("id").value = "";
@@ -43,9 +41,7 @@ if(Income.controller.filter){
 			origin_id: event.target.elements.namedItem("origin-id").value
 		};
 
-		document.getElementById("ajax-loader").style.visibility = "visible";
-		incomes = await Income.filter(income);
-		document.getElementById("ajax-loader").style.visibility = "hidden";
+		incomes = await API.response(Income.filter, income);
 		if(!incomes) { return false };
 
 		document.getElementById("income-show-box").style.display = "none";
@@ -56,9 +52,7 @@ if(Income.controller.filter){
 }
 
 Income.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let income = await Income.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let income = await API.response(Income.findById, id);
 	if(!income){ return false };
 
 	document.getElementById("income-create-form").elements.namedItem("id").value = income.id;
@@ -82,9 +76,7 @@ Income.controller.show = async (id) => {
 Income.controller.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir a entrada?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Income.delete(id)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!await API.response(Income.delete, id)){ return false };
 		
 		Income.controller.filter.submit.click();
 	}
@@ -93,9 +85,7 @@ Income.controller.delete = async (id) => {
 Income.controller.fillOriginSelect = async (category_id, form) => {
 	let html = "";
 	if(category_id){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let origins = await Income.origin.findByCategoryId(category_id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let origins = await API.response(Income.origin.findByCategoryId, category_id);
 		if(!origins) { return false };
 
 		html += "<option value=''>Origem</option>";

@@ -13,9 +13,7 @@ if(Sale.controller.filter){
 			status: event.target.elements.namedItem("status").value
 		};
 		
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let sales = await Sale.filter(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let sales = await API.response(Sale.filter, sale);
 
 		document.getElementById("sale-filter-box").style.display = "";
 		document.getElementById("sale-show-box").style.display = "none";
@@ -27,10 +25,8 @@ if(Sale.controller.filter){
 };
 
 Sale.controller.show = async (sale_id, status) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let sale = await Sale.findById(sale_id, status);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
-
+	let sale = await API.response(Sale.findById, sale_id);
+	
 	Sale.view.show(sale, status);
 
 	document.getElementById("sale-filter-box").style.display = "none";
@@ -41,10 +37,9 @@ Sale.controller.show = async (sale_id, status) => {
 Sale.controller.confirmPayment = async sale_id => {
 	let r = confirm("Deseja realmente confirmar o pagamento?");
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Sale.confirmPayment(sale_id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Sale.confirmPayment, sale_id);
 		if(!response){ return false; };
+		
 		alert(response);
 		Sale.controller.filter.submit.click();
 	};

@@ -15,9 +15,7 @@ if(Outcome.controller.create){
 			description: event.target.elements.namedItem("description").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		outcome = await Outcome.save(outcome);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		outcome = await API.response(Outcome.save, outcome);
 		if(!outcome) { return false };
 
 		event.target.elements.namedItem("id").value = "";
@@ -46,9 +44,7 @@ if(Outcome.controller.filter){
 			status: event.target.elements.namedItem("status").value
 		};
 
-		document.getElementById("ajax-loader").style.visibility = "visible";
-		outcomes = await Outcome.filter(outcome);
-		document.getElementById("ajax-loader").style.visibility = "hidden";
+		outcomes = await API.response(Outcome.filter, outcome);
 		if(!outcomes) { return false };
 
 		document.getElementById("outcome-show-box").style.display = "none";
@@ -59,9 +55,7 @@ if(Outcome.controller.filter){
 }
 
 Outcome.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let outcome = await Outcome.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let outcome = await API.response(Outcome.findById, id);
 	if(!outcome){ return false };
 
 	if(outcome.expense_id){ return alert("Não é possível editar saídas criadas por despesas."); };
@@ -77,9 +71,7 @@ Outcome.controller.edit = async (id) => {
 };
 
 Outcome.controller.delete = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let outcome = await Outcome.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let outcome = await API.response(Outcome.findById, id);
 	if(!outcome){ return false };
 
 	console.log(outcome);
@@ -88,18 +80,14 @@ Outcome.controller.delete = async (id) => {
 
 	let r = confirm('Deseja realmente excluir a saída?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Outcome.delete(id)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!await API.response(Outcome.delete, id)){ return false };
 		
 		Outcome.controller.filter.submit.click();
 	}
 };
 
 Outcome.controller.show = async (id) => {
-	document.getElementById("ajax-loader").style.visibility = "visible";
-	outcome = await Outcome.findById(id);
-	document.getElementById("ajax-loader").style.visibility = "hidden";
+	outcome = await API.response(Outcome.findById, id);
 	if(!outcome) { return false };
 
 	document.getElementById("outcome-filter-box").style.display = "none";
@@ -110,9 +98,7 @@ Outcome.controller.show = async (id) => {
 Outcome.controller.fillOriginSelect = async (category_id, form) => {
 	let html = "";
 	if(category_id){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let origins = await Outcome.origin.findByCategoryId(category_id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let origins = await API.response(Outcome.origin.findByCategoryId, category_id);
 		if(!origins) { return false };
 
 		html += "<option value=''>Origem</option>";

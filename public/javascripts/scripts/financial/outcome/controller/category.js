@@ -10,9 +10,7 @@ if(Outcome.category.controller.create){
 			name: event.target.elements.namedItem("name").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Outcome.category.save(category);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Outcome.category.save, category);
 		if(!response){ return false };
 
 		
@@ -32,9 +30,7 @@ if(Outcome.category.controller.filter){
 			name: event.target.elements.namedItem("name").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let categories = await Outcome.category.filter(category);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let categories = await API.response(Outcome.category.filter, category);
 		if(!categories){ return false };
 		
 		const pagination = { pageSize: 10, page: 0};
@@ -43,9 +39,7 @@ if(Outcome.category.controller.filter){
 }
 
 Outcome.category.controller.show = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let category = await Outcome.category.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let category = await API.response(Outcome.category.findById, id);
 	if(!category){ return false };
 	
 	document.getElementById("outcome-origin-create-form").elements.namedItem("category-id").value = category.id;
@@ -58,9 +52,7 @@ Outcome.category.controller.show = async (id) => {
 };
 
 Outcome.category.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let category = await Outcome.category.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let category = await API.response(Outcome.category.findById, id);
 	if(!category){ return false };
 
 	document.getElementById("outcome-category-create-form").elements.namedItem("id").value = category.id;
@@ -70,9 +62,7 @@ Outcome.category.controller.edit = async (id) => {
 Outcome.category.controller.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir a categoria?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Outcome.category.delete(id)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!await API.response(Outcome.category.delete, id)){ return false };
 		
 		Outcome.category.controller.filter.submit.click();
 	};

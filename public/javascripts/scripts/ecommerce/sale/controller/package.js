@@ -46,9 +46,7 @@ if(Ecommerce.sale.package.kart.add){
 			return;
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		package = await Product.package.findById(package.dataset.id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		package = await API.response(Product.package.findById, package.dataset.id);
 		if(!package){ return false };
 
 		package.amount = parseInt(amount);

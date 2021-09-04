@@ -4,11 +4,9 @@ Product.controller.feedstock.add = document.getElementById("product-feedstock-ad
 if(Product.controller.feedstock.add){
 	Product.controller.feedstock.add.addEventListener("submit", async (event) => {
 		event.preventDefault();
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-
 		if(!document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").value){
 			alert("É necessário preencher o produto"); 
-			return document.getElementById('ajax-loader').style.visibility = 'hidden';
+			return;
 		};
 
 		let product_feedstock = {
@@ -21,10 +19,10 @@ if(Product.controller.feedstock.add){
 			category_id: document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_category_id").value
 		};
 
-		if(!await Product.feedstock.add(product_feedstock)){ return false };
+		if(!await API.response(Product.feedstock.add, product_feedstock)){ return false };
 
 		document.getElementById("product-feedstock-box").style.display = "";
-		if(!await Product.controller.feedstock.list(product_feedstock.product_id)){ return false };
+		if(!await API.response(Product.controller.feedstock.list, product_feedstock.product_id)){ return false };
 
 		document.getElementById("product-feedstock-add-form").elements.namedItem('id').value = "";
 		document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_id').innerHTML = "";
@@ -41,8 +39,8 @@ Product.controller.feedstock.list = async (product_id) => {
 	document.getElementById('ajax-loader').style.visibility = 'visible';
 
 	let product = { id: product_id };
-	product.feedstocks = await Product.feedstock.list(product_id);
-	product.feedstock_categories = await Product.feedstock.category.list(product_id);
+	product.feedstocks = await API.response(Product.feedstock.list, product_id);
+	product.feedstock_categories = await API.response(Product.feedstock.category.list, product_id);
 
 	let feedstocks = [];
 
@@ -82,14 +80,12 @@ Product.controller.feedstock.list = async (product_id) => {
 	const pagination = { pageSize: 3, page: 0 };
 	$(() => { lib.carousel.execute("product-feedstock-box", Product.view.feedstock.list, feedstocks, pagination); });
 
-	return document.getElementById('ajax-loader').style.visibility = 'hidden';
+	return;
 };
 
 Product.controller.feedstock.edit = async (product_feedstock_id, feedstock_code, feedstock_name, feedstock_color) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-
 	let product_feedstock = await Product.feedstock.findById(product_feedstock_id);
-	await Product.controller.feedstock.form.display(product_feedstock.product_id);
+	await API.response(Product.controller.feedstock.form.display, product_feedstock.product_id);
 
 	document.getElementById("product-feedstock-add-box").style.display = "";
 
@@ -109,17 +105,13 @@ Product.controller.feedstock.edit = async (product_feedstock_id, feedstock_code,
 		document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_measure").disabled = false;
 		document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_category_id").value = product_feedstock.category_id;
 	};
-
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
 };
 
 Product.controller.feedstock.remove = async (product_feedstock_id, product_id) => {
 	let r = confirm('Deseja realmente excluir a matéria prima?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Product.feedstock.remove(product_feedstock_id)){ return false };
-		if(!await Product.controller.feedstock.list(product_id)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!await API.response(Product.feedstock.remove, product_feedstock_id)){ return false };
+		if(!await API.response(Product.controller.feedstock.list, product_id)){ return false };
 	};
 };
 
@@ -128,7 +120,7 @@ Product.controller.feedstock.form = {
 		document.getElementById("product-feedstock-category-create-form").elements.namedItem("product_id").value = product_id;
 		document.getElementById("product-feedstock-add-form").elements.namedItem("product_id").value = product_id;
 
-		const product_feedstock_categories = await Product.feedstock.category.list(product_id);
+		const product_feedstock_categories = await API.response(Product.feedstock.category.list, product_id);
 
 		let html = "";
 		html += "<option value='0'>Sem Categoria</option>"
@@ -168,7 +160,6 @@ Product.controller.feedstock.category.create = document.getElementById("product-
 if(Product.controller.feedstock.category.create){
 	Product.controller.feedstock.category.create.addEventListener("submit", async (event) => {
 		event.preventDefault();
-		document.getElementById('ajax-loader').style.visibility = 'visible';
 
 		let category = {
 			id: document.getElementById("product-feedstock-category-create-form").elements.namedItem("id").value,
@@ -177,9 +168,7 @@ if(Product.controller.feedstock.category.create){
 		};
 
 		// if(!await Product.feedstock.category.save(category)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		category = await Product.feedstock.category.save(category);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		category = await API.response(Product.feedstock.category.save, category);
 		if(!category){ return false; };
 
 		await Product.controller.feedstock.form.display(category.product_id);

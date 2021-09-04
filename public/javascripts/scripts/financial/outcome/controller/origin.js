@@ -11,9 +11,7 @@ if(Outcome.origin.controller.create){
 			name: event.target.elements.namedItem("name").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Outcome.origin.save(origin);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Outcome.origin.save, origin);
 		if(!response){ return false };
 
 		event.target.elements.namedItem("id").value = "";
@@ -32,9 +30,7 @@ if(Outcome.origin.controller.filter){
 			name: event.target.elements.namedItem("name").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let origins = await Outcome.origin.filter(origin);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let origins = await API.response(Outcome.origin.filter, origin);
 		if(!origins){ return false };
 
 		document.getElementById("outcome-origin-filter-div").style.display = "";
@@ -49,9 +45,7 @@ if(Outcome.origin.controller.filter){
 }
 
 Outcome.origin.controller.show = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let origin = await Outcome.origin.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let origin = await API.response(Outcome.origin.findById, id);
 	if(!origin){ return false };
 
 	document.getElementById("outcome-origin-filter-div").style.display = "none";
@@ -68,9 +62,7 @@ Outcome.origin.controller.show = async (id) => {
 };
 
 Outcome.origin.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let origin = await Outcome.origin.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let origin = await API.response(Outcome.origin.findById, id);
 	if(!origin){ return false };
 
 	document.getElementById("outcome-origin-create-form").elements.namedItem("id").value = origin.id;
@@ -81,9 +73,7 @@ Outcome.origin.controller.edit = async (id) => {
 Outcome.origin.controller.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir a origem?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Outcome.origin.delete(id)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!await API.response(Outcome.origin.delete, id)){ return false };
 		
 		Outcome.origin.controller.filter.submit.click();
 	};
@@ -114,9 +104,7 @@ if(Outcome.origin.payment.controller.create){
 			payment.transfer_account_type = event.target.elements.namedItem("transfer-account-type").value;
 		}
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Outcome.origin.payment.save(payment);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Outcome.origin.payment.save, payment);
 		if(!response){ return false };
 
 		event.target.elements.namedItem("id").value = "";
@@ -141,9 +129,7 @@ if(Outcome.origin.payment.controller.filter){
 			origin_id: event.target.elements.namedItem("origin-id").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let payments = await Outcome.origin.payment.filter(payment);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let payments = await API.response(Outcome.origin.payment.filter, payment);
 		if(!payments){ return false };
 
 		const pagination = { pageSize: 9, page: 0};
@@ -152,9 +138,7 @@ if(Outcome.origin.payment.controller.filter){
 }
 
 Outcome.origin.payment.controller.show = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let payment = await Outcome.origin.payment.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let payment = await API.response(Outcome.origin.payment.findById, id);
 	if(!payment){ return false };
 
 	document.getElementById("origin-payment-filter-box").style.display = "none";
@@ -163,9 +147,7 @@ Outcome.origin.payment.controller.show = async (id) => {
 };
 
 Outcome.origin.payment.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let payment = await Outcome.origin.payment.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let payment = await API.response(Outcome.origin.payment.findById, id);
 	if(!payment){ return false };
 
 	document.getElementById("origin-payment-create-form").style.display = "";
@@ -203,9 +185,7 @@ Outcome.origin.payment.controller.edit = async (id) => {
 Outcome.origin.payment.controller.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir o pagamento?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Outcome.origin.payment.delete(id)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!await API.response(Outcome.origin.payment.delete, id)){ return false };
 		
 		Outcome.origin.payment.controller.filter.submit.click();
 	};

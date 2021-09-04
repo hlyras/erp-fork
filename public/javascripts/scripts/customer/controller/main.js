@@ -22,9 +22,7 @@ if(Customer.controller.create){
 			social_media: event.target.elements.namedItem("social-media").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		customer = await Customer.save(customer);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		customer = await API.response(Customer.save, customer);
 		if(!customer) { return false };
 
 		event.target.elements.namedItem("id").value = "";
@@ -67,9 +65,7 @@ if(Customer.controller.filter){
 			cnpj: event.target.elements.namedItem("cnpj").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let customers = await Customer.filter(customer);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let customers = await API.response(Customer.filter, customer);
 		if(!customers){ return false };
 
 		const pagination = { pageSize: 10, page: 0};
@@ -78,18 +74,14 @@ if(Customer.controller.filter){
 };
 
 Customer.controller.show = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let customer = await Customer.show(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let customer = await API.response(Customer.show, id);
 
 	document.getElementById("customer-show-box").style.display = "";
 	Customer.view.show(customer, "customer-show-info-box");
 };
 
 Customer.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let customer = await Customer.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let customer = await API.response(Customer.findById, id);
 	if(!customer){ return false };
 
 	if(customer.person_type == "legal-entity"){
@@ -121,9 +113,7 @@ Customer.controller.edit = async (id) => {
 Customer.controller.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir o cliente?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Customer.delete(id)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!await API.response(Customer.delete, id)){ return false };
 		
 		Customer.controller.filter.submit.click();
 		document.getElementById("customer-show-box").style.display = "none";

@@ -46,9 +46,7 @@ if(Sale.package.kart.add){
 			return;
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		package = await Product.package.findById(package.dataset.id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		package = await API.response(Product.package.findById, package.dataset.id);
 		if(!package){ return false };
 
 		package.amount = parseInt(amount);
@@ -64,10 +62,8 @@ if(Sale.package.kart.add){
 		package.total_weight = package.amount * package.weight;
 		
 		let price = { category_id: parseInt(Sale.controller.category.value), package_id: package.id };
-		
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		price = await Sale.package.price.find(price);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+
+		price = await API.response(Sale.package.price.find, price);
 		if(!price){ return alert("Não foi possível encontrar o valor do pacote, favor tentar novamente, caso o erro persista favor contatar o suporte"); };
 
 		package.price = price.price;

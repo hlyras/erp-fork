@@ -60,11 +60,9 @@ if(Sale.product.kart.add){
 		};
 
 		let price = { category_id: parseInt(Sale.controller.category.value), product_id: product.id };
-		
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		price = await Sale.product.price.find(price);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
-		if(!price){ return alert("Não foi possível encontrar o valor do produto, favor tentar novamente, caso o erro persista favor contatar o suporte"); };
+
+		price = await API.response(Sale.product.price.find, price);
+		if(!price){ return alert("Não foi possível encontrar o valor do produto, favor tentar novamente, caso o erro persista favor contatar o suporte"); }
 
 		product.price = price.price;
 		product.total_price = product.amount * product.price;

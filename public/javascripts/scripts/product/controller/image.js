@@ -13,13 +13,13 @@ Product.controller.image.add = async (product_id) => {
 		let img = '<img src="'+ image_url +'"/>';
 
 		$(img).on("load", async () =>  {
-			document.getElementById('ajax-loader').style.visibility = 'visible';
+			document.getElementById('loader').style.visibility = 'visible';
 
 			if(!await Product.image.add(product_id, image_url)){ return false };
 
 			await Product.controller.manage.show(product_id);
 
-			document.getElementById('ajax-loader').style.visibility = 'hidden';
+			document.getElementById('loader').style.visibility = 'hidden';
 		}).bind('error', () => {
 			return alert('URL inválida!');
 		});
@@ -27,7 +27,7 @@ Product.controller.image.add = async (product_id) => {
 };
 
 Product.controller.image.show = async (product_id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
+	document.getElementById('loader').style.visibility = 'visible';
 	
 	let product = await Product.findById(product_id);
 	if(!product){ return false };
@@ -44,18 +44,18 @@ Product.controller.image.show = async (product_id) => {
 	const pagination = { pageSize: 1, page: 0 };
 	$(() => { lib.carousel.execute("product-manage-image-div", Product.view.image.show, product.images, pagination); });
 	
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	document.getElementById('loader').style.visibility = 'hidden';
 };
 
 Product.controller.image.remove = async (image_id, product_id) => {
 	let r = confirm("Deseja realmente excluir a image?");
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
+		document.getElementById('loader').style.visibility = 'visible';
 
 		if(!await Product.image.remove(image_id)){ return false };
 
 		await Product.controller.manage.show(product_id);
 
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		document.getElementById('loader').style.visibility = 'hidden';
 	};
 };

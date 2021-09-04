@@ -26,9 +26,7 @@ if(Ecommerce.sale.controller.service_order.save){
 			return alert("A quantidade de vendas selecionadas não corresponde a OS\n\nQuantidade de vendas selecionadas: "+service_order.sales.length+"\nQuantidade de vendas na OS: "+service_order.sale_amount);
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		service_order = await Ecommerce.sale.service_order.save(service_order);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		service_order = await API.response(Ecommerce.sale.service_order.save, service_order);
 		if(!service_order) { return false };
 
 		event.target.elements.namedItem("datetime").value = "";

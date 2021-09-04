@@ -18,9 +18,7 @@ if(Expense.triage.controller.filter){
 			user_id: event.target.elements.namedItem("user_id").value
 		};
 
-		document.getElementById("ajax-loader").style.visibility = "visible";
-		expenses = await Expense.filter(expense);
-		document.getElementById("ajax-loader").style.visibility = "hidden";
+		expenses = await API.response(Expense.filter, expense);
 		if(!expenses) { return false };
 
 		document.getElementById("expense-triage-show-box").style.display = "none";
@@ -32,9 +30,7 @@ if(Expense.triage.controller.filter){
 }
 
 Expense.triage.controller.show = async (id) => {
-	document.getElementById("ajax-loader").style.visibility = "visible";
-	let expense = await Expense.findById(id);
-	document.getElementById("ajax-loader").style.visibility = "hidden";
+	let expense = await API.response(Expense.findById, id);
 	if(!expense) { return false };
 
 	document.getElementById("expense-triage-filter-box").style.display = "none";
@@ -62,9 +58,7 @@ if(Expense.triage.controller.pay){
 			income_category_id: event.target.elements.namedItem("income-category-id").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Expense.pay(expense);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Expense.pay, expense);
 		if(!response){ return false };
 
 		Expense.triage.controller.filter.submit.click();

@@ -88,9 +88,7 @@ if(Sale.pos.shipment_value){
 		document.getElementById("sale-customer").value = properties.value;
 		document.getElementById("sale-customer").readOnly = properties.readOnly;
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let addresses = await Customer.address.findByCustomerId(properties.id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let addresses = await API.response(Customer.address.findByCustomerId, properties.id);
 		if(!addresses){ return false };
 
 		Sale.view.customer.address.list(addresses);

@@ -26,9 +26,7 @@ if(Ecommerce.sale.controller.save){
 			packages: JSON.stringify(Ecommerce.sale.package.kart.items)
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		sale = await Ecommerce.sale.save(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		sale = await API.response(Ecommerce.sale.save, sale);
 		if(!sale) { return false };
 
 		document.getElementById("ecommerce-sale-create-form").elements.namedItem("origin").value = "";
@@ -79,9 +77,7 @@ if(Ecommerce.sale.controller.filter){
 			tracker: event.target.elements.namedItem("tracker").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let sales = await Ecommerce.sale.filter(sale);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let sales = await API.response(Ecommerce.sale.filter, sale);
 		if(!sales) { return false };
 
 		document.getElementById("ecommerce-sale-show-box").style.display = "none";
@@ -91,9 +87,7 @@ if(Ecommerce.sale.controller.filter){
 };
 
 Ecommerce.sale.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let sale = await Ecommerce.sale.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let sale = await API.response(Ecommerce.sale.findById, id);
 	if(!sale) { return false };
 
 	Ecommerce.sale.view.edit(sale);

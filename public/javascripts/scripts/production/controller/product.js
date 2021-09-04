@@ -5,7 +5,7 @@ Product.controller.filter = document.getElementById("product-filter-production-k
 if(Product.controller.filter){
 	Product.controller.filter.addEventListener("submit", async (event) => {
 		event.preventDefault();
-		document.getElementById('ajax-loader').style.visibility = 'visible';
+		document.getElementById('loader').style.visibility = 'visible';
 
 		let product = {
 			name: event.target.elements.namedItem("name").value,
@@ -20,7 +20,7 @@ if(Product.controller.filter){
 			Product.view.fillSelect(products, document.getElementById("production-product-kart-form").elements.namedItem("product_id"));
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		document.getElementById('loader').style.visibility = 'hidden';
 	});
 };
 

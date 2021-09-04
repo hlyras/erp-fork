@@ -1,9 +1,7 @@
 Product.controller = {};
 
 Product.controller.show = async (product_id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let product = await Product.findById(product_id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let product = await API.response(Product.findById, product_id);
 	if(!product){ return false };
 
 	document.getElementById("product-feedstock-box").style.display = "none";
@@ -19,7 +17,6 @@ Product.controller.filter = document.getElementById("product-filter-form");
 if(Product.controller.filter){
 	document.getElementById("product-filter-form").addEventListener("submit", async (event) => {
 		event.preventDefault();
-		document.getElementById('ajax-loader').style.visibility = 'visible';
 
 		let product = {
 			name: event.target.elements.namedItem("name").value,
@@ -37,7 +34,5 @@ if(Product.controller.filter){
 		} else if(event.target.elements.namedItem("location").value == "production-product-kart"){
 			Product.view.fillSelect(products, document.getElementById("production-product-kart-form").elements.namedItem("product_id"));
 		};
-
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
 	});
 };

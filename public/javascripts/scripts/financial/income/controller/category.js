@@ -10,11 +10,8 @@ if(Income.category.controller.create){
 			name: event.target.elements.namedItem("name").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Income.category.save(category);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Income.category.save, category);
 		if(!response){ return false };
-
 		
 		event.target.elements.namedItem("id").value = "";
 		event.target.elements.namedItem("name").value = "";
@@ -34,9 +31,7 @@ if(Income.category.controller.filter){
 			name: event.target.elements.namedItem("name").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let categories = await Income.category.filter(category);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let categories = await API.response(Income.category.filter, category);
 		if(!categories){ return false };
 
 		document.getElementById("income-category-show-box").style.display = "none";
@@ -47,9 +42,7 @@ if(Income.category.controller.filter){
 }
 
 Income.category.controller.show = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let category = await Income.category.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let category = await API.response(Income.category.findById, id);
 	if(!category){ return false };
 
 	document.getElementById("income-category-show-box").style.display = "";
@@ -65,9 +58,7 @@ Income.category.controller.show = async (id) => {
 };
 
 Income.category.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let category = await Income.category.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let category = await API.response(Income.category.findById, id);
 	if(!category){ return false };
 
 	document.getElementById("income-category-show-box").style.display = "none";
@@ -78,9 +69,7 @@ Income.category.controller.edit = async (id) => {
 Income.category.controller.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir a categoria?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Income.category.delete(id)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		if(!await API.response(Income.category.delete, id)){ return false };
 		
 		document.getElementById("income-category-show-box").style.display = "none";
 		Income.category.controller.filter.submit.click();

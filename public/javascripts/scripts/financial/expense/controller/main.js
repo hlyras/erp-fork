@@ -104,9 +104,7 @@ if(Expense.controller.filter){
 			user_id: event.target.elements.namedItem("user_id").value
 		};
 
-		document.getElementById("ajax-loader").style.visibility = "visible";
-		expenses = await Expense.filter(expense);
-		document.getElementById("ajax-loader").style.visibility = "hidden";
+		expenses = await API.response(Expense.filter, expense);
 		if(!expenses) { return false };
 
 		document.getElementById("expense-show-box").style.display = "none";
@@ -122,9 +120,7 @@ if(Expense.controller.filter){
 }
 
 Expense.controller.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let expense = await Expense.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let expense = await API.response(Expense.findById, id);
 	if(!expense){ return false };
 
 	if(expense.status == "Pago"){ return alert("Não é possível realizar alterações em despesas que tenham sido pagas."); }
@@ -151,9 +147,7 @@ Expense.controller.edit = async (id) => {
 };
 
 Expense.controller.show = async (id) => {
-	document.getElementById("ajax-loader").style.visibility = "visible";
-	let expense = await Expense.findById(id);
-	document.getElementById("ajax-loader").style.visibility = "hidden";
+	let expense = await API.response(Expense.findById, id);
 	if(!expense) { return false };
 
 	document.getElementById("expense-filter-box").style.display = "none";
@@ -165,9 +159,9 @@ Expense.controller.confirm = async (outcome_id) => {
 	let r = confirm('Deseja realmente aprovar a despesa?');
 	if(r){
 		let expense = { id: outcome_id };
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Expense.confirm(expense)){ return false };
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		
+		let response = await API.response(Expense.confirm, expense);
+		if(!response){ return false };
 		
 		Expense.controller.filter.submit.click();
 	}

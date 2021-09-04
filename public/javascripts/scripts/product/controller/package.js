@@ -48,9 +48,7 @@ if(Product.controller.package.filter){
 			color: event.target.elements.namedItem("color").value
 		};
 
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let packages = await Product.package.filter(package);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let packages = await API.response(Product.package.filter, package);
 		if(!packages) { return false };
 
 		packages = lib.sort(packages, "code");
@@ -76,7 +74,7 @@ Product.controller.package.product.dropdown = {
 		let properties = ["code", "name", "color", "size"];
 
 		if(product.name.length > 2){
-			let products = await Product.filter(product);
+			let products = await API.response(Product.filter, product);
 			if(!products){ return false; };
 
 			lib.dropdown.render(products, input.id, dropdown_id, "input", "id", properties);
@@ -87,9 +85,7 @@ Product.controller.package.product.dropdown = {
 };
 
 Product.controller.package.show = async (package_id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let package = await Product.package.findById(package_id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let package = await API.response(Product.package.findById, package_id);
 	if(!package){ return false };
 
 	document.getElementById("product-package-id").value = package_id;
@@ -114,9 +110,7 @@ Product.controller.package.product.update = async () => {
 		products: JSON.stringify(Product.package.product.kart.items)
 	};
 
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	package = await Product.package.product.update(package);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	package = await API.response(Product.package.product.update, package);
 	if(!package){ return false };
 
 	Product.package.product.kart.update("code");
@@ -124,9 +118,7 @@ Product.controller.package.product.update = async () => {
 };
 
 Product.controller.package.edit = async (id) => {
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let package = await Product.package.findById(id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let package = await API.response(Product.package.findById, id);
 	if(!package){ return false };
 
 	document.getElementById('product-package-create-form').elements.namedItem("id").value = package.id;
@@ -142,9 +134,7 @@ Product.controller.package.edit = async (id) => {
 Product.controller.package.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir o pacote?');
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		let response = await Product.package.delete(id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
+		let response = await API.response(Product.package.delete, id);
 		if(!response){ return false };
 
 		document.getElementById("product-package-show-box").style.display = "none";
@@ -211,9 +201,7 @@ Product.controller.package.image.add = async (package_id) => {
 		let img = '<img src="'+ image_url +'"/>';
 
 		$(img).on("load", async () =>  {
-			document.getElementById('ajax-loader').style.visibility = 'visible';
-			if(!await Product.package.image.add(package_id, image_url)){ return false };
-			document.getElementById('ajax-loader').style.visibility = 'hidden';
+			if(!await API.response(Product.package.image.add, package_id, image_url)){ return false };
 
 			await Product.controller.package.show(package_id);
 		}).bind('error', () => {
@@ -225,10 +213,8 @@ Product.controller.package.image.add = async (package_id) => {
 Product.controller.package.image.remove = async (image_id, package_id) => {
 	let r = confirm("Deseja realmente excluir a image?");
 	if(r){
-		document.getElementById('ajax-loader').style.visibility = 'visible';
-		if(!await Product.package.image.remove(image_id)){ return false };
+		if(!await API.response(Product.package.image.remove, image_id)){ return false };
 		Product.controller.package.show(package_id);
-		document.getElementById('ajax-loader').style.visibility = 'hidden';
 	};
 };
 
@@ -245,8 +231,6 @@ Product.controller.package.price.updatePrice = async (price_id, input_id) => {
 		return alert('Preço inválido');
 	};
 
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	price = await Product.package.price.update(price);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	price = await API.response(Product.package.price.update, price);
 	if(!price){ return false };
 };
