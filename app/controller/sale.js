@@ -505,6 +505,15 @@ const saleController = {
 				};
 			}
 		}
+	},
+	flow: {
+		index: async (req, res) => {
+			if(!await userController.verifyAccess(req, res, ['adm'])){
+				return res.redirect('/');
+			};
+
+			res.render("sale/flow/index", { user: req.user });
+		}
 	}
 };
 

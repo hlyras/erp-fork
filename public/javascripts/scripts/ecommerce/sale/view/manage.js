@@ -84,7 +84,6 @@ Ecommerce.sale.view.manage.filter = (sales, status, service_orders) => {
 				html += "</div>";
 			};
 		} else if(status == "Enviado"){
-			console.log('enviado')
 			document.getElementById('ecommerce-sale-os-create-form').style.display = "none";
 
 			for(let i in sales){
@@ -141,7 +140,7 @@ Ecommerce.sale.view.manage.show = (sale) => {
 					html += "<div class='box a1'>"+sale.customer_user+"</div>"; 
 				html += "</div>";
 			};
-			if(sale.customer_phone){ 
+			if(sale.customer_phone){
 				html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
 					html += "<div class='box a1 em06 bold'>Telefone</div>";
 					html += "<div class='box a1'>"+sale.customer_phone+"</div>"; 

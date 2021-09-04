@@ -25,4 +25,6 @@ router.post("/report/product/filter", lib.route.toHttps, saleController.report.p
 router.get('/report/packment', lib.route.toHttps, saleController.report.packment.index);
 router.post("/report/packment/filter", lib.route.toHttps, saleController.report.packment.filter);
 
+router.get('/flow', lib.route.toHttps, saleController.flow.index);
+
 module.exports = router;
