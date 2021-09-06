@@ -72,15 +72,15 @@ Ecommerce.sale.product.kart.list = function(kart, props){
 	if(Ecommerce.sale.product.kart.items.length){
 		let html = "";
 		for(i in Ecommerce.sale.product.kart.items){
-			html += "<div class='box one container border padding-5 margin-top-5'>";
-			html += "<div class='mobile-box nine center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].code+"</div>";
-			html += "<div class='mobile-box two-thirds center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].name+"</div>";
-			html += "<div class='mobile-box nine center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].color+"</div>";
-			html += "<div class='mobile-box nine center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].size+"</div>";
-			html += "<div class='mobile-box four center center margin-top-5'><img class='icon size-15' src='/images/icon/decrease.png' onclick='"+Ecommerce.sale.product.kart.variable+".decrease("+Ecommerce.sale.product.kart.items[i].id+")'></div>";
-			html += "<input class='mobile-box four center border-explicit center margin-top-5 bold' type='text' id='"+Ecommerce.sale.product.kart.variable+"-"+Ecommerce.sale.product.kart.items[i].id+"' class='border-explicit center bold' onchange='"+Ecommerce.sale.product.kart.variable+".updateAmount("+Ecommerce.sale.product.kart.items[i].id+", this.value);lib.focus(this)' value='"+Ecommerce.sale.product.kart.items[i].amount+"'>";
-			html += "<div class='mobile-box four center center margin-top-5'><img class='icon size-15' src='/images/icon/increase.png' onclick='"+Ecommerce.sale.product.kart.variable+".increase("+Ecommerce.sale.product.kart.items[i].id+")'></div>";
-			html += "<div class='mobile-box four center center margin-top-5'><img class='icon size-20' src='/images/icon/trash.png' onclick='"+Ecommerce.sale.product.kart.variable+".remove("+Ecommerce.sale.product.kart.items[i].id+")'></div>";
+			html += "<div class='box b1 container border padding-5 margin-top-5'>";
+			html += "<div class='mobile-box b9 center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].code+"</div>";
+			html += "<div class='mobile-box b2-3 center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].name+"</div>";
+			html += "<div class='mobile-box b9 center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].color+"</div>";
+			html += "<div class='mobile-box b9 center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].size+"</div>";
+			html += "<div class='mobile-box b4 center center margin-top-5'><img class='icon size-15' src='/images/icon/decrease.png' onclick='"+Ecommerce.sale.product.kart.variable+".decrease("+Ecommerce.sale.product.kart.items[i].id+")'></div>";
+			html += "<input class='mobile-box b4 center border-explicit center margin-top-5 bold' type='text' id='"+Ecommerce.sale.product.kart.variable+"-"+Ecommerce.sale.product.kart.items[i].id+"' onchange='"+Ecommerce.sale.product.kart.variable+".updateAmount("+Ecommerce.sale.product.kart.items[i].id+", this.value);lib.focus(this)' value='"+Ecommerce.sale.product.kart.items[i].amount+"'>";
+			html += "<div class='mobile-box b4 center center margin-top-5'><img class='icon size-15' src='/images/icon/increase.png' onclick='"+Ecommerce.sale.product.kart.variable+".increase("+Ecommerce.sale.product.kart.items[i].id+")'></div>";
+			html += "<div class='mobile-box b4 center center margin-top-5'><img class='icon size-20' src='/images/icon/trash.png' onclick='"+Ecommerce.sale.product.kart.variable+".remove("+Ecommerce.sale.product.kart.items[i].id+")'></div>";
 			html += "</div>";
 		};
 		document.getElementById(Ecommerce.sale.product.kart.name+"-div").innerHTML = html;
