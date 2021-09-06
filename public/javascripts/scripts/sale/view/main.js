@@ -303,6 +303,14 @@ Sale.view.show = (sale, status) => {
 
 	html += "<div class='box a3 container'>";
 		html += "<div class='box a1 container box-border padding-10'>";
+			html += "<div class='underline center avant-garde italic bold'>Medidas e peso</div>";
+			html += "<div class='box a1 container'>";
+				html += "<div class='mobile-box a2 padding-5'>Peso total: </div>";
+				html += "<div class='mobile-box a2 padding-5 bold'>"+(sale.weight/1000).toFixed(2)+"kg</div>";
+			html += "</div>";
+		html += "</div>";
+
+		html += "<div class='box a1 container box-border padding-10'>";
 			html += "<div class='underline center avant-garde italic bold'>Financeiro</div>";
 			html += "<div class='box a1 container'>";
 				html += "<div class='mobile-box a2 padding-5'>Produtos: </div>";
@@ -385,10 +393,10 @@ Sale.view.edit = async (sale) => {
 	};
 	document.getElementById("sale-customer").readOnly = true;
 
-	document.getElementById('ajax-loader').style.visibility = 'visible';
-	let addresses = await Customer.address.findByCustomerId(sale.customer.id);
-	document.getElementById('ajax-loader').style.visibility = 'hidden';
+	let addresses = await API.response(Customer.address.findByCustomerId, sale.customer.id);
 	if(!addresses){ return false };
+
+
 
 	for(let i in addresses){ if(addresses[i].id == sale.customer_address_id){ addresses[i].checked = true; }; };
 	Sale.view.customer.address.list(addresses, sale.customer_address_id);

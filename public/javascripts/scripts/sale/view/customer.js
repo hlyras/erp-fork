@@ -37,9 +37,7 @@ Sale.view.customer.dropdown = {
 
 			document.getElementById(dropdown_id).innerHTML = "";
 
-			document.getElementById('ajax-loader').style.visibility = 'visible';
-			let addresses = await Customer.address.findByCustomerId(dropdown_input.dataset.id);
-			document.getElementById('ajax-loader').style.visibility = 'hidden';
+			let addresses = await API.response(Customer.address.findByCustomerId, dropdown_input.dataset.id);
 			if(!addresses){ return false };
 
 			Sale.view.customer.address.list(addresses);
