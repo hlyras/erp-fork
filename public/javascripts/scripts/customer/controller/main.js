@@ -69,7 +69,7 @@ if(Customer.controller.filter){
 		if(!customers){ return false };
 
 		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("customer-filter-box", Customer.view.filter, customers, pagination); });
+		(function(){ lib.carousel.execute("customer-filter-box", Customer.view.filter, customers, pagination); }());
 	});
 };
 

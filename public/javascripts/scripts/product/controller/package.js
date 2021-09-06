@@ -54,7 +54,7 @@ if(Product.controller.package.filter){
 		packages = lib.sort(packages, "code");
 
 		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("product-package-filter-box", Product.view.package.filter, packages, pagination); });
+		(function(){ lib.carousel.execute("product-package-filter-box", Product.view.package.filter, packages, pagination); }());
 	});
 };
 

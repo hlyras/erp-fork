@@ -40,7 +40,7 @@ if(Outcome.origin.controller.filter){
 		document.getElementById("origin-payment-show-box").style.display = "none";
 
 		const pagination = { pageSize: 9, page: 0};
-		$(() => { lib.carousel.execute("outcome-origin-filter-box", Outcome.origin.view.filter, origins, pagination); });
+		(function(){ lib.carousel.execute("outcome-origin-filter-box", Outcome.origin.view.filter, origins, pagination); }());
 	});
 }
 
@@ -133,7 +133,7 @@ if(Outcome.origin.payment.controller.filter){
 		if(!payments){ return false };
 
 		const pagination = { pageSize: 9, page: 0};
-		$(() => { lib.carousel.execute("origin-payment-filter-box", Outcome.origin.payment.view.filter, payments, pagination); });
+		(function(){ lib.carousel.execute("origin-payment-filter-box", Outcome.origin.payment.view.filter, payments, pagination); }());
 	});
 }
 

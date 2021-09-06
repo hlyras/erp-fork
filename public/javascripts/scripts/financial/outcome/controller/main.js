@@ -50,7 +50,7 @@ if(Outcome.controller.filter){
 		document.getElementById("outcome-show-box").style.display = "none";
 
 		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("outcome-filter-box", Outcome.view.filter, outcomes, pagination); });
+		(function(){ lib.carousel.execute("outcome-filter-box", Outcome.view.filter, outcomes, pagination); }());
 	});
 }
 

@@ -58,6 +58,6 @@ if(Ecommerce.sale.product.report.controller.filter){
     document.getElementById("ecommerce-sale-product-report-filter-box").style.display = "";
 
     const setup = { pageSize: 10, page: 0, status: sale.status };
-    $(() => { lib.carousel.execute("ecommerce-sale-product-report-filter-box", Ecommerce.sale.product.report.view.filter, products, setup); });
+    (function(){ lib.carousel.execute("ecommerce-sale-product-report-filter-box", Ecommerce.sale.product.report.view.filter, products, setup); }());
   });
 };

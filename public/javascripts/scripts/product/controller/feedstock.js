@@ -78,7 +78,7 @@ Product.controller.feedstock.list = async (product_id) => {
 	};
 
 	const pagination = { pageSize: 3, page: 0 };
-	$(() => { lib.carousel.execute("product-feedstock-box", Product.view.feedstock.list, feedstocks, pagination); });
+	(function(){ lib.carousel.execute("product-feedstock-box", Product.view.feedstock.list, feedstocks, pagination); }());
 
 	return;
 };

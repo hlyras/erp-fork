@@ -57,6 +57,6 @@ if(Sale.product.report.controller.filter){
     document.getElementById("sale-product-report-filter-box").style.display = "";
 
     const setup = { pageSize: 10, page: 0, status: sale.status };
-    $(() => { lib.carousel.execute("sale-product-report-filter-box", Sale.product.report.view.filter, products, setup); });
+    (function(){ lib.carousel.execute("sale-product-report-filter-box", Sale.product.report.view.filter, products, setup); }());
   });
 };

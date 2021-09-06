@@ -44,6 +44,6 @@ if(Sale.packment.report.controller.filter){
     document.getElementById("sale-packment-report-filter-box").style.display = "";
     
     const setup = { pageSize: 10, page: 0 };
-    $(() => { lib.carousel.execute("sale-packment-report-filter-box", Sale.packment.report.view.filter, packments, setup); });
+    (function(){ lib.carousel.execute("sale-packment-report-filter-box", Sale.packment.report.view.filter, packments, setup); }());
   });
 };

@@ -47,7 +47,7 @@ if(Income.controller.filter){
 		document.getElementById("income-show-box").style.display = "none";
 
 		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("income-filter-box", Income.view.filter, incomes, pagination); });
+		(function(){ lib.carousel.execute("income-filter-box", Income.view.filter, incomes, pagination); }());
 	});
 }
 

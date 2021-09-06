@@ -20,7 +20,7 @@ if(Sale.controller.filter){
 		if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
 
 		const setup = { pageSize: 10, page: 0, status: sale.status };
-		$(() => { lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, setup); });
+		(function(){ lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, setup); }());
 	});
 };
 

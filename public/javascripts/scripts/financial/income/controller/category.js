@@ -37,7 +37,7 @@ if(Income.category.controller.filter){
 		document.getElementById("income-category-show-box").style.display = "none";
 		
 		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("income-category-filter-box", Income.category.view.filter, categories, pagination); });
+		(function(){ lib.carousel.execute("income-category-filter-box", Income.category.view.filter, categories, pagination); }());
 	});
 }
 

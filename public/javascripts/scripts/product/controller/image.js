@@ -42,7 +42,7 @@ Product.controller.image.show = async (product_id) => {
 	Product.view.info(product, "product-manage-info-table");
 		
 	const pagination = { pageSize: 1, page: 0 };
-	$(() => { lib.carousel.execute("product-manage-image-div", Product.view.image.show, product.images, pagination); });
+	(function(){ lib.carousel.execute("product-manage-image-div", Product.view.image.show, product.images, pagination); }());
 	
 	document.getElementById('loader').style.visibility = 'hidden';
 };

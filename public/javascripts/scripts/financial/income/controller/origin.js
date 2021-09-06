@@ -36,7 +36,7 @@ if(Income.origin.controller.filter){
 		document.getElementById("income-origin-filter-div").style.display = "";
 
 		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("income-origin-filter-box", Income.origin.view.filter, origins, pagination); });
+		(function(){ lib.carousel.execute("income-origin-filter-box", Income.origin.view.filter, origins, pagination); }());
 	});
 }
 

@@ -15,6 +15,6 @@ if(Product.controller.catalog.filter){
 		let products = await API.response(Product.filter, product);
 
 		const pagination = { pageSize: 21, page: 0};
-		$(() => { lib.carousel.execute("product-catalog-filter-box", Product.view.catalog.filter, products, pagination); });
+		(function(){ lib.carousel.execute("product-catalog-filter-box", Product.view.catalog.filter, products, pagination); }());
 	});
 };

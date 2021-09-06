@@ -85,7 +85,7 @@ Expense.controller.fillOriginPayments = async (origin_id, box, render) => {
 	if(!payments){ return false; }
 
 	let pagination = { pageSize: 5, page: 0};
-	$(() => { lib.carousel.execute(box, render, payments, pagination); });	
+	(function(){ lib.carousel.execute(box, render, payments, pagination); }());	
 };
 
 Expense.controller.filter = document.getElementById("expense-filter-form");
@@ -115,7 +115,7 @@ if(Expense.controller.filter){
 		}
 
 		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("expense-filter-box", Expense.view.filter, expenses, pagination); });
+		(function(){ lib.carousel.execute("expense-filter-box", Expense.view.filter, expenses, pagination); }());
 	});
 }
 

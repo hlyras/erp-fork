@@ -10,7 +10,7 @@ Product.controller.show = async (product_id) => {
 	Product.view.info(product, "product-info-table", "product-info-title");
 	
 	const pagination = { pageSize: 1, page: 0 };
-	$(() => { lib.carousel.execute("product-image-box", Product.view.image.show, product.images, pagination); });
+	(function(){ lib.carousel.execute("product-image-box", Product.view.image.show, product.images, pagination); }());
 };
 
 Product.controller.filter = document.getElementById("product-filter-form");

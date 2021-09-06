@@ -81,5 +81,5 @@ Product.controller.manage.show = async (product_id) => {
 	Product.view.manage.info(product, "product-manage-info-title", "product-manage-info-table");
 	
 	const pagination = { pageSize: 1, page: 0 };
-	$(() => { lib.carousel.execute("product-manage-image-div", Product.view.manage.image.show, product.images, pagination); });
+	(function(){ lib.carousel.execute("product-manage-image-div", Product.view.manage.image.show, product.images, pagination); }());
 };

@@ -34,7 +34,7 @@ if(Outcome.category.controller.filter){
 		if(!categories){ return false };
 		
 		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("outcome-category-filter-box", Outcome.category.view.filter, categories, pagination); });
+		(function(){ lib.carousel.execute("outcome-category-filter-box", Outcome.category.view.filter, categories, pagination); }());
 	});
 }
 

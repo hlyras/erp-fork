@@ -174,7 +174,7 @@ if(Sale.controller.filter){
 		};
 
 		const setup = { pageSize: 10, page: 0, status: sale.status };
-		$(() => { lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, setup); });
+		(function(){ lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, setup); }());
 	});
 };
 

@@ -82,7 +82,7 @@ if(Product.price.category.controller.filter){
 		categories = lib.sort(categories, "id");
 
 		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("product-price-category-filter-box", Product.price.category.view.filter, categories, pagination); });
+		(function(){ lib.carousel.execute("product-price-category-filter-box", Product.price.category.view.filter, categories, pagination); }());
 	});
 };
 
@@ -96,7 +96,7 @@ Product.price.category.controller.show = async (category_id) => {
 
 	document.getElementById("product-price-category-show-box").style.display = "";
 	// const pagination = { pageSize: 10, page: 0};
-	// $(() => { lib.carousel.execute("product-price-category-show-box", Product.price.category.view.showProducts, category.products, pagination); });
+	// (function(){ lib.carousel.execute("product-price-category-show-box", Product.price.category.view.showProducts, category.products, pagination); }());
 };
 
 Product.price.category.controller.edit = async (id) => {
@@ -136,7 +136,7 @@ if(Product.price.category.controller.home.filter){
 		categories = lib.sort(categories, "id");
 
 		const pagination = { pageSize: 10, page: 0};
-		$(() => { lib.carousel.execute("product-price-category-home-filter-box", Product.price.category.view.home.filter, categories, pagination); });
+		(function(){ lib.carousel.execute("product-price-category-home-filter-box", Product.price.category.view.home.filter, categories, pagination); }());
 	});
 };
 
@@ -150,5 +150,5 @@ Product.price.category.controller.home.show = async (category_id) => {
 
 	document.getElementById("product-price-category-home-show-box").style.display = "";
 	// const pagination = { pageSize: 10, page: 0};
-	// $(() => { lib.carousel.execute("product-price-category-show-box", Product.price.category.view.showProducts, category.products, pagination); });
+	// (function(){ lib.carousel.execute("product-price-category-show-box", Product.price.category.view.showProducts, category.products, pagination); }());
 };
