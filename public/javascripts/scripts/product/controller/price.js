@@ -76,7 +76,7 @@ if(Product.price.category.controller.filter){
 			name: event.target.elements.namedItem("name").value,
 		};
 
-		let categories = API.response(await Product.price.category.filter, category);
+		let categories = await API.response(await Product.price.category.filter, category);
 		if(!categories) { return false };
 
 		categories = lib.sort(categories, "id");
@@ -87,7 +87,7 @@ if(Product.price.category.controller.filter){
 };
 
 Product.price.category.controller.show = async (category_id) => {
-	let category = API.response(await Product.price.category.findById, category_id);
+	let category = await API.response(await Product.price.category.findById, category_id);
 	if(!category){ return false };
 
 	document.getElementById("product-price-category-show-id").value = category_id;
@@ -100,7 +100,7 @@ Product.price.category.controller.show = async (category_id) => {
 };
 
 Product.price.category.controller.edit = async (id) => {
-	let category = API.response(await Product.price.category.findById, id);
+	let category = await API.response(await Product.price.category.findById, id);
 	if(!category){ return false };
 
 	document.getElementById('product-price-category-create-form').elements.namedItem("id").value = category.id;
@@ -110,7 +110,7 @@ Product.price.category.controller.edit = async (id) => {
 Product.price.category.controller.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir a tabela?');
 	if(r){
-		let response = API.response(await Product.price.category.delete, id);
+		let response = await API.response(await Product.price.category.delete, id);
 		if(!response){ return false };
 
 		// document.getElementById("product-package-show-box").style.display = "none";

@@ -79,11 +79,11 @@ Ecommerce.sale.product.kart.list = function(kart, props){
 		for(i in Ecommerce.sale.product.kart.items){
 			html += "<div class='box b1 container border padding-5 margin-top-5'>";
 			html += "<div class='mobile-box b9 center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].code+"</div>";
-			html += "<div class='mobile-box b2-7 center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].name+"</div>";
+			html += "<div class='mobile-box b2-3 center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].name+"</div>";
 			html += "<div class='mobile-box b9 center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].color+"</div>";
 			html += "<div class='mobile-box b9 center margin-top-5'>"+Ecommerce.sale.product.kart.items[i].size+"</div>";
 			html += "<div class='mobile-box b4 center center margin-top-5'><img class='icon size-15' src='/images/icon/decrease.png' onclick='"+Ecommerce.sale.product.kart.variable+".decrease("+Ecommerce.sale.product.kart.items[i].id+")'></div>";
-			html += "<input class='mobile-box b4 center border-explicit center margin-top-5 bold' type='text' id='"+Ecommerce.sale.product.kart.variable+"-"+Ecommerce.sale.product.kart.items[i].id+"' class='border-explicit center bold' onchange='"+Ecommerce.sale.product.kart.variable+".updateAmount("+Ecommerce.sale.product.kart.items[i].id+", this.value);lib.focus(this)' value='"+Ecommerce.sale.product.kart.items[i].amount+"'>";
+			html += "<input type='text' id='"+Ecommerce.sale.product.kart.variable+"-"+Ecommerce.sale.product.kart.items[i].id+"'class='width-50 center border-bottom padding-3 margin-top-5 bold' onchange='"+Ecommerce.sale.product.kart.variable+".updateAmount("+Ecommerce.sale.product.kart.items[i].id+", this.value);lib.focus(this)' value='"+Ecommerce.sale.product.kart.items[i].amount+"'>";
 			html += "<div class='mobile-box b4 center center margin-top-5'><img class='icon size-15' src='/images/icon/increase.png' onclick='"+Ecommerce.sale.product.kart.variable+".increase("+Ecommerce.sale.product.kart.items[i].id+")'></div>";
 			html += "<div class='mobile-box b4 center center margin-top-5'><img class='icon size-20' src='/images/icon/trash.png' onclick='"+Ecommerce.sale.product.kart.variable+".remove("+Ecommerce.sale.product.kart.items[i].id+")'></div>";
 			html += "</div>";
@@ -260,7 +260,7 @@ Ecommerce.sale.package.kart.list = (kart, props) => {
 				html += "<div id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-box' class='box b1 container border margin-top-10' style='display:none'>";
 					html += "<form id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-form' class='box b1 container'>";
 					html += "<input type='hidden' name='id' value=''>";
-					html += "<div class='mobile-box b2-7 container dropdown ground margin-top-5'>";
+					html += "<div class='mobile-box b2-3 container dropdown ground margin-top-5'>";
 					html += "<ul class='box b1 container'>";
 					html += "<li>";
 					html += "<input type='hidden' name='package_id' value='"+Ecommerce.sale.package.kart.items[i].package_id+"'>";
@@ -272,7 +272,7 @@ Ecommerce.sale.package.kart.list = (kart, props) => {
 					html += "<button type='submit' name='submit' class='mobile-box b6 submit-generic margin-top-5 pointer'><img class='img-tbl-btn size-15' src='/images/icon/increase.png'></button>";
 					html += "</form>";
 
-					html += "<table id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-table' class='tbl-info box b1 ground padding-10 margin-top-10'></table>";
+					html += "<table id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-table' class='b1 margin-top-5'></table>";
 				html += "</div>";
 			html += "</div>";
 		};
