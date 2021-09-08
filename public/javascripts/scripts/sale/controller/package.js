@@ -110,11 +110,11 @@ Sale.package.kart.list = (kart, props) => {
 	if(Sale.package.kart.items.length){
 		let html = "";
 		for(i in Sale.package.kart.items){
-			html += "<div class='box one container border center padding-5 margin-top-5'>";
-				html += "<div id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-hider' class='mobile-box six center pointer box-hover border-explicit' onclick='lib.displayDiv(`sale-package-product-kart"+Sale.package.kart.items[i].id+"-box`, this);'>P"+Sale.package.kart.items[i].id+"</div>";
-				html += "<div class='mobile-box two center'>"+Sale.package.kart.items[i].name+"</div>";
-				html += "<div class='mobile-box six center'>"+Sale.package.kart.items[i].color+"</div>";
-				html += "<div class='mobile-box six center'>$"+Sale.package.kart.items[i].price.toFixed(2)+"</div>";
+			html += "<div class='box b1 container border center padding-5 margin-top-5'>";
+				html += "<div id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-hider' class='mobile-box b6 center pointer box-hover border-explicit' onclick='lib.displayDiv(`sale-package-product-kart"+Sale.package.kart.items[i].id+"-box`, this);'>P"+Sale.package.kart.items[i].id+"</div>";
+				html += "<div class='mobile-box b2 center'>"+Sale.package.kart.items[i].name+"</div>";
+				html += "<div class='mobile-box b6 center'>"+Sale.package.kart.items[i].color+"</div>";
+				html += "<div class='mobile-box b6 center'>$"+Sale.package.kart.items[i].price.toFixed(2)+"</div>";
 				html += "<div id='sale-package-product-kart"+Sale.package.kart.items[i].package_id+"-setup' class='mobile-box a3 bold center'>"+Sale.package.kart.items[i].setup+"</div>";
 				html += "<div class='mobile-box a9 center margin-top-10'><img class='icon size-15' src='/images/icon/decrease.png' onclick='"+kart+".decrease("+Sale.package.kart.items[i].id+")'></div>";
 				html += "<input class='mobile-box a6 border-explicit center margin-top-10 bold' type='text' id='sale-package-kart"+Sale.package.kart.items[i].id+"' onchange='"+kart+".updateAmount("+Sale.package.kart.items[i].id+", this.value);lib.focus(this)' value='"+Sale.package.kart.items[i].amount+"'>";
@@ -122,22 +122,22 @@ Sale.package.kart.list = (kart, props) => {
 				html += "<div class='mobile-box a6 center margin-top-10 bold'>$"+Sale.package.kart.items[i].total_price.toFixed(2)+"</div>";
 				html += "<div class='mobile-box a9 center margin-top-10'><img class='icon size-20' src='/images/icon/trash.png' onclick='"+kart+".remove("+Sale.package.kart.items[i].id+")'></div>";
 
-				html += "<div id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-box' class='box one container border margin-top-10' style='display:none'>";
-					html += "<form id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-form' class='box one container'>";
+				html += "<div id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-box' class='box b1 container border margin-top-10' style='display:none'>";
+					html += "<form id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-form' class='box b1 container'>";
 					html += "<input type='hidden' name='id' value=''>";
-					html += "<div class='mobile-box two-thirds container dropdown ground margin-top-5'>";
-					html += "<ul class='box one container'>";
+					html += "<div class='mobile-box b2-3 container dropdown ground margin-top-5'>";
+					html += "<ul class='box b1 container'>";
 					html += "<li>";
 					html += "<input type='hidden' name='package_id' value='"+Sale.package.kart.items[i].id+"'>";
 					html += "<input type='hidden' name='product_id'>";
-					html += "<input type='text' id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-dropdown-input' name='product' data-id='' class='box one input-generic center' oninput='Sale.product.controller.dropdown.filter(this, `sale-product-package-kart"+Sale.package.kart.items[i].id+"-dropdown`)' placeholder='Descrição do produto' onclick='if(this.readOnly){this.value=``; this.readOnly = false;}' autocomplete='off'>";
-					html += "<ul id='sale-product-package-kart"+Sale.package.kart.items[i].id+"-dropdown' class='box one'></ul>";
+					html += "<input type='text' id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-dropdown-input' name='product' data-id='' class='box b1 input-generic center' oninput='Sale.product.controller.dropdown.filter(this, `sale-product-package-kart"+Sale.package.kart.items[i].id+"-dropdown`)' placeholder='Descrição do produto' onclick='if(this.readOnly){this.value=``; this.readOnly = false;}' autocomplete='off'>";
+					html += "<ul id='sale-product-package-kart"+Sale.package.kart.items[i].id+"-dropdown' class='box b1'></ul>";
 					html += "</li></ul></div>";
-					html += "<input type='number' name='amount' class='mobile-box six input-generic center margin-top-5' placeholder='Qtd'>";
-					html += "<button type='submit' name='submit' class='mobile-box six submit-generic margin-top-5 pointer'><img class='img-tbl-btn' src='/images/icon/increase.png'></button>";
+					html += "<input type='number' name='amount' class='mobile-box b6 input-generic center margin-top-5' placeholder='Qtd'>";
+					html += "<button type='submit' name='submit' class='mobile-box b6 submit-generic margin-top-5 pointer'><img class='img-tbl-btn' src='/images/icon/increase.png'></button>";
 					html += "</form>";
 
-					html += "<table id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-table' class='tbl-info box one center ground padding-10 margin-top-10'></table>";
+					html += "<table id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-table' class='tbl-info box b1 center ground padding-10 margin-top-10'></table>";
 				html += "</div>";
 			html += "</div>";
 		};

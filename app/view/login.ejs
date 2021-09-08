@@ -6,26 +6,18 @@
         <header>
             <img class="pointer width-150" onclick="window.location.href='/'" src="/images/favicon/favicon-black.png">
         </header>
-
-        <style type="text/css">
-            .btn-css {
-                background-color: #e6e6e6;
-            }
-        </style>
-        
-        <div class="container ground">
+        <div class="container ground h-center">
             <% if (message.length > 0) { %>
-                <div class="box one alert-msg margin-top-10">
-                    <div class="box one bold"><%= message %></div>
+                <div class="box b1 container alert-msg margin-top-10">
+                    <div class="box b1 bold"><%= message %></div>
                 </div>
             <% } %>
-            <div class="box three"></div>
-            <form action="/user/login" method="post" class="box three container ground padding-10">
-                <h5 class="box one center margin-top-10">E-mail</h5>
-                <input type="email" class="box one input-generic center margin-top-5" name="email" autocomplete="off">
-                <h5 class="box one center margin-top-10">Senha</h5>
-                <input type="password" class="box one input-generic center margin-top-5" name="password" autocomplete="off">
-                <button type="submit" class="box one submit-generic margin-top-5 bold">Login</button>
+            <form action="/user/login" method="post" class="box b3 container ground padding-10">
+                <h5 class="box b1 center margin-top-10">E-mail</h5>
+                <input type="email" class="box b1 input-generic center margin-top-5" name="email" autocomplete="off">
+                <h5 class="box b1 center margin-top-10">Senha</h5>
+                <input type="password" class="box b1 input-generic center margin-top-5" name="password" autocomplete="off">
+                <button type="submit" class="box b1 submit-generic margin-top-5 bold">Login</button>
             </form>
         </div>
     </body>

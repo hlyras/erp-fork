@@ -214,20 +214,20 @@ Ecommerce.sale.view.manage.show = (sale) => {
 		html += "</div>";
 
 		html += "<div class='box b2 container ground border padding-5 margin-top-5'>";
-		html += "<div class='box one underline center bold'>Pacotes</div>";
+		html += "<div class='box b1 underline center bold'>Pacotes</div>";
 		for(let i in sale.packages){
 			html += "<div class='box b1 container ground border-explicit padding-10 margin-top-5'>";
-				html += "<div class='box one container padding-10'>";
-					html += "<div class='mobile-box eight center pointer box-hover border-explicit' onclick='lib.displayDiv(`ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div`, this);'>P"+sale.packages[i].package_id+"</div>";
+				html += "<div class='box b1 container padding-10'>";
+					html += "<div class='mobile-box b8 center pointer box-hover border-explicit' onclick='lib.displayDiv(`ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div`, this);'>P"+sale.packages[i].package_id+"</div>";
 					html += "<div class='mobile-box b2 center'>"+sale.packages[i].info+"</div>";
 					html += "<h5 class='mobile-box b4 center border-explicit'>"+sale.packages[i].setup+"</h5>";
-					html += "<div class='mobile-box eight center bold'>"+sale.packages[i].amount+"un</div>";
+					html += "<div class='mobile-box b8 center bold'>"+sale.packages[i].amount+"un</div>";
 				html += "</div>";
-				html += "<div id='ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div' class='box one container' style='display:none'>";
+				html += "<div id='ecommerce-sale-show-package-product-"+sale.packages[i].package_id+"-div' class='box b1 container' style='display:none'>";
 				for(let j in sale.packages[i].products){
-					html += "<div class='box one container border box-hover padding-5 margin-top-5'>";
-						html += "<div class='mobile-box five center'>"+sale.packages[i].products[j].amount+"un</div>";
-						html += "<div class='mobile-box four-fifths'>"+sale.packages[i].products[j].product_info+"</div>";
+					html += "<div class='box b1 container border box-hover padding-5 margin-top-5'>";
+						html += "<div class='mobile-box b5 center'>"+sale.packages[i].products[j].amount+"un</div>";
+						html += "<div class='mobile-box b4-5'>"+sale.packages[i].products[j].product_info+"</div>";
 					html += "</div>";
 				};
 				html += "</div>";

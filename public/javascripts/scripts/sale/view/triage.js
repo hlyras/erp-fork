@@ -178,8 +178,8 @@ Sale.view.show = (sale, status) => {
 		html += "</div>";
 	html += "</div>";
 
-    if(status == "Ag. embalo"){ html += "<input type='button' id='sale-create-submit' class='box b1 height-35 input-confirm bold margin-top-15 margin-bottom-15' value='CONFIRMAR EMBALO' onclick='Sale.controller.confirmPackment("+sale.id+")'>"; };
-    if(status == "Ag. envio"){ html += "<input type='button' id='sale-create-submit' class='box b1 height-35 input-confirm bold margin-top-15 margin-bottom-15' value='CONFIRMAR ENVIO' onclick='Sale.controller.confirmShipment("+sale.id+")'>"; };
+    if(status == "Ag. embalo"){ html += "<div class='box b1 container h-center'><input type='button' class='box b3 submit-generic bold margin-top-15 margin-bottom-15' value='CONFIRMAR EMBALO' onclick='Sale.controller.confirmPackment("+sale.id+")'></div>"; };
+    if(status == "Ag. envio"){ html += "<div class='box b1 container h-center'><input type='button'class='box b3 submit-generic bold margin-top-15 margin-bottom-15' value='CONFIRMAR ENVIO' onclick='Sale.controller.confirmShipment("+sale.id+")'></div>"; };
 
 	document.getElementById("sale-show-box").innerHTML = html;
 };

@@ -37,18 +37,6 @@ Ecommerce.sale.view.triage.show = (sale) => {
 					html += "<div class='box a1'>"+sale.customer_name+"</div>"; 
 				html += "</div>";
 			};
-			// if(sale.customer_user){ 
-			// 	html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
-			// 		html += "<div class='box a1 em06 bold'>Usuário</div>";
-			// 		html += "<div class='box a1'>"+sale.customer_user+"</div>"; 
-			// 	html += "</div>";
-			// };
-			// if(sale.customer_phone){ 
-			// 	html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
-			// 		html += "<div class='box a1 em06 bold'>Telefone</div>";
-			// 		html += "<div class='box a1'>"+sale.customer_phone+"</div>"; 
-			// 	html += "</div>";
-			// };
 		html += "</div>";
 
 		html += "<div class='box container b3 border-explicit padding-10 margin-top-5'>";
