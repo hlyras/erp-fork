@@ -8,7 +8,7 @@
 		<section>
 			<div class="container">
 				<div class="box b2 container ground border center padding-10 margin-top-10">
-					<h3 class="title-soft underline">Novo Produto</h3>
+					<div class="box b1 underline center">Novo Produto</div>
 					<form id="product-create-form" class="box b1 container">
 						<input type="hidden" name="id" value="0" autocomplete="off">
 						<input type="number" name="code" class="box b2 input-generic margin-top-5 center" placeholder="Cód do produto" min="1" max="9999" autocomplete="off">
@@ -50,7 +50,7 @@
 					</form>
 				</div>
 				<div class="box b2 container ground border center padding-10 margin-top-10">
-					<h3 class="title-soft underline">Buscar Produtos</h3>
+					<div class="box b1 underline center">Buscar Produtos</div>
 					<form id="product-filter-form" class="box b1 container">
 						<input type="hidden" name="location" value="product-manage" autocomplete="off">
 						<input type="number" name="code" class="box b2 input-generic margin-top-5 center" placeholder="Cód" autocomplete="off">
@@ -69,23 +69,22 @@
 						<input type="submit" name="submit" class="box b1 submit-generic center box-hover margin-top-5 bold" value="Filtrar">
 					</form>
 
-					<div id="product-manage-filter-box" class="box b1 center ground padding-10 margin-top-10" style="display:none">
-						<table class="tbl-info width-fill" id="product-manage-filter-table"></table>
+					<div id="product-manage-filter-box" class="box b1 container ground padding-10 margin-top-10" style="display:none">
+						<div id="product-manage-filter-table" class="box b1 container"></div>
         				<% include ./../partials/carousel %>
 					</div>
 				</div>
 
-				<div id="product-manage-info-box" class="box b1 border center ground padding-10 margin-top-10" style="display:none">
-					<h3 id="product-manage-info-title" class="Army underline"></h3>
-					<table id="product-manage-info-table" class="tbl-info width-fill"></table>
+				<div id="product-manage-info-box" class="box b1 border ground padding-10 margin-top-10" style="display:none">
+					<div id="product-manage-info-table" class="box b1 container"></div>
 				</div>
 
 				<div id="product-manage-image-box" class="box b1 ground border center padding-10 margin-top-10" style="display:none">
 					<button class="box b1 box-hover border center height-30 margin-top-10 bold" onclick="lib.displayDiv('product-manage-image-div', this, '⇓ Mostrar Imagem ⇓', '⇑ Esconder Imagem ⇑');">⇑ Esconder Imagem ⇑</button>
 					<div id="product-manage-image-div" class="box b1 center ground padding-10 margin-top-10">
 						<img id="product-manage-image-img" class="image-box" src="">
-						<div class="box b1 center ground padding-10 margin-top-10">
-							<button id="product-manage-image-remove-button" class="btn-delete">Excluir Imagem</button>
+						<div class="box b1 center ground padding-10 margin-top-10 h-center">
+							<button id="product-manage-image-remove-button" class="box b3 submit-generic">Excluir Imagem</button>
 						</div>
 						<% include ./../partials/carousel %>
 					</div>
@@ -143,7 +142,7 @@
 				</div>
 
 				<div class="box b1 center ground padding-10 margin-top-10" id="product-feedstock-box" style="display:none">
-					<div id="product-feedstock-list-box"></div>
+					<div id="product-feedstock-list-box" class="box b1 border"></div>
     				<% include ./../partials/carousel %>
 				</div>
 			</div>

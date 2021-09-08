@@ -1,45 +1,53 @@
 Product.view.manage = {
 	info: (product, title, table) => {
 		let html = "";
-		html += `<h4 style='cursor:pointer' onclick="window.location.href='/product/datasheet/`+product.code+`'">`+product.name+`</h4>`;
 
-		document.getElementById(title).innerHTML = html;
+		html += "<div class='box b1 underline center bold' onclick='window.location.href=`/product/datasheet/"+product.code+"`'>"+product.name+"</div>";
 
-		html = "<tr class='bold'>";
-		html += "<td>ID</td>";
-		html += "<td>Cód</td>";
-		html += "<td>Tamanho</td>";
-		html += "<td>Cor</td>";
-		html += "</tr>";
-
-		html += "<tr>";
-		html += "<td class='Army nowrap'>"+product.id+"</td>";
-		html += "<td class='Army nowrap'>"+product.code+"</td>";
-		html += "<td class='Army'>"+product.size+"</td>";
-		html += "<td class='Army'>"+product.color+"</td>";
-		html += "</tr>";
+		html += "<div class='mobile-box b10 container margin-top-5'>";
+			html += "<div class='box b1 em06'>Id</div>";
+			html += "<div class='box b1 em12'>"+product.id+"</div>";
+		html += "</div>";
+		html += "<div class='mobile-box b10 container margin-top-5'>";
+			html += "<div class='box b1 em06'>Código</div>";
+			html += "<div class='box b1 em12'>"+product.code+"</div>";
+		html += "</div>";
+		html += "<div class='mobile-box b4-10 container margin-top-5'>";
+			html += "<div class='box b1 em06'>Nome</div>";
+			html += "<div class='box b1 em12'>"+product.name+"</div>";
+		html += "</div>";
+		html += "<div class='mobile-box b10 container margin-top-5'>";
+			html += "<div class='box b1 em06'>Tamanho</div>";
+			html += "<div class='box b1 em12'>"+product.size+"</div>";
+		html += "</div>";
+		html += "<div class='mobile-box b10 container margin-top-5'>";
+			html += "<div class='box b1 em06'>Cor</div>";
+			html += "<div class='box b1 em12'>"+product.color+"</div>";
+		html += "</div>";
+		html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/edit.png' onclick='Product.controller.manage.edit("+product.id+")'></div>";
+		html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/trash.png' onclick='Product.controller.manage.delete("+product.id+")'></div>";
 
 		document.getElementById(table).innerHTML = html;
 	},
 	filter: (products, pagination) => {
 		if(products.length){
-			let html = "<tr>";
-			html += "<td>Cód</td>";
-			html += "<td>Nome</td>";
-			html += "<td>Tamanho</td>";
-			html += "<td>Cor</td>";
-			html += "<td></td>";
-			html += "<td></td>";
-			html += "</tr>";
+			let html = "<div class='box b1 container border em07 center'>";
+			html += "<div class='mobile-box b10 padding-5'>Código</div>";
+			html += "<div class='mobile-box b2 padding-5'>Nome</div>";
+			html += "<div class='mobile-box b10 padding-5'>Tamanho</div>";
+			html += "<div class='mobile-box b10 padding-5'>Cor</div>";
+			html += "<div class='mobile-box b10 padding-5'></div>";
+			html += "<div class='mobile-box b10 padding-5'></div>";
+			html += "</div>";
 			for (let i = pagination.page * pagination.pageSize; i < products.length && i < (pagination.page + 1) * pagination.pageSize; i++){
-				html += "<tr>";
-				html += "<td><h3 class='tbl-show-link nowrap' onclick='Product.controller.manage.show("+products[i].id+")'>"+products[i].code+"</h3></td>";
-				html += "<td>"+products[i].name+"</td>";
-				html += "<td>"+products[i].size+"</td>";
-				html += "<td>"+products[i].color+"</td>";
-				html += "<td><img class='img-tbl-btn' src='/images/icon/edit.png' onclick='Product.controller.manage.edit("+products[i].id+")'></td>";
-				html += "<td><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Product.controller.manage.delete("+products[i].id+")'></td>";
-				html += "</tr>";
+				html += "<div class='box b1 container box-hover padding-5 margin-top-5 border'>";
+				html += "<div type='text' class='mobile-box b10 em11 tbl-show-link nowrap center bold' onclick='Product.controller.manage.show("+products[i].id+")'>"+products[i].code+"</div>";
+				html += "<div class='mobile-box b2 center'>"+products[i].name+"</div>";
+				html += "<div class='mobile-box b10 center'>"+products[i].size+"</div>";
+				html += "<div class='mobile-box b10 center'>"+products[i].color+"</div>";
+				html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/edit.png' onclick='Product.controller.manage.edit("+products[i].id+")'></div>";
+				html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/trash.png' onclick='Product.controller.manage.delete("+products[i].id+")'></div>";
+				html += "</div>";
 			};
 			document.getElementById("product-manage-filter-table").innerHTML = html;
 			document.getElementById("product-manage-filter-box").style.display = "";
