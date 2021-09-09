@@ -4,12 +4,12 @@ Product.view.package.filter = (packages, pagination) => {
 	if(packages.length){
 		let html = "";
 		for (let i = pagination.page * pagination.pageSize; i < packages.length && i < (pagination.page + 1) * pagination.pageSize; i++){
-			html += "<div class='box one container border padding-5 margin-top-5'>";
-				html += "<div class='mobile-box nine center'><h3 class='tbl-show-link nowrap' onclick='Product.controller.package.show("+packages[i].id+")'>"+packages[i].code+"</h3></div>";
-				html += "<div class='mobile-box two center'>"+packages[i].name+"</div>";
-				html += "<div class='mobile-box nine center'>"+packages[i].color+"</div>";
-				html += "<div class='mobile-box twelve center'><img class='img-tbl-btn' src='/images/icon/edit.png' onclick='Product.controller.package.edit("+packages[i].id+")'></div>";
-				html += "<div class='mobile-box twelve center'><img class='img-tbl-btn' src='/images/icon/trash.png' onclick='Product.controller.package.delete("+packages[i].id+")'></div>";
+			html += "<div class='box b1 container border padding-5 margin-top-5'>";
+				html += "<div class='mobile-box b6 center'><h3 class='tbl-show-link nowrap' onclick='Product.controller.package.show("+packages[i].id+")'>"+packages[i].code+"</h3></div>";
+				html += "<div class='mobile-box b2 center'>"+packages[i].name+"</div>";
+				html += "<div class='mobile-box b9 center'>"+packages[i].color+"</div>";
+				html += "<div class='mobile-box b9 center'><img class='size-15 icon' src='/images/icon/edit.png' onclick='Product.controller.package.edit("+packages[i].id+")'></div>";
+				html += "<div class='mobile-box b9 center'><img class='size-20 icon' src='/images/icon/trash.png' onclick='Product.controller.package.delete("+packages[i].id+")'></div>";
 			html += "</div>";
 		};
 		document.getElementById("product-package-filter-box").style.display = "";
@@ -40,30 +40,30 @@ Product.view.package.image = {
 };
 
 Product.view.package.show = (package) => {
-	let html = "<div class='box one underline center'>Informações do Pacote</div>";
-	html += "<div class='box one container padding-10'>";
-		html += "<div class='box one container box-border margin-top-5'>"
-			html += "<div class='mobile-box four padding-5 margin-top-5'>Nome</div>";
-			html += "<div class='mobile-box three-fourths padding-5 margin-top-5 bold'>"+package.name+"</div>";
+	let html = "<div class='box b1 underline center'>Informações do Pacote</div>";
+	html += "<div class='box b1 container padding-10'>";
+		html += "<div class='box b1 container box-border margin-top-5'>"
+			html += "<div class='mobile-box b4 padding-5 margin-top-5'>Nome</div>";
+			html += "<div class='mobile-box b3-4 padding-5 margin-top-5 bold'>"+package.name+"</div>";
 		html += "</div>";
-		html += "<div class='mobile-box three container box-border margin-top-5'>"
-			html += "<div class='mobile-box two padding-5 margin-top-5'>Código</div>";
-			html += "<div class='mobile-box two padding-5 margin-top-5 bold'>"+package.code+"</div>";
+		html += "<div class='mobile-box b3 container box-border margin-top-5'>"
+			html += "<div class='mobile-box b2 padding-5 margin-top-5'>Código</div>";
+			html += "<div class='mobile-box b2 padding-5 margin-top-5 bold'>"+package.code+"</div>";
 		html += "</div>";
-		html += "<div class='mobile-box three container box-border margin-top-5'>"
-			html += "<div class='mobile-box two padding-5 margin-top-5'>Cor</div>";
-			html += "<div class='mobile-box two padding-5 margin-top-5 bold'>"+package.color+"</div>";
+		html += "<div class='mobile-box b3 container box-border margin-top-5'>"
+			html += "<div class='mobile-box b2 padding-5 margin-top-5'>Cor</div>";
+			html += "<div class='mobile-box b2 padding-5 margin-top-5 bold'>"+package.color+"</div>";
 		html += "</div>";
 	html += "</div>";
 	
 	html += "<div class='underline center'>Menu</div>";	
-	html += "<div class='box one container'>";	
+	html += "<div class='box b1 container'>";	
 	html += "<div class='box b5 padding-10'><img class='width-40 icon pointer' src='/images/icon/add-image.png' onclick='Product.controller.package.image.add("+package.id+")'></div>";	
 	html += "</div>";
 
 	let pagination = { pageSize: 1, page: 0 };
 	// Product.view.package.image.show(package.images, pagination);
-	$(() => { lib.carousel.execute("product-package-image-div", Product.view.package.image.show, package.images, pagination); });
+	(function(){ lib.carousel.execute("product-package-image-div", Product.view.package.image.show, package.images, pagination); }());
 	
 	document.getElementById("product-package-image-box").style.display = "";
 
