@@ -4,10 +4,7 @@ const userController = require('./user');
 const lib = require("jarmlib");
 
 const Sale = require('../model/sale');
-
-const Product = require('../model/product/main');
-Product.color = require('../model/product/color');
-
+const Product = require('../model/product');
 const Customer = require('../model/customer');
 
 const saleController = {
@@ -17,7 +14,7 @@ const saleController = {
 		};
 
 		try {
-			const productColors = await Product.color.list();
+			const productColors = await Product.colorList();
 			res.render('sale/index', { productColors, user: req.user });
 		} catch (err) {
 			console.log(err);
@@ -410,7 +407,7 @@ const saleController = {
 				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 					return res.redirect('/');
 				};
-				let colors = await Product.color.list();
+				let colors = await Product.colorList();
 				let users = await User.list();
 				res.render('sale/report/product', { user: req.user, users: users, colors: colors });
 			},
@@ -473,7 +470,7 @@ const saleController = {
 				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
 					return res.redirect('/');
 				};
-				let colors = await Product.color.list();
+				let colors = await Product.colorList();
 				let users = await User.list();
 				res.render('sale/report/packment', { user: req.user, users: users, colors: colors });
 			},

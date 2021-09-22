@@ -60,18 +60,18 @@ Product.package.product.update = async (package) => {
 
 Product.package.image = {};
 
-Product.package.image.add = async (image) => {
+Product.package.image.add = async (package_id, image_url) => {
 	let response = await fetch("/product/package/image/add", {
 		method: "POST",
 		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify(image)
+	    body: JSON.stringify({ package_id: package_id, image_url: image_url })
 	});
 	response = await response.json();
 
 	if(API.verifyResponse(response)){ return false };
 	alert(response.done);
 
-	return true;
+	return package_id;
 };
 
 Product.package.image.remove = async (image_id) => {

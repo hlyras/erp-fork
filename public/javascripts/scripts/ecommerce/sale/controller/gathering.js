@@ -260,7 +260,7 @@ Ecommerce.sale.package.kart.list = (kart, props) => {
 				html += "<div id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-box' class='box b1 container border margin-top-10' style='display:none'>";
 					html += "<form id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-form' class='box b1 container'>";
 					html += "<input type='hidden' name='id' value=''>";
-					html += "<div class='mobile-box b7-9 container dropdown ground margin-top-5'>";
+					html += "<div class='mobile-box b2-3 container dropdown ground margin-top-5'>";
 					html += "<ul class='box b1 container'>";
 					html += "<li>";
 					html += "<input type='hidden' name='package_id' value='"+Ecommerce.sale.package.kart.items[i].package_id+"'>";
@@ -268,8 +268,8 @@ Ecommerce.sale.package.kart.list = (kart, props) => {
 					html += "<input type='text' id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-dropdown-input' name='product' data-id='' class='box b1 input-generic center' oninput='Ecommerce.sale.product.controller.dropdown.filter(this, `sale-product-package-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-dropdown`)' placeholder='Descrição do produto' onclick='if(this.readOnly){this.value=``; this.readOnly = false;}' autocomplete='off'>";
 					html += "<ul id='sale-product-package-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-dropdown' class='box b1'></ul>";
 					html += "</li></ul></div>";
-					html += "<input type='number' name='amount' class='mobile-box b9 input-generic border-bottom center margin-top-5' placeholder='Qtd'>";
-					html += "<button type='submit' name='submit' class='mobile-box b9 input-generic noborder margin-top-5 pointer'><img class='img-tbl-btn size-15' src='/images/icon/increase.png'></button>";
+					html += "<input type='number' name='amount' class='mobile-box b6 input-generic center margin-top-5' placeholder='Qtd'>";
+					html += "<button type='submit' name='submit' class='mobile-box b6 submit-generic margin-top-5 pointer'><img class='img-tbl-btn size-15' src='/images/icon/increase.png'></button>";
 					html += "</form>";
 
 					html += "<table id='ecommerce-sale-package-product-kart"+Ecommerce.sale.package.kart.items[i].package_id+"-table' class='b1 margin-top-5'></table>";

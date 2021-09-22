@@ -4,7 +4,7 @@ const userController = require('./user');
 const lib = require("jarmlib");
 
 const Feedstock = require('../model/feedstock');
-const Product = require('../model/product/main');
+const Product = require('../model/product');
 
 const feedstockController = {
 	manage: async (req, res) => {

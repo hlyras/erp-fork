@@ -21,6 +21,30 @@ const productController = {
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
 	},
+	molle: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'man','adm-man'])){
+			return res.redirect("/");
+		};
+
+		try{
+			res.render('product/molle', { user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
+	webgl: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm', 'man','adm-man'])){
+			return res.redirect("/");
+		};
+
+		try{
+			res.render('product/webgl', { user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
 	manage: async (req, res) => {
 		if(!await userController.verifyAccess(req, res, ['adm', 'man','adm-man','COR-GER','adm-vis'])){
 			return res.redirect("/");
@@ -30,6 +54,44 @@ const productController = {
 			const feedstockColors = await Feedstock.colorList();
 			const productColors = await Product.colorList();
 			res.render('product/manage', { productColors, feedstockColors, user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
+	show: async (req, res) => {
+		// if(!await userController.verifyAccess(req, res, ['adm', 'man','adm-man'])){
+		// 	return res.redirect("/");
+		// };
+
+		let product = await Product.findByCode(req.params.product_code);
+		product = { ...product[0] };
+		product.images = await Product.image.list(product.id);
+		
+		try{
+			res.render('product/show', { product });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	},
+	datasheet: async (req, res) => {
+		// if(!await userController.verifyAccess(req, res, ['adm', 'man','adm-man'])){
+		// 	return res.redirect("/");
+		// };
+
+		let product = await Product.findByCode(req.params.product_code);
+		product = { ...product[0] };
+		product.images = await Product.image.list(product.id);
+		product.feedstocks = await Product.feedstock.list(product.id);
+		for(i in product.feedstocks){
+			let product_feedstock = await Feedstock.findById(product.feedstocks[i].feedstock_id);
+			product.feedstocks[i].feedstock_info = product_feedstock[0].code +" | "+product_feedstock[0].name +" | "+product_feedstock[0].color;
+		};
+		product.feedstock_categories = await Product.feedstock.category.list(product.id);
+
+		try{
+			res.render('product/datasheet', { user: req.user, product });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -124,6 +186,39 @@ const productController = {
 		} catch (err){
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
+		};
+	},
+	findByCode: async (req, res) => {
+		// if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','n/a'])){
+		// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		// };
+
+		try {
+			const product = await Product.findByCode(req.params.code);
+			if(product.length){
+				product[0].images = await Product.image.list(product[0].id);
+			};
+			res.send({ product });
+		} catch (err){
+			console.log(err);
+			res.send({ msg: err });
+		};
+	},
+	findByName: async (req, res) => {
+		// if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','n/a'])){
+		// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+		// };
+
+		try {
+			let products = await Product.findByName(req.query.name);
+			if(products.length){
+				products[0].images = await Product.image.list(products[0].id);
+				products[0].feedstocks = await Product.getFeedstocks(product[0].id);
+			};
+			res.send({ products });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao encontrar o produto." });
 		};
 	},
 	filter: async (req, res) => {
