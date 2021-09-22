@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <% include ./../../../partials/head %>
+    <style type="text/css">
+      ::-webkit-scrollbar { width: 10px; }
+      ::-webkit-scrollbar-track { background: #f1f1f1; }
+      ::-webkit-scrollbar-thumb { background: #888; }
+      ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+  </head>
+  <body>
+    <% include ./../../../partials/header %>
+    <% include ./../../../partials/nav %>
+    <section class="container">
+      <div class="box b1">
+        <form id="ecommerce-sale-gathering-report-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
+          <div class="box b1 underline center bold">Relatório de Coleta</div>
+          <input type="datetime-local" name="periodStart" class="box b4 input-generic center margin-top-5" autocomplete="off">
+          <input type="datetime-local" name="periodEnd" class="box b4 input-generic center margin-top-5" autocomplete="off">
+          <select name="gathering-user-id" class="box b4 input-generic center margin-top-5" autocomplete="off">
+          <option value="">Coletor</option>
+          <% for(let i in users){ %>
+              <option value="<%= users[i].id %>"><%= users[i].name %></option>
+          <% } %>
+          </select>
+          <input type="submit" name="submit" class="box b4 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
+        </form>
+        <div id="ecommerce-sale-gathering-report-filter-box" class="box b1 ground" style="display:none">
+            <div id="ecommerce-sale-gathering-report-filter-div" class="box b1"></div>
+            <% include ./../../../partials/carousel %>
+        </div>
+      </div>
+    </section>
+    <% include ./../../../partials/loader %>
+  </body>
+  <footer>
+    <% include ./../../../partials/footer %>
+    <% include ./../partial %>
+
+    <script src="/javascripts/scripts/ecommerce/sale/model/report/gathering.js"></script>
+    <script src="/javascripts/scripts/ecommerce/sale/controller/report/gathering.js"></script>
+    <script src="/javascripts/scripts/ecommerce/sale/view/report/gathering.js"></script>
+
+    <script>
+      document.getElementById("ecommerce-sale-gathering-report-filter-form").elements.namedItem("periodStart").value = lib.timestampToDatetime(lib.genTimestamp());
+      document.getElementById("ecommerce-sale-gathering-report-filter-form").elements.namedItem("periodEnd").value = lib.timestampToDatetime(lib.genTimestamp());
+    </script>
+  </footer>
+</html>

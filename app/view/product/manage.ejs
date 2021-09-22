@@ -52,7 +52,6 @@
 				<div class="box b2 container ground border center padding-10 margin-top-10">
 					<div class="box b1 underline center">Buscar Produtos</div>
 					<form id="product-filter-form" class="box b1 container">
-						<input type="hidden" name="location" value="product-manage" autocomplete="off">
 						<input type="number" name="code" class="box b2 input-generic margin-top-5 center" placeholder="Cód" autocomplete="off">
 						<input type="text" name="name" class="box b2 input-generic margin-top-5 center" placeholder="Nome" autocomplete="off">
 						<select name="color" class="box b2 input-generic margin-top-5 center" autocomplete="off">
@@ -69,82 +68,22 @@
 						<input type="submit" name="submit" class="box b1 submit-generic center box-hover margin-top-5 bold" value="Filtrar">
 					</form>
 
-					<div id="product-manage-filter-box" class="box b1 container ground padding-10 margin-top-10" style="display:none">
-						<div id="product-manage-filter-table" class="box b1 container"></div>
+					<div id="product-filter-box" class="box b1 container ground padding-10 margin-top-10" style="display:none">
+						<div id="product-filter-div" class="box b1 container"></div>
         				<% include ./../partials/carousel %>
 					</div>
 				</div>
 
-				<div id="product-manage-info-box" class="box b1 border ground padding-10 margin-top-10" style="display:none">
-					<div id="product-manage-info-table" class="box b1 container"></div>
+				<div id="product-show-box" class="box b1 border ground padding-10 margin-top-10" style="display:none">
+					<div id="product-show-div" class="box b1 container"></div>
 				</div>
 
-				<div id="product-manage-image-box" class="box b1 ground border center padding-10 margin-top-10" style="display:none">
-					<button class="box b1 box-hover border center height-30 margin-top-10 bold" onclick="lib.displayDiv('product-manage-image-div', this, '⇓ Mostrar Imagem ⇓', '⇑ Esconder Imagem ⇑');">⇑ Esconder Imagem ⇑</button>
-					<div id="product-manage-image-div" class="box b1 center ground padding-10 margin-top-10">
-						<img id="product-manage-image-img" class="image-box" src="">
-						<div class="box b1 center ground padding-10 margin-top-10 h-center">
-							<button id="product-manage-image-remove-button" class="box b3 submit-generic">Excluir Imagem</button>
-						</div>
-						<% include ./../partials/carousel %>
-					</div>
+				<div id="product-image-box" class="box b1 ground border center padding-10 margin-top-10" style="display:none">
+					<div id="product-image-div" class="box b1 center ground padding-10 margin-top-10"></div>
+					<% include ./../partials/carousel %>
 				</div>
-
-				<div id="product-manage-menu-box" class="box b1 ground border center padding-10 margin-top-10" style="display:none">
-					<button class="box b1 box-hover border center height-30 margin-top-10 bold" onclick="lib.displayDiv('product-manage-menu-div', this, '⇓ Mostrar Menu ⇓', '⇑ Esconder Menu ⇑');">⇓ Mostrar Menu ⇓</button>
-					<div id="product-manage-menu-div"class="box b1 container ground padding-10 margin-top-10" style="display:none"></div>
-				</div>
-
-				<div id="product-feedstock-add-box" class="box b1 container ground border margin-top-10" style="display:none">
-					<form id="feedstock-filter-form" class="box b2 container center ground padding-10 margin-top-10">
-						<fieldset class="box b1 container fieldset-generic padding-5">
-							<legend>Filtrar Matérias-Prima</legend>
-							<input type="hidden" name="location" value="product-feedstock-add">
-							<input type="text" name="feedstock_code" class="box b2 input-generic margin-top-5 center" placeholder="Cód" autocomplete="off">
-							<input type="text" name="name" class="box b2 input-generic margin-top-5 center" placeholder="Nome" autocomplete="off">
-							<select name="color" class="box b2 input-generic margin-top-5 center">
-								<option value="">Cor</option>
-								<% for(i in feedstockColors){ %>
-									<option value="<%= feedstockColors[i].shortcut %>"><%= feedstockColors[i].name %></option>
-								<% } %>
-							</select>
-							<input type="submit" class="box b2 submit-generic center margin-top-5 bold" value="Filtrar">
-						</fieldset>
-					</form>
-
-					<form id="product-feedstock-add-form" class="box b2 container center ground padding-10 margin-top-10">
-						<fieldset class="box b1 container fieldset-generic padding-5">
-					    	<legend>Adicionar Matéria-Prima</legend>
-							<input type="hidden" name="id" value="">
-							<input type="hidden" name="product_id">
-							<select name="feedstock_id" class="box b2 input-generic margin-top-5 bold hide-disabled" onchange="Product.controller.feedstock.form.inputs(this)"></select>
-							
-							<input type="number" name="feedstock_amount" class="box b2 input-generic margin-top-5 center bold" step="1" placeholder="qtd" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}"/ disabled>
-							<input type="number" name="feedstock_measure" class="box b2 input-generic margin-top-5 center bold" step="0.01" placeholder="cm" onfocus="if(this.value < 0.5){this.value=''}" onblur="if(this.value < 0.00){this.value=''}"/ disabled>
-							<select name="feedstock_category_id" class="box b2 input-generic margin-top-5 hide-disabled">
-								<option value="0">Sem Categoria</option>
-							</select>
-							
-							<input type="submit" name="submit" class="box b1 submit-generic box-hover center margin-top-5 bold" value="Cadastrar">
-					  	</fieldset>
-					</form>
-
-					<button class="box b1 submit-generic border center margin-top-10 bold" onclick="lib.displayDiv('product-feedstock-category-create-form', this, '⇓ Nova Categoria ⇓', '⇑ Esconder Formulário ⇑')">⇓ Nova Categoria ⇓</button>
-					<form id="product-feedstock-category-create-form" class="box b1 container margin-top-10" style="display:none">
-						<fieldset class="box b1 container fieldset-generic padding-5 center">
-							<legend>Nova Categoria</legend>
-							<input type="hidden" name="id">
-							<input type="hidden" name="product_id">
-							<input type="text" name="category_name" class="box b2 input-generic margin-top-5 center" placeholder="Nome da categoria" autocomplete="off">
-							<input type="submit" name="submit" class="box b2 submit-generic box-hover margin-top-5 center bold" value="Cadastrar">
-						</fieldset>
-					</form>
-				</div>
-
-				<div class="box b1 center ground padding-10 margin-top-10" id="product-feedstock-box" style="display:none">
-					<div id="product-feedstock-list-box" class="box b1 border"></div>
-    				<% include ./../partials/carousel %>
-				</div>
+				
+					<!-- <button class="box b1 box-hover border center height-30 margin-top-10 bold" onclick="lib.displayDiv('product-image-div', this, '⇓ Mostrar Imagem ⇓', '⇑ Esconder Imagem ⇑');">⇑ Esconder Imagem ⇑</button> -->
 			</div>
 		</section>
         <% include ./../partials/loader %>
@@ -152,10 +91,5 @@
 	<footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
-        <script src="/javascripts/scripts/product/controller/manage.js"></script>
-        <script src="/javascripts/scripts/product/view/manage.js"></script>
-
-        <script src="/javascripts/scripts/feedstock/main.js"></script>
-        <script src="/javascripts/scripts/feedstock/tables.js"></script>
 	</footer>
 </html>

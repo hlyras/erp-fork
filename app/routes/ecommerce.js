@@ -8,7 +8,6 @@ router.get('/sale/gathering', lib.route.toHttps, saleController.gathering);
 router.get('/sale/triage', lib.route.toHttps, saleController.triage);
 router.get('/sale/manage', lib.route.toHttps, saleController.manage);
 
-
 router.post('/sale/save', lib.route.toHttps, saleController.save);
 router.get('/sale/id/:id', lib.route.toHttps, saleController.findById);
 router.post('/sale/update', lib.route.toHttps, saleController.update);
@@ -31,5 +30,7 @@ router.get('/sale/report/product', lib.route.toHttps, saleController.report.prod
 router.post("/sale/report/product/filter", lib.route.toHttps, saleController.report.product.filter);
 router.get("/sale/report/packment", lib.route.toHttps, saleController.report.packment.index);
 router.post("/sale/report/packment/filter", lib.route.toHttps, saleController.report.packment.filter);
+router.get("/sale/report/gathering", lib.route.toHttps, saleController.report.gathering.index);
+router.post("/sale/report/gathering/filter", lib.route.toHttps, saleController.report.gathering.filter);
 
 module.exports = router;

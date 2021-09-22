@@ -1,11 +1,13 @@
 const User = require('../model/user');
 const userController = require('./user');
-const Product = require('../model/product');
+
+const Product = require('../model/product/main');
+Product.color = require('../model/product/color');
 
 const homeController = {
 	index: async (req, res) => {
 		if(req.user){
-			const productColors = await Product.colorList();
+			const productColors = await Product.color.list();
 			return res.render('home', { user: req.user, productColors: productColors });
 		};
 		res.render('login', { message: req.flash('loginMessage') });
