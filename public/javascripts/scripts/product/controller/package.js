@@ -10,24 +10,24 @@ if(Product.controller.package.create){
 			code: event.target.elements.namedItem("code").value,
 			name: event.target.elements.namedItem("name").value,
 			color: event.target.elements.namedItem("color").value,
-			price: event.target.elements.namedItem("price").value,
 			weight: event.target.elements.namedItem("weight").value,
 			image: event.target.elements.namedItem("image").value,
+			status: event.target.elements.namedItem("status").value,
+			brand: event.target.elements.namedItem("brand").value,
 			announcement: event.target.elements.namedItem("announcement").value
 		};
 
-		document.getElementById("ajax-loader").style.visibility = "visible";
-		package = await Product.package.save(package);
-		document.getElementById("ajax-loader").style.visibility = "hidden";
+		package = await API.response(Product.package.save, package);
 		if(!package){ return false };
 
 		event.target.elements.namedItem("id").value = "";
 		event.target.elements.namedItem("code").value = "";
 		event.target.elements.namedItem("name").value = "";
 		event.target.elements.namedItem("color").value = "";
-		event.target.elements.namedItem("price").value = "0.00";
 		event.target.elements.namedItem("weight").value = "";
 		event.target.elements.namedItem("image").value = "";
+		event.target.elements.namedItem("status").value = "Indisponível";
+		event.target.elements.namedItem("brand").value = "";
 		event.target.elements.namedItem("announcement").value = "";
 
 		document.getElementById("product-package-show-box").style.display = "none";
@@ -102,6 +102,9 @@ Product.controller.package.show = async (package_id) => {
 	Product.package.product.kart.items = package.products;
 	Product.package.product.kart.update("code");
 	Product.package.product.kart.list("Product.package.product.kart", Product.package.product.kart.props);
+
+	document.getElementById("product-package-product-kart-box").style.display = "";
+	document.getElementById("product-package-show-box").style.display = "";
 };
 
 Product.controller.package.product.update = async () => {
@@ -125,9 +128,10 @@ Product.controller.package.edit = async (id) => {
 	document.getElementById('product-package-create-form').elements.namedItem("code").value = package.code;
 	document.getElementById('product-package-create-form').elements.namedItem("name").value = package.name;
 	document.getElementById('product-package-create-form').elements.namedItem("color").value = package.color;
-	document.getElementById('product-package-create-form').elements.namedItem("price").value = package.price;
 	document.getElementById('product-package-create-form').elements.namedItem("weight").value = package.weight;
 	document.getElementById('product-package-create-form').elements.namedItem("image").value = package.image;
+	document.getElementById('product-package-create-form').elements.namedItem("status").value = package.status;
+	document.getElementById('product-package-create-form').elements.namedItem("brand").value = package.brand;
 	document.getElementById('product-package-create-form').elements.namedItem("announcement").value = package.announcement;
 };
 
@@ -191,29 +195,32 @@ Product.controller.package.image = {};
 Product.controller.package.image.add = async (package_id) => {
 	let image_url = prompt("Preencha com a URL da imagem");
 	if(image_url){
-		if(image_url.length < 7){
-			return alert('URL inválida!');
+		if(image_url.length < 7){ return alert('URL inválida!'); };
+		if(image_url.length > 200){ return alert('URL inválida!'); };
+
+		let img = new Image();
+		img.src = image_url;
+
+		img.onload = async () => {
+			let image = { package_id: package_id, url: image_url };
+
+			let response = await API.response(Product.package.image.add, image);
+			if(!response) { return false; }
+
+			Product.controller.package.show(package_id);
 		};
-		if(image_url.length > 200){
-			return alert('URL inválida!');
-		};
 
-		let img = '<img src="'+ image_url +'"/>';
-
-		$(img).on("load", async () =>  {
-			if(!await API.response(Product.package.image.add, package_id, image_url)){ return false };
-
-			await Product.controller.package.show(package_id);
-		}).bind('error', () => {
-			return alert('URL inválida!');
-		});
+		img.onerror = async () => { return alert('URL inválida!'); };
 	};
 };
 
 Product.controller.package.image.remove = async (image_id, package_id) => {
 	let r = confirm("Deseja realmente excluir a image?");
 	if(r){
-		if(!await API.response(Product.package.image.remove, image_id)){ return false };
+
+		let response = await API.response(Product.package.image.remove, image_id);
+		if(!response) { return false; }
+
 		Product.controller.package.show(package_id);
 	};
 };

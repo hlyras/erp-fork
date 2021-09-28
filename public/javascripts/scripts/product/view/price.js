@@ -2,7 +2,6 @@ Product.price.view = {};
 
 Product.price.view.filter = async (products, pagination) => {
 	var html = "";
-	// for(let i in products){
 	for (let i = pagination.page * pagination.pageSize; i < products.length && i < (pagination.page + 1) * pagination.pageSize; i++){
 		if(!products[i].pack){
 			html += "<div class='box b1 container ground pointer padding-10 margin-top-5 center shadow-hover'>";

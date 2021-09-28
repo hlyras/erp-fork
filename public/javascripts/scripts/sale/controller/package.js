@@ -125,7 +125,7 @@ Sale.package.kart.list = (kart, props) => {
 				html += "<div id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-box' class='box b1 container border margin-top-10' style='display:none'>";
 					html += "<form id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-form' class='box b1 container'>";
 					html += "<input type='hidden' name='id' value=''>";
-					html += "<div class='mobile-box b2-3 container dropdown ground margin-top-5'>";
+					html += "<div class='mobile-box b7-9 container dropdown ground margin-top-5'>";
 					html += "<ul class='box b1 container'>";
 					html += "<li>";
 					html += "<input type='hidden' name='package_id' value='"+Sale.package.kart.items[i].id+"'>";
@@ -133,8 +133,8 @@ Sale.package.kart.list = (kart, props) => {
 					html += "<input type='text' id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-dropdown-input' name='product' data-id='' class='box b1 input-generic center' oninput='Sale.product.controller.dropdown.filter(this, `sale-product-package-kart"+Sale.package.kart.items[i].id+"-dropdown`)' placeholder='Descrição do produto' onclick='if(this.readOnly){this.value=``; this.readOnly = false;}' autocomplete='off'>";
 					html += "<ul id='sale-product-package-kart"+Sale.package.kart.items[i].id+"-dropdown' class='box b1'></ul>";
 					html += "</li></ul></div>";
-					html += "<input type='number' name='amount' class='mobile-box b6 input-generic center margin-top-5' placeholder='Qtd'>";
-					html += "<button type='submit' name='submit' class='mobile-box b6 submit-generic margin-top-5 pointer'><img class='img-tbl-btn' src='/images/icon/increase.png'></button>";
+					html += "<input type='number' name='amount' class='mobile-box b9 input-generic border-bottom center margin-top-5' placeholder='Qtd'>";
+					html += "<button type='submit' name='submit' class='mobile-box b9 input-generic noborder margin-top-5 center'><img class='size-20 icon center' src='/images/icon/increase.png'></button>";
 					html += "</form>";
 
 					html += "<table id='sale-package-product-kart"+Sale.package.kart.items[i].id+"-table' class='tbl-info box b1 center ground padding-10 margin-top-10'></table>";

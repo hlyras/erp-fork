@@ -1,72 +1,70 @@
 Product.view.package = {};
 
 Product.view.package.filter = (packages, pagination) => {
+	let package_filter_box = document.getElementById("product-package-filter-box");
+	let package_filter_div = document.getElementById("product-package-filter-div");
+	package_filter_div.innerHTML = "";
+
 	if(packages.length){
 		let html = "";
 		for (let i = pagination.page * pagination.pageSize; i < packages.length && i < (pagination.page + 1) * pagination.pageSize; i++){
-			html += "<div class='box b1 container border padding-5 margin-top-5'>";
-				html += "<div class='mobile-box b6 center'><h3 class='tbl-show-link nowrap' onclick='Product.controller.package.show("+packages[i].id+")'>"+packages[i].code+"</h3></div>";
-				html += "<div class='mobile-box b2 center'>"+packages[i].name+"</div>";
-				html += "<div class='mobile-box b9 center'>"+packages[i].color+"</div>";
-				html += "<div class='mobile-box b9 center'><img class='size-15 icon' src='/images/icon/edit.png' onclick='Product.controller.package.edit("+packages[i].id+")'></div>";
-				html += "<div class='mobile-box b9 center'><img class='size-20 icon' src='/images/icon/trash.png' onclick='Product.controller.package.delete("+packages[i].id+")'></div>";
-			html += "</div>";
+
+			let package_div = lib.element.create("div", { class: "box b1 container border padding-5 margin-top-5" });
+			package_filter_div.appendChild(package_div);
+
+			package_div.appendChild(lib.element.create("div", {
+				class: "mobile-box b5 tbl-show-link nowrap center bold",
+				onclick: "Product.controller.package.show("+packages[i].id+")"
+			}, packages[i].code));
+			package_div.appendChild(lib.element.create("div", { class: "mobile-box b2 center" }, packages[i].name ));
+			package_div.appendChild(lib.element.create("div", { class: "mobile-box b10 center" }, packages[i].color ));
+			package_div.appendChild(lib.element.icon('b10', 20, "/images/icon/edit.png", "Product.controller.package.edit("+packages[i].id+")"));
+			package_div.appendChild(lib.element.icon('b10', 20, "/images/icon/trash.png", "Product.controller.package.delete("+packages[i].id+")"));
+			
+			package_filter_box.style.display = "";
 		};
-		document.getElementById("product-package-filter-box").style.display = "";
-		document.getElementById("product-package-filter-div").innerHTML = html;
 	} else {
-		document.getElementById("product-package-filter-box").style.display = "";
-		document.getElementById("product-package-filter-div").innerHTML = "Sem resultados";
+		package_filter_box.style.display = "";
+		package_filter_div.innerHTML = "Sem resultados";
 	};
+};
+
+Product.view.package.show = (package) => {
+	let package_show_box = document.getElementById("product-package-show-box");
+	let package_show_div = document.getElementById("product-package-show-div");
+	package_show_div.innerHTML = "";
+
+	let info_div = lib.element.create("div", { class: "box b1 container padding-10" });
+	package_show_div.appendChild(info_div);
+
+	info_div.appendChild(lib.element.create("div", { class: "box b1 underline center" }, "Informações do Pacote"));
+	info_div.appendChild(lib.element.info("b6", "Código", package.code));
+	info_div.appendChild(lib.element.info("b2", "Nome", package.name));
+	info_div.appendChild(lib.element.info("b6", "Cor", package.color));
+	info_div.appendChild(lib.element.icon("b6", 25, "/images/icon/add-image.png", "Product.controller.package.image.add("+package.id+")"));
+
+	let pagination = { pageSize: 1, page: 0 };
+	(function(){ lib.carousel.execute("product-package-image-box", Product.view.package.image.show, package.images, pagination); }());
 };
 
 Product.view.package.image = {};
 
 Product.view.package.image = {
 	show: (images, pagination) => {
-		let html = "";
-	    if(images.length){
-		    for (let i = pagination.page * pagination.pageSize; i < images.length && i < (pagination.page + 1) * pagination.pageSize;i++){
-				document.getElementById("product-package-image-img").src = images[i].url;
-				document.getElementById("product-package-image-remove-button").setAttribute("onClick", "javascript: Product.controller.package.image.remove('"+images[i].id+"', '"+images[i].package_id+"');" );
-				document.getElementById("product-package-image-remove-button").disabled = false;
-			};
-	    } else {
-			document.getElementById("product-package-image-img").src = "/images/product/no-product.png";
-			document.getElementById("product-package-image-remove-button").setAttribute("onClick", "javascript: Product.controller.package.image.remove(0, 0);" );
-			document.getElementById("product-package-image-remove-button").disabled = true;
-	    };
+		let image_div = document.getElementById("product-package-image-div");
+		image_div.innerHTML = "";
+	    for (let i = pagination.page * pagination.pageSize; i < images.length && i < (pagination.page + 1) * pagination.pageSize;i++){
+	    	let image = lib.element.create("img", { class: 'image-box', src: images[i].url });
+
+	    	let remove_div = lib.element.create("div", { class: "box b1 container h-center" });
+	    	let remove_btn = lib.element.create("button", {
+	    		class: "box b3 submit-generic center pointer",
+	    		onclick: "Product.controller.package.image.remove("+images[i].id+","+images[i].package_id+")"
+	    	}, "Excluir imagem");
+
+	    	image_div.appendChild(image);
+	    	image_div.appendChild(remove_div);
+	    	remove_div.appendChild(remove_btn);
+		};
 	}
-};
-
-Product.view.package.show = (package) => {
-	let html = "<div class='box b1 underline center'>Informações do Pacote</div>";
-	html += "<div class='box b1 container padding-10'>";
-		html += "<div class='box b1 container box-border margin-top-5'>"
-			html += "<div class='mobile-box b4 padding-5 margin-top-5'>Nome</div>";
-			html += "<div class='mobile-box b3-4 padding-5 margin-top-5 bold'>"+package.name+"</div>";
-		html += "</div>";
-		html += "<div class='mobile-box b3 container box-border margin-top-5'>"
-			html += "<div class='mobile-box b2 padding-5 margin-top-5'>Código</div>";
-			html += "<div class='mobile-box b2 padding-5 margin-top-5 bold'>"+package.code+"</div>";
-		html += "</div>";
-		html += "<div class='mobile-box b3 container box-border margin-top-5'>"
-			html += "<div class='mobile-box b2 padding-5 margin-top-5'>Cor</div>";
-			html += "<div class='mobile-box b2 padding-5 margin-top-5 bold'>"+package.color+"</div>";
-		html += "</div>";
-	html += "</div>";
-	
-	html += "<div class='underline center'>Menu</div>";	
-	html += "<div class='box b1 container'>";	
-	html += "<div class='box b5 padding-10'><img class='width-40 icon pointer' src='/images/icon/add-image.png' onclick='Product.controller.package.image.add("+package.id+")'></div>";	
-	html += "</div>";
-
-	let pagination = { pageSize: 1, page: 0 };
-	// Product.view.package.image.show(package.images, pagination);
-	(function(){ lib.carousel.execute("product-package-image-div", Product.view.package.image.show, package.images, pagination); }());
-	
-	document.getElementById("product-package-image-box").style.display = "";
-
-	document.getElementById("product-package-show-info").innerHTML = html;
-	document.getElementById("product-package-show-box").style.display = "";
 };
