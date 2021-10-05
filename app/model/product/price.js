@@ -1,6 +1,6 @@
 const db = require('../../../config/connection');
 const Product = require('./main');
-const lib = require("../../../config/lib");
+const lib = require("jarmlib");
 
 Product.price = {
 	save: async (price) => {
@@ -22,8 +22,9 @@ Product.price = {
 		let query = "SELECT * FROM cms_wt_erp.product_price where category_id='"+price.category_id+"' AND product_id='"+price.product_id+"' ORDER BY id ASC;";
 		return db(query);
 	},
-	filter: (params, values, inners, status) => {
-		let query = lib.filterByLikeAndInnerJoinAndByStatus(params, values, "product_price", inners, "status", status, "cms_wt_erp", "product", "code", "ASC");
+	filter: (props, inners, params, strict_params, order_params) => {
+		let query = new lib.Query().select().props(props).table("cms_wt_erp.product_price product_price")
+			.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
 		return db(query);
 	},
 	delete: async (id) => {
@@ -47,8 +48,9 @@ Product.price = {
 			let query = "SELECT * FROM cms_wt_erp.product_price_category ORDER BY id ASC;";
 			return db(query);
 		},
-		filter: async (name, params, values) => {
-			let query = lib.filterQueryName(name, params, values, "cms_wt_erp", "product_price_category", "id", "ASC");
+		filter: async (params, order_params) => {
+			let query = new lib.Query().select().table("cms_wt_erp.product_price_category price_category")
+				.params(params).order(order_params).build().query;
 			return db(query);
 		},
 		findById: async (id) => {

@@ -53,18 +53,31 @@ const Product = function(){
 	this.name;
 	this.color;
 	this.size;
+	this.weight;
+	this.width;
+	this.height;
+	this.depth;
+	this.brand;
+	this.image;
+	this.video;
+	this.status;
+	this.announcement;
 };
 
 Product.save = async (product) => {
-	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, weight, brand, status, image, announcement) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, weight, width, height, depth, brand, image, video, status, announcement) VALUES ('"
 		+product.code+"', '"
 		+product.name+"','"
 		+product.color+"','"
 		+product.size+"','"
 		+product.weight+"','"
+		+product.width+"','"
+		+product.height+"','"
+		+product.depth+"','"
 		+product.brand+"','"
-		+product.status+"','"
 		+product.image+"','"
+		+product.video+"','"
+		+product.status+"','"
 		+product.announcement+"');";
 	return db(query);
 };
@@ -75,9 +88,13 @@ Product.update = async (product) => {
 		+"', color='"+product.color
 		+"', size='"+product.size
 		+"', weight='"+product.weight
+		+"', width='"+product.width
+		+"', height='"+product.height
+		+"', depth='"+product.depth
 		+"', brand='"+product.brand
-		+"', status='"+product.status
 		+"', image='"+product.image
+		+"', video='"+product.video
+		+"', status='"+product.status
 		+"', announcement='"+product.announcement+"' WHERE id='"+product.id+"';";
 	return db(query);
 };

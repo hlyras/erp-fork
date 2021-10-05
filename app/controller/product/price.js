@@ -1,3 +1,5 @@
+const lib = require("jarmlib");
+
 const Product = require('../../model/product/main');
 Product.price = require('../../model/product/price');
 
@@ -21,38 +23,43 @@ productController.price.index = async (req, res) => {
 };
 
 productController.price.filter = async (req, res) => {
-	let params = [];
-	let values = [];
-
-	if(isNaN(req.body.code) || req.body.code < 0 || req.body.code > 9999){
-		req.body.code = "";
-	};
-
-	if(req.body.name){
-		params.push("name");
-		values.push(req.body.name);
-	};
-
-	if(req.body.brand){
-		params.push("brand");
-		values.push(req.body.brand);
-	};
-
-	let status = "Disponível";
-
-	let product_inners = [
-		["cms_wt_erp.product.id","cms_wt_erp.product_price.product_id"],
-		["cms_wt_erp.product_price.category_id", req.body.category_id]
+	// Product
+	let props = [];
+	let inners = [ 
+		["cms_wt_erp.product product", "product_price.product_id", "product.id"]
 	];
 
+	const params = { keys: [], values: [] };
+	const strict_params = { keys: [], values: [] };
+
+	lib.Query.fillParam("product.code", req.body.code, strict_params);
+	lib.Query.fillParam("product.name", req.body.name, params);
+	lib.Query.fillParam("product.color", req.body.color, strict_params);
+	lib.Query.fillParam("product.status", "Disponível", strict_params);
+	lib.Query.fillParam("product_price.category_id", req.body.category_id, strict_params);
+
+	let order_params = [ ["product.code","ASC"] ];
+
+	// Product_package
+	let package_props = [];
 	let package_inners = [
-		["cms_wt_erp.product_package.id","cms_wt_erp.product_package_price.package_id"],
-		["cms_wt_erp.product_package_price.category_id", req.body.category_id]
+		["cms_wt_erp.product_package package", "package_price.package_id", "package.id"]
 	];
+
+	const package_params = { keys: [], values: [] };
+	const package_strict_params = { keys: [], values: [] };
+
+	lib.Query.fillParam("package.code", req.body.code, package_strict_params);
+	lib.Query.fillParam("package.name", req.body.name, package_params);
+	lib.Query.fillParam("package.color", req.body.color, package_strict_params);
+	lib.Query.fillParam("package.status", "Disponível", package_strict_params);
+	lib.Query.fillParam("package_price.category_id", req.body.category_id, package_strict_params);
+
+	let package_order_params = [ ["package.code","ASC"] ];
 
 	try {
-		let products = await Product.price.filter(params, values, product_inners, status);
-		let packages = await Product.package.price.filter(params, values, package_inners, status);
+		let products = await Product.price.filter(props, inners, params, strict_params, order_params);
+		let packages = await Product.package.price.filter(package_props, package_inners, package_params, package_strict_params, package_order_params);
 		res.send({ products: products, packages: packages });
 	} catch (err) {
 		console.log(err);
@@ -81,7 +88,7 @@ productController.price.update = async (req, res) => {
 
 	try {
 		await Product.price.update(price);
-		res.send({ done: "Preço atualizado com sucesso!", price: price});
+		res.send({ done: "Preço atualizado com sucesso!", price: price });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar a atualização, favor contatar o suporte." });
@@ -136,26 +143,14 @@ productController.price.category.save = async (req, res) => {
 };
 
 productController.price.category.filter = async (req, res) => {
-	var params = [];
-	var values = [];
+	let params = { keys: [], values: [] };
 
-	if(isNaN(req.query.id) || req.query.id < 0 || req.query.id > 9999){
-		req.query.id = "";
-	};
-
-	if(req.query.id){
-		params.push("id");
-		values.push(req.query.id);
-	};
+	lib.Query.fillParam("price_category.name", req.body.name, params);
+	let order_params = [ ["price_category.id", "ASC"] ];
 
 	try {
-		if(req.query.name){
-			let categories = await Product.price.category.filter(req.query.name, params, values);
-			res.send({ categories });
-		} else {
-			let categories = await Product.price.category.filter(false, params, values);
-			res.send({ categories });
-		};
+		let categories = await Product.price.category.filter(params, order_params);
+		res.send({ categories });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });

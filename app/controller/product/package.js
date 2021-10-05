@@ -163,7 +163,7 @@ productController.package.product = {
 
 		let package = {
 			id: req.body.package.id,
-			products: JSON.parse(req.body.package.products),
+			products: JSON.parse(req.body.package.products)
 		};
 
 		let actions = { add: [], update: [], remove: [] };

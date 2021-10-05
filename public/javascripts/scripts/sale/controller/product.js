@@ -82,17 +82,17 @@ Sale.product.kart.list = function(kart, props){
 	if(Sale.product.kart.items.length){
 		let html = "";
 		for(i in Sale.product.kart.items){
-			html += "<div class='box one container border padding-5 margin-top-5'>";
-			html += "<div class='mobile-box nine container margin-top-5'>"+Sale.product.kart.items[i].code+"</div>";
-			html += "<div class='mobile-box two container margin-top-5'>"+Sale.product.kart.items[i].name+"</div>";
-			html += "<div class='mobile-box nine container margin-top-5'>"+Sale.product.kart.items[i].color+"</div>";
-			html += "<div class='mobile-box nine container margin-top-5'>"+Sale.product.kart.items[i].size+"</div>";
-			html += "<div class='mobile-box six center margin-top-5 bold'>$"+Sale.product.kart.items[i].price.toFixed(2)+"</div>";
-			html += "<div class='mobile-box five center margin-top-5'><img class='icon size-15' src='/images/icon/decrease.png' onclick='"+Sale.product.kart.variable+".decrease("+Sale.product.kart.items[i].id+")'></div>";
-			html += "<input class='mobile-box five border-explicit center margin-top-5 bold' type='text' id='"+Sale.product.kart.variable+"-"+Sale.product.kart.items[i].id+"' class='border-explicit center bold' onchange='"+Sale.product.kart.variable+".updateAmount("+Sale.product.kart.items[i].id+", this.value);lib.focus(this)' value='"+Sale.product.kart.items[i].amount+"'>";
-			html += "<div class='mobile-box five center margin-top-5'><img class='icon size-15' src='/images/icon/increase.png' onclick='"+Sale.product.kart.variable+".increase("+Sale.product.kart.items[i].id+")'></div>";
-			html += "<div class='mobile-box five center margin-top-5 bold'>$"+Sale.product.kart.items[i].total_price.toFixed(2)+"</div>";
-			html += "<div class='mobile-box five center margin-top-5'><img class='icon size-20' src='/images/icon/trash.png' onclick='"+Sale.product.kart.variable+".remove("+Sale.product.kart.items[i].id+")'></div>";
+			html += "<div class='box b1 container border padding-5 margin-top-5'>";
+			html += "<div class='mobile-box b9 container margin-top-5'>"+Sale.product.kart.items[i].code+"</div>";
+			html += "<div class='mobile-box b2 container margin-top-5'>"+Sale.product.kart.items[i].name+"</div>";
+			html += "<div class='mobile-box b9 container margin-top-5'>"+Sale.product.kart.items[i].color+"</div>";
+			html += "<div class='mobile-box b9 container margin-top-5'>"+Sale.product.kart.items[i].size+"</div>";
+			html += "<div class='mobile-box b6 center margin-top-5 bold'>$"+Sale.product.kart.items[i].price.toFixed(2)+"</div>";
+			html += "<div class='mobile-box b5 center margin-top-5'><img class='icon size-15' src='/images/icon/decrease.png' onclick='"+Sale.product.kart.variable+".decrease("+Sale.product.kart.items[i].id+")'></div>";
+			html += "<input class='mobile-box b5 border-explicit center margin-top-5 bold' type='text' id='"+Sale.product.kart.variable+"-"+Sale.product.kart.items[i].id+"' class='border-explicit center bold' onchange='"+Sale.product.kart.variable+".updateAmount("+Sale.product.kart.items[i].id+", this.value);lib.focus(this)' value='"+Sale.product.kart.items[i].amount+"'>";
+			html += "<div class='mobile-box b5 center margin-top-5'><img class='icon size-15' src='/images/icon/increase.png' onclick='"+Sale.product.kart.variable+".increase("+Sale.product.kart.items[i].id+")'></div>";
+			html += "<div class='mobile-box b5 center margin-top-5 bold'>$"+Sale.product.kart.items[i].total_price.toFixed(2)+"</div>";
+			html += "<div class='mobile-box b5 center margin-top-5'><img class='icon size-20' src='/images/icon/trash.png' onclick='"+Sale.product.kart.variable+".remove("+Sale.product.kart.items[i].id+")'></div>";
 			html += "</div>";
 		};
 		document.getElementById(Sale.product.kart.name+"-div").innerHTML = html;

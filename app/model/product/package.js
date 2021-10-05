@@ -1,7 +1,6 @@
 const db = require('../../../config/connection');
 const Product = require('./main');
-const lib = require("../../../config/lib");
-const Lib = require("jarmlib");
+const lib = require("jarmlib");
 
 Product.package = {
 	save: async (package) => {
@@ -32,7 +31,7 @@ Product.package = {
 		return db(query);
 	},
 	filter: async (props, inners, params, strict_params, order_params) => {
-		let query = new Lib.Query().select().props(props).table("cms_wt_erp.product_package package")
+		let query = new lib.Query().select().props(props).table("cms_wt_erp.product_package package")
 			.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
 		return db(query);
 	},
@@ -63,7 +62,7 @@ Product.package = {
 			let query = "DELETE FROM cms_wt_erp.product_package_image WHERE id='"+image_id+"';";
 			return db(query);
 		},
-		removeByPackagetId: async (id) => {
+		removeByPackageId: async (id) => {
 			let query = "DELETE FROM cms_wt_erp.product_package_image WHERE package_id='"+id+"';";
 			return db(query);
 		}
@@ -115,12 +114,13 @@ Product.package = {
 			let query = "SELECT * FROM cms_wt_erp.product_package_price where category_id='"+price.category_id+"' AND package_id='"+price.package_id+"' ORDER BY id ASC;";
 			return db(query);
 		},
-		filter: (params, values, inners, status) => {
-			let query = lib.filterByLikeAndInnerJoinAndByStatus(params, values, "product_package_price", inners, "status", status, "cms_wt_erp", "product_package", "code", "ASC");
+		filter: (props, inners, params, strict_params, order_params) => {
+			let query = new lib.Query().select().props(props).table("cms_wt_erp.product_package_price package_price")
+				.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
 			return db(query);
 		},
 		delete: async (id) => {
-			let query = "DELETE FROM cms_wt_erp.product_package_price WHERE product_id='"+id+"';";
+			let query = "DELETE FROM cms_wt_erp.product_package_price WHERE package_id='"+id+"';";
 			return db(query);
 		},
 		deleteAll: async (id) => {

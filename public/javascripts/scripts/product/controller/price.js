@@ -73,7 +73,7 @@ if(Product.price.category.controller.filter){
 
 		let category = {
 			id: event.target.elements.namedItem("id").value,
-			name: event.target.elements.namedItem("name").value,
+			name: event.target.elements.namedItem("name").value
 		};
 
 		let categories = await API.response(await Product.price.category.filter, category);
