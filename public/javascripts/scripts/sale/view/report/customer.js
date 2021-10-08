@@ -4,7 +4,7 @@ Sale.customer.report.view.filter = (customers, setup) => {
   let reportDiv = document.getElementById("sale-customer-report-filter-div");
   
   for(let i = setup.page * setup.pageSize; i < customers.length && i < (setup.page + 1) * setup.pageSize; i++){
-    let div = lib.element.create("div", { class: "mobile-box b1 container border-explicit padding-5 margin-top-10 shadow-2-hover" });
+    let div = lib.element.create("div", { class: "mobile-box b1 container border-explicit radius-20 padding-5 margin-top-10 shadow-2-hover" });
 
     div.appendChild(lib.element.info("b4", "Id", customers[i].id));
     div.appendChild(lib.element.info("b2", "Nome", customers[i].name));
