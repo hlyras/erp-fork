@@ -507,6 +507,44 @@ const saleController = {
 					res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
 				};
 			}
+		},
+		customer: {
+			index: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm'])){
+					return res.redirect('/');
+				};
+				let users = await User.list();
+				res.render('sale/report/customer', { user: req.user, users: users });
+			},
+			filter: async (req, res) => {
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+				};
+
+				let props = [];
+
+				let inners = [
+					["cms_wt_erp.customer customer", "customer.id", "sale.customer_id"]
+				];
+
+				const period = { key: "sale.sale_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
+				const params = { keys: [], values: [] };
+				const strict_params = { keys: [], values: [] };
+
+				lib.Query.fillParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params);
+				// lib.Query.fillParam("cms_wt_erp.sale.packment_user_id", req.body.sale.packment_user_id, strict_params);
+
+				let order_params = [ ["sale.sale_date", "DESC"] ];
+				let limit = 0;
+				
+				try {
+					let sales = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
+					res.send({ sales });
+				} catch (err) {
+					console.log(err);
+					res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
+				};
+			}	
 		}
 	},
 	flow: {
