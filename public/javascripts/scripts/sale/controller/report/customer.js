@@ -56,8 +56,6 @@ if(Sale.customer.report.controller.filter){
 
     lib.sort(customers, 'daysOff', 'desc');
 
-    console.log(customers);
-
     const setup = { pageSize: 20, page: 0 };
     (function(){ lib.carousel.execute("sale-customer-report-filter-box", Sale.customer.report.view.filter, customers, setup); }());
   });
