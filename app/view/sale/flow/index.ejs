@@ -6,10 +6,23 @@
         <% include ./../../partials/header %>
         <% include ./../../partials/nav %>
         <section class="container">
-            <div class="box b2 ground padding-10">
-                <div class="box b1 underline center">Fluxo de prospecção</div>
-                <!-- <button class="box b1 submit-generic margin-top-5 pointer center" onclick="window.location.href='/sale/report/product'">Relátório de Produtos</button> -->
-                <!-- <button class="box b1 submit-generic margin-top-5 pointer center" onclick="window.location.href='/sale/report/packment'">Relátório de Embalo</button> -->
+            <div class="box b2 container ground padding-10">
+                <div class="box b1 underline center">Novo fluxo de prospecção</div>
+                <div id="flow-create-form" class="box b1 container">
+                    <input type="text" name="id" value="" hidden>
+                    <input type="text" name="name" class="box b2-3 input-generic margin-top-5 center" placeholder="Nome do Fluxo" autocomplete="off">
+                </div>
+            </div>
+            <div class="box b2 container ground padding-10">
+                <div class="box b1 underline center">Pesquisar fluxos</div>
+                <form id="flow-filter-form" class="box b1 container">
+                    <input type="text" name="name" class="box b2-3 input-generic margin-top-5 center" placeholder="Nome do Fluxo" autocomplete="off">
+                    <input type="submit" name="submit" class="box b3 submit-generic margin-top-5 center" value="Buscar">
+                </form>
+            </div>
+
+            <div class="box b1 container ground margin-top-5 padding-10">
+                
             </div>
         </section>
         <% include ./../../partials/loader %>
