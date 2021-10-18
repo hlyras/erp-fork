@@ -230,6 +230,13 @@ Sale.view.show = (sale, status) => {
 			html += "<div class='mobile-box b1 underline center avant-garde italic bold'>Informações da venda</div>";
 
 			html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
+				html += "<div class='mobile-box b1 container'>";
+					html += "<div class='box b1 em06 bold'>Vendedor</div>";
+					html += "<div class='box b1'>"+sale.user_name+"</div>"; 
+				html += "</div>";
+			html += "</div>";
+
+			html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
 				html += "<div class='mobile-box b3-8 container'>";
 					html += "<div class='box b1 em06 bold'>Data da venda</div>";
 					html += "<div class='box b1'>"+lib.timestampToDate(sale.sale_date)+"</div>";
@@ -242,8 +249,17 @@ Sale.view.show = (sale, status) => {
 					html += "<div class='mobile-box b8 margin-top-5 center'><img class='icon size-35' src='/images/icon/nf-e.png' onclick='lib.openExternalLink(`"+sale.nf+"`)'></div>";
 				};
 			html += "</div>";
+			html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
+				html += "<div class='mobile-box b2 container'>";
+					html += "<div class='box b1 em06 bold'>Método de pagamento</div>";
+					html += "<div class='box b1'>"+sale.payment_method+"</div>"; 
+				html += "</div>";
+				html += "<div class='mobile-box b2 container'>";
+					html += "<div class='box b1 em06 bold'>Prazo de pagamento</div>";
+					html += "<div class='box b1'>"+sale.payment_period+"</div>"; 
+				html += "</div>";
+			html += "</div>";
 		html += "</div>";
-
 
 		html += "<div class='box a1 container box-border padding-5'>";
 			html += "<div class='underline center avant-garde italic bold'>Logística de envio</div>";
@@ -335,6 +351,11 @@ Sale.view.show = (sale, status) => {
 		html += "</div>";
 	html += "</div>";
 
+	html += "<div class='mobile-box b1 container margin-top-5 margin-bottom-5'>";
+		html += "<div class='box b1 em12 bold'>Observações</div>";
+		html += "<div class='box b1 em14 border padding-5 pre-wrap'>"+sale.obs+"</div>";
+	html += "</div>";
+
 	html += "<div class='box b1 container ground'>";
 		html += "<div class='box b2 container ground border padding-5 margin-top-5'>";
 		html += "<div class='box b1 underline center bold'>Produtos</div>";
@@ -396,8 +417,6 @@ Sale.view.edit = async (sale) => {
 	let addresses = await API.response(Customer.address.findByCustomerId, sale.customer.id);
 	if(!addresses){ return false };
 
-
-
 	for(let i in addresses){ if(addresses[i].id == sale.customer_address_id){ addresses[i].checked = true; }; };
 	Sale.view.customer.address.list(addresses, sale.customer_address_id);
 
@@ -405,8 +424,19 @@ Sale.view.edit = async (sale) => {
 	
 	document.getElementById("shipment-method").value = sale.shipment_method;
 	document.getElementById("payment-method").value = sale.payment_method;
+
+	if(document.getElementById("payment-method").value === "Cartão de crédito"){
+		let html = "";
+		html += "<option value='' disabled selected>Prazo de Pagamento</option>";
+		html += "<option value='1x'>1x</option>";
+		html += "<option value='2x'>2x</option>";
+		html += "<option value='3x'>3x</option>";
+		document.getElementById("payment-period").innerHTML = html;
+	};
+
 	document.getElementById("payment-period").value = sale.payment_period;
 	document.getElementById("status").value = sale.status;
+	document.getElementById("sale-obs").value = sale.obs;
 	
 	Sale.product.kart.total_value = sale.product_value;
 	Sale.package.kart.total_value = sale.package_value;

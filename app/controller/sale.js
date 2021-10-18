@@ -75,6 +75,7 @@ const saleController = {
 		sale.package_actions = { add: [], update: [], remove: [] } ;
 		sale.package_product_actions = { add: [], update: [], remove: [] } ;
 		sale.weight = parseInt(req.body.sale.weight);
+		sale.obs = req.body.sale.obs;
 
 		if(!sale.customer_id){ return res.send({ msg: "É necessário selecionar o cliente" }); };
 		if(sale.customer_address_id == undefined){ return res.send({ msg: "É necessário selecionar o endereço do cliente" }); };
@@ -89,6 +90,7 @@ const saleController = {
 		if(sale.weight < 0){ return res.send({ msg: "O peso da venda é inválido!" }); };
 		if(sale.value < 0){ return res.send({ msg: "O valor da venda é inválido!" }); };
 		if(!sale.shipment_date){ sale.shipment_date = ""; };
+		if(sale.obs.length > 154){ return res.send({ msg: "A observação deve ser breve!" }); };
 
 		try {
 			if(!sale.id){

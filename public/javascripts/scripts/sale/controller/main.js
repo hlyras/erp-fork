@@ -8,57 +8,56 @@ if(Sale.controller.category){
 	});
 };
 
-let sale_payment_method = [
-	{ id: 1, name: "Dinheiro" },
-	{ id: 2, name: "Transferência" },
-	{ id: 3, name: "Boleto" },
-	{ id: 4, name: "Faturado" }
-];
+// let sale_payment_method = [
+// 	{ id: 1, name: "Dinheiro" },
+// 	{ id: 2, name: "Transferência" },
+// 	{ id: 3, name: "Boleto" },
+// 	{ id: 4, name: "Faturado" }
+// ];
 
-let sale_payment_period = [
-	{ id: 1, method_id: 1, name: "à vista" },
-	{ id: 2, method_id: 2, name: "à vista" },
-	{ id: 3, method_id: 2, name: "50% / 50%" },
-	{ id: 4, method_id: 3, name: "à vista" },
-	{ id: 5, method_id: 4, name: "1 parcela" },
-	{ id: 6, method_id: 4, name: "2 parcelas" },
-	{ id: 7, method_id: 4, name: "3 parcelas" },
-	{ id: 8, method_id: 4, name: "4 parcelas" },
-	{ id: 9, method_id: 4, name: "5 parcelas" },
-	{ id: 10, method_id: 4, name: "6 parcelas" }
-];
+// let sale_payment_period = [
+// 	{ id: 1, method_id: 1, name: "à vista" },
+// 	{ id: 2, method_id: 2, name: "à vista" },
+// 	{ id: 3, method_id: 2, name: "50% / 50%" },
+// 	{ id: 4, method_id: 3, name: "à vista" },
+// 	{ id: 5, method_id: 4, name: "1 parcela" },
+// 	{ id: 6, method_id: 4, name: "2 parcelas" },
+// 	{ id: 7, method_id: 4, name: "3 parcelas" },
+// 	{ id: 8, method_id: 4, name: "4 parcelas" },
+// 	{ id: 9, method_id: 4, name: "5 parcelas" },
+// 	{ id: 10, method_id: 4, name: "6 parcelas" }
+// ];
 
 Sale.controller.payment_method = document.getElementById("payment-method");
 if(Sale.controller.payment_method){
 	Sale.controller.payment_method.addEventListener("change", event => {
 		let html = "";
-		html += "<option value='' disabled selected>Prazo de Pagamento</option>";
-		for(let i in sale_payment_period){
-			if(event.target.value == sale_payment_period[i].method_id){
-				html += "<option value='"+sale_payment_period[i].name+"'>"+sale_payment_period[i].name+"</option>";
-			};
-		};
-		
-		if(event.target.value == 4){ document.getElementById("payment-days").style.display = ""; } 
-		else { document.getElementById("payment-days").style.display = "none"; };
-
+		if(event.target.value === "Cartão de crédito"){
+			html += "<option value='' disabled selected>Prazo de Pagamento</option>";
+			html += "<option value='1x'>1x</option>";
+			html += "<option value='2x'>2x</option>";
+			html += "<option value='3x'>3x</option>";
+		} else {
+			html += "<option value='' disabled selected>Prazo de Pagamento</option>";
+			html += "<option value='À vista'>À vista</option>";
+		}
 		document.getElementById("payment-period").innerHTML = html;
 	});
 };
 
-Sale.controller.payment_period = document.getElementById("payment-period");
-if(Sale.controller.payment_period){
-	Sale.controller.payment_period.addEventListener("change", event => {
-		let installment = event.target.value.split(" ")[0];
-		let html = "";
-
-		for(let i = 1; i <= parseInt(installment); i++){
-			html += "<input id='installment-"+i+"' class='box b"+installment+" margin-top-5 input-generic center' placeholder='"+i+"ª parcela'>";
-		};
-
-		document.getElementById("payment-days").innerHTML = html;
-	});
-};
+// Sale.controller.payment_period = document.getElementById("payment-period");
+// if(Sale.controller.payment_period){
+// 	Sale.controller.payment_period.addEventListener("change", event => {
+// 		let installment = event.target.value.split(" ")[0];
+// 		let html = "";
+// 
+// 		for(let i = 1; i <= parseInt(installment); i++){
+// 			html += "<input id='installment-"+i+"' class='box b"+installment+" margin-top-5 input-generic center' placeholder='"+i+"ª parcela'>";
+// 		};
+// 
+// 		document.getElementById("payment-days").innerHTML = html;
+// 	});
+// };
 
 Sale.controller.save = document.getElementById("sale-create-submit");
 if(Sale.controller.save){
@@ -85,6 +84,7 @@ if(Sale.controller.save){
 			products: JSON.stringify(Sale.product.kart.items),
 			packages: JSON.stringify(Sale.package.kart.items),
 			weight: Sale.pos.total_weight,
+			obs: document.getElementById("sale-obs").value,
 			shipment_method: document.getElementById("shipment-method").value,
 			payment_method: document.getElementById("payment-method").value,
 			payment_period: document.getElementById("payment-period").value,
@@ -120,6 +120,9 @@ if(Sale.controller.save){
 
 		document.getElementById("status").value = "";
 		lib.localStorage.remove("status");
+
+		document.getElementById("sale-obs").value = "";
+		lib.localStorage.remove("sale-obs");
 
 		Sale.pos.discount = 0;
 		document.getElementById("sale-discount-value").value = '0.00';

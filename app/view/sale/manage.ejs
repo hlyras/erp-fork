@@ -64,7 +64,7 @@
                     <div class="box b2 container ground padding-10">
                         <h5 class="underline center">Produtos</h5>
                         <form id="sale-product-kart-form" class="box b1 container">
-                            <div class="mobile-box two-thirds container dropdown ground margin-top-5">
+                            <div class="mobile-box b2-3 container dropdown ground margin-top-5">
                                 <ul class="box b1 container">
                                     <li>
                                         <input type="text" id="sale-product-kart-dropdown-input" name="product" data-id="" class="box b1 input-generic center" oninput="Sale.product.controller.dropdown.filter(this, 'sale-product-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
@@ -81,7 +81,7 @@
                         <h5 class="underline center">Pacotes</h5>
                         <form id="sale-package-kart-form" class="box b1 container">
                             <input type="hidden" name="id" value="">
-                            <div class="mobile-box two-thirds container dropdown ground margin-top-5">
+                            <div class="mobile-box b2-3 container dropdown ground margin-top-5">
                                 <ul class="box b1 container">
                                     <li>
                                         <input type="text" id="sale-package-kart-dropdown-input" name="package" data-id="" class="box b1 input-generic center" oninput="Sale.package.controller.dropdown.filter(this, 'sale-package-kart-dropdown')" placeholder="Descrição do pacote" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
@@ -95,19 +95,25 @@
                         <div id="sale-package-kart-div" class="box b1 container"></div>
                     </div>
                 </div>
+
+                <div class="box b1 container margin-top-5">
+                    <div class="box b1 em08 georgia">Observações da venda</div>
+                    <textarea id="sale-obs" class="box b1 height-80 avant-garde padding-5" placeholder="Observações" maxlength="1000"></textarea>
+                </div>
+                
                 <div class="box b2 container ground padding-10 margin-top-10">
                     <div class="box b1 container ground">
                         <select id="payment-method" class="box b2 input-explicit margin-top-5 hide-disabled">
                             <option value="" disabled selected>Forma de Pagamento</option>
-                            <option value="1">Dinheiro</option>
-                            <option value="2">Transferência</option>
-                            <option value="3">Boleto</option>
-                            <option value="4">Faturado</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Transferência bancária">Transferência bancária</option>
+                            <option value="Boleto">Boleto</option>
+                            <option value="Cartão de crédito">Cartão de crédito</option>
                         </select>
                         
                         <select id="payment-period" class="box b2 input-explicit margin-top-5 hide-disabled">
                             <option value="" disabled selected>Prazo de Pagamento</option>
-                            <option value="1">À Vista</option>
+                            <option value="À vista">À Vista</option>
                         </select>
 
                         <div id="payment-days" class="box a1 container" style="display:none"></div>
@@ -156,7 +162,7 @@
                         <div class="mobile-box b2 center">Valor total:</div>
                         <div id="sale-value" class="mobile-box b2 center bold">$0.00</div>
                     </div>
-                    <input type="button" id="sale-create-submit" class="box b1 input-confirm bold margin-top-5" value="CONFIRMAR VENDA">
+                    <input type="button" id="sale-create-submit" class="box b1 submit-generic bold margin-top-5" value="CONFIRMAR VENDA">
                 </div>
             </div>
         </section>

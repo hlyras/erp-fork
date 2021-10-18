@@ -67,6 +67,13 @@ Sale.view.show = (sale, status) => {
 			html += "<div class='mobile-box b1 underline center avant-garde italic bold'>Informações da venda</div>";
 
 			html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
+				html += "<div class='mobile-box b1 container'>";
+					html += "<div class='box b1 em06 bold'>Vendedor</div>";
+					html += "<div class='box b1'>"+sale.user_name+"</div>"; 
+				html += "</div>";
+			html += "</div>";
+
+			html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
 				html += "<div class='mobile-box b3-8 container'>";
 					html += "<div class='box b1 em06 bold'>Data da venda</div>";
 					html += "<div class='box b1'>"+lib.timestampToDate(sale.sale_date)+"</div>";
@@ -142,6 +149,11 @@ Sale.view.show = (sale, status) => {
 		html += "</div>";
 	html += "</div>";
 
+	html += "<div class='mobile-box b1 container margin-top-5 margin-bottom-5'>";
+		html += "<div class='box b1 em12 bold'>Observações</div>";
+		html += "<div class='box b1 em14 border padding-5 pre-wrap'>"+sale.obs+"</div>";
+	html += "</div>";
+
 	html += "<div class='box b1 container ground'>";
 		html += "<div class='box b2 container ground border padding-5 margin-top-5'>";
 		html += "<div class='box b1 underline center bold'>Produtos</div>";
@@ -152,8 +164,6 @@ Sale.view.show = (sale, status) => {
 			html += "</div>";
 		};
 		html += "</div>";
-
-		// IMPLEMENTAR VALOR DO FRETE, DESCONTO E TOTAL
 
 		html += "<div class='box b2 container ground border padding-5 margin-top-5'>";
 		html += "<div class='box b1 underline center bold'>Pacotes</div>";

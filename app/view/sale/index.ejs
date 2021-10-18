@@ -21,13 +21,14 @@
                             <ul class="box b1 container">
                                 <li>
                                     <input type="text" id="sale-customer" data-id="" class="box b1 input-generic center" oninput="Sale.customer.controller.filter.input(this, 'sale-customer-dropdown')" placeholder="Digite o Nome do cliente ou CNPJ" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
-                                    <ul id="sale-customer-dropdown" class="box one"></ul>
+                                    <ul id="sale-customer-dropdown" class="box b1"></ul>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div id="sale-customer-address-box" class="box b2 ground padding-5"></div>
                 </div>
+
                 <div class="box b1 container center ground padding-10 margin-top-10">
                     <div class="box b2 container ground padding-10">
                         <div class="box b1 em12 underline center">Adicionar Produtos</div>
@@ -36,7 +37,7 @@
                                 <ul class="box b1 container">
                                     <li>
                                         <input type="text" id="sale-product-kart-dropdown-input" name="product" data-id="" class="box b1 input-generic center" oninput="Sale.product.controller.dropdown.filter(this, 'sale-product-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
-                                        <ul id="sale-product-kart-dropdown" class="box one"></ul>
+                                        <ul id="sale-product-kart-dropdown" class="box b1"></ul>
                                     </li>
                                 </ul>
                             </div>
@@ -53,7 +54,7 @@
                                 <ul class="box b1 container">
                                     <li>
                                         <input type="text" id="sale-package-kart-dropdown-input" name="package" data-id="" class="box b1 input-generic center" oninput="Sale.package.controller.dropdown.filter(this, 'sale-package-kart-dropdown')" placeholder="Descrição do pacote" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
-                                        <ul id="sale-package-kart-dropdown" class="box one"></ul>
+                                        <ul id="sale-package-kart-dropdown" class="box b1"></ul>
                                     </li>
                                 </ul>
                             </div>
@@ -63,19 +64,26 @@
                         <div id="sale-package-kart-div" class="box b1 container"></div>
                     </div>
                 </div>
-                <div class="box b2 container ground padding-10 margin-top-10">
+
+                <div class="box b2 container ground padding-10">
+                    <div class="box b1 em08 georgia bold">Observações gerais</div>
+                    <div class="box a1 container margin-top-5">
+                        <textarea id="sale-obs" class="box b1 height-80 avant-garde padding-5" placeholder="Observações" maxlength="1000"></textarea>
+                    </div>
+
+                    <div class="box b1 em08 georgia bold margin-top-10">Informações da venda</div>
                     <div class="box b1 container ground">
                         <select id="payment-method" class="box b2 input-generic margin-top-5 hide-disabled">
                             <option value="" disabled selected>Forma de Pagamento</option>
-                            <option value="1">Dinheiro</option>
-                            <option value="2">Transferência</option>
-                            <option value="3">Boleto</option>
-                            <option value="4">Faturado</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Transferência bancária">Transferência bancária</option>
+                            <option value="Boleto">Boleto</option>
+                            <option value="Cartão de crédito">Cartão de crédito</option>
                         </select>
                         
                         <select id="payment-period" class="box b2 input-generic margin-top-5 hide-disabled">
                             <option value="" disabled selected>Prazo de Pagamento</option>
-                            <option value="1">À Vista</option>
+                            <option value="À vista">À Vista</option>
                         </select>
 
                         <div id="payment-days" class="box a1 container" style="display:none"></div>

@@ -15,7 +15,7 @@ const Sale = function(){
 };
 
 Sale.save = async sale => {
-	let query = "INSERT INTO cms_wt_erp.sale (sale_date, customer_id, customer_name, customer_cnpj, customer_address_id, shipment_method, payment_method, payment_period, status, user_id, user_name, product_value, package_value, shipment_value, discount_value, weight, value) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.sale (sale_date, customer_id, customer_name, customer_cnpj, customer_address_id, shipment_method, payment_method, payment_period, status, user_id, user_name, product_value, package_value, shipment_value, discount_value, weight, obs, value) VALUES ('"
 		+sale.sale_date+"', '"
 		+sale.customer_id+"','"
 		+sale.customer_name+"','"
@@ -32,6 +32,7 @@ Sale.save = async sale => {
 		+sale.shipment_value+"','"
 		+sale.discount_value+"','"
 		+sale.weight+"','"
+		+sale.obs+"','"
 		+sale.value+"');";
 	return db(query);
 };
@@ -53,6 +54,7 @@ Sale.update = async (sale) => {
 		+"', shipment_value='"+sale.shipment_value
 		+"', discount_value='"+sale.discount_value
 		+"', weight='"+sale.weight
+		+"', obs='"+sale.obs
 		+"', value='"+sale.value+"' WHERE id='"+sale.id+"';";
 	return db(query);
 };
