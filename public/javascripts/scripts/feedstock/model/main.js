@@ -35,3 +35,14 @@ Feedstock.findById = async (id) => {
 	
 	return response.feedstock[0];
 };
+
+Feedstock.delete = async (id) => {
+	let response = await fetch("/feedstock/delete/id/" + id, { method: 'DELETE' });
+	response = await response.json();
+
+	if(API.verifyResponse(response)){ return false };
+	
+	alert(response.done);
+	
+	return true;
+};

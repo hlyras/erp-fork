@@ -1,8 +1,8 @@
 Feedstock.supplier.view = {};
 
 Feedstock.supplier.view.filter = (suppliers, pagination) => {
-	let filter_box = document.getElementById("feedstock-supplier-filter-box");
-	let filter_div = document.getElementById("feedstock-supplier-filter-div");
+	let filter_box = document.getElementById("supplier-filter-box");
+	let filter_div = document.getElementById("supplier-filter-div");
 	filter_div.innerHTML = "";
 
 	if(suppliers.length){
@@ -53,6 +53,10 @@ Feedstock.supplier.storage.view.open = (supplier) => {
 	supplier.brand && supplier_info_box.appendChild(lib.element.info("b2", "Marca", supplier.brand));
 	supplier.name && supplier_info_box.appendChild(lib.element.info("b2", "Responsável", supplier.name));
 
+	//Fill supplier id in storage feedstock form
+	document.getElementById("supplier-storage-add-form").elements.namedItem("supplier-id").value = supplier.id;
+	document.getElementById("supplier-storage-filter-form").elements.namedItem("supplier-id").value = supplier.id;
+
 	//Supplier feedstocks
 	const pagination = { pageSize: 15, page: 0};
 	(function(){ lib.carousel.execute("supplier-feedstock-box", Feedstock.supplier.storage.view.filter, supplier.storage, pagination); }());
@@ -62,7 +66,7 @@ Feedstock.supplier.storage.view.filter = (feedstocks, pagination) => {
 	supplier_feedstock_div = document.getElementById("supplier-feedstock-div"); supplier_feedstock_div.innerHTML = "";
 
 	for (let i = pagination.page * pagination.pageSize; i < feedstocks.length && i < (pagination.page + 1) * pagination.pageSize; i++){
-		let feedstock_div = lib.element.create("div", { class: "mobile-box b1 container box-hover padding-5 margin-top-5 border-explicit" });
+		let feedstock_div = lib.element.create("div", { class: "box b3 container box-hover padding-5 margin-top-5 border-explicit" });
 
 		feedstock_div.appendChild(lib.element.info("b4", "Código", feedstocks[i].code));
 		feedstock_div.appendChild(lib.element.info("b2", "Nome", feedstocks[i].name));
@@ -71,10 +75,11 @@ Feedstock.supplier.storage.view.filter = (feedstocks, pagination) => {
 		feedstock_div.appendChild(lib.element.info("b3", "Un. de medida", feedstocks[i].uom));
 		feedstock_div.appendChild(lib.element.create("input", {
 			type: "number",
-			class: "mobile-box b4 em12 input-generic bold center",
-			value: feedstocks[i].price.toFixed(2)
+			class: "mobile-box b4 em11 input-generic bold center",
+			value: feedstocks[i].price.toFixed(2),
+			step: 0.01
 		}));
-		feedstock_div.appendChild(lib.element.icon('b12', 20, "/images/icon/save.png", "Feedstock.supplier.controller.delete("+feedstocks[i].id+")"));
+		feedstock_div.appendChild(lib.element.icon('b12', 20, "/images/icon/trash.png", "Feedstock.supplier.storage.controller.remove("+feedstocks[i].id+")"));
 
 		supplier_feedstock_div.appendChild(feedstock_div);
 	};

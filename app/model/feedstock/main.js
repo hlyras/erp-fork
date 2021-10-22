@@ -40,4 +40,9 @@ Feedstock.findByCode = code => {
 	return db(query);
 };
 
+Feedstock.delete = (feedstock_id) => {
+	let query = "DELETE FROM cms_wt_erp.feedstock WHERE id='"+feedstock_id+"';";
+	return db(query);
+};
+
 module.exports = Feedstock;

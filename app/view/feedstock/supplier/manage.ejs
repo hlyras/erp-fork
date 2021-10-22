@@ -4,10 +4,10 @@
 	</head>
 	<body>
 		<% include ./../../partials/header %>
-        <% include ./../../partials/nav %>
+		<% include ./../../partials/nav %>
 		<section>
 			<div class="container">
-				<form id="feedstock-supplier-create-form" class="box b2 container ground border padding-10 margin-top-10">
+				<form id="supplier-create-form" class="box b2 container ground border padding-10 margin-top-10">
 					<div class="box b1 underline center">Novo Fornecedor</div>
 					<input type="hidden" name="id" value="">
 					<input type="text" name="cnpj" class="box b3 input-generic center margin-top-5" placeholder="CNPJ" autocomplete="off">
@@ -19,57 +19,74 @@
 				</form>
 
 				<div class="box b2 container ground border padding-10 margin-top-10">
-					<form id="feedstock-supplier-filter-form" class="box a1 container">
+					<form id="supplier-filter-form" class="box a1 container">
 						<div class="box b1 underline center">Buscar Fornecedor</div>
+						<input type="hidden" name="supplier-id" value="">
 						<input type="text" name="cnpj" class="box b4 input-generic margin-top-5 center" autocomplete="off" placeholder="cnpj">
 						<input type="text" name="trademark" class="box b3-8 input-generic margin-top-5 center" autocomplete="off" placeholder="tradermark">
 						<input type="text" name="brand" class="box b3-8 input-generic margin-top-5 center" autocomplete="off" placeholder="brand">
 						<input type="text" name="name" class="box b2-3 input-generic margin-top-5 center" autocomplete="off" placeholder="Nome do Responsável">
 						<input type="submit" name="submit" class="box b3 submit-generic margin-top-5 center" value="Buscar">
 					</form>
-					<div id="feedstock-supplier-filter-box" class="box a1 container" style="display:none">
-						<div id="feedstock-supplier-filter-div" class="box a1 container"></div>
+					<div id="supplier-filter-box" class="box a1 container" style="display:none">
+						<div id="supplier-filter-div" class="box a1 container"></div>
         				<% include ./../../partials/carousel %>
 					</div>
-					<div id="feedstock-supplier-show-box" class="box b1 container" style="display:none"></div>
+					<div id="supplier-show-box" class="box b1 container" style="display:none"></div>
 				</div>
 
 				<div id="supplier-storage-box" class="box b1 container ground margin-top-10 border" style="display:none">
 					<div class="box b1 underline em12 center bold padding-5 margin-top-5">Catálogo do fornecedor</div>
-					<div id="supplier-storage-info" class="box b1 container underline padding-5"></div>
+					<div id="supplier-storage-info" class="mobile-box b7-8 container underline padding-5"></div>
+					<div class="mobile-box b8 container center">
+						<div class='mobile-box b1 center padding-5'><img class='icon width-30' src='/images/icon/add.png' onclick="lib.displayDiv('supplier-storage-add-form', this);document.getElementById('supplier-storage-filter-form').style.display='none'"></div>
+						<div class='mobile-box b1 center padding-5'><img class='icon width-30' src='/images/icon/search.png' onclick="lib.displayDiv('supplier-storage-filter-form', this);document.getElementById('supplier-storage-add-form').style.display='none'"></div>
+					</div>
 
-					<div class="box b1 container padding-10">
-                        <div class="box b1 em12 underline center">Adicionar Matéria-Prima</div>
-                        <form id="sale-product-kart-form" class="mobile-box b1 container margin-top-5">
-                            <div class="mobile-box b2-3 container dropdown margin-top-5">
-                                <ul class="mobile-box b1 container">
-                                    <li>
-                                        <input type="text" id="sale-product-kart-dropdown-input" name="product" data-id="" class="mobile-box b1 input-generic center" oninput="Feedstock.controller.dropdown.filter(this, 'feedstock-filter-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
-                                        <ul id="feedstock-filter-dropdown" class="box b1"></ul>
-                                    </li>
-                                </ul>
-                            </div>
-	                    	<input type="number" name="price" class="mobile-box b4 em12 input-generic margin-top-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
-                            <button type="submit" name="submit" class="mobile-box b12 input-generic center noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
-                        </form>
-                        <div id="sale-product-kart-div" class="box b1 container"></div>
-                    </div>
-					
-					<div id="supplier-feedstock-box" class="mobile-box b1 container border margin-top-10">
+					<form id="supplier-storage-filter-form" class="box b1 container padding-10 margin-top-10 border-explicit" style="display:none">
+						<div class="box b1 em12 bold underline center">Buscar matéria-prima no catálogo</div>
+						<input type="hidden" name="supplier-id" value="">
+						<input type="text" name="code" class="mobile-box b6 input-generic center margin-top-5" placeholder="Código" autocomplete="off">
+						<input type="text" name="name" class="mobile-box b2 input-generic center margin-top-5" placeholder="Descrição da matéria" autocomplete="off">
+						<select name="color-id" class="mobile-box b4 input-generic center margin-top-5">
+							<option value="">Cor</option>
+							<% for(i in colors){ %>
+								<option value="<%= colors[i].id %>"><%= colors[i].name %></option>
+							<% } %>
+						</select>
+            <button type="submit" name="submit" class="mobile-box b12 input-generic center noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/search.png"></button>
+					</form>
+
+          <form id="supplier-storage-add-form" class="box b1 container border-explicit padding-10 margin-top-10" style="display:none">
+          	<div class="box b1 em12 bold underline center">Adicionar Matéria-Prima ao catálogo</div>
+            <div class="mobile-box b2-3 container dropdown margin-top-5">
+                <ul class="mobile-box b1 container">
+                    <li>
+                    	<input type="hidden" name="supplier-id" value="">
+                        <input type="text" id="supplier-storage-add-dropdown-input" name="feedstock" data-id="" class="mobile-box b1 input-generic center" oninput="Feedstock.controller.dropdown.filter(this, 'feedstock-filter-dropdown')" placeholder="Descrição da matéria-prima" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                        <ul id="feedstock-filter-dropdown" class="box b1"></ul>
+                    </li>
+                </ul>
+            </div>
+        		<input type="number" name="price" class="mobile-box b4 em12 input-generic margin-top-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+            <button type="submit" name="submit" class="mobile-box b12 input-generic center noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
+          </form>
+          <div id="supplier-storage-add-div" class="box a1 container"></div>
+
+					<div id="supplier-feedstock-box" class="mobile-box b1 container margin-top-10">
 						<div id="supplier-feedstock-div" class="mobile-box b1 container"></div>
-	        			<% include ./../../partials/carousel %>
+	        	<% include ./../../partials/carousel %>
 					</div>
 				</div>
-
 			</div>
 		</section>
-        <% include ./../../partials/loader %>
+    <% include ./../../partials/loader %>
 	</body>
 	<footer>
-        <% include ./../../partials/footer %>
-        <% include ./../partial %>
+    <% include ./../../partials/footer %>
+    <% include ./../partial %>
 
-        <script src="/javascripts/scripts/feedstock/model/supplier.js"></script>
+    <script src="/javascripts/scripts/feedstock/model/supplier.js"></script>
 		<script src="/javascripts/scripts/feedstock/controller/supplier.js"></script>
 		<script src="/javascripts/scripts/feedstock/view/supplier.js"></script>
 	</footer>

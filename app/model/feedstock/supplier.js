@@ -37,11 +37,34 @@ Feedstock.supplier.filter = (props, inners, params, strict_params, order_params)
 	return db(query);
 };
 
+Feedstock.supplier.delete = (supplier_id) => {
+	let query = "DELETE FROM cms_wt_erp.feedstock_supplier WHERE id='"+supplier_id+"';";
+	return db(query);
+};
+
 Feedstock.supplier.storage = {};
+
+Feedstock.supplier.storage.add = (insert) => {
+	let query = "INSERT INTO cms_wt_erp.feedstock_supplier_storage (supplier_id, feedstock_id, price) VALUES ('"+
+		insert.supplier_id+"','"+
+		insert.feedstock_id+"','"+
+		insert.price+"');";
+	return db(query);
+};
 
 Feedstock.supplier.storage.filter = (props, inners, params, strict_params, order_params) => {
 	let query = new lib.Query().select().props(props).table("cms_wt_erp.feedstock_supplier_storage supplier_storage")
 		.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
+	return db(query);
+};
+
+Feedstock.supplier.storage.deleteByFeedstockId = (feedstock_id) => {
+	let query = "DELETE FROM cms_wt_erp.feedstock_supplier_storage WHERE feedstock_id='"+feedstock_id+"';";
+	return db(query);
+};
+
+Feedstock.supplier.storage.deleteBySupplierId = (supplier_id) => {
+	let query = "DELETE FROM cms_wt_erp.feedstock_supplier_storage WHERE supplier_id='"+supplier_id+"';";
 	return db(query);
 };
 
