@@ -20,7 +20,13 @@ storageController.open = async (req, res) => {
 	lib.Query.fillParam("supplier.id", req.params.id, supplier_strict_params);
 
 	//Storage
-	let storage_props = ["supplier_storage.*", "feedstock.*", "color.name color_name"];
+	let storage_props = [	"supplier_storage.*",
+		"feedstock.code",
+		"feedstock.name",
+		"feedstock.unit",
+		"feedstock.uom",
+		"color.name color_name"
+	];
 	let storage_inners = [
 		["cms_wt_erp.feedstock feedstock", "feedstock.id", "supplier_storage.feedstock_id"],
 		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
@@ -67,12 +73,52 @@ storageController.add = async (req, res) => {
 	};
 };
 
+storageController.update = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm','man'])){
+		return res.redirect('/');
+	};
+
+	let feedstock = {
+		id: req.body.id,
+		price: req.body.price
+	};
+
+	try {
+		await Feedstock.supplier.storage.update(feedstock);
+		res.send({ done: "Matéria-prima atualizada com sucesso!" });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
+	};
+};
+
+storageController.remove = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm'])){
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	try {
+		await Feedstock.supplier.storage.remove(req.params.id);
+		res.send({ done: 'Matéria-prima removida com sucesso!' });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
+	};
+};
+
 storageController.filter = async (req, res) => {
 	if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	let props = ["supplier_storage.*", "feedstock.*", "color.name color_name"];
+	let props = [
+		"supplier_storage.*",
+		"feedstock.code",
+		"feedstock.name",
+		"feedstock.unit",
+		"feedstock.uom",
+		"color.name color_name"
+	];
 	let inners = [ 
 		["cms_wt_erp.feedstock feedstock","feedstock.id","supplier_storage.feedstock_id"],
 		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
@@ -96,5 +142,6 @@ storageController.filter = async (req, res) => {
 		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
 	};
 };
+
 
 module.exports = storageController;

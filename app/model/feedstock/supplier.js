@@ -52,6 +52,16 @@ Feedstock.supplier.storage.add = (insert) => {
 	return db(query);
 };
 
+Feedstock.supplier.storage.update = (feedstock) => {
+	let query = "UPDATE cms_wt_erp.feedstock_supplier_storage SET price='"+feedstock.price+"' WHERE id='"+feedstock.id+"';";
+	return db(query);
+};
+
+Feedstock.supplier.storage.remove = (id) => {
+	let query = "DELETE FROM cms_wt_erp.feedstock_supplier_storage WHERE id='"+id+"';";
+	return db(query);
+};
+
 Feedstock.supplier.storage.filter = (props, inners, params, strict_params, order_params) => {
 	let query = new lib.Query().select().props(props).table("cms_wt_erp.feedstock_supplier_storage supplier_storage")
 		.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;

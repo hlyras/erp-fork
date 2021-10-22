@@ -72,13 +72,15 @@ Feedstock.supplier.storage.view.filter = (feedstocks, pagination) => {
 		feedstock_div.appendChild(lib.element.info("b2", "Nome", feedstocks[i].name));
 		feedstock_div.appendChild(lib.element.info("b4", "Cor", feedstocks[i].color_name));
 		feedstock_div.appendChild(lib.element.info("b3", "Medida do pacote", feedstocks[i].unit + "" + feedstocks[i].uom));
-		feedstock_div.appendChild(lib.element.info("b3", "Un. de medida", feedstocks[i].uom));
+		feedstock_div.appendChild(lib.element.info("b4", "Un. de medida", feedstocks[i].uom));
 		feedstock_div.appendChild(lib.element.create("input", {
+			id: "storage-feedstock-"+feedstocks[i].id,
 			type: "number",
 			class: "mobile-box b4 em11 input-generic bold center",
 			value: feedstocks[i].price.toFixed(2),
 			step: 0.01
 		}));
+		feedstock_div.appendChild(lib.element.icon('b12', 20, "/images/icon/save.png", "Feedstock.supplier.storage.controller.update("+feedstocks[i].id+")"));
 		feedstock_div.appendChild(lib.element.icon('b12', 20, "/images/icon/trash.png", "Feedstock.supplier.storage.controller.remove("+feedstocks[i].id+")"));
 
 		supplier_feedstock_div.appendChild(feedstock_div);

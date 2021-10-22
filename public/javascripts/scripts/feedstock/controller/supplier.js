@@ -109,8 +109,29 @@ if(Feedstock.supplier.storage.controller.add){
 	});
 };
 
-Feedstock.supplier.storage.controller.remove = (feedstock_id) => {
-	console.log(feedstock_id);
+Feedstock.supplier.storage.controller.update = async (feedstock_id) => {
+	let r = confirm('Deseja realmente remover a matéria-prima do catálogo?');
+	if(r){
+		let feedstock = {
+			id: feedstock_id,
+			price: document.getElementById("storage-feedstock-"+feedstock_id).value
+		};
+
+		let response = await API.response(Feedstock.supplier.storage.update, feedstock);
+		if(!response) { return false; }
+
+		Feedstock.supplier.storage.controller.filter.submit.click();
+	}
+};
+
+Feedstock.supplier.storage.controller.remove = async (feedstock_id) => {
+	let r = confirm('Deseja realmente remover a matéria-prima do catálogo?');
+	if(r){
+		let response = await API.response(Feedstock.supplier.storage.remove, feedstock_id);
+		if(!response) { return false; }
+
+		Feedstock.supplier.storage.controller.filter.submit.click();
+	}
 };
 
 Feedstock.supplier.storage.controller.filter = document.getElementById("supplier-storage-filter-form");

@@ -33,9 +33,9 @@ router.delete('/supplier/delete/id/:id', lib.route.toHttps, supplierController.d
 
 router.get('/supplier/storage/id/:id', lib.route.toHttps, storageController.open);
 router.post('/supplier/storage/add', lib.route.toHttps, storageController.add);
+router.post('/supplier/storage/update', lib.route.toHttps, storageController.update);
 router.post('/supplier/storage/filter', lib.route.toHttps, storageController.filter);
-// router.get('/supplier/storage/list/id/:id', lib.route.toHttps, feedstockController.supplier.storage.list);
-// router.get('/supplier/storage/remove/id/:id', lib.route.toHttps, feedstockController.supplier.feedstock.remove);
+router.delete('/supplier/storage/remove/id/:id', lib.route.toHttps, storageController.remove);
 // 
 // router.get('/purchase', lib.route.toHttps, feedstockController.purchase.index);
 // router.get('/purchase/manage', lib.route.toHttps, feedstockController.purchase.manage);

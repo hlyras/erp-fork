@@ -85,11 +85,11 @@ Feedstock.supplier.storage.filter = async feedstock => {
 	return response.feedstocks;
 };
 
-Feedstock.supplier.storage.add = async (insert) => {
+Feedstock.supplier.storage.add = async (feedstock) => {
 	let response = await fetch("/feedstock/supplier/storage/add", {
 		method: "POST",
 		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify(insert)
+	    body: JSON.stringify(feedstock)
 	});
 	response = await response.json();
 
@@ -99,4 +99,26 @@ Feedstock.supplier.storage.add = async (insert) => {
 	return response;
 };
 
-Feedstock.supplier.storage.updatePrice
+Feedstock.supplier.storage.update = async (feedstock) => {
+	let response = await fetch("/feedstock/supplier/storage/update", {
+		method: "POST",
+		headers: {'Content-Type': 'application/json'},
+	    body: JSON.stringify(feedstock)
+	});
+	response = await response.json();
+
+	if(API.verifyResponse(response)){ return false };
+	alert(response.done);
+
+	return response;
+};
+
+Feedstock.supplier.storage.remove = async (id) => {
+	let response = await fetch("/feedstock/supplier/storage/remove/id/"+id, { method: 'DELETE' });
+	response = await response.json();
+
+	if(API.verifyResponse(response)){ return false };
+	alert(response.done);
+	
+	return true;
+};
