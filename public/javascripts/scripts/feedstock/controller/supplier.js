@@ -110,7 +110,7 @@ if(Feedstock.supplier.storage.controller.add){
 };
 
 Feedstock.supplier.storage.controller.update = async (feedstock_id) => {
-	let r = confirm('Deseja realmente remover a matéria-prima do catálogo?');
+	let r = confirm('Confirmar alteração do preço?');
 	if(r){
 		let feedstock = {
 			id: feedstock_id,
