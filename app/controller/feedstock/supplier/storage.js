@@ -11,7 +11,7 @@ Feedstock.supplier = require('../../../model/feedstock/supplier');
 const storageController = {};
 
 storageController.open = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','man'])){
+	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man','man'])){
 		return res.redirect('/');
 	};
 
@@ -47,7 +47,7 @@ storageController.open = async (req, res) => {
 };
 
 storageController.add = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','man'])){
+	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man','man'])){
 		return res.redirect('/');
 	};
 
@@ -74,7 +74,7 @@ storageController.add = async (req, res) => {
 };
 
 storageController.update = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','man'])){
+	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man','man'])){
 		return res.redirect('/');
 	};
 
@@ -107,7 +107,7 @@ storageController.remove = async (req, res) => {
 };
 
 storageController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'man'])){
+	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
