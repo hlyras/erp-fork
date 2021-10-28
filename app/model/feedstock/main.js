@@ -35,6 +35,11 @@ Feedstock.filter = (props, inners, params, strict_params, order_params) => {
 	return db(query);
 };
 
+Feedstock.findById = id => {
+	let query = "SELECT * FROM cms_wt_erp.feedstock WHERE id='"+id+"';";
+	return db(query);
+};
+
 Feedstock.findByCode = code => {
 	let query = "SELECT * FROM cms_wt_erp.feedstock WHERE code='"+code+"';";
 	return db(query);

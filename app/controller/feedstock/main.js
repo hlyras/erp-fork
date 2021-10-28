@@ -138,4 +138,44 @@ feedstockController.delete = async (req, res) => {
 	};
 };
 
+feedstockController.view = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])){
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	//Feedstock
+	let props = [ "feedstock.*", "color.name color_name" ];
+	let inners = [ ["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"] ];
+	let strict_params = { keys: [], values: [] };
+	lib.Query.fillParam("feedstock.id", req.params.id, strict_params);
+
+	//Storage feedstocks
+	let storage_props = [ 
+		"supplier_storage.*",
+		"feedstock.code",
+		"feedstock.name",
+		"feedstock.unit",
+		"feedstock.uom",
+		"color.name color_name" 
+	];
+
+	let storage_inners = [ 
+		["cms_wt_erp.feedstock feedstock", "feedstock.id", "supplier_storage.feedstock_id"],
+		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
+	];
+
+	let storage_strict_params = { keys: [], values: [] };
+	lib.Query.fillParam("feedstock.id", req.params.id, storage_strict_params);
+	let storage_order_params = [ ["supplier_storage.supplier_id","ASC"] ];
+
+	try {
+		let feedstock = await Feedstock.filter(storage_props, storage_inners, [], storage_strict_params, []);
+		let storage_feedstocks = await Feedstock.supplier.storage.filter(props, inners, [], strict_params, storage_order_params);
+		res.send({ feedstock });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
+	};
+};
+
 module.exports = feedstockController;
