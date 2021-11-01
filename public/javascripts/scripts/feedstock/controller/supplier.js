@@ -153,3 +153,27 @@ if(Feedstock.supplier.storage.controller.filter){
 		(function(){ lib.carousel.execute("supplier-feedstock-box", Feedstock.supplier.storage.view.filter, feedstocks, pagination); }());
 	});
 };
+
+Feedstock.supplier.storage.controller.dropdown = {
+	filter: async (input, dropdown_id, supplier_id) => {
+		event.preventDefault();
+
+		let feedstock = { 
+			name: input.value,
+			supplier_id: supplier_id
+		};
+
+		console.log(feedstock);
+		
+		let properties = ["code","name","color_name","unit","uom","price"];
+
+		if(feedstock.name.length > 2){
+			let feedstocks = await API.response(Feedstock.supplier.storage.filter, feedstock);
+			if(!feedstocks){ return false; };
+
+			lib.dropdown.render(feedstocks, input.id, dropdown_id, "input", "id", properties);
+		} else {
+			lib.dropdown.render([], input.id, dropdown_id, "input", "id", properties);
+		};
+	}
+};

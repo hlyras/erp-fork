@@ -16,13 +16,11 @@ purchaseController.index = async (req, res) => {
 
 	try {
 		let suppliers = await Feedstock.supplier.filter([],[],[],[],[]);
-		console.log(suppliers);
 		res.render('feedstock/purchase/index', { user: req.user, suppliers });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 	}
-
 };
 
 // supplierController.manage = async (req, res) => {

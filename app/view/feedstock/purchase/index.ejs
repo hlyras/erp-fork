@@ -6,12 +6,12 @@
 <% include ./../../partials/header %>
 <% include ./../../partials/nav %>
 <section class="container h-center">
-	
-	<div class="box b2-3 ground center padding-10">
+
+	<div class="box b2-3 ground padding-10">
 		<div class="box b1 underline center">Compra de Matéria-Prima</div>
 		<div class="box b1 container margin-top-5">
-			<div class="box b2 center">Selecione o Fornecedor:</div>
-			<select class="box b2 padding-10" onchange="Feedstock.purchase.controller.setSupplier(this.value)">
+			<div class="mobile-box b2 center">Selecione o Fornecedor:</div>
+			<select id="purchase-supplier-select" class="mobile-box b2 padding-10" onchange="Feedstock.purchase.controller.setSupplier(this.value)">
 				<option value="">Fornecedor</option>
 				<% for(i in suppliers) { %>
 				<option value="<%= suppliers[i].id %>"><%= suppliers[i].brand %></option>
@@ -20,18 +20,18 @@
 		</div>
 
 		<form id="purchase-feedstock-add-form" class="box b1 container border-explicit padding-10 margin-top-10" style="display:none">
-			<div class="box b1 em12 bold underline center">Adicionar Matéria-Prima a compra</div>
+			<div class="box b1 em12 bold underline center">Adicionar matéria-prima à compra</div>
 			<div class="mobile-box b2-3 container dropdown margin-top-5">
 				<ul class="mobile-box b1 container"><li>
 				<input type="hidden" name="supplier-id" value="">
-				<input type="text" id="purchase-feedstock-add-dropdown-input" name="feedstock" data-id="" class="mobile-box b1 input-generic center" oninput="Feedstock.controller.dropdown.filter(this, 'purchase-feedstock-filter-dropdown')" placeholder="Descrição da matéria-prima" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+				<input type="text" id="purchase-feedstock-add-dropdown-input" name="feedstock" data-id="" class="mobile-box b1 input-generic center" oninput="Feedstock.supplier.storage.controller.dropdown.filter(this, 'purchase-feedstock-filter-dropdown', document.getElementById('purchase-feedstock-add-form').elements.namedItem('supplier-id').value)" placeholder="Descrição da matéria-prima" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
 				<ul id="purchase-feedstock-filter-dropdown" class="box b1"></ul>
 				</li></ul>
 			</div>
-			<input type="number" name="price" class="mobile-box b4 em12 input-generic margin-top-5 center bold" step="0.01" placeholder="'cm' ou 'un'" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+			<input type="number" name="amount" class="mobile-box b4 em12 input-generic margin-top-5 center bold" step="0.01" placeholder="metros" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
 			<button type="submit" name="submit" class="mobile-box b12 input-generic center noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
 		</form>
-		<div id="purchase-feedstock-add-div" class="box a1 container"></div>
+		<div id="purchase-feedstock-add-div" class="box a1 container margin-top-10"></div>
 	</div>
 
 </section>
@@ -40,9 +40,12 @@
 <footer>
 	<% include ./../../partials/footer %>
 	<% include ./../partial %>
+	<script src="/javascripts/scripts/feedstock/model/supplier.js"></script>
+	<script src="/javascripts/scripts/feedstock/controller/supplier.js"></script>
 
 	<script src="/javascripts/scripts/feedstock/model/purchase.js"></script>
-	<script src="/javascripts/scripts/feedstock/controller/purchase.js"></script>
+	<script src="/javascripts/scripts/feedstock/controller/purchase/main.js"></script>
+	<script src="/javascripts/scripts/feedstock/controller/purchase/kart.js"></script>
 	<script src="/javascripts/scripts/feedstock/view/purchase.js"></script>
 </footer>
 </html>
