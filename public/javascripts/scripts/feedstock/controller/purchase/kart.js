@@ -40,16 +40,6 @@ if(Feedstock.purchase.controller.add){
 	});
 }
 
-lib.element.param = (box, param, element, option) => {
-	let divParent = lib.element.create("div", { class: "mobile-box "+box+" container padding-5 margin-top-5" });
-	let divInput = lib.element.create("div", { class: "mobile-box b1 em06" }, param);
-	let divValue = lib.element.create(element, option);
-
-	divParent.appendChild(divInput);
-	divParent.appendChild(divValue);
-	return divParent;
-};
-
 Feedstock.purchase.controller.kart.list = function(kart, props){
 	let kart_div = document.getElementById(this.name+"-div"); kart_div.innerHTML = "";
 
