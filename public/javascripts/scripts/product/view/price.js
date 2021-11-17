@@ -78,7 +78,8 @@ Product.price.category.view.show = (category) => {
 			html += "<div class='mobile-box b2 center'>"+category.packages[i].name+" | "+category.packages[i].color+"</div>";
 			html += "<div class='mobile-box b3-8 container'>";
 				html += "<div class='mobile-box b6 center'>$</div>";
-				html += "<input type='number' id='product-price-category-price-"+category.packages[i].id+"' class='mobile-box b2-3 input-border-bottom height-25 center' data-price='"+category.packages[i].price.toFixed(2)+"' step='0.01' value='"+category.packages[i].price.toFixed(2)+"' onfocus='if(this.value < 0.01){this.value=``}' onblur='if(this.value < 0.01){this.value=`0.00`}'>";
+				console.log(category.packages[i].price);
+				category.packages[i].price && html += "<input type='number' id='product-price-category-price-"+category.packages[i].id+"' class='mobile-box b2-3 input-border-bottom height-25 center' data-price='"+category.packages[i].price.toFixed(2)+"' step='0.01' value='"+category.packages[i].price.toFixed(2)+"' onfocus='if(this.value < 0.01){this.value=``}' onblur='if(this.value < 0.01){this.value=`0.00`}'>";
 				html += "<div class='mobile-box b6 center'><input type='image' class='icon size-20' src='/images/icon/save.png' onclick='Product.controller.package.price.updatePrice("+category.packages[i].price_id+", `product-price-category-price-"+category.packages[i].id+"`);'></div>";
 			html += "</div>";
 		html += "</div>";
