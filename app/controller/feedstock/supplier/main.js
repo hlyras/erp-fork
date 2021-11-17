@@ -75,7 +75,7 @@ supplierController.filter = async (req, res) => {
 };
 
 supplierController.findById = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man', 'man'])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','man'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

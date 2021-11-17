@@ -163,8 +163,6 @@ Feedstock.supplier.storage.controller.dropdown = {
 			supplier_id: supplier_id
 		};
 
-		console.log(feedstock);
-		
 		let properties = ["code","name","color_name","unit","uom","price"];
 
 		if(feedstock.name.length > 2){

@@ -11,7 +11,7 @@ const Outcome = function() {
 	this.income_category_id = 0;
 	this.description = "";
 	this.cost = "";
-	this.status = "";
+	this.status = ""; // Ag. aprovação, A pagar, Pago, Cancelado
 	this.user_id = "";
 
 	this.save = () => {

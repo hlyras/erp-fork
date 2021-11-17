@@ -20,7 +20,7 @@ storageController.open = async (req, res) => {
 	lib.Query.fillParam("supplier.id", req.params.id, supplier_strict_params);
 
 	//Storage
-	let storage_props = [	"supplier_storage.*",
+	let storage_props = ["supplier_storage.*",
 		"feedstock.code",
 		"feedstock.name",
 		"feedstock.unit",
@@ -63,7 +63,7 @@ storageController.add = async (req, res) => {
 
 	try {
 		let feedstocks = await Feedstock.supplier.storage.filter([], [], [], storage_strict_params, []);
-		if(feedstocks.length) { console.log(feedstocks); return res.send({ msg: "Esta matéria-prima já está inserida no catálogo!\n \n Atualize o preço ao invés de incluir novamente!" }); }
+		if(feedstocks.length) { return res.send({ msg: "Esta matéria-prima já está inserida no catálogo!\n \n Atualize o preço ao invés de incluir novamente!" }); }
 
 		await Feedstock.supplier.storage.add(insert);
 		res.send({ done: "Matéria-prima adicionada com sucesso!" });
@@ -127,8 +127,6 @@ storageController.filter = async (req, res) => {
 	let params = { keys: [], values: [] };
 	let strict_params = { keys: [], values: [] };
 
-	console.log(req.body);
-
 	lib.Query.fillParam("supplier_storage.id", req.body.id, strict_params);
 	lib.Query.fillParam("supplier_storage.supplier_id", req.body.supplier_id, strict_params);
 	lib.Query.fillParam("feedstock.code", req.body.code, strict_params);
@@ -136,15 +134,11 @@ storageController.filter = async (req, res) => {
 	lib.Query.fillParam("feedstock.color_id", req.body.color_id, strict_params);
 	lib.Query.fillParam("supplier_storage.feedstock_id", req.body.feedstock_id, strict_params);
 
-	console.log(params);
-
 	let order_params = [ ["feedstock.code","ASC"] ];
 	
 	try {
 		let feedstocks = await Feedstock.supplier.storage.filter(props, inners, params, strict_params, order_params);
 
-		console.log(feedstocks);
-		
 		res.send({ feedstocks });
 	} catch (err) {
 		console.log(err);

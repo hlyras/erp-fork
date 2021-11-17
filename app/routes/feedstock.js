@@ -3,8 +3,9 @@ const lib = require('jarmlib');
 
 const feedstockController = require('../controller/feedstock/main');
 const supplierController = require('../controller/feedstock/supplier/main');
-const storageController = require('../controller/feedstock/supplier/storage');
+const supplierStorageController = require('../controller/feedstock/supplier/storage');
 const purchaseController = require('../controller/feedstock/purchase/main');
+const purchaseFeedstockController = require('../controller/feedstock/purchase/feedstock');
 
 //API ROUTES
 router.get('/manage', lib.route.toHttps, feedstockController.manage);
@@ -34,19 +35,23 @@ router.post('/supplier/filter', lib.route.toHttps, supplierController.filter);
 router.get('/supplier/id/:id', lib.route.toHttps, supplierController.findById);
 router.delete('/supplier/delete/id/:id', lib.route.toHttps, supplierController.delete);
 
-router.get('/supplier/storage/id/:id', lib.route.toHttps, storageController.open);
-router.post('/supplier/storage/add', lib.route.toHttps, storageController.add);
-router.post('/supplier/storage/update', lib.route.toHttps, storageController.update);
-router.post('/supplier/storage/filter', lib.route.toHttps, storageController.filter);
-router.delete('/supplier/storage/remove/id/:id', lib.route.toHttps, storageController.remove);
+router.get('/supplier/storage/id/:id', lib.route.toHttps, supplierStorageController.open);
+router.post('/supplier/storage/add', lib.route.toHttps, supplierStorageController.add);
+router.post('/supplier/storage/update', lib.route.toHttps, supplierStorageController.update);
+router.post('/supplier/storage/filter', lib.route.toHttps, supplierStorageController.filter);
+router.delete('/supplier/storage/remove/id/:id', lib.route.toHttps, supplierStorageController.remove);
 
 router.get('/purchase', lib.route.toHttps, purchaseController.index);
-// router.get('/purchase/manage', lib.route.toHttps, feedstockController.purchase.manage);
-// router.post('/purchase/save', lib.route.toHttps, feedstockController.purchase.save);
+router.get('/purchase/manage', lib.route.toHttps, purchaseController.manage);
+router.post('/purchase/save', lib.route.toHttps, purchaseController.save);
 // router.put('/purchase/confirm', lib.route.toHttps, feedstockController.purchase.confirm);
 // router.get('/purchase/id/:id', lib.route.toHttps, feedstockController.purchase.findById);
-// router.post('/purchase/filter', lib.route.toHttps, feedstockController.purchase.filter);
-// 
+router.post('/purchase/filter', lib.route.toHttps, purchaseController.filter);
+
+router.post('/purchase/feedstock/filter', lib.route.toHttps, purchaseFeedstockController.filter);
+
+
+// /feedstock/purchase/feedstock/filter
 // router.get('/storage', lib.route.toHttps, feedstockController.storage.index);
 // router.get('/storage/manage', lib.route.toHttps, feedstockController.storage.manage);
 // router.post('/storage/create', lib.route.toHttps, feedstockController.storage.create);
