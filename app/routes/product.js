@@ -7,6 +7,7 @@ productController.image = require('../controller/product/image');
 productController.package = require('../controller/product/package');
 productController.feedstock = require('../controller/product/feedstock');
 productController.price = require('../controller/product/price');
+productController.catalog = require('../controller/product/catalog');
 
 router.get('/index', lib.route.toHttps, productController.index);
 router.get('/manage', lib.route.toHttps, productController.manage);
@@ -35,6 +36,8 @@ router.post('/price/category/save', lib.route.toHttps, productController.price.c
 router.get('/price/category/filter', lib.route.toHttps, productController.price.category.filter);
 router.get('/price/category/id/:id', lib.route.toHttps, productController.price.category.findById);
 router.delete('/price/category/delete', lib.route.toHttps, productController.price.category.delete);
+
+router.get('/catalog', lib.route.toHttps, productController.catalog.index);
 
 router.get('/package', lib.route.toHttps, productController.package.index);
 router.post('/package/save', lib.route.toHttps, productController.package.save);

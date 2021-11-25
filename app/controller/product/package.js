@@ -31,7 +31,7 @@ productController.package.save = async (req, res) => {
 	let package = req.body.package;
 
 	if(!package.code || package.code < 1 || package.code > 9999){return res.send({ msg: 'Código de pacote inválido.' })};
-	if(!package.name || package.name.length > 50){return res.send({ msg: 'O nome do pacote é inválido.' })};
+	if(!package.name || package.name.length > 75){return res.send({ msg: 'O nome do pacote é inválido.' })};
 	if(!package.color){return res.send({ msg: 'A cor do pacote é inválida.' })};
 	if(!package.weight || isNaN(package.weight)){ return res.send({ msg: 'O peso do pacote é inválido.' }); };
 	if(!package.status){return res.send({ msg: 'O status do pacote é inválido.' })};

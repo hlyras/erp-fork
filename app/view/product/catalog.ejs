@@ -7,48 +7,33 @@
         <% include ./../partials/nav %>
 		<section>
 			<div class="container">
-				<div class="box-1">
-					<form id="product-filter-form" class="box-1">
-						<input type="hidden" name="session" value="catalog">
-						<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
-						<input type="text" name="code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
-						<select name="color" id="product-catalog-color" class="btn-generic-small" autocomplete="off">
-							<option value="">Cor</option>
-							<% for(i in productColors){ %>
-								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
-							<% } %>
-						</select>
-						<select name="brand" class="btn-generic-big">
-							<option value="">Marca do Produto</option>
-							<option value="Sem marca">Sem marca</option>
-							<option value="J.A Rio Militar">J.A Rio Militar</option>
-						</select>
-						<input type="submit" class="btn-submit" value="Filtrar">
+				<div class="box b2 container ground padding-10 margin-top-10">
+					<div class="box b1 underline center">Nova tabela</div>
+					<form id="product-price-category-create-form" class="box b1 container padding-5">
+						<input type="hidden" name="id">
+						<input type="text" name="name" class="box b3-4 input-generic margin-top-5 center" placeholder="Nome da tabela" autocomplete="off">
+						<input type="submit" name="submit" class="box b4 submit-generic margin-top-5" value="Cadastrar">
 					</form>
-					<div id="product-div" style="display:none">
-						<table class="tbl-info box-1" id="product-tbl"></table>
-						<br>
-						<button id="productPrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-	                    <span id="productPageNumber"></span>
-	                    <button id="productNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
-					</div>
 				</div>
 				
-				<div class="box-1" id="product-show-box" style="display:none;">
-					<table class="tbl-info box-1" id="product-show-tbl">
-						<tr>
-							<td>Cód</td>
-							<td>Nome</td>
-							<td>Tamanho</td>
-							<td>Cor</td>
-						</tr>
-						<tbody id="product-show-tbody"></tbody>
-					</table>
-					<div class="box-1" id="product-image-show"></div>
-					<button id="imagePrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-                    <span id="imagePageNumber"></span>
-                    <button id="imageNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button>
-				</div>
+				<div id="product-price-category-filter-box" class="box b2 container ground padding-10 margin-top-10">
+                    <div class="box b1 underline center">Buscar Tabelas</div>
+                    <form id="product-price-category-filter-form" class="box b1 container padding-5">
+                        <input type="number" name="id" class="box b6 input-generic margin-top-5 center" placeholder="Código" min="1" max="9999" autocomplete="off">
+                        <input type="text" name="name" class="box b2-3 input-generic margin-top-5 center" placeholder="Nome da categoria" autocomplete="off">
+                        <input type="submit" name="submit" class="box b6 submit-generic center margin-top-5 bold" value="Buscar">
+                    </form>
+                    <div id="product-price-category-filter-div" class="box b1 container ground padding-5"></div>
+                    <% include ./../partials/carousel %>
+                </div>
+
+                <div id="product-price-category-show-box" class="box b1 container ground padding-10 margin-top-10" style="display:none">
+                	<input type="hidden" id="product-price-category-show-id">
+                	<div id="product-price-category-show-info" class="box b1 container border padding-5"></div>
+                	<div id="product-package-price-category-show-div" class="box b1 container border padding-5 margin-top-5"></div>
+                	<div id="product-price-category-show-div" class="box b1 container border padding-5 margin-top-5"></div>
+                    <!-- <% include ./../partials/carousel %> -->
+                </div>
 			</div>
 		</section>
         <% include ./../partials/loader %>
@@ -56,5 +41,12 @@
 	<footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
+        <script src="/javascripts/scripts/product/model/package.js"></script>
+        <script src="/javascripts/scripts/product/controller/package.js"></script>
+
+        <script src="/javascripts/scripts/product/model/price.js"></script>
+        <script src="/javascripts/scripts/product/view/price.js"></script>
+        <script src="/javascripts/scripts/product/controller/price.js"></script>
+
 	</footer>
 </html>
