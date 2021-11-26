@@ -9,14 +9,14 @@ const userController = require('./../user');
 
 productController.package = {};
 
-productController.package.index = async (req, res) => {
+productController.package.manage = async (req, res) => {
 	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-vis'])){
 		return res.redirect('/');
 	};
 
 	try {
 		let colors = await Product.color.list();
-		res.render('product/package', { user: req.user, colors: colors });
+		res.render('product/package/manage', { user: req.user, colors: colors });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar requisição." });

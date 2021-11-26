@@ -39,10 +39,7 @@ Product.view.show = (product) => {
 	let show_div = document.getElementById("product-show-div");
 	show_div.innerHTML = "";
 
-	let div_title = lib.element.create("div", {
-		class: "box b1 underline center bold",
-	}, product.name);
-	show_div.appendChild(div_title);
+	show_div.appendChild(lib.element.create("div", { class: "box b1 underline center bold", }, product.name))
 
 	show_div.appendChild(lib.element.info("b8", "Id", product.id));
 	show_div.appendChild(lib.element.info("b8", "Código", product.code));

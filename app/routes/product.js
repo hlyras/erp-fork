@@ -5,9 +5,10 @@ const productController = require('../controller/product/main');
 productController.color = require('../controller/product/color');
 productController.image = require('../controller/product/image');
 productController.package = require('../controller/product/package');
-productController.feedstock = require('../controller/product/feedstock');
+productController.feedstock = require('../controller/product/feedstock/main');
 productController.price = require('../controller/product/price');
 productController.catalog = require('../controller/product/catalog');
+productController.datasheet = require('../controller/product/datasheet/main');
 
 router.get('/index', lib.route.toHttps, productController.index);
 router.get('/manage', lib.route.toHttps, productController.manage);
@@ -21,12 +22,16 @@ router.delete('/delete', lib.route.toHttps, productController.delete);
 router.post('/image/add', lib.route.toHttps, productController.image.add);
 router.delete('/image/remove', lib.route.toHttps, productController.image.remove);
 
-router.post('/feedstock/add', lib.route.toHttps, productController.feedstock.add);
-router.get('/feedstock/id/:id', lib.route.toHttps, productController.feedstock.findById);
-router.delete('/feedstock/remove', lib.route.toHttps, productController.feedstock.remove);
-router.get('/feedstock/list/product_id/:product_id', lib.route.toHttps, productController.feedstock.list);
-router.post('/feedstock/category/save', lib.route.toHttps, productController.feedstock.category.save);
-router.get('/feedstock/category/list/product_id/:product_id', lib.route.toHttps, productController.feedstock.category.list);
+router.get('/datasheet', lib.route.toHttps, productController.datasheet.index);
+
+router.get('/feedstock', lib.route.toHttps, productController.feedstock.index);
+router.get('/feedstock/manage', lib.route.toHttps, productController.feedstock.manage);
+// router.post('/feedstock/add', lib.route.toHttps, productController.feedstock.add);
+// router.get('/feedstock/id/:id', lib.route.toHttps, productController.feedstock.findById);
+// router.delete('/feedstock/remove', lib.route.toHttps, productController.feedstock.remove);
+// router.get('/feedstock/list/product_id/:product_id', lib.route.toHttps, productController.feedstock.list);
+// router.post('/feedstock/category/save', lib.route.toHttps, productController.feedstock.category.save);
+// router.get('/feedstock/category/list/product_id/:product_id', lib.route.toHttps, productController.feedstock.category.list);
 
 router.get('/price', lib.route.toHttps, productController.price.index);
 router.post('/price/filter', lib.route.toHttps, productController.price.filter);
@@ -39,7 +44,7 @@ router.delete('/price/category/delete', lib.route.toHttps, productController.pri
 
 router.get('/catalog', lib.route.toHttps, productController.catalog.index);
 
-router.get('/package', lib.route.toHttps, productController.package.index);
+router.get('/package', lib.route.toHttps, productController.package.manage);
 router.post('/package/save', lib.route.toHttps, productController.package.save);
 router.post('/package/filter', lib.route.toHttps, productController.package.filter);
 router.get('/package/id/:id', lib.route.toHttps, productController.package.findById);

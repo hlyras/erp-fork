@@ -1,6 +1,14 @@
 <html>
 	<head>
         <% include ./../partials/head %>
+        <style type="text/css">
+        	.fixed-footer {
+			    position: fixed;
+			    bottom: 0;
+			    width: 100%;
+			    z-index: 9999
+			}
+        </style>
 	</head>
 	<body>
 		<% include ./../partials/header %>
@@ -79,21 +87,72 @@
 					</div>
 				</div>
 
-				<div id="product-show-box" class="box b1 container border ground padding-10 margin-top-10" style="display:none">
-					<div id="product-show-div" class="box b2 container"></div>
-					<div id="product-image-box" class="box b2 ground border center padding-10 margin-top-10" style="display:none">
-						<div id="product-image-div" class="box b1 center ground padding-10 margin-top-10"></div>
-						<% include ./../partials/carousel %>
+				<div id="product-show-box" class="box b1 container border ground margin-top-10" style="display:none">
+					<div class="box b2 container margin-top-10">
+		                <div class="box b1 underline center bold">Painel de configurações</div>
+		                <!-- CONFIG PANEL -->
+		                <form id="product-feedstock-add-form" class="box b1 container border-explicit padding-10 margin-top-10" style="display:none">
+							<div class="box b1 em12 bold underline center">Adicionar Matéria-Prima ao catálogo</div>
+							<div class="mobile-box b2-3 container dropdown margin-top-5">
+								<ul class="mobile-box b1 container"><li>
+								<input type="hidden" name="product-id" value="">
+								<input type="text" id="product-feedstock-add-dropdown-input" name="feedstock" data-id="" class="mobile-box b1 input-generic center" oninput="Feedstock.controller.dropdown.filter(this, 'feedstock-filter-dropdown')" placeholder="Descrição da matéria-prima" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+								<ul id="feedstock-filter-dropdown" class="box b1"></ul>
+								</li></ul>
+							</div>
+							<input type="number" name="price" class="mobile-box b4 em12 input-generic margin-top-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+							<button type="submit" name="submit" class="mobile-box b12 input-generic center noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
+						</form>
+		                </form>
+		                <!-- END OF PANEL -->
+		            </div>
+					<div class="box b2 container margin-top-10">
+						<div id="product-show-div" class="box b1 container"></div>
+						<div id="product-image-box" class="box b1 ground border center padding-10 margin-top-10" style="display:none">
+							<div id="product-image-div" class="box b1 center ground padding-10 margin-top-10"></div>
+							<% include ./../partials/carousel %>
+						</div>
 					</div>
 				</div>
-				
-					<!-- <button class="box b1 box-hover border center height-30 margin-top-10 bold" onclick="lib.displayDiv('product-image-div', this, '⇓ Mostrar Imagem ⇓', '⇑ Esconder Imagem ⇑');">⇑ Esconder Imagem ⇑</button> -->
+				<div class="box a1 container ground fixed-footer padding-10 border-explicit">
+					<div onclick="" class="mobile-box b5 container padding-5 border-explicit radius-10 shadow-2-hover pointer">
+	                    <img class="box b6 image-fit" src="/images/icon/info.png">
+	                    <div class="mobile-box b5-6 em09 center hide-in-mobile">Detalhes Gerais</div>
+	                </div>
+	                <div onclick="feedstockMenu()" class="mobile-box b5 container padding-5 border-explicit radius-10 shadow-2-hover pointer">
+	                    <img class="box b6 image-fit" src="/images/icon/feedstock.png">
+	                    <div class="mobile-box b5-6 hide-in-mobile em09 center">Matérias-Primas</div>
+	                </div>
+	                <div onclick="" class="mobile-box b5 container padding-5 border-explicit radius-10 shadow-2-hover pointer">
+	                    <img class="box b6 image-fit" src="/images/icon/time.png">
+	                    <div class="mobile-box b5-6 hide-in-mobile em09 center">Tempo de Produção</div>
+	                </div>
+	                <div onclick="" class="mobile-box b5 container padding-5 border-explicit radius-10 shadow-2-hover pointer">
+	                    <img class="box b6 image-fit" src="/images/icon/cost.png">
+	                    <div class="mobile-box b5-6 hide-in-mobile em09 center">Custos de Produção</div>
+	                </div>
+	                <div onclick="" class="mobile-box b5 container padding-5 border-explicit radius-10 shadow-2-hover pointer">
+	                    <img class="box b6 image-fit" src="/images/icon/add-image.png">
+	                    <div class="mobile-box b5-6 hide-in-mobile em09 center">Imagens do Produto</div>
+	                </div>
+				</div>
 			</div>
+			<div class="box b1 height-150"></div>
 		</section>
         <% include ./../partials/loader %>
 	</body>
 	<footer>
         <% include ./../partials/footer %>
         <% include ./partial %>
+
+        <script type="text/javascript">
+        	function feedstockMenu(){
+        		document.getElementById("product-feedstock-add-form").style.display = "";
+        	};
+        </script>
+
+        <script src="/javascripts/scripts/feedstock/model/main.js"></script>
+		<script src="/javascripts/scripts/feedstock/controller/main.js"></script>
+		<script src="/javascripts/scripts/feedstock/view/main.js"></script>
 	</footer>
 </html>
