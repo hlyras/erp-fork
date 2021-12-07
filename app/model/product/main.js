@@ -65,15 +65,12 @@ const Product = function(){
 };
 
 Product.save = async (product) => {
-	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, weight, width, height, depth, brand, image, video, status, announcement) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, weight, brand, image, video, status, announcement) VALUES ('"
 		+product.code+"', '"
 		+product.name+"','"
 		+product.color+"','"
 		+product.size+"','"
 		+product.weight+"','"
-		+product.width+"','"
-		+product.height+"','"
-		+product.depth+"','"
 		+product.brand+"','"
 		+product.image+"','"
 		+product.video+"','"

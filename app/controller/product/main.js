@@ -67,9 +67,9 @@ productController.save = async (req, res) => {
 	if(!product.color || product.color.length > 25){return res.send({ msg: 'Preencha a cor do produto.' })};
 	if(!product.size || product.size.length > 4){return res.send({ msg: 'Preencha o tamanho do produto.' })};
 	if(!product.weight || isNaN(product.weight)){return res.send({ msg: 'Preencha o peso do produto.' })};
-	if(!product.width || isNaN(product.width)){return res.send({ msg: 'Preencha a largura do produto.' })};
-	if(!product.height || isNaN(product.height)){return res.send({ msg: 'Preencha a altura do produto.' })};
-	if(!product.depth || isNaN(product.depth)){return res.send({ msg: 'Preencha a profundidade do produto.' })};
+	// if(!product.width || isNaN(product.width)){return res.send({ msg: 'Preencha a largura do produto.' })};
+	// if(!product.height || isNaN(product.height)){return res.send({ msg: 'Preencha a altura do produto.' })};
+	// if(!product.depth || isNaN(product.depth)){return res.send({ msg: 'Preencha a profundidade do produto.' })};
 	if(!product.brand.length || product.brand.length < 3 || product.brand.length > 45){ return res.send({ msg: 'Preencha a marca do produto.' })};
 
 	try {
