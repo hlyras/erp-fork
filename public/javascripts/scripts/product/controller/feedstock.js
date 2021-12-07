@@ -1,5 +1,24 @@
 Product.controller.feedstock = {};
 
+Product.controller.feedstock.dropdown = {
+	filter: async (input, dropdown_id) => {
+		event.preventDefault();
+
+		let feedstock = { name: input.value };
+		
+		let properties = ["code","name","color_name","unit","uom"];
+
+		if(feedstock.name.length > 2){
+			let feedstocks = await API.response(Feedstock.filter, feedstock);
+			if(!feedstocks){ return false; };
+
+			lib.dropdown.render(feedstocks, input.id, dropdown_id, "input", "id", properties);
+		} else {
+			lib.dropdown.render([], input.id, dropdown_id, "input", "id", properties);
+		};
+	}
+};
+
 Product.controller.feedstock.add = document.getElementById("product-feedstock-add-form");
 if(Product.controller.feedstock.add){
 	Product.controller.feedstock.add.addEventListener("submit", async (event) => {
