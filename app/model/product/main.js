@@ -85,9 +85,6 @@ Product.update = async (product) => {
 		+"', color='"+product.color
 		+"', size='"+product.size
 		+"', weight='"+product.weight
-		+"', width='"+product.width
-		+"', height='"+product.height
-		+"', depth='"+product.depth
 		+"', brand='"+product.brand
 		+"', image='"+product.image
 		+"', video='"+product.video
