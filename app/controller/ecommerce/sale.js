@@ -699,25 +699,25 @@ const saleController = {
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 				};
 
-				let period = { key: "gathering_datetime", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
+				let period = { key: "date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
 				let params = { keys: [], values: [] }
 				let strict_params = { keys: [], values: [] }
 
 				let props = ["ecommerce_sale.id",
-					"ecommerce_sale.packing_user_id",
-					"ecommerce_sale.packing_user_name"
+					"ecommerce_sale.user_id",
+					"ecommerce_sale.user_name"
 				];
 				
 				let inners = [];
 
-				lib.Query.fillParam("cms_wt_erp.ecommerce_sale.packing_user_id", req.body.sale.packment_user_id, strict_params);
+				lib.Query.fillParam("cms_wt_erp.ecommerce_sale.user_id", req.body.sale.user_id, strict_params);
 
 				let order_params = [ ["ecommerce_sale.id", "DESC"] ];
 				let limit = 0;
 
 				try {
-					let sale_packments = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
-					res.send({ sale_packments });
+					let sale_gatherings = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
+					res.send({ sale_gatherings });
 				} catch (err) {
 					console.log(err);
 					res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });

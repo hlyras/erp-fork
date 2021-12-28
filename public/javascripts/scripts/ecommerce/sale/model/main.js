@@ -66,4 +66,5 @@ Ecommerce.sale.changeStatus = async (sale) => {
 	return response.sale;
 };
 
+Ecommerce.sale.gathering = {};
 Ecommerce.sale.packment = {};

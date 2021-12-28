@@ -8,7 +8,7 @@ if(Ecommerce.sale.gathering.report.controller.filter){
     let sale = {
       periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),
       periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value),
-      gathering_user_id: event.target.elements.namedItem("gathering-user-id").value
+      user_id: event.target.elements.namedItem("user-id").value
     };
 
     let response = await API.response(Ecommerce.sale.gathering.report.filter, sale);
@@ -16,7 +16,7 @@ if(Ecommerce.sale.gathering.report.controller.filter){
     
     let gatheringAmountByUserId = {};
     response.sale_gatherings.forEach(function (sale) {
-      gatheringAmountByUserId[sale.packing_user_id] = (gatheringAmountByUserId[sale.packing_user_id] || 0) + 1;
+      gatheringAmountByUserId[sale.user_id] = (gatheringAmountByUserId[sale.user_id] || 0) + 1;
     });
 
     let gatherings = [];
@@ -24,8 +24,8 @@ if(Ecommerce.sale.gathering.report.controller.filter){
     for (let [key, value] of Object.entries(gatheringAmountByUserId)) {
       let gathering = { id: key, amount: value };
       for(let i in response.sale_gatherings){ 
-        if(key == response.sale_gatherings[i].packing_user_id){
-          gathering.gathering_user_name = response.sale_gatherings[i].packing_user_name;
+        if(key == response.sale_gatherings[i].user_id){
+          gathering.user_name = response.sale_gatherings[i].user_name;
         }
       };
       gatherings.push(gathering);
