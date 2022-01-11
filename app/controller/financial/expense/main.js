@@ -32,7 +32,7 @@ const expenseController = {
 		};
 	},
 	manage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','fin-ass'])){
 			return res.redirect('/');
 		};
 
@@ -54,7 +54,7 @@ const expenseController = {
 		res.render('financial/expense/payment', { user: req.user, users, incomeCategories, outcomeCategories });
 	},
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -136,7 +136,7 @@ const expenseController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -182,7 +182,7 @@ const expenseController = {
 		};
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -303,7 +303,7 @@ const expenseController = {
 		};
 	},
 	cancel: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 

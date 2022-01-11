@@ -54,7 +54,7 @@ const outcomeController = {
 		};
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -105,7 +105,7 @@ const outcomeController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
