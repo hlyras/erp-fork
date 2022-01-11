@@ -5,7 +5,7 @@ const lib = require("jarmlib");
 
 const categoryController = {
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -31,7 +31,7 @@ const categoryController = {
 		};
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man','fin-ass'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -53,7 +53,7 @@ const categoryController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man','fin-ass'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 

@@ -6,7 +6,7 @@ const lib = require("jarmlib");
 
 const outcomeController = {
 	index: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if(!await userController.verifyAccess(req, res, ['adm','fin-ass'])){
 			return res.redirect('/');
 		};
 
@@ -15,7 +15,7 @@ const outcomeController = {
 		res.render('financial/outcome/index', { user: req.user, outcomeCategories });
 	},
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel', "adm-aud"])){
+		if(!await userController.verifyAccess(req, res, ['adm','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -54,7 +54,7 @@ const outcomeController = {
 		};
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man','fin-ass'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -105,7 +105,7 @@ const outcomeController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-man','fin-ass'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','fin-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
