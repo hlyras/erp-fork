@@ -7,81 +7,80 @@
 <% include ./../../partials/nav %>
 
 <section class="container h-center">
-	<input type="hidden" id="purchase-id" value="">
+  <input type="hidden" id="purchase-id" value="">
 
-	<div class="box b2-3 ground padding-10">
-		<div class="box b1 underline center">Compra de Matéria-Prima</div>
-		<div class="box b1 container margin-top-5">
-			<div class="mobile-box b2 center">Selecione o Fornecedor:</div>
-			<select id="purchase-supplier-id" class="mobile-box b2 padding-10" onchange="Feedstock.purchase.controller.setSupplier(this.value)">
-				<option value="">Fornecedor</option>
-				<% for(i in suppliers) { %>
-				<option value="<%= suppliers[i].id %>"><%= suppliers[i].brand %></option>
-				<% } %>
-			</select>
-		</div>
+  <div class="box b2-3 ground padding-10">
+    <div class="box b1 underline center">Compra de Matéria-Prima</div>
+    <div class="box b1 container margin-top-5">
+      <div class="mobile-box b2 center">Selecione o Fornecedor:</div>
+      <select id="purchase-supplier-id" class="mobile-box b2 padding-10" onchange="Feedstock.purchase.controller.setSupplier(this.value)">
+        <option value="">Fornecedor</option>
+        <% for(i in suppliers) { %>
+        <option value="<%= suppliers[i].id %>"><%= suppliers[i].brand %></option>
+        <% } %>
+      </select>
+    </div>
 
-		<form id="purchase-feedstock-add-form" class="box b1 container border-explicit padding-10 margin-top-10" style="display:none">
-			<div class="box b1 em12 bold underline center">Adicionar matéria-prima à compra</div>
-			<div class="mobile-box b2-3 container dropdown margin-top-5">
-				<ul class="mobile-box b1 container"><li>
-				<input type="hidden" name="supplier-id" value="">
-				<input type="text" id="purchase-feedstock-add-dropdown-input" name="feedstock" data-id="" class="mobile-box b1 input-generic center" oninput="Feedstock.supplier.storage.controller.dropdown.filter(this, 'purchase-feedstock-filter-dropdown', document.getElementById('purchase-feedstock-add-form').elements.namedItem('supplier-id').value)" placeholder="Descrição da matéria-prima" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
-				<ul id="purchase-feedstock-filter-dropdown" class="box b1"></ul>
-				</li></ul>
-			</div>
-			<input type="number" name="amount" class="mobile-box b4 em12 input-generic margin-top-5 center bold" step="0.01" placeholder="'un' ou 'm'" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
-			<button type="submit" name="submit" class="mobile-box b12 input-generic center noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
-		</form>
+    <form id="purchase-feedstock-add-form" class="box b1 container border-explicit padding-10 margin-top-10" style="display:none">
+      <div class="box b1 em12 bold underline center">Adicionar matéria-prima à compra</div>
+      <div class="mobile-box b2-3 container dropdown margin-top-5">
+        <ul class="mobile-box b1 container"><li>
+        <input type="hidden" name="supplier-id" value="">
+        <input type="text" id="purchase-feedstock-add-dropdown-input" name="feedstock" data-id="" class="mobile-box b1 input-generic center" oninput="Feedstock.supplier.storage.controller.dropdown.filter(this, 'purchase-feedstock-filter-dropdown', document.getElementById('purchase-feedstock-add-form').elements.namedItem('supplier-id').value)" placeholder="Descrição da matéria-prima" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+        <ul id="purchase-feedstock-filter-dropdown" class="box b1"></ul>
+        </li></ul>
+      </div>
+      <input type="number" name="amount" class="mobile-box b4 em12 input-generic margin-top-5 center bold" step="0.01" placeholder="'un' ou 'm'" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+      <button type="submit" name="submit" class="mobile-box b12 input-generic center noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
+    </form>
 
-		<div id="purchase-feedstock-add-div" class="box a1 container margin-top-10"></div>
+    <div id="purchase-feedstock-add-div" class="box a1 container margin-top-10"></div>
 
-		<div id="purchase-feedstock-kart-box" class="box b1 container border-explicit padding-5 margin-top-5" style="display:none">
-			<div class="box b2 container">
-				<div class="box b1 underline margin-top-5 center">Informações da Compra</div>
-				<select id="purchase-feedstock-kart-status" class="mobile-box b1 input-generic container margin-top-5 bold hide-disabled">
-					<option value="" selected disabled>Status</option>
-					<option value="Em orçamento">Em orçamento</option>
-					<option value="Ag. aprovação">Confirmar pedido</option>
-				</select>
-				<select id="purchase-feedstock-kart-payment-method" class="mobile-box b1 input-generic container margin-top-5 bold hide-disabled">
-					<option value="" selected disabled>Método de pagamento</option>
-					<option value="Dinheiro">Dinheiro</option>
-					<option value="Crédito">Crédito</option>
-					<option value="Boleto">Boleto</option>
-					<option value="Faturado">Faturado</option>
-				</select>
-			</div>
-			<div class="box b2 container">
-				<div class="box b1 underline margin-top-5 center">Valores da compra</div>
-				<div class="box b1 container border padding-5 margin-top-5">
-                    <div class="mobile-box b2 em07 center">Valor das Matérias:</div>
-                    <div id="purchase-feedstock-kart-value" class="mobile-box b2 center bold">$0,00</div>
-                    <div class="mobile-box b2 em07 center">Valor do frete:</div>
-                    <input type="number" id="purchase-feedstock-kart-shipment-value" class="mobile-box b2 border-bottom padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
-                    <div class="mobile-box b2 em07 center">Valor do desconto:</div>
-                    <input type="number" id="purchase-feedstock-kart-discount-value" class="mobile-box b2 border-bottom padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
-                    <div class="mobile-box b2 center"></div><div class="mobile-box b2 underline"></div>
-                    <div class="mobile-box b2 center">Valor total:</div>
-                    <div id="purchase-feedstock-kart-total-value" class="mobile-box b2 center bold">$0.00</div>
-                </div>
-			</div>
-			<button class="box b1 submit-generic margin-top-5" onClick="Feedstock.purchase.controller.confirm()">CONFIRMAR COMPRA</button>
-		</div>
-	</div>
-
+    <div id="purchase-feedstock-kart-box" class="box b1 container border-explicit padding-5 margin-top-5" style="display:none">
+      <div class="box b2 container">
+        <div class="box b1 underline margin-top-5 center">Informações da Compra</div>
+        <select id="purchase-feedstock-kart-status" class="mobile-box b1 input-generic container margin-top-5 bold hide-disabled">
+          <option value="" selected disabled>Status</option>
+          <option value="Em orçamento">Em orçamento</option>
+          <option value="Ag. aprovação">Confirmar pedido</option>
+        </select>
+        <select id="purchase-feedstock-kart-payment-method" class="mobile-box b1 input-generic container margin-top-5 bold hide-disabled">
+          <option value="" selected disabled>Método de pagamento</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Crédito">Crédito</option>
+          <option value="Boleto">Boleto</option>
+          <option value="Faturado">Faturado</option>
+        </select>
+      </div>
+      <div class="box b2 container">
+        <div class="box b1 underline margin-top-5 center">Valores da compra</div>
+        <div class="box b1 container border padding-5 margin-top-5">
+          <div class="mobile-box b2 em07 center">Valor das Matérias:</div>
+          <div id="purchase-feedstock-kart-value" class="mobile-box b2 center bold">$0,00</div>
+          <div class="mobile-box b2 em07 center">Valor do frete:</div>
+          <input type="number" id="purchase-feedstock-kart-shipment-value" class="mobile-box b2 border-bottom padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+          <div class="mobile-box b2 em07 center">Valor do desconto:</div>
+          <input type="number" id="purchase-feedstock-kart-discount-value" class="mobile-box b2 border-bottom padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+          <div class="mobile-box b2 center"></div><div class="mobile-box b2 underline"></div>
+          <div class="mobile-box b2 center">Valor total:</div>
+          <div id="purchase-feedstock-kart-total-value" class="mobile-box b2 center bold">$0.00</div>
+        </div>
+      </div>
+      <button class="box b1 submit-generic margin-top-5" onClick="Feedstock.purchase.controller.confirm()">CONFIRMAR COMPRA</button>
+    </div>
+  </div>
 </section>
 <% include ./../../partials/loader %>
 </body>
 <footer>
-	<% include ./../../partials/footer %>
-	<% include ./../partial %>
-	<script src="/javascripts/scripts/feedstock/model/supplier.js"></script>
-	<script src="/javascripts/scripts/feedstock/controller/supplier.js"></script>
+  <% include ./../../partials/footer %>
+  <% include ./../partial %>
+  <script src="/javascripts/scripts/feedstock/model/supplier.js"></script>
+  <script src="/javascripts/scripts/feedstock/controller/supplier.js"></script>
 
-	<script src="/javascripts/scripts/feedstock/model/purchase.js"></script>
-	<script src="/javascripts/scripts/feedstock/controller/purchase/main.js"></script>
-	<script src="/javascripts/scripts/feedstock/controller/purchase/kart.js"></script>
-	<script src="/javascripts/scripts/feedstock/view/purchase.js"></script>
+  <script src="/javascripts/scripts/feedstock/model/purchase.js"></script>
+  <script src="/javascripts/scripts/feedstock/controller/purchase/main.js"></script>
+  <script src="/javascripts/scripts/feedstock/controller/purchase/kart.js"></script>
+  <script src="/javascripts/scripts/feedstock/view/purchase.js"></script>
 </footer>
 </html>

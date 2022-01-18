@@ -42,6 +42,8 @@ if(Feedstock.controller.filter){
 		let feedstocks = await API.response(Feedstock.filter, feedstock);
 		if(!feedstocks){ return false; }
 
+		lib.display("feedstock-filter-box", "none");
+
 		const pagination = { pageSize: 10, page: 0};
 		(function(){ lib.carousel.execute("feedstock-filter-box", Feedstock.view.filter, feedstocks, pagination); }());
 	});
@@ -67,11 +69,14 @@ Feedstock.controller.delete = async (feedstock_id) => {
 	}
 };
 
-Feedstock.controller.show = async (feedstock_id) => {
-	return false; // working in progress
-	// implement complete search in catalogs and prices
-	let feedstock = await API.response(Feedstock.findById, feedstock_id);
-	if(!feedstock) { return false; }
+Feedstock.controller.report = async (feedstock_id) => {
+	let feedstocks = await API.response(Feedstock.report, feedstock_id);
+	if(!feedstocks){ return false; }
+
+	lib.display("feedstock-filter-box", "none");
+
+	const pagination = { pageSize: 10, page: 0};
+	(function(){ lib.carousel.execute("feedstock-report-box", Feedstock.view.report, feedstocks, pagination); }());
 };
 
 Feedstock.controller.dropdown = {

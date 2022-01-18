@@ -138,40 +138,35 @@ feedstockController.delete = async (req, res) => {
 	};
 };
 
-feedstockController.view = async (req, res) => {
+feedstockController.report = async (req, res) => {
 	if(!await userController.verifyAccess(req, res, ['adm','pro-man','man'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	//Feedstock
-	let props = [ "feedstock.*", "color.name color_name" ];
-	let inners = [ ["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"] ];
+	// Busca todos os preços nas tabelas de fornecedores
+	let props = [
+		'feedstock.id',
+		'feedstock.name',
+		'color.name color_name',
+		'feedstock.unit',
+		'feedstock.uom',
+		'supplier.name supplier_name',
+		'supplier.brand',
+		'supplier_storage.price'
+	];
+
+	let inners = [
+		['cms_wt_erp.feedstock_supplier_storage supplier_storage', 'feedstock.id', 'supplier_storage.feedstock_id'],
+		['cms_wt_erp.feedstock_supplier supplier', 'supplier_storage.supplier_id', 'supplier.id'],
+		['cms_wt_erp.product_color color', 'feedstock.color_id', 'color.id']
+	];
+
 	let strict_params = { keys: [], values: [] };
 	lib.Query.fillParam("feedstock.id", req.params.id, strict_params);
 
-	//Storage feedstocks
-	let storage_props = [ 
-		"supplier_storage.*",
-		"feedstock.code",
-		"feedstock.name",
-		"feedstock.unit",
-		"feedstock.uom",
-		"color.name color_name" 
-	];
-
-	let storage_inners = [ 
-		["cms_wt_erp.feedstock feedstock", "feedstock.id", "supplier_storage.feedstock_id"],
-		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
-	];
-
-	let storage_strict_params = { keys: [], values: [] };
-	lib.Query.fillParam("feedstock.id", req.params.id, storage_strict_params);
-	let storage_order_params = [ ["supplier_storage.supplier_id","ASC"] ];
-
 	try {
-		let feedstock = await Feedstock.filter(storage_props, storage_inners, [], storage_strict_params, []);
-		let storage_feedstocks = await Feedstock.supplier.storage.filter(props, inners, [], strict_params, storage_order_params);
-		res.send({ feedstock });
+		let feedstocks = await Feedstock.filter(props, inners, [], strict_params, []);
+		res.send({ feedstocks });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
