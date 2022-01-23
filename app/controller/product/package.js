@@ -52,7 +52,8 @@ productController.package.save = async (req, res) => {
 			for(let i in price_categories){
 				let price = {
 					category_id: price_categories[i].id,
-					package_id: package.id
+					package_id: package.id,
+					price: 0
 				};
 				await Product.package.price.save(price);
 			};
