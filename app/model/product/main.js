@@ -1,48 +1,3 @@
-// const Product = function(){
-// 	this.id = 0;
-// 	this.code = "";
-// 	this.name = "";
-// 	this.color = "";
-// 	this.size = "";
-// 	this.weight = 0;
-// 	this.width = 0;
-// 	this.height = 0;
-// 	this.depth = 0;
-// 	this.brand = "";
-// 	this.description = "";
-// 	this.status = "Indisponível";
-// 	this.annoucement = "";
-
-// 	this.save = () => {
-// 		let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, weight, width, height, depth, brand, description, status, announcement) VALUES ('"
-// 			+this.code+"', '"
-// 			+this.name+"','"
-// 			+this.color+"','"
-// 			+this.size+"','"
-// 			+this.weight+"','"
-// 			+this.width+"','"
-// 			+this.height+"','"
-// 			+this.depth+"','"
-// 			+this.brand+"','"
-// 			+this.description+"','"
-// 			+this.announcement+"');";
-// 		return db(query);
-// 	};
-
-// 	this.update = () => {
-// 		let query = "UPDATE cms_wt_erp.product SET code='"+this.code
-// 			+"', name='"+this.name
-// 			+"', color='"+this.color
-// 			+"', size='"+this.size
-// 			+"', weight='"+this.weight
-// 			+"', brand='"+this.brand
-// 			+"', status='"+this.status
-// 			+"', image='"+this.image
-// 			+"', announcement='"+this.announcement+"' WHERE id='"+this.id+"';";
-// 		return db(query);
-// 	};
-// };
-
 const db = require('../../../config/connection');
 const lib = require("../../../config/lib");
 const Lib = require("jarmlib");
@@ -61,11 +16,12 @@ const Product = function(){
 	this.image;
 	this.video;
 	this.status;
+	this.description;
 	this.announcement;
 };
 
 Product.save = async (product) => {
-	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, weight, brand, image, video, status, announcement) VALUES ('"
+	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, weight, brand, image, video, status, description, announcement) VALUES ('"
 		+product.code+"', '"
 		+product.name+"','"
 		+product.color+"','"
@@ -75,6 +31,7 @@ Product.save = async (product) => {
 		+product.image+"','"
 		+product.video+"','"
 		+product.status+"','"
+		+product.description+"','"
 		+product.announcement+"');";
 	return db(query);
 };
@@ -89,6 +46,7 @@ Product.update = async (product) => {
 		+"', image='"+product.image
 		+"', video='"+product.video
 		+"', status='"+product.status
+		+"', description='"+product.description
 		+"', announcement='"+product.announcement+"' WHERE id='"+product.id+"';";
 	return db(query);
 };
