@@ -14,7 +14,8 @@ if(Product.controller.package.create){
 			image: event.target.elements.namedItem("image").value,
 			status: event.target.elements.namedItem("status").value,
 			brand: event.target.elements.namedItem("brand").value,
-			announcement: event.target.elements.namedItem("announcement").value
+			announcement: event.target.elements.namedItem("announcement").value,
+			description: event.target.elements.namedItem("description").value
 		};
 
 		package = await API.response(Product.package.save, package);
@@ -29,6 +30,7 @@ if(Product.controller.package.create){
 		event.target.elements.namedItem("status").value = "Indisponível";
 		event.target.elements.namedItem("brand").value = "";
 		event.target.elements.namedItem("announcement").value = "";
+		event.target.elements.namedItem("description").value = "";
 
 		document.getElementById("product-package-show-box").style.display = "none";
 		document.getElementById("product-package-filter-form").submit.click();
@@ -133,6 +135,7 @@ Product.controller.package.edit = async (id) => {
 	document.getElementById('product-package-create-form').elements.namedItem("status").value = package.status;
 	document.getElementById('product-package-create-form').elements.namedItem("brand").value = package.brand;
 	document.getElementById('product-package-create-form').elements.namedItem("announcement").value = package.announcement;
+	document.getElementById('product-package-create-form').elements.namedItem("description").value = package.description;
 };
 
 Product.controller.package.delete = async (id) => {

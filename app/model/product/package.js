@@ -4,7 +4,7 @@ const lib = require("jarmlib");
 
 Product.package = {
 	save: async (package) => {
-		let query = "INSERT INTO cms_wt_erp.product_package (code, name, color, weight, image, status, brand, announcement) VALUES ('"
+		let query = "INSERT INTO cms_wt_erp.product_package (code, name, color, weight, image, status, brand, announcement, description) VALUES ('"
 			+package.code+"', '"
 			+package.name+"', '"
 			+package.color+"', '"
@@ -12,7 +12,8 @@ Product.package = {
 			+package.image+"', '"
 			+package.status+"', '"
 			+package.brand+"', '"
-			+package.announcement+"');";
+			+package.announcement+"', '"
+			+package.description+"');";
 		return db(query);
 	},
 	update: async (package) => {
@@ -23,7 +24,8 @@ Product.package = {
 			+"', image='"+package.image
 			+"', status='"+package.status
 			+"', brand='"+package.brand
-			+"', announcement='"+package.announcement+"' WHERE id='"+package.id+"';";
+			+"', announcement='"+package.announcement
+			+"', description='"+package.description+"' WHERE id='"+package.id+"';";
 		return db(query);
 	},
 	list: async () => {
