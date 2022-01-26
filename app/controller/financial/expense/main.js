@@ -220,7 +220,7 @@ const expenseController = {
 		lib.Query.fillParam("outcome.origin_id", req.body.expense.origin_id, strict_params);
 		lib.Query.fillParam("outcome.status", req.body.expense.status, strict_params);
 		
-		if(req.user.access != "adm"){
+		if(req.user.access != "adm" || req.user.access != "fin-ass"){
 			lib.Query.fillParam("outcome.user_id", req.user.id, strict_params);
 		} else {
 			lib.Query.fillParam("outcome.user_id", req.body.expense.user_id, strict_params);
