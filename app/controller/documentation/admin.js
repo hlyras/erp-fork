@@ -1,17 +1,17 @@
 // const User = require('../../model/user');
 // const userController = require('./../user');
 
-const ecommerceDocumentationController = {};
+const adminDocumentationController = {};
 
-ecommerceDocumentationController.solution = async (req, res) => {
+adminDocumentationController.main = async (req, res) => {
 	if(!req.user){ res.redirect('/'); } else {
 		try {
-			res.render('documentation/ecommerce/solution', { user: req.user });
+			res.render('documentation/admin/main', { user: req.user });
 		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
 		};
-	};
+	}
 };
 
-module.exports = ecommerceDocumentationController;
+module.exports = adminDocumentationController;
