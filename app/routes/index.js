@@ -18,5 +18,6 @@ router.use("/customer", require("./customer"));
 router.use("/sale", require("./sale"));
 router.use("/ecommerce", require("./ecommerce"));
 router.use("/financial", require("./financial"));
+router.use("/documentation", require("./documentation"));
 
 module.exports = router;

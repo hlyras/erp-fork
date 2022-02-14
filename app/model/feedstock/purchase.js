@@ -35,6 +35,10 @@ Feedstock.purchase = function() {
 			+"', status='"+this.status
 			+"', supplier_id='"+this.supplier_id
 			+"', payment_method='"+this.payment_method
+			+"', value='"+this.value
+			+"', shipment_value='"+this.shipment_value
+			+"', discount_value='"+this.discount_value
+			+"', total_value='"+this.total_value
 			+"', user_id='"+this.user_id+"' WHERE id='"+this.id+"';";
 		return db(query);
 	};
@@ -66,6 +70,12 @@ Feedstock.purchase.feedstock = function() {
 			this.amount+"');";
 		return db(query);
 	};
+
+	this.update = () => {
+		let query = "UPDATE cms_wt_erp.feedstock_purchase_feedstock SET price='"+this.price
+			+"', amount='"+this.amount+"' WHERE purchase_id='"+this.purchase_id+"' AND feedstock_id='"+this.feedstock_id+"';";
+		return db(query);
+	};
 };
 
 Feedstock.purchase.feedstock.filter = (props, inners, period, params, strict_params, order_params) => {
@@ -74,18 +84,8 @@ Feedstock.purchase.feedstock.filter = (props, inners, period, params, strict_par
 	return db(query);
 };
 
-Feedstock.purchase.feedstock.update = async (sale_product_id, product) => {
-	let query = "UPDATE cms_wt_erp.feedstock_purchase_feedstock SET amount='"+product.amount+"' WHERE id='"+sale_product_id+"';";
-	return db(query);
-};
-
-Feedstock.purchase.feedstock.remove = async (sale_product_id) => {
-	let query = "DELETE FROM cms_wt_erp.feedstock_purchase_feedstock WHERE id='"+sale_product_id+"';";
-	return db(query);
-};
-
-Feedstock.purchase.feedstock.removeAll = async (sale_id) => {
-	let query = "DELETE FROM cms_wt_erp.feedstock_purchase_feedstock WHERE sale_id='"+sale_id+"';";
+Feedstock.purchase.feedstock.remove = async (feedstock) => {
+	let query = "DELETE FROM cms_wt_erp.feedstock_purchase_feedstock WHERE purchase_id='"+feedstock.purchase_id+"' AND feedstock_id='"+feedstock.feedstock_id+"';";
 	return db(query);
 };
 

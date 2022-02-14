@@ -31,11 +31,14 @@ Feedstock.purchase.view.filter = (purchases, pagination) => {
 				onclick: "Feedstock.purchase.controller.open("+purchases[i].id+")"
 			}, purchases[i].id));
 
-			purchase_div.appendChild(lib.element.info("b3", "Fornecedor", purchases[i].supplier_brand));
-			purchase_div.appendChild(lib.element.info("b3", "Data da compra", lib.timestampToFulldate(purchases[i].date)));
+			purchase_div.appendChild(lib.element.info("b2", "Fornecedor", purchases[i].supplier_brand));
+			purchase_div.appendChild(lib.element.info("b3-8", "Data da compra", lib.timestampToFulldate(purchases[i].date)));
+			purchase_div.appendChild(lib.element.info("b4", "Usuário", purchases[i].user_name));
+			purchase_div.appendChild(lib.element.info("b3", "Status", purchases[i].status));
+			purchase_div.appendChild(lib.element.info("b4 bold", "Valor da compra", "R$"+purchases[i].total_value.toFixed(2)));
 
-			purchase_div.appendChild(lib.element.icon('b10', 20, "/images/icon/edit.png", "Feedstock.purchase.controller.edit("+purchases[i].id+")"));
-			purchase_div.appendChild(lib.element.icon('b10', 20, "/images/icon/trash.png", "Feedstock.purchase.controller.delete("+purchases[i].id+")"));
+			purchase_div.appendChild(lib.element.icon('b12', 20, "/images/icon/edit.png", "Feedstock.purchase.controller.edit("+purchases[i].id+")"));
+			purchase_div.appendChild(lib.element.icon('b12', 20, "/images/icon/trash.png", "Feedstock.purchase.controller.delete("+purchases[i].id+")"));
 
 			filter_div.appendChild(purchase_div);
 		};
@@ -45,8 +48,6 @@ Feedstock.purchase.view.filter = (purchases, pagination) => {
 };
 
 Feedstock.purchase.view.show = (purchase) => {
-	console.log(purchase);
-
 	let show_div = document.getElementById("purchase-feedstock-show-box");
 	show_div.innerHTML = "";
 
@@ -92,14 +93,14 @@ Feedstock.purchase.view.show = (purchase) => {
 	feedstock_box.appendChild(lib.element.create("div", { class: "box b1 underline center" }, "Lista das Matérias-Primas"))
 
 	purchase.feedstocks.forEach(feedstock => {
-		let feedstock_div = lib.element.create("div", { class: "box b3 container box-hover padding-5 margin-top-5 border-explicit" });
+		let feedstock_div = lib.element.create("div", { class: "box b1 container shadow-st-hover transition-03-03 padding-5 margin-top-5 border-explicit" });
 
 		feedstock_div.appendChild(lib.element.info("b4", "Código", feedstock.code));
 		feedstock_div.appendChild(lib.element.info("b2", "Nome", feedstock.name));
 		feedstock_div.appendChild(lib.element.info("b4", "Cor", feedstock.color_name));
 
 		feedstock.uom == "cm" && feedstock_div.appendChild(lib.element.info("b6", "Met do Rolo", (feedstock.unit/100)+"m"));
-		feedstock.uom == "un" && feedstock_div.appendChild(lib.element.info("b6", "Qtd Padrão", feedstock.unit));
+		feedstock.uom == "un" && feedstock_div.appendChild(lib.element.info("b6", "Qtd Padrão", feedstock.unit+"un"));
 		
 		feedstock_div.appendChild(lib.element.info("b4", "Preço", "R$"+lib.roundValue(feedstock.price).toFixed(2)));
 		
@@ -120,7 +121,6 @@ Feedstock.purchase.view.show = (purchase) => {
 };
 
 Feedstock.purchase.view.edit = purchase => {
-	//reset previous kart
 	Feedstock.purchase.controller.kart.items = [];
 
 	document.getElementById("purchase-id").value = purchase.id;
@@ -137,11 +137,9 @@ Feedstock.purchase.view.edit = purchase => {
 	document.getElementById("purchase-feedstock-kart-discount-value").value = purchase.discount_value;
 
 	purchase.feedstocks.forEach(feedstock => {
-		Feedstock.purchase.controller.kart.insert("id", feedstock);
+		Feedstock.purchase.controller.kart.insert("feedstock_id", feedstock);
 	});
 
 	Feedstock.purchase.controller.kart.update("code");
 	Feedstock.purchase.controller.kart.list("Feedstock.purchase.controller.kart", Feedstock.purchase.controller.kart.props);
-
-	// console.log(Feedstock.purchase.controller.kart);
 };

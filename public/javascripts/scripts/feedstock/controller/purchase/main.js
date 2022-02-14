@@ -34,6 +34,8 @@ Feedstock.purchase.controller.confirm = async () => {
 	Feedstock.purchase.controller.kart.items = [];
 	Feedstock.purchase.controller.kart.update("code");
 	Feedstock.purchase.controller.kart.list("Feedstock.purchase.controller.kart", Feedstock.purchase.controller.kart.props);
+
+	if(document.getElementById("feedstock-purchase-kart")){ Feedstock.purchase.controller.filter.submit.click(); }
 };
 
 Feedstock.purchase.controller.shipmentValue = document.getElementById("purchase-feedstock-kart-shipment-value");

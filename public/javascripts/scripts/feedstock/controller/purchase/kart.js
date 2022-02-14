@@ -20,7 +20,7 @@ if(Feedstock.purchase.controller.add){
 
 		supplier_feedstock[0].amount = amount;
 
-		Feedstock.purchase.controller.kart.insert("id", supplier_feedstock[0]);
+		Feedstock.purchase.controller.kart.insert("feedstock_id", supplier_feedstock[0]);
 		Feedstock.purchase.controller.kart.update("code");
 		Feedstock.purchase.controller.kart.list("Feedstock.purchase.controller.kart", Feedstock.purchase.controller.kart.props);
 
@@ -82,7 +82,7 @@ Feedstock.purchase.controller.kart.list = function(kart, props){
 				value: parseFloat(this.items[i].amount)
 			}));
 
-			feedstock_div.appendChild(lib.element.info("b4", "Valor total", this.items[i].total_value.toFixed(2)));
+			feedstock_div.appendChild(lib.element.info("b4 bold", "Valor total", "R$"+this.items[i].total_value.toFixed(2)));
 			feedstock_div.appendChild(lib.element.icon('b10', 20, "/images/icon/trash.png", this.variable+".remove("+this.items[i].id+")"));
 
 			kart_div.append(feedstock_div);

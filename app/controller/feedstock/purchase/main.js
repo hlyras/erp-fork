@@ -43,7 +43,6 @@ purchaseController.save = async (req, res) => {
 	};
 
 	let purchase = new Feedstock.purchase();
-
 	purchase.id = req.body.id;
 	purchase.date = lib.date.timestamp.generate();
 	purchase.status = req.body.status;
@@ -67,19 +66,62 @@ purchaseController.save = async (req, res) => {
 		if(!purchase.id){
 			let saved_purchase = await purchase.save();
 
-			purchase.feedstocks.forEach(feedstock => { 
+			purchase.feedstocks.forEach(async feedstock => { 
 				let item = new Feedstock.purchase.feedstock();
 				item.purchase_id = saved_purchase.insertId;
 				item.feedstock_id = feedstock.feedstock_id;
 				item.price = feedstock.price;
 				item.amount = feedstock.amount;
-				item.add();
+				await item.add();
 			});
 
 			res.send({ done: 'Compra cadastrada sucesso!' });
 		} else {
+			purchase.feedstock_actions = { add: [], update: [], remove: [] } ;
+
+			let strict_params = { keys: [], values: [] };
+			lib.Query.fillParam("purchase_feedstock.purchase_id", purchase.id, strict_params);
+			let purchase_feedstocks = await Feedstock.purchase.feedstock.filter([], [], [], [], strict_params, []);	
+
+			purchase.feedstocks = purchase_feedstocks.reduce((feedstocks, feedstock) => {
+				for(let i in feedstocks){ if(feedstocks[i].feedstock_id == feedstock.feedstock_id){ return feedstocks; } };
+				purchase.feedstock_actions.remove.push(feedstock);
+				return feedstocks;
+			}, purchase.feedstocks);
+
+			purchase_feedstocks = purchase.feedstocks.reduce((feedstocks, feedstock) => {
+				for(let i in feedstocks){ if(feedstocks[i].feedstock_id == feedstock.feedstock_id){ purchase.feedstock_actions.update.push(feedstock); return feedstocks; }; };
+				purchase.feedstock_actions.add.push(feedstock);
+				return feedstocks;
+			}, purchase_feedstocks);
+
+			//add feedstocks
+			for(let i in purchase.feedstock_actions.add){
+				let item = new Feedstock.purchase.feedstock();
+				item.purchase_id = purchase.id;
+				item.feedstock_id = purchase.feedstock_actions.add[i].feedstock_id;
+				item.price = purchase.feedstock_actions.add[i].price;
+				item.amount = purchase.feedstock_actions.add[i].amount;
+				await item.add();
+			};
+
+			//update feedstocks
+			for(let i in purchase.feedstock_actions.update){
+				let item = new Feedstock.purchase.feedstock();
+				item.purchase_id = purchase.id;
+				item.feedstock_id = purchase.feedstock_actions.update[i].feedstock_id;
+				item.price = purchase.feedstock_actions.update[i].price;
+				item.amount = purchase.feedstock_actions.update[i].amount;
+				await item.update();
+			};
+
+			//remove feedstocks
+			for(let i in purchase.feedstock_actions.remove){
+				await Feedstock.purchase.feedstock.remove(purchase.feedstock_actions.remove[i]);
+			};
+
 			await purchase.update();
-			res.send({ done: 'Fornecedor atualizado com sucesso!' });
+			res.send({ done: 'Compra atualizada com sucesso!' });
 		}
 	} catch (err) {
 		console.log(err);
