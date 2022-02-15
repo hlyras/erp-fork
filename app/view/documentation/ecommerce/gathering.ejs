@@ -3,7 +3,7 @@
 <head>
     <% include ./../../partials/head %>
 </head>
-<body>
+<body class="margin-bottom-200">
 	<% include ./../../partials/header %>
 	<% include ./../../partials/nav %>
 
@@ -24,18 +24,86 @@
 	</section>
 
 	<!-- Cadastrar no ERP -->
-	<section id="b2w" class="container margin-top-5 h-center">
+	<section id="erp" class="container margin-top-5 h-center">
 		<div class="box b11-12 container ground border-lg-st transition-02-02 padding-10 radius-5">
 			<h3 class="mobile-box b11-12 lucida-grande">1 - Cadastrar pedido no ERP</h3>
-			<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('b2w-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+			<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('erp-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
 
-			<div id="b2w-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+			<div id="erp-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
 				<p class="padding-5">1.1 - Realizar Login na plataforma <a class="underline-link" onclick="lib.openExternalLink('erpjariomilitar.com')">ERP</a>.</p>
 				<p class="padding-5">1.2 - Seguir o caminho <b class="lucida-grande italic">Menu > E-commerce > Nova venda</b></p>
 				<p class="padding-5">1.3 - Selecione a plataforma por onde a venda foi realizada</p>
 				<p class="padding-5">1.4 - Inclua o código da venda</p>
 				<p class="padding-5">1.5 - Selecione a data em que a compra foi realizada de acordo com o dia e hora informado pela plataforma da venda</p>
 				<p class="padding-5">1.6 - Selecione o usuário do cliente de acordo com a plataforma (Caso a plataforma não forneça nome de usuário, repita o nome do cliente)</p>
+			</div>
+		</div>
+	</section>
+
+	<section id="time" class="container margin-top-5 h-center">
+		<div class="box b11-12 container ground border-lg-st transition-02-02 padding-10 radius-5">
+			<h3 class="mobile-box b11-12 lucida-grande">2 - Regras de horários Mercado Livre</h3>
+			<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('time-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+			<div id="time-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+				<div class="box b11-12 container ground border-lg-st transition-02-02 margin-top-10 padding-10 radius-5">
+					<h3 class="mobile-box b11-12 lucida-grande">Vendas até as 08:00h e dia anterior</h3>
+					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('ml-1-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+					<div id="ml-1-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+						<p class="padding-5">2.1 - Scripts devem ser enviados até no máximo 09:00h</p>
+						<p class="padding-5">2.2 - Devem ser enviadas para embalo até as 11:00</p>
+					</div>
+				</div>
+
+				<div class="box b11-12 container ground border-lg-st transition-02-02 margin-top-10 padding-10 radius-5">
+					<h3 class="mobile-box b11-12 lucida-grande">Vendas de 08:00h até 11:00h</h3>
+					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('ml-2-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+					<div id="ml-2-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+						<p class="padding-5">2.3 - Scripts devem ser enviados com limite de 1h após o horário da venda</p>
+						<p class="padding-5">2.4 - Devem ser enviadas para embalo até 13:30h</p>
+					</div>
+				</div>
+
+				<div class="box b11-12 container ground border-lg-st transition-02-02 margin-top-10 padding-10 radius-5">
+					<h3 class="mobile-box b11-12 lucida-grande">Vendas entre 11:00h e 12:00h</h3>
+					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('ml-3-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+					<div id="ml-3-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+						<p class="padding-5">2.5 - Scripts deverão ser enviados até 12:00h (antes do almoço)</p>
+						<p class="padding-5">2.6 - Devem ser enviadas para embalo até as 14:00</p>
+					</div>
+				</div>
+
+				<div class="box b11-12 container ground border-lg-st transition-02-02 margin-top-10 padding-10 radius-5">
+					<h3 class="mobile-box b11-12 lucida-grande">Vendas entre 12:00h e 13:00h</h3>
+					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('ml-4-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+					<div id="ml-4-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+						<p class="padding-5">2.7 - Scripts deverão ser enviados com limite de 30 minutos após a compra</p>
+						<p class="padding-5">2.8 - Devem ser enviadas para embalo até as 14:00</p>
+					</div>
+				</div>
+
+				<div class="box b11-12 container ground border-lg-st transition-02-02 margin-top-10 padding-10 radius-5">
+					<h3 class="mobile-box b11-12 lucida-grande">Vendas após as 13:00h</h3>
+					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('ml-5-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+					<div id="ml-5-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+						<p class="padding-5">2.9 - Scripts deverão ser enviados com limite de 15 minutos após a compra</p>
+						<p class="padding-5">2.10 - Devem ser enviadas para embalo com limite de minutos após script</p>
+					</div>
+				</div>
+
+				<div class="box b11-12 container ground border-lg-st transition-02-02 margin-top-10 padding-10 radius-5">
+					<h3 class="mobile-box b11-12 lucida-grande">Prazo Limite para enviar para embalo</h3>
+					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('ml-6-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+					<div id="ml-6-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+						<p class="padding-5">2.11 - Todos os pedidos devem ser enviados no máximo até 15 minutos após fechamento do horário estabelecido pelo Mercado Livre.</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
