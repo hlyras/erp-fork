@@ -14,4 +14,15 @@ ecommerceDocumentationController.solution = async (req, res) => {
 	};
 };
 
+ecommerceDocumentationController.gathering = async (req, res) => {
+	if(!req.user){ res.redirect('/'); } else {
+		try {
+			res.render('documentation/ecommerce/gathering', { user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	};
+};
+
 module.exports = ecommerceDocumentationController;

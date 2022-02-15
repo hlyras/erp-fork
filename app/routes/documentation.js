@@ -8,6 +8,7 @@ const adminDocumentationController = require('../controller/documentation/admin'
 router.get('/', lib.route.toHttps, documentationController.index);
 
 // ecommerce
+router.get('/ecommerce/gathering', lib.route.toHttps, ecommerceDocumentationController.gathering);
 router.get('/ecommerce/solution', lib.route.toHttps, ecommerceDocumentationController.solution);
 
 // admin

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./../../partials/head %>
+</head>
+<body>
+	<% include ./../../partials/header %>
+	<% include ./../../partials/nav %>
+
+	<!-- Path and info -->
+	<section class="container">
+		<p class="em08 underline-link padding-5 pointer">J.A Rio Militar > E-commerce > Coleta de informações</p>
+
+		<div class="box b1 padding-5 underline">
+			<h4>Documentação Geral</h4>
+			<h3>E-commerce - Coleta de informações</h3>
+			<p class="em09 margin-top-5">Processos e horários para coleta das informações das plataformas de venda online.</p>
+		</div>
+	</section>
+
+	<!-- Processos gerais -->
+	<section id="processos-gerais" class="container margin-top-25 padding-5 h-center">
+		<div class="box b11-12 em13 underline lucida-grande bold">Processos gerais</div>
+	</section>
+
+	<!-- Cadastrar no ERP -->
+	<section id="b2w" class="container margin-top-5 h-center">
+		<div class="box b11-12 container ground border-lg-st transition-02-02 padding-10 radius-5">
+			<h3 class="mobile-box b11-12 lucida-grande">1 - Cadastrar pedido no ERP</h3>
+			<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('b2w-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+			<div id="b2w-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+				<p class="padding-5">1.1 - Realizar Login na plataforma <a class="underline-link" onclick="lib.openExternalLink('erpjariomilitar.com')">ERP</a>.</p>
+				<p class="padding-5">1.2 - Seguir o caminho <b class="lucida-grande italic">Menu > E-commerce > Nova venda</b></p>
+				<p class="padding-5">1.3 - Selecione a plataforma por onde a venda foi realizada</p>
+				<p class="padding-5">1.4 - Inclua o código da venda</p>
+				<p class="padding-5">1.5 - Selecione a data em que a compra foi realizada de acordo com o dia e hora informado pela plataforma da venda</p>
+				<p class="padding-5">1.6 - </p>
+			</div>
+		</div>
+	</section>
+</body>
+<footer>
+	<% include ./../../partials/footer %>
+</footer>
+</html>
