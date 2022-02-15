@@ -99,16 +99,13 @@ Feedstock.purchase.view.show = (purchase) => {
 		feedstock_div.appendChild(lib.element.info("b2", "Nome", feedstock.name));
 		feedstock_div.appendChild(lib.element.info("b4", "Cor", feedstock.color_name));
 
-		feedstock.uom == "cm" && feedstock_div.appendChild(lib.element.info("b6", "Met do Rolo", (feedstock.unit/100)+"m"));
-		feedstock.uom == "un" && feedstock_div.appendChild(lib.element.info("b6", "Qtd Padrão", feedstock.unit+"un"));
+		feedstock.uom == "cm" && feedstock_div.appendChild(lib.element.info("b4 bold", "Quantidade", feedstock.amount+"m"));
+		feedstock.uom == "un" && feedstock_div.appendChild(lib.element.info("b4 bold", "Quantidade", feedstock.amount+"un"));
 		
-		feedstock_div.appendChild(lib.element.info("b4", "Preço", "R$"+lib.roundValue(feedstock.price).toFixed(2)));
+		feedstock.uom == "cm" && feedstock_div.appendChild(lib.element.info("b4", "Rolos", feedstock.amount / (feedstock.unit / 100)+"un"));
+		feedstock.uom == "un" && feedstock_div.appendChild(lib.element.info("b4", "Pacotes", feedstock.amount / feedstock.unit+"un"));
 		
-		feedstock.uom == "cm" && feedstock_div.appendChild(lib.element.info("b6", "Quantidade", feedstock.amount+"m"));
-		feedstock.uom == "un" && feedstock_div.appendChild(lib.element.info("b6", "Quantidade", feedstock.amount+"un"));
-		
-		feedstock.uom == "cm" && feedstock_div.appendChild(lib.element.info("b6", "Rolos", feedstock.amount / (feedstock.unit / 100)+"un"));
-		feedstock.uom == "un" && feedstock_div.appendChild(lib.element.info("b6", "Pacotes", feedstock.amount / feedstock.unit+"un"));
+		feedstock_div.appendChild(lib.element.info("b4 bold", "Preço", "R$"+lib.roundValue(feedstock.price).toFixed(2)));
 
 		feedstock_div.appendChild(lib.element.info("b4 bold", "Total", "R$"+lib.roundValue(feedstock.amount * feedstock.price).toFixed(2)));
 
