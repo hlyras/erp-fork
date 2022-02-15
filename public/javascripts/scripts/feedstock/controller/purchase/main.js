@@ -98,8 +98,25 @@ Feedstock.purchase.controller.edit = async purchase_id => {
 	purchases[0].feedstocks = await API.response(Feedstock.purchase.feedstock.filter, { purchase_id: purchase_id });
 	if(!purchases[0].feedstocks) { return false; }
 
-	document.getElementById("purchase-feedstock-filter-box").style.display = "none";
-	document.getElementById("feedstock-purchase-kart").style.display = "";
 
-	Feedstock.purchase.view.edit(purchases[0]);
+	if(purchases[0].status == "Ag. aprovação"){
+		let r = confirm("Deseja retornar o pedido para Em orçamento?");
+		if(r){
+			if(!await API.response(Feedstock.purchase.update, { id: purchase_id, status: 'Em orçamento' })){ return false; };
+			Feedstock.purchase.controller.filter.submit.click();
+		}
+	} else if(purchases[0].status == "Em orçamento") {
+		Feedstock.purchase.view.edit(purchases[0]);
+		
+		document.getElementById("purchase-feedstock-filter-box").style.display = "none";
+		document.getElementById("feedstock-purchase-kart").style.display = "";
+	}
+};
+
+Feedstock.purchase.controller.delete = async (purchase_id) => {
+	let r = confirm('Deseja realmente excluir a compra? Essa ação não pode ser revertida!');
+	if(r){
+		if(!await API.response(Feedstock.purchase.delete, purchase_id)){ return false; };
+		Feedstock.purchase.controller.filter.submit.click();
+	}
 };

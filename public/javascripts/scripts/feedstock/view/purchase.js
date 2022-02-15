@@ -118,25 +118,27 @@ Feedstock.purchase.view.show = (purchase) => {
 };
 
 Feedstock.purchase.view.edit = purchase => {
-	Feedstock.purchase.controller.kart.items = [];
+	if(purchase.status == "Em orçamento" || purchase.status == "Ag. aprovação"){
+		Feedstock.purchase.controller.kart.items = [];
 
-	document.getElementById("purchase-id").value = purchase.id;
+		document.getElementById("purchase-id").value = purchase.id;
 
-	document.getElementById("purchase-supplier-id").value = purchase.supplier_id;
-	Feedstock.purchase.controller.setSupplier(purchase.supplier_id);
+		document.getElementById("purchase-supplier-id").value = purchase.supplier_id;
+		Feedstock.purchase.controller.setSupplier(purchase.supplier_id);
 
-	document.getElementById("purchase-feedstock-kart-status").value = purchase.status;
-	document.getElementById("purchase-feedstock-kart-payment-method").value = purchase.payment_method;
+		document.getElementById("purchase-feedstock-kart-status").value = purchase.status;
+		document.getElementById("purchase-feedstock-kart-payment-method").value = purchase.payment_method;
 
-	Feedstock.purchase.controller.kart.shipment_value = purchase.shipment_value;
-	Feedstock.purchase.controller.kart.discount_value = purchase.discount_value;
-	document.getElementById("purchase-feedstock-kart-shipment-value").value = purchase.shipment_value;
-	document.getElementById("purchase-feedstock-kart-discount-value").value = purchase.discount_value;
+		Feedstock.purchase.controller.kart.shipment_value = purchase.shipment_value;
+		Feedstock.purchase.controller.kart.discount_value = purchase.discount_value;
+		document.getElementById("purchase-feedstock-kart-shipment-value").value = purchase.shipment_value;
+		document.getElementById("purchase-feedstock-kart-discount-value").value = purchase.discount_value;
 
-	purchase.feedstocks.forEach(feedstock => {
-		Feedstock.purchase.controller.kart.insert("feedstock_id", feedstock);
-	});
+		purchase.feedstocks.forEach(feedstock => {
+			Feedstock.purchase.controller.kart.insert("feedstock_id", feedstock);
+		});
 
-	Feedstock.purchase.controller.kart.update("code");
-	Feedstock.purchase.controller.kart.list("Feedstock.purchase.controller.kart", Feedstock.purchase.controller.kart.props);
+		Feedstock.purchase.controller.kart.update("code");
+		Feedstock.purchase.controller.kart.list("Feedstock.purchase.controller.kart", Feedstock.purchase.controller.kart.props);
+	}
 };

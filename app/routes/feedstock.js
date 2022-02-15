@@ -31,9 +31,9 @@ router.delete('/supplier/storage/remove/id/:id', lib.route.toHttps, supplierStor
 router.get('/purchase', lib.route.toHttps, purchaseController.index);
 router.get('/purchase/manage', lib.route.toHttps, purchaseController.manage);
 router.post('/purchase/save', lib.route.toHttps, purchaseController.save);
-// router.put('/purchase/confirm', lib.route.toHttps, feedstockController.purchase.confirm);
-// router.get('/purchase/id/:id', lib.route.toHttps, feedstockController.purchase.findById);
+router.put('/purchase/update', lib.route.toHttps, purchaseController.updateStatus);
 router.post('/purchase/filter', lib.route.toHttps, purchaseController.filter);
+router.delete('/purchase/delete/:id', lib.route.toHttps, purchaseController.delete);
 
 router.post('/purchase/feedstock/filter', lib.route.toHttps, purchaseFeedstockController.filter);
 

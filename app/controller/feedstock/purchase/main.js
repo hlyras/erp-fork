@@ -10,7 +10,7 @@ Feedstock.purchase = require('../../../model/feedstock/purchase');
 const purchaseController = {};
 
 purchaseController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man','man'])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
 		return res.redirect('/');
 	};
 
@@ -24,7 +24,7 @@ purchaseController.index = async (req, res) => {
 };
 
 purchaseController.manage = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man','man'])){
+	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man'])){
 		return res.redirect('/');
 	};
 
@@ -38,7 +38,7 @@ purchaseController.manage = async (req, res) => {
 };
 
 purchaseController.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man','man'])){
+	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man'])){
 		return res.redirect('/');
 	};
 
@@ -152,7 +152,7 @@ purchaseController.filter = async (req, res) => {
 	let period = { key: "date", start: req.body.period_start, end: req.body.period_end };
 	let strict_params = { keys: [], values: [] };
 
-	lib.Query.fillParam("purchase.id", req.body.code, strict_params);
+	lib.Query.fillParam("purchase.id", req.body.id, strict_params);
 	lib.Query.fillParam("purchase.supplier_id", req.body.supplier_id, strict_params);
 
 	let order_params = [ ["purchase.id","DESC"] ];
@@ -166,41 +166,41 @@ purchaseController.filter = async (req, res) => {
 	};
 };
 
-// supplierController.findById = async (req, res) => {
-// 	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])){
-// 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-// 	};
-// 
-// 	let props = []; let inners = [];
-// 	let params = { keys: [], values: [] };		
-// 	let strict_params = { keys: [], values: [] };
-// 
-// 	lib.Query.fillParam("supplier.id", req.params.id, strict_params);
-// 
-// 	let order_params = [ ["supplier.id","ASC"] ];
-// 
-// 	try {
-// 		let supplier = await Feedstock.supplier.filter(props, inners, params, strict_params, order_params);
-// 		res.send({ supplier });
-// 	} catch (err) {
-// 		console.log(err);
-// 		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
-// 	};
-// };
-// 
-// supplierController.delete = async (req, res) => {
-// 	if(!await userController.verifyAccess(req, res, ['adm'])){
-// 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-// 	};
-// 
-// 	try {
-// 		await Feedstock.supplier.delete(req.params.id);
-// 		await Feedstock.supplier.storage.deleteBySupplierId(req.params.id);
-// 		res.send({ done: 'Matéria-prima excluída com sucesso!' });
-// 	} catch (err) {
-// 		console.log(err);
-// 		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
-// 	};
-// };
+purchaseController.updateStatus = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	try {
+		await Feedstock.purchase.updateStatus(req.body.id, req.body.status);
+		res.send({ done: 'Compra atualizada com sucesso!' });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
+	};
+};
+
+purchaseController.delete = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	try {
+		let strict_params = { keys: [], values: [] };
+		lib.Query.fillParam("purchase.id", req.params.id, strict_params);
+		let purchase = await Feedstock.purchase.filter([], [], [], [], strict_params, []);
+
+		if(purchase[0].status == "Em orçamento"){
+			await Feedstock.purchase.delete(req.params.id);
+			await Feedstock.purchase.feedstock.deleteByPurchaseId(req.params.id);
+			res.send({ done: 'Compra excluída com sucesso!' });
+		} else {
+			res.send({ done: 'Não é possível excluir compras após serem confirmadas.' });
+		}
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
+	};
+};
 
 module.exports = purchaseController;

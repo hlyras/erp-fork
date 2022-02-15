@@ -50,6 +50,11 @@ Feedstock.purchase.filter = (props, inners, period, params, strict_params, order
 	return db(query);
 };
 
+Feedstock.purchase.updateStatus = (purchase_id, status) => {
+	let query = "UPDATE cms_wt_erp.feedstock_purchase SET status='"+status+"' WHERE id='"+purchase_id+"';";
+	return db(query);
+};
+
 Feedstock.purchase.delete = (purchase_id) => {
 	let query = "DELETE FROM cms_wt_erp.feedstock_purchase WHERE id='"+purchase_id+"';";
 	return db(query);
@@ -86,6 +91,11 @@ Feedstock.purchase.feedstock.filter = (props, inners, period, params, strict_par
 
 Feedstock.purchase.feedstock.remove = async (feedstock) => {
 	let query = "DELETE FROM cms_wt_erp.feedstock_purchase_feedstock WHERE purchase_id='"+feedstock.purchase_id+"' AND feedstock_id='"+feedstock.feedstock_id+"';";
+	return db(query);
+};
+
+Feedstock.purchase.feedstock.deleteByPurchaseId = async (purchase_id) => {
+	let query = "DELETE FROM cms_wt_erp.feedstock_purchase_feedstock WHERE purchase_id='"+purchase_id+"';";
 	return db(query);
 };
 
