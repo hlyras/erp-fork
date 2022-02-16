@@ -8,31 +8,16 @@ if(Sale.controller.category){
 	});
 };
 
-// let sale_payment_method = [
-// 	{ id: 1, name: "Dinheiro" },
-// 	{ id: 2, name: "Transferência" },
-// 	{ id: 3, name: "Boleto" },
-// 	{ id: 4, name: "Faturado" }
-// ];
-
-// let sale_payment_period = [
-// 	{ id: 1, method_id: 1, name: "à vista" },
-// 	{ id: 2, method_id: 2, name: "à vista" },
-// 	{ id: 3, method_id: 2, name: "50% / 50%" },
-// 	{ id: 4, method_id: 3, name: "à vista" },
-// 	{ id: 5, method_id: 4, name: "1 parcela" },
-// 	{ id: 6, method_id: 4, name: "2 parcelas" },
-// 	{ id: 7, method_id: 4, name: "3 parcelas" },
-// 	{ id: 8, method_id: 4, name: "4 parcelas" },
-// 	{ id: 9, method_id: 4, name: "5 parcelas" },
-// 	{ id: 10, method_id: 4, name: "6 parcelas" }
-// ];
-
 Sale.controller.payment_method = document.getElementById("payment-method");
 if(Sale.controller.payment_method){
 	Sale.controller.payment_method.addEventListener("change", event => {
 		let html = "";
 		if(event.target.value === "Cartão de crédito"){
+			html += "<option value='' disabled selected>Prazo de Pagamento</option>";
+			html += "<option value='1x'>1x</option>";
+			html += "<option value='2x'>2x</option>";
+			html += "<option value='3x'>3x</option>";
+		} else if(event.target.value === "Boleto") {
 			html += "<option value='' disabled selected>Prazo de Pagamento</option>";
 			html += "<option value='1x'>1x</option>";
 			html += "<option value='2x'>2x</option>";
