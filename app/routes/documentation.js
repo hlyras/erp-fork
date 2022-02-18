@@ -13,5 +13,6 @@ router.get('/ecommerce/solution', lib.route.toHttps, ecommerceDocumentationContr
 
 // admin
 router.get('/admin/main', lib.route.toHttps, adminDocumentationController.main);
+router.get('/admin/nf', lib.route.toHttps, adminDocumentationController.nf);
 
 module.exports = router;

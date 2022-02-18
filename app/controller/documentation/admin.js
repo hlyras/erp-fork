@@ -14,4 +14,15 @@ adminDocumentationController.main = async (req, res) => {
 	}
 };
 
+adminDocumentationController.nf = async (req, res) => {
+	if(!req.user){ res.redirect('/'); } else {
+		try {
+			res.render('documentation/admin/nf', { user: req.user });
+		} catch (err) {
+			console.log(err);
+			res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+		};
+	}
+};
+
 module.exports = adminDocumentationController;

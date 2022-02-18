@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./../../partials/head %>
+</head>
+<body>
+	<% include ./../../partials/header %>
+	<% include ./../../partials/nav %>
+
+	<!-- títulos -->
+	<section class="container">
+		<p class="em08 underline-link padding-5 pointer">J.A Rio Militar > Documentação > Comercial > Nota Fiscal Eletrônica</p>
+
+		<div class="box b1 padding-5 underline">
+			<h4>Documentação Geral</h4>
+			<h3>Comercial > Nota Fiscal Eletrônica</h3>
+			<p class="em09 margin-top-5">A nota fiscal é uma etapa extremamente importante da venda, por isso deve ser feita com atenção e cuidado.</p>
+		</div>
+	</section>
+
+	<!-- Botão do Bling -->
+	<section class="container margin-top-10 h-center">
+	 	<div class="box b11-12">
+	 		<p>Para emitir notas fiscais eletrônicas, utiliza-se a plataforma <b>Bling</b>.</p>
+	 		<div class="box a1 container padding-5">
+	 			<img class="size-100 padding-10 border pointer radius-5" src="https://www.bling.com.br/site/assets//images/bling.svg" onclick="lib.openExternalLink('https://www.bling.com.br/')">
+	 		</div>
+		</div>
+	</section>
+
+	<!-- sumário -->
+	<section class="container margin-top-10 h-center">
+	 	<div class="box b11-12">
+	 		<h4>Sumário</h4>
+			<p class="margin-top-2"> <a class="underline-link" href="#1">Sessão 1 - Destinatário</a></p>
+			<p class="margin-top-2"> <a class="underline-link" href="#2">Sessão 2 - Itens da Nota Fiscal</a></p>
+			<p class="margin-top-2"> <a class="underline-link" href="#3">Sessão 3 - Valores adicionais</a></p>
+			<p class="margin-top-2"> <a class="underline-link" href="#4">Sessão 4 - Envio</a></p>
+			<p class="margin-top-2"> <a class="underline-link" href="#5">Sessão 5 - Pagamento</a></p>
+		</div>
+	</section>
+
+	<!-- passo a passo -->
+	<!-- 1 - Destinatário -->
+	<section class="container margin-top-25 padding-5 h-center">
+		<div class="box b11-12 container">
+			<h3 id="1">1 - Destinatário</h3>
+			<p class="box a1 padding-10">Para explicação mais detalhada de acordo com a plataforma que usamos, você pode <a class="underline-link" onclick="lib.openExternalLink('https://ajuda.bling.com.br/hc/pt-br/articles/360035807074-Como-preencher-o-destinat%C3%A1rio-na-nota-fiscal-')">clicar aqui</a>!</p>
+			<!-- 1.1 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">1.1 Nome</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('1.1', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="1.1" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Se for pessoa física, preencher o nome do cliente</p>
+					<p>Se for pessoa jurídica, preencher a <b>razão social</b> da empresa (não o nome fantasia).</p>
+				</div>
+			</div>
+			<!-- 1.2 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">1.2 Tipo da pessoa</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('1.2', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="1.2" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Escolher se é <b>pessoa física</b> ou <b>pessoa jurídica</b>.</p>
+					<p>Logo após isso, é necessário preencher a o campo ao lado com os dados de CPF (se for pessoa física) e CNPJ (se for pessoa jurídica).</p>
+				</div>
+			</div>
+			<!-- 1.3 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">1.3 Inscrição Estadual</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('1.3', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="1.3" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Preencher se for contribuinte (opção 1 no campo ao lado). Para encontrar a Inscrição Estadual do cliente (caso ele já não tenha passado), é necessário:<br><a href="http://www.sintegra.gov.br/">Clicar aqui</a>> Escolher o Estado do cliente> Ser redirecionado > Informar o CNPJ do cliente.</p>
+				</div>
+			</div>
+			<!-- 1.4 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">1.4 Endereço</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('1.4', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="1.4" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Preencher o endereço de entrega do cliente corretamente, pois é baseado nesse endereço que a transportadora realiza a entrega.</p>
+				</div>
+			</div>
+			<!-- 1.5 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">1.5 Dados de contato</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('1.5', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="1.5" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Preencher o campo de telefone e e-mail com dados válidos, pois isso também pode ser utilizado pela transportadora para entregar o pacote.</p>
+				</div>
+			</div>
+			<!-- 1.6 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">1.6 Vendedor</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('1.6', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="1.6" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Preencher o dado com o nome do funcionário que realizou todo o trâmite da venda. Cada vendedor emite notas fiscais referentes <b>apenas</b> às vendas que ele realizou. Um vendedor <b>não pode</b> emitir notas como um favor para outro vendedor.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- 2 - Itens -->
+	<section class="container margin-top-25 padding-5 h-center">
+		<div class="box b11-12 container">
+			<h3 class="margin-top-10" id="2">2 - Itens da nota fiscal</h3>
+			<p class="box a1 padding-10">Para explicação mais detalhada de acordo com a plataforma que usamos, você pode <a class="underline-link" onclick="lib.openExternalLink('https://ajuda.bling.com.br/hc/pt-br/articles/360035807954-Como-adicionar-e-editar-produtos-na-nota-fiscal-')">clicar aqui</a>!</p>
+			<!-- 2.1 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">2.1 Colocar o nome do produto</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('2.1', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="2.1" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Se atentar para o nome correto do produto, cor, modelo. É importante também verificar se o produto é vendido de modo unitário, em par, em kit, etc. O campo ao lado (código) já deve estar preenchido.</p>
+				</div>
+			</div>
+			<!-- 2.2 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">2.2 Unidade</div>
+				</div>
+
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('2.2', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="2.2" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p class="em09">Preencher com <b>"un"</b> quando o produto for vendido em unidades.</p>
+				</div>
+			</div>
+			<!-- 2.3 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">2.3 Quantidade</div>
+				</div>
+					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('2.3', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="2.3" class="mobile-box container b1 center margin-top-5 padding-5 transition-02-02" style="display: none;">
+					<p class="em09">Preencher com a quantidade correta do produto de acordo com o pedido.</p>
+				</div>
+			</div>
+			<!-- 2.4 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">2.4 Preço</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('2.5', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="2.4" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Preencher de acordo com a tabela utilizada durante a venda.</p>
+					<p><br>
+						<b>Varejo</b> - Maior preço, utilizado para vendas em e-commerce.<br>
+						<b>Atacado</b> - Preço médio, disponibilizado para parceiros, equipes de airsoft e lojistas sem CNPJ<br>
+						<b>Representantes</b> - Menor preço, disponibilizado para lojistas com CNPJ.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- 3 - Adicionais -->
+	<section class="container margin-top-25 padding-5 h-center">
+		<div class="box b11-12 container">
+			<h3 class="margin-top-10" id="3">3 - Valores adicionais</h3>
+			<p class="box a1 padding-10">Para explicação mais detalhada de acordo com a plataforma que usamos, você pode <a class="underline-link" onclick="lib.openExternalLink('https://ajuda.bling.com.br/hc/pt-br/articles/360035809554-Como-%C3%A9-feito-o-c%C3%A1lculo-dos-impostos-na-nota-fiscal-')">clicar aqui</a>!</p>
+			<!-- 3.1 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">3.1 Desconto</div>
+				</div>
+
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('3.1', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="3.1" class="mobile-box b1 margin-top-5 padding-5 transition-02-02 em08" style="display: none;">
+					<p>Preencher <b>apenas</b> se houver desconto na venda. Por exemplo: <i>5% de desconto na primeira compra</i>.</p>
+				</div>
+
+			</div>
+			<!-- 3.2 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">3.2 Frete</div>
+				</div>
+
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('3.2', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="3.2" class="mobile-box b1 margin-top-5 padding-5 transition-02-02 em08" style="display: none;">
+					<p>Preencher de acordo com o valor da cotação do frete. Caso o cliente opte por retirar pessoalmente em algum ponto de retirada, não é necessário preencher o campo do frete.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- 4 - Envio -->
+	<section class="container margin-top-25 padding-5 h-center">
+		<div class="box b11-12 container">
+			<h3 class="margin-top-10" id="4">4 - Envio</h3>
+			<p class="box a1 padding-10">Para explicação mais detalhada de acordo com a plataforma que usamos, você pode <a class="underline-link" onclick="lib.openExternalLink('https://ajuda.bling.com.br/hc/pt-br/articles/360035811434-Como-preencher-os-dados-do-Transportador-na-nota-fiscal-')">clicar aqui</a>!</p>
+
+				<!-- 4.1 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">4.1 Logística</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('4.1', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="4.1" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>O primeiro campo a preencher disponibiliza 3 opções: "Não haverá transporte", "Transporte com logística cadastrada" e Inserir transportadora manualmente.</p>
+					<br>
+					<p>Caso não haja transporte, escolher a opção <b>não haverá transporte</b>.</p>
+					<br>
+					<p>Caso haja transporte, escolher a opção <b>Transporte com logística cadastrada</b> > Selecionar a integração > <b>"Jadlog"</b>.</p>
+				</div>
+			</div>
+			<!-- 4.2 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">4.2 Nome</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('4.2', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="4.2" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Se o cliente retirar pessoalmente, apenas deixe os campos em branco.</p>
+					<br>
+					<p>Caso haja transporte: Ao clicar em <b>nome</b>, escreva "Jadlog" e logo aparecerá o cadastro pronto da Jadlog, é só clicar nele. Com esse cadastro, é preenchido automaticamente o CNPJ, IE e endereço.</p>
+				</div>
+			</div>
+			<!-- 4.3 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">4.3 Quantidade</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('4.3', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="4.3" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p class="em09">É necessário confirmar com a área do embalo quantas caixas foram ou serão utilizadas para enviar o pedido e preencher corretamente o campo de <b>quantidade</b>.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- 5 - Envio -->
+	<section class="container margin-top-25 padding-5 h-center">
+		<div class="box b11-12 container">
+			<h3 class="margin-top-10" id="5">5 - Pagamento</h3>
+			<p class="box a1 padding-10">Para explicação mais detalhada de acordo com a plataforma que usamos, você pode <a class="underline-link" onclick="lib.openExternalLink('https://ajuda.bling.com.br/hc/pt-br/articles/360036304293-Como-preencher-as-informa%C3%A7%C3%B5es-de-Pagamento-na-nota-fiscal-')">clicar aqui</a>!</p>
+
+				<!-- 5.1 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">5.1 PIX</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('5.1', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="5.1" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Clicar no campo <b>condição</b>> escrever <b>0</b>> clicar em <b>gerar parcelas</b>.</p>
+					<br>
+					<p>Não esquecer de confirmar a opção <b>PIX</b> no campo <b>forma</b>.</p>
+				</div>
+			</div>
+			<!-- 5.2 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">5.2 Boleto</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('5.2', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="5.2" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Se for parcelado em 1 vez - 30 dias:</p>
+					<p>Clicar no campo <b>condição</b>> escrever <b>30</b>> clicar em <b>gerar parcelas</b>.</p>
+					<br>
+					<p>Se for parcelado em 2 vezes - 30 e 60 dias:</p>
+					<p>Clicar no campo <b>condição</b>> escrever <b>30 60</b>> clicar em <b>gerar parcelas</b>.</p>
+					<br>
+					<p>Se for parcelado em 3 vezes - 30, 60 e 90 dias:</p>
+					<p>Clicar no campo <b>condição</b>> escrever <b>30 60 90</b>> clicar em <b>gerar parcelas</b>.</p>
+					<br>
+					<p>Não esquecer de confirmar a opção <b>Boleto</b> no campo <b>forma</b>.</p>
+				</div>
+			</div>
+			<!-- 5.3 -->
+			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
+				<div class="mobile-box b11-12 padding-5">
+					<div class="lucida-grande bold">5.3 Cartão de Crédito</div>
+				</div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('5.3', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="5.3" class="mobile-box b1 margin-top-5 em08 padding-5 transition-02-02" style="display: none;">
+					<p>Se for parcelado em 1 vez - 30 dias:</p>
+					<p>Clicar no campo <b>condição</b>> escrever <b>30</b>> clicar em <b>gerar parcelas</b>.</p>
+					<br>
+					<p>Se for parcelado em 2 vezes - 30 e 60 dias:</p>
+					<p>Clicar no campo <b>condição</b>> escrever <b>30 60</b>> clicar em <b>gerar parcelas</b>.</p>
+					<br>
+					<p>Se for parcelado em 3 vezes - 30, 60 e 90 dias:</p>
+					<p>Clicar no campo <b>condição</b>> escrever <b>30 60 90</b>> clicar em <b>gerar parcelas</b>.</p>
+					<br>
+					<p>Não esquecer de confirmar a opção <b>Cartão de Crédito</b> no campo <b>forma</b>.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+<footer>
+	<% include ./../../partials/footer %>
+</footer>
+</html>
