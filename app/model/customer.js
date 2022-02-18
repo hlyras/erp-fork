@@ -1,4 +1,5 @@
 const db = require('../../config/connection');
+const lib = require("jarmlib");
 
 const Customer = function(){
 	this.id;
@@ -69,6 +70,12 @@ Customer.filter = customer => {
 	return db(query);
 };
 
+Customer.adFilter = (props, inners, params, strict_params, order_params) => {
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.customer customer")
+		.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
+	return db(query);
+};
+
 Customer.delete = async (id) => {
 	let query = "DELETE FROM cms_wt_erp.customer WHERE id='"+id+"';";
 	return db(query);
@@ -108,6 +115,23 @@ Customer.address = {
 		},
 		customer_id: async (id) => {
 			let query = "SELECT * FROM cms_wt_erp.customer_address WHERE customer_id='"+id+"';";
+			return db(query);
+		}
+	}
+};
+
+Customer.mailer = {
+	pf: {
+		signout: async (customer) => {
+			let query = "UPDATE cms_wt_erp.customer SET mailer='0' WHERE id='"+customer.id
+			+"' && cpf='"+customer.cpf+"';";
+			return db(query);
+		}
+	},
+	pj: {
+		signout: async (customer) => {
+			let query = "UPDATE cms_wt_erp.customer SET mailer='0' WHERE id='"+customer.id
+			+"' && cnpj='"+customer.cnpj+"';";
 			return db(query);
 		}
 	}
