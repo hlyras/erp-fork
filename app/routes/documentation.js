@@ -15,6 +15,7 @@ router.get('/admin/main', lib.route.toHttps, adminDocumentationController.main);
 router.get('/commercial/nf', lib.route.toHttps, commercialDocumentationController.nf);
 
 // ecommerce
+router.get('/ecommerce/asks', lib.route.toHttps, ecommerceDocumentationController.asks);
 router.get('/ecommerce/gathering', lib.route.toHttps, ecommerceDocumentationController.gathering);
 router.get('/ecommerce/solution', lib.route.toHttps, ecommerceDocumentationController.solution);
 

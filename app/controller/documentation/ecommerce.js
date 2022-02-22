@@ -1,7 +1,20 @@
 // const User = require('../../model/user');
-// const userController = require('./../user');
+const userController = require('./../user');
 
 const ecommerceDocumentationController = {};
+
+ecommerceDocumentationController.asks = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm','eco-home'])){
+		return res.redirect('/');
+	};
+
+	try {
+		res.render('documentation/ecommerce/asks', { user: req.user });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+	};
+};
 
 ecommerceDocumentationController.solution = async (req, res) => {
 	if(!req.user){ res.redirect('/'); } else {
