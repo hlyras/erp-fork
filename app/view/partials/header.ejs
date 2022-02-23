@@ -1,13 +1,13 @@
 <div class="container">
 	<div class="mobile-box a6">
-		<img class="width-100 padding-15 opacity-out-08 pointer" onclick="window.location.href='/'" src="/images/favicon/favicon-black.png">
+		<img class="width-100 noselect padding-15 opacity-out-08 pointer" onclick="window.location.href='/'" src="/images/favicon/favicon-black.png">
 	</div>
-	<div class="mobile-box right padding-10">
+	<div class="mobile-box right padding-10 noselect">
 		<% if (user.access == 'adm') { %>
-			<a><img class='icon size-40 padding-5' onclick="window.location.href='/admin'" src="/images/icon/admin.png"></a>
+			<a><img class='noselect icon size-40 padding-5' onclick="window.location.href='/admin'" src="/images/icon/admin.png"></a>
         <% } %>
-		<a><img class='icon size-40 padding-5' onclick="window.location.href='/documentation'" src="/images/icon/documentation.png"></a>
-		<a><img class='icon size-40 padding-5' onclick="window.location.href='/user'" src="/images/icon/user.png"></a>
-		<a><img class="icon size-40 padding-5" onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}" src="/images/icon/logout.png"></a>
+		<a><img class='noselect icon size-40 padding-5' onclick="window.location.href='/documentation'" src="/images/icon/documentation.png"></a>
+		<a><img class='noselect icon size-40 padding-5' onclick="window.location.href='/user'" src="/images/icon/user.png"></a>
+		<a><img class="noselect icon size-40 padding-5" onclick="let r = confirm('deseja sair?');if(r==true){window.location.href='/logout'}" src="/images/icon/logout.png"></a>
 	</div>
 </div>
