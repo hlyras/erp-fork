@@ -336,7 +336,7 @@ const saleController = {
 		};
 	},
 	confirmPackment: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'pro-man','COR-GER','log-pac'])){
+		if(!await userController.verifyAccess(req, res, ['adm',"adm-man",'pro-man','COR-GER','log-pac'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -380,7 +380,7 @@ const saleController = {
 		};
 	},
 	confirmShipment: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER'])){
+		if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 

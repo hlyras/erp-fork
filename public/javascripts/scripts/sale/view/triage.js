@@ -4,7 +4,7 @@ Sale.view.filter = (sales, setup) => {
 	let html = "";
 	if(sales.length){
 		sales = lib.sort(sales, "estimated_shipment_date");
-		if(setup.status == "Ag. embalo"){
+		if(setup.status == "Ag. embalo" || setup.status == "Ag. envio"){
 			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
 				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
 					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
