@@ -1,7 +1,7 @@
 const User = require('../../model/user');
 const userController = require('./../user');
 
-const Logistics = require('../../model/sale');
+const Logistics = require('../../model/sale/logistics');
 
 const logisticsController = {};
 

@@ -3,7 +3,7 @@ const userController = require('./../user');
 
 const lib = require("jarmlib");
 
-const Sale = require('../../model/sale');
+const Sale = require('../../model/sale/main');
 
 const Product = require('../../model/product/main');
 Product.color = require('../../model/product/color');
