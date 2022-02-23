@@ -61,3 +61,14 @@ if(Sale.controller.confirmPackment){
 		};
 	});
 }
+
+Sale.controller.confirmShipment = async sale_id => {
+	let r = confirm("Deseja confirmar envio?");
+	if(r){
+		let response = await API.response(Sale.confirmShipment, sale_id);
+		if(!response){ return false; };
+		
+		alert(response);
+		Sale.controller.filter.submit.click();
+	};
+};

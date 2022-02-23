@@ -67,16 +67,6 @@ Sale.confirmPackment = async packmentInfo => {
 	return response;
 }
 
-// Sale.confirmPackment = async sale_id => {
-// 	let response = await fetch("/sale/confirm-packment/id/" + sale_id);
-// 	response = await response.json();
-	
-// 	if(API.verifyResponse(response)){ return false };
-	
-// 	return response.done;	
-// };
-
-
 Sale.confirmNF = async (sale) => {
 	let response = await fetch("/sale/confirm-nf", {
 		method: "POST",
