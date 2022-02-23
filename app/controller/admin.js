@@ -1,6 +1,5 @@
 const User = require('../model/user');
 const Product = require('../model/product/main');
-const Sale = require('../model/sale');
 const Ecommerce_sale = require('../model/ecommerce/sale');
 const userController = require('./user');
 
