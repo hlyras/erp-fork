@@ -17,11 +17,22 @@
                     <input type="date" name="periodEnd" class="box b3 input-generic center margin-top-5" autocomplete="off">
                     <input type="submit" name="submit" class="box b3 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
                 </form>
+
                 <div id="sale-filter-box" class="box b1 ground" style="display:none">
                     <div id="sale-filter-div" class="box b1"></div>
                     <% include ./../partials/carousel %>
                 </div>
+
                 <div id="sale-show-box" class="box b1 container ground margin-top-10 margin-bottom-15"></div>
+                
+                <form id="sale-confirmPackment-form" class='box b1 container h-center' style="display:none;">
+                    <input type="hidden" name="sale-id" value="">
+                    <div class="box b1 container h-center">
+                        <div class="mobile-box b2 lucida-grande bold underline center">Quantidade de Caixas: </div>
+                        <input type="number" name="box-amount" class="mobile-box b6 em11 input-generic border-bottom center" step="1" value="" placeholder="0" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}" autocomplete="off" required/>
+                    </div>
+                    <input type='submit' name="submit" class='mobile-box b2-3 submit-generic bold margin-top-15 margin-bottom-15' value='CONFIRMAR EMBALO'>
+                </form>
             </div>
         </section>
         <% include ./../partials/loader %>

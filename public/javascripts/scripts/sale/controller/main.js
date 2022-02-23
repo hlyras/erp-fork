@@ -30,20 +30,6 @@ if(Sale.controller.payment_method){
 	});
 };
 
-// Sale.controller.payment_period = document.getElementById("payment-period");
-// if(Sale.controller.payment_period){
-// 	Sale.controller.payment_period.addEventListener("change", event => {
-// 		let installment = event.target.value.split(" ")[0];
-// 		let html = "";
-// 
-// 		for(let i = 1; i <= parseInt(installment); i++){
-// 			html += "<input id='installment-"+i+"' class='box b"+installment+" margin-top-5 input-generic center' placeholder='"+i+"ª parcela'>";
-// 		};
-// 
-// 		document.getElementById("payment-days").innerHTML = html;
-// 	});
-// };
-
 Sale.controller.save = document.getElementById("sale-create-submit");
 if(Sale.controller.save){
 	Sale.controller.save.addEventListener("click", async event => {

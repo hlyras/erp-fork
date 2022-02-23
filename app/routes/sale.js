@@ -12,7 +12,7 @@ router.get("/financial", lib.route.toHttps, saleController.financial);
 router.get("/id/:id", lib.route.toHttps, saleController.findById);
 router.get("/confirm-payment/id/:id", lib.route.toHttps, saleController.confirmPayment);
 router.get("/cancel/id/:id", lib.route.toHttps, saleController.cancel);
-router.get("/confirm-packment/id/:id", lib.route.toHttps, saleController.confirmPackment);
+router.post("/confirm-packment", lib.route.toHttps, saleController.confirmPackment);
 router.post("/confirm-nf", lib.route.toHttps, saleController.confirmNF);
 router.get("/confirm-shipment/id/:id", lib.route.toHttps, saleController.confirmShipment);
 

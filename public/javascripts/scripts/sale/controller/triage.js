@@ -12,12 +12,14 @@ if(Sale.controller.filter){
 			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
 			status: event.target.elements.namedItem("status").value
 		};
+
 		
 		let sales = await API.response(Sale.filter, sale);
 		if(!sales){ return false; }
 
-		document.getElementById("sale-filter-box").style.display = "";
-		document.getElementById("sale-show-box").style.display = "none";
+    	lib.display("sale-confirmPackment-form", "none");
+    	lib.display("sale-filter-box", "");
+    	lib.display("sale-show-box", "none");
 		if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
 
 		const setup = { pageSize: 10, page: 0, status: sale.status };
@@ -38,13 +40,25 @@ Sale.controller.show = async (sale_id, status) => {
 	if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
 };
 
-Sale.controller.confirmPackment = async sale_id => {
-	let r = confirm("Deseja realmente confirmar o embalo?");
-	if(r){
-		let response = await API.response(Sale.confirmPackment, sale_id);
-		if(!response){ return false; }
+Sale.controller.confirmPackment = document.getElementById("sale-confirmPackment-form");
+if(Sale.controller.confirmPackment){
+	Sale.controller.confirmPackment.addEventListener("submit", async e => {
+		e.preventDefault();
 
-		alert(response);
-		Sale.controller.filter.submit.click();
-	};
-};
+		let packmentInfo = {
+			sale_id: e.target.elements.namedItem("sale-id").value,
+			box_amount: e.target.elements.namedItem("box-amount").value
+		};
+
+		let r = confirm("Deseja realmente confirmar o embalo?");
+		if(r){
+			let response = await API.response(Sale.confirmPackment, packmentInfo);
+			if(!response){ return false; }
+
+			e.target.elements.namedItem("sale-id").value = "";
+			e.target.elements.namedItem("box-amount").value = "";
+
+			Sale.controller.filter.submit.click();
+		};
+	});
+}

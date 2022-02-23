@@ -341,7 +341,8 @@ const saleController = {
 		};
 
 		let sale = {
-			id: req.params.id,
+			id: parseInt(req.body.sale_id),
+			box_amount: parseInt(req.body.box_amount),
 			packment_user_id: req.user.id,
 			packment_user_name: req.user.name,
 			packment_confirmation_date: new Date().getTime(),

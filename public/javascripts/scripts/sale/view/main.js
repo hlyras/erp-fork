@@ -291,13 +291,17 @@ Sale.view.show = (sale, status) => {
 
 			if(sale.packment_confirmation_date){ 
 				html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
-					html += "<div class='mobile-box b2 container'>";
+					html += "<div class='mobile-box b2-5 container'>";
 						html += "<div class='box b1 em06 bold'>Data de embalo</div>";
 						html += "<div class='box b1 em09'>"+lib.timestampToFulldate(sale.packment_confirmation_date)+"</div>"; 
 					html += "</div>";
-					html += "<div class='mobile-box b2 container'>";
+					html += "<div class='mobile-box b2-5 container'>";
 						html += "<div class='box b1 em06 bold'>Embalado por</div>";
 						html += "<div class='box b1'>"+sale.packment_user_name+"</div>"; 
+					html += "</div>";
+					html += "<div class='mobile-box b5 container'>";
+						html += "<div class='box b1 em06 bold'>Volumes</div>";
+						html += "<div class='box b1 bold'>"+sale.box_amount+"</div>"; 
 					html += "</div>";
 				html += "</div>";
 			};

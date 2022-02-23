@@ -1,6 +1,6 @@
 Sale.view = {};
 
-Sale.view.filter = (sales, setup) => {
+Sale.view.filter = (sales, setup) => {	
 	let html = "";
 	if(sales.length){
 		sales = lib.sort(sales, "estimated_shipment_date");
@@ -188,8 +188,15 @@ Sale.view.show = (sale, status) => {
 		html += "</div>";
 	html += "</div>";
 
-    if(status == "Ag. embalo"){ html += "<div class='box b1 container h-center'><input type='button' class='box b3 submit-generic bold margin-top-15 margin-bottom-15' value='CONFIRMAR EMBALO' onclick='Sale.controller.confirmPackment("+sale.id+")'></div>"; };
-    if(status == "Ag. envio"){ html += "<div class='box b1 container h-center'><input type='button'class='box b3 submit-generic bold margin-top-15 margin-bottom-15' value='CONFIRMAR ENVIO' onclick='Sale.controller.confirmShipment("+sale.id+")'></div>"; };
+    if(status == "Ag. embalo"){
+    	document.getElementById("sale-confirmPackment-form").elements.namedItem("sale-id").value = sale.id;
+    	lib.display("sale-confirmPackment-form", "");
+    };
+
+    if(status == "Ag. envio"){ 
+    	html += "<div class='box b1 container h-center'><input type='button'class='box b3 submit-generic bold margin-top-15 margin-bottom-15' value='CONFIRMAR ENVIO' onclick='Sale.controller.confirmShipment("+sale.id+")'></div>"; 
+    	lib.display("sale-confirmPackment-form", "none");
+    };
 
 	document.getElementById("sale-show-box").innerHTML = html;
 };

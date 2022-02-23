@@ -80,7 +80,7 @@ Sale.confirmPayment = async (sale) => {
 };
 
 Sale.confirmPackment = async (sale) => {
-	let query = "UPDATE cms_wt_erp.sale SET packment_confirmation_date='"+sale.packment_confirmation_date+"', packment_user_id='"+sale.packment_user_id+"', packment_user_name='"+sale.packment_user_name+"', status='"+sale.status+"' WHERE id='"+sale.id+"';";
+	let query = "UPDATE cms_wt_erp.sale SET packment_confirmation_date='"+sale.packment_confirmation_date+"', packment_user_id='"+sale.packment_user_id+"', packment_user_name='"+sale.packment_user_name+"', status='"+sale.status+"', box_amount='"+sale.box_amount+"' WHERE id='"+sale.id+"';";
 	return db(query);
 };
 
