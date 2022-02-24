@@ -60,15 +60,18 @@ reportController.product.filter = async (req, res) => {
 	];
 
 	let product_inners = [
+		["cms_wt_erp.customer customer","cms_wt_erp.sale.customer_id","cms_wt_erp.customer.id"],
 		["cms_wt_erp.sale_product sale_product","cms_wt_erp.sale.id","cms_wt_erp.sale_product.sale_id"],
 		["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.sale_product.product_id"]
 	];
 
 	let package_product_inners = [
+		["cms_wt_erp.customer customer","cms_wt_erp.sale.customer_id","cms_wt_erp.customer.id"],
 		["cms_wt_erp.sale_package_product sale_package_product","cms_wt_erp.sale.id","cms_wt_erp.sale_package_product.sale_id"],
 		["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.sale_package_product.product_id"]
 	];
 
+	lib.Query.fillParam("cms_wt_erp.customer.id", req.body.sale.customer_id, strict_params);
 	lib.Query.fillParam("cms_wt_erp.product.name", req.body.sale.product_name, params);
 	lib.Query.fillParam("cms_wt_erp.product.color", req.body.sale.product_color, strict_params);
 	lib.Query.fillParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params);

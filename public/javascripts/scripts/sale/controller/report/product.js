@@ -6,6 +6,7 @@ if(Sale.product.report.controller.filter){
     event.preventDefault();
 
     let sale = {
+      customer_id: event.target.elements.namedItem("customer-id").value,
       product_name: event.target.elements.namedItem("product-name").value,
       product_color: event.target.elements.namedItem("product-color").value,
       periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
