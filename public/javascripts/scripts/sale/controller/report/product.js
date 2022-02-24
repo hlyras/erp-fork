@@ -22,8 +22,10 @@ if(Sale.product.report.controller.filter){
       productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
     });
 
+    console.log(response.sale_package_products);
+
     response.sale_package_products.forEach(function (product) {
-      productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
+      productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + (product.amount * product.package_amount);
     });
 
     let products = [];

@@ -55,6 +55,8 @@ reportController.product.filter = async (req, res) => {
 		"product.name",
 		"product.color",
 		"product.size",
+		"sale_package.amount package_amount",
+		"sale_package_product.package_id",
 		"sale_package_product.product_id",
 		"sale_package_product.amount"
 	];
@@ -68,6 +70,8 @@ reportController.product.filter = async (req, res) => {
 	let package_product_inners = [
 		["cms_wt_erp.customer customer","cms_wt_erp.sale.customer_id","cms_wt_erp.customer.id"],
 		["cms_wt_erp.sale_package_product sale_package_product","cms_wt_erp.sale.id","cms_wt_erp.sale_package_product.sale_id"],
+		["cms_wt_erp.sale_package sale_package","cms_wt_erp.sale_package.sale_id","cms_wt_erp.sale.id",
+			"cms_wt_erp.sale_package.package_id","cms_wt_erp.sale_package_product.package_id"],
 		["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.sale_package_product.product_id"]
 	];
 

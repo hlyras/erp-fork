@@ -1,6 +1,138 @@
 const db = require('../../../config/connection');
 const lib = require("jarmlib");
 
+lib.Query = function(){
+	this._props = false;
+	this._inners = false;
+	this._period = false;
+	this._params = false;
+	this._strict_params = false;
+	this._order_params = false;
+
+	this.query = "";
+
+	this.select = function(){
+		this.query += "SELECT ";
+		return this;
+	};
+
+	this.props = function(props) {
+		if(props.length){
+			this._props = true;
+
+			for(let i in props){
+				if(i == props.length - 1){
+					this.query += props[i]+" ";
+				} else {
+					this.query += props[i]+", ";
+				};
+			};
+		};
+		return this;
+	};
+
+	this.table = function(table) {
+		if(!this._props){
+			this.query += "* FROM "+table+" ";
+		} else {
+			this.query += "FROM "+table+" ";
+		}
+		return this;
+	};
+
+	this.inners = function(inners) {
+		if(inners.length){
+			this._inners = true;
+			
+			for(let i in inners){
+				console.log(inners[i].length);
+				if(inners[i].length == 3){
+					this.query += "INNER JOIN "+inners[i][0]+" ON "+inners[i][1]+"="+inners[i][2]+" ";
+				} else if(inners[i].length > 3){
+					this.query += "INNER JOIN "+inners[i][0]+" ON ("+inners[i][1]+"="+inners[i][2]+" AND "+inners[i][3]+"="+inners[i][4]+") ";
+				}
+			};
+		}
+		return this;
+	};
+
+	this.period = function(period) {
+		if(period.start && period.end){
+			this._period = true;
+
+			this.query += "WHERE "+period.key+">='"+period.start+"' AND "+period.key+"<='"+period.end+"' ";
+		};
+		return this;
+	};
+
+	this.params = function(params) {
+		if(params.keys.length){
+			this._params = true;
+
+			if(this._period){ this.query += "AND "; } else { this.query += "WHERE "; }
+
+			for(let i in params.keys){
+				if(i == params.keys.length - 1){
+					this.query += params.keys[i]+" like '%"+params.values[i]+"%' ";
+				} else {
+					this.query += params.keys[i]+" like '%"+params.values[i]+"%' AND ";
+				};
+			};
+		}
+		return this;
+	};
+
+	this.strictParams = function(strict_params){
+		if(strict_params.keys.length){
+			this._strict_params = true;
+			
+			if(this._period || this._params){ this.query += "AND "; } else { this.query += "WHERE "; }
+
+			for(let i in strict_params.keys){
+				if(i == strict_params.keys.length - 1){
+					this.query += strict_params.keys[i]+"='"+strict_params.values[i]+"' ";
+				} else {
+					this.query += strict_params.keys[i]+"='"+strict_params.values[i]+"' AND ";
+				};
+			};
+		};
+		return this;
+	};
+
+	this.order = function(orderParams){
+		if(orderParams.length && orderParams[0].length > 1){
+			this._order_params = true;
+			
+			this.query += "ORDER BY ";
+			for(let i in orderParams){
+				if(i == orderParams.length - 1){
+					this.query += orderParams[i][0]+" "+orderParams[i][1]+" ";
+				} else {
+					this.query += orderParams[i][0]+" "+orderParams[i][1]+", ";
+				};
+			};
+		}
+		return this;
+	};
+
+	this.limit = function(limit){
+		if(limit.length || limit > 0) {
+			this._limit = true;
+			this.query += "LIMIT "+limit;
+		}
+		return this;
+	};
+
+	this.build = function(){
+		this.query = this.query.trim()+";"; 
+		return this;
+	};
+};
+
+lib.Query.fillParam = function(key, value, arr) {
+	if(key && value && arr.keys && arr.values){ arr.keys.push(key); arr.values.push(value); } else { return false; };
+};
+
 const Sale = function(){
 	this.id;
 	this.sale_date;
@@ -66,6 +198,7 @@ Sale.cancel = async (sale) => {
 
 Sale.filter = (props, inners, period, params, strict_params, order_params, limit) => {
 	let query = new lib.Query().select().props(props).table("cms_wt_erp.sale sale").inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build().query;
+	console.log(query);
 	return db(query);
 };
 
