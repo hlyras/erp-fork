@@ -13,6 +13,7 @@ router.get('/admin/main', lib.route.toHttps, adminDocumentationController.main);
 
 // commercial
 router.get('/commercial/nf', lib.route.toHttps, commercialDocumentationController.nf);
+router.get('/commercial/prospect', lib.route.toHttps, commercialDocumentationController.prospect);
 
 // ecommerce
 router.get('/ecommerce/asks', lib.route.toHttps, ecommerceDocumentationController.asks);

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aumente seu faturamento!</title>
+</head>
+<body style="padding:0px;margin:0px;border-radius:5px;background-color: #f0f0f0;">
+  <div style="padding:15px;">
+    <p style="margin-top:20px;font-family:georgia;">Olá <%= customer.manager %>,</p>
+    <div style="margin-top:15px;font-family:georgia;">Sem querer fazer suposições ao seu negócio, acredito que deseja oferecer uma variedade maior de produtos aos seus clientes, certo?</div>
+    <div style="margin-top:15px;font-family:georgia;">Encontrei o site de sua empresa (<%= customer.brand %>) e analisando sua linha de produtos percebi que é possível aumentar seu portifólio sem a necessidade de realizar altos investimentos.</div>
+    <div style="margin-top:15px;font-family:georgia;">Seria possível entrar em contato diretamente com você através de ligação ou WhatsApp e te apresentar estratégias para alavancar seu faturamento que já são utilizadas por nossos clientes?</div>
+    <div style="margin-top:30px;font-family:georgia;">Atenciosamente,</div>
+    <div style="margin-top:12px;font-family:georgia;"><%= user.name %></div>
+    <div style="font-size: 0.8em;"><%= user.phone %></div>
+    <img src="cid:favicon" style="margin-left:10px;margin-top:5px;width:105px;">
+  </div>
+</body>
+</html>

@@ -3,6 +3,7 @@ const lib = require('jarmlib');
 
 const customerController = require('../controller/customer/main');
 const addressController = require('../controller/customer/address');
+const prospectController = require('../controller/customer/prospect');
 const mailerController = require('../controller/customer/mailer');
 
 //API ROUTES
@@ -17,6 +18,14 @@ router.post('/address/save', lib.route.toHttps, addressController.save);
 router.get('/address/id/:id', lib.route.toHttps, addressController.findById);
 router.get('/address/list/customer_id/:customer_id', lib.route.toHttps, addressController.list);
 router.delete('/address/delete', lib.route.toHttps, addressController.delete);
+
+router.get('/prospect', lib.route.toHttps, prospectController.index);
+router.post('/prospect/save', lib.route.toHttps, prospectController.save);
+router.post('/prospect/filter', lib.route.toHttps, prospectController.filter);
+router.post('/prospect/confirm-contact-1', lib.route.toHttps, prospectController.confirmContact1);
+router.post('/prospect/confirm-contact-2', lib.route.toHttps, prospectController.confirmContact2);
+router.post('/prospect/confirm-contact-3', lib.route.toHttps, prospectController.confirmContact3);
+router.get('/prospect/send-mail/:id', lib.route.toHttps, prospectController.sendMail);
 
 router.get('/mailer', lib.route.toHttps, mailerController.index);
 router.get('/mailer/send', lib.route.toHttps, mailerController.send);
