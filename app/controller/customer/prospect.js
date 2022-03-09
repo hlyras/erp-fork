@@ -6,6 +6,7 @@ const lib = require("jarmlib");
 
 const Mailer = require('../../middleware/mailer');
 const ejs = require("ejs");
+const path = require('path');
 
 const prospectController = {};
 
@@ -221,7 +222,7 @@ prospectController.sendMail = async (req, res) => {
 		let customer = await Prospect.findByIdAndUserId(req.params.id, req.user.id);
 		let user = await User.findById(req.user.id);
 
-		const data = await ejs.renderFile(__dirname + "/../../../view/customer/prospect/mail-template/index.ejs", { customer: customer[0], user: user[0] });
+		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/prospect/mail-template/index.ejs"), { customer: customer[0], user: user[0] });
 			            
 	    const option = {
 	        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
@@ -243,7 +244,7 @@ prospectController.sendMail = async (req, res) => {
 	        	console.log(err); 
 				res.send({ msg: "Ocorreu um erro ao enviar email, favor atualize a página e tente novamente!" });
 	        } else {
-	        	let prospect = { id: customer[0].id, mailer: 1 };
+	        	let prospect = { id: customer[0].id, mailer: new Date().getTime() };
 				await Prospect.update(prospect);
 				res.send({ done: "E-mail enviado com sucesso!" });
 	        }
