@@ -233,7 +233,7 @@ prospectController.sendMail = async (req, res) => {
 	        attachments: [
 		        {
 			        filename: 'favicon.png',
-			        path: path.join(__dirname, "../../../view/customer/prospect/mail-template/images/favicon.png"),
+			        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon.png"),
 			        cid: 'favicon'
 			    }
 		    ]
