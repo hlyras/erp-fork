@@ -217,36 +217,41 @@ prospectController.confirmContact3 = async(req, res) => {
 };
 
 prospectController.sendMail = async (req, res) => {
-	let customer = await Prospect.findByIdAndUserId(req.params.id, req.user.id);
-	let user = await User.findById(req.user.id);
+	try {
+		let customer = await Prospect.findByIdAndUserId(req.params.id, req.user.id);
+		let user = await User.findById(req.user.id);
 
-	const data = await ejs.renderFile(__dirname + "../../../view/customer/prospect/mail-template/index.ejs", { customer: customer[0], user: user[0] });
-		            
-    const option = {
-        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
-        to: `${customer[0].name} <${customer[0].email}>`,
-        subject: "Aumente seu faturamento!",
-        text: "Descubra o que falta para seus clientes...",
-        html: data,
-        attachments: [
-	        {
-		        filename: 'favicon.png',
-		        path: __dirname + "../../../view/customer/prospect/mail-template/images/favicon.png",
-		        cid: 'favicon'
-		    }
-	    ]
-    };
+		const data = await ejs.renderFile(__dirname + "/../../../view/customer/prospect/mail-template/index.ejs", { customer: customer[0], user: user[0] });
+			            
+	    const option = {
+	        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
+	        to: `${customer[0].name} <${customer[0].email}>`,
+	        subject: "Aumente seu faturamento!",
+	        text: "Descubra o que falta para seus clientes...",
+	        html: data,
+	        attachments: [
+		        {
+			        filename: 'favicon.png',
+			        path: __dirname + "../../../view/customer/prospect/mail-template/images/favicon.png",
+			        cid: 'favicon'
+			    }
+		    ]
+	    };
 
-    await Mailer.sendMail(option, async (err, info) => {
-        if (err) { 
-        	console.log(err); 
-			res.send({ msg: "Ocorreu um erro ao enviar email, favor atualize a página e tente novamente!" });
-        } else {
-        	let prospect = { id: customer[0].id, mailer: 1 };
-			await Prospect.update(prospect);
-			res.send({ done: "E-mail enviado com sucesso!" });
-        }
-    });
+	    await Mailer.sendMail(option, async (err, info) => {
+	        if (err) { 
+	        	console.log(err); 
+				res.send({ msg: "Ocorreu um erro ao enviar email, favor atualize a página e tente novamente!" });
+	        } else {
+	        	let prospect = { id: customer[0].id, mailer: 1 };
+				await Prospect.update(prospect);
+				res.send({ done: "E-mail enviado com sucesso!" });
+	        }
+	    });
+	} catch (err) {
+		console.log(err); 
+		res.send({ msg: "Ocorreu um erro ao enviar email, favor atualize a página e tente novamente!" });
+	}
 };
 
 module.exports = prospectController;

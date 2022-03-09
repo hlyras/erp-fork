@@ -11,7 +11,7 @@
     <div style="margin-top:15px;font-family:georgia;">Seria possível entrar em contato diretamente com você através de ligação ou WhatsApp e te apresentar estratégias para alavancar seu faturamento que já são utilizadas por nossos clientes?</div>
     <div style="margin-top:30px;font-family:georgia;">Atenciosamente,</div>
     <div style="margin-top:12px;font-family:georgia;"><%= user.name %></div>
-    <div style="font-size: 0.8em;"><%= user.phone %></div>
+    <% if(user.phone) { <div style="font-size: 0.8em;"><%= user.phone %></div> } %>
     <img src="cid:favicon" style="margin-left:10px;margin-top:5px;width:105px;">
   </div>
 </body>
