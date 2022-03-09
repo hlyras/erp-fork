@@ -18,7 +18,6 @@ const db = async (query) => {
 		        if(!err){
 		        	resolve(rows);
 		        } else {
-		        	console.log(err);
 		        	reject(err);
 		        };
 		    });

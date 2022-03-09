@@ -13,7 +13,7 @@ const Customer = require('../../model/customer');
 const saleController = {};
 
 saleController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ["adm", "com-sel","adm-man","adm-ass","adm-aud"])){
+	if(!await userController.verifyAccess(req, res, ["adm","com-sel","adm-man","adm-ass","adm-aud"])){
 		return res.redirect('/');
 	};
 

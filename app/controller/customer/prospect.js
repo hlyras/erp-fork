@@ -11,14 +11,14 @@ const path = require('path');
 const prospectController = {};
 
 prospectController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
 		return res.redirect('/');
 	};
 	res.render('customer/prospect/index', { user: req.user });
 };
 
 prospectController.save = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -36,13 +36,14 @@ prospectController.save = async(req, res) => {
 		if(saveProspect.err) { return res.send({ msg: saveProspect.err }); }
 		res.send({ done: "Lead cadastrado com sucesso!" });
 	} catch (err) {
+		if(err.code == "ER_DUP_ENTRY") { return res.send({ msg: "Duplicidade para: "+err.sqlMessage.split("'")[1] }); } 
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao cadastrar o Lead, favor contate o suporte!" });
 	};
 };
 
 prospectController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -75,7 +76,7 @@ prospectController.filter = async (req, res) => {
 };
 
 prospectController.confirmContact1 = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -123,13 +124,14 @@ prospectController.confirmContact1 = async(req, res) => {
 		let response_log = await prospect_log.save();
 		res.send({ done: "Lead atualizado com sucesso!" });
 	} catch (err) {
+		if(err.code == "ER_DUP_ENTRY") { return res.send({ msg: "Duplicidade para: "+err.sqlMessage.split("'")[1] }); } 
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao atualizar o Lead, favor contate o suporte!" });
 	};
 };
 
 prospectController.confirmContact2 = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -175,13 +177,14 @@ prospectController.confirmContact2 = async(req, res) => {
 		let response_log = await prospect_log.save();
 		res.send({ done: "Lead atualizado com sucesso!" });
 	} catch (err) {
+		if(err.code == "ER_DUP_ENTRY") { return res.send({ msg: "Duplicidade para: "+err.sqlMessage.split("'")[1] }); } 
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao atualizar o Lead, favor contate o suporte!" });
 	};
 };
 
 prospectController.confirmContact3 = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -212,12 +215,17 @@ prospectController.confirmContact3 = async(req, res) => {
 		let response_log = await prospect_log.save();
 		res.send({ done: "Lead atualizado com sucesso!" });
 	} catch (err) {
+		if(err.code == "ER_DUP_ENTRY") { return res.send({ msg: "Duplicidade para: "+err.sqlMessage.split("'")[1] }); } 
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao atualizar o Lead, favor contate o suporte!" });
 	};
 };
 
 prospectController.sendMail = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
 	try {
 		let customer = await Prospect.findByIdAndUserId(req.params.id, req.user.id);
 		let user = await User.findById(req.user.id);
@@ -227,6 +235,7 @@ prospectController.sendMail = async (req, res) => {
 	    const option = {
 	        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
 	        to: `${customer[0].name} <${customer[0].email}>`,
+	        cc: `${customer[0].email}`,
 	        subject: "Aumente seu faturamento!",
 	        text: "Descubra o que falta para seus clientes...",
 	        html: data,
