@@ -6,7 +6,7 @@ if(Prospect.controller.save){
 		e.preventDefault();
 
 		const prospect = {
-			brand: e.target.elements.namedItem("brand").value,
+			brand: lib.capitalizeFirst(e.target.elements.namedItem("brand").value),
 			state: e.target.elements.namedItem("state").value,
 			phone: e.target.elements.namedItem("phone").value,
 			social_media: e.target.elements.namedItem("social-media").value,
