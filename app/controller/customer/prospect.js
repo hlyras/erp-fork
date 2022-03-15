@@ -11,14 +11,14 @@ const path = require('path');
 const prospectController = {};
 
 prospectController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-pro"])){
 		return res.redirect('/');
 	};
 	res.render('customer/prospect/index', { user: req.user });
 };
 
 prospectController.save = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-pro"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -43,7 +43,7 @@ prospectController.save = async(req, res) => {
 };
 
 prospectController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-pro"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -60,7 +60,9 @@ prospectController.filter = async (req, res) => {
 	
 	lib.Query.fillParam("customer_lead.brand", req.body.brand, params);
 	lib.Query.fillParam("customer_lead.state", req.body.state, strictParams);
-	lib.Query.fillParam("customer_lead.user_id", req.user.id, strictParams);
+	if(req.user.access == "com-pro"){
+		lib.Query.fillParam("customer_lead.user_id", req.user.id, strictParams);
+	}
 	
 	let orderParams = [ ["datetime","ASC"], ["id","ASC"] ];
 
@@ -76,7 +78,7 @@ prospectController.filter = async (req, res) => {
 };
 
 prospectController.confirmContact1 = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-pro"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -93,6 +95,7 @@ prospectController.confirmContact1 = async(req, res) => {
 		if(!req.body.manager && !mainProspect[0].manager) { return res.send({ msg: "É necessário cadastrar o nome do responsável para o próximo contato." }); }
 		if(!req.body.email && !mainProspect[0].email) { return res.send({ msg: "É necessário ter um email cadastrado antes do próximo contato." }); }	
 		if(!req.body.cellphone && !mainProspect[0].cellphone) { return res.send({ msg: "É necessário ter o número de WhatsApp do responsável para fazer o contato." }); }	
+		if(!req.body.meeting) { return res.send({ msg: "É necessário informar o horário da reunião." }); };
 		if(!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
 	}
 
@@ -109,6 +112,7 @@ prospectController.confirmContact1 = async(req, res) => {
 	if(req.body.manager) { prospect.manager = req.body.manager; }
 	if(req.body.email) { prospect.email = req.body.email; }
 	if(req.body.cellphone) { prospect.cellphone = req.body.cellphone; }
+	if(req.body.meeting) { prospect.meeting = req.body.meeting; }
 	if(req.body.status) { prospect.status = req.body.status; }
 
 	let prospect_log = new Prospect.log();
@@ -131,7 +135,7 @@ prospectController.confirmContact1 = async(req, res) => {
 };
 
 prospectController.confirmContact2 = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-pro"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -148,6 +152,7 @@ prospectController.confirmContact2 = async(req, res) => {
 		if(!req.body.manager && !mainProspect[0].manager) { return res.send({ msg: "É necessário cadastrar o nome do responsável para o próximo contato." }); }
 		if(!req.body.email && !mainProspect[0].email) { return res.send({ msg: "É necessário ter um email cadastrado antes do próximo contato." }); }
 		if(!req.body.cellphone && !mainProspect[0].cellphone) { return res.send({ msg: "É necessário ter o número de WhatsApp do responsável para fazer o contato." }); }	
+		if(!req.body.meeting) { return res.send({ msg: "É necessário informar o horário da reunião." }); };
 		if(!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
 	}
 
@@ -162,6 +167,7 @@ prospectController.confirmContact2 = async(req, res) => {
 	if(req.body.manager) { prospect.manager = req.body.manager; }
 	if(req.body.email) { prospect.email = req.body.email; }
 	if(req.body.cellphone) { prospect.cellphone = req.body.cellphone; }
+	if(req.body.meeting) { prospect.meeting = req.body.meeting; }
 	if(req.body.status) { prospect.status = req.body.status; }
 
 	let prospect_log = new Prospect.log();
@@ -184,7 +190,7 @@ prospectController.confirmContact2 = async(req, res) => {
 };
 
 prospectController.confirmContact3 = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","adm-man","adm-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -195,12 +201,15 @@ prospectController.confirmContact3 = async(req, res) => {
 
 	if(req.body.status == "Lista de transmissão"){
 		if(!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
+		if(!req.body.rating && !mainProspect[0].rating) { return res.send({ msg: "É necessário avaliar a qualidade do lead." }); };
 	}
 
 	if(!req.body.status) { return res.send({ msg: "É necessário selecionar o status do Lead." }); };
 
 	let prospect = { id: mainProspect[0].id };
+	if(req.body.rating) { prospect.rating = req.body.rating; }
 	if(req.body.status) { prospect.status = req.body.status; }
+	prospect.seller_id = req.user.id;
 
 	let prospect_log = new Prospect.log();
 	prospect_log.datetime = new Date().getTime();
@@ -249,7 +258,7 @@ prospectController.sendMail = async (req, res) => {
 	    };
 
 	    await Mailer.sendMail(option, async (err, info) => {
-	        if (err) { 
+	        if (err) {
 	        	console.log(err); 
 				res.send({ msg: "Ocorreu um erro ao enviar email, favor atualize a página e tente novamente!" });
 	        } else {

@@ -18,9 +18,10 @@ Prospect.view.status1 = (prospect, status_div) => {
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "manager", class: "box b1 em08 input-generic radius-5 center", placeholder: "Nome do Responsável", autocomplete: "nope" }));
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "mail", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Email", autocomplete: "nope" }));
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "cellphone", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "WhatsApp do Responsável", autocomplete: "nope" }));
+	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "meeting", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Hora da reunião", onfocus: "this.type='datetime-local';" }));
 	form_prospect.appendChild(lib.element.create("textarea", { name: "comment", class: "box b1 height-80 avant-garde margin-top-5 padding-5 radius-5", placeholder: "Observações do contato" }));
 
-	let status_select = lib.element.create("select", { type: "text", name: "status", class: "mobile-box b5-6 em08 input-generic margin-top-5 radius-5 center" }); 
+	let status_select = lib.element.create("select", { type: "text", name: "status", class: "mobile-box b5-6 em08 input-generic margin-top-5 radius-5 center" });
 	status_select.appendChild(lib.element.create("option", { value: "" }, "Status"));
 	status_select.appendChild(lib.element.create("option", { value: "Contatar loja novamente" }, "Contatar loja novamente"));
 	status_select.appendChild(lib.element.create("option", { value: "Contato com responsável" }, "Contatar responsável"));
@@ -57,14 +58,10 @@ Prospect.view.status2 = (prospect, status_div) => {
 		form_prospect.appendChild(div_comments);
 	};
 
-	// `Email enviado ${lib.convertDatetime(lib.timestampToDatetime(prospect.mailer))}`
-
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "manager", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Nome do Responsável", autocomplete: "nope", value: prospect.manager || "" }));
-	!prospect.mailer && form_prospect.appendChild(lib.element.create("input", { type: "text", name: "mail", class: "box b7-8 em08 input-generic margin-top-5 radius-5 center", placeholder: "Email", autocomplete: "nope", value: prospect.email || "" }));
-	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "/images/icon/sendmail.png", `Prospect.controller.sendMail(${prospect.id}, this)`));
-	prospect.mailer && form_prospect.appendChild(lib.element.create("input", { type: "text", name: "mail", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Email", autocomplete: "nope", disabled: 'on', value: prospect.email || "" }));
-	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail enviado:", `${lib.convertDatetime(lib.timestampToDatetime(prospect.mailer))}`));
+	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "mail", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Email", autocomplete: "nope", value: prospect.email || "" }));
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "cellphone", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "WhatsApp do Responsável", autocomplete: "nope", value: prospect.cellphone || "" }));
+	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "meeting", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Hora da reunião", onfocus: "this.type='datetime-local';" }));
 	form_prospect.appendChild(lib.element.create("textarea", { name: "comment", class: "box b1 height-80 avant-garde margin-top-5 padding-5 radius-5", placeholder: "Observações do contato" }));
 
 	let status_select = lib.element.create("select", { type: "text", name: "status", class: "mobile-box b5-6 em08 input-generic margin-top-5 radius-5 center" }); 
@@ -86,8 +83,9 @@ Prospect.view.status3 = (prospect, status_div) => {
 	div_prospect.appendChild(lib.element.icon('b8', 20, "/images/icon/down-arrow.png", "lib.displayDiv('prospect-form-"+prospect.id+"', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png');"));
 	div_prospect.appendChild(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande padding-3 radius-5 center" }, prospect.brand));
 	div_prospect.appendChild(lib.element.create("div", { class: "mobile-box b8 em08 lucida-grande radius-5 center" }, prospect.state));
-	div_prospect.appendChild(lib.element.info("b7-8 em09 lucida-grande radius-5", "Telefone:", prospect.phone))
+	div_prospect.appendChild(lib.element.info("b7-8 em09 lucida-grande radius-5", "Hora da reunião", lib.convertDatetime(lib.timestampToDatetime(prospect.meeting)) ));
 	prospect.social_media && div_prospect.appendChild(lib.element.icon('b8 radius-5', 20, "/images/icon/social-media.png", `lib.openExternalLink('${prospect.social_media}')`));
+	div_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Contato do responsável", prospect.cellphone));
 	prospect.product_approach && div_prospect.appendChild(lib.element.info("b1 em09 lucida-grande margin-top-5 radius-5", "Produto de abordagem:", prospect.product_approach))
 
 	let form_prospect = lib.element.create("div", {
@@ -96,12 +94,12 @@ Prospect.view.status3 = (prospect, status_div) => {
 		style: "display:none;"
 	});
 
+	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Telefone loja:", prospect.phone))
 	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Responsável", prospect.manager));
 	!prospect.mailer && form_prospect.appendChild(lib.element.info("b7-8 em09 lucida-grande radius-5", "E-mail", prospect.email));
 	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "/images/icon/sendmail.png", `Prospect.controller.sendMail(${prospect.id}, this)`));
 	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail", prospect.email));
 	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail enviado:", `${lib.convertDatetime(lib.timestampToDatetime(prospect.mailer))}`));
-	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "WhatsApp", prospect.cellphone));
 
 	for(let i in prospect.comments){
 		let div_comments = lib.element.create("div", { type: "text", class: "box b1 container padding-3 margin-top-5 radius-5 box-hover border" });
@@ -113,11 +111,19 @@ Prospect.view.status3 = (prospect, status_div) => {
 
 	form_prospect.appendChild(lib.element.create("textarea", { name: "comment", class: "box b1 height-80 avant-garde margin-top-5 padding-5 radius-5", placeholder: "Observações do contato" }));
 
+	let rating_select = lib.element.create("select", { type: "text", name: "rating", class: "mobile-box b1 em08 input-generic margin-top-5 radius-5 center" });
+	!prospect.rating && rating_select.appendChild(lib.element.create("option", { value: "" }, "Qualidade do Lead"));
+	prospect.rating && rating_select.appendChild(lib.element.create("option", { value: prospect.rating }, prospect.rating));
+	rating_select.appendChild(lib.element.create("option", { value: "Péssimo" }, "Péssimo"));
+	rating_select.appendChild(lib.element.create("option", { value: "Ruim" }, "Ruim"));
+	rating_select.appendChild(lib.element.create("option", { value: "Bom" }, "Bom"));
+
 	let status_select = lib.element.create("select", { type: "text", name: "status", class: "mobile-box b5-6 em08 input-generic margin-top-5 center" }); 
 	status_select.appendChild(lib.element.create("option", { value: "" }, "Status"));
 	status_select.appendChild(lib.element.create("option", { value: "Contato com responsável" }, "Contatar responsável novamente"));
 	status_select.appendChild(lib.element.create("option", { value: "Lista de transmissão" }, "Enviar para Lista de transmissão"));
 
+	form_prospect.appendChild(rating_select);
 	form_prospect.appendChild(status_select);
 	
 	form_prospect.appendChild(lib.element.icon('b6', 25, "/images/icon/confirm.png", `Prospect.controller.confirmContact3(${prospect.id})`));
@@ -131,9 +137,10 @@ Prospect.view.status4 = (prospect, status_div) => {
 	div_prospect.appendChild(lib.element.icon('b8', 20, "/images/icon/down-arrow.png", "lib.displayDiv('prospect-form-"+prospect.id+"', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png');"));
 	div_prospect.appendChild(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande padding-3 radius-5 center" }, prospect.brand));
 	div_prospect.appendChild(lib.element.create("div", { class: "mobile-box b8 em08 lucida-grande radius-5 center" }, prospect.state));
-	div_prospect.appendChild(lib.element.info("b7-8 em09 lucida-grande radius-5", "Telefone:", prospect.phone))
+	div_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Responsável", prospect.manager));
+	div_prospect.appendChild(lib.element.info("b7-8 em09 lucida-grande radius-5", "WhatsApp", prospect.cellphone));
 	prospect.social_media && div_prospect.appendChild(lib.element.icon('b8 radius-5', 20, "/images/icon/social-media.png", `lib.openExternalLink('${prospect.social_media}')`));
-	prospect.product_approach && div_prospect.appendChild(lib.element.info("b1 em09 lucida-grande margin-top-5 radius-5", "Produto de abordagem:", prospect.product_approach));
+	div_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Avaliação do prospect", prospect.rating));
 
 	let form_prospect = lib.element.create("div", {
 		id: `prospect-form-${prospect.id}`, 
@@ -141,9 +148,9 @@ Prospect.view.status4 = (prospect, status_div) => {
 		style: "display:none;"
 	});
 
-	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Responsável", prospect.manager));
 	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail", prospect.email));
-	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "WhatsApp", prospect.cellphone));
+	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Telefone:", prospect.phone))
+	prospect.product_approach && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande margin-top-5 radius-5", "Produto de abordagem:", prospect.product_approach));
 
 	for(let i in prospect.comments){
 		let div_comments = lib.element.create("div", { type: "text", class: "box b1 container padding-3 margin-top-5 radius-5 box-hover border" });

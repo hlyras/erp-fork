@@ -52,16 +52,17 @@ Prospect.controller.confirmContact1 = async (id) => {
 		email: document.getElementById('prospect-form-'+id).getElementsByTagName('input').namedItem('mail').value,
 		cellphone: document.getElementById('prospect-form-'+id).getElementsByTagName('input').namedItem('cellphone').value,
 		comment: document.getElementById('prospect-form-'+id).getElementsByTagName('textarea').namedItem('comment').value,
+		meeting: lib.datetimeToTimestamp(document.getElementById('prospect-form-'+id).getElementsByTagName('input').namedItem('meeting').value),
 		status: document.getElementById('prospect-form-'+id).getElementsByTagName('select').namedItem('status').value
 	};
 
 	if(prospect.manager && prospect.email && prospect.cellphone && prospect.status == "Contatar loja novamente"){
-		let r = confirm("ATENÇÃO: \n Você já tem todas as informações para contatar o responsável, tem certeza que deseja contatar a loja novamente?");
+		let r = confirm("ATENÇÃO: \n\n Você já tem todas as informações para contatar o responsável, tem certeza que deseja contatar a loja novamente?");
 		if(!r){ return; }
 	}
 
 	let response = await API.response(Prospect.confirmContact1, prospect);
-	if(!response) { return false };
+	if(!response) { return false; }
 
 	document.getElementById('prospect-form-'+id).getElementsByTagName('input').namedItem('manager').value = "";
 	document.getElementById('prospect-form-'+id).getElementsByTagName('input').namedItem('mail').value = "";
@@ -79,16 +80,17 @@ Prospect.controller.confirmContact2 = async (id) => {
 		email: document.getElementById('prospect-form-'+id).getElementsByTagName('input').namedItem('mail').value,
 		cellphone: document.getElementById('prospect-form-'+id).getElementsByTagName('input').namedItem('cellphone').value,
 		comment: document.getElementById('prospect-form-'+id).getElementsByTagName('textarea').namedItem('comment').value,
+		meeting: lib.datetimeToTimestamp(document.getElementById('prospect-form-'+id).getElementsByTagName('input').namedItem('meeting').value),
 		status: document.getElementById('prospect-form-'+id).getElementsByTagName('select').namedItem('status').value
 	};
 
 	if(prospect.manager && prospect.email && prospect.cellphone && prospect.status == "Contatar loja novamente"){
-		let r = confirm("ATENÇÃO: \n Você já tem todas as informações para contatar o responsável, tem certeza que deseja contatar a loja novamente?");
+		let r = confirm("ATENÇÃO: \n\n Você já tem todas as informações para contatar o responsável, tem certeza que deseja contatar a loja novamente?");
 		if(!r){ return; }
 	}
 
 	let response = await API.response(Prospect.confirmContact2, prospect);
-	if(!response) { return false };
+	if(!response) { return false; }
 	
 	document.getElementById('prospect-form-'+id).getElementsByTagName('input').namedItem('manager').value = "";
 	document.getElementById('prospect-form-'+id).getElementsByTagName('input').namedItem('mail').value = "";
@@ -103,11 +105,12 @@ Prospect.controller.confirmContact3 = async (id) => {
 	let prospect = {
 		id: id,
 		comment: document.getElementById('prospect-form-'+id).getElementsByTagName('textarea').namedItem('comment').value,
+		rating: document.getElementById('prospect-form-'+id).getElementsByTagName('select').namedItem('rating').value,
 		status: document.getElementById('prospect-form-'+id).getElementsByTagName('select').namedItem('status').value
 	};
 
 	let response = await API.response(Prospect.confirmContact3, prospect);
-	if(!response) { return false };
+	if(!response) { return false; }
 	
 	document.getElementById('prospect-form-'+id).getElementsByTagName('textarea').namedItem('comment').value = "";
 	document.getElementById('prospect-form-'+id).getElementsByTagName('select').namedItem('status').value = "";
@@ -117,7 +120,7 @@ Prospect.controller.confirmContact3 = async (id) => {
 
 Prospect.controller.sendMail = async (id, icon) => {
 	let response = await API.response(Prospect.sendMail, id);
-	if(!response) { return false };
+	if(!response) { return false; }
 
 	icon.remove();
 };
