@@ -194,7 +194,7 @@ prospectController.confirmContact3 = async(req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	const mainProspect = await Prospect.findByIdAndUserId(req.body.id);
+	const mainProspect = await Prospect.findById(req.body.id);
 
 	if(!mainProspect.length) { return res.send({ msg: "Lead inválido, por favor atualize a página e tente novamente!" }); }
 	if(mainProspect[0].status != "Contato com responsável") { return res.send({ msg: "Este Lead não está mais neste status, por favor atualize a página e tente novamente!" }); }
@@ -236,7 +236,7 @@ prospectController.sendMail = async (req, res) => {
 	};
 
 	try {
-		let customer = await Prospect.findByIdAndUserId(req.params.id);
+		let customer = await Prospect.findById(req.params.id);
 		let user = await User.findById(req.user.id);
 
 		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/prospect/mail-template/index.ejs"), { customer: customer[0], user: user[0] });
