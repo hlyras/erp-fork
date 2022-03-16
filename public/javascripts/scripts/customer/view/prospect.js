@@ -59,7 +59,9 @@ Prospect.view.status2 = (prospect, status_div) => {
 	};
 
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "manager", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Nome do Responsável", autocomplete: "nope", value: prospect.manager || "" }));
-	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "mail", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Email", autocomplete: "nope", value: prospect.email || "" }));
+	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "mail", class: "box b7-8 em08 input-generic margin-top-5 radius-5 center", placeholder: "Email", autocomplete: "nope", value: prospect.email || "" }));
+	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "/images/icon/sendmail.png", `Prospect.controller.sendMail(${prospect.id}, this)`));
+	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail enviado:", `${lib.convertDatetime(lib.timestampToDatetime(prospect.mailer))}`));
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "cellphone", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "WhatsApp do Responsável", autocomplete: "nope", value: prospect.cellphone || "" }));
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "meeting", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Hora da reunião", onfocus: "this.type='datetime-local';" }));
 	form_prospect.appendChild(lib.element.create("textarea", { name: "comment", class: "box b1 height-80 avant-garde margin-top-5 padding-5 radius-5", placeholder: "Observações do contato" }));
