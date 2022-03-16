@@ -36,6 +36,11 @@ Prospect.filter = (props, inners, period, params, strictParams, orderParams, lim
 	return db(query);
 };
 
+Prospect.findById = (prospect_id) => {
+	let query = "SELECT * FROM cms_wt_erp.customer_lead WHERE id="+prospect_id+";";
+	return db(query);
+};
+
 Prospect.findByIdAndUserId = (prospect_id, user_id) => {
 	let query = "SELECT * FROM cms_wt_erp.customer_lead WHERE id="+prospect_id+" AND user_id="+user_id+";";
 	return db(query);
