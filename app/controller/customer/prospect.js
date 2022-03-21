@@ -60,7 +60,7 @@ prospectController.filter = async (req, res) => {
 	
 	lib.Query.fillParam("customer_lead.brand", req.body.brand, params);
 	lib.Query.fillParam("customer_lead.state", req.body.state, strictParams);
-	if(req.user.access == "com-pro"){
+	if(req.user.access != "adm"){
 		lib.Query.fillParam("customer_lead.user_id", req.user.id, strictParams);
 	}
 	
@@ -271,6 +271,47 @@ prospectController.sendMail = async (req, res) => {
 		console.log(err); 
 		res.send({ msg: "Ocorreu um erro ao enviar email, favor atualize a página e tente novamente!" });
 	}
+};
+
+prospectController.meeting = {};
+
+prospectController.meeting.index = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel"])){
+		return res.redirect('/');
+	};
+	res.render('customer/prospect/meetings', { user: req.user });
+};
+
+prospectController.meeting.filter = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel"])){
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	const prospect = {
+		brand: req.body.brand,
+		state: req.body.state,
+		periodStart: req.body.periodStart,
+		periodEnd: req.body.periodEnd
+	};
+
+	let period = { key: "customer_lead.meeting", start: req.body.periodStart, end: req.body.periodEnd };
+	let params = { keys: [], values: [] };
+	let strictParams = { keys: [], values: [] };
+	
+	lib.Query.fillParam("customer_lead.brand", req.body.brand, params);
+	lib.Query.fillParam("customer_lead.state", req.body.state, strictParams);
+	
+	let orderParams = [ ["meeting","ASC"], ["id","ASC"] ];
+
+	try {
+		let prospects = await Prospect.filter([], [], period, params, strictParams, orderParams, 0);
+		for(let i in prospects) { prospects[i].comments = await Prospect.log.list(prospects[i].id); };
+
+		res.send({ prospects });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao buscar os leads, favor contatar o suporte!" });
+	};
 };
 
 module.exports = prospectController;

@@ -78,3 +78,18 @@ Prospect.sendMail = async (id) => {
 
 	return response;
 };
+
+Prospect.meeting = {};
+
+Prospect.meeting.filter = async prospect => {
+	let response = await fetch("/customer/prospect/meeting/filter", {
+		method: "POST",
+		headers: {'Content-Type': 'application/json'},
+	    body: JSON.stringify(prospect)
+	});
+	response = await response.json();
+
+	if(API.verifyResponse(response)){ return false };
+
+	return response.prospects;
+};

@@ -205,3 +205,121 @@ Prospect.view.filter = (prospects, pagination) => {
 		filter_box.style.display = "";
 	};
 };
+
+Prospect.meeting.view = {};
+
+Prospect.meeting.view.status1 = (prospect, status_div) => {
+	let div_prospect = lib.element.create("div", { class: "box b2 container padding-5 margin-top-5 radius-5 border-st-2", style: "background-color:#f0f0f0;" });
+	div_prospect.appendChild(lib.element.icon('b8', 20, "/images/icon/down-arrow.png", "lib.displayDiv('prospect-form-"+prospect.id+"', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png');"));
+	div_prospect.appendChild(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande padding-3 radius-5 center" }, prospect.brand));
+	div_prospect.appendChild(lib.element.create("div", { class: "mobile-box b8 em08 lucida-grande radius-5 center" }, prospect.state));
+	div_prospect.appendChild(lib.element.info("b7-8 em09 lucida-grande radius-5", "Hora da reunião", lib.convertDatetime(lib.timestampToDatetime(prospect.meeting)) ));
+	prospect.social_media && div_prospect.appendChild(lib.element.icon('b8 radius-5', 20, "/images/icon/social-media.png", `lib.openExternalLink('${prospect.social_media}')`));
+	div_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Responsável", prospect.manager));
+	div_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Contato do responsável", prospect.cellphone));
+	prospect.product_approach && div_prospect.appendChild(lib.element.info("b1 em09 lucida-grande margin-top-5 radius-5", "Produto de abordagem:", prospect.product_approach))
+
+	let form_prospect = lib.element.create("div", {
+		id: `prospect-form-${prospect.id}`, 
+		class: "box b1 container",
+		style: "display:none;"
+	});
+
+	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Telefone loja:", prospect.phone))
+	!prospect.mailer && form_prospect.appendChild(lib.element.info("b7-8 em09 lucida-grande radius-5", "E-mail", prospect.email));
+	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "/images/icon/sendmail.png", `Prospect.controller.sendMail(${prospect.id}, this)`));
+	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail", prospect.email));
+	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail enviado:", `${lib.convertDatetime(lib.timestampToDatetime(prospect.mailer))}`));
+
+	for(let i in prospect.comments){
+		let div_comments = lib.element.create("div", { type: "text", class: "box b1 container padding-3 margin-top-5 radius-5 box-hover border" });
+		div_comments.appendChild(lib.element.create("div", { class: "box b1 em07 lucida-grande" }, prospect.comments[i].fromstatus +" > "+ prospect.comments[i].tostatus));
+		div_comments.appendChild(lib.element.create("div", { class: "box b1 em07 lucida-grande" }, lib.convertDatetime(lib.timestampToDatetime(prospect.comments[i].datetime))));
+		div_comments.appendChild(lib.element.create("div", { class: "box b1 em09 lucida-grande" }, prospect.comments[i].comment));
+		form_prospect.appendChild(div_comments);
+	};
+
+	form_prospect.appendChild(lib.element.create("textarea", { name: "comment", class: "box b1 height-80 avant-garde margin-top-5 padding-5 radius-5", placeholder: "Observações do contato" }));
+
+	let rating_select = lib.element.create("select", { type: "text", name: "rating", class: "mobile-box b1 em08 input-generic margin-top-5 radius-5 center" });
+	!prospect.rating && rating_select.appendChild(lib.element.create("option", { value: "" }, "Qualidade do Lead"));
+	prospect.rating && rating_select.appendChild(lib.element.create("option", { value: prospect.rating }, prospect.rating));
+	rating_select.appendChild(lib.element.create("option", { value: "Péssimo" }, "Péssimo"));
+	rating_select.appendChild(lib.element.create("option", { value: "Ruim" }, "Ruim"));
+	rating_select.appendChild(lib.element.create("option", { value: "Bom" }, "Bom"));
+
+	let status_select = lib.element.create("select", { type: "text", name: "status", class: "mobile-box b5-6 em08 input-generic margin-top-5 center" }); 
+	status_select.appendChild(lib.element.create("option", { value: "" }, "Status"));
+	status_select.appendChild(lib.element.create("option", { value: "Contato com responsável" }, "Contatar responsável novamente"));
+	status_select.appendChild(lib.element.create("option", { value: "Lista de transmissão" }, "Enviar para Lista de transmissão"));
+
+	form_prospect.appendChild(rating_select);
+	form_prospect.appendChild(status_select);
+	
+	form_prospect.appendChild(lib.element.icon('b6', 25, "/images/icon/confirm.png", `Prospect.controller.confirmContact3(${prospect.id})`));
+
+	div_prospect.appendChild(form_prospect);
+	status_div.appendChild(div_prospect);
+};
+
+Prospect.meeting.view.status2 = (prospect, status_div) => {
+	let div_prospect = lib.element.create("div", { class: "box b1 container padding-5 margin-top-5 radius-5 border-st-2", style: "background-color:#f0f0f0;" });
+	div_prospect.appendChild(lib.element.icon('b8', 20, "/images/icon/down-arrow.png", "lib.displayDiv('prospect-form-"+prospect.id+"', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png');"));
+	div_prospect.appendChild(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande padding-3 radius-5 center" }, prospect.brand));
+	div_prospect.appendChild(lib.element.create("div", { class: "mobile-box b8 em08 lucida-grande radius-5 center" }, prospect.state));
+	div_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Responsável", prospect.manager));
+	div_prospect.appendChild(lib.element.info("b7-8 em09 lucida-grande radius-5", "WhatsApp", prospect.cellphone));
+	prospect.social_media && div_prospect.appendChild(lib.element.icon('b8 radius-5', 20, "/images/icon/social-media.png", `lib.openExternalLink('${prospect.social_media}')`));
+	div_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Avaliação do prospect", prospect.rating));
+
+	let form_prospect = lib.element.create("div", {
+		id: `prospect-form-${prospect.id}`, 
+		class: "box b1 container",
+		style: "display:none;"
+	});
+
+	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail", prospect.email));
+	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Telefone:", prospect.phone))
+	prospect.product_approach && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande margin-top-5 radius-5", "Produto de abordagem:", prospect.product_approach));
+
+	for(let i in prospect.comments){
+		let div_comments = lib.element.create("div", { type: "text", class: "box b1 container padding-3 margin-top-5 radius-5 box-hover border" });
+		div_comments.appendChild(lib.element.create("div", { class: "box b1 em07 lucida-grande" }, prospect.comments[i].fromstatus +" > "+ prospect.comments[i].tostatus));
+		div_comments.appendChild(lib.element.create("div", { class: "box b1 em07 lucida-grande" }, lib.convertDatetime(lib.timestampToDatetime(prospect.comments[i].datetime))));
+		div_comments.appendChild(lib.element.create("div", { class: "box b1 em09 lucida-grande" }, prospect.comments[i].comment));
+		form_prospect.appendChild(div_comments);
+	};
+
+	div_prospect.appendChild(form_prospect);
+	status_div.appendChild(div_prospect);
+};
+
+Prospect.meeting.view.filter = (prospects, pagination) => {
+	let filter_box = document.getElementById("meeting-filter-box");
+	let filter_div = document.getElementById("meeting-filter-div");
+	filter_div.innerHTML = "";
+
+	filter_div.appendChild(lib.element.create("div", { class: "box b1 em08 bold lucida-grande padding-5 border margin-top-5 center" }, "Leads cadastrados "+ prospects.length ));
+
+	let status_1_div = lib.element.create("div", { class: "box b2-3 container em09 bold lucida-grande padding-5 border-st margin-top-5 radius-5" });
+	status_1_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande underline center" }, "Ag. Reunião"));
+	let status_2_div = lib.element.create("div", { class: "box b3 container em09 bold lucida-grande padding-5 border-st margin-top-5 radius-5" });
+	status_2_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande underline center" }, "Lista de transmissão"));
+
+	if(prospects.length){
+		for(let i in prospects){
+			if(prospects[i].status == "Contato com responsável" && prospects[i].meeting) {
+				Prospect.meeting.view.status1(prospects[i], status_1_div);
+			} else if(prospects[i].status == "Lista de transmissão") {
+				Prospect.meeting.view.status2(prospects[i], status_2_div);
+			}
+		};
+
+		filter_div.appendChild(status_1_div);
+		filter_div.appendChild(status_2_div);
+		filter_box.style.display = "";
+	} else {
+		filter_div.appendChild(lib.element.create("div", { class: "box b1 bold lucida-grande center padding-10 margin-top-5" }, "Sem resultados"));
+		filter_box.style.display = "";
+	};
+};

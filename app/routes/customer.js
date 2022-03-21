@@ -27,6 +27,9 @@ router.post('/prospect/confirm-contact-2', lib.route.toHttps, prospectController
 router.post('/prospect/confirm-contact-3', lib.route.toHttps, prospectController.confirmContact3);
 router.get('/prospect/send-mail/:id', lib.route.toHttps, prospectController.sendMail);
 
+router.get('/prospect/meeting', lib.route.toHttps, prospectController.meeting.index);
+router.post('/prospect/meeting/filter', lib.route.toHttps, prospectController.meeting.filter);
+
 router.get('/mailer', lib.route.toHttps, mailerController.index);
 router.get('/mailer/send', lib.route.toHttps, mailerController.send);
 router.get('/mailer/remove-sign/:id/:register', lib.route.toHttps, mailerController.removeSign);

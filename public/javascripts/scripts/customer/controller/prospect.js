@@ -22,7 +22,13 @@ if(Prospect.controller.save){
 		e.target.elements.namedItem("social-media").value = "";
 		e.target.elements.namedItem("product-approach").value = "";
 
-		Prospect.controller.filter.submit.click();
+		if(Prospect.controller.filter){
+			Prospect.controller.filter.submit.click();
+		}
+
+		if(Prospect.meeting.controller.filter){
+			Prospect.meeting.controller.filter.submit.click();
+		}
 	});
 }
 
@@ -115,7 +121,13 @@ Prospect.controller.confirmContact3 = async (id) => {
 	document.getElementById('prospect-form-'+id).getElementsByTagName('textarea').namedItem('comment').value = "";
 	document.getElementById('prospect-form-'+id).getElementsByTagName('select').namedItem('status').value = "";
 
-	Prospect.controller.filter.submit.click();
+	if(Prospect.controller.filter){
+		Prospect.controller.filter.submit.click();
+	}
+
+	if(Prospect.meeting.controller.filter){
+		Prospect.meeting.controller.filter.submit.click();
+	}
 };
 
 Prospect.controller.sendMail = async (id, icon) => {
@@ -124,3 +136,24 @@ Prospect.controller.sendMail = async (id, icon) => {
 
 	icon.remove();
 };
+
+Prospect.meeting.controller = {};
+
+Prospect.meeting.controller.filter = document.getElementById("meeting-filter-form");
+if(Prospect.meeting.controller.filter){
+	Prospect.meeting.controller.filter.addEventListener("submit", async e => {
+		e.preventDefault();
+
+		const prospect = {
+			brand: e.target.elements.namedItem("brand").value,
+			state: e.target.elements.namedItem("state").value,
+			periodStart: lib.dateToTimestamp(e.target.elements.namedItem("period-start").value),
+			periodEnd: parseInt(lib.dateToTimestamp(e.target.elements.namedItem("period-end").value)) + parseInt(lib.timestampDay())
+		};
+
+		let prospects = await API.response(Prospect.meeting.filter, prospect);
+		if(!prospects) { return false; }
+
+		Prospect.meeting.view.filter(prospects);
+	});
+}
