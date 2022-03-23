@@ -130,8 +130,17 @@ Prospect.controller.confirmContact3 = async (id) => {
 	}
 };
 
-Prospect.controller.sendMail = async (id, icon) => {
-	let response = await API.response(Prospect.sendMail, id);
+Prospect.mail.controller = {};
+
+Prospect.mail.controller.presentation = async (id, icon) => {
+	let response = await API.response(Prospect.mail.presentation, id);
+	if(!response) { return false; }
+
+	icon.remove();
+};
+
+Prospect.mail.controller.catalog = async (id, icon) => {
+	let response = await API.response(Prospect.mail.catalog, id);
 	if(!response) { return false; }
 
 	icon.remove();

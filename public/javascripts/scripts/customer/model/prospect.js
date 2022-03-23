@@ -69,8 +69,20 @@ Prospect.confirmContact3 = async prospect => {
 	return response;
 };
 
-Prospect.sendMail = async (id) => {
-	let response = await fetch("/customer/prospect/send-mail/"+id);
+Prospect.mail = {};
+
+Prospect.mail.presentation = async (id) => {
+	let response = await fetch("/customer/prospect/mail/presentation/"+id);
+	response = await response.json();
+	
+	if(API.verifyResponse(response)){ return false };
+	alert(response.done);
+
+	return response;
+};
+
+Prospect.mail.catalog = async (id) => {
+	let response = await fetch("/customer/prospect/mail/catalog/"+id);
 	response = await response.json();
 	
 	if(API.verifyResponse(response)){ return false };

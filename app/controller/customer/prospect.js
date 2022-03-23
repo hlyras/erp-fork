@@ -190,7 +190,7 @@ prospectController.confirmContact2 = async(req, res) => {
 };
 
 prospectController.confirmContact3 = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel"])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-pro"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -230,16 +230,67 @@ prospectController.confirmContact3 = async(req, res) => {
 	};
 };
 
-prospectController.sendMail = async (req, res) => {
+prospectController.mail = {};
+
+prospectController.mail.presentation = async (req, res) => {
 	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-pro","adm-man","adm-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
 	try {
 		let customer = await Prospect.findById(req.params.id);
+		
+		if(customer[0].mailer){ return res.send({ msg: "Você já enviou um email para esse Lead!" }); }
+
 		let user = await User.findById(req.user.id);
 
-		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/prospect/mail-template/index.ejs"), { customer: customer[0], user: user[0] });
+		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/prospect/mail-template/presentation.ejs"), { customer: customer[0], user: user[0] });
+			            
+	    const option = {
+	        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
+	        to: `${customer[0].name} <${customer[0].email}>`,
+	        cc: `${customer[0].email}`,
+	        subject: "Aumente seu faturamento!",
+	        text: "Descubra o que falta para seus clientes...",
+	        html: data,
+	        attachments: [
+		        {
+			        filename: 'favicon.png',
+			        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon.png"),
+			        cid: 'favicon'
+			    }
+		    ]
+	    };
+
+	    await Mailer.sendMail(option, async (err, info) => {
+	        if (err) {
+	        	console.log(err); 
+				res.send({ msg: "Ocorreu um erro ao enviar email, favor atualize a página e tente novamente!" });
+	        } else {
+	        	let prospect = { id: customer[0].id, mailer: new Date().getTime() };
+				await Prospect.update(prospect);
+				res.send({ done: "E-mail enviado com sucesso!" });
+	        }
+	    });
+	} catch (err) {
+		console.log(err); 
+		res.send({ msg: "Ocorreu um erro ao enviar email, favor atualize a página e tente novamente!" });
+	}
+};
+
+prospectController.mail.catalog = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-pro","adm-man","adm-ass"])){
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	try {
+		let customer = await Prospect.findById(req.params.id);
+
+		if(customer[0].mailer){ return res.send({ msg: "Você já enviou um email para esse Lead!" }); }
+
+		let user = await User.findById(req.user.id);
+
+		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/prospect/mail-template/catalog.ejs"), { customer: customer[0], user: user[0] });
 			            
 	    const option = {
 	        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
@@ -276,7 +327,7 @@ prospectController.sendMail = async (req, res) => {
 prospectController.meeting = {};
 
 prospectController.meeting.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel"])){
+	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-pro"])){
 		return res.redirect('/');
 	};
 	res.render('customer/prospect/meetings', { user: req.user });
