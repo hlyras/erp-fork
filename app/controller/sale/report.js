@@ -140,7 +140,7 @@ reportController.packment.filter = async (req, res) => {
 reportController.customer = {};
 
 reportController.customer.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
 		return res.redirect('/');
 	};
 	let users = await User.list();
@@ -148,7 +148,7 @@ reportController.customer.index = async (req, res) => {
 };
 
 reportController.customer.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
