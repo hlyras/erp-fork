@@ -27,7 +27,8 @@ customerController.save = async (req, res) => {
 		social_media: req.body.social_media,
 		email: req.body.email,
 		phone: req.body.phone,
-		cellphone: req.body.cellphone
+		cellphone: req.body.cellphone,
+		password: "$2a$10$6sLFnGfJE05trUMtF1Cpm.f.h6lwOg6cSW3E0D0IrDXjEi7F1yV06"
 	};
 	
 	if(customer.person_type != "legal-entity" && customer.person_type != "natural-person"){ return res.send({ msg: "A pessoa do cliente é inválida, favor recarregar a página, caso o problema persista favor contatar o suporte." }); };

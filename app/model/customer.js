@@ -39,8 +39,7 @@ Customer.update = async (customer) => {
 		+"', social_media='"+customer.social_media
 		+"', email='"+customer.email
 		+"', phone='"+customer.phone
-		+"', cellphone='"+customer.cellphone
-		+"', password='"+customer.password+"' WHERE id='"+customer.id+"';";
+		+"', cellphone='"+customer.cellphone+"' WHERE id='"+customer.id+"';";
 	return db(query);
 };
 
