@@ -700,23 +700,16 @@ const saleController = {
 				};
 
 				let period = { key: "date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
-				let params = { keys: [], values: [] }
 				let strict_params = { keys: [], values: [] }
 
-				let props = ["ecommerce_sale.id",
-					"ecommerce_sale.user_id",
-					"ecommerce_sale.user_name"
-				];
-				
-				let inners = [];
-
+				lib.Query.fillParam("cms_wt_erp.ecommerce_sale.origin", req.body.sale.origin, strict_params);
+				lib.Query.fillParam("cms_wt_erp.ecommerce_sale.status", req.body.sale.status, strict_params);
 				lib.Query.fillParam("cms_wt_erp.ecommerce_sale.user_id", req.body.sale.user_id, strict_params);
 
-				let order_params = [ ["ecommerce_sale.id", "DESC"] ];
-				let limit = 0;
+				let order_params = [ ["ecommerce_sale.date", "DESC"] ];
 
 				try {
-					let sale_gatherings = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
+					let sale_gatherings = await Sale.filter([], [], period, [], strict_params, order_params, 0);
 					res.send({ sale_gatherings });
 				} catch (err) {
 					console.log(err);

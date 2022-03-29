@@ -69,9 +69,9 @@ Customer.filter = customer => {
 	return db(query);
 };
 
-Customer.adFilter = (props, inners, params, strict_params, order_params) => {
+Customer.adFilter = (props, inners, period, params, strict_params, order_params) => {
 	let query = new lib.Query().select().props(props).table("cms_wt_erp.customer customer")
-		.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
+		.props(props).inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build().query;
 	return db(query);
 };
 
@@ -133,6 +133,19 @@ Customer.mailer = {
 			+"' && cnpj='"+customer.cnpj+"';";
 			return db(query);
 		}
+	},
+	filter: (customer) => {
+		let query = "";
+		if(customer.id) {
+			query = "SELECT customer.id, customer.name, customer.cellphone, customer.phone, customer.email, customer.mailer, customer.mailer_datetime, customer.mailer_user_id FROM cms_wt_erp.customer WHERE mailer_datetime < "+customer.mailer_datetime+" AND mailer = "+customer.mailer+" AND id = "+customer.id+";";
+		} else {
+			query = "SELECT customer.id, customer.name, customer.cellphone, customer.phone, customer.email, customer.mailer, customer.mailer_datetime, customer.mailer_user_id FROM cms_wt_erp.customer WHERE mailer_datetime < "+customer.mailer_datetime+" AND mailer = "+customer.mailer+";";
+		}
+		return db(query);
+	},
+	setDatetime: (customer) => {
+		let query = "UPDATE cms_wt_erp.customer SET mailer_datetime='"+customer.mailer_datetime+"', mailer_user_id='"+customer.mailer_user_id+"' WHERE id='"+customer.id+"';";
+		return db(query);
 	}
 };
 

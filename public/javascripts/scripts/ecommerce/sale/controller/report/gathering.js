@@ -6,6 +6,8 @@ if(Ecommerce.sale.gathering.report.controller.filter){
     event.preventDefault();
 
     let sale = {
+      origin: event.target.elements.namedItem("origin").value,
+      status: event.target.elements.namedItem("status").value,
       periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),
       periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value),
       user_id: event.target.elements.namedItem("user-id").value
@@ -13,6 +15,8 @@ if(Ecommerce.sale.gathering.report.controller.filter){
 
     let response = await API.response(Ecommerce.sale.gathering.report.filter, sale);
     if(!response){ return false };
+
+    console.log(response);
     
     let gatheringAmountByUserId = {};
     response.sale_gatherings.forEach(function (sale) {
@@ -39,9 +43,8 @@ if(Ecommerce.sale.gathering.report.controller.filter){
       };
     }
 
-    document.getElementById("ecommerce-sale-gathering-report-filter-box").style.display = "";
-    
-    const setup = { pageSize: 10, page: 0 };
-    (function(){ lib.carousel.execute("ecommerce-sale-gathering-report-filter-box", Ecommerce.sale.gathering.report.view.filter, gatherings, setup); }());
+    lib.display("ecommerce-sale-gathering-report-filter-box", "");
+
+    Ecommerce.sale.gathering.report.view.filter(gatherings, response.sale_gatherings);
   });
 };

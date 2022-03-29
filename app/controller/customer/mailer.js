@@ -15,58 +15,82 @@ mailerController.index = async (req, res) => {
 	res.render('customer/mailer', { user: req.user });
 };
 
+mailerController.filter = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
+		return res.redirect('/');
+	};
+
+	const customer = {
+		mailer: 1,
+		mailer_datetime: (new Date().getTime()) - (lib.date.timestamp.day() * 5)
+	};
+
+	try {
+		let customers = await Customer.mailer.filter(customer);
+		res.send({ customers, user: req.user });
+	} catch (err) {
+		console.log(err);
+	};
+};
+
 mailerController.send = async (req, res) => {
 	if(!await userController.verifyAccess(req, res, ['adm'])){
 		return res.redirect('/');
 	};
 
-	const strict_params = { keys: [], values: [] };
-	lib.Query.fillParam("customer.mailer", 1, strict_params);
-	let customers = await Customer.adFilter([],[],[],strict_params,[]);
+	const params = {
+		id: req.params.id,
+		mailer: 1,
+		mailer_datetime: (new Date().getTime()) - (lib.date.timestamp.day() * 5)
+	};
 
-	customers.forEach(async customer => {
-		if(customer.email){
-			customer.name = customer.name.split(' ')[0];
-			if(customer.cnpj){
-				customer.register = customer.cnpj;
-			} else if(customer.cpf && !customer.cnpj) {
-				customer.register = customer.cpf;
-			}
+	try {
+		let customer = (await Customer.mailer.filter(params))[0];
 
-			const data = await ejs.renderFile(__dirname + "../../../view/customer/mail-template/index.ejs", { title: 'Confirmação de email', customer });
-		            
-		    const option = {
-		        from: "JA Rio Militar <marketing@jariomilitar.com.br>",
-		        to: `${customer.name} <${customer.email}>`,
-		        subject: "Email para lojistas",
-		        html: data,
-		        attachments: [
-			        {
-				        filename: 'title.png',
-				        path: __dirname + "../../../view/customer/mail-template/images/title.png",
-				        cid: 'title'
-				    },
-				    {
-				        filename: 'ml.png',
-				        path: __dirname + "../../../view/customer/mail-template/images/ml.png",
-				        cid: 'ml'
-				    },
-				    {
-				        filename: 'footer.png',
-				        path: __dirname + "../../../view/customer/mail-template/images/footer.png",
-				        cid: 'footer'
-				    }
-			    ]
-		    };
+		if(!customer) { return res.send({ msg: "Este cliente não está disponível para receber E-mail, por favor atualize a página e tente novamente." }) }
 
-		    Mailer.sendMail(option, (err, info) => {
-		        if (err) { console.log(err); }
-		        else { console.log('Message sent: ' + info.response); }
-		    });
-		}
-	});
+		const data = await ejs.renderFile(__dirname + "../../../view/customer/mail-template/index.ejs", { customer });
+	            
+	    const option = {
+	        from: "JA Rio Militar <comercial@jariomilitar.com.br>",
+	        to: `${customer.name} <${customer.email}>`,
+	        subject: "Email para lojistas",
+		    text: "Descubra o que falta para seus clientes...",
+	        html: data,
+	        attachments: [
+		        {
+			        filename: 'title.png',
+			        path: __dirname + "../../../view/customer/mail-template/images/title.png",
+			        cid: 'title'
+			    },
+			    {
+			        filename: 'ml.png',
+			        path: __dirname + "../../../view/customer/mail-template/images/ml.png",
+			        cid: 'ml'
+			    },
+			    {
+			        filename: 'footer.png',
+			        path: __dirname + "../../../view/customer/mail-template/images/footer.png",
+			        cid: 'footer'
+			    }
+		    ]
+	    };
 
-	res.send({ done: 'Os emails foram enviados com sucesso!' });	
+	    await Mailer.sendMail(option, async (err, info) => {
+	        if (err) { 
+	        	console.log(err);
+	        	return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" }); 
+	        } else {
+	        	customer.mailer_datetime = new Date().getTime();
+	        	customer.mailer_user_id = req.user.id;
+	        	await Customer.mailer.setDatetime(customer);
+				return res.send({ done: 'Email enviado com sucesso!' });	
+	        }
+	    });
+	} catch (err) {
+		console.log(err);
+		return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" }); 
+	}
 };
 
 mailerController.removeSign = async (req, res) => {

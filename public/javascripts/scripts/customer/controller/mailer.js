@@ -1,15 +1,23 @@
-Customer.controller.mailer = {};
+Customer.mailer.controller = {};
 
-Customer.controller.mailer = document.getElementById("send-email");
-if(Customer.controller.mailer){
-    Customer.controller.mailer.addEventListener("click", async e => {
+Customer.mailer.controller.filter = document.getElementById("customer-mailer-filter-form");
+if(Customer.mailer.controller.filter){
+    Customer.mailer.controller.filter.addEventListener("submit", async e => {
         e.preventDefault();
 
-        console.log('click');
+        let customers = await API.response(Customer.mailer.filter, {});
+        if(!customers) { return false; }
 
-        let response = await API.response(Customer.mailer.send, 1);
-        if(!response) { return false; }
+        lib.display("customer-mailer-filter-box", "");
 
-        console.log(response);
-    })
+        const pagination = { pageSize: 16, page: 0};
+		(function(){ lib.carousel.execute("customer-mailer-filter-box", Customer.mailer.view.filter, customers, pagination); }());
+    });
 }
+
+Customer.mailer.controller.send = async (customer_id, icon) => {
+	let response = await API.response(Customer.mailer.send, customer_id);
+	if(!response) { return false; }
+
+    icon.remove();
+};
