@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <% include ./../../partials/head %>
+    </head>
+    <body>
+        <% include ./../../partials/header %>
+        <% include ./../../partials/nav %>
+        <section class="container">
+            <div class="box b1 container ground border margin-top-10 padding-5 radius-5">
+                <div class="mobile-box b11-12 em12 lucida-grande bold center">Prospect Mailer</div>
+                <% include ./partials/mailer-filter-form %>
+                <div id="mailer-filter-box" class="box a1 container" style="display:none">
+                    <div id="mailer-filter-div" class="box a1 container"></div>
+                </div>
+            </div>
+        </section>
+        <% include ./../../partials/loader %>
+    </body>
+    <footer>
+        <% include ./../../partials/footer %>
+        <% include ./partial %>
+    </footer>
+</html>

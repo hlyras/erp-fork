@@ -60,8 +60,8 @@ Prospect.view.status2 = (prospect, status_div) => {
 
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "manager", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Nome do Responsável", autocomplete: "nope", value: prospect.manager || "" }));
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "mail", class: "box b3-4 em08 input-generic margin-top-5 radius-5 center", placeholder: "Email", autocomplete: "nope", value: prospect.email || "" }));
-	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/presentation.png", `Prospect.mail.controller.presentation(${prospect.id}, this)`));
-	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mail.controller.catalog(${prospect.id}, this)`));
+	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/presentation.png", `Prospect.mailer.controller.presentation(${prospect.id}, this)`));
+	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mailer.controller.catalog(${prospect.id}, this)`));
 	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail enviado:", `${lib.convertDatetime(lib.timestampToDatetime(prospect.mailer))}`));
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "cellphone", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "WhatsApp do Responsável", autocomplete: "nope", value: prospect.cellphone || "" }));
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "meeting", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Hora da reunião", onfocus: "this.type='datetime-local';" }));
@@ -100,8 +100,8 @@ Prospect.view.status3 = (prospect, status_div) => {
 	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Telefone loja:", prospect.phone))
 	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Responsável", prospect.manager));
 	!prospect.mailer && form_prospect.appendChild(lib.element.info("b3-4 em09 lucida-grande radius-5", "E-mail", prospect.email));
-	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/presentation.png", `Prospect.mail.controller.presentation(${prospect.id}, this)`));
-	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mail.controller.catalog(${prospect.id}, this)`));
+	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/presentation.png", `Prospect.mailer.controller.presentation(${prospect.id}, this)`));
+	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mailer.controller.catalog(${prospect.id}, this)`));
 	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail", prospect.email));
 	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail enviado:", `${lib.convertDatetime(lib.timestampToDatetime(prospect.mailer))}`));
 
@@ -229,7 +229,7 @@ Prospect.meeting.view.status1 = (prospect, status_div) => {
 
 	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Telefone loja:", prospect.phone))
 	!prospect.mailer && form_prospect.appendChild(lib.element.info("b7-8 em09 lucida-grande radius-5", "E-mail", prospect.email));
-	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mail.controller.presentation(${prospect.id}, this)`));
+	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mailer.controller.presentation(${prospect.id}, this)`));
 	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail", prospect.email));
 	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail enviado:", `${lib.convertDatetime(lib.timestampToDatetime(prospect.mailer))}`));
 

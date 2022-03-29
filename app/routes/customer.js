@@ -25,11 +25,14 @@ router.post('/prospect/filter', lib.route.toHttps, prospectController.filter);
 router.post('/prospect/confirm-contact-1', lib.route.toHttps, prospectController.confirmContact1);
 router.post('/prospect/confirm-contact-2', lib.route.toHttps, prospectController.confirmContact2);
 router.post('/prospect/confirm-contact-3', lib.route.toHttps, prospectController.confirmContact3);
-router.get('/prospect/mail/presentation/:id', lib.route.toHttps, prospectController.mail.presentation);
-router.get('/prospect/mail/catalog/:id', lib.route.toHttps, prospectController.mail.catalog);
+
+router.get('/prospect/mailer', lib.route.toHttps, prospectController.mailer.index);
+router.get('/prospect/mail/presentation/:id', lib.route.toHttps, prospectController.mailer.presentation);
+router.get('/prospect/mail/catalog/:id', lib.route.toHttps, prospectController.mailer.catalog);
 
 router.get('/prospect/meeting', lib.route.toHttps, prospectController.meeting.index);
 router.post('/prospect/meeting/filter', lib.route.toHttps, prospectController.meeting.filter);
+
 
 router.get('/mailer', lib.route.toHttps, mailerController.index);
 router.get('/mailer/filter', lib.route.toHttps, mailerController.filter);

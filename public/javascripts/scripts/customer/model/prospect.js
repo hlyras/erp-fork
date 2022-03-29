@@ -69,9 +69,9 @@ Prospect.confirmContact3 = async prospect => {
 	return response;
 };
 
-Prospect.mail = {};
+Prospect.mailer = {};
 
-Prospect.mail.presentation = async (id) => {
+Prospect.mailer.presentation = async (id) => {
 	let response = await fetch("/customer/prospect/mail/presentation/"+id);
 	response = await response.json();
 	
@@ -81,7 +81,7 @@ Prospect.mail.presentation = async (id) => {
 	return response;
 };
 
-Prospect.mail.catalog = async (id) => {
+Prospect.mailer.catalog = async (id) => {
 	let response = await fetch("/customer/prospect/mail/catalog/"+id);
 	response = await response.json();
 	

@@ -1,10 +1,12 @@
 const userController = require('./../user');
+const User = require('../../model/user');
 const Customer = require('../../model/customer');
 
 const lib = require("jarmlib");
 
 const Mailer = require('../../middleware/mailer');
 const ejs = require("ejs");
+const path = require('path');
 
 const mailerController = {};
 
@@ -44,34 +46,27 @@ mailerController.send = async (req, res) => {
 		mailer_datetime: (new Date().getTime()) - (lib.date.timestamp.day() * 5)
 	};
 
+
+
 	try {
+		let user = (await User.findById(req.user.id))[0];
 		let customer = (await Customer.mailer.filter(params))[0];
 
 		if(!customer) { return res.send({ msg: "Este cliente não está disponível para receber E-mail, por favor atualize a página e tente novamente." }) }
 
-		const data = await ejs.renderFile(__dirname + "../../../view/customer/mail-template/index.ejs", { customer });
+		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/mail-template/index.ejs"), { customer, user });
 	            
 	    const option = {
 	        from: "JA Rio Militar <comercial@jariomilitar.com.br>",
 	        to: `${customer.name} <${customer.email}>`,
-	        subject: "Email para lojistas",
-		    text: "Descubra o que falta para seus clientes...",
+	        subject: "Portal do Lojista Militar",
+		    text: "Acompanhe seus pedidos, evolua sua conta e ganhe benefícios...",
 	        html: data,
 	        attachments: [
-		        {
-			        filename: 'title.png',
-			        path: __dirname + "../../../view/customer/mail-template/images/title.png",
-			        cid: 'title'
-			    },
 			    {
-			        filename: 'ml.png',
-			        path: __dirname + "../../../view/customer/mail-template/images/ml.png",
-			        cid: 'ml'
-			    },
-			    {
-			        filename: 'footer.png',
-			        path: __dirname + "../../../view/customer/mail-template/images/footer.png",
-			        cid: 'footer'
+			        filename: 'favicon.png',
+			        path: path.join(__dirname, "../../../app/view/customer/mail-template/images/favicon.png"),
+			        cid: 'favicon'
 			    }
 		    ]
 	    };
