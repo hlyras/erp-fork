@@ -29,10 +29,10 @@ router.post('/prospect/confirm-contact-3', lib.route.toHttps, prospectController
 router.get('/prospect/mailer', lib.route.toHttps, prospectController.mailer.index);
 router.get('/prospect/mail/presentation/:id', lib.route.toHttps, prospectController.mailer.presentation);
 router.get('/prospect/mail/catalog/:id', lib.route.toHttps, prospectController.mailer.catalog);
+router.post('/prospect/mailer/filter', lib.route.toHttps, prospectController.mailer.filter);
 
 router.get('/prospect/meeting', lib.route.toHttps, prospectController.meeting.index);
 router.post('/prospect/meeting/filter', lib.route.toHttps, prospectController.meeting.filter);
-
 
 router.get('/mailer', lib.route.toHttps, mailerController.index);
 router.get('/mailer/filter', lib.route.toHttps, mailerController.filter);

@@ -72,9 +72,9 @@ Prospect.mailer = {
 	filter: (customer) => {
 		let query = "";
 		if(customer.id) {
-			query = "SELECT * FROM cms_wt_erp.customer_lead WHERE mailer_datetime < "+customer.mailer_datetime+" AND mailer = "+customer.mailer+" AND id = "+customer.id+";";
+			query = "SELECT * FROM cms_wt_erp.customer_lead WHERE mailer_datetime < "+customer.mailer_datetime+" AND mailer_sub = "+customer.mailer_sub+" AND id = "+customer.id+";";
 		} else {
-			query = "SELECT * FROM cms_wt_erp.customer_lead WHERE mailer_datetime < "+customer.mailer_datetime+" AND mailer = "+customer.mailer+";";
+			query = "SELECT * FROM cms_wt_erp.customer_lead WHERE mailer_datetime < "+customer.mailer_datetime+" AND mailer_sub = "+customer.mailer_sub+";";
 		}
 		return db(query);
 	}

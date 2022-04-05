@@ -246,12 +246,12 @@ prospectController.mailer.filter = async (req, res) => {
 	};
 
 	const prospect = {
-		mailer: 1,
+		mailer_sub: 1,
 		mailer_datetime: (new Date().getTime()) - (lib.date.timestamp.day() * 5)
 	};
 
 	try {
-		let prospects = await Customer.mailer.filter(customer);
+		let prospects = await Prospect.mailer.filter(prospect);
 		res.send({ prospects, user: req.user });
 	} catch (err) {
 		console.log(err);

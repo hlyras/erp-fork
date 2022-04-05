@@ -208,6 +208,48 @@ Prospect.view.filter = (prospects, pagination) => {
 	};
 };
 
+Prospect.mailer.view = {};
+
+Prospect.mailer.view.filter = (prospects, pagination) => {
+	let filter_box = document.getElementById("prospect-mailer-filter-box");
+	let filter_div = document.getElementById("prospect-mailer-filter-div");
+	filter_div.innerHTML = "";
+
+	filter_div.appendChild(lib.element.create("div", { class: "box b1 em08 bold lucida-grande padding-5 border margin-top-5 center" }, "Leads cadastrados "+ prospects.length ));
+
+	if(prospects.length){
+		let status_1_div = lib.element.create("div", { class: "box b4 em09 bold lucida-grande padding-5 border-st margin-top-5 radius-5" });
+		status_1_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande underline center" }, "Ag. 1º contato"));
+		let status_2_div = lib.element.create("div", { class: "box b4 em09 bold lucida-grande padding-5 border-st margin-top-5 radius-5" });
+		status_2_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande underline center" }, "Contatar loja novamente"));
+		let status_3_div = lib.element.create("div", { class: "box b4 em09 bold lucida-grande padding-5 border-st margin-top-5 radius-5" });
+		status_3_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande underline center" }, "Ag. contato com responsável"));
+		let status_4_div = lib.element.create("div", { class: "box b4 em09 bold lucida-grande padding-5 border-st margin-top-5 radius-5" });
+		status_4_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande underline center" }, "Lista de transmissão"));
+
+		for(let i in prospects){
+			if(prospects[i].status == "1º contato"){
+				Prospect.view.status1(prospects[i], status_1_div);
+			} else if(prospects[i].status == "Contatar loja novamente") {
+				Prospect.view.status2(prospects[i], status_2_div);
+			} else if(prospects[i].status == "Contato com responsável") {
+				Prospect.view.status3(prospects[i], status_3_div);
+			} else if(prospects[i].status == "Lista de transmissão") {
+				Prospect.view.status4(prospects[i], status_4_div);
+			}
+		};
+
+		filter_div.appendChild(status_1_div);
+		filter_div.appendChild(status_2_div);
+		filter_div.appendChild(status_3_div);
+		filter_div.appendChild(status_4_div);
+		filter_box.style.display = "";
+	} else {
+		filter_div.appendChild(lib.element.create("div", { class: "box b1 bold lucida-grande center padding-10 margin-top-5" }, "Sem resultados"));
+		filter_box.style.display = "";
+	};
+};
+
 Prospect.meeting.view = {};
 
 Prospect.meeting.view.status1 = (prospect, status_div) => {

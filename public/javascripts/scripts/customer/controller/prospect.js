@@ -132,6 +132,22 @@ Prospect.controller.confirmContact3 = async (id) => {
 
 Prospect.mailer.controller = {};
 
+Prospect.mailer.controller.filter = document.getElementById("prospect-mailer-filter-form");
+if(Prospect.mailer.controller.filter){
+	Prospect.mailer.controller.filter.addEventListener("submit", async e => {
+		e.preventDefault();
+
+		const prospect = {
+			brand: e.target.elements.namedItem("brand").value
+		};
+
+		let prospects = await API.response(Prospect.mailer.filter, prospect);
+		if(!prospects) { return false; }
+
+		Prospect.mailer.view.filter(prospects);
+	});
+}
+
 Prospect.mailer.controller.presentation = async (id, icon) => {
 	let response = await API.response(Prospect.mailer.presentation, id);
 	if(!response) { return false; }
