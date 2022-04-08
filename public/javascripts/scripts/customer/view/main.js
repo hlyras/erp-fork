@@ -54,11 +54,14 @@ Customer.view.show = (customer, box) => {
 	let html = "";
 	if(customer.person_type == "legal-entity"){
 		html += "<div class='box b1 container border-explicit padding-5 margin-top-5'>";
-			html += "<h1 class='mobile-box b2 box-border center padding-5 margin-top-5'>"+customer.rank.name+"</h1>";
-			html += "<img class='size-100' src='"+customer.rank.image+"'>";
-			html += "<div class='box b1 container box-border padding-5 margin-top-5'>";
+			html += "<div class='box b3 container box-border center padding-5 margin-top-5'>";
+				html += "<h1 class='mobile-box b2 box-border center padding-5 margin-top-5'>"+customer.rank.name+"</h1>";
+				html += "<img class='mobile-box b2 image-prop' src='"+customer.rank.image+"'>";
+			html += "</div>";
+
+			html += "<div class='box b2-3 container box-border padding-5 margin-top-5'>";
 			for(let i in customer.rank.benefits){
-				html += "<div class='mobile-box b6 box-border center padding-5 margin-top-5'>"+customer.rank.benefits[i].description+"</div>";
+				html += "<div class='mobile-box b5 em08 center padding-5 margin-top-5'>"+customer.rank.benefits[i].description+"</div>";
 			};
 			html += "</div>";
 		html += "</div>";
