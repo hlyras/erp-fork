@@ -1,5 +1,9 @@
 const userController = require('./../user');
 const Customer = require('../../model/customer');
+const Rank = require('../../model/customer/rank');
+const Sale = require('../../model/sale/main');
+
+const lib = require("jarmlib");
 
 const customerController = {};
 
@@ -135,9 +139,31 @@ customerController.show = async (req, res) => {
 	// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	// };
 
+	const paymentDate = {
+		key: "payment_confirmation_date",
+		start: (new Date().getTime()) - (lib.date.timestamp.day() * 90),
+		end: new Date().getTime()
+	};
+
+	const period = { key: paymentDate.key, start: paymentDate.start, end: paymentDate.end };
+	const strict_params = { keys: [], values: [] }
+	lib.Query.fillParam("sale.customer_id", req.params.id, strict_params);
+	const order_params = [ ["id", "DESC"] ];
+
 	try {
 		let customer = await Customer.findBy.id(req.params.id);
 		customer[0].address = await Customer.address.findBy.customer_id(req.params.id);
+		
+		let sales = await Sale.filter([], [], period, [], strict_params, order_params, 0);
+		const saleStatistics = { totalValue: 0 };
+		
+		for(let i in sales) { saleStatistics.totalValue += parseFloat(sales[i].value); };
+		
+		for(let i in Rank) {
+			if(parseFloat(saleStatistics.totalValue) >= Rank[i].min_value && parseFloat(saleStatistics.totalValue) <= Rank[i].max_value) {
+				customer[0].rank = Rank[i];
+			};
+		};
 
 		res.send({ customer });
 	} catch (err){
