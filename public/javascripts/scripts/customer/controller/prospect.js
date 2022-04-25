@@ -138,8 +138,15 @@ if(Prospect.mailer.controller.filter){
 		e.preventDefault();
 
 		const prospect = {
-			brand: e.target.elements.namedItem("brand").value
-		};
+            // state: req.body.state,
+            brand: e.target.elements.namedItem("brand").value,
+            manager: e.target.elements.namedItem("manager").value,
+            email: e.target.elements.namedItem("email").value,
+            status: e.target.elements.namedItem("status").value,
+            mailer_sub: e.target.elements.namedItem("mailer-sub").value
+        };
+
+        console.log(prospect);
 
 		let prospects = await API.response(Prospect.mailer.filter, prospect);
 		if(!prospects) { return false; }
@@ -155,8 +162,8 @@ Prospect.mailer.controller.presentation = async (id, icon) => {
 	icon.remove();
 };
 
-Prospect.mailer.controller.catalog = async (id, icon) => {
-	let response = await API.response(Prospect.mailer.catalog, id);
+Prospect.mailer.controller.transmission = async (id, icon) => {
+	let response = await API.response(Prospect.mailer.transmission, id);
 	if(!response) { return false; }
 
 	icon.remove();

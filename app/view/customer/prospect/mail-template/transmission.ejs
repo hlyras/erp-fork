@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>O que você vende está em alta!</title>
+  <title>Bornais com 20% de desconto</title>
 </head>
 <body style="padding:0px;margin:0px;">
   <div>
-    <img src="cid:title" style="width:100%;">
-    <p style="margin-left:10px;font-family:georgia;">Olá <%= customer.name %>, tudo bem!</p>
-    <p style="margin-left:10px;font-family:georgia;">Agora você tem acesso a:</p>
-    <p style="margin-left:10px;font-family:georgia;">• Andamento das suas compras em tempo real.</p>
-    <p style="margin-left:10px;font-family:georgia;">• Artigos, dicas e tendências para o nicho de lojas militares e esportivas</p>
-    <p style="margin-left:10px;font-family:georgia;">• Benefícios por patente: agora a média das suas compras feitas na J.A Rio Militar®️ contam para definir qual é a sua patente! Assim você tem benefícios exclusivos 😎</p>
-    <div style="margin-left:10px;font-family:georgia;">Se quiser saber mais, acesse já o Portal do Lojista através do link:</div>
-    <div style="margin-left:10px;font-family:georgia;"><a href="https://www.jariomilitar.com/portal-do-lojista/artigo/12">Acessar Portal do lojista</a></div>
-    <div style="margin-top:30px;font-family:georgia;">Atenciosamente,</div>
-    <div style="margin-top:12px;font-family:georgia;"><%= user.name %></div>
-    <% if(user.phone) { %> 
-      <div style="font-size: 0.8em;"><%= user.phone %></div> 
+    <div style="height:60px;background-color:#000;" align="center">
+      <img src="cid:favicon-white" style="height:40px;margin-top:10px;">
+    </div>
+    <p style="margin-left:10px;font-family:georgia;">Olá, tudo bem?</p>
+    <p style="margin-left:10px;font-family:georgia;">Meu nome é <%= user.name %>, sou representante comercial da JA Rio Militar.</p>
+    <p style="margin-left:10px;font-family:georgia;">Estou encaminhando este e-mail para informar que estamos com oferta de 15% de desconto em todos os modelos de bornais para compras em atacado.</p>
+    <p style="margin-left:10px;font-family:georgia;">Pode me chamar no <a href="<%= user.contact %>">WhatsApp</a> que te explico melhor como funciona a promoção.</p>
+
+    <p style="margin-left:10px;font-family:georgia;">Mas não perca tempo pois é por tempo limitado!</p>
+
+    <div style="margin-left:10px;margin-top:30px;font-family:georgia;">Atenciosamente,</div>
+    <div style="margin-left:10px;margin-top:12px;font-family:georgia;"><%= user.name %></div>
+    <% if(user.phone) { %>
+      <div style="margin-left:10px;font-size: 0.8em;"><%= user.phone %></div>
     <% } %>
     <img src="cid:favicon" style="margin-left:10px;margin-top:5px;width:105px;">
   </div>

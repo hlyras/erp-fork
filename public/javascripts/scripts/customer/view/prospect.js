@@ -59,9 +59,8 @@ Prospect.view.status2 = (prospect, status_div) => {
 	};
 
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "manager", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Nome do Responsável", autocomplete: "nope", value: prospect.manager || "" }));
-	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "mail", class: "box b3-4 em08 input-generic margin-top-5 radius-5 center", placeholder: "Email", autocomplete: "nope", value: prospect.email || "" }));
-	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/presentation.png", `Prospect.mailer.controller.presentation(${prospect.id}, this)`));
-	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mailer.controller.catalog(${prospect.id}, this)`));
+	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "mail", class: "box b7-8 em08 input-generic margin-top-5 radius-5 center", placeholder: "Email", autocomplete: "nope", value: prospect.email || "" }));
+	prospect.email && !prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mailer.controller.presentation(${prospect.id}, this)`));
 	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail enviado:", `${lib.convertDatetime(lib.timestampToDatetime(prospect.mailer))}`));
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "cellphone", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "WhatsApp do Responsável", autocomplete: "nope", value: prospect.cellphone || "" }));
 	form_prospect.appendChild(lib.element.create("input", { type: "text", name: "meeting", class: "box b1 em08 input-generic margin-top-5 radius-5 center", placeholder: "Hora da reunião", onfocus: "this.type='datetime-local';" }));
@@ -99,9 +98,8 @@ Prospect.view.status3 = (prospect, status_div) => {
 
 	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Telefone loja:", prospect.phone))
 	form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "Responsável", prospect.manager));
-	!prospect.mailer && form_prospect.appendChild(lib.element.info("b3-4 em09 lucida-grande radius-5", "E-mail", prospect.email));
-	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/presentation.png", `Prospect.mailer.controller.presentation(${prospect.id}, this)`));
-	!prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mailer.controller.catalog(${prospect.id}, this)`));
+	!prospect.mailer && form_prospect.appendChild(lib.element.info("b7-8 em09 lucida-grande radius-5", "E-mail", prospect.email));
+	prospect.email && !prospect.mailer && form_prospect.appendChild(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mailer.controller.presentation(${prospect.id}, this)`));
 	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail", prospect.email));
 	prospect.mailer && form_prospect.appendChild(lib.element.info("b1 em09 lucida-grande radius-5", "E-mail enviado:", `${lib.convertDatetime(lib.timestampToDatetime(prospect.mailer))}`));
 
@@ -215,39 +213,25 @@ Prospect.mailer.view.filter = (prospects, pagination) => {
 	let filter_div = document.getElementById("prospect-mailer-filter-div");
 	filter_div.innerHTML = "";
 
-	filter_div.appendChild(lib.element.create("div", { class: "box b1 em08 bold lucida-grande padding-5 border margin-top-5 center" }, "Leads cadastrados "+ prospects.length ));
+	// filter_div.appendChild(lib.element.create("div", { class: "box b1 em08 bold lucida-grande padding-5 border margin-top-5 center" }, "Leads cadastrados "+ prospects.length ));
 
-	if(prospects.length){
-		let status_1_div = lib.element.create("div", { class: "box b4 em09 bold lucida-grande padding-5 border-st margin-top-5 radius-5" });
-		status_1_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande underline center" }, "Ag. 1º contato"));
-		let status_2_div = lib.element.create("div", { class: "box b4 em09 bold lucida-grande padding-5 border-st margin-top-5 radius-5" });
-		status_2_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande underline center" }, "Contatar loja novamente"));
-		let status_3_div = lib.element.create("div", { class: "box b4 em09 bold lucida-grande padding-5 border-st margin-top-5 radius-5" });
-		status_3_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande underline center" }, "Ag. contato com responsável"));
-		let status_4_div = lib.element.create("div", { class: "box b4 em09 bold lucida-grande padding-5 border-st margin-top-5 radius-5" });
-		status_4_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande underline center" }, "Lista de transmissão"));
+	for(let i in prospects){
+		let prospect_div = lib.element.create("div", { class: "box b2 container padding-5 margin-top-5 border-st" });
+		prospect_div.append(lib.element.create("div", { class: "mobile-box b8 em08 padding-5 center" }, prospects[i].state));
+		prospect_div.append(lib.element.create("div", { class: "mobile-box b2 em08 padding-5 center" }, prospects[i].brand));
+		prospect_div.append(lib.element.create("div", { class: "mobile-box b3-8 em08 padding-5 center" }, prospects[i].email));
+		prospect_div.append(lib.element.create("div", { class: "mobile-box b4 em08 border padding-5 center" }, prospects[i].manager));
+		prospect_div.append(lib.element.create("div", { class: "mobile-box b3-8 em08 border padding-5 center" }, prospects[i].status));
+		prospect_div.append(lib.element.create("div", { class: "mobile-box b4 em08 border padding-5 center" }, lib.convertDatetime(lib.timestampToDatetime(prospects[i].mailer_datetime))));
+		prospect_div.append(lib.element.icon('b8', 20, "https://spaces.jariomilitar.com/erp-images/icon/sendmail.png", `Prospect.mailer.controller.transmission(${prospects[i].id}, this)`));
 
-		for(let i in prospects){
-			if(prospects[i].status == "1º contato"){
-				Prospect.view.status1(prospects[i], status_1_div);
-			} else if(prospects[i].status == "Contatar loja novamente") {
-				Prospect.view.status2(prospects[i], status_2_div);
-			} else if(prospects[i].status == "Contato com responsável") {
-				Prospect.view.status3(prospects[i], status_3_div);
-			} else if(prospects[i].status == "Lista de transmissão") {
-				Prospect.view.status4(prospects[i], status_4_div);
-			}
-		};
-
-		filter_div.appendChild(status_1_div);
-		filter_div.appendChild(status_2_div);
-		filter_div.appendChild(status_3_div);
-		filter_div.appendChild(status_4_div);
-		filter_box.style.display = "";
-	} else {
-		filter_div.appendChild(lib.element.create("div", { class: "box b1 bold lucida-grande center padding-10 margin-top-5" }, "Sem resultados"));
-		filter_box.style.display = "";
+		prospects[i].email && filter_div.append(prospect_div);
 	};
+
+	if(!prospects.length){
+		filter_div.appendChild(lib.element.create("div", { class: "box b1 bold lucida-grande center padding-10 margin-top-5" }, "Sem resultados"));
+	};
+	filter_box.style.display = "";
 };
 
 Prospect.meeting.view = {};

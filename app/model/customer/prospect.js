@@ -68,16 +68,12 @@ Prospect.log.list = (lead_id) => {
 	return db(query);
 };
 
-Prospect.mailer = {
-	filter: (customer) => {
-		let query = "";
-		if(customer.id) {
-			query = "SELECT * FROM cms_wt_erp.customer_lead WHERE mailer_datetime < "+customer.mailer_datetime+" AND mailer_sub = "+customer.mailer_sub+" AND id = "+customer.id+";";
-		} else {
-			query = "SELECT * FROM cms_wt_erp.customer_lead WHERE mailer_datetime < "+customer.mailer_datetime+" AND mailer_sub = "+customer.mailer_sub+";";
-		}
-		return db(query);
-	}
+Prospect.mailer = {};
+
+Prospect.mailer.filter = (props, inners, period, params, strictParams, orderParams, limit) => {
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.customer_lead customer_lead")
+		.inners(inners).period(period).params(params).strictParams(strictParams).order(orderParams).limit(limit).build().query;
+	return db(query);
 };
 
 module.exports = Prospect;

@@ -94,8 +94,8 @@ Prospect.mailer.presentation = async (id) => {
 	return response;
 };
 
-Prospect.mailer.catalog = async (id) => {
-	let response = await fetch("/customer/prospect/mail/catalog/"+id);
+Prospect.mailer.transmission = async (id) => {
+	let response = await fetch("/customer/prospect/mail/transmission/"+id);
 	response = await response.json();
 	
 	if(API.verifyResponse(response)){ return false };

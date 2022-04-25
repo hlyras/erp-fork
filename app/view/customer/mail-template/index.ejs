@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>20% OFF em coldres</title>
+  <title>15% OFF em coldres</title>
 </head>
 <body style="padding:0px;margin:0px;">
   <div>
     <p style="margin-left:10px;font-family:georgia;">Olá <%= customer.name %></p>
-    <p style="margin-left:10px;font-family:georgia;">Tá rolando desconto de <b>20% em coldres</b></p>
+    <p style="margin-left:10px;font-family:georgia;">Tá rolando desconto de <b>15% em bornais</b></p>
     <p style="margin-left:10px;font-family:georgia;">Quer entender mais como funciona a promoção?</p>
-    <div style="margin-left:10px;font-family:georgia;"><a href="https://www.jariomilitar.com/portal-do-lojista/artigo/11">Clique aqui para saber todas as informações</a></div>
+    <div style="margin-left:10px;font-family:georgia;">Clique aqui para falar comigo por <a href="<%= user.contact %>">WhatsApp</a></div>
     <p style="margin-left:10px;font-family:georgia;">Mas não deixe para depois pois é por tempo limitado!</p>
     <div style="margin-top:30px;font-family:georgia;">Atenciosamente,</div>
     <div style="margin-top:12px;font-family:georgia;"><%= user.name %></div>
     <% if(user.phone) { %> 
-      <div style="font-size: 0.8em;"><%= user.phone %></div> 
+      <div style="font-size: 0.8em;"><%= user.phone %></div>
     <% } %>
     <img src="cid:favicon" style="margin-left:10px;margin-top:5px;width:105px;">
   </div>

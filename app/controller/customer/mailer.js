@@ -46,8 +46,6 @@ mailerController.send = async (req, res) => {
 		mailer_datetime: (new Date().getTime()) - (lib.date.timestamp.day() * 5)
 	};
 
-
-
 	try {
 		let user = (await User.findById(req.user.id))[0];
 		let customer = (await Customer.mailer.filter(params))[0];

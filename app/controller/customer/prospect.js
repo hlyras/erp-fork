@@ -246,12 +246,34 @@ prospectController.mailer.filter = async (req, res) => {
 	};
 
 	const prospect = {
-		mailer_sub: 1,
-		mailer_datetime: (new Date().getTime()) - (lib.date.timestamp.day() * 5)
+		// state: req.body.state,
+		brand: req.body.brand,
+		manager: req.body.manager,
+		email: req.body.email,
+		status: req.body.status,
+		mailer_sub: req.body.mailer_sub,
+		periodStart: 1,
+		periodEnd: (new Date().getTime()) - (lib.date.timestamp.day() * 5)
 	};
 
+	let period = { key: "customer_lead.mailer", start: prospect.periodStart, end: prospect.periodEnd };
+	let params = { keys: [], values: [] };
+	let strictParams = { keys: [], values: [] };
+	
+	// lib.Query.fillParam("customer_lead.state", prospect.state, strictParams);
+	lib.Query.fillParam("customer_lead.brand", prospect.brand, params);
+	lib.Query.fillParam("customer_lead.manager", prospect.manager, params);
+	lib.Query.fillParam("customer_lead.email", prospect.email, params);
+	lib.Query.fillParam("customer_lead.status", prospect.status, params);
+	lib.Query.fillParam("customer_lead.mailer_sub", prospect.mailer_sub, strictParams);
+	if(req.user.access != "adm"){
+		lib.Query.fillParam("customer_lead.user_id", req.user.id, strictParams);
+	}
+	
+	let orderParams = [ ["mailer_datetime","ASC"] ];
+
 	try {
-		let prospects = await Prospect.mailer.filter(prospect);
+		let prospects = await Prospect.mailer.filter([], [], period, params, strictParams, orderParams, 0);
 		res.send({ prospects, user: req.user });
 	} catch (err) {
 		console.log(err);
@@ -266,7 +288,7 @@ prospectController.mailer.presentation = async (req, res) => {
 	try {
 		let customer = await Prospect.findById(req.params.id);
 		
-		if(customer[0].mailer){ return res.send({ msg: "Você já enviou um email para esse Lead!" }); }
+		if(customer[0].mailer > (new Date().getTime()) - (lib.date.timestamp.day() * 5)){ return res.send({ msg: "Você já enviou um email para esse Lead!" }); }
 
 		let user = await User.findById(req.user.id);
 
@@ -274,7 +296,7 @@ prospectController.mailer.presentation = async (req, res) => {
 			            
 	    const option = {
 	        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
-	        to: `${customer[0].name} <${customer[0].email}>`,
+	        to: `<${customer[0].email}>`,
 	        cc: `${customer[0].email}`,
 	        subject: "Aumente seu faturamento!",
 	        text: "Descubra o que falta para seus clientes...",
@@ -284,52 +306,11 @@ prospectController.mailer.presentation = async (req, res) => {
 			        filename: 'favicon.png',
 			        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon.png"),
 			        cid: 'favicon'
-			    }
-		    ]
-	    };
-
-	    await Mailer.sendMail(option, async (err, info) => {
-	        if (err) {
-	        	console.log(err); 
-				res.send({ msg: "Ocorreu um erro ao enviar email, favor atualize a página e tente novamente!" });
-	        } else {
-	        	let prospect = { id: customer[0].id, mailer: new Date().getTime() };
-				await Prospect.update(prospect);
-				res.send({ done: "E-mail enviado com sucesso!" });
-	        }
-	    });
-	} catch (err) {
-		console.log(err); 
-		res.send({ msg: "Ocorreu um erro ao enviar email, favor atualize a página e tente novamente!" });
-	}
-};
-
-prospectController.mailer.catalog = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-pro","adm-man","adm-ass"])){
-		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	};
-
-	try {
-		let customer = await Prospect.findById(req.params.id);
-
-		if(customer[0].mailer){ return res.send({ msg: "Você já enviou um email para esse Lead!" }); }
-
-		let user = await User.findById(req.user.id);
-
-		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/prospect/mail-template/catalog.ejs"), { customer: customer[0], user: user[0] });
-			            
-	    const option = {
-	        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
-	        to: `${customer[0].name} <${customer[0].email}>`,
-	        cc: `${customer[0].email}`,
-	        subject: "Aumente seu faturamento!",
-	        text: "Descubra o que falta para seus clientes...",
-	        html: data,
-	        attachments: [
-		        {
-			        filename: 'favicon.png',
-			        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon.png"),
-			        cid: 'favicon'
+			    },
+			    {
+			        filename: 'favicon-white.png',
+			        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon-white.png"),
+			        cid: 'favicon-white'
 			    }
 		    ]
 	    };
@@ -358,24 +339,29 @@ prospectController.mailer.transmission = async (req, res) => {
 	try {
 		let customer = await Prospect.findById(req.params.id);
 
-		if(customer[0].mailer){ return res.send({ msg: "Você já enviou um email para esse Lead!" }); }
+		if(customer[0].mailer > (new Date().getTime()) - (lib.date.timestamp.day() * 5)){ return res.send({ msg: "Você já enviou um email para esse Lead!" }); }
 
 		let user = await User.findById(req.user.id);
 
-		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/prospect/mail-template/catalog.ejs"), { customer: customer[0], user: user[0] });
+		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/prospect/mail-template/transmission.ejs"), { customer: customer[0], user: user[0] });
 
 	    const option = {
 	        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
-	        to: `${customer[0].name} <${customer[0].email}>`,
+	        to: `<${customer[0].email}>`,
 	        cc: `${customer[0].email}`,
-	        subject: "Aumente seu faturamento!",
-	        text: "Descubra o que falta para seus clientes...",
+	        subject: "Aumente seu lucro!",
+	        text: "Bornais a partir de R$20,37",
 	        html: data,
 	        attachments: [
 		        {
 			        filename: 'favicon.png',
 			        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon.png"),
 			        cid: 'favicon'
+			    },
+			    {
+			        filename: 'favicon-white.png',
+			        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon-white.png"),
+			        cid: 'favicon-white'
 			    }
 		    ]
 	    };
