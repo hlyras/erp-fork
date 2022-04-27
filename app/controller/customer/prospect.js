@@ -93,7 +93,7 @@ prospectController.confirmContact1 = async(req, res) => {
 		if(!req.body.manager && !mainProspect[0].manager) { return res.send({ msg: "É necessário cadastrar o nome do responsável para o próximo contato." }); }
 		if(!req.body.email && !mainProspect[0].email) { return res.send({ msg: "É necessário ter um email cadastrado antes do próximo contato." }); }	
 		if(!req.body.cellphone && !mainProspect[0].cellphone) { return res.send({ msg: "É necessário ter o número de WhatsApp do responsável para fazer o contato." }); }	
-		if(!req.body.meeting) { return res.send({ msg: "É necessário informar o horário da reunião." }); };
+		// if(!req.body.meeting) { return res.send({ msg: "É necessário informar o horário da reunião." }); };
 		if(!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
 	}
 
