@@ -293,24 +293,24 @@ prospectController.mailer.presentation = async (req, res) => {
 		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/prospect/mail-template/presentation.ejs"), { customer: customer[0], user: user[0] });
 			            
 	    const option = {
-	        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
-	        to: `<${customer[0].email}>`,
-	        cc: `${customer[0].email}`,
-	        subject: "Aumente seu faturamento!",
-	        text: "Descubra o que falta para seus clientes...",
-	        html: data,
-	        attachments: [
-		        {
-			        filename: 'favicon.png',
-			        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon.png"),
-			        cid: 'favicon'
+        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
+        to: `<${customer[0].email}>`,
+        cc: `${customer[0].email}`,
+        subject: "Aumente seu faturamento!",
+        text: "Descubra o que falta para seus clientes...",
+        html: data,
+        attachments: [
+	        {
+		        filename: 'favicon.png',
+		        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon.png"),
+		        cid: 'favicon'
 			    },
 			    {
-			        filename: 'favicon-white.png',
-			        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon-white.png"),
-			        cid: 'favicon-white'
-			    }
-		    ]
+		        filename: 'favicon-white.png',
+		        path: path.join(__dirname, "../../../app/view/customer/prospect/mail-template/images/favicon-white.png"),
+		        cid: 'favicon-white'
+		    	}
+	    	]
 	    };
 
 	    await Mailer.sendMail(option, async (err, info) => {
@@ -348,7 +348,7 @@ prospectController.mailer.transmission = async (req, res) => {
 	        to: `<${customer[0].email}>`,
 	        cc: `${customer[0].email}`,
 	        subject: "Aumente seu lucro!",
-	        text: "Bornais a partir de R$20,37",
+	        text: "Case tática + 2 acessórios modulares de brinde",
 	        html: data,
 	        attachments: [
 		        {

@@ -52,19 +52,21 @@ mailerController.send = async (req, res) => {
 
 		if(!customer) { return res.send({ msg: "Este cliente não está disponível para receber E-mail, por favor atualize a página e tente novamente." }) }
 
+		customer.name = customer.name.split(' ')[0];
+
 		const data = await ejs.renderFile(path.join(__dirname, "../../../app/view/customer/mail-template/index.ejs"), { customer, user });
 	            
 	    const option = {
-	        from: "JA Rio Militar <comercial@jariomilitar.com.br>",
-	        to: `${customer.name} <${customer.email}>`,
-	        subject: "Portal do Lojista Militar",
-		    text: "Acompanhe seus pedidos, evolua sua conta e ganhe benefícios...",
+        from: "JA Rio Militar <comercial@jariomilitar.com.br>",
+        to: `${customer.name} <${customer.email}>`,
+        subject: "Promoção Cases táticas modulares",
+		    text: "Na compra da Case ganhe 2 acessórios modulares...",
 	        html: data,
 	        attachments: [
 			    {
-			        filename: 'favicon.png',
-			        path: path.join(__dirname, "../../../app/view/customer/mail-template/images/favicon.png"),
-			        cid: 'favicon'
+		        filename: 'favicon.png',
+		        path: path.join(__dirname, "../../../app/view/customer/mail-template/images/favicon.png"),
+		        cid: 'favicon'
 			    }
 		    ]
 	    };
