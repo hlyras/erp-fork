@@ -7,7 +7,7 @@
         <% include ./../partials/nav %>
         <section>
             <div class="container">
-                <form id="sale-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
+                <form id="sale-filter-form" class="box b1 container ground padding-10 margin-top-10 border">
                     <input type="text" name="customer_name" placeholder="Nome" class="box b3 input-generic center margin-top-5" autocomplete="off">
                     <input type="text" name="customer_cnpj" placeholder="CNPJ" class="box b3 input-generic center margin-top-5" autocomplete="off">
                     <select name="status" class="box b3 input-generic margin-top-5 hide-disabled">
@@ -30,7 +30,7 @@
                     </select>
                     <input type="submit" name="submit" class="box b4 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
                 </form>
-                <div id="sale-filter-box" class="box b1 container ground" style="display:none">
+                <div id="sale-filter-box" class="box b1 container" style="display:none">
                     <div id="sale-filter-div" class="box b1 container"></div>
                     <% include ./../partials/carousel %>
                 </div>

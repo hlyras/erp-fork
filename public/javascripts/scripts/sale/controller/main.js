@@ -155,6 +155,8 @@ if(Sale.controller.filter){
 Sale.controller.show = async (sale_id, status) => {
 	let sale = await API.response(Sale.findById, sale_id);
 
+	console.log(sale);
+
 	Sale.view.show(sale, status);
 
 	document.getElementById("sale-filter-box").style.display = "none";

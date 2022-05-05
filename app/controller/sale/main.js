@@ -211,7 +211,7 @@ saleController.save = async (req, res) => {
 };
 
 saleController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'pro-man','COR-GER','log-pac','fin'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'pro-man','COR-GER','log-pac',"fin-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
@@ -238,7 +238,7 @@ saleController.filter = async (req, res) => {
 	const limit = 0;
 	
 	try {
-		let sales = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
+		let sales = await Sale.filter([], [], period, params, strict_params, order_params, limit);
 		res.send({ sales });
 	} catch (err) {
 		console.log(err);
