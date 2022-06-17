@@ -1,0 +1,27 @@
+<div id="service-order-detail" class="box b1 container ground border radius-5 msg-window padding-10 margin-top-30 h-center" style="display:none;">
+  <div id="service-order-checkout" class="box b1 container ground padding-10 h-center">
+	  <div class="box a1 container sticky">
+	    <div class="mobile-box a9-10"></div>
+	    <img class='mobile-box center size-20 icon margin-top-20 cursor-2' onclick="Sale.transport.serviceOrder.close()" src="/images/icon/close.png">
+	  </div>
+
+	  <div class="box b2 container border radius-5 padding-10 margin-top-10">
+			<div class="mobile-box b2 container">
+				<div class="box b1 lucida-grande em08 bold">Método de envio</div>
+				<div id="transport-detail" class="box b1 lucida-grande bold"></div>
+			</div>
+			<div class="mobile-box b2 container">
+				<div class="box b1 lucida-grande em08 bold">Quantidade de pedidos</div>
+				<div id="amount-detail" class="box b1 lucida-grande bold"></div>
+			</div>
+	  </div>
+
+		<div id="orders-detail" class="box b1 container margin-top-10"></div>
+
+		<div class="box b3 border-st shadow-hover radius-5 padding-10 margin-top-15 center noselect pointer" onclick="Sale.transport.serviceOrder.confirm()">Confirmar O.S.</div>
+  </div>
+
+  <div id="service-order-menu" class="box b1 ground container padding-10 h-center" style="display:none;">
+		<div class="box b3 border-st shadow-hover radius-5 padding-10 margin-top-15 center noselect pointer" onclick="window.location.href='/sale/service-order/transport'">Gerar nova O.S.</div>
+  </div>
+</div>

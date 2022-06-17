@@ -23,7 +23,7 @@ if(Product.price.controller.filter){
 
 		catalog_products = lib.sort(catalog_products, "code");
 
-		const pagination = { pageSize: 21, page: 0};
+		const pagination = { pageSize: 2, page: 0};
 		(function(){ lib.carousel.execute("product-price-filter-box", Product.price.view.filter, catalog_products, pagination); }());
 	});
 };

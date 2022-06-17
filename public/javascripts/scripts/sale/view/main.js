@@ -1,411 +1,233 @@
 Sale.view = {};
 
 Sale.view.filter = (sales, setup) => {
-	let html = "";
-	if(sales.length){
-		if(!setup.status){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
-					html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
-						html += "<div class='mobile-box em08 a3 center bold'>total:</div>";
-						html += "<div class='mobile-box b2-3 center bold'>$"+(sales[i].value).toFixed(2)+"</div>";
-					html += "</div>";
-					html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
-						html += "<div class='mobile-box em08 a3 center bold'>Frete:</div>";
-						html += "<div class='mobile-box b2-3 center'>$"+sales[i].shipment_value.toFixed(2)+"</div>";
-					html += "</div>";
-					html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
-						html += "<div class='mobile-box em08 a3 center bold'>Desconto:</div>";
-						html += "<div class='mobile-box b2-3 center'>$"+sales[i].discount_value.toFixed(2)+"</div>";
-					html += "</div>";
-					html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
-						html += "<div class='mobile-box em08 a3 center bold'>Valor:</div>";
-						html += "<div class='mobile-box a2-3 center'>$"+(sales[i].value-sales[i].shipment_value).toFixed(2)+"</div>";
-					html += "</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Confirmadas"){
-			let total_value = 0;
-			for(let i in sales){
-				if(sales[i].status == "Ag. embalo" || sales[i].status == "Ag. nota fiscal" || sales[i].status == "Ag. envio" || sales[i].status == "Enviado"){
-					total_value += (sales[i].value-sales[i].shipment_value);
-				};
-			};
-			html += "<div class='mobile-box container a1 padding-15 border-explicit'>";
-				html += "<div class='mobile-box b2 em13 center'>Faturamento Líquido:</div>";
-				html += "<div class='mobile-box b2 em15 center'>$"+total_value.toFixed(2)+"</div>";
-			html += "</div>";
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				if(sales[i].status == "Ag. embalo" || sales[i].status == "Ag. nota fiscal" || sales[i].status == "Ag. envio" || sales[i].status == "Enviado"){
-					html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-						html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`)'><h4>"+sales[i].id+"</h4></div>";
-						html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-						html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-						html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-						html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-						html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
-						html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
-							html += "<div class='mobile-box em08 a3 center bold'>total:</div>";
-							html += "<div class='mobile-box b2-3 center bold'>$"+(sales[i].value).toFixed(2)+"</div>";
-						html += "</div>";
-						html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
-							html += "<div class='mobile-box em08 a3 center bold'>Frete:</div>";
-							html += "<div class='mobile-box b2-3 center'>$"+sales[i].shipment_value.toFixed(2)+"</div>";
-						html += "</div>";
-						html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
-							html += "<div class='mobile-box em08 a3 center bold'>Desconto:</div>";
-							html += "<div class='mobile-box b2-3 center'>$"+sales[i].discount_value.toFixed(2)+"</div>";
-						html += "</div>";
-						html += "<div class='mobile-box container b4 border padding-5 margin-top-5'>";
-							html += "<div class='mobile-box em08 a3 center bold'>Valor:</div>";
-							html += "<div class='mobile-box a2-3 center'>$"+(sales[i].value-sales[i].shipment_value).toFixed(2)+"</div>";
-						html += "</div>";
-					html += "</div>";
-				};
-			};
-		} else if(setup.status == "Em negociação"){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/edit.png' onclick='Sale.controller.edit("+sales[i].id+")'></div>";
-					html += "<div class='mobile-box b10 center'><img class='size-20 icon' src='/images/icon/trash.png' onclick='Sale.controller.cancel("+sales[i].id+")'></div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Ag. pagamento"){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Ag. embalo"){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Ag. nota fiscal"){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b3 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Ag. envio"){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5 pointer' onclick='lib.openExternalLink(`"+sales[i].nf+"`)'>Ver Nota Fiscal</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Cancelada"){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5 pointer' onclick='lib.openExternalLink(`"+sales[i].nf+"`)'>Ver Nota Fiscal</div>";
-				html += "</div>";
-			};
-		} else if(setup.status == "Enviado"){
-			for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
-				html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-					html += "<div class='mobile-box b10 border center padding-5 box-hover margin-top-5 tbl-show-link nowrap' onclick='Sale.controller.show(`"+sales[i].id+"`, `"+setup.status+"`)'><h4>"+sales[i].id+"</h4></div>";
-					html += "<div class='mobile-box b2 border center padding-5 margin-top-5'>"+sales[i].customer_name+"</div>";
-					html += "<div class='mobile-box b2-5 border center padding-5 margin-top-5'>"+sales[i].customer_cnpj+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+lib.timestampToDate(sales[i].sale_date)+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].status+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5'>"+sales[i].user_name+"</div>";
-					html += "<div class='mobile-box b4 border center padding-5 margin-top-5 pointer' onclick='lib.openExternalLink(`"+sales[i].nf+"`)'>Ver Nota Fiscal</div>";
-				html += "</div>";
-			};
-		};
-	} else {
-		html += "<div class='box b1 container ground padding-5 margin-top-5 margin-bottom-5 shadow'>";
-			html += "<div class='mobile-box b1 center padding-5 border margin-top-5'>Sem resultados</div>";
-		html += "</div>";
+	let filter_div = document.getElementById("sale-filter-div");
+	filter_div.innerHTML = "";
+
+	for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
+		let sale_div = lib.element.create("div", { 
+			class: "box b2 container ground border box-hover transition-01-01 padding-5 margin-top-5 noselect radius-5"
+		});
+
+		sale_div.append(lib.element.create("div", {
+			class: "mobile-box b6 lucida-grande em09 input-show border-st bold nowrap center pointer",
+			onclick: `Sale.controller.show(${sales[i].id})`
+		}, sales[i].id));
+
+		sale_div.append(lib.element.create("div", {
+			class: "mobile-box b3-4 lucida-grande em09 padding-2 bold center",
+		}, sales[i].customer_name));
+
+		sales[i].status == 'Em negociação' && sale_div.append(lib.element.icon('b12', 20, 
+			"https://spaces.jariomilitar.com/erp-images/icon/edit.png", 
+			`Sale.controller.edit(${sales[i].id})`
+		));
+
+		sale_div.append(lib.element.create("div", {
+			class: "mobile-box b3 lucida-grande em09 padding-2 center",
+		}, sales[i].status));
+
+		sale_div.append(lib.element.create("div", { 
+			class: "mobile-box b3 lucida-grande em09 padding-2 center",
+		}, sales[i].user_name));
+
+		sale_div.append(lib.element.create("div", { 
+			class: "mobile-box b3 lucida-grande em09 padding-2 center",
+		}, lib.timestampToDate(sales[i].sale_date)));
+
+		sale_div.append(lib.element.create("div", { 
+			class: "mobile-box b4 lucida-grande em09 padding-2 center",
+		}, `<label class='em08'>Total</label> <label class='em09 bold'>R$${sales[i].value.toFixed(2)}</label>`));
+
+		sale_div.append(lib.element.create("div", { 
+			class: "mobile-box b4 lucida-grande em09 padding-2 center",
+		}, `<label class='em08'>Frete</label> <label class='em09 bold'>R$${sales[i].shipment_value.toFixed(2)}</label>`));
+
+		sale_div.append(lib.element.create("div", { 
+			class: "mobile-box b4 lucida-grande em09 padding-2 center",
+		}, `<label class='em08'>Desconto</label> <label class='em09 bold'>R$${sales[i].discount_value.toFixed(2)}</label>`));
+
+		sale_div.append(lib.element.create("div", { 
+			class: "mobile-box b4 lucida-grande em09 padding-2 center",
+		}, `<label class='em08'>Valor</label> <label class='em09 bold'>R$${(sales[i].product_value + sales[i].package_value).toFixed(2)}</label>`));
+
+		filter_div.append(sale_div);
 	};
-	document.getElementById("sale-filter-div").innerHTML = html;
 };
 
-Sale.view.show = (sale, status) => {
-	let html = "";
-	html += "<div class='box a1 underline center avant-garde margin-top-10 bold'>Dados da venda #"+sale.id+"</div>";
-	html += "<div class='box a3 container'>";
-		html += "<div class='box a1 container box-border padding-10'>";
-			html += "<div class='underline center avant-garde italic bold'>Cliente</div>";
+Sale.view.nf_form = (sale_id) => {
+	let nf_form = lib.element.create("form", {
+		class: "box b1 container margin-top-10 padding-10 underline h-center"
+	});
 
-			html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
-				html += "<div class='box a1 em06 bold'>Nome completo</div>";
-				html += "<div class='box a1'>"+sale.customer.name+"</div>"; 
-			html += "</div>";
+	nf_form.append(lib.element.create("div", {
+		class: "box b1 lucida-grande bold center"
+	}, "Incluir Nota Fiscal"));
 
-			if(sale.customer.cpf){ 
-				html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
-					html += "<div class='box a1 em06 bold'>CPF</div>";
-					html += "<div class='box a1'>"+sale.customer.cpf+"</div>"; 
-				html += "</div>";
-			};
-		html += "</div>";
+	nf_form.append(lib.element.create("input", {
+		type: "hidden",
+		name: "id",
+		value: `${sale_id}`
+	}));
 
-		if(sale.customer.person_type=="legal-entity"){
-			html += "<div class='box a1 container box-border padding-10'>";
-				html += "<div class='underline center avant-garde italic bold'>Empresa</div>";
-				if(sale.customer.trademark){ 
-					html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
-						html += "<div class='box a1 em06 bold'>Razão Social</div>";
-						html += "<div class='box a1'>"+sale.customer.trademark+"</div>"; 
-					html += "</div>";
-				};
-				if(sale.customer.brand){ 
-					html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
-						html += "<div class='box a1 em06 bold'>Marca</div>";
-						html += "<div class='box a1'>"+sale.customer.brand+"</div>"; 
-					html += "</div>";
-				};
-				if(sale.customer.cnpj){ 
-					html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
-						html += "<div class='box a1 em06 bold'>CNPJ</div>";
-						html += "<div class='box a1'>"+sale.customer.cnpj+"</div>"; 
-					html += "</div>";
-				};
-			html += "</div>";
-		};
-		html += "<div class='box a1 container box-border padding-10'>";
-			html += "<div class='underline center avant-garde italic bold'>Contato</div>";
-			if(sale.customer.email){ 
-				html += "<div class='mobile-box a1 container margin-top-5 padding-5'>";
-					html += "<div class='box a1 em06 bold'>E-mail</div>";
-					html += "<div class='box a1'>"+sale.customer.email.toLowerCase()+"</div>"; 
-				html += "</div>";
-			};
-			if(sale.customer.phone){ 
-				html += "<div class='mobile-box a2 container margin-top-5 padding-5'>";
-					html += "<div class='box a1 em06 bold'>Telefone</div>";
-					html += "<div class='box a1'>"+sale.customer.phone+"</div>"; 
-				html += "</div>";
-			};
-			if(sale.customer.cellphone){ 
-				html += "<div class='mobile-box a2 container margin-top-5 padding-5'>";
-					html += "<div class='box a1 em06 bold'>Telefone móvel</div>";
-					html += "<div class='box a1'>"+sale.customer.cellphone+"</div>"; 
-				html += "</div>";
-			};
-		html += "</div>";
-	html += "</div>";
+	nf_form.append(lib.element.create("input", {
+		type: "number",
+		name: "code",
+		class: "box b6 lucida-grande bold input-generic border-bottom margin-top-5 nofocus center",
+		step: "1",
+		value: "",
+		placeholder: "Nº da NF",
+		onfocus: "if(this.value < 1){this.value=''}",
+		onblur: "if(this.value < 1){this.value=''}",
+		autocomplete: "off"
+	}));
 
-	html += "<div class='box a3 container'>";
-		html += "<div class='box a1 container box-border padding-5'>";
-			html += "<div class='mobile-box b1 underline center avant-garde italic bold'>Informações da venda</div>";
+	nf_form.append(lib.element.create("input", {
+		name: "url",
+		class: "box b3 lucida-grande bold input-generic border-bottom margin-top-5 nofocus center",
+		placeholder: "URL Da Nota Fiscal",
+		autocomplete: "off"
+	}));
 
-			html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
-				html += "<div class='mobile-box b1 container'>";
-					html += "<div class='box b1 em06 bold'>Vendedor</div>";
-					html += "<div class='box b1'>"+sale.user_name+"</div>"; 
-				html += "</div>";
-			html += "</div>";
+	nf_form.append(lib.element.create("button", {
+		type: "submit",
+		class: "box b6 lucida-grande bold submit-generic margin-top-5 radius-5 pointer"
+	}, "Salvar"));
 
-			html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
-				html += "<div class='mobile-box b3-8 container'>";
-					html += "<div class='box b1 em06 bold'>Data da venda</div>";
-					html += "<div class='box b1'>"+lib.timestampToDate(sale.sale_date)+"</div>";
-				html += "</div>";
-				html += "<div class='mobile-box b2 container'>";
-					html += "<div class='box b1 em06 bold'>Status</div>";
-					html += "<div class='box b1'>"+sale.status+"</div>"; 
-				html += "</div>";
-				if(sale.nf){
-					html += "<div class='mobile-box b8 margin-top-5 center'><img class='icon size-35' src='/images/icon/nf-e.png' onclick='lib.openExternalLink(`"+sale.nf+"`)'></div>";
-				};
-			html += "</div>";
-			html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
-				html += "<div class='mobile-box b2 container'>";
-					html += "<div class='box b1 em06 bold'>Método de pagamento</div>";
-					html += "<div class='box b1'>"+sale.payment_method+"</div>"; 
-				html += "</div>";
-				html += "<div class='mobile-box b2 container'>";
-					html += "<div class='box b1 em06 bold'>Prazo de pagamento</div>";
-					html += "<div class='box b1'>"+sale.payment_period+"</div>"; 
-				html += "</div>";
-			html += "</div>";
-		html += "</div>";
+	return nf_form;
+};
 
-		html += "<div class='box a1 container box-border padding-5'>";
-			html += "<div class='underline center avant-garde italic bold'>Logística de envio</div>";
-			if(sale.estimated_shipment_date){ 
-				html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
-					html += "<div class='mobile-box b2 container'>";
-						html += "<div class='box b1 em06 bold'>Método de envio</div>";
-						html += "<div class='box b1'>"+sale.shipment_method+"</div>";
-					html += "</div>";
-					html += "<div class='mobile-box b2 container'>";
-						html += "<div class='box b1 em06 bold'>Prazo de embalo</div>";
-						html += "<div class='box b1 em09'>"+lib.timestampToDate(sale.estimated_shipment_date)+"</div>"; 
-					html += "</div>";
-				html += "</div>";
-			};
+Sale.view.show = (sale) => {
+	let sale_box = document.getElementById("sale-show-box");
+	sale_box.innerHTML = "";
 
-			if(sale.payment_confirmation_date){ 
-				html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
-					html += "<div class='mobile-box b2 container'>";
-						html += "<div class='box b1 em06 bold'>Confirmação do pagamento</div>";
-						html += "<div class='box b1 em09'>"+lib.timestampToFulldate(sale.payment_confirmation_date)+"</div>"; 
-					html += "</div>";
-					html += "<div class='mobile-box b2 container'>";
-						html += "<div class='box b1 em06 bold'>Confirmado por</div>";
-						html += "<div class='box b1'>"+sale.payment_user_name+"</div>"; 
-					html += "</div>";
-				html += "</div>";
-			};
+	// NF FORM
+	let nf_form = Sale.view.nf_form(sale.id);
+	sale.status == "Ag. nota fiscal" && nf_form.addEventListener("submit", Sale.nf.controller.save);
+	sale.status == "Ag. nota fiscal" && sale_box.append(nf_form);
 
-			if(sale.packment_confirmation_date){ 
-				html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
-					html += "<div class='mobile-box b2-5 container'>";
-						html += "<div class='box b1 em06 bold'>Data de embalo</div>";
-						html += "<div class='box b1 em09'>"+lib.timestampToFulldate(sale.packment_confirmation_date)+"</div>"; 
-					html += "</div>";
-					html += "<div class='mobile-box b2-5 container'>";
-						html += "<div class='box b1 em06 bold'>Embalado por</div>";
-						html += "<div class='box b1'>"+sale.packment_user_name+"</div>"; 
-					html += "</div>";
-					html += "<div class='mobile-box b5 container'>";
-						html += "<div class='box b1 em06 bold'>Volumes</div>";
-						html += "<div class='box b1 bold'>"+sale.box_amount+"</div>"; 
-					html += "</div>";
-				html += "</div>";
-			};
+	sale_box.append(lib.element.create("div", { class: "box b1 lucida-grande bold underline margin-top-10 center" }, "Pedido: "+sale.id));
 
-			if(sale.shipment_confirmation_date){ 
-				html += "<div class='mobile-box a1 container border margin-top-5 padding-5'>";
-					html += "<div class='mobile-box b2 container'>";
-						html += "<div class='box b1 em06 bold'>Data de envio</div>";
-						html += "<div class='box b1 em09'>"+lib.timestampToFulldate(sale.shipment_confirmation_date)+"</div>"; 
-					html += "</div>";
-					html += "<div class='mobile-box b2 container'>";
-						html += "<div class='box b1 em06 bold'>Enviado por</div>";
-						html += "<div class='box b1'>"+sale.shipment_user_name+"</div>"; 
-					html += "</div>";
-				html += "</div>";
-			};
-		html += "</div>";
-	html += "</div>";
+	let customer_div = lib.element.create("div", { class: "box b3 container padding-5 margin-top-5" });
+	customer_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 bold underline center" }, "Dados do cliente"));
+	customer_div.append(lib.element.createInfo("b1 lucida-grande em09 margin-top-5 padding-5", "Nome do cliente", `${sale.customer.name}` ));
+	sale.customer.cpf && customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "CPF", `${sale.customer.cpf}` ));
+	sale.customer.trademark && customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "Razão social", `${sale.customer.trademark}` ));
+	sale.customer.brand && customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "Marca", `${sale.customer.brand}` ));
+	sale.customer.cnpj && customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "CNPJ", `${sale.customer.cnpj}` ));
+	sale.customer.ie && customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "Inscrição Estadual", `${sale.customer.ie}` ));
+	sale.customer.email && customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "E-mail", `${sale.customer.email}` ));
+	sale.customer.cellphone && customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "Telefone", `${sale.customer.cellphone}` ));
 
-	html += "<div class='box a3 container'>";
-		html += "<div class='box a1 container box-border padding-10'>";
-			html += "<div class='underline center avant-garde italic bold'>Medidas e peso</div>";
-			html += "<div class='box a1 container'>";
-				html += "<div class='mobile-box a2 padding-5'>Peso total: </div>";
-				html += "<div class='mobile-box a2 padding-5 bold'>"+(sale.weight/1000).toFixed(2)+"kg</div>";
-			html += "</div>";
-		html += "</div>";
+	sale.customer.address && customer_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 bold underline center" }, "Endereço de envio"));
+	sale.customer.address && sale.customer.address.street && customer_div.append(lib.element.info("b4-5 lucida-grande em09 padding-5", "Logradouro", `${sale.customer.address.street}` ));
+	sale.customer.address && sale.customer.address.number && customer_div.append(lib.element.info("b5 lucida-grande em09 padding-5", "Nª", `${sale.customer.address.number}` ));
+	sale.customer.address && sale.customer.address.complement && customer_div.append(lib.element.info("b1 lucida-grande em09 padding-5", "Complemento", `${sale.customer.address.complement}` ));
+	sale.customer.address && sale.customer.address.neighborhood && customer_div.append(lib.element.info("b2 lucida-grande em09 padding-5", "Bairro", `${sale.customer.address.neighborhood}` ));
+	sale.customer.address && sale.customer.address.city && customer_div.append(lib.element.info("b2 lucida-grande em09 padding-5", "Cidade", `${sale.customer.address.city}` ));
+	sale.customer.address && sale.customer.address.state && customer_div.append(lib.element.info("b5 lucida-grande em09 padding-5", "Estado", `${sale.customer.address.state}` ));
+	sale.customer.address && sale.customer.address.postal_code && customer_div.append(lib.element.info("b4-5 lucida-grande em09 padding-5", "CEP", `${sale.customer.address.postal_code}` ));
+	sale_box.append(customer_div);
 
-		html += "<div class='box a1 container box-border padding-10'>";
-			html += "<div class='underline center avant-garde italic bold'>Financeiro</div>";
-			html += "<div class='box a1 container'>";
-				html += "<div class='mobile-box a2 padding-5'>Produtos: </div>";
-				html += "<div class='mobile-box a2 padding-5'>$"+sale.product_value.toFixed(2)+"</div>";
-			html += "</div>";
-			html += "<div class='box a1 container'>";
-				html += "<div class='mobile-box a2 padding-5'>Pacotes: </div>";
-				html += "<div class='mobile-box a2 padding-5'>$"+sale.package_value.toFixed(2)+"</div>";
-			html += "</div>";
-			html += "<div class='box a1 container'>";
-				html += "<div class='mobile-box a2 padding-5'>Frete: </div>";
-				html += "<div class='mobile-box a2 padding-5'>$"+sale.shipment_value.toFixed(2)+"</div>";
-			html += "</div>";
-			html += "<div class='box a1 container'>";
-				html += "<div class='mobile-box a2 padding-5'>Desconto: </div>";
-				html += "<div class='mobile-box a2 underline padding-5'>$"+sale.discount_value.toFixed(2)+"</div>";
-			html += "</div>";
-			html += "<div class='box a1 container'>";
-				html += "<div class='mobile-box a2 padding-5'>Total: </div>";
-				html += "<div class='mobile-box a2 padding-5 bold'>$"+sale.value.toFixed(2)+"</div>";
-			html += "</div>";
-		html += "</div>";
-	html += "</div>";
+	let sale_info_div = lib.element.create("div", { class: "box b3 container padding-5 margin-top-5" });
+	sale_info_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 bold underline center" }, "Informações da venda"));
+	sale_info_div.append(lib.element.createInfo("box b1 em09 padding-10", "Vendedor(a)", `${sale.user_name}` ));
+	sale_info_div.append(lib.element.createInfo("mobile-box b3-7 lucida-grande em09 padding-10", "Data da venda", `${lib.timestampToDate(sale.sale_date)}` ));
+	!sale.nf && sale_info_div.append(lib.element.createInfo("mobile-box b4-7 em09 padding-10", "Status", `${sale.status}` ));
+	sale.nf && sale.nf.length < 20 && sale_info_div.append(lib.element.createInfo("mobile-box b4-7 em09 padding-10", "Status", `${sale.status}` ));
+	sale.nf && sale.nf.length > 20 && sale_info_div.append(lib.element.createInfo("mobile-box b3-7 em09 padding-10", "Status", `${sale.status}` ));
+	sale.nf && sale.nf.length > 20 && sale_info_div.append(lib.element.icon('mobile-box b7', 30, "https://spaces.jariomilitar.com/erp-images/icon/nf-e.png", "lib.openExternalLink('"+sale.nf+"')"));
+	sale_info_div.append(lib.element.createInfo("mobile-box b2 em09 padding-10", "Método de pagamento", `${sale.payment_method || ''}` ));
+	sale_info_div.append(lib.element.createInfo("mobile-box b2 em09 padding-10", "Prazo de pagamento", `${sale.payment_period || ''}` ));
+	
+	sale_info_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 bold margin-top-10 underline center" }, "Logística de envio"));
+	sale_info_div.append(lib.element.createInfo("mobile-box b2 em09 padding-10", "Método de envio", `${sale.shipment_method}` ));
+	sale.estimated_shipment_date && sale_info_div.append(lib.element.createInfo("mobile-box b2 em09 padding-10", "Prazo de embalo", `${lib.timestampToDate(sale.estimated_shipment_date)}` ));
+	sale.payment_confirmation_date && sale_info_div.append(lib.element.createInfo("mobile-box b2 em09 padding-10", "Confirmação do pagamento", `${lib.convertDatetime(lib.timestampToDatetime(sale.payment_confirmation_date)) || ''}` ));
+	sale.payment_user_name && sale_info_div.append(lib.element.createInfo("mobile-box b2 em09 padding-10", "Confirmação do pagamento", `${sale.payment_user_name || ''}` ));
+	sale.packment_confirmation_date && sale_info_div.append(lib.element.createInfo("mobile-box b3-7 em09 padding-10", "Data do embalo", `${lib.convertDatetime(lib.timestampToDatetime(sale.packment_confirmation_date)) || ''}` ));
+	sale.packment_user_name && sale_info_div.append(lib.element.createInfo("mobile-box b3-7 em09 padding-10", "Embalado por", `${sale.packment_user_name || ''}` ));
+	sale.box_amount && sale_info_div.append(lib.element.createInfo("mobile-box b7 em09 padding-10", "Volumes", `${sale.box_amount || ''}` ));
+	sale.shipment_confirmation_date && sale_info_div.append(lib.element.createInfo("mobile-box b2 em09 padding-10", "Data do envio", `${lib.convertDatetime(lib.timestampToDatetime(sale.shipment_confirmation_date)) || ''}` ));
+	sale.shipment_user_name && sale_info_div.append(lib.element.createInfo("mobile-box b2 em09 padding-10", "Enviado por", `${sale.shipment_user_name || ''}` ));
+	sale_box.append(sale_info_div);
 
-	html += "<div class='mobile-box b1 container margin-top-5 margin-bottom-5'>";
-		html += "<div class='box b1 em12 bold'>Observações</div>";
-		html += "<div class='box b1 em14 border padding-5 pre-wrap'>"+sale.obs+"</div>";
-	html += "</div>";
+	let financial_info_div = lib.element.create("div", { class: "box b3 container padding-5 margin-top-5" });
+	financial_info_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 bold underline center" }, "Peso dos produtos"));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, "Peso total:"))
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, `${(sale.weight/1000).toFixed(1)}kg`))
 
-	html += "<div class='box b1 container ground'>";
-		html += "<div class='box b2 container ground border padding-5 margin-top-5'>";
-		html += "<div class='box b1 underline center bold'>Produtos</div>";
-		for(let i in sale.products){
-			html += "<div class='box b1 container ground box-hover border-explicit padding-10 margin-top-5'>";
-				html += "<div class='mobile-box b2'>"+sale.products[i].product_info+"</div>";
-				html += "<div class='mobile-box b6 center'>"+sale.products[i].amount+"un</div>";
-				html += "<div class='mobile-box b6 center'>$"+sale.products[i].price+"</div>";
-				html += "<div class='mobile-box b6 center'>$"+(sale.products[i].amount*sale.products[i].price).toFixed(2)+"</div>";
-			html += "</div>";
-		};
-		html += "</div>";
+	financial_info_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 bold margin-top-10 underline center" }, "Financeiro"));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, "Produtos:"));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, `R$${sale.product_value.toFixed(2)}`));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, "Pacotes:"));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, `R$${sale.package_value.toFixed(2)}`));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, "Frete:"));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, `R$${sale.shipment_value.toFixed(2)}`));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, "Desconto:"));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, `R$${sale.discount_value.toFixed(2)}`));
+	
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b3" }));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2-3 underline" }));
 
-		html += "<div class='box b2 container ground border padding-5 margin-top-5'>";
-		html += "<div class='box b1 underline center bold'>Pacotes</div>";
-		for(let i in sale.packages){
-			html += "<div class='box b1 container ground border-explicit padding-10 margin-top-5'>";
-				html += "<div class='box b1 container padding-10'>";
-					html += "<div class='mobile-box b8 center pointer box-hover border-explicit' onclick='lib.displayDiv(`sale-show-package-product-"+sale.packages[i].package_id+"-div`, this);'>P"+sale.packages[i].package_id+"</div>";
-					html += "<div class='mobile-box b2 center'>"+sale.packages[i].info+"</div>";
-					html += "<h5 class='mobile-box b3-8 center'>"+sale.packages[i].setup+"</h5>";
-					html += "<div class='mobile-box b3 center margin-top-5'>"+sale.packages[i].amount+"un</div>";
-					html += "<div class='mobile-box b3 center margin-top-5'>$"+sale.packages[i].price+"</div>";
-					html += "<div class='mobile-box b3 center margin-top-5'>$"+(sale.packages[i].amount*sale.packages[i].price).toFixed(2)+"</div>";
-				html += "</div>";
-				html += "<div id='sale-show-package-product-"+sale.packages[i].package_id+"-div' class='box b1 container' style='display:none'>";
-				for(let j in sale.packages[i].products){
-					html += "<div class='box b1 container border box-hover padding-5 margin-top-5'>";
-						html += "<div class='mobile-box b5 center'>"+sale.packages[i].products[j].amount+"un</div>";
-						html += "<div class='mobile-box b4-5'>"+sale.packages[i].products[j].product_info+"</div>";
-					html += "</div>";
-				};
-				html += "</div>";
-			html += "</div>";
-		};
-		html += "</div>";
-	html += "</div>";
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, "Total:"));
+	financial_info_div.append(lib.element.create("div", { class: "mobile-box b2 em09 bold lucida-grande" }, `R$${sale.value.toFixed(2)}`));
+	sale_box.append(financial_info_div);
 
-	if(status == "Ag. nota fiscal"){
-		html += "<input type='text' id='sale-nf-url' class='box b3-4 input-generic margin-top-10' placeholder='URL da nota fiscal'>";
-		html += "<input type='button' class='box b4 submit-generic margin-top-10' onclick='Sale.controller.confirmNF(`"+sale.id+"`)' value='Anexar NF'>";
+	sale.obs && sale_box.append(lib.element.create("div", { class: "box b1 lucida-grande bold padding-10 border-st" }, sale.obs));
+
+	let product_section = lib.element.create("div", { class: "box b1 container margin-top-5" });
+
+	let product_box = lib.element.create("div", { class: "box b2 container ground border padding-5 margin-top-5" });
+	product_box.append(lib.element.create("div", { class: "box b1 lucida-grande bold underline center" }, "Produtos"));
+	for(let i in sale.products){
+		let product_div = lib.element.create("div", { class: "box b1 container ground box-hover border-explicit padding-10 margin-top-5" });
+		product_div.append(lib.element.create("div", { class: "mobile-box b4-7 em09 v-center" }, sale.products[i].product_info));
+		product_div.append(lib.element.create("div", { class: "mobile-box b7 lucida-grande center bold", style: "color:#060;" }, sale.products[i].amount+"un"));
+		product_div.append(lib.element.create("div", { class: "mobile-box b7 em09 center" }, "R$"+sale.products[i].price));
+		product_div.append(lib.element.create("div", { class: "mobile-box b7 em09 center" }, "R$"+(sale.products[i].amount * sale.products[i].price).toFixed(2) ));
+		product_box.append(product_div);
 	};
+	product_section.append(product_box);
 
-    if(status == "Ag. envio"){ html += "<input type='button' id='sale-create-submit' class='box b1 height-35 input-confirm bold margin-top-15 margin-bottom-15' value='CONFIRMAR ENVIO' onclick='Sale.controller.confirmShipment("+sale.id+")'>"; };
+	let package_box = lib.element.create("div", { class: "box b2 container ground border padding-5 margin-top-5" });
+	package_box.append(lib.element.create("div", { class: "box b1 lucida-grande bold underline center" }, "Pacotes"));
 
-	document.getElementById("sale-show-box").innerHTML = html;
+	for(let i in sale.packages){
+		let package_div = lib.element.create("div", { class: "box b1 container ground border-explicit padding-10 margin-top-5" });
+		let package_info = lib.element.create("div", { class: "box b1 container" });
+
+		package_info.append(lib.element.create("div", {
+			class: "mobile-box b8 center border-st box-hover pointer",
+			onclick: "lib.displayDiv('package-"+sale.packages[i].package_id+"', this)"
+		}, `P${sale.packages[i].package_id}`));
+
+		package_info.append(lib.element.create("div", { class: "mobile-box b2 em09 center v-center" }, sale.packages[i].info));
+		package_info.append(lib.element.create("div", { class: "mobile-box b3-8 center" }, sale.packages[i].setup));
+		package_info.append(lib.element.create("div", { class: "mobile-box b3 lucida-grande center bold" }, sale.packages[i].amount+"un"));
+		package_info.append(lib.element.create("div", { class: "mobile-box b3 em09 center" }, "R$"+sale.packages[i].price.toFixed(2) ));
+		package_info.append(lib.element.create("div", { class: "mobile-box b3 em09 center" }, "R$"+(sale.packages[i].amount * sale.packages[i].price).toFixed(2) ));
+		package_div.append(package_info);
+
+		let package_product_box = lib.element.create("div", { 
+			id: "package-"+sale.packages[i].package_id,
+			class: "box b1 container",
+			style: "display:none;"
+		});
+
+		for(let j in sale.packages[i].products) {
+			let package_product_div = lib.element.create("div", { class: "box b1 container border box-hover padding-5 margin-top-5 box-hover" });
+			package_product_div.append(lib.element.create("div", { class: "mobile-box b5 lucida-grande center bold", style: "color:#060;" }, sale.packages[i].products[j].amount+"un" ));
+			package_product_div.append(lib.element.create("div", { class: "mobile-box b4-5 em09 v-center" }, sale.packages[i].products[j].product_info ));
+			package_product_box.append(package_product_div);
+		};
+
+		package_div.append(package_product_box);
+		package_box.append(package_div);
+	};
+	
+	product_section.append(package_box);
+	sale_box.append(product_section);
 };
 
 Sale.view.edit = async (sale) => {

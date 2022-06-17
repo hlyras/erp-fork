@@ -114,14 +114,14 @@
 	<% include ./../../partials/loader %>
 </body>
 <footer>
-    <% include ./../../partials/footer %>
-    <% include ./../partial %>
-    <% include ./../income/partial %>
-    <% include ./../outcome/partial %>
-    <% include ./partial %>
-    <script>
-    	// Income category fill origin when changed
-    	Expense.controller.create_category = document.getElementById("expense-create-form").elements.namedItem("category-id");
+	<% include ./../../partials/footer %>
+	<% include ./../partial %>
+	<% include ./../income/partial %>
+	<% include ./../outcome/partial %>
+	<% include ./partial %>
+  <script>
+    // Income category fill origin when changed
+    Expense.controller.create_category = document.getElementById("expense-create-form").elements.namedItem("category-id");
 		if(Expense.controller.create_category){
 			Expense.controller.create_category.addEventListener("change", async event => {
 				Outcome.controller.fillOriginSelect(event.target.value, "expense-create-form");
@@ -137,7 +137,7 @@
 		}
 
 		lib.fillDateInput(document.getElementById("expense-filter-form").elements.namedItem('periodStart'));
-    	lib.fillDateInput(document.getElementById("expense-filter-form").elements.namedItem('periodEnd'));
-    </script>
+    lib.fillDateInput(document.getElementById("expense-filter-form").elements.namedItem('periodEnd'));
+  </script>
 </footer>
 </html>

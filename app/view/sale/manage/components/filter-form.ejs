@@ -1,0 +1,38 @@
+<form id="sale-filter-form" class="box b1 container margin-bottom-10" style="display:none;">
+    <input type="hidden" name="user_id" value="<%= user.id %>">
+    <input type="text" name="id" placeholder="Código" class="box b7 input-generic lucida-grande bold center margin-top-5" autocomplete="off">
+    <input type="text" name="customer_name" placeholder="Nome" class="box b2-7 input-generic lucida-grande bold center margin-top-5" autocomplete="off">
+    <input type="text" name="customer_cnpj" placeholder="CNPJ" class="box b2-7 input-generic lucida-grande bold center margin-top-5" autocomplete="off">
+    <input type="text" name="customer_cpf" placeholder="CPF" class="box b2-7 input-generic lucida-grande bold center margin-top-5" autocomplete="off">
+    <select name="status" class="box b5 input-generic lucida-grande bold margin-top-5">
+        <option value="">Todas as vendas</option>
+        <option value="Em negociação">Em negociação</option>
+        <option value="Ag. pagamento">Ag. pagamento</option>
+        <option value="Ag. embalo">Ag. embalo</option>
+        <option value="Ag. nota fiscal">Ag. nota fiscal</option>
+        <option value="Ag. envio">Ag. Envio</option>
+        <option value="Ag. envio p/ retirada">Ag. Envio p/ retirada</option>
+        <option value="Ag. transporte p/ P.R.">Ag. transporte p/ P.R.</option>
+        <option value="A caminho do P.R.">A caminho do P.R.</option>
+        <option value="Disponível para retirada">Disponível para retirada</option>
+        <option value="Enviado">Enviado</option>
+        <option value="Entregue">Entregue</option>
+        <option value="Extraviado">Extraviado</option>
+    </select>
+
+    <input type="date" name="periodStart" class="box b5 input-generic lucida-grande bold center margin-top-5" autocomplete="off">
+    <input type="date" name="periodEnd" class="box b5 input-generic lucida-grande bold center margin-top-5" autocomplete="off">
+    
+    <select id="shipment_method" class="box b5 lucida-grande bold input-generic margin-top-5">
+        <option value="">Forma de entrega</option>
+        <option value="Retirada em Loja">Retirada em Loja</option>
+        <option value="Correios Pac">Correios Pac</option>
+        <option value="Correios sedex">Correios Sedex</option>
+        <option value="Jadlog">Jadlog</option>
+        <option value="Total Express">Total Express</option>
+        <option value="Braspress">Braspress</option>
+        <option value="Latam">Latam</option>
+    </select>
+
+    <button type="submit" name="submit" class="box b5 submit-generic lucida-grande bold center margin-top-5 radius-5 pointer">Filtrar</button>
+</form>

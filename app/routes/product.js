@@ -18,6 +18,7 @@ router.post('/save', lib.route.toHttps, productController.save);
 router.get('/id/:id', lib.route.toHttps, productController.findById);
 router.post('/filter', lib.route.toHttps, productController.filter);
 router.delete('/delete', lib.route.toHttps, productController.delete);
+router.get('/print', lib.route.toHttps, productController.print);
 
 router.post('/image/add', lib.route.toHttps, productController.image.add);
 router.delete('/image/remove', lib.route.toHttps, productController.image.remove);

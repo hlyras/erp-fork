@@ -71,7 +71,7 @@ Customer.filter = customer => {
 
 Customer.adFilter = (props, inners, period, params, strict_params, order_params) => {
 	let query = new lib.Query().select().props(props).table("cms_wt_erp.customer customer")
-		.props(props).inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build().query;
+		.inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build().query;
 	return db(query);
 };
 

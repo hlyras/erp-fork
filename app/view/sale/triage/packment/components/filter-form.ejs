@@ -1,0 +1,22 @@
+<form id="sale-filter-form" class="box b1 container ground border padding-10 radius-5">
+  <div class="box b1 ground lucida-grande em12 bold underline center">Pedidos aguardando embalo</div>
+  <input type="hidden" name="status" value="Ag. embalo">
+  <input type="hidden" name="user-id">
+  <input type="hidden" name="customer_cnpj">
+  <input type="hidden" name="periodStart">
+  <input type="hidden" name="periodEnd">
+
+  <input type="text" name="id" placeholder="Código" class="box b4 lucida-grande bold input-generic center margin-top-5" autocomplete="off">
+  <input type="text" name="customer_name" placeholder="Nome" class="box b4 lucida-grande bold input-generic center margin-top-5" autocomplete="off">
+  <select name="shipment_method" class="box b4 lucida-grande bold input-generic margin-top-5">
+    <option value="">Forma de entrega</option>
+    <option value="Retirada em Loja">Retirada em Loja</option>
+    <option value="Correios Pac">Correios Pac</option>
+    <option value="Correios sedex">Correios Sedex</option>
+    <option value="Jadlog">Jadlog</option>
+    <option value="Total Express">Total Express</option>
+    <option value="Braspress">Braspress</option>
+    <option value="Latam">Latam</option>
+  </select>
+  <input type="submit" name="submit" class="box b4 lucida-grande bold submit-generic center margin-top-5" value="Filtrar">
+</form>

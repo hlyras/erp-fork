@@ -44,8 +44,10 @@ Sale.findById = async (sale_id) => {
 	return response.sale[0];
 };
 
-Sale.confirmPayment = async sale_id => {
-	let response = await fetch("/sale/confirm-payment/id/" + sale_id);
+Sale.payment = {};
+
+Sale.payment.confirm = async sale_id => {
+	let response = await fetch("/sale/financial/payment/confirm/" + sale_id);
 	response = await response.json();
 	
 	if(API.verifyResponse(response)){ return false };
@@ -53,8 +55,10 @@ Sale.confirmPayment = async sale_id => {
 	return response.done;	
 };
 
-Sale.confirmPackment = async packmentInfo => {
-	let response = await fetch("/sale/confirm-packment", {
+Sale.packment = {};
+
+Sale.packment.confirm = async packmentInfo => {
+	let response = await fetch("/sale/triage/packment/confirm", {
 		method: "POST",
 		headers: {'Content-Type': 'application/json'},
 	    body: JSON.stringify(packmentInfo)
@@ -67,8 +71,10 @@ Sale.confirmPackment = async packmentInfo => {
 	return response;
 }
 
-Sale.confirmNF = async (sale) => {
-	let response = await fetch("/sale/confirm-nf", {
+Sale.nf = {};
+
+Sale.nf.save = async (sale) => {
+	let response = await fetch("/sale/nf/save", {
 		method: "POST",
 		headers: {'Content-Type': 'application/json'},
 	    body: JSON.stringify({ sale })
@@ -80,11 +86,29 @@ Sale.confirmNF = async (sale) => {
 	return response.done;
 };
 
-Sale.confirmShipment = async sale_id => {
-	let response = await fetch("/sale/confirm-shipment/id/" + sale_id);
+Sale.shipment = {};
+
+Sale.shipment.confirm = async sale_id => {
+	let response = await fetch("/sale/shipment/confirm/id/" + sale_id);
 	response = await response.json();
 	
 	if(API.verifyResponse(response)){ return false };
 	
-	return response.done;	
+	return response.done;
+};
+
+Sale.transport = {};
+Sale.collect = {};
+Sale.recept = {};
+
+Sale.deliver = {};
+
+Sale.deliver.confirm = async sale_id => {
+	let response = await fetch(`/sale/deliver/confirm/${sale_id}`);
+	response = await response.json();
+	
+	if(API.verifyResponse(response)){ return false };
+	alert(response.done);
+	
+	return response.done;
 };

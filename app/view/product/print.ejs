@@ -1,0 +1,46 @@
+<html>
+<head>
+  <% include ./../partials/head %>
+  <style type="text/css">
+    @media print {
+      .pagebreak { 
+        page-break-before: auto;
+      }
+
+      .container {
+        page-break-inside:avoid;
+        /*display: flex; */
+        flex-wrap: wrap;
+      }
+
+      .p-box {
+        box-sizing: border-box; 
+        align-self: flex-start; 
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <% for(let i in products) { %>
+    <% if(i % 2 === 0) { %>
+    <div class="container a1 pagebreak margin-top-10">
+    <% } %>
+      <div class="p-box b2 container border">
+        <div class="p-box b1 container padding-5">
+          <img class="image-card height-250 center" src="<%= products[i].image || '/images/product/no-product.png' %>">
+          <div class="p-box b1 lucida-grande margin-top-5 em12 center"><%= products[i].name %></div>
+          <div class="p-box b2-3 lucida-grande margin-top-5 em12 center">R$</div>
+          <div class="p-box b3"></div>
+        </div>
+      </div>
+    <% if(i % 2 === 1) { %>
+    </div>
+    <% } %>
+  <% } %>
+
+</body>
+<footer>
+  <% include ./../partials/footer %>
+</footer>
+</html>

@@ -34,10 +34,12 @@ Sale.controller.show = async (sale_id, status) => {
 	if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
 };
 
-Sale.controller.confirmPayment = async sale_id => {
+Sale.payment.controller = {};
+
+Sale.payment.controller.confirm = async sale_id => {
 	let r = confirm("Deseja realmente confirmar o pagamento?");
 	if(r){
-		let response = await API.response(Sale.confirmPayment, sale_id);
+		let response = await API.response(Sale.payment.confirm, sale_id);
 		if(!response){ return false; };
 		
 		alert(response);

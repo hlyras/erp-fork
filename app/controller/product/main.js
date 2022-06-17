@@ -30,12 +30,33 @@ productController.manage = async (req, res) => {
 		return res.redirect("/");
 	};
 
+
+
 	try {
 		const productColors = await Product.color.list();
 		res.render('product/manage', { productColors, user: req.user });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+	};
+};
+
+productController.print = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	const strict_params = { keys: [], values: [] };
+	lib.Query.fillParam("product.color", "Preto", strict_params);
+	lib.Query.fillParam("product.status", "Disponível", strict_params);
+	let order_params = [ ["product.code","ASC"] ];
+
+	try {
+		const products = await Product.filter([], [], [], strict_params, order_params);
+		res.render('product/print', { user: req.user, products });
+	} catch (err){
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao imprimir a O.S., favor contatar o suporte." });
 	};
 };
 

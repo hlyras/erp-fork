@@ -1,4 +1,5 @@
 const db = require('../../config/connection');
+const lib = require("jarmlib");
 
 const User = function(){
 	this.id;
@@ -21,26 +22,11 @@ User.save = (user) => {
     return db(query);
 };
 
-// User.updateName = (user) => {
-// 	let query = "UPDATE cms_wt_erp.user SET name='"+user.name+"' WHERE id='"+user.id+"';";
-// 	// let query = "UPDATE cms_wt_erp.user SET name='"+user.name+"', name='"+user.name+"' WHERE id='"+user.id+"';";
-//     return db(query);
-// };
-
-// User.updateEmail = (user) => {
-// 	let query = "UPDATE cms_wt_erp.user SET email='"+user.email+"' WHERE id='"+user.id+"';";
-//     return db(query);
-// };
-
-// User.updatePassword = (user) => {
-// 	let query = "UPDATE cms_wt_erp.user SET password='"+user.password+"' WHERE id='"+user.id+"';";
-//     return db(query);
-// };
-
-// User.updateDepartment = (user) => {
-// 	let query = "UPDATE cms_wt_erp.user SET department='"+user.department+"', role='"+user.role+"' WHERE id='"+user.id+"';";
-//     return db(query);
-// };
+User.filter = (props, inners, params, strict_params, order_params) => {
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.user user")
+		.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
+	return db(query);
+};
 
 User.list = () => {
 	let query = "SELECT * FROM cms_wt_erp.user;";

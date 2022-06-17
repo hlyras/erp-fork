@@ -1,0 +1,49 @@
+<html>
+<head>
+  <% include ./../../../partials/head %>
+</head>
+<body>
+  <% include ./../../../partials/header %>
+  <% include ./../../../partials/nav %>
+  <section class="container h-center">
+    <div class="box b1 lucida-grande em12 bold center">Gerir Ordem de serviço</div>
+    <form id="service-order-filter-form" class="box b1 container ground padding-10 border radius-5">
+      <input type="id" name="id" class="box b3 lucida-grande bold input-generic border center nofocus" placeholder="Código" autocomplete="off">
+      <select name="method" class="box b3 input-generic lucida-grande bold center margin-top-5">
+        <option value="">Método de envio</option>
+        <option value="Retirada em loja">Retirada em loja</option>
+        <option value="Correios">Correios</option>
+        <option value="Jadlog">Jadlog</option>
+        <option value="Total Express">Total Express</option>
+        <option value="Braspress">Braspress</option>
+        <option value="Latam">Latam</option>
+      </select>
+      <select name="status" class="box b3 input-generic lucida-grande bold center margin-top-5">
+        <option value="">Status da O.S.</option>
+        <option value="Ag. coleta">Ag. coleta</option>
+        <option value="Em transporte">Em transporte</option>
+        <option value="Finalizada">Finalizada</option>
+        <option value="Finalizada parcial">Finalizada parcial</option>
+      </select>
+      <input type="date" name="period-start" class="box b3 input-generic lucida-grande bold center margin-top-5" autocomplete="off">
+      <input type="date" name="period-end" class="box b3 input-generic lucida-grande bold center margin-top-5" autocomplete="off">
+      <input type="submit" name="submit" value="Filtrar" class="box b3 lucida-grande bold submit-generic border center margin-top-5">
+    </form>
+
+    <div id="service-order-filter-box" class="box b1 container margin-top-10" style="display:none;">
+      <div id="service-order-filter-div" class="box a1 container"></div>
+    </div>
+
+    <div id="service-order-detail-box" class="box b1 container h-center"></div>
+  </section>
+  <% include ./../../../partials/loader %>
+</body>
+<footer>
+  <% include ./../../../partials/footer %>
+  <script src="/javascripts/scripts/sale/model/main.js"></script>
+  <script src="/javascripts/scripts/sale/model/service-order.js"></script>
+
+  <script src="/javascripts/scripts/sale/controller/service-order.js"></script>
+  <script src="/javascripts/scripts/sale/view/service-order.js"></script>
+</footer>
+</html>

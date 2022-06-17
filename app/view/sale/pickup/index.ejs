@@ -1,0 +1,21 @@
+<html>
+<head>
+<% include ./../../partials/head %>
+</head>
+<body>
+  <% include ./../../partials/header %>
+  <% include ./../../partials/nav %>
+  <section class="container h-center">
+    <div class="box b2 container ground padding-10 radius-5 h-center">
+      <div class="box b1 ground lucida-grande em12 bold underline center">Ponto de retirada comercial</div>
+      <div onclick="window.location.href = '/sale/pick-up/recept'" class="box b1 lucida-grande bold border-lg-st padding-10 margin-top-10 radius-5 center pointer">Receber O.S.</div>
+      <div onclick="window.location.href = '/sale/pick-up/deliver'" class="box b1 lucida-grande bold border-lg-st padding-10 margin-top-10 radius-5 center pointer">Entregar pedido</div>
+    </div>
+  </section>
+  <% include ./../../partials/loader %>
+</body>
+<footer>
+<% include ./../../partials/footer %>
+<% include ./../partial %>
+</footer>
+</html>

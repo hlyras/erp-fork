@@ -1,0 +1,39 @@
+<html>
+<head>
+  <% include ./../../../partials/head %>
+</head>
+<body>
+  <% include ./../../../partials/header %>
+  <% include ./../../../partials/nav %>
+  <section class="container">
+    <div class="box b1 lucida-grande em12 bold center">Entrega de pedido</div>
+
+    <form id="sale-filter-form" class="box b1 container ground padding-10 border radius-5">
+      <input type="text" name="id" class="box b8 lucida-grande bold input-generic border margin-top-5 center nofocus" placeholder="Código" autocomplete="off">
+      <input type="text" name="customer_name" class="box b3-8 lucida-grande bold input-generic border margin-top-5 center nofocus" placeholder="Nome do cliente" autocomplete="off">
+      <select name="status" class="box b4 lucida-grande bold input-generic border margin-top-5 center nofocus">
+        <option value="Disponível para retirada">Disponível para retirada</option>
+        <option value="Entregue">Entregue</option>
+      </select>
+      <input type="submit" name="submit" value="Filtrar" class="box b4 lucida-grande bold submit-generic border center margin-top-5">
+    </form>
+
+    <div id="sale-filter-box" class="box b1 container margin-top-10 margin-bottom-10" style="display:none;">
+      <div id="sale-filter-div" class="box a1 container"></div>
+    </div>
+
+    <div id="sale-detail-box" class="box b1 container h-center" style="display:none;">
+      <div id="sale-detail-div" class="box b1 container ground border radius-5 margin-top-10 margin-bottom-15 h-center"></div>
+    </div>
+  </section>
+  <% include ./../../../partials/loader %>
+</body>
+<footer>
+  <% include ./../../../partials/footer %>
+  <script src="/javascripts/scripts/sale/model/main.js"></script>
+  <script src="/javascripts/scripts/sale/model/service-order.js"></script>
+  
+  <script src="/javascripts/scripts/sale/controller/pickup/deliver.js"></script>
+  <script src="/javascripts/scripts/sale/view/pickup/deliver.js"></script>
+</footer>
+</html>

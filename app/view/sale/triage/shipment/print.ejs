@@ -1,0 +1,93 @@
+<html>
+<head>
+  <% include ./../../../partials/head %>
+  <style type="text/css">
+    @media print {
+      .pagebreak { 
+        page-break-before: auto;
+      }
+
+      .container {
+        page-break-inside:avoid;
+      }
+
+      .p-box {
+        box-sizing: border-box; 
+        align-self: flex-start; 
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container border-st pagebreak">
+    <div class="container padding-10">
+
+      <% if(serviceOrder.method == "Correios") { %>
+        <% include ./components/print/correios %>
+      <% } %>
+
+      <% if(serviceOrder.method == "Total Express") { %>
+        <% include ./components/print/total-express %>
+      <% } %>
+
+      <% if(serviceOrder.method == "Braspress") { %>
+        <% include ./components/print/braspress %>
+      <% } %>
+
+      <% if(serviceOrder.method == "Jadlog") { %>
+        <% include ./components/print/jadlog %>
+      <% } %>
+
+      <% if(serviceOrder.method == "Latam") { %>
+        <% include ./components/print/latam %>
+      <% } %>
+
+      <div class="p-box a1 container">
+        <div class="p-box a1 lucida-grande bold">REMETENTE:</div>
+        <div class="p-box b2 lucida-grande">Empresa: VestHouse Artigos Taticos e Sobrevivência LTDA</div>
+        <div class="p-box b2 lucida-grande">Endereço: Rua José Sardinha, 335 - Jardim Sulacap - CEP: 21741-120</div>
+        <div class="p-box b2 lucida-grande">Cidade/UF: Rio de Janeiro, RJ</div>
+        <div class="p-box b2 lucida-grande">Telefone: (21) 3449-9000</div>
+      </div>
+    </div>
+
+    <div class="p-box a1 container border">
+      <div class="p-box a8 lucida-grande em08 bold padding-5 border-st center">N° da NF</div>
+      <div class="p-box a8 lucida-grande em08 bold padding-5 border-st center">Pedido</div>
+      <div class="p-box a5-8 lucida-grande em08 bold padding-5 border-st center">Destinatário</div>
+      <div class="p-box a8 lucida-grande em08 bold padding-5 border-st center">Volumes</div>
+    </div>
+
+    <% for(let i in serviceOrder.sales) { %>
+      <div class="p-box a1 container border">
+        <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].nf_code %></div>
+        <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].sale_id %></div>
+        <div class="p-box a5-8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].trademark || serviceOrder.sales[i].customer_name %></div>
+        <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].box_amount %></div>
+      </div>
+    <% } %>
+
+    <div class="p-box a1 container border">
+      <div class="p-box a7-8 lucida-grande em09 padding-5 border center">Total de volumes</div>
+      <div class="p-box a8 lucida-grande em09 padding-5 border center"><%= serviceOrder.sales.reduce((a, b) => a + b.box_amount, 0) %></div>
+    </div>
+
+    <div class="p-box a1 container">
+      <div class="p-box b2-7 lucida-grande em08 margin-top-10">Nome do motorista (legível)</div>
+      <div class="p-box b5-7 underline margin-top-10">:</div>
+      <div class="p-box b9 lucida-grande em08 margin-top-5">Documento</div>
+      <div class="p-box b2-9 underline margin-top-5">:</div>
+      <div class="p-box b6 lucida-grande em08 margin-top-5">Placa do veículo</div>
+      <div class="p-box b6 underline margin-top-5">:</div>
+      <div class="p-box b6 lucida-grande em08 margin-top-5">Data da coleta</div>
+      <div class="p-box b6 lucida-grande 0m06 margin-top-1">: <%= serviceOrder.date %></div>
+    </div>
+
+  </div>
+
+</body>
+<footer>
+  <% include ./../../../partials/footer %>
+</footer>
+</html>

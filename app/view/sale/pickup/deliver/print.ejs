@@ -1,0 +1,59 @@
+<html>
+<head>
+  <% include ./../../../partials/head %>
+  <style type="text/css">
+    @media print {
+      .pagebreak { 
+        page-break-before: auto;
+      }
+
+      .container {
+        page-break-inside:avoid;
+      }
+
+      .p-box {
+        box-sizing: border-box; 
+        align-self: flex-start; 
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container border-st pagebreak">
+    <div class="p-box a3 container padding-10 margin-top-10 center">
+      <img class="image-prop size-70 center" src="/images/favicon/logo.png">
+    </div>
+    <div class="p-box a2-3 container">
+      <div class="p-box a1 lucida-grande margin-top-10">Retirada em: <b>Ponto de retirada Realengo</b></div>
+      <div class="p-box a1 lucida-grande margin-top-10">Data: <b><%= sale.shipment_confirmation_date %></b></div>
+    </div>
+    <div class="p-box a1 container padding-5">
+      <div class="p-box b1 lucida-grande bold underline margin-top-20 center">Informações do pedido</div>
+      <div class="p-box b3 lucida-grande margin-top-5">Pedido: <b><%= sale.id %></b></div>
+      <div class="p-box b3 lucida-grande margin-top-5">Data: <b><%= sale.payment_confirmation_date %></b></div>
+      <div class="p-box b3 lucida-grande margin-top-5">Volumes: <b><%= sale.box_amount %></b></div>
+      <div class="p-box b2 lucida-grande margin-top-5">Vendedor: <b><%= sale.user_name %></b></div>
+      <div class="p-box b2 lucida-grande margin-top-5">Valor do pedido: <b>R$<%= sale.value %></b></div>
+      <div class="p-box b1 container">
+        <div class="p-box b1 lucida-grande bold underline margin-top-20 center">Informações do cliente</div>
+        <div class="p-box b2-3 lucida-grande margin-top-5">Cliente: <b><%= sale.customer.name %></b></div>
+        <% if(sale.customer.cpf) { %> <div class="p-box b3 lucida-grande margin-top-5">CPF: <b><%= sale.customer.cpf %></b></div> <% } %>
+        <% if(sale.customer.trademark) { %> <div class="p-box b2-3 lucida-grande margin-top-5">Razão social: <b><%= sale.customer.trademark %></b></div> <% } %>
+        <% if(sale.customer.cnpj) { %> <div class="p-box b3 lucida-grande margin-top-5">CNPJ: <b><%= sale.customer.cnpj %></b></div> <% } %>
+      </div>
+    </div>
+    <div class="p-box a1 container">
+      <div class="p-box b1 lucida-grande bold underline margin-top-20 center">Dados do recebedor</div>
+      <div class="p-box b6 lucida-grande em08 margin-top-10">Nome Completo</div>
+      <div class="p-box b2 underline margin-top-10">:</div>
+      <div class="p-box b8 lucida-grande em08 margin-top-10">Documento</div>
+      <div class="p-box b5 underline margin-top-10">:</div>
+    </div>
+  </div>
+
+</body>
+<footer>
+  <% include ./../../../partials/footer %>
+</footer>
+</html>

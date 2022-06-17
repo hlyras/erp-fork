@@ -1,0 +1,35 @@
+<html>
+<head>
+  <% include ./../../../partials/head %>
+</head>
+<body>
+  <% include ./../../../partials/header %>
+  <% include ./../../../partials/nav %>
+  <section class="container">
+    <div class="box b1 lucida-grande em12 bold center">Gerar O.S. de despacho</div>
+    
+    <% include ./components/service-order %>
+
+    <div id="service-order" class="box b1 container ground border margin-top-10 padding-10 center sticky" style="display:none;">
+      <div id="service-order-box" class="box b1 container"></div>
+      <div id="order-filter-box" class="box b1 container margin-top-5 margin-bottom-10" style="display:none">
+        <div id="order-filter-div" class="box b1 container"></div>
+      </div>
+      <div class="mobile-box b1 container center margin-top-10"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="Sale.transport.controller.switch(this)"></div>
+      
+      <div id="sale-filter-box" class="box b1 container margin-top-5 margin-bottom-10" style="display:none">
+        <div id="sale-filter-div" class="box b1 container"></div>
+      </div>
+    </div>
+  </section>
+  <% include ./../../../partials/loader %>
+</body>
+<footer>
+  <% include ./../../../partials/footer %>
+  <script src="/javascripts/scripts/sale/model/main.js"></script>
+  <script src="/javascripts/scripts/sale/model/service-order.js"></script>
+
+  <script src="/javascripts/scripts/sale/controller/triage/transport.js"></script>
+  <script src="/javascripts/scripts/sale/view/triage/transport.js"></script>
+</footer>
+</html>

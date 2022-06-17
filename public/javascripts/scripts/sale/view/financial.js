@@ -155,7 +155,7 @@ Sale.view.show = (sale, status) => {
 		html += "</div>";
 	html += "</div>";
 
-    if(status == "Ag. pagamento"){ html += "<div class='box b1 container h-center'><input type='button' id='sale-create-submit' class='box b3 submit-generic bold margin-top-15 margin-bottom-15' value='CONFIRMAR PAGAMENTO' onclick='Sale.controller.confirmPayment("+sale.id+")'>"; };
+    if(status == "Ag. pagamento"){ html += "<div class='box b1 container h-center'><input type='button' id='sale-create-submit' class='box b3 submit-generic bold margin-top-15 margin-bottom-15' value='CONFIRMAR PAGAMENTO' onclick='Sale.payment.controller.confirm("+sale.id+")'>"; };
 
 	document.getElementById("sale-show-box").innerHTML = html;
 };

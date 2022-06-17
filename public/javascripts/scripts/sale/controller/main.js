@@ -75,40 +75,23 @@ if(Sale.controller.save){
 		if(!sale) { return false };
 
 		document.getElementById("sale-id").value = "";
-		lib.localStorage.remove("sale-id");
-
 		document.getElementById("sale-customer").value = "";
-		lib.localStorage.remove("sale-customer");
-
 		document.getElementById("shipment-method").value = "";
-		lib.localStorage.remove("shipment-method");
-
 		document.getElementById("payment-method").value = "";
-		lib.localStorage.remove("payment-method");
-
 		document.getElementById("payment-period").value = "";
-		lib.localStorage.remove("payment-period");
-
 		document.getElementById("status").value = "";
-		lib.localStorage.remove("status");
-
 		document.getElementById("sale-obs").value = "";
-		lib.localStorage.remove("sale-obs");
 
 		Sale.pos.discount = 0;
 		document.getElementById("sale-discount-value").value = '0.00';
-		lib.localStorage.remove("sale-discount-value");
 
 		Sale.pos.shipment = 0;
 		document.getElementById("sale-shipment-value").value = '0.00';
-		lib.localStorage.remove("sale-shipment-value");
 
 		Sale.product.kart.items = [];
-		lib.localStorage.remove("sale-product-kart");
 		Sale.product.kart.list("Sale.product.kart", Sale.product.kart.props);
 
 		Sale.package.kart.items = [];
-		lib.localStorage.remove("sale-package-kart");
 		Sale.package.kart.list("Sale.package.kart", Sale.package.kart.props);
 
 		if(Sale.controller.filter){ if(sale.id > 0){ Sale.controller.filter.submit.click(); } }
@@ -119,43 +102,54 @@ if(Sale.controller.save){
 	});
 };
 
+
 Sale.controller.filter = document.getElementById("sale-filter-form");
 if(Sale.controller.filter){
 	Sale.controller.filter.addEventListener("submit", async event => {
 		event.preventDefault();
 
 		let sale = {
+			user_id: event.target.elements.namedItem("user_id").value,
+			id: event.target.elements.namedItem("id").value,
 			customer_name: event.target.elements.namedItem("customer_name").value,
 			customer_cnpj: event.target.elements.namedItem("customer_cnpj").value,
+			customer_cpf: event.target.elements.namedItem("customer_cpf").value,
+			shipment_method: event.target.elements.namedItem("shipment_method").value,
 			periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
 			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
-			status: event.target.elements.namedItem("status").value,
-			user_id: event.target.elements.namedItem("user_id").value
+			status: event.target.elements.namedItem("status").value
 		};
 
-		if(sale.status == "Confirmadas"){ sale.status = ""; };
-		
 		let sales = await API.response(Sale.filter, sale);
 
-		if(event.target.elements.namedItem("status").value == "Confirmadas"){ sale.status = "Confirmadas"; };
+		lib.display("sale-filter-box", "");
+		lib.display("sale-show-box", "none");
+		document.getElementById("sale-edit-box") && lib.display("sale-edit-box", "none");
 
-		document.getElementById("sale-filter-box").style.display = "";
-		document.getElementById("sale-show-box").style.display = "none";
-		if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
-		if(document.getElementById("sale-category-select")){ 
-			document.getElementById("sale-category-select").style.display = "none"; 
+		if(document.getElementById("sale-category-select")){
+			lib.display("sale-category-select", "none"); 
 			document.getElementById("sale-category-select").value = ""; 
 		};
 
-		const setup = { pageSize: 10, page: 0, status: sale.status };
+		const setup = { pageSize: 10, page: 0 };
 		(function(){ lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, setup); }());
 	});
 };
 
+Sale.controller.filterBy = (status) => {
+	Sale.controller.filter.status.value = status;
+	Sale.controller.filter.code = "";
+	Sale.controller.filter.customer_name.value = "";
+	Sale.controller.filter.customer_cnpj.value = "";
+	Sale.controller.filter.customer_cpf.value = "";
+	Sale.controller.filter.shipment_method.value = "";
+	Sale.controller.filter.periodStart.value = "";
+	Sale.controller.filter.periodEnd.value = "";
+	Sale.controller.filter.submit.click();
+};
+
 Sale.controller.show = async (sale_id, status) => {
 	let sale = await API.response(Sale.findById, sale_id);
-
-	console.log(sale);
 
 	Sale.view.show(sale, status);
 
@@ -193,23 +187,48 @@ Sale.controller.cancel = async sale_id => {
 	};
 };
 
-Sale.controller.confirmNF = async sale_id => {
-	let r = confirm("Deseja confirmar anexo de Nota Fiscal?");
-	if(r){
-		let sale = { id: sale_id, nf: document.getElementById("sale-nf-url").value };
+Sale.nf.controller = {};
 
-		let response = await API.response(Sale.confirmNF, sale);
-		if(!response){ return false; };
+Sale.nf.controller.save = async e => {
+	e.preventDefault();
 
-		alert(response);
-		Sale.controller.filter.submit.click();
+	let sale = {
+		id: e.target.elements.namedItem("id").value,
+		nf_code: e.target.elements.namedItem("code").value,
+		nf: e.target.elements.namedItem("url").value
 	};
+
+	let r = confirm("Deseja confirmar anexo da Nota Fiscal?");
+
+	if(r) {
+		if(!e.target.elements.namedItem("code").value && !e.target.elements.namedItem("url").value) {
+			r = confirm("Nenhuma Nota fiscal será incluída neste pedido, deseja prosseguir?");
+			if(!r) { return false; }
+			let response = await API.response(Sale.nf.save, sale);
+			if(!response){ return false; };
+
+			alert(response);
+			Sale.controller.filter.submit.click();
+		} else if(e.target.elements.namedItem("code").value && e.target.elements.namedItem("url").value.length > 10) {
+			let response = await API.response(Sale.nf.save, sale);
+			if(!response){ return false; };
+
+			alert(response);
+			Sale.controller.filter.submit.click();
+		} else {
+			!e.target.elements.namedItem("code").value && alert("Nº da NF é inválido");
+			e.target.elements.namedItem("url").value.length < 10 && alert("URL da NF é inválida");
+			return;
+		}
+	}
 };
 
-Sale.controller.confirmShipment = async sale_id => {
+Sale.shipment.controller = {};
+
+Sale.shipment.controller.confirm = async sale_id => {
 	let r = confirm("Deseja confirmar envio?");
 	if(r){
-		let response = await API.response(Sale.confirmShipment, sale_id);
+		let response = await API.response(Sale.shipment.confirm, sale_id);
 		if(!response){ return false; };
 		
 		alert(response);

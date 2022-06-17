@@ -20,6 +20,17 @@ reportController.index = async (req, res) => {
 	res.render('sale/report/index', { user: req.user, users: users });
 };
 
+// Sales
+// reportController.sale = {};
+
+// reportController.sale.index = async (req, res) => {
+// 	if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+// 		return res.redirect('/');
+// 	};
+
+// 	res.render('sale/report/product', { user: req.user });
+// };
+
 // Product
 reportController.product = {};
 

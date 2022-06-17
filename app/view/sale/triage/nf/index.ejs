@@ -1,0 +1,24 @@
+<html>
+<head>
+  <% include ./../../../partials/head %>
+</head>
+<body>
+  <% include ./../../../partials/header %>
+  <% include ./../../../partials/nav %>
+  <section class="container h-center">
+    <% include ./components/filter-form %>
+
+    <% include ./components/filter-box %>
+
+    <div id="sale-show-box" class="box b1 container ground border padding-10 margin-top-10 margin-bottom-10" style="display:none;"></div>
+  </section>
+  <% include ./../../../partials/loader %>
+</body>
+<footer>
+  <% include ./../../../partials/footer %>
+  <script src="/javascripts/scripts/sale/model/main.js"></script>
+
+  <script src="/javascripts/scripts/sale/controller/triage/nf.js"></script>
+  <script src="/javascripts/scripts/sale/view/triage/nf.js"></script>
+</footer>
+</html>

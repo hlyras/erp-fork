@@ -1,0 +1,33 @@
+<html>
+<head>
+  <% include ./../../partials/head %>
+</head>
+<body>
+  <% include ./../../partials/header %>
+  <% include ./../../partials/nav %>
+  <section class="container h-center">
+	  <% include ./components/financial-filter-form %>
+  </section>
+
+  <section id="sale-metrics-box" class="container margin-top-10"></section>
+  
+  <section class="container margin-top-10">
+    <% include ./components/financial-filter-box %>
+    <div id="sale-show-box" class="box b1 container ground border radius-5 margin-top-10 margin-bottom-15" style="display:none;"></div>
+  </section>
+  <% include ./../../partials/loader %>
+</body>
+<footer>
+  <% include ./../../partials/footer %>
+  <script src="/javascripts/scripts/sale/model/metrics/main.js"></script>
+  
+  <script src="/javascripts/scripts/sale/model/metrics/financial.js"></script>
+  <script src="/javascripts/scripts/sale/controller/metrics/financial.js"></script>
+  <script src="/javascripts/scripts/sale/view/metrics/financial.js"></script>
+
+  <script>
+    lib.fillDateInput(document.getElementById("sale-filter-form").elements.namedItem('periodStart'));
+    lib.fillDateInput(document.getElementById("sale-filter-form").elements.namedItem('periodEnd'));
+  </script>
+</footer>
+</html>

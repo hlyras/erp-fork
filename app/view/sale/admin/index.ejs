@@ -1,0 +1,34 @@
+<html>
+<head>
+  <% include ./../../partials/head %>
+</head>
+<body>
+  <% include ./../../partials/header %>
+  <% include ./../../partials/nav %>
+
+  <section class="container padding-5">
+    <div class="box b1 container ground border padding-10 radius-5">
+      <% include ./components/filter-form %>
+    </div>
+  </section>
+
+  <section class="container">
+    <% include ./components/filter-box %>
+    <div id="sale-show-box" class="box b1 container ground border radius-5 margin-top-10 margin-bottom-15"></div>
+  </section>
+
+  <% include ./../../partials/loader %>
+</body>
+<footer>
+  <% include ./../../partials/footer %>
+
+  <script src="/javascripts/scripts/sale/model/main.js"></script>
+  
+  <script src="/javascripts/scripts/sale/controller/admin.js"></script>
+  <script src="/javascripts/scripts/sale/view/admin.js"></script>
+
+  <script>
+    Sale.controller.filter.submit.click();
+  </script>
+</footer>
+</html>

@@ -18,6 +18,42 @@
 
 <link rel="stylesheet" type="text/css" href="https://jaframework.herokuapp.com/front-end/stylesheets/fonts.css">
 
+<style type="text/css">
+	.msg-window {
+		z-index: 5;
+		position: absolute;
+		/*background-color: var(--light);*/
+	}
+	.sidenav {
+	  height: 100%;
+	  width: 0;
+	  position:fixed!important;
+	  z-index: 6;
+	  top: 0;
+	  right: 0;
+	  background-color: var(--background);
+	  transition: 0.7s;
+	  padding-top: 40px;
+	  overflow-y: auto;
+	  overflow-x: hidden;
+	}
+</style>
+
+<script type="text/javascript">
+	// Include in lib
+	function openPrintWindow(url, name, specs) {
+	  let printWindow = window.open(url, name, specs);
+	  let printAndClose = function () {
+	    if (printWindow.document.readyState == 'complete') {
+	      clearInterval(sched);
+	      printWindow.print();
+	      printWindow.close();
+	    }
+	  }  
+	  let sched = setInterval(printAndClose, 200);
+	};
+</script>
+
 <!-- Digital ocean -->
 <!-- <link rel="stylesheet" type="text/css" href="https://wt-images-cdn.sfo3.digitaloceanspaces.com/framework/main.css">
 <link rel="stylesheet" type="text/css" href="https://wt-images-cdn.sfo3.digitaloceanspaces.com/framework/loader.css">
