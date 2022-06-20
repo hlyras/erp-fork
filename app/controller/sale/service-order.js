@@ -84,7 +84,7 @@ serviceOrderController.findById = async (req, res) => {
 };
 
 serviceOrderController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud",'pro-ass','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-man','pro-ass','log-pac','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -197,7 +197,7 @@ serviceOrderController.shipment.save = async (req, res) => {
 };
 
 serviceOrderController.shipment.print = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-ass','log-pac'])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
