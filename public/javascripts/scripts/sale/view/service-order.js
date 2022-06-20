@@ -34,7 +34,8 @@ Sale.serviceOrder.view.detail = (service_order) => {
 	service_order.method != "Retirada em Loja" && service_order_info.append(lib.element.create("img", {
 		src: "/images/icon/print.png",
 		class: "image-prop size-30 center icon",
-		onclick: `openPrintWindow('/sale/service-order/shipment/print/${service_order.id}', 'to_print', 'width=700,height=400,_blank');`
+		onclick: `lib.openExternalLink('${window.location.origin}/sale/service-order/shipment/print/${service_order.id}')`
+		// onclick: `openPrintWindow('/sale/service-order/shipment/print/${service_order.id}', 'to_print', 'width=700,height=400,_blank');`
 	}));
 	service_order_info.append(lib.element.createInfo("mobile-box b2-5 padding-5 margin-top-5", "Método", `${service_order.method}` ));
 	service_order_info.append(lib.element.createInfo("mobile-box b2-5 padding-5 margin-top-5", "Criado por", `${service_order.user_name}` ));

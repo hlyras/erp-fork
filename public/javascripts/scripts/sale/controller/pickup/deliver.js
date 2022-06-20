@@ -43,7 +43,8 @@ Sale.deliver.controller.confirm = async (sale_id, input) => {
 	let detail_div = document.getElementById("sale-detail-div");
 	detail_div.append(lib.element.create("input", {
 		type: "button",
-		onclick: `openPrintWindow('/sale/deliver/print/${sale_id}', 'to_print', 'width=700,height=400,_blank');`,
+		onclick: `lib.openExternalLink('${window.location.origin}/sale/deliver/print/${sale_id}');`,
+		// onclick: `openPrintWindow('/sale/deliver/print/${sale_id}', 'to_print', 'width=700,height=400,_blank');`,
 		class: "box b3 ground lucida-grande em11 bold border-st box-hover radius-5 padding-10 margin-top-10 margin-bottom-10 center pointer",
 		value: "Imprimir etiqueta"
 	}));

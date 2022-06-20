@@ -3,6 +3,10 @@
   <% include ./../../../partials/head %>
   <style type="text/css">
     @media print {
+      .noprint, .noprint * {
+        display: none !important;
+      }
+
       .pagebreak { 
         page-break-before: auto;
       }
@@ -19,6 +23,10 @@
   </style>
 </head>
 <body>
+
+  <div class="container padding-10 noprint">
+    <div class="p-box a5 lucida-grande bold border-lg-st padding-5 center pointer noselect" onclick="print()">IMPRIMIR</div>
+  </div>
 
   <div class="container border-st pagebreak">
     <div class="container padding-10">

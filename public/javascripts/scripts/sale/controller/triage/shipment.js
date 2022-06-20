@@ -99,7 +99,7 @@ Sale.shipment.serviceOrder.confirm = async () => {
 
 	document.getElementById("service-order-print-btn").addEventListener("click", e => {
 		e.preventDefault();
-		openPrintWindow(`/sale/service-order/shipment/print/${service_order.id}`, 'to_print', 'width=700,height=400,_blank');
+		lib.openExternalLink(`${window.location.origin}/sale/service-order/shipment/print/${service_order.id}`);
 	});
 };
 
