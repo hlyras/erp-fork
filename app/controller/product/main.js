@@ -47,7 +47,7 @@ productController.print = async (req, res) => {
 	};
 
 	const strict_params = { keys: [], values: [] };
-	lib.Query.fillParam("product.color", "Preto", strict_params);
+	lib.Query.fillParam("product.color", "Tan", strict_params);
 	lib.Query.fillParam("product.status", "Disponível", strict_params);
 	let order_params = [ ["product.code","ASC"] ];
 
