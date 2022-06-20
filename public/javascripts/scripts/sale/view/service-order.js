@@ -40,8 +40,8 @@ Sale.serviceOrder.view.detail = (service_order) => {
 	service_order_info.append(lib.element.createInfo("mobile-box b2-5 padding-5 margin-top-5", "Método", `${service_order.method}` ));
 	service_order_info.append(lib.element.createInfo("mobile-box b2-5 padding-5 margin-top-5", "Criado por", `${service_order.user_name}` ));
 	service_order_info.append(lib.element.createInfo("mobile-box b5 padding-5 margin-top-5", "Pedidos", `${service_order.size}` ));
-	service_order.collect_user && service_order_info.append(lib.element.createInfo("mobile-box b2 padding-5 margin-top-5", "coletado por", `${service_order.user_name}` ));
-	service_order.recept_user && service_order_info.append(lib.element.createInfo("mobile-box b2 padding-5 margin-top-5", "recebido por", `${service_order.user_name}` ));
+	service_order.collect_user && service_order_info.append(lib.element.createInfo("mobile-box b2 padding-5 margin-top-5", "coletado por", `${service_order.collect_user.name}` ));
+	service_order.recept_user && service_order_info.append(lib.element.createInfo("mobile-box b2 padding-5 margin-top-5", "recebido por", `${service_order.recept_user.name}` ));
 	service_order_div.append(service_order_info);
 
 	let service_order_sales = lib.element.create("div", { class: "box b1 container ground padding-5 margin-top-10" });
