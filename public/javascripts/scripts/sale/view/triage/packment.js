@@ -48,7 +48,7 @@ Sale.view.filter = (sales, setup) => {
 
 Sale.view.show = (sale) => {
 	document.getElementById("packment-confirm-form").elements.namedItem("sale-id").value = sale.id;
-	lib.display("packment-confirm-form", "");
+	sale.status == "Ag. embalo" && lib.display("packment-confirm-form", "");
 
 	let show_box = document.getElementById("sale-show-box");
 	show_box.innerHTML = "";
