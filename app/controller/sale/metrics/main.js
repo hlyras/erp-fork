@@ -8,9 +8,10 @@ const Sale = require('../../../model/sale/main');
 const metricsController = {};
 
 metricsController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','pro-man','pro-ass'])){
 		return res.redirect('/');
 	};
+
 	try	{
 		let users = await User.list();
 		res.render('sale/metrics/index', { user: req.user, users: users });

@@ -10,7 +10,7 @@ const lib = require("jarmlib");
 const serviceOrderController = {};
 
 serviceOrderController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud",'pro-ass','log-pac',"fin-ass"])){
 		return res.redirect('/');
 	};
 
@@ -23,7 +23,7 @@ serviceOrderController.index = async (req, res) => {
 };
 
 serviceOrderController.findById = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud",'pro-ass','log-pac',"fin-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -84,7 +84,7 @@ serviceOrderController.findById = async (req, res) => {
 };
 
 serviceOrderController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud",'pro-ass','log-pac',"fin-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -116,7 +116,7 @@ serviceOrderController.filter = async (req, res) => {
 serviceOrderController.shipment = {};
 
 serviceOrderController.shipment.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 		return res.redirect('/');
 	};
 
@@ -152,7 +152,7 @@ serviceOrderController.shipment.index = async (req, res) => {
 };
 
 serviceOrderController.shipment.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -197,7 +197,7 @@ serviceOrderController.shipment.save = async (req, res) => {
 };
 
 serviceOrderController.shipment.print = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-ass','log-pac'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -225,7 +225,7 @@ serviceOrderController.shipment.print = async (req, res) => {
 serviceOrderController.transport = {};
 
 serviceOrderController.transport.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 		return res.redirect('/');
 	};
 
@@ -233,7 +233,7 @@ serviceOrderController.transport.index = async (req, res) => {
 };
 
 serviceOrderController.transport.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -279,7 +279,7 @@ serviceOrderController.transport.save = async (req, res) => {
 serviceOrderController.collect = {};
 
 serviceOrderController.collect.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
 		return res.redirect('/');
 	};
 
@@ -287,7 +287,7 @@ serviceOrderController.collect.index = async (req, res) => {
 };
 
 serviceOrderController.collect.confirm = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -319,7 +319,7 @@ serviceOrderController.collect.confirm = async (req, res) => {
 };
 
 serviceOrderController.collect.cancel = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -353,7 +353,7 @@ serviceOrderController.collect.cancel = async (req, res) => {
 serviceOrderController.recept = {};
 
 serviceOrderController.recept.confirm = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-ass',"fin-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -419,7 +419,7 @@ serviceOrderController.recept.confirm = async (req, res) => {
 };
 
 // serviceOrderController.recept.cancel = async (req, res) => {
-// 	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+// 	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud",'pro-ass','log-pac',"fin-ass"])){
 // 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 // 	};
 

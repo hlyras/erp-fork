@@ -4,7 +4,7 @@ const userController = require('./../user');
 const prospectController = {};
 
 prospectController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-ass'])){
 		return res.redirect('/');
 	};
 

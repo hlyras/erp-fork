@@ -25,7 +25,7 @@ pickupController.index = async (req, res) => {
 pickupController.recept = {};
 
 pickupController.recept.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-ass',"fin-ass"])){
 		return res.redirect('/');
 	};
 
@@ -35,7 +35,7 @@ pickupController.recept.index = async (req, res) => {
 pickupController.deliver = {};
 
 pickupController.deliver.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','fin-ass'])){
 		return res.redirect('/');
 	};
 
@@ -43,7 +43,7 @@ pickupController.deliver.index = async (req, res) => {
 };
 
 pickupController.deliver.confirm = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -65,7 +65,7 @@ pickupController.deliver.confirm = async (req, res) => {
 };
 
 pickupController.deliver.print = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud",'COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

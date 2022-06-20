@@ -9,7 +9,7 @@ const lib = require("jarmlib");
 const triageController = {};
 
 triageController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man',"com-sel","adm-man","adm-ass", "adm-aud", 'log-pac','COR-GER'])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 		return res.redirect('/');
 	};
 
@@ -24,7 +24,7 @@ triageController.index = async (req, res) => {
 triageController.packment = {};
 
 triageController.packment.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man',"com-sel","adm-man","adm-ass", "adm-aud", 'log-pac','COR-GER'])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 		return res.redirect('/');
 	};
 
@@ -37,7 +37,7 @@ triageController.packment.index = async (req, res) => {
 };
 
 triageController.packment.confirm = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"adm-man",'pro-man','COR-GER','log-pac'])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -65,7 +65,7 @@ triageController.packment.confirm = async (req, res) => {
 triageController.nf = {};
 
 triageController.nf.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man',"com-sel","adm-man","adm-ass", "adm-aud", 'log-pac','COR-GER'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','fin-ass'])){
 		return res.redirect('/');
 	};
 
@@ -78,7 +78,7 @@ triageController.nf.index = async (req, res) => {
 };
 
 triageController.nf.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud","fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

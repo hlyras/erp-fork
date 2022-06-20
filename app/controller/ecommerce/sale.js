@@ -10,7 +10,7 @@ Product.color = require('../../model/product/color');
 
 const saleController = {
 	index: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','fin-ass','adm-aud','COR-GER'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','fin-ass','adm-aud','pro-ass'])){
 			return res.redirect('/');
 		};
 
@@ -34,7 +34,7 @@ const saleController = {
 		};
 	},
 	triage: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','pro-man','log-pac','COR-GER'])){
+		if(!await userController.verifyAccess(req, res, ['adm','pro-man','log-pac','pro-ass'])){
 			return res.redirect('/');
 		};
 
@@ -272,7 +272,7 @@ const saleController = {
 		};
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','fin-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','fin-ass','adm-aud','pro-man','log-pac','pro-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -302,7 +302,7 @@ const saleController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','fin-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','fin-ass','adm-aud','pro-man','log-pac','pro-ass'])){
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -404,7 +404,7 @@ const saleController = {
 			};
 		},
 		filter: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+			if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','pro-ass'])){
 				return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 			};
 
@@ -489,7 +489,7 @@ const saleController = {
 				};
 			},
 			filter: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','pro-ass'])){
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 				};
 
@@ -576,7 +576,7 @@ const saleController = {
 	},
 	report: {
 		index: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+			if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
 				return res.redirect('/');
 			};
 			let users = await User.list();
@@ -584,7 +584,7 @@ const saleController = {
 		},
 		product: {
 			index: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
 					return res.redirect('/');
 				};
 				let colors = await Product.color.list();
@@ -592,7 +592,7 @@ const saleController = {
 				res.render('ecommerce/sale/report/product', { user: req.user, users: users, colors: colors });
 			},
 			filter: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','pro-ass'])){
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 				};
 
@@ -648,7 +648,7 @@ const saleController = {
 		},
 		packment: {
 			index: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
 					return res.redirect('/');
 				};
 				let colors = await Product.color.list();
@@ -656,7 +656,7 @@ const saleController = {
 				res.render('ecommerce/sale/report/packment', { user: req.user, users: users, colors: colors });
 			},
 			filter: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','pro-ass'])){
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 				};
 
@@ -687,7 +687,7 @@ const saleController = {
 		},
 		gathering: {
 			index: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
 					return res.redirect('/');
 				};
 				let colors = await Product.color.list();
@@ -695,7 +695,7 @@ const saleController = {
 				res.render('ecommerce/sale/report/gathering', { user: req.user, users: users, colors: colors });
 			},
 			filter: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','pro-ass'])){
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 				};
 
