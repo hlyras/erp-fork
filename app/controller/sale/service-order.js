@@ -10,7 +10,7 @@ const lib = require("jarmlib");
 const serviceOrderController = {};
 
 serviceOrderController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud",'pro-ass','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-ass','log-pac','fin-ass'])){
 		return res.redirect('/');
 	};
 
@@ -23,7 +23,7 @@ serviceOrderController.index = async (req, res) => {
 };
 
 serviceOrderController.findById = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud",'pro-ass','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-ass','log-pac','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -353,7 +353,7 @@ serviceOrderController.collect.cancel = async (req, res) => {
 serviceOrderController.recept = {};
 
 serviceOrderController.recept.confirm = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-ass',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-ass','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

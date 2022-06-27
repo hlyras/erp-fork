@@ -13,7 +13,7 @@ const Customer = require('../../model/customer');
 const saleController = {};
 
 saleController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ["adm","com-sel",'com-ass',"adm-man","adm-ass","adm-aud","fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ["adm","com-sel",'com-ass','adm-man','adm-ass','adm-aud','fin-ass'])){
 		return res.redirect('/');
 	};
 
@@ -27,7 +27,7 @@ saleController.index = async (req, res) => {
 };
 
 saleController.manage = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud","fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','fin-ass'])){
 		return res.redirect('/');
 	};
 
@@ -76,7 +76,7 @@ saleController.manage = async (req, res) => {
 };
 
 saleController.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud","fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
@@ -246,7 +246,7 @@ saleController.save = async (req, res) => {
 };
 
 saleController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud",'pro-man','COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-man','COR-GER','log-pac','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
@@ -277,7 +277,7 @@ saleController.filter = async (req, res) => {
 };
 
 saleController.findById = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud",'pro-man','COR-GER','log-pac',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-man','COR-GER','log-pac','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -305,7 +305,7 @@ saleController.findById = async (req, res) => {
 };
 
 saleController.cancel = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','adm-man','adm-ass','adm-aud'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

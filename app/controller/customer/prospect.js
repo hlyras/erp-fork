@@ -11,14 +11,14 @@ const path = require('path');
 const prospectController = {};
 
 prospectController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass","com-pro"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','com-pro'])){
 		return res.redirect('/');
 	};
 	res.render('customer/prospect/index', { user: req.user });
 };
 
 prospectController.save = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass","com-pro"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','com-pro'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -43,7 +43,7 @@ prospectController.save = async(req, res) => {
 };
 
 prospectController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass","com-pro"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','com-pro'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -76,7 +76,7 @@ prospectController.filter = async (req, res) => {
 };
 
 prospectController.confirmContact1 = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass","com-pro"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','com-pro'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -133,7 +133,7 @@ prospectController.confirmContact1 = async(req, res) => {
 };
 
 prospectController.confirmContact2 = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass","com-pro"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','com-pro'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -188,7 +188,7 @@ prospectController.confirmContact2 = async(req, res) => {
 };
 
 prospectController.confirmContact3 = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass","com-pro"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','com-pro'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -231,7 +231,7 @@ prospectController.confirmContact3 = async(req, res) => {
 prospectController.mailer = {};
 
 prospectController.mailer.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass","com-pro"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','com-pro'])){
 		return res.redirect('/');
 	};
 
@@ -239,7 +239,7 @@ prospectController.mailer.index = async (req, res) => {
 };
 
 prospectController.mailer.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"com-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass'])){
 		return res.redirect('/');
 	};
 
@@ -279,7 +279,7 @@ prospectController.mailer.filter = async (req, res) => {
 };
 
 prospectController.mailer.presentation = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass","com-pro","adm-man","adm-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','com-pro','adm-man','adm-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -330,7 +330,7 @@ prospectController.mailer.presentation = async (req, res) => {
 };
 
 prospectController.mailer.transmission = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass","com-pro","adm-man","adm-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','com-pro','adm-man','adm-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -383,14 +383,14 @@ prospectController.mailer.transmission = async (req, res) => {
 prospectController.meeting = {};
 
 prospectController.meeting.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass","com-pro"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','com-pro'])){
 		return res.redirect('/');
 	};
 	res.render('customer/prospect/meetings', { user: req.user });
 };
 
 prospectController.meeting.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm',"com-sel","com-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

@@ -4,7 +4,7 @@ const Customer = require('../../model/customer');
 const addressController = {};
 
 addressController.save = async(req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel', "adm-aud"])){
+	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel','com-ass','adm-aud'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -43,7 +43,7 @@ addressController.save = async(req, res) => {
 };
 
 addressController.findById = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel', "adm-aud"])){
+	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel','com-ass','adm-aud'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -57,7 +57,7 @@ addressController.findById = async (req, res) => {
 };
 
 addressController.list = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel', "adm-aud"])){
+	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel','com-ass','adm-aud'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -71,7 +71,7 @@ addressController.list = async (req, res) => {
 };
 
 addressController.delete = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel', "adm-aud"])){
+	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel','com-ass','adm-aud'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

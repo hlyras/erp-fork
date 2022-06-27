@@ -11,14 +11,14 @@ const path = require('path');
 const mailerController = {};
 
 mailerController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-ass'])){
 		return res.redirect('/');
 	};
 	res.render('customer/mailer', { user: req.user });
 };
 
 mailerController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass'])){
 		return res.redirect('/');
 	};
 
@@ -36,7 +36,7 @@ mailerController.filter = async (req, res) => {
 };
 
 mailerController.send = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-ass'])){
 		return res.redirect('/');
 	};
 
