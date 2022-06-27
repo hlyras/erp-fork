@@ -87,8 +87,6 @@ Sale.view.show = (sale) => {
 	let sale_box = document.getElementById("sale-show-box");
 	sale_box.innerHTML = "";
 
-	console.log(sale);
-
 	// NF FORM
 	let nf_form = Sale.view.nf_form(sale.id);
 	sale.status == "Ag. nota fiscal" && nf_form.addEventListener("submit", Sale.nf.controller.save);
@@ -98,7 +96,8 @@ Sale.view.show = (sale) => {
 
 	let customer_div = lib.element.create("div", { class: "box b3 container padding-5 margin-top-5" });
 	customer_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 bold underline center" }, "Dados do cliente"));
-	customer_div.append(lib.element.createInfo("b1 lucida-grande em09 margin-top-5 padding-5", "Nome do cliente", `${sale.customer.name}` ));
+	customer_div.append(lib.element.createInfo("b1 lucida-grande em09 margin-top-5 padding-5", "Código do cliente", `${sale.customer_id}` ));
+	customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "Nome do cliente", `${sale.customer.name}` ));
 	sale.customer.cpf && customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "CPF", `${sale.customer.cpf}` ));
 	sale.customer.trademark && customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "Razão social", `${sale.customer.trademark}` ));
 	sale.customer.brand && customer_div.append(lib.element.createInfo("b1 lucida-grande em09 padding-5", "Marca", `${sale.customer.brand}` ));

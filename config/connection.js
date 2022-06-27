@@ -14,12 +14,12 @@ const db = async (query) => {
 	return new Promise(async (resolve, reject) => {
 		pool.getConnection((err, connection) => {
 		    connection.query(query, (err, rows) => {
-		        connection.release();
-		        if(!err){
-		        	resolve(rows);
-		        } else {
-		        	reject(err);
-		        };
+	        connection.release();
+	        if(!err){
+	        	resolve(rows);
+	        } else {
+	        	reject(err);
+	        };
 		    });
 		});
 	});

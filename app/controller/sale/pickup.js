@@ -10,7 +10,7 @@ const lib = require("jarmlib");
 const pickupController = {};
 
 pickupController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-ass','fin-ass'])){
 		return res.redirect('/');
 	};
 
@@ -25,7 +25,7 @@ pickupController.index = async (req, res) => {
 pickupController.recept = {};
 
 pickupController.recept.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-ass',"fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-ass','fin-ass'])){
 		return res.redirect('/');
 	};
 

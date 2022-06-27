@@ -8,14 +8,14 @@ const lib = require("jarmlib");
 const customerController = {};
 
 customerController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel', "adm-aud"])){
+	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man',"com-ass",'com-sel', "adm-aud"])){
 		return res.redirect('/');
 	};
 	res.render('customer/index', { user: req.user });
 };
 
 customerController.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel', "adm-aud"])){
+	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man',"com-ass",'com-sel', "adm-aud"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -91,7 +91,7 @@ customerController.save = async (req, res) => {
 };
 
 customerController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel', "adm-aud"])){
+	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man',"com-ass",'com-sel', "adm-aud"])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
