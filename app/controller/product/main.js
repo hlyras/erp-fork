@@ -12,7 +12,7 @@ Product.price = require('../../model/product/price');
 const productController = {};
 
 productController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'man','adm-man'])){
+	if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','com-ass'])){
 		return res.redirect("/");
 	};
 
@@ -26,7 +26,7 @@ productController.index = async (req, res) => {
 };
 
 productController.manage = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'man','adm-man','COR-GER','adm-vis'])){
+	if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','COR-GER','com-ass','adm-vis'])){
 		return res.redirect("/");
 	};
 
