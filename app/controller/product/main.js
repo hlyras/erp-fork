@@ -30,8 +30,6 @@ productController.manage = async (req, res) => {
 		return res.redirect("/");
 	};
 
-
-
 	try {
 		const productColors = await Product.color.list();
 		res.render('product/manage', { productColors, user: req.user });

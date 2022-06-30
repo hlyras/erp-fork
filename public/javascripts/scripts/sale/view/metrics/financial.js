@@ -10,7 +10,7 @@ Sale.view.metrics = (sales, days) => {
 		estimated_invoicing: 0
 	};
 
-	for(let i in sales) { metrics.invoicing += sales[i].value; };
+	for(let i in sales) { metrics.invoicing += (sales[i].product_value + sales[i].package_value - sales[i].discount_value); };
 	metrics.ticket = metrics.invoicing / days;
 	metrics.estimated_invoicing = (metrics.invoicing / days) * 30;
 

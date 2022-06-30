@@ -1,0 +1,24 @@
+<html>
+<head>
+  <% include ./../../partials/head %>
+</head>
+<body>
+  <% include ./../../partials/header %>
+  <% include ./../../partials/nav %>
+  <section class="container">
+    <% include ./components/filter-form %>
+    <div id="product-filter-box" class="box b1 container" style="display:none">
+      <div id="product-filter-div" class="box b1 container"></div>
+    </div>
+
+    <div id="product-detail-box" class="box b1 container h-center"></div>
+  </section>
+  <% include ./../../partials/loader %>
+</body>
+<footer>
+  <% include ./../../partials/footer %>
+  <script src="/javascripts/scripts/product/model/main.js"></script>
+  <script src="/javascripts/scripts/product/controller/conferency.js"></script>
+  <script src="/javascripts/scripts/product/view/conferency.js"></script>
+</footer>
+</html>
