@@ -23,14 +23,15 @@ if(Product.controller.filter){
 	});
 };
 
-Product.controller.show = async (product_id) => {
+Product.controller.detail = async (product_id) => {
 	let product = await API.response(Product.findById, product_id);
 	if(!product){ return false };
 
-	document.getElementById("product-detail-box").style.display = "";
+	lib.display("product-detail-box", "");
+	lib.display("product-filter-box", "none");
 
-	Product.view.show(product);
+	Product.view.detail(product);
 	
 	const pagination = { pageSize: 1, page: 0 };
-	(function(){ lib.carousel.execute("product-image-box", Product.view.image.show, product.images, pagination); }());
+	(function(){ lib.carousel.execute("product-image-box", Product.view.images, product.images, pagination); }());
 };

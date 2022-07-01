@@ -11,7 +11,13 @@
       <div id="product-filter-div" class="box b1 container"></div>
     </div>
 
-    <div id="product-detail-box" class="box b1 container h-center"></div>
+    <div id="product-detail-box" class="box b1 container ground h-center border radius-5 padding-10 margin-top-10" style="display:none">
+      <div id="product-detail-div" class="box b1 container underline h-center"></div>
+      <div id="product-image-box" class="box b1 ground center padding-10 margin-top-10">
+        <div id="product-image-div" class="box b1 center ground height-500 padding-10 margin-top-10"></div>
+        <% include ./../../partials/carousel %>
+      </div>
+    </div>
   </section>
   <% include ./../../partials/loader %>
 </body>
