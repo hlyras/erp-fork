@@ -9,7 +9,7 @@ productController.feedstock = require('../controller/product/feedstock/main');
 productController.price = require('../controller/product/price');
 productController.catalog = require('../controller/product/catalog');
 productController.datasheet = require('../controller/product/datasheet/main');
-productController.conferency = require('../controller/product/conferency/main');
+productController.conference = require('../controller/product/conference/main');
 
 router.get('/index', lib.route.toHttps, productController.index);
 router.get('/manage', lib.route.toHttps, productController.manage);
@@ -59,7 +59,10 @@ router.post('/package/price/update', lib.route.toHttps, productController.packag
 router.post('/package/image/add', lib.route.toHttps, productController.package.image.add);
 router.delete('/package/image/remove', lib.route.toHttps, productController.package.image.remove);
 
-router.get('/conferency', lib.route.toHttps, productController.conferency.index);
+router.get('/conference', lib.route.toHttps, productController.conference.index);
+router.get('/conference/info', lib.route.toHttps, productController.conference.info.index);
+router.get('/conference/info/manage', lib.route.toHttps, productController.conference.info.manage);
+router.post('/conference/info/update', lib.route.toHttps, productController.conference.info.update);
 
 router.post('/colorSave', lib.route.toHttps, productController.color.save);
 router.get('/colorList', lib.route.toHttps, productController.color.list);
