@@ -46,7 +46,7 @@ Product.conference.view.detail = (product) => {
 	conference_info_box.innerHTML = "";
 
 	product.conference_video && conference_info_box.append(lib.element.create("iframe", {
-		class: "box b1 border radius-5 height-250",
+		class: "box b1 border radius-5 height-400",
 		src: product.conference_video,
 		allowfullscreen: 'on',
 		frameborder: 0,
