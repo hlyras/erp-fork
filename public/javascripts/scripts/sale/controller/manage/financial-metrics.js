@@ -26,7 +26,7 @@ Sale.financial.controller.filter = async () => {
 	metrics.ticket = metrics.invoicing / days;
 	metrics.estimated_invoicing = (metrics.invoicing / days) * 30;
 
-	let individualMetrics = { invoicing: 0, ticket: 0, estimated_invoicing: 0 };
+	let individualMetrics = { invoicing: 0, ticket: 0, estimated_invoicing: 0, share: 0 };
 	for(let i in sales) {
 		if(sales[i].user_id == sale.user_id){
 			individualMetrics.invoicing += (sales[i].product_value + sales[i].package_value - sales[i].discount_value); 
@@ -34,6 +34,7 @@ Sale.financial.controller.filter = async () => {
 	};
 	individualMetrics.ticket = individualMetrics.invoicing / days;
 	individualMetrics.estimated_invoicing = (individualMetrics.invoicing / days) * 30;
+	individualMetrics.share = lib.ruleOfThree(metrics.invoicing, 100, individualMetrics.invoicing) || 0;
 
 	let goalDone = (monthlyGoal > metrics.invoicing) ? false : true;
 
@@ -64,13 +65,13 @@ Sale.financial.controller.filter = async () => {
 	userDailyTicket.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `R$${individualMetrics.ticket.toFixed(2)}`));
 
 	let userPercentage = document.getElementById("financial-metrics").children['user-percentage'];
-	userPercentage.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold" }, `Participação`));
-	userPercentage.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `${lib.ruleOfThree(metrics.invoicing, 100, individualMetrics.invoicing).toFixed(2)}%`));
+	userPercentage.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold" }, `Minha participação`));
+	userPercentage.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `${individualMetrics.share.toFixed(2) || (0).toFixed(2)}%`));
 
 	let userCommission = document.getElementById("financial-metrics").children['user-commission'];
 	userCommission.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold" }, `Minha comissão`));
-	!goalDone && userCommission.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `R$${(individualMetrics.invoicing * 0.01).toFixed(2)}`));
-	goalDone && userCommission.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `R$${(individualMetrics.invoicing * 0.02).toFixed(2)}`));
+	!goalDone && userCommission.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `R$${(individualMetrics.invoicing * 0.01).toFixed(2) || (0).toFixed(2)}`));
+	goalDone && userCommission.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `R$${(individualMetrics.invoicing * 0.02).toFixed(2) || (0).toFixed(2)}`));
 }
 
 Sale.financial.controller.filter();
