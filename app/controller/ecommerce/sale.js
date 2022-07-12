@@ -576,7 +576,7 @@ const saleController = {
 	},
 	report: {
 		index: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
+			if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 				return res.redirect('/');
 			};
 			let users = await User.list();
@@ -648,7 +648,7 @@ const saleController = {
 		},
 		packment: {
 			index: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 					return res.redirect('/');
 				};
 				let colors = await Product.color.list();
@@ -687,7 +687,7 @@ const saleController = {
 		},
 		gathering: {
 			index: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
 					return res.redirect('/');
 				};
 				let colors = await Product.color.list();
@@ -695,7 +695,7 @@ const saleController = {
 				res.render('ecommerce/sale/report/gathering', { user: req.user, users: users, colors: colors });
 			},
 			filter: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','pro-ass'])){
+				if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','pro-ass','log-pac'])){
 					return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 				};
 
