@@ -81,10 +81,10 @@ productController.save = async (req, res) => {
 		announcement: req.body.announcement
 	};
 
-	if(!product.code || product.code < 1 || product.code > 9999){return res.send({ msg: 'Código de produto inválido.' })};
+	if(!product.code || product.code < 1 || product.code > 99999){return res.send({ msg: 'Código de produto inválido.' })};
 	if(!product.name || product.name.length > 75){return res.send({ msg: 'Preencha o nome do produto.' })};
 	if(!product.color || product.color.length > 25){return res.send({ msg: 'Preencha a cor do produto.' })};
-	if(!product.size || product.size.length > 5){return res.send({ msg: 'Preencha o tamanho do produto.' })};
+	if(!product.size || product.size.length > 4){return res.send({ msg: 'Preencha o tamanho do produto.' })};
 	if(!product.weight || isNaN(product.weight)){return res.send({ msg: 'Preencha o peso do produto.' })};
 	// if(!product.width || isNaN(product.width)){return res.send({ msg: 'Preencha a largura do produto.' })};
 	// if(!product.height || isNaN(product.height)){return res.send({ msg: 'Preencha a altura do produto.' })};
