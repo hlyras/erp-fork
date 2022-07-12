@@ -8,7 +8,7 @@ const Sale = require('../../model/sale/main');
 const adminController = {};
 
 adminController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud","fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud","fin-ass"])){
 		return res.redirect('/');
 	};
 
@@ -53,7 +53,7 @@ adminController.index = async (req, res) => {
 };
 
 adminController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel',"adm-man","adm-ass","adm-aud","fin-ass"])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud","fin-ass"])){
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
