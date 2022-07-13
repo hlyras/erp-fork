@@ -37,7 +37,7 @@ triageController.packment.index = async (req, res) => {
 };
 
 triageController.packment.confirm = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
+	if(!await userController.verifyAccess(req, res, ['adm','pro-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
