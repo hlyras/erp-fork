@@ -277,7 +277,7 @@ saleController.filter = async (req, res) => {
 };
 
 saleController.findById = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-man','COR-GER','log-pac','fin-ass'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-man','pro-ass','COR-GER','log-pac','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
