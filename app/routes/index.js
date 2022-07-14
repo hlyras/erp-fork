@@ -13,6 +13,7 @@ router.use("/user", require("./user"));
 router.use("/admin", require("./admin"));
 router.use("/department", require("./department"));
 router.use("/product", require("./product"));
+router.use("/production", require("./production"));
 router.use("/feedstock", require("./feedstock"));
 router.use("/customer", require("./customer"));
 router.use("/sale", require("./sale"));

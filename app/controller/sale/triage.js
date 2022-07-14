@@ -53,6 +53,10 @@ triageController.packment.confirm = async (req, res) => {
 	if(isNaN(sale.box_amount)) { return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" }); }
 	if(sale.box_amount <= 0) { return res.send({ msg: "O volume inserido é inválido." }); }
 
+	if((await Sale.findById(sale.id))[0].shipment_method == "Retirada em Loja"){
+		sale.status = "Ag. envio p/ retirada";
+	}
+
 	try {
 		await Triage.packment.confirm(sale);
 		res.send({ done: "Embalo confirmado com sucesso!" });
