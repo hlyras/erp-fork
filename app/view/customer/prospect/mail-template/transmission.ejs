@@ -1,24 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bornais com 20% de desconto</title>
+  <title>Coldres com 15% de desconto</title>
 </head>
 <body style="padding:0px;margin:0px;">
   <div>
-    <div style="height:60px;background-color:#000;" align="center">
-      <img src="cid:favicon-white" style="height:40px;margin-top:10px;">
-    </div>
-    <p style="margin-left:10px;font-family:georgia;">Olá, tudo bem?</p>
-    <p style="margin-left:10px;font-family:georgia;">Meu nome é <%= user.name %>, sou representante comercial da JA Rio Militar.</p>
-    <p style="margin-left:10px;font-family:georgia;">Estou encaminhando este e-mail para informar que estamos com promoção das nossas Cases modulares, na compra da Case você ganha 2 acessórios modulares de brinde.</p>
-    <p style="margin-left:10px;font-family:georgia;">Pode me chamar no <a href="<%= user.contact %>">WhatsApp</a> que te explico melhor como funciona a promoção.</p>
-
-    <p style="margin-left:10px;font-family:georgia;">Mas não perca tempo pois é por tempo limitado!</p>
-
-    <div style="margin-left:10px;margin-top:30px;font-family:georgia;">Atenciosamente,</div>
-    <div style="margin-left:10px;margin-top:12px;font-family:georgia;"><%= user.name %></div>
-    <% if(user.phone) { %>
-      <div style="margin-left:10px;font-size: 0.8em;"><%= user.phone %></div>
+    <p style="margin-left:10px;font-family:georgia;">Olá <%= customer.name %></p>
+    <p style="margin-left:10px;font-family:georgia;">Além de ganhar na venda, ganhe também na compra!</b></p>
+    <p style="margin-left:10px;font-family:georgia;">Aproveite nossa promoção de coldres, todos os modelos com 15% de desconto.</p>
+    <p style="margin-left:10px;font-family:georgia;">Mas não deixe para depois pois a promoção vai apenas até o dia 22/07/2022!</p>
+    <div style="margin-left:10px;font-family:georgia;">Clique aqui para falar comigo por <a href="<%= user.contact %>">WhatsApp</a></div>
+    <div style="margin-top:30px;font-family:georgia;">Atenciosamente,</div>
+    <div style="margin-top:12px;font-family:georgia;"><%= user.name %></div>
+    <% if(user.phone) { %> 
+      <div style="font-size: 0.8em;"><%= user.phone %></div>
     <% } %>
     <img src="cid:favicon" style="margin-left:10px;margin-top:5px;width:105px;">
   </div>

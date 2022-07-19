@@ -347,8 +347,8 @@ prospectController.mailer.transmission = async (req, res) => {
 	        from: `JA Rio Militar <comercial@jariomilitar.com.br>`,
 	        to: `<${customer[0].email}>`,
 	        cc: `${customer[0].email}`,
-	        subject: "Aumente seu lucro!",
-	        text: "Case tática + 2 acessórios modulares de brinde",
+	        subject: "Aumente sua margem de lucro",
+	        text: "Aproveite nossas promoções recorrentes para adquirir produtos com os melhores preços do mercado.",
 	        html: data,
 	        attachments: [
 		        {

@@ -59,8 +59,8 @@ mailerController.send = async (req, res) => {
 	    const option = {
         from: "JA Rio Militar <comercial@jariomilitar.com.br>",
         to: `${customer.name} <${customer.email}>`,
-        subject: "Promoção Cases táticas modulares",
-		    text: "Na compra da Case ganhe 2 acessórios modulares...",
+        subject: "Aumente sua margem de lucro",
+		    text: "Aproveite nossas promoções recorrentes para adquirir produtos com os melhores preços do mercado.",
 	        html: data,
 	        attachments: [
 			    {
