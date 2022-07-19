@@ -1,3 +1,5 @@
+const lib = require("jarmlib");
+
 const User = require('../../model/user');
 const userController = require('./../user');
 
@@ -37,9 +39,6 @@ const departmentController = {
 
 		const params = { keys: [], values: [] };
 		const strict_params = { keys: [], values: [] };
-
-		lib.Query.fillParam("product.color", req.body.product.color, strict_params);
-		lib.Query.fillParam("product.brand", req.body.product.brand, params);
 
 		try {
 			let departments = await Department.filter([],[],params,strict_params,[]);

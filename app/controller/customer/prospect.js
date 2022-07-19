@@ -60,7 +60,7 @@ prospectController.filter = async (req, res) => {
 	
 	lib.Query.fillParam("customer_lead.brand", req.body.brand, params);
 	lib.Query.fillParam("customer_lead.state", req.body.state, strictParams);
-	lib.Query.fillParam("customer_lead.user_id", req.user.id, strictParams);
+	// lib.Query.fillParam("customer_lead.user_id", req.user.id, strictParams);
 	
 	let orderParams = [ ["datetime","ASC"], ["id","ASC"] ];
 
