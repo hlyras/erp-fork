@@ -5,6 +5,7 @@ const customerController = require('../controller/customer/main');
 const addressController = require('../controller/customer/address');
 const prospectController = require('../controller/customer/prospect');
 const mailerController = require('../controller/customer/mailer');
+const landingPageController = require('../controller/customer/landing-page');
 
 //API ROUTES
 router.get('/', lib.route.toHttps, customerController.index);
@@ -39,5 +40,9 @@ router.get('/mailer/filter', lib.route.toHttps, mailerController.filter);
 router.get('/mailer/send/:id', lib.route.toHttps, mailerController.send);
 router.get('/mailer/remove-sign/:id/:register', lib.route.toHttps, mailerController.removeSign);
 router.get('/mailer/signout/:id/:register', lib.route.toHttps, mailerController.signOut);
+
+router.get('/landing-page', lib.route.toHttps, landingPageController.index);
+router.get('/landing-page/manage', lib.route.toHttps, landingPageController.manage);
+router.post('/landing-page/filter', lib.route.toHttps, landingPageController.filter);
 
 module.exports = router;
