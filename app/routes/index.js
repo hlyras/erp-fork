@@ -11,6 +11,7 @@ router.get("/logout", lib.route.toHttps, homeController.logout);
 
 router.use("/user", require("./user"));
 router.use("/admin", require("./admin"));
+router.use("/tasker", require("./tasker"));
 router.use("/department", require("./department"));
 router.use("/product", require("./product"));
 router.use("/production", require("./production"));

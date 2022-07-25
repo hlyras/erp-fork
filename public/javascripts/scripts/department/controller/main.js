@@ -29,9 +29,12 @@ if(Department.controller.filter){
 			code: e.target.elements.namedItem("code").value
 		};
 
-		console.log(department);
+		let departments = await API.response(Department.filter, department);
+		if(!departments) { return false; }
 
-		let response = await API.response(Department.filter, department);
-		if(!response) { return false; }
+		lib.display("department-filter-box", "");
+
+		const setup = { pageSize: 10, page: 0 };
+		(function(){ lib.carousel.execute("department-filter-box", Department.view.filter, departments, setup); }());
 	});
 }
