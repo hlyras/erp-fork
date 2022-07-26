@@ -1,111 +1,35 @@
 <html>
 <head>
-  <% include ./../partials/head %>
-
-  <!-- #193073 -->
-  <!-- #0e9af1 -->
-  <!-- #3eaef4 -->
-  <!-- #6ec2f7 -->
-  <!-- #9fd7f9 -->
-
-  <style type="text/css">
-    :root {
-      --ground: #fff;
-      --background: #f7f7ff;
-      --light: #cfcfff;
-      --solid: #9fd7f9;
-      --disabled: #9e9eff;
-      --strong: #5151ff;
-      --color: #2222ff;
-    }
-
-    .blue1 { background-color: #193073 }
-    .blue2 { background-color: #0e9af1 }
-    .blue3 { background-color: #3eaef4 }
-    .blue4 { background-color: #6ec2f7 }
-    .blue5 { background-color: #9fd7f9 }
-
-    .box-hover { background-color: var(--background); }
-    .box-hover:hover { background-color: var(--solid); }
-
-    .shadow { box-shadow:1px 1px 3px var(--light); }
-
-  </style>
-
+    <% include ./../partials/head %>
 </head>
 <body>
-  <% include ./../partials/header %>
-  <% include ./../partials/nav %>
+<% include ./../partials/header %>
+<% include ./../partials/nav %>
+<section>
+    <div class="container">
+        <div class="box b1 underline em15 lucida-grande center bold">Documentação JA Rio Militar</div>
+        <div class="box b3 padding-10 margin-top-10">
+            <h1 class="lucida-grande underline">E-commerce</h1>
+            <p><a href="/documentation/ecommerce/asks" class="underline-link lucida-grande">Perguntas e respostas</a></p>
+            <p><a href="/documentation/ecommerce/gathering" class="underline-link lucida-grande">Coleta de informações</a></p>
+            <p><a href="/documentation/ecommerce/solution" class="underline-link lucida-grande">Devoluções / Soluções</a></p>
+        </div>
 
-  <section class="container h-center">
-    <div class="box b6 container ground padding-10 radius-5 shadow">
-      <img src="images/icon/bill.png" class="mobile-box b4 image-prop">
-      <div class="mobile-box b3-4 lucida-grande bold center">Recursos Humanos</div>
+        <div class="box b3 padding-10 margin-top-10">
+            <h1 class="lucida-grande underline">Comercial</h1>
+            <p><a href="/documentation/commercial/nf" class="underline-link lucida-grande">Nota Fiscal Eletrônica</a></p>
+            <p><a href="/documentation/commercial/prospect" class="underline-link lucida-grande">Estratégias de prospecção</a></p>
+        </div>
 
-      <div class="box b1 container">
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Contratação</div>
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Onboarding</div>
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Demissão</div>
-      </div>
+        <div class="box b3 padding-10 margin-top-10">
+            <h1 class="lucida-grande underline">Administração</h1>
+            <p><a href="/documentation/admin/main" class="underline-link lucida-grande">Financeiro / RH</a></p>
+        </div>
     </div>
-
-    <div class="box b6 container ground padding-10 radius-5 shadow">
-      <img src="images/icon/bill.png" class="mobile-box b4 image-prop">
-      <div class="mobile-box b3-4 lucida-grande bold center">Recursos Humanos</div>
-
-      <div class="box b1 container">
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Contratação</div>
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Onboarding</div>
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Demissão</div>
-      </div>
-    </div>
-
-    <div class="box b6 container ground padding-10 radius-5 shadow">
-      <img src="images/icon/bill.png" class="mobile-box b4 image-prop">
-      <div class="mobile-box b3-4 lucida-grande bold center">Recursos Humanos</div>
-
-      <div class="box b1 container">
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Contratação</div>
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Onboarding</div>
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Demissão</div>
-      </div>
-    </div>
-
-    <div class="box b6 container ground padding-10 radius-5 shadow">
-      <img src="images/icon/bill.png" class="mobile-box b4 image-prop">
-      <div class="mobile-box b3-4 lucida-grande bold center">Recursos Humanos</div>
-
-      <div class="box b1 container">
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Contratação</div>
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Onboarding</div>
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Demissão</div>
-      </div>
-    </div>
-
-    <div class="box b6 container ground padding-10 radius-5 shadow">
-      <img src="images/icon/bill.png" class="mobile-box b4 image-prop">
-      <div class="mobile-box b3-4 lucida-grande bold center">Recursos Humanos</div>
-
-      <div class="box b1 container">
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Contratação</div>
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Onboarding</div>
-        <div class="box b1 ground em09 padding-5 margin-top-5 radius-5 box-hover">Demissão</div>
-      </div>
-    </div>
-  </section>
-  <% include ./../partials/loader %>
+</section>
+    <% include ./../partials/loader %>
 </body>
 <footer>
-  <% include ./../partials/footer %>
-
-  <script>
-    lib.updateCssVariable = (origin, variable, content) => {
-      let root = document.querySelector(origin).style;
-      root.setProperty(variable, content);
-    };
-
-    lib.updateCssVariable()
-  </script>
-
+    <% include ./../partials/footer %>
 </footer>
 </html>
