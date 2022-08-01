@@ -4,7 +4,7 @@ const lib = require('jarmlib');
 const customerController = require('../controller/customer/main');
 const addressController = require('../controller/customer/address');
 const prospectController = require('../controller/customer/prospect');
-const mailerController = require('../controller/customer/mailer/main');
+// const mailerController = require('../controller/customer/mailer/main');
 const landingPageController = require('../controller/customer/landing-page');
 
 //API ROUTES
@@ -35,8 +35,8 @@ router.post('/prospect/mailer/filter', lib.route.toHttps, prospectController.mai
 router.get('/prospect/meeting', lib.route.toHttps, prospectController.meeting.index);
 router.post('/prospect/meeting/filter', lib.route.toHttps, prospectController.meeting.filter);
 
-router.get('/mailer', lib.route.toHttps, mailerController.index);
-router.post('/mailer/send', lib.route.toHttps, mailerController.send);
+// router.get('/mailer', lib.route.toHttps, mailerController.index);
+// router.post('/mailer/send', lib.route.toHttps, mailerController.send);
 
 // router.get('/mailer', lib.route.toHttps, mailerController.index);
 // router.get('/mailer/filter', lib.route.toHttps, mailerController.filter);
