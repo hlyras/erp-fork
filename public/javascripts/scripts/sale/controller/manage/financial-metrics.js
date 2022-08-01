@@ -70,8 +70,8 @@ Sale.financial.controller.filter = async () => {
 
 	let userCommission = document.getElementById("financial-metrics").children['user-commission'];
 	userCommission.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold" }, `Minha comissão`));
-	!goalDone && userCommission.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `R$${(individualMetrics.invoicing * 0.01).toFixed(2) || (0).toFixed(2)}`));
-	goalDone && userCommission.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `R$${(individualMetrics.invoicing * 0.02).toFixed(2) || (0).toFixed(2)}`));
+	!goalDone && userCommission.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `R$${(individualMetrics.invoicing * 0.005).toFixed(2) || (0).toFixed(2)}`));
+	goalDone && userCommission.append(lib.element.create("div", { class: "box b1 lucida-grande em09" }, `R$${(individualMetrics.invoicing * 0.01).toFixed(2) || (0).toFixed(2)}`));
 }
 
 Sale.financial.controller.filter();
