@@ -54,7 +54,7 @@ Product.conference.view.detail = (product) => {
 	}));
 
 	conference_info_box.append(lib.element.create("div", {
-		class: "box b1 padding-10 pre-wrap"
+		class: "box b1 lucida-grande em20 bold padding-10 pre-wrap"
 	}, product.conference_obs || "Ainda não foram adicionadas observações sobre este produto."));
 };
 

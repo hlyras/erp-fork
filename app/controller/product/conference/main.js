@@ -24,9 +24,9 @@ conferenceController.index = async (req, res) => {
 conferenceController.info = {};
 
 conferenceController.info.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
-		return res.redirect('/');
-	};
+	// if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+	// 	return res.redirect('/');
+	// };
 
 	try {
 		const productColors = await Product.color.list();

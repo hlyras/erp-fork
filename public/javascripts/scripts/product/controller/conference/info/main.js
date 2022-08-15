@@ -30,3 +30,5 @@ Product.conference.controller.detail = async (product_id) => {
 
 	Product.conference.view.detail(product);
 };
+
+Product.conference.controller.filter.submit.click();
