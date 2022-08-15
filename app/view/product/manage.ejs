@@ -1,155 +1,117 @@
 <html>
-	<head>
-        <% include ./../partials/head %>
-        <style type="text/css">
-        	.fixed-footer {
-			    position: fixed;
-			    bottom: 0;
-			    width: 100%;
-			    z-index: 9999
-			}
-        </style>
-	</head>
-	<body>
-		<% include ./../partials/header %>
-        <% include ./../partials/nav %>
-		<section>
-			<div class="container">
-				<div class="box b2 container ground border center padding-10 margin-top-10">
-					<div class="box b1 underline center">Novo Produto</div>
-					<form id="product-create-form" class="box b1 container">
-						<input type="hidden" name="id" value="0" autocomplete="off">
-						<input type="number" name="code" class="box b4 input-generic margin-top-5 center" placeholder="Código" min="1" max="99999" autocomplete="off">
-						<input type="text" name="name" class="box b3-4 input-generic margin-top-5 center" placeholder="Nome do produto" autocomplete="off" maxlength="75">
-						<select name="color" class="box b3 input-generic margin-top-5 center" autocomplete="off">
-							<option value="">Cor</option>
-							<% for(i in productColors){ %>
-								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
-							<% } %>
-						</select>
-						<select name="size" class="box b3 input-generic margin-top-5 center" autocomplete="off">
-							<option value="">Tamanho</option>
-							<option value="ST">Sem tamanho</option>
-							<option value="PP">PP</option>
-							<option value="P">P</option>
-							<option value="M">M</option>
-							<option value="XM">XM</option>
-							<option value="G">G</option>
-							<option value="XG">XG</option>
-							<option value="GG">GG</option>
-							<option value="XGG">XGG</option>
-							<option value="XXG">XXG</option>
-							<option value="XXGG">XXGG</option>
-						</select>
-                        <input type="number" name="weight" class="box b3 input-generic center margin-top-5 bold" step="1" placeholder="Peso em gramas" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}" autocomplete="off" />
-                        <input type="number" name="width" class="box b3 input-generic center margin-top-5 bold" step="1" placeholder="Largura" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}" autocomplete="off" />
-                        <input type="number" name="height" class="box b3 input-generic center margin-top-5 bold" step="1" placeholder="Altura" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}" autocomplete="off" />
-                        <input type="number" name="depth" class="box b3 input-generic center margin-top-5 bold" step="1" placeholder="Profundidade" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}" autocomplete="off" />
-						<select name="brand" class="box b2 input-generic margin-top-5 center" autocomplete="off">
-							<option value="">Marca do Produto</option>
-							<option value="Sem marca">Sem marca</option>
-							<option value="J.A Rio Militar">J.A Rio Militar</option>
-						</select>
-						<select name="status" class="box b2 input-generic margin-top-5 center" autocomplete="off">
-							<option value="">Status</option>
-							<option value="Disponível">Disponível</option>
-							<option value="Indisponível">Indisponível</option>
-						</select>
-						<input type="text" name="image" class="box b2 input-generic margin-top-5 center" placeholder="Imagem do produto" autocomplete="off" maxlength="200">
-						<input type="text" name="announcement" class="box b2 input-generic margin-top-5 center" placeholder="Link do anúncio" autocomplete="off" maxlength="200">
-						<input type="text" name="video" class="box b1 input-generic margin-top-5 center" placeholder="Vídeo do produto" autocomplete="off" maxlength="200">
-						<textarea name="description" class="box b1 height-80 avant-garde padding-5 margin-top-5" placeholder="Descrição do Produto"></textarea>
-						<input type="submit" name="submit" class="box b1 submit-generic center box-hover margin-top-5 bold" value="Cadastrar">
-					</form>
-				</div>
-				<div class="box b2 container ground border center padding-10 margin-top-10">
-					<div class="box b1 underline center">Buscar Produtos</div>
-					<form id="product-filter-form" class="box b1 container">
-						<input type="number" name="code" class="box b2 input-generic margin-top-5 center" placeholder="Cód" autocomplete="off">
-						<input type="text" name="name" class="box b2 input-generic margin-top-5 center" placeholder="Nome" autocomplete="off">
-						<select name="color" class="box b2 input-generic margin-top-5 center" autocomplete="off">
-							<option value="">Cor</option>
-							<% for(i in productColors){ %>
-								<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
-							<% } %>
-						</select>
-						<select name="brand" class="box b2 input-generic margin-top-5 center" autocomplete="off">
-							<option value="">Marca do Produto</option>
-							<option value="Sem marca">Sem marca</option>
-							<option value="J.A Rio Militar">J.A Rio Militar</option>
-						</select>
-						<input type="submit" name="submit" class="box b1 submit-generic center box-hover margin-top-5 bold" value="Filtrar">
-					</form>
-
-					<div id="product-filter-box" class="box b1 container ground padding-10 margin-top-10" style="display:none">
-						<div id="product-filter-div" class="box b1 container"></div>
-        				<% include ./../partials/carousel %>
-					</div>
-				</div>
-
-				<div id="product-show-box" class="box b1 container border ground margin-top-10" style="display:none">
-					<div id="product-info-form" class="box b2 container margin-top-10">
-						<div id="product-show-div" class="box b1 container"></div>
-						<div id="product-image-box" class="box b1 ground border center padding-10 margin-top-10" style="display:none">
-							<div id="product-image-div" class="box b1 center ground padding-10 margin-top-10"></div>
-							<% include ./../partials/carousel %>
-						</div>
-					</div>
-
-					<!-- <form id="product-feedstock-add-form" class="box b1 container border-explicit padding-10 margin-top-10" style="display:none">
-						<div class="box b1 em12 bold underline center">Adicionar Matéria-Prima ao catálogo</div>
-						<div class="mobile-box b2-3 container dropdown margin-top-5">
-							<ul class="mobile-box b1 container"><li>
-							<input type="hidden" name="supplier-id" value="">
-							<input type="text" id="product-feedstock-add-dropdown-input" name="feedstock" data-id="" class="mobile-box b1 input-generic center" oninput="Product.controller.feedstock.dropdown.filter(this, 'feedstock-filter-dropdown')" placeholder="Descrição da matéria-prima" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
-							<ul id="feedstock-filter-dropdown" class="box b1"></ul>
-							</li></ul>
-						</div>
-						<input type="number" name="price" class="mobile-box b4 em12 input-generic margin-top-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
-						<button type="submit" name="submit" class="mobile-box b12 input-generic center noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
-					</form>
-					<div id="product-feedstock-add-div" class="box a1 container"></div> -->
-				</div>
-
-				<!-- <div class="box a1 container ground fixed-footer padding-10 border-explicit">
-					<div onclick="" class="mobile-box b5 container padding-5 border-explicit radius-10 shadow-2-hover pointer">
-	                    <img class="box b6 image-fit" src="/images/icon/info.png">
-	                    <div class="mobile-box b5-6 em09 center hide-in-mobile">Detalhes Gerais</div>
-	                </div>
-	                <div onclick="feedstockMenu()" class="mobile-box b5 container padding-5 border-explicit radius-10 shadow-2-hover pointer">
-	                    <img class="box b6 image-fit" src="/images/icon/feedstock.png">
-	                    <div class="mobile-box b5-6 hide-in-mobile em09 center">Matérias-Primas</div>
-	                </div>
-	                <div onclick="" class="mobile-box b5 container padding-5 border-explicit radius-10 shadow-2-hover pointer">
-	                    <img class="box b6 image-fit" src="/images/icon/time.png">
-	                    <div class="mobile-box b5-6 hide-in-mobile em09 center">Tempo de Produção</div>
-	                </div>
-	                <div onclick="" class="mobile-box b5 container padding-5 border-explicit radius-10 shadow-2-hover pointer">
-	                    <img class="box b6 image-fit" src="/images/icon/cost.png">
-	                    <div class="mobile-box b5-6 hide-in-mobile em09 center">Custos de Produção</div>
-	                </div>
-	                <div onclick="" class="mobile-box b5 container padding-5 border-explicit radius-10 shadow-2-hover pointer">
-	                    <img class="box b6 image-fit" src="/images/icon/add-image.png">
-	                    <div class="mobile-box b5-6 hide-in-mobile em09 center">Imagens do Produto</div>
-	                </div>
-				</div> -->
+<head>
+	<%- include('./../partials/head.ejs') %>
+	<style type="text/css">
+		.fixed-footer {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			z-index: 9999
+		}
+	</style>
+</head>
+<body>
+	<%- include('./../partials/header.ejs') %>
+	<%- include('./../partials/nav.ejs') %>
+	<section>
+		<div class="container">
+			<div class="box b2 container ground border center padding-10 margin-top-10">
+				<div class="box b1 underline center">Novo Produto</div>
+				<form id="product-create-form" class="box b1 container">
+					<input type="hidden" name="id" value="0" autocomplete="off">
+					<input type="number" name="code" class="box b4 input-generic margin-top-5 center" placeholder="Código" min="1" max="99999" autocomplete="off">
+					<input type="text" name="name" class="box b3-4 input-generic margin-top-5 center" placeholder="Nome do produto" autocomplete="off" maxlength="75">
+					<select name="color" class="box b3 input-generic margin-top-5 center" autocomplete="off">
+						<option value="">Cor</option>
+						<% for(i in productColors){ %>
+						<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
+						<% } %>
+					</select>
+					<select name="size" class="box b3 input-generic margin-top-5 center" autocomplete="off">
+						<option value="">Tamanho</option>
+						<option value="ST">Sem tamanho</option>
+						<option value="PP">PP</option>
+						<option value="P">P</option>
+						<option value="M">M</option>
+						<option value="XM">XM</option>
+						<option value="G">G</option>
+						<option value="XG">XG</option>
+						<option value="GG">GG</option>
+						<option value="XGG">XGG</option>
+						<option value="XXG">XXG</option>
+						<option value="XXGG">XXGG</option>
+					</select>
+					<input type="number" name="weight" class="box b3 input-generic center margin-top-5 bold" step="1" placeholder="Peso em gramas" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}" autocomplete="off" />
+					<input type="number" name="width" class="box b3 input-generic center margin-top-5 bold" step="1" placeholder="Largura" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}" autocomplete="off" />
+					<input type="number" name="height" class="box b3 input-generic center margin-top-5 bold" step="1" placeholder="Altura" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}" autocomplete="off" />
+					<input type="number" name="depth" class="box b3 input-generic center margin-top-5 bold" step="1" placeholder="Profundidade" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=''}" autocomplete="off" />
+					<select name="brand" class="box b2 input-generic margin-top-5 center" autocomplete="off">
+						<option value="">Marca do Produto</option>
+						<option value="Sem marca">Sem marca</option>
+						<option value="J.A Rio Militar">J.A Rio Militar</option>
+					</select>
+					<select name="status" class="box b2 input-generic margin-top-5 center" autocomplete="off">
+						<option value="">Status</option>
+						<option value="Disponível">Disponível</option>
+						<option value="Indisponível">Indisponível</option>
+					</select>
+					<input type="text" name="image" class="box b2 input-generic margin-top-5 center" placeholder="Imagem do produto" autocomplete="off" maxlength="200">
+					<input type="text" name="announcement" class="box b2 input-generic margin-top-5 center" placeholder="Link do anúncio" autocomplete="off" maxlength="200">
+					<input type="text" name="video" class="box b1 input-generic margin-top-5 center" placeholder="Vídeo do produto" autocomplete="off" maxlength="200">
+					<textarea name="description" class="box b1 height-80 avant-garde padding-5 margin-top-5" placeholder="Descrição do Produto"></textarea>
+					<input type="submit" name="submit" class="box b1 submit-generic center box-hover margin-top-5 bold" value="Cadastrar">
+				</form>
 			</div>
-			<div class="box b1 height-150"></div>
-		</section>
-        <% include ./../partials/loader %>
-	</body>
-	<footer>
-        <% include ./../partials/footer %>
-        <% include ./partial %>
+			<div class="box b2 container ground border center padding-10 margin-top-10">
+				<div class="box b1 underline center">Buscar Produtos</div>
+				<form id="product-filter-form" class="box b1 container">
+					<input type="number" name="code" class="box b2 input-generic margin-top-5 center" placeholder="Cód" autocomplete="off">
+					<input type="text" name="name" class="box b2 input-generic margin-top-5 center" placeholder="Nome" autocomplete="off">
+					<select name="color" class="box b2 input-generic margin-top-5 center" autocomplete="off">
+						<option value="">Cor</option>
+						<% for(i in productColors){ %>
+						<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
+						<% } %>
+					</select>
+					<select name="brand" class="box b2 input-generic margin-top-5 center" autocomplete="off">
+						<option value="">Marca do Produto</option>
+						<option value="Sem marca">Sem marca</option>
+						<option value="J.A Rio Militar">J.A Rio Militar</option>
+					</select>
+					<input type="submit" name="submit" class="box b1 submit-generic center box-hover margin-top-5 bold" value="Filtrar">
+				</form>
 
-        <script type="text/javascript">
-        	function feedstockMenu(){
-        		document.getElementById("product-feedstock-add-form").style.display = "";
-        	};
-        </script>
+				<div id="product-filter-box" class="box b1 container ground padding-10 margin-top-10" style="display:none">
+					<div id="product-filter-div" class="box b1 container"></div>
+					<%- include('./../partials/carousel.ejs') %>
+				</div>
+			</div>
 
-        <script src="/javascripts/scripts/feedstock/model/main.js"></script>
-		<script src="/javascripts/scripts/feedstock/controller/main.js"></script>
-		<!-- <script src="/javascripts/scripts/feedstock/view/main.js"></script> -->
-	</footer>
+			<div id="product-show-box" class="box b1 container border ground margin-top-10" style="display:none">
+				<div id="product-info-form" class="box b2 container margin-top-10">
+					<div id="product-show-div" class="box b1 container"></div>
+					<div id="product-image-box" class="box b1 ground border center padding-10 margin-top-10" style="display:none">
+						<div id="product-image-div" class="box b1 center ground padding-10 margin-top-10"></div>
+						<%- include('./../partials/carousel.ejs') %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="box b1 height-150"></div>
+	</section>
+	<%- include('./../partials/loader.ejs') %>
+</body>
+<footer>
+	<%- include('./../partials/footer.ejs') %>
+	<%- include('./partial.ejs') %>
+
+	<script type="text/javascript">
+		function feedstockMenu(){
+			document.getElementById("product-feedstock-add-form").style.display = "";
+		};
+	</script>
+
+	<script src="/javascripts/scripts/feedstock/model/main.js"></script>
+	<script src="/javascripts/scripts/feedstock/controller/main.js"></script>
+</footer>
 </html>

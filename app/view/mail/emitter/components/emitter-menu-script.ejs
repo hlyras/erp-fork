@@ -1,0 +1,33 @@
+<script>
+  function changeInterface(interface) {
+    lib.display("emitter-interface-customer", "none");
+    lib.display("emitter-interface-lead", "none");
+    lib.display("emitter-interface-prospect", "none");
+
+    lib.addCss("emitter-customer-btn", ["box-hover","border"]);
+    lib.addCss("emitter-lead-btn", ["box-hover","border"]);
+    lib.addCss("emitter-prospect-btn", ["box-hover","border"]);
+
+    lib.removeCss("emitter-customer-btn", ["border-st"]);
+    lib.removeCss("emitter-lead-btn", ["border-st"]);
+    lib.removeCss("emitter-prospect-btn", ["border-st"]);
+
+    switch (interface) {
+      case 'customer':
+      lib.display("emitter-interface-customer", "");
+      lib.removeCss("emitter-customer-btn", ["box-hover","border"]);
+      lib.addCss("emitter-customer-btn", ["border-st"]);
+      break;
+      case 'lead':
+      lib.display("emitter-interface-lead", "");
+      lib.removeCss("emitter-lead-btn", ["box-hover","border"]);
+      lib.addCss("emitter-lead-btn", ["border-st"]);
+      break;
+      case 'prospect':
+      lib.display("emitter-interface-prospect", "");
+      lib.removeCss("emitter-prospect-btn", ["box-hover","border"]);
+      lib.addCss("emitter-prospect-btn", ["border-st"]);
+      break;
+    };
+  };
+</script>

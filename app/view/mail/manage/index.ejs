@@ -1,0 +1,29 @@
+<html>
+<head>
+  <%- include('./../../partials/head.ejs') %>
+</head>
+<body>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
+  <section class="container margin-bottom-50">
+
+    <%- include('./components/preview-window.ejs') %>
+
+    <div id="mail-create-box" class="box b1 container h-center">
+      <%- include('./components/create-form.ejs') %>
+    </div>
+
+    <div class="box b1 container h-center">
+      <%- include('./components/filter-form.ejs') %>
+      <%- include('./components/filter-box.ejs') %>
+    </div>
+  </section>
+  <%- include('./../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../partials/footer.ejs') %>
+</footer>
+<script src="/javascripts/scripts/mail/main.js"></script>
+<%- include('./components/create-script.ejs') %>
+<%- include('./components/filter-script.ejs') %>
+</html>

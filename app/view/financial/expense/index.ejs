@@ -1,13 +1,10 @@
 <html>
 <head>
-    <% include ./../../partials/head %>
+	<%- include('./../../partials/head.ejs') %>
 </head>
-<style>
-	/** { font-weight: bold; }*/
-</style>
 <body>
-	<% include ./../../partials/header %>
-    <% include ./../../partials/nav %>
+	<%- include('./../../partials/header.ejs') %>
+	<%- include('./../../partials/nav.ejs') %>
 	<section class="container">
 		<form id="expense-create-form" class="box b2 container ground padding-10 margin-top-10">
 			<div class="box b1 underline center em13">Nova despesa</div>
@@ -21,9 +18,9 @@
 				<div class="box b3 container margin-top-5">
 					<div class="box b1 em08 georgia">Categoria</div>
 					<select name="category-id" class="box b1 input-generic center">
-					    <option value="">Categoria</option>
+						<option value="">Categoria</option>
 						<% for(i in outcomeCategories){ %>
-							<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
+						<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
 						<% } %>
 					</select>
 				</div>
@@ -35,7 +32,7 @@
 				</div>
 				<div class="box b3 container margin-top-5">
 					<div class="box b1 em08 georgia">Valor do pagamento</div>
-                    <input type="number" name="cost" class="box b1 em12 input-generic center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+					<input type="number" name="cost" class="box b1 em12 input-generic center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
 				</div>
 				<div class="box b1 container margin-top-5">
 					<div class="box b1 em08 georgia">Descrição da despesa</div>
@@ -67,7 +64,7 @@
 				
 				<div id="expense-payment-method-box" class="box b1 container" style="display:none;">
 					<div id="expense-payment-method-div" class="box a1 container"></div>
-		            <% include ./../../partials/carousel %>
+					<%- include('./../../partials/carousel.ejs') %>
 				</div>
 			</div>
 
@@ -79,19 +76,19 @@
 				<div class="box b1 underline center em13">Relatório de Despesas</div>
 				<input type="date" name="periodStart" class="box b2 input-generic center margin-top-5">
 				<input type="date" name="periodEnd" class="box b2 input-generic center margin-top-5">
-	            <select name="category-id" class="box b4 input-generic center margin-top-5">
-				    <option value="">Categoria</option>
+				<select name="category-id" class="box b4 input-generic center margin-top-5">
+					<option value="">Categoria</option>
 					<% for(i in outcomeCategories){ %>
-						<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
+					<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
 					<% } %>
 				</select>
 				<select name="origin-id" class="box b4 input-generic center margin-top-5">
 					<option value="">Origem</option>
 				</select>
 				<select name="income-category-id" class="box b4 input-generic center margin-top-5">
-				    <option value="">Método de pagamento</option>
+					<option value="">Método de pagamento</option>
 					<% for(i in incomeCategories){ %>
-						<option value="<%= incomeCategories[i].id %>"><%= incomeCategories[i].name %></option>
+					<option value="<%= incomeCategories[i].id %>"><%= incomeCategories[i].name %></option>
 					<% } %>
 				</select>
 				<select name="status" class="box b4 input-generic margin-top-5">
@@ -106,37 +103,37 @@
 			</form>
 			<div id="expense-filter-box" class="box a1 container ground padding-10 margin-top-10">
 				<div id="expense-filter-div" class="box a1 container margin-top-5"></div>
-	            <% include ./../../partials/carousel %>
+				<%- include('./../../partials/carousel.ejs') %>
 			</div>
 			<div id="expense-show-box" class="box a1 container border-explicit padding-5 margin-top-5" style="display:none"></div>
 		</div>
 	</section>
-	<% include ./../../partials/loader %>
+	<%- include('./../../partials/loader.ejs') %>
 </body>
 <footer>
-	<% include ./../../partials/footer %>
-	<% include ./../partial %>
-	<% include ./../income/partial %>
-	<% include ./../outcome/partial %>
-	<% include ./partial %>
-  <script>
+	<%- include('./../../partials/footer.ejs') %>
+	<%- include('./../partial.ejs') %>
+	<%- include('./../income/partial.ejs') %>
+	<%- include('./../outcome/partial.ejs') %>
+	<%- include('./partial.ejs') %>
+	<script>
     // Income category fill origin when changed
     Expense.controller.create_category = document.getElementById("expense-create-form").elements.namedItem("category-id");
-		if(Expense.controller.create_category){
-			Expense.controller.create_category.addEventListener("change", async event => {
-				Outcome.controller.fillOriginSelect(event.target.value, "expense-create-form");
-				await Expense.controller.fillOriginPayments(0, "expense-payment-method-box", Expense.view.originPayments);
-			});
-		}
+    if(Expense.controller.create_category){
+    	Expense.controller.create_category.addEventListener("change", async event => {
+    		Outcome.controller.fillOriginSelect(event.target.value, "expense-create-form");
+    		await Expense.controller.fillOriginPayments(0, "expense-payment-method-box", Expense.view.originPayments);
+    	});
+    }
 
-		Expense.controller.filter_category = document.getElementById("expense-filter-form").elements.namedItem("category-id");
-		if(Expense.controller.filter_category){
-			Expense.controller.filter_category.addEventListener("change", async event => {
-				Outcome.controller.fillOriginSelect(event.target.value, "expense-filter-form");
-			});
-		}
+    Expense.controller.filter_category = document.getElementById("expense-filter-form").elements.namedItem("category-id");
+    if(Expense.controller.filter_category){
+    	Expense.controller.filter_category.addEventListener("change", async event => {
+    		Outcome.controller.fillOriginSelect(event.target.value, "expense-filter-form");
+    	});
+    }
 
-		lib.fillDateInput(document.getElementById("expense-filter-form").elements.namedItem('periodStart'));
+    lib.fillDateInput(document.getElementById("expense-filter-form").elements.namedItem('periodStart'));
     lib.fillDateInput(document.getElementById("expense-filter-form").elements.namedItem('periodEnd'));
   </script>
 </footer>

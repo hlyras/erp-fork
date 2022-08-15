@@ -60,8 +60,8 @@ if(Customer.controller.filter){
 
 		let customer = {
 			name: event.target.elements.namedItem("name").value,
-			trademark: event.target.elements.namedItem("name").value,
-			brand: event.target.elements.namedItem("name").value,
+			// trademark: event.target.elements.namedItem("trademark").value,
+			// brand: event.target.elements.namedItem("brand").value,
 			cnpj: event.target.elements.namedItem("cnpj").value
 		};
 

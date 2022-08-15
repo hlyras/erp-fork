@@ -1,49 +1,49 @@
 <html>
-  <head>
-    <% include ./../../partials/head %>
-    <style type="text/css">
-      ::-webkit-scrollbar { width: 10px; }
-      ::-webkit-scrollbar-track { background: #f1f1f1; }
-      ::-webkit-scrollbar-thumb { background: #888; }
-      ::-webkit-scrollbar-thumb:hover { background: #555; }
-    </style>
-  </head>
-  <body>
-    <% include ./../../partials/header %>
-    <% include ./../../partials/nav %>
-    <section class="container">
-      <div class="box b1">
-        <form id="sale-packment-report-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
-          <div class="box b1 underline center bold">Relatório de Embalo</div>
-          <input type="datetime-local" name="periodStart" class="box b4 input-generic center margin-top-5" autocomplete="off">
-          <input type="datetime-local" name="periodEnd" class="box b4 input-generic center margin-top-5" autocomplete="off">
-          <select name="packment-user-id" class="box b4 input-generic center margin-top-5" autocomplete="off">
+<head>
+  <%- include('./../../partials/head.ejs') %>
+  <style type="text/css">
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #888; }
+    ::-webkit-scrollbar-thumb:hover { background: #555; }
+  </style>
+</head>
+<body>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
+  <section class="container">
+    <div class="box b1">
+      <form id="sale-packment-report-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
+        <div class="box b1 underline center bold">Relatório de Embalo</div>
+        <input type="datetime-local" name="periodStart" class="box b4 input-generic center margin-top-5" autocomplete="off">
+        <input type="datetime-local" name="periodEnd" class="box b4 input-generic center margin-top-5" autocomplete="off">
+        <select name="packment-user-id" class="box b4 input-generic center margin-top-5" autocomplete="off">
           <option value="">Embalador</option>
           <% for(let i in users){ %>
-              <option value="<%= users[i].id %>"><%= users[i].name %></option>
+          <option value="<%= users[i].id %>"><%= users[i].name %></option>
           <% } %>
-          </select>
-          <input type="submit" name="submit" class="box b4 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
-        </form>
-        <div id="sale-packment-report-filter-box" class="box b1 ground" style="display:none">
-            <div id="sale-packment-report-filter-div" class="box b1"></div>
-            <% include ./../../partials/carousel %>
-        </div>
+        </select>
+        <input type="submit" name="submit" class="box b4 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
+      </form>
+      <div id="sale-packment-report-filter-box" class="box b1 ground" style="display:none">
+        <div id="sale-packment-report-filter-div" class="box b1"></div>
+        <%- include('./../../partials/carousel.ejs') %>
       </div>
-    </section>
-    <% include ./../../partials/loader %>
-  </body>
-  <footer>
-    <% include ./../../partials/footer %>
-    <% include ./../partial %>
+    </div>
+  </section>
+  <%- include('./../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../partials/footer.ejs') %>
+  <%- include('./../partial.ejs') %>
 
-    <script src="/javascripts/scripts/sale/model/report/packment.js"></script>
-    <script src="/javascripts/scripts/sale/controller/report/packment.js"></script>
-    <script src="/javascripts/scripts/sale/view/report/packment.js"></script>
+  <script src="/javascripts/scripts/sale/model/report/packment.js"></script>
+  <script src="/javascripts/scripts/sale/controller/report/packment.js"></script>
+  <script src="/javascripts/scripts/sale/view/report/packment.js"></script>
 
-    <script>
-      document.getElementById("sale-packment-report-filter-form").elements.namedItem("periodStart").value = lib.timestampToDatetime(lib.genTimestamp());
-      document.getElementById("sale-packment-report-filter-form").elements.namedItem("periodEnd").value = lib.timestampToDatetime(lib.genTimestamp());
-    </script>
-  </footer>
+  <script>
+    document.getElementById("sale-packment-report-filter-form").elements.namedItem("periodStart").value = lib.timestampToDatetime(lib.genTimestamp());
+    document.getElementById("sale-packment-report-filter-form").elements.namedItem("periodEnd").value = lib.timestampToDatetime(lib.genTimestamp());
+  </script>
+</footer>
 </html>

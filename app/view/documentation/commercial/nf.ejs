@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <% include ./../../partials/head %>
+	<%- include('./../../partials/head.ejs') %>
 </head>
 <body>
-	<% include ./../../partials/header %>
-	<% include ./../../partials/nav %>
+	<%- include('./../../partials/header.ejs') %>
+	<%- include('./../../partials/nav.ejs') %>
 
 	<!-- títulos -->
 	<section class="container">
@@ -20,18 +20,18 @@
 
 	<!-- Botão do Bling -->
 	<section class="container margin-top-10 h-center">
-	 	<div class="box b11-12">
-	 		<p>Para emitir notas fiscais eletrônicas, utiliza-se a plataforma <b>Bling</b>.</p>
-	 		<div class="box a1 container padding-5">
-	 			<img class="size-100 padding-10 border pointer radius-5" src="https://www.bling.com.br/site/assets//images/bling.svg" onclick="lib.openExternalLink('https://www.bling.com.br/')">
-	 		</div>
+		<div class="box b11-12">
+			<p>Para emitir notas fiscais eletrônicas, utiliza-se a plataforma <b>Bling</b>.</p>
+			<div class="box a1 container padding-5">
+				<img class="size-100 padding-10 border pointer radius-5" src="https://www.bling.com.br/site/assets//images/bling.svg" onclick="lib.openExternalLink('https://www.bling.com.br/')">
+			</div>
 		</div>
 	</section>
 
 	<!-- sumário -->
 	<section class="container margin-top-10 h-center">
-	 	<div class="box b11-12">
-	 		<h4>Sumário</h4>
+		<div class="box b11-12">
+			<h4>Sumário</h4>
 			<p class="margin-top-2"> <a class="underline-link" href="#1">Sessão 1 - Destinatário</a></p>
 			<p class="margin-top-2"> <a class="underline-link" href="#2">Sessão 2 - Itens da Nota Fiscal</a></p>
 			<p class="margin-top-2"> <a class="underline-link" href="#3">Sessão 3 - Valores adicionais</a></p>
@@ -150,7 +150,7 @@
 				<div class="mobile-box b11-12 padding-5">
 					<div class="lucida-grande bold">2.3 Quantidade</div>
 				</div>
-					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('2.3', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('2.3', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
 
 				<div id="2.3" class="mobile-box container b1 center margin-top-5 padding-5 transition-02-02" style="display: none;">
 					<p class="em09">Preencher com a quantidade correta do produto de acordo com o pedido.</p>
@@ -214,7 +214,7 @@
 			<h3 class="margin-top-10" id="4">4 - Envio</h3>
 			<p class="box a1 padding-10">Para explicação mais detalhada de acordo com a plataforma que usamos, você pode <a class="underline-link" onclick="lib.openExternalLink('https://ajuda.bling.com.br/hc/pt-br/articles/360035811434-Como-preencher-os-dados-do-Transportador-na-nota-fiscal-')">clicar aqui</a>!</p>
 
-				<!-- 4.1 -->
+			<!-- 4.1 -->
 			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
 				<div class="mobile-box b11-12 padding-5">
 					<div class="lucida-grande bold">4.1 Logística</div>
@@ -262,7 +262,7 @@
 			<h3 class="margin-top-10" id="5">5 - Pagamento</h3>
 			<p class="box a1 padding-10">Para explicação mais detalhada de acordo com a plataforma que usamos, você pode <a class="underline-link" onclick="lib.openExternalLink('https://ajuda.bling.com.br/hc/pt-br/articles/360036304293-Como-preencher-as-informa%C3%A7%C3%B5es-de-Pagamento-na-nota-fiscal-')">clicar aqui</a>!</p>
 
-				<!-- 5.1 -->
+			<!-- 5.1 -->
 			<div class="box b1 container ground border-lg-st transition-02-02 padding-10 margin-top-10 radius-5">
 				<div class="mobile-box b11-12 padding-5">
 					<div class="lucida-grande bold">5.1 PIX</div>
@@ -319,6 +319,6 @@
 	</section>
 </body>
 <footer>
-	<% include ./../../partials/footer %>
+	<%- include('./../../partials/footer.ejs') %>
 </footer>
 </html>

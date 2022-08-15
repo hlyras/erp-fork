@@ -1,10 +1,10 @@
 <html>
 <head>
-  <% include ./../../../partials/head %>
+  <%- include('./../../../partials/head.ejs') %>
 </head>
 <body>
-  <% include ./../../../partials/header %>
-  <% include ./../../../partials/nav %>
+  <%- include('./../../../partials/header.ejs') %>
+  <%- include('./../../../partials/nav.ejs') %>
   <section class="container">
     <div class="box b1 lucida-grande em12 bold center">Receber O.S. no P.R.</div>
 
@@ -22,10 +22,10 @@
 
     <div id="service-order-detail-box" class="box b1 container h-center"></div>
   </section>
-  <% include ./../../../partials/loader %>
+  <%- include('./../../../partials/loader.ejs') %>
 </body>
 <footer>
-  <% include ./../../../partials/footer %>
+  <%- include('./../../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/sale/model/main.js"></script>
   <script src="/javascripts/scripts/sale/model/service-order.js"></script>
   

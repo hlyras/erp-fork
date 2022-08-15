@@ -1,57 +1,57 @@
 <html>
 <head>
-  <% include ./../../partials/head %>
+  <%- include('./../../partials/head.ejs') %>
 </head>
 <body>
-  <% include ./../../partials/header %>
-  <% include ./../../partials/nav %>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
 
   <section class="container">
     <section class="box a2 container padding-5">
       <div class="box b1 container ground border radius-5 padding-10">
-      <div class="mobile-box b11-12 lucida-grande bold center">Metas e comissões</div>
-      <div class="mobile-box b12 container"><img src="/images/icon/close.png" class="noselect size-20 center icon transition-02-02 pointer" onclick="lib.displayDiv('financial-metrics', this, '/images/icon/down-arrow.png', '/images/icon/close.png')"></div>
-      <% include ./components/financial-metrics %>
+        <div class="mobile-box b11-12 lucida-grande bold center">Metas e comissões</div>
+        <div class="mobile-box b12 container"><img src="/images/icon/close.png" class="noselect size-20 center icon transition-02-02 pointer" onclick="lib.displayDiv('financial-metrics', this, '/images/icon/down-arrow.png', '/images/icon/close.png')"></div>
+        <%- include('./components/financial-metrics.ejs') %>
       </div>
     </section>
 
     <section class="box a2 container padding-5">
       <div class="box b1 container ground border radius-5 padding-10">
-      <div class="mobile-box b11-12 lucida-grande bold center">Acompanhamento de pedidos</div>
-      <div class="mobile-box b12 container"><img src="/images/icon/close.png" class="noselect size-20 center icon transition-02-02 pointer" onclick="lib.displayDiv('filter-status-box', this, '/images/icon/down-arrow.png', '/images/icon/close.png')"></div>
-      <% include ./components/filter-status %>
+        <div class="mobile-box b11-12 lucida-grande bold center">Acompanhamento de pedidos</div>
+        <div class="mobile-box b12 container"><img src="/images/icon/close.png" class="noselect size-20 center icon transition-02-02 pointer" onclick="lib.displayDiv('filter-status-box', this, '/images/icon/down-arrow.png', '/images/icon/close.png')"></div>
+        <%- include('./components/filter-status.ejs') %>
       </div>
     </section>
 
     <section class="box a1 container padding-5">
       <div class="box b1 container ground border padding-10 radius-5">
-      <div class="mobile-box b11-12 lucida-grande bold center">Filtro de vendas</div>
-      <div class="mobile-box b12 container"><img src="/images/icon/down-arrow.png" class="noselect size-20 center icon transition-02-02 pointer" onclick="lib.displayDiv('sale-filter-form', this, '/images/icon/down-arrow.png', '/images/icon/close.png')"></div>
-      <% include ./components/filter-form %>
+        <div class="mobile-box b11-12 lucida-grande bold center">Filtro de vendas</div>
+        <div class="mobile-box b12 container"><img src="/images/icon/down-arrow.png" class="noselect size-20 center icon transition-02-02 pointer" onclick="lib.displayDiv('sale-filter-form', this, '/images/icon/down-arrow.png', '/images/icon/close.png')"></div>
+        <%- include('./components/filter-form.ejs') %>
       </div>
     </section>
   </section>
 
   <section class="box a1 container">
-    <% include ./components/filter-box %>
+    <%- include('./components/filter-box.ejs') %>
     <div id="sale-show-box" class="box b1 container ground border radius-5 margin-top-10 margin-bottom-15"></div>
   </section>
 
   <section class="box a1 container margin-top-10 h-center radius-5">
     <select id="sale-category-select" class="box b3 lucida-grande bold border-st radius-5 padding-10 margin-bottom-100 hide-disabled pointer" style="display: none;">
-    <option value="" selected disabled>Selecione a categoria da venda</option>
-    <option value="3">Representantes</option>
-    <option value="2">Atacado</option>
-    <option value="1">Varejo</option>
+      <option value="" selected disabled>Selecione a categoria da venda</option>
+      <option value="3">Representantes</option>
+      <option value="2">Atacado</option>
+      <option value="1">Varejo</option>
     </select>
-    <% include ./components/edit-box %>
+    <%- include('./components/edit-box.ejs') %>
   </section>
 
-  <% include ./../../partials/loader %>
+  <%- include('./../../partials/loader.ejs') %>
 </body>
 <footer>
-  <% include ./../../partials/footer %>
-  <% include ./../partial %>
+  <%- include('./../../partials/footer.ejs') %>
+  <%- include('./../partial.ejs') %>
 
   <script src="/javascripts/scripts/sale/model/metrics/financial.js"></script>
 

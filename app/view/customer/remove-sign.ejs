@@ -1,28 +1,28 @@
 <html>
-    <head>
-        <% include ./../partials/head %>
-    </head>
-    <body>
-        <div class="container">
-			<div class="mobile-box a6">
-				<img class="width-100 padding-15 opacity-out-08 pointer" onclick="window.location.href='https://jariomilitar.com/catalogo'" src="/images/favicon/favicon-black.png">
-			</div>
+<head>
+	<%- include('./../partials/head.ejs') %>
+</head>
+<body>
+	<div class="container">
+		<div class="mobile-box a6">
+			<img class="width-100 padding-15 opacity-out-08 pointer" onclick="window.location.href='https://jariomilitar.com/catalogo'" src="/images/favicon/favicon-black.png">
+		</div>
+	</div>
+
+	<div class="box b1 container ground padding-25 h-center border">
+		<div class="box b2-3 lucida-grande center">Deseja confirmar o cancelamento dos E-mails promocionais?</div>
+		<div class="box b2-3 lucida-grande center">Você não receberá mais nossas notícias ou promoções.</div>
+		<div class="box b1 container h-center">
+			<button class="box b4 lucida-grande em12 bold radius-5 border shadow padding-10 margin-top-5 pointer opacity-out-09" style="background-color:#f63331;color:#fff;" onclick="window.location.href='/customer/mailer/signout/<%= id %>/<%= register %>'">Cancelar assinatura</button>
 		</div>
 
-		<div class="box b1 container ground padding-25 h-center border">
-			<div class="box b2-3 lucida-grande center">Deseja confirmar o cancelamento dos E-mails promocionais?</div>
-			<div class="box b2-3 lucida-grande center">Você não receberá mais nossas notícias ou promoções.</div>
-			<div class="box b1 container h-center">
-				<button class="box b4 lucida-grande em12 bold radius-5 border shadow padding-10 margin-top-5 pointer opacity-out-09" style="background-color:#f63331;color:#fff;" onclick="window.location.href='/customer/mailer/signout/<%= id %>/<%= register %>'">Cancelar assinatura</button>
-			</div>
-
-			<div class="box b2-3 lucida-grande margin-top-25 center">Veja as nossas novidades antes de se desinscrever</div>
-			<div class="box b1 container h-center">
-				<button class="box b4 lucida-grande em12 bold radius-5 border shadow padding-10 margin-top-5 pointer opacity-out-09" style="background-color:#3133f6;color:#fff;" onclick="window.location.href='https://jariomilitar.com/catalogo'">Acessar o catálogo</button>
-			</div>
+		<div class="box b2-3 lucida-grande margin-top-25 center">Veja as nossas novidades antes de se desinscrever</div>
+		<div class="box b1 container h-center">
+			<button class="box b4 lucida-grande em12 bold radius-5 border shadow padding-10 margin-top-5 pointer opacity-out-09" style="background-color:#3133f6;color:#fff;" onclick="window.location.href='https://jariomilitar.com/catalogo'">Acessar o catálogo</button>
 		</div>
-    </body>
-    <footer>
+	</div>
+</body>
+<footer>
 
-    </footer>
+</footer>
 </html>

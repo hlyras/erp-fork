@@ -1,6 +1,6 @@
 <html>
 <head>
-  <% include ./../../../partials/head %>
+  <%- include('./../../../partials/head.ejs') %>
   <style type="text/css">
     .sticky {
       position: -webkit-sticky;
@@ -11,15 +11,15 @@
   </style>
 </head>
 <body>
-  <% include ./../../../partials/header %>
-  <% include ./../../../partials/nav %>
+  <%- include('./../../../partials/header.ejs') %>
+  <%- include('./../../../partials/nav.ejs') %>
 
   <section class="container">
     <div class="box b1 lucida-grande em12 bold center">Gerar O.S. de despacho</div>
     
-    <% include ./components/service-order %>
-    <% include ./components/filter-status %>
-    <% include ./components/filter-form %>
+    <%- include('./components/service-order.ejs') %>
+    <%- include('./components/filter-status.ejs') %>
+    <%- include('./components/filter-form.ejs') %>
 
     <div id="service-order" class="box b1 container ground border margin-top-10 padding-10 center sticky" style="display:none;">
       <div id="service-order-box" class="box b1 container"></div>
@@ -35,10 +35,10 @@
 
     <!-- <div id="sale-show-box" class="box b1 container ground border padding-10 margin-top-10 margin-bottom-10" style="display:none;"></div> -->
   </section>
-  <% include ./../../../partials/loader %>
+  <%- include('./../../../partials/loader.ejs') %>
 </body>
 <footer>
-  <% include ./../../../partials/footer %>
+  <%- include('./../../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/sale/model/main.js"></script>
   <script src="/javascripts/scripts/sale/model/service-order.js"></script>
 

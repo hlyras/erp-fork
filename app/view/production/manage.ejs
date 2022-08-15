@@ -1,53 +1,53 @@
 <html>
-	<head>
-        <% include ./../partials/head %>
-	</head>
-	<body>
-		<% include ./../partials/header %>
-        <% include ./../partials/nav %>
-		<section>
-			<div class="container">
-				<div class="box-1">
-					<form id="product-production-filter-form" class="box-1">
-						<input type="hidden" name="location" value="productProductionManage">
-						<input type="date" class="btn-generic-big" name="product_production_periodStart">
-						<input type="date" class="btn-generic-big" name="product_production_periodEnd">
-						<select class="btn-generic-medium" name="product_production_status">
-							<option value="Pedido solicitado">Pedidos solicitados</option>
-							<option value="Pedido confirmado">Pedidos confirmados</option>
-							<option value="Pedido cancelado">Pedidos cancelados</option>
-						</select>
-						<input type="submit" class="btn-submit" id="product-production-filter-form-submit" value="Filtrar">
-					</form>
-					<div id="product-production-filter-div">
-						<table class="tbl-info box-1" id="product-production-filter-tbl"></table>
-						<br>
-						<button id="productProductionFeedstockStoragePrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
-	                    <span id="productProductionFeedstockStoragePageNumber"></span>
-	                    <button id="productProductionFeedstockStorageNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button><br><br>
-					</div>
-					<div id="product-production-show-box" class="box-1" style="display:none">
-						<h3 class="underline" id="product-production-show-info"></h3>
-						<table class="tbl-info box-1" id="product-production-show-tbl"></table>
-						<br>
-						<h3 class="underline">Produtos</h3>
-						<table class="tbl-info box-1" id="product-production-product-show-tbl"></table>
-						<br>
-						<h3 class="underline">Matérias-Primas</h3>
-						<table class="tbl-info box-1" id="product-production-feedstock-show-tbl"></table>
-					</div>
+<head>
+	<%- include('./../partials/head.ejs') %>
+</head>
+<body>
+	<%- include('./../partials/header.ejs') %>
+	<%- include('./../partials/nav.ejs') %>
+	<section>
+		<div class="container">
+			<div class="box-1">
+				<form id="product-production-filter-form" class="box-1">
+					<input type="hidden" name="location" value="productProductionManage">
+					<input type="date" class="btn-generic-big" name="product_production_periodStart">
+					<input type="date" class="btn-generic-big" name="product_production_periodEnd">
+					<select class="btn-generic-medium" name="product_production_status">
+						<option value="Pedido solicitado">Pedidos solicitados</option>
+						<option value="Pedido confirmado">Pedidos confirmados</option>
+						<option value="Pedido cancelado">Pedidos cancelados</option>
+					</select>
+					<input type="submit" class="btn-submit" id="product-production-filter-form-submit" value="Filtrar">
+				</form>
+				<div id="product-production-filter-div">
+					<table class="tbl-info box-1" id="product-production-filter-tbl"></table>
+					<br>
+					<button id="productProductionFeedstockStoragePrevious" autocomplete="off" disabled>&lsaquo;&lsaquo;</button>
+					<span id="productProductionFeedstockStoragePageNumber"></span>
+					<button id="productProductionFeedstockStorageNext" autocomplete="off" disabled>&rsaquo;&rsaquo;</button><br><br>
+				</div>
+				<div id="product-production-show-box" class="box-1" style="display:none">
+					<h3 class="underline" id="product-production-show-info"></h3>
+					<table class="tbl-info box-1" id="product-production-show-tbl"></table>
+					<br>
+					<h3 class="underline">Produtos</h3>
+					<table class="tbl-info box-1" id="product-production-product-show-tbl"></table>
+					<br>
+					<h3 class="underline">Matérias-Primas</h3>
+					<table class="tbl-info box-1" id="product-production-feedstock-show-tbl"></table>
 				</div>
 			</div>
-		</section>
-        <% include ./../partials/loader %>
-	</body>
-	<footer>
-        <% include ./../partials/footer %>
-        <% include ./partial %>
-		<script src="/javascripts/scripts/product/production_report.js"></script>
-		<script type="text/javascript">
-			lib.fillDateInput(document.getElementById("product-production-filter-form").elements.namedItem('product_production_periodStart'));
-        	lib.fillDateInput(document.getElementById("product-production-filter-form").elements.namedItem('product_production_periodEnd'));
-		</script>
-	</footer>
+		</div>
+	</section>
+	<%- include('./../partials/loader.ejs') %>
+</body>
+<footer>
+	<%- include('./../partials/footer.ejs') %>
+	<%- include('./partial.ejs') %>
+	<script src="/javascripts/scripts/product/production_report.js"></script>
+	<script type="text/javascript">
+		lib.fillDateInput(document.getElementById("product-production-filter-form").elements.namedItem('product_production_periodStart'));
+		lib.fillDateInput(document.getElementById("product-production-filter-form").elements.namedItem('product_production_periodEnd'));
+	</script>
+</footer>
 </html>

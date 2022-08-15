@@ -1,0 +1,38 @@
+<script>
+	function mailFilterRender(mails, pagination) {
+		const filter_div = document.getElementById("mailer-mail-filter-div");
+		filter_div.innerHTML = "";
+
+		for (let i = pagination.page * pagination.pageSize; i < mails.length && i < (pagination.page + 1) * pagination.pageSize; i++){
+			let mail_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-5" });
+			mail_div.append(lib.element.create("div", { 
+				class: "mobile-box b9 input-show border-lg-st padding-5 center pointer",
+				onclick: `mailPreview(${mails[i].id})` 
+			}, mails[i].id));
+			mail_div.append(lib.element.create("div", { class: "mobile-box b3 lucida-grande em09 bold padding-5" }, mails[i].title));
+			mail_div.append(lib.element.create("div", { class: "mobile-box b4-9 lucida-grande em09 padding-5" }, mails[i].description));
+			mail_div.append(lib.element.icon('b9', 25, "/images/icon/check.png", `mailSelect(${mails[i].id}, this)`));
+			filter_div.append(mail_div);
+		};
+	};
+
+	document.getElementById("mailer-mail-filter-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		let mail = {
+			title: e.target.elements.namedItem("title").value,
+			description: e.target.elements.namedItem("description").value
+		};
+
+		let mails = await API.response(Mail.filter, mail);
+		if(!mails) { return false; }
+
+		lib.display("mailer-mail-filter-box", "");
+
+		let mail_box = document.getElementById("mailer-mail-filter-div");
+		mail_box.innerHTML = "";
+
+		const setup = { pageSize: 5, page: 0 };
+		(function(){ lib.carousel.execute("mailer-mail-filter-box", mailFilterRender, mails, setup); }());
+	});
+</script>

@@ -2,7 +2,7 @@ const User = require('../../model/user');
 const userController = require('./../user');
 
 const Sale = require('../../model/sale/main');
-const Customer = require('../../model/customer');
+const Customer = require('../../model/customer/main');
 const Triage = require('../../model/sale/triage');
 
 const lib = require("jarmlib");

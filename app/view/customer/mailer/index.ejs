@@ -1,51 +1,21 @@
 <html>
 <head>
-<% include ./../../partials/head %>
+  <%- include('./../../partials/head.ejs') %>
 </head>
 <body>
-  <% include ./../../partials/header %>
-  <% include ./../../partials/nav %>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
   <section class="container h-center">
     <div class="box b3 container border radius-5 padding-5 margin-top-5">
       <div class="box b1 underline lucida-grande bold center">E-mailer</div>
-      <div class="box b1 lucida-grande bold border-lg-st box-hover radius-5 padding-10 margin-top-5 center pointer">Criar/Editar template</div>
-      <div class="box b1 lucida-grande bold border-lg-st box-hover radius-5 padding-10 margin-top-5 center pointer">Criar/Editar modelo</div>
-      <div class="box b1 lucida-grande bold border-lg-st box-hover radius-5 padding-10 margin-top-5 center pointer">Emissor de Email</div>
+      <!-- <div onclick="window.location.href='/customer/mailer/template'" class="box b1 lucida-grande bold border-lg-st box-hover radius-5 padding-10 margin-top-5 center pointer">Criar/Editar template</div> -->
+      <div onclick="window.location.href='/customer/mailer/model'" class="box b1 lucida-grande bold border-lg-st box-hover radius-5 padding-10 margin-top-5 center pointer">Criar/Editar modelo</div>
+      <div onclick="window.location.href='/customer/mailer/emitter'" class="box b1 lucida-grande bold border-lg-st box-hover radius-5 padding-10 margin-top-5 center pointer">Emissor de Email</div>
     </div>
   </section>
-  <% include ./../../partials/loader %>
+  <%- include('./../../partials/loader.ejs') %>
 </body>
 <footer>
-  <% include ./../../partials/footer %>
+  <%- include('./../../partials/footer.ejs') %>
 </footer>
-<script src="/javascripts/scripts/customer/model/main.js"></script>
-<script src="/javascripts/scripts/customer/model/mailer.js"></script>
-<script type="text/javascript">
-  console.log(Customer.mailer.send);
-
-  async function sendMail() {
-
-    let str = `<!DOCTYPE html>
-    <html>
-    <head>
-      <title>Apresentação JA Rio Militar</title>
-    </head>
-    <body style="padding:0px;margin:0px;">
-      <div>
-        <div style="height:60px;background-color:#000;" align="center">
-          <img src="cid:favicon-white" style="height:40px;margin-top:10px;">
-        </div>
-        <div style="font-weight:bold">=>name</div>
-        <div style="font-weight:bold">=>user_name</div>
-        <img src="cid:favicon" style="margin-left:10px;margin-top:5px;width:105px;">
-      </div>
-    </body>
-    </html>`;
-
-    let response = await API.response(Customer.mailer.send, str);
-    if(!response) { return false; }
-
-    console.log(response);
-  }
-</script>
 </html>

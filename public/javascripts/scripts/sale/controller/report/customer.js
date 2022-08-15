@@ -2,10 +2,16 @@ Sale.customer.report.controller = {};
 
 Sale.customer.report.controller.filter = document.getElementById("sale-customer-report-filter-form");
 if(Sale.customer.report.controller.filter){
-  Sale.customer.report.controller.filter.addEventListener("submit", async event => {
-    event.preventDefault();
+  Sale.customer.report.controller.filter.addEventListener("submit", async e => {
+    e.preventDefault();
 
-    let sale = { status: "Enviado" };
+    let sale = { 
+      customer_id: e.target.elements.namedItem("customer-id").value,
+      customer_name: e.target.elements.namedItem("customer-name").value,
+      periodStart: lib.datetimeToTimestamp(e.target.elements.namedItem("periodStart").value),
+      periodEnd: lib.datetimeToTimestamp(e.target.elements.namedItem("periodEnd").value)
+      // status: "Enviado"
+    };
 
     let response = await API.response(Sale.customer.report.filter, sale);
     if(!response){ return false };

@@ -1,0 +1,68 @@
+<script>
+	function prospectFilterRender(prospects) {
+		const filter_div = document.getElementById("prospect-filter-div");
+    filter_div.innerHTML = "";
+
+    for(let i in prospects) {
+    // for(let i = setup.page * setup.pageSize; i < prospects.length && i < (setup.page + 1) * setup.pageSize; i++){
+      let prospect_div = lib.element.create("div", { class: "box b1 container border radius-5 padding-5 margin-top-5" });
+      prospect_div.append(lib.element.create("div", { 
+        class: "mobile-box b9 input-show border-lg-st padding-5 center pointer",
+        onclick: `lib.displayDiv('prospect-info-${prospects[i].id}', this)` 
+      }, prospects[i].id));
+      prospects[i].name && prospect_div.append(lib.element.create("div", { class: "mobile-box b4-9 em09 padding-5 center" }, prospects[i].name));
+      !prospects[i].name && prospect_div.append(lib.element.create("div", { class: "mobile-box b4-9 em09 padding-5 center" }, prospects[i].brand));
+      prospects[i].email && prospect_div.append(lib.element.create("div", { class: "mobile-box b3 em09 padding-5 center" }, prospects[i].email));
+      !prospects[i].email && prospect_div.append(lib.element.create("div", { class: "mobile-box b3 em09 padding-5 center" }, "Sem E-mail"));
+      prospects[i].email && prospect_div.append(lib.element.icon('b9', 25, "/images/icon/sendmail.png", `prospectSendMail(${prospects[i].id}, this)`));
+      
+      let info_div = lib.element.create("div", { 
+        id: `prospect-info-${prospects[i].id}`, 
+        class: "box b1 container",
+        style: "display:none;"
+      });
+
+      prospects[i].datetime && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Data do cadastro", `${lib.convertDatetime(lib.timestampToDatetime(prospects[i].datetime))}` ));
+      prospects[i].name && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Nome fantasia", `${prospects[i].brand}` ));
+      prospects[i].state && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Estado", `${prospects[i].state}` ));
+      prospects[i].phone && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Telefone", `${prospects[i].phone}` ));
+      prospects[i].product_approach && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Produto de abordagem", `${prospects[i].product_approach}` ));
+      prospects[i].status && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Status", `${prospects[i].status}` ));
+
+      prospect_div.append(info_div);
+
+      prospects[i].mail_datetime < (lib.genTimestamp() - (lib.timestampDay() * 3)) && filter_div.append(prospect_div);
+		};
+	};
+
+	async function prospectSendMail(prospect_id, input) {
+    let options = {
+      prospect_id: prospect_id,
+      mail_id: parseInt(document.getElementById("mailer-mail-selected-id").value)
+    };
+
+    let response = await API.response(Customer.prospect.mail.send, options);
+    if(!response) { return false; }
+
+    input.remove();
+  };
+
+	document.getElementById("prospect-filter-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		const prospect = {
+			brand: e.target.elements.namedItem("brand").value,
+			state: e.target.elements.namedItem("state").value,
+			periodStart: lib.dateToTimestamp(e.target.elements.namedItem("period-start").value),
+			periodEnd: parseInt(lib.dateToTimestamp(e.target.elements.namedItem("period-end").value)) + parseInt(lib.timestampDay())
+		};
+
+		let prospects = await API.response(Customer.prospect.filter, prospect);
+		if(!prospects) { return false; }
+
+    prospectFilterRender(prospects);
+
+		// const setup = { pageSize: 5, page: 0 };
+  //   (function(){ lib.carousel.execute("prospect-filter-box", prospectFilterRender, prospects, setup); }());
+	});
+</script>

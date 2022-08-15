@@ -8,7 +8,7 @@ const Sale = require('../../model/sale/main');
 const Product = require('../../model/product/main');
 Product.color = require('../../model/product/color');
 
-const Customer = require('../../model/customer');
+const Customer = require('../../model/customer/main');
 
 const reportController = {};
 
@@ -148,43 +148,43 @@ reportController.packment.filter = async (req, res) => {
 };
 
 // Customer
-reportController.customer = {};
+// reportController.customer = {};
 
-reportController.customer.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
-		return res.redirect('/');
-	};
-	let users = await User.list();
-	res.render('sale/report/customer', { user: req.user, users: users });
-};
+// reportController.customer.index = async (req, res) => {
+// 	if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
+// 		return res.redirect('/');
+// 	};
+// 	let users = await User.list();
+// 	res.render('sale/report/customer', { user: req.user, users: users });
+// };
 
-reportController.customer.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
-		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
-	};
+// reportController.customer.filter = async (req, res) => {
+// 	if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
+// 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+// 	};
 
-	let props = [];
+// 	let props = [];
 
-	let inners = [
-		["cms_wt_erp.customer customer", "customer.id", "sale.customer_id"]
-	];
+// 	let inners = [
+// 		["cms_wt_erp.customer customer", "customer.id", "sale.customer_id"]
+// 	];
 
-	const period = { key: "sale.sale_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
-	const params = { keys: [], values: [] };
-	const strict_params = { keys: [], values: [] };
+// 	const period = { key: "sale.sale_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
+// 	const params = { keys: [], values: [] };
+// 	const strict_params = { keys: [], values: [] };
 
-	lib.Query.fillParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params);
+// 	lib.Query.fillParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params);
 
-	let order_params = [ ["sale.sale_date", "DESC"] ];
-	let limit = 0;
+// 	let order_params = [ ["sale.sale_date", "DESC"] ];
+// 	let limit = 0;
 	
-	try {
-		let sales = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
-		res.send({ sales });
-	} catch (err) {
-		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
-	};
-};
+// 	try {
+// 		let sales = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
+// 		res.send({ sales });
+// 	} catch (err) {
+// 		console.log(err);
+// 		res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
+// 	};
+// };
 
 module.exports = reportController;

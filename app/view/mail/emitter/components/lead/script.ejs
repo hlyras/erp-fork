@@ -1,0 +1,62 @@
+<script>
+	function leadFilterRender(leads) {
+		const filter_div = document.getElementById("lead-filter-div");
+    filter_div.innerHTML = "";
+
+    // for(let i = setup.page * setup.pageSize; i < leads.length && i < (setup.page + 1) * setup.pageSize; i++){
+    for(let i in leads){
+      let lead_div = lib.element.create("div", { class: "box b1 container border radius-5 padding-5 margin-top-5" });
+      lead_div.append(lib.element.create("div", { 
+        class: "mobile-box b9 input-show border-lg-st padding-5 center pointer",
+        onclick: `lib.displayDiv('lead-info-${leads[i].id}', this)` 
+      }, leads[i].id));
+      lead_div.append(lib.element.create("div", { class: "mobile-box b3 lucida-grande em09 padding-5 center" }, leads[i].name));
+      lead_div.append(lib.element.create("div", { class: "mobile-box b4-9 lucida-grande em08 padding-5 center" }, leads[i].email));
+      lead_div.append(lib.element.icon('b9', 25, "/images/icon/sendmail.png", `leadSendMail(${leads[i].id}, this)`));
+
+      let info_div = lib.element.create("div", { 
+        id: `lead-info-${leads[i].id}`, 
+        class: "box b1 container",
+        style: "display:none;"
+      });
+
+      leads[i].datetime && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Data do cadastro", `${lib.convertDatetime(lib.timestampToDatetime(leads[i].datetime))}` ));
+      leads[i].phone && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Telefone", `${leads[i].phone}` ));
+      leads[i].status && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Status", `${leads[i].status}` ));
+
+      lead_div.append(info_div);
+
+      leads[i].mail_datetime < (lib.genTimestamp() - (lib.timestampDay() * 3)) && filter_div.append(lead_div);
+		};
+	};
+
+  async function leadSendMail(lead_id, input) {
+    let options = {
+      lead_id: lead_id,
+      mail_id: parseInt(document.getElementById("mailer-mail-selected-id").value)
+    };
+
+    let response = await API.response(Customer.lead.mail.send, options);
+    if(!response) { return false; }
+
+    input.remove();
+  };
+
+	document.getElementById("lead-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let lead = {
+      id: e.target.elements.namedItem("id").value,
+      name: e.target.elements.namedItem("name").value,
+      email: e.target.elements.namedItem("email").value,
+      periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
+      periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
+      status: e.target.elements.namedItem("status").value
+    };
+
+    let leads = await API.response(Customer.lead.filter, lead);
+    if(!leads) { return false; }
+    
+    leadFilterRender(leads);
+  });
+</script>

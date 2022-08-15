@@ -1,26 +1,26 @@
 <html>
 <head>
-  <% include ./../../partials/head %>
+  <%- include('./../../partials/head.ejs') %>
 </head>
 <body>
-  <% include ./../../partials/header %>
-  <% include ./../../partials/nav %>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
 
   <section class="container padding-5">
     <div class="box b1 container ground border padding-10 radius-5">
-      <% include ./components/filter-form %>
+      <%- include('./components/filter-form.ejs') %>
     </div>
   </section>
 
   <section class="container">
-    <% include ./components/filter-box %>
+    <%- include('./components/filter-box.ejs') %>
     <div id="sale-show-box" class="box b1 container ground border radius-5 margin-top-10 margin-bottom-15"></div>
   </section>
 
-  <% include ./../../partials/loader %>
+  <%- include('./../../partials/loader.ejs') %>
 </body>
 <footer>
-  <% include ./../../partials/footer %>
+  <%- include('./../../partials/footer.ejs') %>
 
   <script src="/javascripts/scripts/sale/model/main.js"></script>
   

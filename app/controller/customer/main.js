@@ -1,5 +1,5 @@
 const userController = require('./../user');
-const Customer = require('../../model/customer');
+const Customer = require('../../model/customer/main');
 const Rank = require('../../model/customer/rank');
 const Sale = require('../../model/sale/main');
 
@@ -96,24 +96,29 @@ customerController.filter = async (req, res) => {
 	};
 
 	let customer = {
-		name: req.query.name,
-		trademark: req.query.trademark,
-		brand: req.query.brand,
-		cnpj: req.query.cnpj
+		id: req.body.id,
+		name: req.body.name,
+		cpf: req.body.cpf,
+		cnpj: req.body.cnpj,
+		brand: req.body.brand,
+		trademark: req.body.trademark
 	};
 
-	if(isNaN(customer.cnpj) || customer.cnpj < 0 || customer.cnpj > 99999999999999){
-		customer.cnpj = "";
-	};
+	let params = { keys: [], values: [] };
+	let strictParams = { keys: [], values: [] };
+	
+	lib.Query.fillParam("customer.id", customer.id, params);
+	lib.Query.fillParam("customer.name", customer.name, params);
+	lib.Query.fillParam("customer.cpf", customer.cpf, params);
+	lib.Query.fillParam("customer.cnpj", customer.cnpj, params);
+	lib.Query.fillParam("customer.brand", customer.brand, params);
+	lib.Query.fillParam("customer.trademark", customer.trademark, params);
+	
+	let orderParams = [ ["id","ASC"] ];
 
 	try {
-		if(customer.cnpj){
-			const customers = await Customer.findBy.cnpj(customer.cnpj);
-			res.send({ customers });
-		} else {
-			const customers = await Customer.filter(customer);
-			res.send({ customers });
-		};
+		const customers = await Customer.filter([], [], params, [], orderParams);
+		res.send({ customers });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });
@@ -121,10 +126,6 @@ customerController.filter = async (req, res) => {
 };
 
 customerController.findById = async (req, res) => {
-	// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-	// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	// };
-
 	try {
 		const customer = await Customer.findBy.id(req.params.id);
 		res.send({ customer });
@@ -135,10 +136,6 @@ customerController.findById = async (req, res) => {
 };
 
 customerController.show = async (req, res) => {
-	// if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
-	// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	// };
-
 	const paymentDate = {
 		key: "payment_confirmation_date",
 		start: (new Date().getTime()) - (lib.date.timestamp.day() * 90),

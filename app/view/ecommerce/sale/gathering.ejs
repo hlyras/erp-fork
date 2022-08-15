@@ -1,141 +1,141 @@
 <html>
-    <head>
-        <% include ./../../partials/head %>
-    </head>
-    <body>
-        <% include ./../../partials/header %>
-        <% include ./../../partials/nav %>
-        <section>
-            <div class="container">
-                <form id="ecommerce-sale-filter-form" class="box b1 container border padding-10 margin-top-5 shadow">
-                    <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
-                        <option value="" selected>Plataforma da venda</option>
-                        <option value="MLJC">MLJC</option>
-                        <option value="MLCHRIS">MLCHRIS</option>
-                        <option value="MLSHEYLA">MLSHEYLA</option>
-                        <option value="MLANNY">MLANNY</option>
-                        <option value="SITE">SITE</option>
-                        <option value="SITE - Total Express">Site Total Express</option>
-                        <option value="SITE - JADLOG">Site JADLOG</option>
-                        <option value="SHOPEE">SHOPEE</option>
-                        <option value="B2W">B2W</option>
-                        <option value="Via Varejo">Via Varejo</option>
-                        <option value="Reclamação">Reclamação</option>
-                        <option value="MLJC Full">MLJC Full</option>
-                        <option value="MLCHRIS Full">MLCHRIS Full</option>
-                        <option value="MLJC Retirada">MLJC Retirada</option>
-                        <option value="MLCHRIS Retirada">MLCHRIS Retirada</option>
-                        <option value="MLANNY Retirada">MLANNY Retirada</option>
-                        <option value="MLSHEYLA Retirada">MLSHEYLA Retirada</option>
-                        <option value="SITE Retirada">SITE Retirada</option>
-                        <option value="Reclamação Retirada">Reclamação Retirada</option>
-                    </select>
-                    <input type="text" name="code" class="box b4 input-generic center margin-top-5" placeholder="Código da venda" autocomplete="off">
-                    <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodStart">
-                    <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodEnd">
-                    <input type="text" name="customer_name" class="box b4 input-generic center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
-                    <input type="text" name="customer_user" class="box b4 input-generic center margin-top-5" placeholder="Usuário do cliente" autocomplete="off">
-                    <input type="hidden" name="status" value="Ag. Informações">
-                    <input type="text" name="tracker" class="box b4 input-generic center margin-top-5" placeholder="Rastreio" autocomplete="off">
-                    <input type="submit" name="submit" class="box b4 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
-                </form>
-                <div id="ecommerce-sale-filter-box" class="box b1 container padding-5 margin-top-5"></div>
-                <div id="ecommerce-sale-show-box" class="box b1 container ground padding-5 margin-top-5" style="display:none">
-                    <div class="box b1 container ground padding-5 margin-top-5">
-                        <form id="ecommerce-sale-create-form" class="box b1 container">
-                            <input type="hidden" name="id" value=""></input>
-                            <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
-                                <option value="" selected disabled>Plataforma da venda</option>
-                                <option value="MLJC">MLJC</option>
-                                <option value="MLCHRIS">MLCHRIS</option>
-                                <option value="MLSHEYLA">MLSHEYLA</option>
-                                <option value="MLANNY">MLANNY</option>
-                                <option value="SITE">SITE</option>
-                                <option value="SITE - Total Express">Site Total Express</option>
-                                <option value="SITE - JADLOG">Site JADLOG</option>
-                                <option value="SHOPEE">SHOPEE</option>
-                                <option value="B2W">B2W</option>
-                                <option value="Via Varejo">Via Varejo</option>
-                                <option value="Reclamação">Reclamação</option>
-                                <option value="MLJC Full">MLJC Full</option>
-                                <option value="MLCHRIS Full">MLCHRIS Full</option>
-                                <option value="MLJC Retirada">MLJC Retirada</option>
-                                <option value="MLCHRIS Retirada">MLCHRIS Retirada</option>
-                                <option value="SITE Retirada">SITE Retirada</option>
-                                <option value="Reclamação Retirada">Reclamação Retirada</option>
-                            </select>
-                            <input type="text" name="code" class="box b4 input-generic ground center margin-top-5" placeholder="Código da venda" autocomplete="off">
-                            <input type="datetime-local" name="datetime" class="box b4 input-generic margin-top-5 center">
-                            <input type="text" name="customer-user" class="box b4 input-generic ground center margin-top-5" placeholder="Usuário do Cliente" autocomplete="off">
-                            <input type="text" name="customer-name" class="box b4 input-generic ground center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
-                            <input type="text" name="customer-phone" class="box b4 input-generic ground center margin-top-5" placeholder="Telefone" autocomplete="off">
-                            <input type="text" name="tracker" class="box b4 input-generic ground center margin-top-5" placeholder="Código de rastreio" autocomplete="off">
-                            <select name="status" class="box b4 input-generic center margin-top-5 hide-disabled">
-                                <option value="" selected disabled>Status da venda</option>
-                                <option value="Ag. Informações">Ag. Informações</option>
-                                <option value="Ag. Embalo">Enviar p/ embalo</option>
-                            </select>
-                            <input type="text" name="obs" class="box b1 input-generic center ground margin-top-5" placeholder="Observações" maxlength="100" autocomplete="off">
-                        </form>
-                    </div>
-                    <div class="box b2 container ground padding-10 margin-top-10 border">
-                        <h5 class="underline center">Produtos</h5>
-                        <form id="ecommerce-sale-product-show-kart-form" class="box b1 container">
-                            <div class="mobile-box b2-3 container dropdown ground margin-top-5">
-                                <ul class="box b1 container">
-                                    <li>
-                                        <input type="hidden" name="product_id">
-                                        
-                                        <input type="text" id="ecommerce-sale-product-show-kart-dropdown-input" name="product" data-id="" class="box b1 input-generic center" oninput="Ecommerce.sale.product.controller.dropdown.filter(this, 'ecommerce-sale-product-show-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
-                                        
-                                        <ul id="ecommerce-sale-product-show-kart-dropdown" class="box b1"></ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <input type="number" name="amount" class="mobile-box b6 input-generic center margin-top-5" placeholder="Qtd">
-                            <button type="submit" name="submit" class="mobile-box b6 submit-generic center margin-top-5 pointer"><img class='img-tbl-btn size-15' src="/images/icon/increase.png"></button>
-                        </form>
-                        <div id="ecommerce-sale-product-show-kart-div" class="box b1 container"></div>
-                    </div>
-
-                    <div class="box b2 container ground padding-10 margin-top-10 border">
-                        <h5 class="underline center">Pacotes</h5>
-                        <form id="ecommerce-sale-package-show-kart-form" class="box b1 container">
-                            <input type="hidden" name="id" value="">
-                            <div class="mobile-box b2-3 container dropdown ground margin-top-5">
-                                <ul class="box b1 container">
-                                    <li>
-                                        <input type="hidden" name="product_id">
-                                        
-                                        <input type="text" id="ecommerce-sale-package-show-kart-dropdown-input" name="package" data-id="" class="box b1 input-generic center" oninput="Ecommerce.sale.package.controller.dropdown.filter(this, 'ecommerce-sale-package-show-kart-dropdown')" placeholder="Descrição do pacote" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
-                                        
-                                        <ul id="ecommerce-sale-package-show-kart-dropdown" class="box b1"></ul>
-                                    </li>
-                                </ul>
-                            </div>
-                            <input type="number" name="amount" class="mobile-box b6 input-generic center margin-top-5" placeholder="Qtd">
-                            <button type="submit" name="submit" class="mobile-box b6 submit-generic margin-top-5 pointer"><img class='img-tbl-btn size-15' src="/images/icon/increase.png"></button>
-                        </form>
-                        <div id="ecommerce-sale-package-show-kart-div" class="box b1 container"></div>
-                    </div>
-                    <div class="box b1 container ground">
-                        <div class="box b3"></div>
-                        <input type="button" id="ecommerce-sale-create-submit" class="box b3 submit-generic height-40 margin-top-5 bold" value="Confirmar">
-                    </div>
-                </div>
+<head>
+  <%- include('./../../partials/head.ejs') %>
+</head>
+<body>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
+  <section>
+    <div class="container">
+      <form id="ecommerce-sale-filter-form" class="box b1 container border padding-10 margin-top-5 shadow">
+        <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
+          <option value="" selected>Plataforma da venda</option>
+          <option value="MLJC">MLJC</option>
+          <option value="MLCHRIS">MLCHRIS</option>
+          <option value="MLSHEYLA">MLSHEYLA</option>
+          <option value="MLANNY">MLANNY</option>
+          <option value="SITE">SITE</option>
+          <option value="SITE - Total Express">Site Total Express</option>
+          <option value="SITE - JADLOG">Site JADLOG</option>
+          <option value="SHOPEE">SHOPEE</option>
+          <option value="B2W">B2W</option>
+          <option value="Via Varejo">Via Varejo</option>
+          <option value="Reclamação">Reclamação</option>
+          <option value="MLJC Full">MLJC Full</option>
+          <option value="MLCHRIS Full">MLCHRIS Full</option>
+          <option value="MLJC Retirada">MLJC Retirada</option>
+          <option value="MLCHRIS Retirada">MLCHRIS Retirada</option>
+          <option value="MLANNY Retirada">MLANNY Retirada</option>
+          <option value="MLSHEYLA Retirada">MLSHEYLA Retirada</option>
+          <option value="SITE Retirada">SITE Retirada</option>
+          <option value="Reclamação Retirada">Reclamação Retirada</option>
+        </select>
+        <input type="text" name="code" class="box b4 input-generic center margin-top-5" placeholder="Código da venda" autocomplete="off">
+        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodStart">
+        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodEnd">
+        <input type="text" name="customer_name" class="box b4 input-generic center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+        <input type="text" name="customer_user" class="box b4 input-generic center margin-top-5" placeholder="Usuário do cliente" autocomplete="off">
+        <input type="hidden" name="status" value="Ag. Informações">
+        <input type="text" name="tracker" class="box b4 input-generic center margin-top-5" placeholder="Rastreio" autocomplete="off">
+        <input type="submit" name="submit" class="box b4 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
+      </form>
+      <div id="ecommerce-sale-filter-box" class="box b1 container padding-5 margin-top-5"></div>
+      <div id="ecommerce-sale-show-box" class="box b1 container ground padding-5 margin-top-5" style="display:none">
+        <div class="box b1 container ground padding-5 margin-top-5">
+          <form id="ecommerce-sale-create-form" class="box b1 container">
+            <input type="hidden" name="id" value=""></input>
+            <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
+              <option value="" selected disabled>Plataforma da venda</option>
+              <option value="MLJC">MLJC</option>
+              <option value="MLCHRIS">MLCHRIS</option>
+              <option value="MLSHEYLA">MLSHEYLA</option>
+              <option value="MLANNY">MLANNY</option>
+              <option value="SITE">SITE</option>
+              <option value="SITE - Total Express">Site Total Express</option>
+              <option value="SITE - JADLOG">Site JADLOG</option>
+              <option value="SHOPEE">SHOPEE</option>
+              <option value="B2W">B2W</option>
+              <option value="Via Varejo">Via Varejo</option>
+              <option value="Reclamação">Reclamação</option>
+              <option value="MLJC Full">MLJC Full</option>
+              <option value="MLCHRIS Full">MLCHRIS Full</option>
+              <option value="MLJC Retirada">MLJC Retirada</option>
+              <option value="MLCHRIS Retirada">MLCHRIS Retirada</option>
+              <option value="SITE Retirada">SITE Retirada</option>
+              <option value="Reclamação Retirada">Reclamação Retirada</option>
+            </select>
+            <input type="text" name="code" class="box b4 input-generic ground center margin-top-5" placeholder="Código da venda" autocomplete="off">
+            <input type="datetime-local" name="datetime" class="box b4 input-generic margin-top-5 center">
+            <input type="text" name="customer-user" class="box b4 input-generic ground center margin-top-5" placeholder="Usuário do Cliente" autocomplete="off">
+            <input type="text" name="customer-name" class="box b4 input-generic ground center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+            <input type="text" name="customer-phone" class="box b4 input-generic ground center margin-top-5" placeholder="Telefone" autocomplete="off">
+            <input type="text" name="tracker" class="box b4 input-generic ground center margin-top-5" placeholder="Código de rastreio" autocomplete="off">
+            <select name="status" class="box b4 input-generic center margin-top-5 hide-disabled">
+              <option value="" selected disabled>Status da venda</option>
+              <option value="Ag. Informações">Ag. Informações</option>
+              <option value="Ag. Embalo">Enviar p/ embalo</option>
+            </select>
+            <input type="text" name="obs" class="box b1 input-generic center ground margin-top-5" placeholder="Observações" maxlength="100" autocomplete="off">
+          </form>
+        </div>
+        <div class="box b2 container ground padding-10 margin-top-10 border">
+          <h5 class="underline center">Produtos</h5>
+          <form id="ecommerce-sale-product-show-kart-form" class="box b1 container">
+            <div class="mobile-box b2-3 container dropdown ground margin-top-5">
+              <ul class="box b1 container">
+                <li>
+                  <input type="hidden" name="product_id">
+                  
+                  <input type="text" id="ecommerce-sale-product-show-kart-dropdown-input" name="product" data-id="" class="box b1 input-generic center" oninput="Ecommerce.sale.product.controller.dropdown.filter(this, 'ecommerce-sale-product-show-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                  
+                  <ul id="ecommerce-sale-product-show-kart-dropdown" class="box b1"></ul>
+                </li>
+              </ul>
             </div>
-        </section>
-        <% include ./../../partials/loader %>
-    </body>
-    <footer>
-        <% include ./../../partials/footer %>
-        <% include ./partial %>
+            <input type="number" name="amount" class="mobile-box b6 input-generic center margin-top-5" placeholder="Qtd">
+            <button type="submit" name="submit" class="mobile-box b6 submit-generic center margin-top-5 pointer"><img class='img-tbl-btn size-15' src="/images/icon/increase.png"></button>
+          </form>
+          <div id="ecommerce-sale-product-show-kart-div" class="box b1 container"></div>
+        </div>
 
-        <script src="/javascripts/scripts/product/model/main.js"></script>
-        <script src="/javascripts/scripts/product/model/package.js"></script>
+        <div class="box b2 container ground padding-10 margin-top-10 border">
+          <h5 class="underline center">Pacotes</h5>
+          <form id="ecommerce-sale-package-show-kart-form" class="box b1 container">
+            <input type="hidden" name="id" value="">
+            <div class="mobile-box b2-3 container dropdown ground margin-top-5">
+              <ul class="box b1 container">
+                <li>
+                  <input type="hidden" name="product_id">
+                  
+                  <input type="text" id="ecommerce-sale-package-show-kart-dropdown-input" name="package" data-id="" class="box b1 input-generic center" oninput="Ecommerce.sale.package.controller.dropdown.filter(this, 'ecommerce-sale-package-show-kart-dropdown')" placeholder="Descrição do pacote" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                  
+                  <ul id="ecommerce-sale-package-show-kart-dropdown" class="box b1"></ul>
+                </li>
+              </ul>
+            </div>
+            <input type="number" name="amount" class="mobile-box b6 input-generic center margin-top-5" placeholder="Qtd">
+            <button type="submit" name="submit" class="mobile-box b6 submit-generic margin-top-5 pointer"><img class='img-tbl-btn size-15' src="/images/icon/increase.png"></button>
+          </form>
+          <div id="ecommerce-sale-package-show-kart-div" class="box b1 container"></div>
+        </div>
+        <div class="box b1 container ground">
+          <div class="box b3"></div>
+          <input type="button" id="ecommerce-sale-create-submit" class="box b3 submit-generic height-40 margin-top-5 bold" value="Confirmar">
+        </div>
+      </div>
+    </div>
+  </section>
+  <%- include('./../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../partials/footer.ejs') %>
+  <%- include('./partial.ejs') %>
 
-        <script src="/javascripts/scripts/ecommerce/sale/model/product.js"></script>
-        <script src="/javascripts/scripts/ecommerce/sale/model/package.js"></script>
-        <script src="/javascripts/scripts/ecommerce/sale/controller/gathering.js"></script>
-    </footer>
+  <script src="/javascripts/scripts/product/model/main.js"></script>
+  <script src="/javascripts/scripts/product/model/package.js"></script>
+
+  <script src="/javascripts/scripts/ecommerce/sale/model/product.js"></script>
+  <script src="/javascripts/scripts/ecommerce/sale/model/package.js"></script>
+  <script src="/javascripts/scripts/ecommerce/sale/controller/gathering.js"></script>
+</footer>
 </html>

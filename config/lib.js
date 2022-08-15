@@ -765,10 +765,10 @@ module.exports = {
 		return +(parseFloat(num).toFixed(places));
 	},
 	routeToHttps: (req, res, next) => {
-	    if ((req.headers["x-forwarded-proto"] || "").endsWith("http")){
-	        res.redirect(`https://${req.hostname}${req.url}`);
-	    } else {
-	        next();
-	    }
+		if ((req.headers["x-forwarded-proto"] || "").endsWith("http")){
+			res.redirect(`https://${req.hostname}${req.url}`);
+		} else {
+			next();
+		}
 	}
 };

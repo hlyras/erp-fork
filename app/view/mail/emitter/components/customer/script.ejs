@@ -1,0 +1,75 @@
+<script>
+	function customerFilterRender(customers) {
+		const filter_div = document.getElementById("customer-filter-div");
+		filter_div.innerHTML = "";
+
+		// for (let i = pagination.page * pagination.pageSize; i < customers.length && i < (pagination.page + 1) * pagination.pageSize; i++) {
+		for(let i in customers){
+			let customer_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-5" });
+			customer_div.append(lib.element.create("div", { 
+				class: "mobile-box b9 input-show border-lg-st padding-5 center pointer",
+				onclick: `lib.displayDiv('customer-info-${customers[i].id}', this)` 
+			}, customers[i].id));
+			customer_div.append(lib.element.create("div", { class: "mobile-box b3 lucida-grande em09 bold padding-5" }, customers[i].name));
+			customers[i].email && customer_div.append(lib.element.create("div", { class: "mobile-box b4-9 lucida-grande em09 padding-5" }, customers[i].email));
+			!customers[i].email && customer_div.append(lib.element.create("div", { class: "mobile-box b4-9 lucida-grande em09 padding-5" }, "Sem E-mail"));
+
+
+			customers[i].email && customer_div.append(lib.element.icon('b9', 25, "/images/icon/sendmail.png", `customerSendMail(${customers[i].id}, this)`));
+
+			let info_div = lib.element.create("div", { 
+				id: `customer-info-${customers[i].id}`, 
+				class: "box b1 container",
+				style: "display:none;"
+			});
+
+			customers[i].person_type == "natural-person" && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Categoria", `Pessoa Física` ));
+			customers[i].person_type == "legal-entity" && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Categoria", `Pessoa Jurídica` ));
+			customers[i].cpf && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "CPF", `${customers[i].cpf}` ));
+			customers[i].trademark && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Razão social", `${customers[i].trademark}` ));
+			customers[i].brand && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Nome fantasia", `${customers[i].brand}` ));
+			customers[i].cnpj && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "CNPJ", `${customers[i].cnpj}` ));
+
+			customers[i].social_media && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Mídia social", `${customers[i].social_media}` ));
+			customers[i].phone && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Telefone", `${customers[i].phone}` ));
+			customers[i].cellphone && info_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Celular", `${customers[i].cellphone}` ));
+
+			customer_div.append(info_div);
+
+			customers[i].mail_datetime < (lib.genTimestamp() - (lib.timestampDay() * 3)) && filter_div.append(customer_div);
+		};
+	};
+
+	async function customerSendMail(customer_id, input) {
+		let options = {
+			customer_id: customer_id,
+			mail_id: parseInt(document.getElementById("mailer-mail-selected-id").value)
+		};
+
+		let response = await API.response(Customer.mail.send, options);
+		if(!response) { return false; }
+
+		input.remove();
+	};
+
+	document.getElementById("customer-filter-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		const customer = {
+			id: e.target.elements.namedItem("id").value,
+			name: e.target.elements.namedItem("name").value,
+			trademark: e.target.elements.namedItem("trademark").value,
+			brand: e.target.elements.namedItem("brand").value,
+			cpf: e.target.elements.namedItem("cpf").value,
+			cnpj: e.target.elements.namedItem("cnpj").value
+		}
+
+		let customers = await API.response(Customer.filter, customer);
+		if(!customers) { return false; }
+
+		customerFilterRender(customers);
+
+		// const pagination = { pageSize: 5, page: 0 };
+		// (function(){ lib.carousel.execute("customer-filter-box", customerFilterRender, customers, pagination); }());
+	});
+</script>

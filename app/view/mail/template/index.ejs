@@ -1,0 +1,45 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body style='padding:0px;margin:0px;'>
+  <div>
+    <div style='height:60px;background-color:#000;' align='center'>
+      <img src='cid:favicon-white' style='height:40px;margin-top:10px;'>
+    </div>
+
+    <div><%= mailer_model %></div>
+
+    <p style='margin-left:10px;font-family:georgia;'>Contato pelo <a href='<%= user.contact %>'>WhatsApp</a></p>
+    <div style='margin-left:10px;margin-top:30px;font-family:georgia;'>Atenciosamente,</div>
+    <div style='margin-left:10px;margin-top:12px;font-family:georgia;'><%= user.name %></div>
+    <% if(user.phone) { %>
+      <div style='margin-left:10px;font-size: 0.8em;'><%= user.phone %></div> 
+    <% } %>
+    <img src='cid:favicon' style='margin-left:10px;margin-top:5px;width:105px;'>
+  </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<body style='padding:0px;margin:0px;'>
+  <div style='height:60px;background-color:#000;' align='center'>
+    <img src='cid:favicon-white' style='height:40px;margin-top:10px;'>
+  </div>
+
+  <div><%= mailer_model %></div>
+
+  <img src='cid:favicon' style='margin-left:10px;margin-top:5px;width:105px;'>
+</body>
+</html>
+
+<!-- Olá =>name, tudo bem?
+
+Meu nome é =>user_name, gostaria de apresentar nosso trabalho.
+Caso tenha interesse favor chamar no <a href='=>user_contact'>WhatsApp</a>
+
+Atenciosamente
+=>user_name
+=>user_phone -->

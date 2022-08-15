@@ -5,6 +5,7 @@ const saleController = require("../controller/sale/main");
 const financialController = require("../controller/sale/financial");
 const triageController = require("../controller/sale/triage");
 const reportController = require("../controller/sale/report");
+reportController.customer = require("../controller/sale/report/customer");
 const prospectController = require("../controller/sale/prospect");
 const serviceOrderController = require("../controller/sale/service-order");
 const pickupController = require("../controller/sale/pickup");

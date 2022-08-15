@@ -1,34 +1,34 @@
 <html>
-    <head>
-        <% include ./../../partials/head %>
-    </head>
-    <body>
-        <% include ./../../partials/header %>
-        <% include ./../../partials/nav %>
-        <section class="container">
-            <div class="box b2 container ground padding-10">
-                <div class="box b1 underline center">Novo fluxo de prospecção</div>
-                <div id="flow-create-form" class="box b1 container">
-                    <input type="text" name="id" value="" hidden>
-                    <input type="text" name="name" class="box b2-3 input-generic margin-top-5 center" placeholder="Nome do Fluxo" autocomplete="off">
-                </div>
-            </div>
-            <div class="box b2 container ground padding-10">
-                <div class="box b1 underline center">Pesquisar fluxos</div>
-                <form id="flow-filter-form" class="box b1 container">
-                    <input type="text" name="name" class="box b2-3 input-generic margin-top-5 center" placeholder="Nome do Fluxo" autocomplete="off">
-                    <input type="submit" name="submit" class="box b3 submit-generic margin-top-5 center" value="Buscar">
-                </form>
-            </div>
+<head>
+  <%- include('./../../partials/head.ejs') %>
+</head>
+<body>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
+  <section class="container">
+    <div class="box b2 container ground padding-10">
+      <div class="box b1 underline center">Novo fluxo de prospecção</div>
+      <div id="flow-create-form" class="box b1 container">
+        <input type="text" name="id" value="" hidden>
+        <input type="text" name="name" class="box b2-3 input-generic margin-top-5 center" placeholder="Nome do Fluxo" autocomplete="off">
+      </div>
+    </div>
+    <div class="box b2 container ground padding-10">
+      <div class="box b1 underline center">Pesquisar fluxos</div>
+      <form id="flow-filter-form" class="box b1 container">
+        <input type="text" name="name" class="box b2-3 input-generic margin-top-5 center" placeholder="Nome do Fluxo" autocomplete="off">
+        <input type="submit" name="submit" class="box b3 submit-generic margin-top-5 center" value="Buscar">
+      </form>
+    </div>
 
-            <div class="box b1 container ground margin-top-5 padding-10">
-                
-            </div>
-        </section>
-        <% include ./../../partials/loader %>
-    </body>
-    <footer>
-        <% include ./../../partials/footer %>
-        <% include ./../partial %>
-    </footer>
+    <div class="box b1 container ground margin-top-5 padding-10">
+      
+    </div>
+  </section>
+  <%- include('./../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../partials/footer.ejs') %>
+  <%- include('./../partial.ejs') %>
+</footer>
 </html>

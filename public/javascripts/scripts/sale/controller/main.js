@@ -50,7 +50,7 @@ if(Sale.controller.save){
 			id: document.getElementById("sale-id").value,
 			sale_date: lib.dateToTimestamp(lib.genPatternDate()),
 			customer_id: customer.id,
-			customer_name: customer[0],
+			customer_name: customer[1],
 			customer_address_id: lib.findCheckedRadios("sale-customer-address").value,
 			products: JSON.stringify(Sale.product.kart.items),
 			packages: JSON.stringify(Sale.package.kart.items),

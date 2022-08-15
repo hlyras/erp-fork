@@ -1,20 +1,20 @@
 <html>
-    <head>
-        <% include ./../../partials/head %>
-    </head>
-    <body>
-        <% include ./../../partials/header %>
-        <% include ./../../partials/nav %>
-        <section class="container">
-            index
-        </section>
-        <% include ./../../partials/loader %>
-    </body>
-    <footer>
-        <% include ./../../partials/footer %>
-        <% include ./../partial %>
-        <script src="/javascripts/scripts/product/model/feedstock.js"></script>
-        <script src="/javascripts/scripts/product/view/feedstock.js"></script>
-        <script src="/javascripts/scripts/product/controller/feedstock.js"></script>
-    </footer>
+<head>
+  <%- include('./../../partials/head.ejs') %>
+</head>
+<body>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
+  <section class="container">
+    index
+  </section>
+  <%- include('./../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../partials/footer.ejs') %>
+  <%- include('./../partial.ejs') %>
+  <script src="/javascripts/scripts/product/model/feedstock.js"></script>
+  <script src="/javascripts/scripts/product/view/feedstock.js"></script>
+  <script src="/javascripts/scripts/product/controller/feedstock.js"></script>
+</footer>
 </html>

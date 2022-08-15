@@ -17,6 +17,7 @@ router.use("/product", require("./product"));
 router.use("/production", require("./production"));
 router.use("/feedstock", require("./feedstock"));
 router.use("/customer", require("./customer"));
+router.use("/mail", require("./mail"));
 router.use("/sale", require("./sale"));
 router.use("/ecommerce", require("./ecommerce"));
 router.use("/financial", require("./financial"));

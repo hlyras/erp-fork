@@ -234,9 +234,9 @@ Sale.view.edit = async (sale) => {
 	document.getElementById("sale-customer").dataset.id = sale.customer.id;
 	document.getElementById("sale-customer").dataset.person_type = sale.customer.person_type;
 	if(sale.customer.person_type == "legal-entity"){
-		document.getElementById("sale-customer").value = sale.customer.name+" | "+sale.customer.trademark+" | "+sale.customer.brand+" | "+sale.customer.cnpj;
+		document.getElementById("sale-customer").value = sale.customer.id+" | "+sale.customer.name+" | "+sale.customer.trademark+" | "+sale.customer.brand+" | "+sale.customer.cnpj;
 	} else if(sale.customer.person_type == "natural-person"){
-		document.getElementById("sale-customer").value = sale.customer.name+" | "+sale.customer.cpf;
+		document.getElementById("sale-customer").value = sale.customer.id+" | "+sale.customer.name+" | "+sale.customer.cpf;
 	};
 	document.getElementById("sale-customer").readOnly = true;
 

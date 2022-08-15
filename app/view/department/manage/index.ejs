@@ -1,10 +1,10 @@
 <html>
 <head>
-	<% include ./../../partials/head %>
+	<%- include('./../../partials/head.ejs') %>
 </head>
 <body>
-	<% include ./../../partials/header %>
-	<% include ./../../partials/nav %>
+	<%- include('./../../partials/header.ejs') %>
+	<%- include('./../../partials/nav.ejs') %>
 
 	<section class="container">
 		<div class="box b2 container ground border radius-5 margin-top-10">
@@ -25,7 +25,7 @@
 
 			<div id="department-filter-box" class="box b1 container" style="display:none;">
 				<div id="department-filter-div" class="box b1 container"></div>
-				<% include ./../../partials/carousel %>
+				<%- include('./../../partials/carousel.ejs') %>
 			</div>
 		</div>
 
@@ -35,12 +35,12 @@
 	<div class="mobile-box b11-12 lucida-grande bold underline center">Filtrar Departamentos</div>
 	<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('department-filter-box', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
 	</div>
-	</div> -->
-	</section>
-	<% include ./../../partials/loader %>
+</div> -->
+</section>
+<%- include('./../../partials/loader.ejs') %>
 </body>
 <footer>
-	<% include ./../../partials/footer %>
-	<% include ./../partial %>
+	<%- include('./../../partials/footer.ejs') %>
+	<%- include('./../partial.ejs') %>
 </footer>
 </html>

@@ -1,67 +1,66 @@
 <html>
-    <head>
-        <% include ./../../partials/head %>
-    </head>
-    <body>
-        <% include ./../../partials/header %>
-        <% include ./../../partials/nav %>
-        <section>
-            <div class="container">
-                <form id="ecommerce-sale-filter-form" class="box one container border padding-10 margin-top-5 shadow">
-                    <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
-                        <option value="" selected>Plataforma da venda</option>
-                        <option value="MLJC">MLJC</option>
-                        <option value="MLCHRIS">MLCHRIS</option>
-                        <option value="MLSHEYLA">MLSHEYLA</option>
-                        <option value="MLANNY">MLANNY</option>
-                        <option value="SITE">SITE</option>
-                        <option value="SITE - Total Express">Site Total Express</option>
-                        <option value="SITE - JADLOG">Site JADLOG</option>
-                        <option value="SHOPEE">SHOPEE</option>
-                        <option value="B2W">B2W</option>
-                        <option value="Via Varejo">Via Varejo</option>
-                        <option value="Reclamação">Reclamação</option>
-                        <option value="MLJC Full">MLJC Full</option>
-                        <option value="MLCHRIS Full">MLCHRIS Full</option>
-                        <option value="MLJC Retirada">MLJC Retirada</option>
-                        <option value="MLCHRIS Retirada">MLCHRIS Retirada</option>
-                        <option value="MLANNY Retirada">MLANNY Retirada</option>
-                        <option value="MLSHEYLA Retirada">MLSHEYLA Retirada</option>
-                        <option value="SITE Retirada">SITE Retirada</option>
-                        <option value="Reclamação Retirada">Reclamação Retirada</option>
-                    </select>
-                    <input type="text" name="code" class="box b4 input-generic center margin-top-5" placeholder="Código da venda" autocomplete="off">
-                    <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodStart">
-                    <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodEnd">
-                    <input type="text" name="customer_name" class="box b2 input-generic center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
-                    <input type="text" name="customer_user" class="box b2 input-generic center margin-top-5" placeholder="Nome ou usuário do cliente" autocomplete="off">
-                    <select name="status" class="box b3 input-generic center margin-top-5 hide-disabled">
-                        <option value="Ag. Embalo" selected>Ag. Embalo</option>
-                        <option value="Ag. Coleta">Ag. Coleta</option>
-                    </select>
-                    <input type="text" name="tracker" class="box b3 input-generic center margin-top-5" placeholder="Rastreio" autocomplete="off">
-                    <input type="submit" name="submit" class="box b3 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
-                </form>
-                <div id="ecommerce-sale-filter-box" class="box one container padding-5 margin-top-5"></div>
-                <div id="ecommerce-sale-show-box" class="box one container ground padding-5 margin-top-5" style="display:none"></div>
-            </div>
-        </section>
-        <% include ./../../partials/loader %>
-    </body>
-    <footer>
-        <% include ./../../partials/footer %>
-        <!-- <% include ./partial %> -->
-        <script src="/javascripts/scripts/ecommerce/sale/model/main.js"></script>
-        <script src="/javascripts/scripts/ecommerce/sale/view/main.js"></script>
+<head>
+  <%- include('./../../partials/head.ejs') %>
+</head>
+<body>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
+  <section>
+    <div class="container">
+      <form id="ecommerce-sale-filter-form" class="box one container border padding-10 margin-top-5 shadow">
+        <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
+          <option value="" selected>Plataforma da venda</option>
+          <option value="MLJC">MLJC</option>
+          <option value="MLCHRIS">MLCHRIS</option>
+          <option value="MLSHEYLA">MLSHEYLA</option>
+          <option value="MLANNY">MLANNY</option>
+          <option value="SITE">SITE</option>
+          <option value="SITE - Total Express">Site Total Express</option>
+          <option value="SITE - JADLOG">Site JADLOG</option>
+          <option value="SHOPEE">SHOPEE</option>
+          <option value="B2W">B2W</option>
+          <option value="Via Varejo">Via Varejo</option>
+          <option value="Reclamação">Reclamação</option>
+          <option value="MLJC Full">MLJC Full</option>
+          <option value="MLCHRIS Full">MLCHRIS Full</option>
+          <option value="MLJC Retirada">MLJC Retirada</option>
+          <option value="MLCHRIS Retirada">MLCHRIS Retirada</option>
+          <option value="MLANNY Retirada">MLANNY Retirada</option>
+          <option value="MLSHEYLA Retirada">MLSHEYLA Retirada</option>
+          <option value="SITE Retirada">SITE Retirada</option>
+          <option value="Reclamação Retirada">Reclamação Retirada</option>
+        </select>
+        <input type="text" name="code" class="box b4 input-generic center margin-top-5" placeholder="Código da venda" autocomplete="off">
+        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodStart">
+        <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodEnd">
+        <input type="text" name="customer_name" class="box b2 input-generic center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+        <input type="text" name="customer_user" class="box b2 input-generic center margin-top-5" placeholder="Nome ou usuário do cliente" autocomplete="off">
+        <select name="status" class="box b3 input-generic center margin-top-5 hide-disabled">
+          <option value="Ag. Embalo" selected>Ag. Embalo</option>
+          <option value="Ag. Coleta">Ag. Coleta</option>
+        </select>
+        <input type="text" name="tracker" class="box b3 input-generic center margin-top-5" placeholder="Rastreio" autocomplete="off">
+        <input type="submit" name="submit" class="box b3 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
+      </form>
+      <div id="ecommerce-sale-filter-box" class="box one container padding-5 margin-top-5"></div>
+      <div id="ecommerce-sale-show-box" class="box one container ground padding-5 margin-top-5" style="display:none"></div>
+    </div>
+  </section>
+  <% include ./../../partials/loader %>
+</body>
+<footer>
+  <% include ./../../partials/footer %>
+  <script src="/javascripts/scripts/ecommerce/sale/model/main.js"></script>
+  <script src="/javascripts/scripts/ecommerce/sale/view/main.js"></script>
 
-        <script src="/javascripts/scripts/product/model/main.js"></script>
-        <script src="/javascripts/scripts/product/model/package.js"></script>
+  <script src="/javascripts/scripts/product/model/main.js"></script>
+  <script src="/javascripts/scripts/product/model/package.js"></script>
 
-        <script src="/javascripts/scripts/ecommerce/sale/view/triage.js"></script>
-        <script src="/javascripts/scripts/ecommerce/sale/controller/triage.js"></script>
-        <script type="text/javascript">
-            document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodStart").value = lib.timestampToDatetime(lib.genTimestamp() - (lib.timestampDay()*15));
-            document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodEnd").value = lib.timestampToDatetime(lib.genTimestamp());
-        </script>
-    </footer>
+  <script src="/javascripts/scripts/ecommerce/sale/view/triage.js"></script>
+  <script src="/javascripts/scripts/ecommerce/sale/controller/triage.js"></script>
+  <script type="text/javascript">
+    document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodStart").value = lib.timestampToDatetime(lib.genTimestamp() - (lib.timestampDay()*15));
+    document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodEnd").value = lib.timestampToDatetime(lib.genTimestamp());
+  </script>
+</footer>
 </html>

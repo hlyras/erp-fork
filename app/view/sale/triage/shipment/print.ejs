@@ -1,6 +1,6 @@
 <html>
 <head>
-  <% include ./../../../partials/head %>
+  <%- include('./../../../partials/head.ejs') %>
   <style type="text/css">
     @media print {
       .noprint, .noprint * {
@@ -32,23 +32,23 @@
     <div class="container padding-10">
 
       <% if(serviceOrder.method == "Correios") { %>
-        <% include ./components/print/correios %>
+      <%- include('./components/print/correios.ejs') %>
       <% } %>
 
       <% if(serviceOrder.method == "Total Express") { %>
-        <% include ./components/print/total-express %>
+      <%- include('./components/print/total-express.ejs') %>
       <% } %>
 
       <% if(serviceOrder.method == "Braspress") { %>
-        <% include ./components/print/braspress %>
+      <%- include('./components/print/braspress.ejs') %>
       <% } %>
 
       <% if(serviceOrder.method == "Jadlog") { %>
-        <% include ./components/print/jadlog %>
+      <%- include('./components/print/jadlog.ejs') %>
       <% } %>
 
       <% if(serviceOrder.method == "Latam") { %>
-        <% include ./components/print/latam %>
+      <%- include('./components/print/latam.ejs') %>
       <% } %>
 
       <div class="p-box a1 container">
@@ -59,7 +59,7 @@
         <div class="p-box b2 lucida-grande">Telefone: (21) 3449-9000</div>
       </div>
     </div>
-        
+    
     <div class="p-box a1 lucida-grande center padding-5">Nº da O.S: #<b><%= serviceOrder.id %></b></div>
 
     <div class="p-box a1 container border">
@@ -70,12 +70,12 @@
     </div>
 
     <% for(let i in serviceOrder.sales) { %>
-      <div class="p-box a1 container border">
-        <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].nf_code %></div>
-        <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].sale_id %></div>
-        <div class="p-box a5-8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].trademark || serviceOrder.sales[i].customer_name %></div>
-        <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].box_amount %></div>
-      </div>
+    <div class="p-box a1 container border">
+      <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].nf_code %></div>
+      <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].sale_id %></div>
+      <div class="p-box a5-8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].trademark || serviceOrder.sales[i].customer_name %></div>
+      <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].box_amount %></div>
+    </div>
     <% } %>
 
     <div class="p-box a1 container border">
@@ -98,6 +98,6 @@
 
 </body>
 <footer>
-  <% include ./../../../partials/footer %>
+  <%- include('./../../../partials/footer.ejs') %>
 </footer>
 </html>

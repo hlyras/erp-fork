@@ -1,12 +1,12 @@
 <html>
 <head>
-  <% include ./../../../partials/head %>
+  <%- include('./../../../partials/head.ejs') %>
 </head>
 <body>
-  <% include ./../../../partials/header %>
-  <% include ./../../../partials/nav %>
+  <%- include('./../../../partials/header.ejs') %>
+  <%- include('./../../../partials/nav.ejs') %>
   <section class="container">
-    <% include ./components/filter-form %>
+    <%- include('./components/filter-form.ejs') %>
     <div id="product-filter-box" class="box b1 container" style="display:none">
       <div id="product-filter-div" class="box b1 container"></div>
     </div>
@@ -15,15 +15,15 @@
       <div id="product-detail-div" class="box b1 container underline h-center"></div>
       <div id="product-image-box" class="box b1 ground center padding-10 margin-top-10">
         <div id="product-image-div" class="box b1 center ground height-500 padding-10 margin-top-10"></div>
-        <% include ./../../../partials/carousel %>
+        <%- include('./../../../partials/carousel.ejs') %>
       </div>
       <div id="conference-info-box" class="box b1 border padding-10 margin-top-10"></div>
     </div>
   </section>
-  <% include ./../../../partials/loader %>
+  <%- include('./../../../partials/loader.ejs') %>
 </body>
 <footer>
-  <% include ./../../../partials/footer %>
+  <%- include('./../../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/product/model/main.js"></script>
   <script src="/javascripts/scripts/product/model/conference.js"></script>
 

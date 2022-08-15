@@ -1,0 +1,100 @@
+<script>
+	document.getElementById("mail-create-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		let mail = {
+			id: e.target.elements.namedItem("id").value,
+			title: e.target.elements.namedItem("title").value,
+			description: e.target.elements.namedItem("description").value,
+			subject: e.target.elements.namedItem("subject").value,
+			text: e.target.elements.namedItem("text").value,
+			content: e.target.elements.namedItem("content").value
+		};
+
+		const response = await API.response(Mail.create, mail);
+		if(!response) { return false; }
+
+		e.target.elements.namedItem("id").value = "";
+		e.target.elements.namedItem("title").value = "";
+		e.target.elements.namedItem("description").value = "";
+		e.target.elements.namedItem("subject").value = "";
+		e.target.elements.namedItem("text").value = "";
+		e.target.elements.namedItem("content").value = "";
+	});
+
+	document.getElementById("mail-preview-btn").addEventListener("click", async e => {
+		e.preventDefault();
+
+		let createForm = document.getElementById("mail-create-form");
+
+		let mail = {
+			subject: createForm.elements.namedItem("subject").value,
+			text: createForm.elements.namedItem("text").value,
+			content: createForm.elements.namedItem("content").value
+		};
+
+		lib.display("mail-preview-window", "");
+
+		rendermail(mail);
+	});
+
+	async function mailPreview(mail_id) {
+		const mail = await API.response(Mail.findById, mail_id);
+		if(!mail) { return false; }
+
+		lib.display("mail-preview-window", "");
+
+		rendermail(mail);
+	};
+
+	function rendermail (mail) {
+		let splitedContent = lib.splitTextBy(mail.content, "\n");
+		let templatedContent = "";
+
+		for(let i in splitedContent) {
+			if(i == 0) {
+				templatedContent += splitedContent[i] == "" ? "<br>" : `<p style='margin-left:10px;font-family:georgia;font-size:0.8em;'>${splitedContent[i]}</p>`;
+			} else {
+				templatedContent += splitedContent[i] == "" ? "<br>" : `<p style='margin-left:10px;margin-top:10px;font-family:georgia;font-size:0.8em;'>${splitedContent[i]}</p>`;
+			}
+		};
+
+		let info_box = document.getElementById("mail-preview-info");
+		info_box.innerHTML = "";
+
+		info_box.append(lib.element.create("div", { class: "mobile-box b5 lucida-grande bold em09" }, `JA Rio Militar`));
+		info_box.append(lib.element.create("div", { class: "mobile-box b4-5 lucida-grande em09" }, `<b>${mail.subject}</b> - ${mail.text}`));
+
+		let content_box = document.getElementById("mail-preview-content");
+		content_box.innerHTML = "";
+
+		for(let i in templatedContent) {
+			content_box.innerHTML = templatedContent;
+		};
+	};
+
+	async function mailEdit(mail_id) {
+		const mail = await API.response(Mail.findById, mail_id);
+		if(!mail) { return false; }
+
+		lib.display("mail-create-form", "");
+		lib.display("mail-filter-box", "none");
+
+		let createForm = document.getElementById("mail-create-form");
+		createForm.elements.namedItem("id").value = mail.id;
+		createForm.elements.namedItem("title").value = mail.title;
+		createForm.elements.namedItem("description").value = mail.description;
+		createForm.elements.namedItem("subject").value = mail.subject;
+		createForm.elements.namedItem("text").value = mail.text;
+		createForm.elements.namedItem("content").value = mail.content;
+	};
+
+	async function mailDelete(mail_id) {
+		if(!confirm("Tem certeza que deseja excluir este e-mail? Essa ação não pode ser desfeita?")) { return; }
+
+		const mail = await API.response(Mail.delete, mail_id);
+		if(!mail) { return false; }
+
+		document.getElementById("mail-filter-form").submit.click();
+	};
+</script>

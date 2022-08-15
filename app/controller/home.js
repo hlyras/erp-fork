@@ -31,8 +31,11 @@ const homeController = {
 		res.redirect('/');
 	},
 	logout: (req, res) => {
-		req.logout();
-		res.redirect('/');
+		req.logout(function(err) {
+	    // if (err) { return next(err); }
+	    console.log(err);
+	    res.redirect('/');
+	  });
 	}
 };
 

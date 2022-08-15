@@ -1,0 +1,50 @@
+<html>
+<head>
+  <%- include('./../../partials/head.ejs') %>
+</head>
+<body>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
+  <section class="container h-center">
+    <%- include('./components/mail/preview-window.ejs') %>
+    
+    <div class="box b2-3 container ground border-st radius-5 padding-10 margin-top-10">
+      <%- include('./components/mail/menu.ejs') %>
+    </div>
+  </section>
+
+  <section class="container h-center">
+    <%- include('./components/mail/selected-box.ejs') %>
+  </section>
+
+  <section class="container h-center margin-bottom-50">
+    <div id="interface-menu-box" class="box b2-3 container ground border-st radius-5 padding-10 margin-top-10" style="display:none;">
+      <%- include('./components/emitter-menu.ejs') %>
+      
+      <%- include('./components/emitter-interface-customer.ejs') %>
+      <%- include('./components/emitter-interface-lead.ejs') %>
+      <%- include('./components/emitter-interface-prospect.ejs') %>
+    </div>
+  </section>
+  <%- include('./../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../partials/footer.ejs') %>
+</footer>
+<script src="/javascripts/scripts/customer/model/main.js"></script>
+<script src="/javascripts/scripts/customer/model/mail.js"></script>
+<!-- <script src="/javascripts/scripts/customer/model/mailer/main.js"></script> -->
+<!-- <script src="/javascripts/scripts/customer/model/mailer/mail.js"></script> -->
+<script src="/javascripts/scripts/mail/main.js"></script>
+<script src="/javascripts/scripts/customer/model/lead/main.js"></script>
+<script src="/javascripts/scripts/customer/model/lead/mail.js"></script>
+<script src="/javascripts/scripts/customer/model/prospect/main.js"></script>
+<script src="/javascripts/scripts/customer/model/prospect/mail.js"></script>
+<%- include('./components/emitter-menu-script.ejs') %>
+<%- include('./components/mail/filter-script.ejs') %>
+<%- include('./components/mail/menu-script.ejs') %>
+
+<%- include('./components/customer/script.ejs') %>
+<%- include('./components/lead/script.ejs') %>
+<%- include('./components/prospect/script.ejs') %>
+</html>

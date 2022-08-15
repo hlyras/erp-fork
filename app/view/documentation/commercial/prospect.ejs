@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <% include ./../../partials/head %>
+	<%- include('./../../partials/head.ejs') %>
 </head>
 <body class="margin-bottom-200">
-	<% include ./../../partials/header %>
-	<% include ./../../partials/nav %>
+	<%- include('./../../partials/header.ejs') %>
+	<%- include('./../../partials/nav.ejs') %>
 
 	<!-- títulos -->
 	<section class="container">
@@ -20,8 +20,8 @@
 
 	<!-- 1 -->
 	<section class="container margin-top-10 h-center">
-	 	<div class="box b11-12">
-	 		<div class="box b1 bold em12 lucida-grande">Passo a passo do processo de prospecção</div>
+		<div class="box b11-12">
+			<div class="box b1 bold em12 lucida-grande">Passo a passo do processo de prospecção</div>
 		</div>
 	</section>
 
@@ -191,127 +191,127 @@
 						<img class="image-prop border-st" src="https://spaces.jariomilitar.com/ERP-Documentation/commercial/prospect/contact-again.png">
 
 						<!-- <p class="padding-5 margin-top-10"><b>2.2.2</b> - Antes de contatar novamente a loja, selecione a opção de enviar E-mail para ter um motivo para quebrar o gelo caso consiga contato com o responsável</p>
-						<img class="image-prop border-st" src="https://spaces.jariomilitar.com/ERP-Documentation/commercial/prospect/contact-again-mail.png"> -->
+							<img class="image-prop border-st" src="https://spaces.jariomilitar.com/ERP-Documentation/commercial/prospect/contact-again-mail.png"> -->
 
-						<p class="padding-5 margin-top-10"><b>2.2.2</b> - O E-mail enviado chegará da seguinte forma para o cliente</p>
-						<img class="image-prop border-st" src="https://spaces.jariomilitar.com/ERP-Documentation/commercial/prospect/email-present.png">
-						<img class="image-prop border-st" src="https://spaces.jariomilitar.com/ERP-Documentation/commercial/prospect/email-template.png">
+							<p class="padding-5 margin-top-10"><b>2.2.2</b> - O E-mail enviado chegará da seguinte forma para o cliente</p>
+							<img class="image-prop border-st" src="https://spaces.jariomilitar.com/ERP-Documentation/commercial/prospect/email-present.png">
+							<img class="image-prop border-st" src="https://spaces.jariomilitar.com/ERP-Documentation/commercial/prospect/email-template.png">
 
-						<p class="padding-5 margin-top-10"><b>2.2.3</b> - Modelo de ligação:</p>
-						<div class="box b1 container padding-10 radius-10" style="background-color:#d9fdd3">
-							<b class="em09 margin-top-5">Você</b>
-							<p class="box b1 em09">- Bom dia, com quem eu falo?</p>
-							<b class="em09 margin-top-5">Atendente</b>
-							<p class="box b1 em09">- Bom dia com 'Nome do atendente'</p>
-							<b class="em09 margin-top-5">Você</b>
-							<p class="box b1 em09">- 'Nome do atendente', meu nome é 'Seu nome', o 'Nome do representante' se encontra?</p>
-							<b class="em09 margin-top-5">Atendente</b>
-							<p class="box b1 em09">- Sim, sobre o que seria</p>
-							<b class="em09 margin-top-5">Você</b>
-							<p class="box b1 em09">- É a respeito da compra de alguns produtos, teria como falar com ele?</p>
-							<b class="em09 margin-top-5">Atendente</b>
-							<p class="box b1 em09">- Só um minuto...</p>
-
-							<div class="box b2 border padding-5 margin-top-10 radius-5">
+							<p class="padding-5 margin-top-10"><b>2.2.3</b> - Modelo de ligação:</p>
+							<div class="box b1 container padding-10 radius-10" style="background-color:#d9fdd3">
 								<b class="em09 margin-top-5">Você</b>
-								<p class="box b1 em09">- Bom dia falo com 'Nome do responsável?'</p>
-								<b class="em09 margin-top-5">Representante</b>
-								<p class="box b1 em09">- Bom dia, sim</p>
-								<b class="em09 margin-top-5">Você</b>
-								<p class="box b1 em09">- Ótimo, o 'Nome do atendente' me informou seu contato, disse que você é quem responde pelas compras da empresa, correto?</p>
-								<b class="em09 margin-top-5">Representante</b>
-								<p class="box b1 em09">- Sim</p>
-								<b class="em09 margin-top-5">Você</b>
-								<p class="box b1 em09">- 'Nome do responsável', meu nome é 'Seu nome', represento a JA Rio Militar, somos fabricantes de artigos militares. Fica tranquilo que não vou tomar seu tempo...<br>
-								Encontrei sua empresa na internet e vi que trabalha com alguns produtos que nós produzimos como por exemplo 'Produto de abordagem', o motivo do meu contato é que gostaria de agendar uma reunião com você pra te apresentar com detalhes algumas estratégias de como a gente pode te ajudar a aumentar seu portifólio e faturamento investindo bem pouco, tenho certeza vai agregar bastante ao seu negócio... Mas pra isso eu precisaria de pelo menos 15 minutos da sua atenção, seria possível marcar um horário que você estivesse mais tranquilo pra um representante comercial te ligar e explicar melhor como tudo funciona? inclusive pode ser após seu expediente caso prefira, podemos marcar?</p>
-								<b class="em09 margin-top-5">Representante</b>
-								<p class="box b1 em09">- Não pode ser agora?</p>
-								<b class="em09 margin-top-5">Você</b>
-								<p class="box b1 em09">- Não consigo pois preciso agendar com algum de nossos consultores, <b>posso agendar nesse mesmo horário para amanhã?</b></p>
-								<b class="em09 margin-top-5">Representante</b>
-								<p class="box b1 em09">- Tudo bem.</p>
-								<b class="em09 margin-top-5">Você</b>
-								<p class="box b1 em09">- Ótimo, vou te enviar uma mensagem por WhatsApp pra confirmar o dia e horário, obrigado pela atenção amigo, tenha um bom trabalho e muitas vendas.</p>
-								<b class="em09 margin-top-5">Representante</b>
-								<p class="box b1 em09">- Igualmente.</p>
-							</div>
-
-							<div class="box b2 border padding-5 margin-top-10 radius-5">
+								<p class="box b1 em09">- Bom dia, com quem eu falo?</p>
 								<b class="em09 margin-top-5">Atendente</b>
-								<p class="box b1 em09">- Ele disse que não pode falar agora</p>
+								<p class="box b1 em09">- Bom dia com 'Nome do atendente'</p>
 								<b class="em09 margin-top-5">Você</b>
-								<p class="box b1 em09">- E será que ele autoriza você me passar algum WhatsApp que eu possa entrar em contato diretamente com ele?</p>
-								<b class="em09 margin-top-5">------</b>
-								<p class="box b1 em09">Caso ele informe, este número será utilizado para entrar em contato diretamente com o responsável e agendar a reunião, selecione a opção de 'contatar loja novamente' e anote nas observações que falta apenas entrar em contato com o responsável para agendar a reunião.</p><br>
-								<p class="box b1 em09">Utilize a mesma conversa do exemplo com o representante para a ligação.</p>
+								<p class="box b1 em09">- 'Nome do atendente', meu nome é 'Seu nome', o 'Nome do representante' se encontra?</p>
+								<b class="em09 margin-top-5">Atendente</b>
+								<p class="box b1 em09">- Sim, sobre o que seria</p>
+								<b class="em09 margin-top-5">Você</b>
+								<p class="box b1 em09">- É a respeito da compra de alguns produtos, teria como falar com ele?</p>
+								<b class="em09 margin-top-5">Atendente</b>
+								<p class="box b1 em09">- Só um minuto...</p>
+
+								<div class="box b2 border padding-5 margin-top-10 radius-5">
+									<b class="em09 margin-top-5">Você</b>
+									<p class="box b1 em09">- Bom dia falo com 'Nome do responsável?'</p>
+									<b class="em09 margin-top-5">Representante</b>
+									<p class="box b1 em09">- Bom dia, sim</p>
+									<b class="em09 margin-top-5">Você</b>
+									<p class="box b1 em09">- Ótimo, o 'Nome do atendente' me informou seu contato, disse que você é quem responde pelas compras da empresa, correto?</p>
+									<b class="em09 margin-top-5">Representante</b>
+									<p class="box b1 em09">- Sim</p>
+									<b class="em09 margin-top-5">Você</b>
+									<p class="box b1 em09">- 'Nome do responsável', meu nome é 'Seu nome', represento a JA Rio Militar, somos fabricantes de artigos militares. Fica tranquilo que não vou tomar seu tempo...<br>
+									Encontrei sua empresa na internet e vi que trabalha com alguns produtos que nós produzimos como por exemplo 'Produto de abordagem', o motivo do meu contato é que gostaria de agendar uma reunião com você pra te apresentar com detalhes algumas estratégias de como a gente pode te ajudar a aumentar seu portifólio e faturamento investindo bem pouco, tenho certeza vai agregar bastante ao seu negócio... Mas pra isso eu precisaria de pelo menos 15 minutos da sua atenção, seria possível marcar um horário que você estivesse mais tranquilo pra um representante comercial te ligar e explicar melhor como tudo funciona? inclusive pode ser após seu expediente caso prefira, podemos marcar?</p>
+									<b class="em09 margin-top-5">Representante</b>
+									<p class="box b1 em09">- Não pode ser agora?</p>
+									<b class="em09 margin-top-5">Você</b>
+									<p class="box b1 em09">- Não consigo pois preciso agendar com algum de nossos consultores, <b>posso agendar nesse mesmo horário para amanhã?</b></p>
+									<b class="em09 margin-top-5">Representante</b>
+									<p class="box b1 em09">- Tudo bem.</p>
+									<b class="em09 margin-top-5">Você</b>
+									<p class="box b1 em09">- Ótimo, vou te enviar uma mensagem por WhatsApp pra confirmar o dia e horário, obrigado pela atenção amigo, tenha um bom trabalho e muitas vendas.</p>
+									<b class="em09 margin-top-5">Representante</b>
+									<p class="box b1 em09">- Igualmente.</p>
+								</div>
+
+								<div class="box b2 border padding-5 margin-top-10 radius-5">
+									<b class="em09 margin-top-5">Atendente</b>
+									<p class="box b1 em09">- Ele disse que não pode falar agora</p>
+									<b class="em09 margin-top-5">Você</b>
+									<p class="box b1 em09">- E será que ele autoriza você me passar algum WhatsApp que eu possa entrar em contato diretamente com ele?</p>
+									<b class="em09 margin-top-5">------</b>
+									<p class="box b1 em09">Caso ele informe, este número será utilizado para entrar em contato diretamente com o responsável e agendar a reunião, selecione a opção de 'contatar loja novamente' e anote nas observações que falta apenas entrar em contato com o responsável para agendar a reunião.</p><br>
+									<p class="box b1 em09">Utilize a mesma conversa do exemplo com o representante para a ligação.</p>
+								</div>
 							</div>
+
+							<p class="padding-5 margin-top-10"><b>2.2.4</b>- Com a reunião marcada, agora basta selecionar o status de 'Contatar responsável' e está finalizado o processo de prospecção do cliente. :D</p>
 						</div>
-
-						<p class="padding-5 margin-top-10"><b>2.2.4</b>- Com a reunião marcada, agora basta selecionar o status de 'Contatar responsável' e está finalizado o processo de prospecção do cliente. :D</p>
 					</div>
-				</div>
 
-				<!-- step-3 -->
-				<div class="box b1 container ground border-lg-st transition-02-02 margin-top-10 padding-10 radius-5">
-					<h3 class="mobile-box b11-12 lucida-grande">2.3 - Contatar responsável</h3>
-					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('prospect-2-3', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+					<!-- step-3 -->
+					<div class="box b1 container ground border-lg-st transition-02-02 margin-top-10 padding-10 radius-5">
+						<h3 class="mobile-box b11-12 lucida-grande">2.3 - Contatar responsável</h3>
+						<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('prospect-2-3', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
 
-					<div id="prospect-2-3" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
-						
+						<div id="prospect-2-3" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+							
+						</div>
 					</div>
-				</div>
 
-				<!-- step-4 -->
-				<div class="box b1 container ground border-lg-st transition-02-02 margin-top-10 padding-10 radius-5">
-					<h3 class="mobile-box b11-12 lucida-grande">2.4 - Lista de transmissão</h3>
-					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('prospect-2-4', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+					<!-- step-4 -->
+					<div class="box b1 container ground border-lg-st transition-02-02 margin-top-10 padding-10 radius-5">
+						<h3 class="mobile-box b11-12 lucida-grande">2.4 - Lista de transmissão</h3>
+						<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('prospect-2-4', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
 
-					<div id="prospect-2-4" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
-						
+						<div id="prospect-2-4" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+							
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
 
 
 
-	<!-- 2 -->
-	<section class="container margin-top-10 h-center">
-	 	<div class="box b11-12">
-	 		<div class="box b1 bold em12 lucida-grande">Fluxo de cadência</div>
-		</div>
-	</section>
-
-	<!-- 2 - Fluxo de cadência -->
-	<section id="cadency-1" class="container margin-top-5 h-center">
-		<div class="box b11-12 container ground border-lg-st transition-02-02 padding-10 radius-5">
-			<h3 class="mobile-box b11-12 lucida-grande">1 - Lead no fluxo</h3>
-			<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('cadency-1-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
-
-			<div id="cadency-1-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
-				<!-- step-1 -->
-				<div class="box b1 container ground border-lg-st transition-02-02 padding-10 radius-5">
-					<h3 class="mobile-box b11-12 lucida-grande">1.1 - Incluir lead no Fluxo</h3>
-					<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('cadency-1-1', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
-
-					<div id="cadency-1-1" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
-						<p class="padding-5"><b>1.1.1</b> - Acessar o <a onclick="lib.openExternalLink('erpjariomilitar.com')" class="underline-link">ERP</a></p>
-						<p class="padding-5"><b>1.1.2</b> - Seguir o caminho <b class="lucida-grande italic">Menu > Prospecção de clientes > Fluxo de cadência</b></p>
-						<p class="padding-5"><b>1.1.3</b> - Expandir o formulário de novo Lead e inserir as informações coletadas.</p>
-						<img class="image-prop border-st" src="https://spaces.jariomilitar.com/ERP-Documentation/commercial/prospect/lead-create-form.png">
-					</div>
-				</div>
-
+		<!-- 2 -->
+		<section class="container margin-top-10 h-center">
+			<div class="box b11-12">
+				<div class="box b1 bold em12 lucida-grande">Fluxo de cadência</div>
 			</div>
-		</div>
-	</section>
-</body>
-<footer>
-	<% include ./../../partials/footer %>
+		</section>
 
-	<script type="text/javascript">
-		console.log();
-	</script>
-</footer>
-</html>
+		<!-- 2 - Fluxo de cadência -->
+		<section id="cadency-1" class="container margin-top-5 h-center">
+			<div class="box b11-12 container ground border-lg-st transition-02-02 padding-10 radius-5">
+				<h3 class="mobile-box b11-12 lucida-grande">1 - Lead no fluxo</h3>
+				<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('cadency-1-steps', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+				<div id="cadency-1-steps" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+					<!-- step-1 -->
+					<div class="box b1 container ground border-lg-st transition-02-02 padding-10 radius-5">
+						<h3 class="mobile-box b11-12 lucida-grande">1.1 - Incluir lead no Fluxo</h3>
+						<div class="mobile-box b12 container center"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="lib.displayDiv('cadency-1-1', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')"></div>
+
+						<div id="cadency-1-1" class="mobile-box b1 margin-top-5 padding-5 transition-02-02" style="display: none;">
+							<p class="padding-5"><b>1.1.1</b> - Acessar o <a onclick="lib.openExternalLink('erpjariomilitar.com')" class="underline-link">ERP</a></p>
+							<p class="padding-5"><b>1.1.2</b> - Seguir o caminho <b class="lucida-grande italic">Menu > Prospecção de clientes > Fluxo de cadência</b></p>
+							<p class="padding-5"><b>1.1.3</b> - Expandir o formulário de novo Lead e inserir as informações coletadas.</p>
+							<img class="image-prop border-st" src="https://spaces.jariomilitar.com/ERP-Documentation/commercial/prospect/lead-create-form.png">
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</section>
+	</body>
+	<footer>
+		<%- include('./../../partials/footer.ejs') %>
+
+		<script type="text/javascript">
+			console.log();
+		</script>
+	</footer>
+	</html>

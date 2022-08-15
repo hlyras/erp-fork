@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <% include ./../../partials/head %>
+	<%- include('./../../partials/head.ejs') %>
 </head>
 <body>
-	<% include ./../../partials/header %>
-	<% include ./../../partials/nav %>
+	<%- include('./../../partials/header.ejs') %>
+	<%- include('./../../partials/nav.ejs') %>
 
 	<!-- Path and info -->
 	<section class="container">
@@ -55,7 +55,7 @@
 			<div class="container underline margin-top-10">
 				<img class="size-50" src="/images/icon/ecommerce.png">
 				<p class="em13 lucida-grande bold center padding-5">Plataformas de venda</p>
-	 		</div>
+			</div>
 		</div>
 
 		<div class="box a11-12 container">
@@ -107,10 +107,10 @@
 						<p class="padding-5">1.1 - Nome, número da compra, data da compra e plataforma na qual a compra foi realizada.</p>
 						<div class="box b2 container radius-10 margin-top-5" style="background-color:#d9fdd3">
 							<p class="box b1 em09 padding-10">Entendi sua solicitação!<br>
-							Para iniciar o procedimento de trocas e devoluções eu preciso, primeiro, localizar sua compra ☺️<br>
-							Me informe por favor<br>
-							- Nome completo<br>
-							- Número da compra<br>
+								Para iniciar o procedimento de trocas e devoluções eu preciso, primeiro, localizar sua compra ☺️<br>
+								Me informe por favor<br>
+								- Nome completo<br>
+								- Número da compra<br>
 							- Canal pelo qual fez a compra (mercado livre, site oficial da J.A, Americanas, shopee, submarino ou shoptime)</p>
 						</div>
 					</div>
@@ -594,6 +594,6 @@
 	</section>
 </body>
 <footer>
-	<% include ./../../partials/footer %>
+	<%- include('./../../partials/footer.ejs') %>
 </footer>
 </html>

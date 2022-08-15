@@ -20,9 +20,9 @@ Sale.view.customer.dropdown = {
 		let html = "";
 		for(i in customers){
 			if(customers[i].person_type == "legal-entity"){
-				html += "<li><input type='button' class='box b1 box-hover wrapper padding-10 border' data-id='"+customers[i].id+"' data-person_type='"+customers[i].person_type+"' value='"+customers[i].name+" | "+customers[i].trademark+" | "+customers[i].brand+" | "+customers[i].cnpj+"' onclick='Sale.view.customer.dropdown.fill.input(this, `"+input_id+"`, `"+dropdown_id+"`)'></li>";
+				html += "<li><input type='button' class='box b1 box-hover wrapper padding-10 height-50 border' data-id='"+customers[i].id+"' data-person_type='"+customers[i].person_type+"' value='"+customers[i].id+" | "+customers[i].name+" | "+customers[i].trademark+" | "+customers[i].brand+" | "+customers[i].cnpj+"' onclick='Sale.view.customer.dropdown.fill.input(this, `"+input_id+"`, `"+dropdown_id+"`)'></li>";
 			} else if (customers[i].person_type == "natural-person"){
-				html += "<li><input type='button' class='box b1 box-hover wrapper padding-10 border' data-id='"+customers[i].id+"' data-person_type='"+customers[i].person_type+"' value='"+customers[i].name+" | "+customers[i].cpf+"' onclick='Sale.view.customer.dropdown.fill.input(this, `"+input_id+"`, `"+dropdown_id+"`)'></li>";
+				html += "<li><input type='button' class='box b1 box-hover wrapper padding-10 height-50 border' data-id='"+customers[i].id+"' data-person_type='"+customers[i].person_type+"' value='"+customers[i].id+" | "+customers[i].name+" | "+customers[i].cpf+"' onclick='Sale.view.customer.dropdown.fill.input(this, `"+input_id+"`, `"+dropdown_id+"`)'></li>";
 			};
 		};
 

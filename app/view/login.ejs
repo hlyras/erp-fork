@@ -1,31 +1,31 @@
 <html>
-    <head>
-        <% include ./partials/head %>
-    </head>
-    <body>
-        <header>
-            <div class="container">
-                <div class="mobile-box a6">
-                    <img class="width-100 padding-15 opacity-out-08 pointer" onclick="window.location.href='/'" src="/images/favicon/favicon-black.png">
-                </div>
-            </div>
-        </header>
-        <div class="container h-center">
-            <% if (message.length > 0) { %>
-                <div class="box b1 container alert-msg margin-top-10">
-                    <div class="box b1 bold"><%= message %></div>
-                </div>
-            <% } %>
-            <form action="/user/login" method="post" class="box b3 container ground padding-10">
-                <h5 class="box b1 center margin-top-10">E-mail</h5>
-                <input type="email" class="box b1 input-generic center margin-top-5" name="email" autocomplete="off">
-                <h5 class="box b1 center margin-top-10">Senha</h5>
-                <input type="password" class="box b1 input-generic center margin-top-5" name="password" autocomplete="off">
-                <button type="submit" class="box b1 submit-generic margin-top-5 bold">Login</button>
-            </form>
-        </div>
-    </body>
-    <footer>
-        <% include ./partials/footer %>
-    </footer>
+<head>
+  <%- include('./partials/head.ejs') %>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="mobile-box a6">
+        <img class="width-100 padding-15 opacity-out-08 pointer" onclick="window.location.href='/'" src="/images/favicon/favicon-black.png">
+      </div>
+    </div>
+  </header>
+  <div class="container h-center">
+    <% if (message.length > 0) { %>
+    <div class="box b1 container alert-msg margin-top-10">
+      <div class="box b1 bold"><%= message %></div>
+    </div>
+    <% } %>
+    <form action="/user/login" method="post" class="box b3 container ground padding-10">
+      <h5 class="box b1 center margin-top-10">E-mail</h5>
+      <input type="email" class="box b1 input-generic center margin-top-5" name="email" autocomplete="off">
+      <h5 class="box b1 center margin-top-10">Senha</h5>
+      <input type="password" class="box b1 input-generic center margin-top-5" name="password" autocomplete="off">
+      <button type="submit" class="box b1 submit-generic margin-top-5 bold">Login</button>
+    </form>
+  </div>
+</body>
+<footer>
+  <%- include('./partials/footer.ejs') %>
+</footer>
 </html>

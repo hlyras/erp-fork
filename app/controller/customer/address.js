@@ -1,5 +1,5 @@
 const userController = require('./../user');
-const Customer = require('../../model/customer');
+const Customer = require('../../model/customer/main');
 
 const addressController = {};
 

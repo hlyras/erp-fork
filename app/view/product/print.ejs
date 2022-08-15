@@ -1,6 +1,6 @@
 <html>
 <head>
-  <% include ./../partials/head %>
+  <%- include('./../partials/head.ejs') %>
   <style type="text/css">
     @media print {
       .pagebreak { 
@@ -9,7 +9,6 @@
 
       .container {
         page-break-inside:avoid;
-        /*display: flex; */
         flex-wrap: wrap;
       }
 
@@ -25,7 +24,7 @@
   <% for(let i in products) { %>
     <% if(i % 2 === 0) { %>
     <div class="container a1 pagebreak margin-top-10">
-    <% } %>
+      <% } %>
       <div class="p-box b2 container border">
         <div class="p-box b1 container padding-5">
           <img class="image-card height-250 center" src="<%= products[i].image || '/images/product/no-product.png' %>">
@@ -34,13 +33,13 @@
           <div class="p-box b3"></div>
         </div>
       </div>
-    <% if(i % 2 === 1) { %>
+      <% if(i % 2 === 1) { %>
     </div>
     <% } %>
   <% } %>
 
 </body>
 <footer>
-  <% include ./../partials/footer %>
+  <%- include('./../partials/footer.ejs') %>
 </footer>
 </html>
