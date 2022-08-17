@@ -32,11 +32,11 @@ router.post('/lead/mail/send', lib.route.toHttps, leadController.mail.send);
 router.get('/prospect', lib.route.toHttps, prospectController.index);
 router.post('/prospect/save', lib.route.toHttps, prospectController.save);
 router.post('/prospect/filter', lib.route.toHttps, prospectController.filter);
+router.post('/prospect/mail/send', lib.route.toHttps, prospectController.mail.send);
 
 router.post('/prospect/confirm-contact-1', lib.route.toHttps, prospectController.confirmContact1);
 router.post('/prospect/confirm-contact-2', lib.route.toHttps, prospectController.confirmContact2);
 router.post('/prospect/confirm-contact-3', lib.route.toHttps, prospectController.confirmContact3);
-
 
 // router.get('/mailer/remove-sign/:id/:register', lib.route.toHttps, mailController.removeSign);
 // router.get('/mailer/signout/:id/:register', lib.route.toHttps, mailController.signOut);
