@@ -19,7 +19,8 @@ if(Ecommerce.sale.controller.filter){
 		let sales = await API.response(Ecommerce.sale.filter, sale);
 		if(!sales) { return false };
 
-		document.getElementById("ecommerce-sale-show-box").style.display = "none";
+		lib.display("ecommerce-sale-filter-box", "");
+		lib.display("ecommerce-sale-show-box", "none");
 
 		Ecommerce.sale.view.triage.filter(sales);
 	});

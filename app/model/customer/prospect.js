@@ -96,13 +96,13 @@ Prospect.log = function() {
 	this.save = () => {
 		let obj = lib.convertTo.object(this);
 
-		let query = lib.Query.save(obj, 'cms_wt_erp.customer_prospect_mail');
+		let query = lib.Query.save(obj, 'cms_wt_erp.customer_prospect_log');
 		return db(query);
 	};
 };
 
 Prospect.log.list = (prospect_id) => {
-	let query = "SELECT * FROM cms_wt_erp.customer_prospect_mail WHERE prospect_id="+prospect_id+";";
+	let query = "SELECT * FROM cms_wt_erp.customer_prospect_log WHERE prospect_id="+prospect_id+";";
 	return db(query);
 };
 
