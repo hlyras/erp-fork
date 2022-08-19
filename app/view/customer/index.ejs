@@ -38,10 +38,14 @@
 
     <div id="customer-filter-box" class="box b2 ground padding-10 margin-top-10">
       <h3 class="box b1 underline center">Buscar Cliente</h3>
-      <form id="customer-filter-form" class="container box b1 box-border padding-10 margin-top-5">
-        <input type="text" name="name" class="box b2 input-generic center ground margin-top-5" placeholder="Nome" autocomplete="off">
-        <input type="text" name="cnpj" class="box b2 input-generic center ground margin-top-5" placeholder="CNPJ" maxlength="14" autocomplete="off">
-        <input type="submit" name="submit" class="box b1 submit-generic pointer center margin-top-5" value="Buscar">
+      <form id="customer-filter-form" class="box b1 container margin-top-5">
+        <input type="text" name="id" class="box b3 lucida-grande bold border padding-5 margin-top-5 center nofocus" placeholder="Id" autocomplete="off">
+        <input type="text" name="name" class="box b2-3 lucida-grande bold border padding-5 margin-top-5 center nofocus" placeholder="Nome" autocomplete="off">
+        <input type="text" name="brand" class="box b2 lucida-grande bold border padding-5 margin-top-5 center nofocus" placeholder="Nome fantasia" autocomplete="off">
+        <input type="text" name="trademark" class="box b2 lucida-grande bold border padding-5 margin-top-5 center nofocus" placeholder="Razão Social" autocomplete="off">
+        <input type="text" name="cpf" class="box b5-11 lucida-grande bold border padding-5 margin-top-5 center nofocus" placeholder="CPF" autocomplete="off">
+        <input type="text" name="cnpj" class="box b5-11 lucida-grande bold border padding-5 margin-top-5 center nofocus" placeholder="CNPJ" autocomplete="off">
+        <button type="submit" name="submit" class="mobile-box b11 noborder margin-top-5 center"><img class="size-25 icon" src="/images/icon/search.png"></button>
       </form>
       <table id="customer-filter-div" class="box b1 ground avant-garde padding-10 margin-top-10"></table>
       <%- include('./../partials/carousel.ejs') %>

@@ -58,12 +58,14 @@ if(Customer.controller.filter){
 	Customer.controller.filter.addEventListener("submit", async event => {
 		event.preventDefault();
 
-		let customer = {
+		const customer = {
+			id: event.target.elements.namedItem("id").value,
 			name: event.target.elements.namedItem("name").value,
-			// trademark: event.target.elements.namedItem("trademark").value,
-			// brand: event.target.elements.namedItem("brand").value,
+			trademark: event.target.elements.namedItem("trademark").value,
+			brand: event.target.elements.namedItem("brand").value,
+			cpf: event.target.elements.namedItem("cpf").value,
 			cnpj: event.target.elements.namedItem("cnpj").value
-		};
+		}
 
 		let customers = await API.response(Customer.filter, customer);
 		if(!customers){ return false };
