@@ -1,0 +1,59 @@
+<script>
+	async function conferenceEditList(product_id) {
+		let conferences = await API.response(Product.conference.filter, { product_id: product_id });
+		if(!conferences) { return false; }
+
+		let list_div = document.getElementById("conference-list-box");
+		list_div.innerHTML = "";
+		
+		for(let i in conferences) {
+			let conference_div = lib.element.create("div", { class: "box b1 container border radius-5 box-hover padding-5 margin-top-5" });
+			conference_div.append(lib.element.create("div", { class: "mobile-box b12 lucida-grande bold center" }, `${parseInt(i) + 1} -`));
+			conference_div.append(lib.element.create("div", { class: "mobile-box b2-3 lucida-grande bold" }, `${conferences[i].description}`));
+			conference_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `conferenceEdit(${conferences[i].id})`));
+			conference_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `conferenceDelete(${conferences[i].id}, ${conferences[i].product_id})`));
+
+			conferences[i].video_url && conference_div.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('conference-video-${conferences[i].id}', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
+
+			let video_div = lib.element.create("div", {
+				id: `conference-video-${conferences[i].id}`,
+				class: "box b1 container padding-10",
+				style: "display:none;"
+			});
+
+			conferences[i].video_url && video_div.append(lib.element.create("iframe", {
+				class: "box b1 border radius-5 height-300",
+				src: conferences[i].video_url,
+				allowfullscreen: 'on',
+				frameborder: 0,
+				allow: "accelerometer"
+			}));
+
+			conferences[i].video_url && conference_div.append(video_div);
+
+			list_div.append(conference_div);
+		};
+	};
+
+	async function conferenceEdit(conference_id) {
+		let conference = await API.response(Product.conference.findById, conference_id);
+		if(!conference) { return false; }
+
+		lib.display("conference-create-form", "");
+		document.getElementById("create-display-icon").src = "/images/icon/up-arrow.png";
+
+		document.getElementById("conference-create-form").id.value = conference.id;
+		document.getElementById("conference-create-form").product_id.value = conference.product_id;
+		document.getElementById("conference-create-form").description.value = conference.description;
+		document.getElementById("conference-create-form").video_url.value = conference.video_url;
+	};
+
+	async function conferenceDelete(conference_id, product_id) {
+		if(!confirm("Tem certeza que deseja excluir a conferência? Essa ação não pode ser desfeita?")) { return; }
+
+		const response = await API.response(Customer.conference.delete, conference_id);
+		if(!response) { return false; }
+
+		conferenceEditList(product_id);
+	};
+</script>

@@ -1,0 +1,33 @@
+<script>
+	function productInfo(product) {
+		let info_box = document.getElementById("product-detail-info");
+		info_box.innerHTML = "";
+
+		info_box.append(lib.element.create("box", { class: "mobile-box b6 lucida-grande center bold" }, `#${product.code}`));
+		info_box.append(lib.element.create("box", { class: "mobile-box b2 lucida-grande center bold" }, product.name));
+		info_box.append(lib.element.create("box", { class: "mobile-box b4 lucida-grande center bold" }, product.color));
+		info_box.append(lib.element.icon('b12', 25, "/images/icon/up-arrow.png", `lib.displayDiv('product-detail-image', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
+
+
+		let image_div = document.getElementById("product-detail-image");
+		image_div.innerHTML = "";
+		
+		let image = lib.element.create("img", { class: 'image-prop size-300', src: product.image });
+		image_div.append(image);
+	};
+
+	async function productDetail (product_id) {
+		lib.display("product-filter-box", "none");
+		lib.display("product-detail-box", "");
+		lib.display("conference-detail-box", "");
+
+		let product = await API.response(Product.findById, product_id);
+		if(!product){ return false };
+		
+		let conferences = await API.response(Product.conference.filter, { product_id });
+		if(!conferences) { return false; }
+
+		productInfo(product);
+		conferenceList(conferences);
+	};
+</script>

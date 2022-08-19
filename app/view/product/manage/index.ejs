@@ -1,0 +1,32 @@
+<html>
+<head>
+	<%- include('./../../partials/head.ejs') %>
+</head>
+<body>
+	<%- include('./../../partials/header.ejs') %>
+	<%- include('./../../partials/nav.ejs') %>
+	<section class="container">
+		<%- include('./components/create-form.ejs') %>
+
+		<div class="box b2 container ground border radius-5 padding-10 margin-top-10">
+			<%- include('./components/filter-form.ejs') %>
+		</div>
+
+		<%- include('./components/image-zoom.ejs') %>
+		<div class="box b1 container ground border radius-5 padding-10 margin-top-10">
+			<%- include('./components/detail-box.ejs') %>
+			<%- include('./components/image-box.ejs') %>
+		</div>
+	</section>
+	<%- include('./../../partials/loader.ejs') %>
+</body>
+<footer>
+	<%- include('./../../partials/footer.ejs') %>
+	<script src="/javascripts/scripts/product/model/main.js"></script>
+	<script src="/javascripts/scripts/product/model/image.js"></script>
+	<%- include('./components/create-script.ejs') %>
+	<%- include('./components/filter-script.ejs') %>
+	<%- include('./components/detail-script.ejs') %>
+	<%- include('./components/image-script.ejs') %>
+</footer>
+</html>

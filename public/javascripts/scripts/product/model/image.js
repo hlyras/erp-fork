@@ -13,7 +13,7 @@ Product.image = {
 		return true;
 	},
 	remove: async (image_id) => {
-		let response = await fetch("/product/image/remove?image_id="+image_id, { method: 'DELETE' });
+		let response = await fetch(`/product/image/remove/${image_id}`, { method: 'DELETE' });
 		response = await response.json();
 
 		if(API.verifyResponse(response)){ return false };

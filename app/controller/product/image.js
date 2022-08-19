@@ -31,7 +31,7 @@ productController.image.remove = async (req, res) => {
 	};
 
 	try {
-		await Product.image.remove(req.query.image_id);
+		await Product.image.remove(req.params.id);
 		res.send({ done: 'Imagem excluída!' });
 	} catch (err) {
 		console.log(err);

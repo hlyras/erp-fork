@@ -1,0 +1,58 @@
+<script>
+	document.getElementById("product-filter-form").addEventListener("submit", async (event) => {
+		event.preventDefault();
+
+		let product = {
+			name: event.target.elements.namedItem("name").value,
+			code: event.target.elements.namedItem("code").value,
+			color: event.target.elements.namedItem("color").value
+		};
+
+		let products = await API.response(Product.filter, product);
+		if(!products) { return false; }
+
+		lib.display("product-filter-box", "");
+		lib.display("product-detail-box", "none");
+		lib.display("conference-detail-box", "none");
+		lib.display("conference-create-box", "none");
+
+		productFilter(products);
+	});
+
+	function productFilter(products) {
+		let filter_div = document.getElementById("product-filter-div");
+		filter_div.innerHTML = "";
+
+		if(!products.length) {
+			return filter_div.append(lib.element.create("div", 
+				{ class: "box b1 lucida-grande bold center" }, "Sem resultados"));
+		};
+
+		for (let i in products){
+			let product_div = lib.element.create("div", { class: "box b3 container ground height-125 border-lg-st padding-10 margin-top-5 radius-5" });
+			
+			product_div.append(lib.element.create("div", { 
+				class: "mobile-box b7 lucida-grande bold input-show border-lg-st center noselect pointer", 
+				onclick: `productDetail(${products[i].id})`
+			}, products[i].code));
+
+			let image_box = lib.element.create("div", { class: "mobile-box b7 container ground padding-5 center" });
+			image_box.append(lib.element.create("img", {
+				src: `${products[i].image || "/images/product/no-product.png"}`,
+				class: "image-card height-70 center"
+			}));
+			product_div.append(image_box);
+
+			let info_box = lib.element.create("div", { class: "mobile-box b4-7 container ground padding-5 center" });
+			info_box.appendChild(lib.element.create("div", { class: "mobile-box b1 lucida-grande em09 bold underline center" }, `${products[i].code} | ${products[i].name}`));
+			info_box.appendChild(lib.element.create("div", { class: "mobile-box b1 lucida-grande em09 center" }, products[i].color));
+			product_div.append(info_box);
+
+			let menu_box = lib.element.create("div", { class: "mobile-box b7 container ground padding-5 center" });
+			menu_box.appendChild(lib.element.icon('b1', 20, "/images/icon/edit.png", "productEdit("+products[i].id+")"));
+			product_div.append(menu_box);
+
+			products[i].image && filter_div.appendChild(product_div);
+		};
+	};
+</script>

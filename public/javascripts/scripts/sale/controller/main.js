@@ -67,8 +67,8 @@ if(Sale.controller.save){
 			value: Sale.pos.total_value
 		};
 
-		if(customer.person_type == "legal-entity"){ sale.customer_cnpj = customer[3]; }
-		else if(customer.person_type == "natural-person"){ sale.customer_cnpj = customer[1]; }
+		if(customer.person_type == "legal-entity"){ sale.customer_cnpj = customer[4]; }
+		else if(customer.person_type == "natural-person"){ sale.customer_cnpj = customer[2]; }
 		else { return alert("Este cliente não é válido!") };
 
 		sale = await API.response(Sale.save, sale);

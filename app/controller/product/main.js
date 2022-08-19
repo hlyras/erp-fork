@@ -32,7 +32,7 @@ productController.manage = async (req, res) => {
 
 	try {
 		const productColors = await Product.color.list();
-		res.render('product/manage', { productColors, user: req.user });
+		res.render('product/manage/index', { productColors, user: req.user });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -180,10 +180,10 @@ productController.delete = async (req, res) => {
 	};
 
 	try {
-		await Product.price.delete(req.query.id);
-		await Product.feedstock.removeByProductId(req.query.id);
-		await Product.image.removeByProductId(req.query.id);
-		await Product.delete(req.query.id);
+		await Product.price.delete(req.params.id);
+		await Product.feedstock.removeByProductId(req.params.id);
+		await Product.image.removeByProductId(req.params.id);
+		await Product.delete(req.params.id);
 		res.send({ done: 'Produto excluído com sucesso!' });
 	} catch (err) {
 		console.log(err);

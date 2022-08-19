@@ -12,7 +12,7 @@ productController.color.save = async (req, res) => {
 	
 	const color = {
 		name: req.body.color_name,
-		shortcut: req.body.color_shortcut			
+		shortcut: req.body.color_shortcut
 	};
 
 	try {
@@ -25,10 +25,6 @@ productController.color.save = async (req, res) => {
 };
 
 productController.color.list = async (req, res) => {
-	// if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','n/a'])){
-	// 	return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	// };
-
 	try {
 		const colors = await Product.color.list();
 		res.send(colors);

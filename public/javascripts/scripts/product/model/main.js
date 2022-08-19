@@ -37,7 +37,7 @@ Product.filter = async product => {
 };
 
 Product.delete = async (id) => {
-	let response = await fetch("/product/delete?id="+id, { method: 'DELETE' });
+	let response = await fetch(`/product/delete/${id}`, { method: 'DELETE' });
 	response = await response.json();
 
 	if(API.verifyResponse(response)){ return false };

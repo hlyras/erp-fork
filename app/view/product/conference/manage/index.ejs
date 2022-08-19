@@ -1,0 +1,35 @@
+<html>
+<head>
+  <%- include('./../../../partials/head.ejs') %>
+</head>
+<body>
+  <%- include('./../../../partials/header.ejs') %>
+  <%- include('./../../../partials/nav.ejs') %>
+  <section class="container">
+    <%- include('./components/product/filter-form.ejs') %>
+    <%- include('./components/product/detail-box.ejs') %>
+
+    <div id="conference-create-box" class="box b2 container ground border radius-5 padding-10 margin-top-10 margin-bottom-10" style="display:none;">
+      <%- include('./components/create-form.ejs') %>
+      <div id="conference-list-box" class="box b1 container"></div>
+    </div>
+      
+    <%- include('./components/detail-box.ejs') %>
+  </section>
+
+  <%- include('./../../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../../partials/footer.ejs') %>
+  <script src="/javascripts/scripts/product/model/main.js"></script>
+  <script src="/javascripts/scripts/product/model/conference.js"></script>
+  <%- include('./components/product/filter-script.ejs') %>
+  <%- include('./components/product/detail-script.ejs') %>
+  <%- include('./components/main-script.ejs') %>
+  <%- include('./components/create-script.ejs') %>
+  <%- include('./components/detail-script.ejs') %>
+  <script>
+    document.getElementById("product-filter-form").submit.click();
+  </script>
+</footer>
+</html>

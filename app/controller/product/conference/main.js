@@ -13,87 +13,112 @@ conferenceController.index = async (req, res) => {
 	};
 
 	try {
-		const productColors = await Product.color.list();
-		res.render('product/conference/index', { user: req.user, productColors });
+		res.render('product/conference/index', { user: req.user });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro, favor contatar o suporte" });
 	};
 };
 
-conferenceController.info = {};
-
-conferenceController.info.index = async (req, res) => {
-	// if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
-	// 	return res.redirect('/');
-	// };
-
+conferenceController.viewer = async (req, res) => {
 	try {
 		const productColors = await Product.color.list();
-		res.render('product/conference/info/index', { user: req.user, productColors });
+		res.render('product/conference/viewer/index', { user: req.user, productColors });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro, favor contatar o suporte" });
 	};
 };
 
-conferenceController.info.manage = async (req, res) => {
+conferenceController.manage = async (req, res) => {
 	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
 		return res.redirect('/');
 	};
 
 	try {
 		const productColors = await Product.color.list();
-		res.render('product/conference/info/manage', { user: req.user, productColors });
+		res.render('product/conference/manage/index', { user: req.user, productColors });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro, favor contatar o suporte" });
 	};
 };
 
-conferenceController.info.filter = async (req, res) => {
+conferenceController.create = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+		return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
+	};
+
+	let conference = new Product.conference();
+	conference.id = req.body.id;
+	conference.product_id = req.body.product_id;
+	conference.video_url = req.body.video_url;
+	conference.description = req.body.description;
+	conference.user_id = req.user.id;
+
+	try {
+		if(!conference.id) {
+			let response = await conference.create();
+			if(response.err) { return res.send({ msg: response.err }); }
+			return res.send({ done: "Conferência cadastrada com sucesso!" });
+		} else {
+			let response = await conference.update();
+			if(response.err) { return res.send({ msg: response.err }); }
+			return res.send({ done: "Conferência atualizada com sucesso!" });
+		}
+	} catch (err) {
+		console.log(err);
+		return res.send({ msg: "Ocorreu um erro ao atualizar as informações do produto, favor contatar o suporte." });
+	}
+};
+
+conferenceController.filter = async (req, res) => {
 	let props = [];
-	let inners = [
-		["cms_wt_erp.product_image product_image","product.id","product_image.product_id"]
-	];
+	let inners = [];
 
 	const params = { keys: [], values: [] };
 	const strict_params = { keys: [], values: [] };
 
-	lib.Query.fillParam("product.code", req.body.product.code, strict_params);
-	lib.Query.fillParam("product.name", req.body.product.name, params);
-	lib.Query.fillParam("product.color", req.body.product.color, strict_params);
-	lib.Query.fillParam("product.brand", req.body.product.brand, params);
+	lib.Query.fillParam("product_conference.product_id", req.body.product_id, strict_params);
+	lib.Query.fillParam("product_conference.description", req.body.description, params);
+	lib.Query.fillParam("product_conference.video_url", req.body.video_url, params);
 
-	let order_params = [ ["product.code","ASC"] ];
+	let order_params = [ ["product_conference.id","ASC"] ];
 
 	try {
-		const products = await Product.filter(props, inners, params, strict_params, order_params);
-		res.send({ products });
+		const conferences = await Product.conference.filter(props, inners, params, strict_params, order_params);
+		res.send({ conferences });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });
 	};
 };
 
-conferenceController.info.update = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
-		return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
+conferenceController.findById = async (req, res) => {
+	try {
+		const conference = (await Product.conference.findById(req.params.id))[0];
+		res.send({ conference });
+	} catch (err){
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
 	};
+};
 
-	let product = {
-		id: req.body.id,
-		conference_video: req.body.conference_video,
-		conference_obs: req.body.conference_obs
+conferenceController.delete = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm'])){
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
 	try {
-		await Product.conference.info.update(product);
-		res.send({ done: "Produto atualizado com sucesso!" });
+		await Product.price.delete(req.params.id);
+		await Product.feedstock.removeByProductId(req.params.id);
+		await Product.image.removeByProductId(req.params.id);
+		await Product.delete(req.params.id);
+		res.send({ done: 'Produto excluído com sucesso!' });
 	} catch (err) {
 		console.log(err);
-		return res.send({ msg: "Ocorreu um erro ao atualizar as informações do produto, favor contatar o suporte." });
-	}
+		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
+	};
 };
 
 module.exports = conferenceController;

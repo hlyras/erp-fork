@@ -12,9 +12,6 @@ if(Product.controller.create){
 			color: event.target.elements.namedItem("color").value,
 			size: event.target.elements.namedItem("size").value,
 			weight: event.target.elements.namedItem("weight").value,
-			width: event.target.elements.namedItem("width").value,
-			height: event.target.elements.namedItem("height").value,
-			depth: event.target.elements.namedItem("depth").value,
 			brand: event.target.elements.namedItem("brand").value,
 			image: event.target.elements.namedItem("image").value,
 			video: event.target.elements.namedItem("video").value,
@@ -26,23 +23,20 @@ if(Product.controller.create){
 		product = await API.response(Product.save, product);
 		if(!product){ return false };
 
-		Product.controller.filter.submit.click();
-
 		event.target.elements.namedItem("id").value = "";
 		event.target.elements.namedItem("code").value = "";
 		event.target.elements.namedItem("name").value = "";
 		event.target.elements.namedItem("color").value = "";
 		event.target.elements.namedItem("size").value = "";
 		event.target.elements.namedItem("weight").value = "";
-		event.target.elements.namedItem("width").value = "";
-		event.target.elements.namedItem("height").value = "";
-		event.target.elements.namedItem("depth").value = "";
 		event.target.elements.namedItem("brand").value = "";
 		event.target.elements.namedItem("image").value = "";
 		event.target.elements.namedItem("video").value = "";
 		event.target.elements.namedItem("status").value = "";
 		event.target.elements.namedItem("description").value = "";
 		event.target.elements.namedItem("announcement").value = "";
+		
+		Product.controller.filter.submit.click();
 	});
 };
 
@@ -81,9 +75,6 @@ Product.controller.edit = async (id) => {
 	document.getElementById('product-create-form').elements.namedItem("color").value = product.color;
 	document.getElementById('product-create-form').elements.namedItem("size").value = product.size;
 	document.getElementById('product-create-form').elements.namedItem("weight").value = product.weight;
-	document.getElementById('product-create-form').elements.namedItem("width").value = product.width;
-	document.getElementById('product-create-form').elements.namedItem("height").value = product.height;
-	document.getElementById('product-create-form').elements.namedItem("depth").value = product.depth;
 	document.getElementById('product-create-form').elements.namedItem("brand").value = product.brand;
 	document.getElementById('product-create-form').elements.namedItem("image").value = product.image;
 	document.getElementById('product-create-form').elements.namedItem("video").value = product.video;

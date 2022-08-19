@@ -1,0 +1,22 @@
+<script>
+	document.getElementById("conference-create-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		let conference = {
+			id: e.target.id.value,
+			product_id: e.target.product_id.value,
+			description: e.target.description.value,
+			video_url: lib.replaceChar(e.target.video_url.value, 'watch?v=', 'embed/')
+		};
+
+		let response = await API.response(Product.conference.create, conference);
+		if(!response) { return false; }
+
+		e.target.id.value = "";
+		e.target.product_id.value = "";
+		e.target.description.value = "";
+		e.target.video_url.value = "";
+
+		conferenceEditList(conference.product_id);
+	});
+</script>

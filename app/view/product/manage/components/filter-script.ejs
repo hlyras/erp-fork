@@ -1,0 +1,45 @@
+<script>
+	document.getElementById("product-filter-form").addEventListener("submit", async (event) => {
+		event.preventDefault();
+
+		let product = {
+			name: event.target.elements.namedItem("name").value,
+			code: event.target.elements.namedItem("code").value,
+			color: event.target.elements.namedItem("color").value,
+			brand: event.target.elements.namedItem("brand").value
+		};
+
+		let products = await API.response(Product.filter, product);
+		if(!products) { return false; }
+
+		lib.display("product-filter-box", "");
+
+		const pagination = { pageSize: 10, page: 0};
+		(function(){ lib.carousel.execute("product-filter-box", productFilterRender, products, pagination); }());
+	});
+
+	function productFilterRender(products, pagination) {
+		let filter_div = document.getElementById("product-filter-div");
+		filter_div.innerHTML = "";
+
+		if(!products.length){
+			return filter_div.append(lib.element.create("div", { 
+				class: "box b1 lucida-grande bold padding-10 margin-top-10 center" 
+			}, "Sem resultado"));
+		}
+
+		for (let i = pagination.page * pagination.pageSize; i < products.length && i < (pagination.page + 1) * pagination.pageSize; i++){
+			let div_product = lib.element.create("div", { class: "box b1 container box-hover padding-5 margin-top-5 border" });
+			div_product.append(lib.element.create("div", { 
+				class: "mobile-box b5 bold input-show nowrap border-st padding-5 center pointer", 
+				onclick: `productDetail('${products[i].id}')`
+			}, products[i].code));
+			div_product.append(lib.element.create("div", { class: "mobile-box b4-10 center" }, products[i].name));
+			div_product.append(lib.element.create("div", { class: "mobile-box b9 center" }, products[i].size));
+			div_product.append(lib.element.create("div", { class: "mobile-box b9 center" }, products[i].color));
+			div_product.append(lib.element.icon('b12', 20, "/images/icon/edit.png", "productEdit("+products[i].id+")"));
+			div_product.append(lib.element.icon('b12', 20, "/images/icon/trash.png", "productDelete("+products[i].id+")"));
+			filter_div.append(div_product);
+		};
+	};
+</script>

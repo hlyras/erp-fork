@@ -1,0 +1,22 @@
+<form id="product-filter-form" class="box b1 container">
+	<div class="box b1 underline center">Buscar Produtos</div>
+	<input type="number" name="code" class="box b2 input-generic margin-top-5 center" placeholder="Cód" autocomplete="off">
+	<input type="text" name="name" class="box b2 input-generic margin-top-5 center" placeholder="Nome" autocomplete="off">
+	<select name="color" class="box b2 input-generic margin-top-5 center" autocomplete="off">
+		<option value="">Cor</option>
+		<% for(i in productColors){ %>
+		<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
+		<% } %>
+	</select>
+	<select name="brand" class="box b2 input-generic margin-top-5 center" autocomplete="off">
+		<option value="">Marca do Produto</option>
+		<option value="Sem marca">Sem marca</option>
+		<option value="J.A Rio Militar">J.A Rio Militar</option>
+	</select>
+	<input type="submit" name="submit" class="box b1 submit-generic center box-hover margin-top-5 bold" value="Filtrar">
+</form>
+
+<div id="product-filter-box" class="box b1 container margin-top-5" style="display:none">
+	<div id="product-filter-div" class="box b1 container"></div>
+	<%- include('./../../../partials/carousel.ejs') %>
+</div>

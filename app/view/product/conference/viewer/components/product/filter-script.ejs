@@ -1,0 +1,51 @@
+<script>
+	document.getElementById("product-filter-form").addEventListener("submit", async (event) => {
+		event.preventDefault();
+
+		let product = {
+			name: event.target.elements.namedItem("name").value,
+			code: event.target.elements.namedItem("code").value,
+			color: event.target.elements.namedItem("color").value
+		};
+
+		let products = await API.response(Product.filter, product);
+		if(!products) { return false; }
+
+		lib.display("product-filter-box", "");
+		lib.display("product-detail-box", "none");
+		lib.display("conference-detail-box", "none");
+
+		productFilter(products);
+	});
+
+	function productFilter(products) {
+		let filter_div = document.getElementById("product-filter-div");
+		filter_div.innerHTML = "";
+
+		if(!products.length) {
+			return filter_div.append(lib.element.create("div", 
+				{ class: "box b1 lucida-grande bold center" }, "Sem resultados"));
+		};
+
+		for (let i in products){
+			let product_div = lib.element.create("div", { 
+				class: "box b3 container ground border-lg-st padding-10 margin-top-5 radius-5 pointer",
+				onclick: `productDetail(${products[i].id})`
+			});
+			
+			let image_box = lib.element.create("div", { class: "box b2 container ground padding-5 center" });
+			image_box.append(lib.element.create("img", {
+				src: `${products[i].image || "/images/product/no-product.png"}`,
+				class: "image-card height-250 center"
+			}));
+			product_div.append(image_box);
+
+			let info_box = lib.element.create("div", { class: "box b2 container ground padding-5 center" });
+			info_box.appendChild(lib.element.create("div", { class: "mobile-box b1 lucida-grande bold underline center" }, `${products[i].code} | ${products[i].name}`));
+			info_box.appendChild(lib.element.create("div", { class: "mobile-box b1 lucida-grande bold center" }, products[i].color));
+			product_div.append(info_box);
+
+			products[i].image && filter_div.appendChild(product_div);
+		};
+	};
+</script>

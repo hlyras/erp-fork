@@ -1,0 +1,27 @@
+<html>
+<head>
+  <%- include('./../../../partials/head.ejs') %>
+</head>
+<body>
+  <%- include('./../../../partials/nav.ejs') %>
+  <section class="container">
+    <%- include('./components/product/filter-form.ejs') %>
+    <%- include('./components/product/detail-box.ejs') %>
+      
+    <%- include('./components/detail-box.ejs') %>
+  </section>
+
+  <%- include('./../../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../../partials/footer.ejs') %>
+  <script src="/javascripts/scripts/product/model/main.js"></script>
+  <script src="/javascripts/scripts/product/model/conference.js"></script>
+  <%- include('./components/product/filter-script.ejs') %>
+  <%- include('./components/product/detail-script.ejs') %>
+  <%- include('./components/detail-script.ejs') %>
+  <script>
+    document.getElementById("product-filter-form").submit.click();
+  </script>
+</footer>
+</html>

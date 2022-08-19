@@ -11,18 +11,17 @@ productController.catalog = require('../controller/product/catalog');
 productController.datasheet = require('../controller/product/datasheet/main');
 productController.conference = require('../controller/product/conference/main');
 
-router.get('/index', lib.route.toHttps, productController.index);
 router.get('/manage', lib.route.toHttps, productController.manage);
 
 router.get('/', lib.route.toHttps, productController.list);
 router.post('/save', lib.route.toHttps, productController.save);
 router.get('/id/:id', lib.route.toHttps, productController.findById);
 router.post('/filter', lib.route.toHttps, productController.filter);
-router.delete('/delete', lib.route.toHttps, productController.delete);
+router.delete('/delete/:id', lib.route.toHttps, productController.delete);
 router.get('/print', lib.route.toHttps, productController.print);
 
 router.post('/image/add', lib.route.toHttps, productController.image.add);
-router.delete('/image/remove', lib.route.toHttps, productController.image.remove);
+router.delete('/image/remove/:id', lib.route.toHttps, productController.image.remove);
 
 router.get('/datasheet', lib.route.toHttps, productController.datasheet.index);
 
@@ -60,9 +59,12 @@ router.post('/package/image/add', lib.route.toHttps, productController.package.i
 router.delete('/package/image/remove', lib.route.toHttps, productController.package.image.remove);
 
 router.get('/conference', lib.route.toHttps, productController.conference.index);
-router.get('/conference/info', lib.route.toHttps, productController.conference.info.index);
-router.get('/conference/info/manage', lib.route.toHttps, productController.conference.info.manage);
-router.post('/conference/info/update', lib.route.toHttps, productController.conference.info.update);
+router.get('/conference/id/:id', lib.route.toHttps, productController.conference.findById);
+router.get('/conference/viewer', lib.route.toHttps, productController.conference.viewer);
+router.get('/conference/manage', lib.route.toHttps, productController.conference.manage);
+router.post('/conference/create', lib.route.toHttps, productController.conference.create);
+router.post('/conference/filter', lib.route.toHttps, productController.conference.filter);
+router.delete('/conference/delete/:id', lib.route.toHttps, productController.conference.delete);
 
 router.post('/colorSave', lib.route.toHttps, productController.color.save);
 router.get('/colorList', lib.route.toHttps, productController.color.list);
