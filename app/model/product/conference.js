@@ -44,4 +44,9 @@ Conference.findById = async (id) => {
 	return db(query);
 };
 
+Conference.delete = async (id) => {
+	let query = "DELETE FROM cms_wt_erp.product_conference WHERE id='"+id+"';";
+	return db(query);
+};
+
 module.exports = Conference;

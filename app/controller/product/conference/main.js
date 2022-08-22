@@ -110,14 +110,11 @@ conferenceController.delete = async (req, res) => {
 	};
 
 	try {
-		await Product.price.delete(req.params.id);
-		await Product.feedstock.removeByProductId(req.params.id);
-		await Product.image.removeByProductId(req.params.id);
-		await Product.delete(req.params.id);
-		res.send({ done: 'Produto excluído com sucesso!' });
+		await Product.conference.delete(req.params.id);
+		res.send({ done: 'Conferência excluída com sucesso!' });
 	} catch (err) {
 		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
+		res.send({ msg: "Ocorreu um erro ao remover a conferência, favor entrar em contato com o suporte." });
 	};
 };
 

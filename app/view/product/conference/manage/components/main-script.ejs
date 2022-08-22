@@ -51,7 +51,7 @@
 	async function conferenceDelete(conference_id, product_id) {
 		if(!confirm("Tem certeza que deseja excluir a conferência? Essa ação não pode ser desfeita?")) { return; }
 
-		const response = await API.response(Customer.conference.delete, conference_id);
+		const response = await API.response(Product.conference.delete, conference_id);
 		if(!response) { return false; }
 
 		conferenceEditList(product_id);
