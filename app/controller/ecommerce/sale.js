@@ -576,7 +576,7 @@ const saleController = {
 	},
 	report: {
 		index: async (req, res) => {
-			if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
+			if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','adm-man','log-pac'])){
 				return res.redirect('/');
 			};
 			let users = await User.list();
@@ -687,7 +687,7 @@ const saleController = {
 		},
 		gathering: {
 			index: async (req, res) => {
-				if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
+				if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','adm-man','log-pac'])){
 					return res.redirect('/');
 				};
 				let colors = await Product.color.list();
