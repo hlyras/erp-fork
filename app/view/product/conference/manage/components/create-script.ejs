@@ -12,6 +12,7 @@
 		let response = await API.response(Product.conference.create, conference);
 		if(!response) { return false; }
 
+		e.target.id.value = "";
 		e.target.description.value = "";
 		e.target.video_url.value = "";
 
