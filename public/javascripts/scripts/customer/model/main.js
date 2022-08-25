@@ -4,7 +4,7 @@ Customer.save = async customer => {
 	let response = await fetch("/customer/save", {
 		method: "POST",
 		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify(customer)
+		body: JSON.stringify(customer)
 	});
 	response = await response.json();
 
@@ -18,7 +18,7 @@ Customer.filter = async customer => {
 	let response = await fetch("/customer/filter", {
 		method: "POST",
 		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify(customer)
+		body: JSON.stringify(customer)
 	});
 	response = await response.json();
 
