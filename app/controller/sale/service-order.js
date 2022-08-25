@@ -23,7 +23,7 @@ serviceOrderController.index = async (req, res) => {
 };
 
 serviceOrderController.findById = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-ass','log-pac','fin-ass'])){
+	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-man','pro-ass','log-pac','fin-ass'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
