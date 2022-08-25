@@ -418,36 +418,4 @@ serviceOrderController.recept.confirm = async (req, res) => {
 	};
 };
 
-// serviceOrderController.recept.cancel = async (req, res) => {
-// 	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud",'pro-ass','log-pac',"fin-ass"])){
-// 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-// 	};
-
-// 	let serviceOrder = {
-// 		id: req.params.id,
-// 		cancel_datetime: new Date().getTime(),
-// 		cancel_user_id: req.user.id,
-// 		status: "Cancelada"
-// 	};
-
-// 	try {
-// 		serviceOrder.sales = await ServiceOrder.sale.list(serviceOrder.id);
-// 		await ServiceOrder.recept.cancel(serviceOrder);
-
-// 		for(let i in serviceOrder.sales) {
-// 			let sale = {
-// 				id: serviceOrder.sales[i].sale_id,
-// 				status: "Ag. "
-// 			};
-
-// 			await Triage.sale.update(sale);
-// 		};
-
-// 		res.send({ done: "O.S. cancelada com sucesso!" });
-// 	} catch (err){
-// 		console.log(err);
-// 		res.send({ msg: "Ocorreu um erro ao cancelar a O.S., favor contatar o suporte." });
-// 	};
-// };
-
 module.exports = serviceOrderController;
