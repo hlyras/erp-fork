@@ -1,62 +1,39 @@
 <script>
-	function imageRender(images, pagination) {
-		let image_div = document.getElementById("product-image-div");
-		image_div.innerHTML = "";
+	function drawImages(images) {
+		let image_box = document.getElementById("product-image-div");
+		image_box.innerHTML = "";
 
-		for (let i = pagination.page * pagination.pageSize; i < images.length && i < (pagination.page + 1) * pagination.pageSize;i++){
-			let image = lib.element.create("img", { 
-				src: images[i].url, 
-				class: 'image-prop max-height-500 pointer',
-				onclick: `lib.image.zoom('${images[i].url}')` 
-			});
+		if(!images.length) {
+			image_box.append(lib.element.create("div", { class: "box b1 lucida-grande bold center" }, "Não foi encontrada nenhuma imagem."));
+		}
 
-			let remove_div = lib.element.create("div", { class: "box b1 container h-center" });
-			let remove_btn = lib.element.create("button", {
-				class: "box b3 lucida-grande bold border-lg-st radius-5 padding-5 margin-top-5 center pointer",
-				onclick: `imageRemove('${images[i].id}', '${images[i].product_id}')`
-			}, "Excluir imagem");
+		for(let i in images) {
+			if(images[i].url){
+				let image_div = lib.element.create("div", {
+					class: 'ground height-90 width-90 border shadow-hover noselect margin-left-10 relative',
+					style: 'display: inline-block;vertical-align:top;'
+				});
 
-			image_div.append(image);
-			image_div.append(remove_div);
-			remove_div.append(remove_btn);
+				image_div.append(lib.element.create("img", {
+					src: `${images[i].url}`,
+					class: 'product-image image-fit noselect'
+				}));
+
+				image_div.append(lib.element.create("img", {
+					onclick: `imageDelete('${images[i].id}', this.parentNode)`,
+					class: "width-30 height-30 remove-icon opacity-out-05 center pointer",
+					src: "https://spaces.jariomilitar.com/erp-images/icon/junk.png"
+				}));
+
+				image_box.append(image_div);
+			}
 		};
 	};
 
-	async function imageAdd(product_id) {
-		let image_url = prompt("Preencha com a URL da imagem");
-		if(image_url){
-			if(image_url.length < 7){ return alert('URL inválida!'); };
-			if(image_url.length > 200){ return alert('URL inválida!'); };
+	async function imageDelete(id, parent) {
+		let response = await API.response(Product.image.delete, id);
+		if(!response) { return false; }
 
-			let img = new Image();
-			img.src = image_url;
-
-			img.onload = async () => {
-				let image = { product_id: product_id, url: image_url };
-
-				let response = await API.response(Product.image.add, image);
-				if(!response) { return false; }
-
-				productDetail(product_id);
-			};
-
-			img.onerror = async () => { return alert('URL inválida!'); };
-		};
-	};
-
-	async function imageRemove(image_id, product_id) {
-		let r = confirm("Deseja realmente excluir a imagem?");
-		if(r){
-			let response = await API.response(Product.image.remove, image_id);
-			if(!response) { return false; }
-
-			productDetail(product_id);
-		};
-	};
-
-	lib.image.zoom = (path) => {
-		document.getElementById("zoom-img").src = path;
-		lib.display("zoom-img-box", "");
-		window.location.href = "#zoom-img-box";
+		parent && parent.remove();
 	};
 </script>

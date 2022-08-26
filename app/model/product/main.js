@@ -1,6 +1,5 @@
 const db = require('../../../config/connection');
-const lib = require("../../../config/lib");
-const Lib = require("jarmlib");
+const lib = require("jarmlib");
 
 const Product = function(){
 	this.id;
@@ -9,46 +8,36 @@ const Product = function(){
 	this.color;
 	this.size;
 	this.weight;
-	this.width;
-	this.height;
-	this.depth;
 	this.brand;
 	this.image;
 	this.video;
 	this.status;
 	this.description;
 	this.announcement;
-};
 
-Product.save = async (product) => {
-	let query = "INSERT INTO cms_wt_erp.product (code, name, color, size, weight, brand, image, video, status, description, announcement) VALUES ('"
-		+product.code+"', '"
-		+product.name+"','"
-		+product.color+"','"
-		+product.size+"','"
-		+product.weight+"','"
-		+product.brand+"','"
-		+product.image+"','"
-		+product.video+"','"
-		+product.status+"','"
-		+product.description+"','"
-		+product.announcement+"');";
-	return db(query);
-};
+	this.create = () => {
+		if(!this.code) { return { err: "É necessário incluir o código do produto" } };
+		if(!this.name) { return { err: "É necessário incluir o nome do produto" } };
+		if(!this.color) { return { err: "É necessário incluir a cor do produto." } };
+		if(!this.size) { return { err: "É necessário incluir o tamanho do produto." } };
+		if(!this.weight) { return { err: "É necessário incluir o peso do produto." } };
+		if(!this.brand) { return { err: "É necessário incluir a marca do produto." } };
+		if(!this.status) { return { err: "É necessário incluir o status do produto." } };
 
-Product.update = async (product) => {
-	let query = "UPDATE cms_wt_erp.product SET code='"+product.code
-		+"', name='"+product.name
-		+"', color='"+product.color
-		+"', size='"+product.size
-		+"', weight='"+product.weight
-		+"', brand='"+product.brand
-		+"', image='"+product.image
-		+"', video='"+product.video
-		+"', status='"+product.status
-		+"', description='"+product.description
-		+"', announcement='"+product.announcement+"' WHERE id='"+product.id+"';";
-	return db(query);
+		let obj = lib.convertTo.object(this);
+		let query = lib.Query.save(obj, 'cms_wt_erp.product');
+
+		return db(query);
+	};
+
+	this.update = () => {
+		if(!this.id) { return { err: "O id do produto é inválido." }; }
+
+		let obj = lib.convertTo.object(this);
+		let query = lib.Query.update(obj, 'cms_wt_erp.product', 'id');
+
+    return db(query);
+	};
 };
 
 Product.list = async () => {
@@ -67,7 +56,7 @@ Product.findByCode = async (code) => {
 };
 
 Product.filter = (props, inners, params, strict_params, order_params) => {
-	let query = new Lib.Query().select().props(props).table("cms_wt_erp.product product")
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.product product")
 		.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
 	return db(query);
 };

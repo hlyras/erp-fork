@@ -36,6 +36,10 @@
 	</select>
 	<input type="text" name="image" class="box b2 input-generic margin-top-5 center" placeholder="Imagem do produto" autocomplete="off" maxlength="200">
 	<input type="text" name="announcement" class="box b2 input-generic margin-top-5 center" placeholder="Link do anúncio" autocomplete="off" maxlength="200">
+
+	<%- include('./image-box.ejs') %>
+	<%- include('./image-upload-box.ejs') %>
+
 	<input type="text" name="video" class="box b1 input-generic margin-top-5 center" placeholder="Vídeo do produto" autocomplete="off" maxlength="200">
 	<textarea name="description" class="box b1 height-80 avant-garde padding-5 margin-top-5" placeholder="Descrição do Produto"></textarea>
 	<input type="submit" name="submit" class="box b1 submit-generic center box-hover margin-top-5 bold" value="Cadastrar">

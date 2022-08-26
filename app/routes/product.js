@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const lib = require('jarmlib');
 
+const multer = require('../middleware/multer');
+
 const productController = require('../controller/product/main');
 productController.color = require('../controller/product/color');
 productController.image = require('../controller/product/image');
@@ -13,15 +15,15 @@ productController.conference = require('../controller/product/conference/main');
 
 router.get('/manage', lib.route.toHttps, productController.manage);
 
-router.get('/', lib.route.toHttps, productController.list);
-router.post('/save', lib.route.toHttps, productController.save);
+// router.get('/', lib.route.toHttps, productController.list);
+router.post('/create', lib.route.toHttps, multer.any('files'), productController.create);
 router.get('/id/:id', lib.route.toHttps, productController.findById);
 router.post('/filter', lib.route.toHttps, productController.filter);
 router.delete('/delete/:id', lib.route.toHttps, productController.delete);
 router.get('/print', lib.route.toHttps, productController.print);
 
-router.post('/image/add', lib.route.toHttps, productController.image.add);
-router.delete('/image/remove/:id', lib.route.toHttps, productController.image.remove);
+// router.post('/image/add', lib.route.toHttps, productController.image.add);
+router.delete('/image/id/:id', lib.route.toHttps, productController.image.delete);
 
 router.get('/datasheet', lib.route.toHttps, productController.datasheet.index);
 

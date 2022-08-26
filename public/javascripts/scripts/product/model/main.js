@@ -1,21 +1,20 @@
 const Product = {}; 
 
-Product.save = async (product) => {
-	let response = await fetch("/product/save", {
+Product.create = async (product) => {
+	let response = await fetch("/product/create", {
 		method: "POST",
-		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify(product)
+	  body: product
 	});
 	response = await response.json();
 
 	if(API.verifyResponse(response)){ return false };
 	alert(response.done);
 
-	return response.product[0];
+	return response;
 };
 
 Product.findById = async (id) => {
-	let response = await fetch("/product/id/" + id);
+	let response = await fetch(`/product/id/${id}`);
 	response = await response.json();
 	
 	if(API.verifyResponse(response)){ return false };

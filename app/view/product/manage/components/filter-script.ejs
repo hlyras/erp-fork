@@ -3,10 +3,10 @@
 		event.preventDefault();
 
 		let product = {
-			name: event.target.elements.namedItem("name").value,
-			code: event.target.elements.namedItem("code").value,
-			color: event.target.elements.namedItem("color").value,
-			brand: event.target.elements.namedItem("brand").value
+			name: event.target.name.value,
+			code: event.target.code.value,
+			color: event.target.color.value,
+			brand: event.target.brand.value
 		};
 
 		let products = await API.response(Product.filter, product);

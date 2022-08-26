@@ -1,0 +1,38 @@
+<script>
+	function imageRender(images) {
+		let preview_div = document.getElementById("product-detail-image-preview");
+		preview_div.innerHTML = "";
+
+		for(let i in images) {
+			preview_div.append(lib.element.create("img", { 
+				src: images[i].url, 
+				class: "image-prop max-height-150 shadow-st-hover radius-5 margin-top-10 pointer center",
+				onclick: `imageDetail('${images[i].url}')`
+			}));
+		};
+	};
+
+	function imageDetail(image_url) {
+		let image_div = document.getElementById("product-detail-image-div");
+		image_div.innerHTML = "";
+
+		if(!image_url) {
+			return image_div.append(lib.element.create("img", { 
+				src: "/images/product/no-product.png", 
+				class: "image-prop max-height-500 center",
+			}));
+		}
+
+		image_div.append(lib.element.create("img", { 
+			src: image_url, 
+			class: "image-prop max-height-500 pointer center",
+			onclick: `imageZoom('${image_url}')`
+		}));
+	};
+
+	function imageZoom(path) {
+		document.getElementById("zoom-img").src = path;
+		lib.display("zoom-img-box", "");
+		window.location.href = "#zoom-img-box";
+	};
+</script>

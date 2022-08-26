@@ -9,21 +9,9 @@ Product.image = require('../../model/product/image');
 Product.feedstock = require('../../model/product/feedstock');
 Product.price = require('../../model/product/price');
 
+const imageController = require('./image');
+
 const productController = {};
-
-productController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','com-ass'])){
-		return res.redirect("/");
-	};
-
-	try {
-		const productColors = await Product.color.list();
-		res.render('product/index', { productColors, user: req.user });
-	} catch (err) {
-		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
-	};
-};
 
 productController.manage = async (req, res) => {
 	if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','COR-GER','com-ass','adm-vis'])){
@@ -58,75 +46,59 @@ productController.print = async (req, res) => {
 	};
 };
 
-productController.save = async (req, res) => {
+productController.create = async (req, res) => {
 	if(!await userController.verifyAccess(req, res, ['adm','adm-vis','adm-man'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	const product = {
-		id: parseInt(req.body.id),
-		code: parseInt(req.body.code),
-		name: req.body.name,
-		color: req.body.color,
-		size: req.body.size,
-		weight: parseInt(req.body.weight),
-		width: parseInt(req.body.width),
-		height: parseInt(req.body.height),
-		depth: parseInt(req.body.depth),
-		brand: req.body.brand,
-		image: req.body.image,
-		video: req.body.video,
-		status: req.body.status,
-		description: req.body.description,
-		announcement: req.body.announcement
-	};
-
-	if(!product.code || product.code < 1 || product.code > 99999){return res.send({ msg: 'Código de produto inválido.' })};
-	if(!product.name || product.name.length > 75){return res.send({ msg: 'Preencha o nome do produto.' })};
-	if(!product.color || product.color.length > 25){return res.send({ msg: 'Preencha a cor do produto.' })};
-	if(!product.size || product.size.length > 4){return res.send({ msg: 'Preencha o tamanho do produto.' })};
-	if(!product.weight || isNaN(product.weight)){return res.send({ msg: 'Preencha o peso do produto.' })};
-	// if(!product.width || isNaN(product.width)){return res.send({ msg: 'Preencha a largura do produto.' })};
-	// if(!product.height || isNaN(product.height)){return res.send({ msg: 'Preencha a altura do produto.' })};
-	// if(!product.depth || isNaN(product.depth)){return res.send({ msg: 'Preencha a profundidade do produto.' })};
-	if(!product.brand.length || product.brand.length < 3 || product.brand.length > 45){ return res.send({ msg: 'Preencha a marca do produto.' })};
+	const product = new Product();
+	product.id = parseInt(req.body.id);	
+	product.code = req.body.code;	
+	product.name = req.body.name;	
+	product.color = req.body.color;	
+	product.size = req.body.size;	
+	product.weight = req.body.weight;	
+	product.brand = req.body.brand;	
+	product.image = req.body.image;	
+	product.video_url = req.body.video_url;	
+	product.status = req.body.status;	
+	product.description = req.body.description;	
+	product.announcement = req.body.announcement;
 
 	try {
-		if(!product.id){
-			var row = await Product.findByCode(product.code);
-			if(row.length){ return res.send({ msg: 'Este código de produto já está cadastrado.' }); }
-			
-			var row = await Product.save(product);
-			let newProduct = await Product.findById(row.insertId);
+		if(!product.id) {
+			let verifyCodeDuplicity = await Product.findByCode(product.code);
+			if(verifyCodeDuplicity.length) { return res.send({ msg: "Este código já está cadastrado." }); }
 
-			let price_categories = await Product.price.category.list();
-			for(let i in price_categories){
-				let price = {
-					category_id: price_categories[i].id,
-					product_id: row.insertId,
-					price: 0
-				};
-				await Product.price.save(price);
+			let response = await product.create();
+			if(response.err) { return res.send({ msg: response.err }); }
+
+			for(let i in req.files){
+				await imageController.upload(req.files[i], parseInt(response.insertId));
 			};
 
-			res.send({ done: 'Produto cadastrado com sucesso!', product: newProduct });
+			res.send({ done: "Produto cadastrado com sucesso!" });
 		} else {
-			var row = await Product.findByCode(product.code);
-			if(row.length){
-				if(row[0].id != product.id){
+			let verifyCodeDuplicity = await Product.findByCode(product.code);
+			if(verifyCodeDuplicity.length){
+				if(verifyCodeDuplicity[0].id != product.id){
 					return res.send({ msg: 'Este código de produto já está cadastrado.' });
 				};
 			};
-			
-			await Product.update(product);
-			let updatedProduct = await Product.findById(product.id);
 
-			res.send({ done: 'Produto atualizado com sucesso!', product: updatedProduct });
-		};
+			let response = await product.update();
+			if(response.err) { return res.send({ msg: response.err }); }
+
+			for(let i in req.files){
+				await imageController.upload(req.files[i], parseInt(product.id));
+			};
+
+			res.send({ done: "Produto atualizado com sucesso!" });
+		}
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao cadastrar o produto." });
-	};
+	}
 };
 
 productController.list = async (req, res) => {
@@ -182,7 +154,8 @@ productController.delete = async (req, res) => {
 	try {
 		await Product.price.delete(req.params.id);
 		await Product.feedstock.removeByProductId(req.params.id);
-		await Product.image.removeByProductId(req.params.id);
+		await imageController.deleteByProductId(req.params.id);
+		await Product.image.deleteByProductId(req.params.id);
 		await Product.delete(req.params.id);
 		res.send({ done: 'Produto excluído com sucesso!' });
 	} catch (err) {

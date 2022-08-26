@@ -3,8 +3,8 @@
 		let product = await API.response(Product.findById, product_id);
 		if(!product){ return false };
 
-		lib.display("product-image-box", "");
 		lib.display("product-detail-box", "");
+		lib.display("product-detail-image-box", "");
 
 		let detail_div = document.getElementById("product-detail-div");
 		detail_div.innerHTML = "";
@@ -12,15 +12,15 @@
 		detail_div.append(lib.element.create("div", { class: "box b1 underline center bold", }, product.name))
 		detail_div.append(lib.element.info("b6", "Id", product.id));
 		detail_div.append(lib.element.info("b6", "Código", product.code));
-		detail_div.append(lib.element.info("b2", "Nome", product.name));
-		detail_div.append(lib.element.icon("b6", 25, "/images/icon/add-image.png", `imageAdd('${product.id}')`));
-		detail_div.append(lib.element.info("b8", "Tamanho", product.size));
+		detail_div.append(lib.element.info("b2-3", "Nome", product.name));
+		detail_div.append(lib.element.info("b6", "Tamanho", product.size));
 		detail_div.append(lib.element.info("b4", "Cor", product.color));
-		detail_div.append(lib.element.info("b3-8", "Marca", product.brand));
-		detail_div.append(lib.element.info("b4", "Peso", `${product.weight}g`));
-		detail_div.append(lib.element.info("b1 pre-wrap", "Descrição", `${product.description}`));
+		detail_div.append(lib.element.info("b5-12", "Marca", product.brand));
+		detail_div.append(lib.element.info("b6", "Peso", `${product.weight}g`));
+		product.description && detail_div.append(lib.element.info("b1 pre-wrap", "Descrição", `${product.description}`));
 
-		const pagination = { pageSize: 1, page: 0 };
-		(function(){ lib.carousel.execute("product-image-box", imageRender, product.images, pagination); }());
+		imageRender(product.images);
+		product.images[0] && imageDetail(product.images[0].url);
+		!product.images[0] && imageDetail(false);
 	};
 </script>

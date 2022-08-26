@@ -1,61 +1,79 @@
 <script>
-	document.getElementById("product-create-form").addEventListener("submit", async (event) => {
+	document.getElementById("product-create-form").addEventListener("submit", async e => {
 		event.preventDefault();
 
-		let product = {
-			id: event.target.elements.namedItem("id").value,
-			code: event.target.elements.namedItem("code").value,
-			name: event.target.elements.namedItem("name").value,
-			color: event.target.elements.namedItem("color").value,
-			size: event.target.elements.namedItem("size").value,
-			weight: event.target.elements.namedItem("weight").value,
-			brand: event.target.elements.namedItem("brand").value,
-			image: event.target.elements.namedItem("image").value,
-			video: event.target.elements.namedItem("video").value,
-			status: event.target.elements.namedItem("status").value,
-			description: event.target.elements.namedItem("description").value,
-			announcement: event.target.elements.namedItem("announcement").value
+		let product = new FormData();
+		product.append('id', e.target.id.value);
+		product.append('code', e.target.code.value);
+		product.append('name', e.target.name.value);
+		product.append('color', e.target.color.value);
+		product.append('size', e.target.size.value);
+		product.append('weight', e.target.weight.value);
+		product.append('brand', e.target.brand.value);
+		product.append('image', e.target.image.value);
+		product.append('video', e.target.video.value);
+		product.append('status', e.target.status.value);
+		product.append('description', e.target.description.value);
+		product.append('announcement', e.target.announcement.value);
+		
+		const input = document.getElementById('files');
+		if(!input.files.length){ 
+			if(!confirm("Tem certeza que não deseja incluir imagens do seu produto?")) { return false; } 
+		}
+
+		for(let i in input.files) {
+			product.append('file', input.files[i]);
 		};
 
-		product = await API.response(Product.save, product);
-		if(!product){ return false };
+		let response = await API.response(Product.create, product);
+		if(!response){ return false };
 
-		event.target.elements.namedItem("id").value = "";
-		event.target.elements.namedItem("code").value = "";
-		event.target.elements.namedItem("name").value = "";
-		event.target.elements.namedItem("color").value = "";
-		event.target.elements.namedItem("size").value = "";
-		event.target.elements.namedItem("weight").value = "";
-		event.target.elements.namedItem("brand").value = "";
-		event.target.elements.namedItem("image").value = "";
-		event.target.elements.namedItem("video").value = "";
-		event.target.elements.namedItem("status").value = "";
-		event.target.elements.namedItem("description").value = "";
-		event.target.elements.namedItem("announcement").value = "";
+		lib.display("product-image-box", "none");
+
+		e.target.id.value = "";
+		e.target.code.value = "";
+		e.target.name.value = "";
+		e.target.color.value = "";
+		e.target.size.value = "";
+		e.target.weight.value = "";
+		e.target.brand.value = "";
+		e.target.image.value = "";
+		e.target.video.value = "";
+		e.target.status.value = "";
+		e.target.description.value = "";
+		e.target.announcement.value = "";
+		clearFileList();
 	});
 
 	async function productEdit (id) {
 		let product = await API.response(Product.findById, id);
 		if(!product){ return false };
 
-		document.getElementById('product-create-form').elements.namedItem("id").value = product.id;
-		document.getElementById('product-create-form').elements.namedItem("name").value = product.name;
-		document.getElementById('product-create-form').elements.namedItem("code").value = product.code;
-		document.getElementById('product-create-form').elements.namedItem("color").value = product.color;
-		document.getElementById('product-create-form').elements.namedItem("size").value = product.size;
-		document.getElementById('product-create-form').elements.namedItem("weight").value = product.weight;
-		document.getElementById('product-create-form').elements.namedItem("brand").value = product.brand;
-		document.getElementById('product-create-form').elements.namedItem("image").value = product.image;
-		document.getElementById('product-create-form').elements.namedItem("video").value = product.video;
-		document.getElementById('product-create-form').elements.namedItem("status").value = product.status;
-		document.getElementById('product-create-form').elements.namedItem("description").value = product.description;
-		document.getElementById('product-create-form').elements.namedItem("announcement").value = product.announcement;
+		console.log(product.images);
+
+		lib.display("product-image-box", "");
+		drawImages(product.images);
+
+		const product_create_form = document.getElementById('product-create-form');
+		product_create_form.id.value = product.id;
+		product_create_form.name.value = product.name;
+		product_create_form.code.value = product.code;
+		product_create_form.color.value = product.color;
+		product_create_form.size.value = product.size;
+		product_create_form.weight.value = product.weight;
+		product_create_form.brand.value = product.brand;
+		product_create_form.image.value = product.image;
+		product_create_form.video.value = product.video;
+		product_create_form.status.value = product.status;
+		product_create_form.description.value = product.description;
+		product_create_form.announcement.value = product.announcement;
+		clearFileList();
 	};
 
-	async function productDelete (product_id) {
+	async function productDelete (id) {
 		let r = confirm('Deseja realmente excluir o produto? Atenção, essa ação não pode ser desfeita!');
 		if(r){
-			if(!await API.response(Product.delete, product_id)){ return false; };
+			if(!await API.response(Product.delete, id)){ return false; };
 			document.getElementById("product-filter-form").submit.click();
 		}
 	};

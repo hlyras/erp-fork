@@ -1,32 +1,36 @@
 const db = require('../../../config/connection');
-const Product = require('./main');
 
-Product.image = function() {
+const Image = function(){
 	this.id = 0;
-	this.product_id = 0;
-	this.url = "";
+	this.product_id;
+	this.etag;
+	this.url;
+	this.keycode;
 
-	this.add = () => {
-		let query = "INSERT INTO cms_wt_erp.product_image (product_id, url) VALUES ('"
-			+this.product_id+"', '"
-			+this.url+"');";
-		return db(query);
+	this.save = () => {
+		let query = `INSERT INTO cms_wt_erp.product_image (product_id, etag, url, keycode) VALUES (${this.product_id},'${this.etag}','${this.url}','${this.keycode}');`;
+    return db(query);
 	};
 };
 
-Product.image.list = (product_id) => {
-	let query = "SELECT * FROM cms_wt_erp.product_image WHERE product_id='"+product_id+"';";
+Image.findById = async (id) => {
+	let query = "SELECT * FROM cms_wt_erp.product_image WHERE id='"+id+"';";
 	return db(query);
 };
 
-Product.image.remove = (image_id) => {
-	let query = "DELETE FROM cms_wt_erp.product_image WHERE id='"+image_id+"';";
+Image.list = (product_id) => {
+	let query = `SELECT * FROM cms_wt_erp.product_image WHERE product_id=${product_id};`;
 	return db(query);
 };
 
-Product.image.removeByProductId = (id) => {
-	let query = "DELETE FROM cms_wt_erp.product_image WHERE product_id='"+id+"';";
+Image.delete = (id) => {
+	let query = `DELETE FROM cms_wt_erp.product_image WHERE id=${id};`;
 	return db(query);
 };
 
-module.exports = Product.image;
+Image.deleteByProductId = (product_id) => {
+	let query = `DELETE FROM cms_wt_erp.product_image WHERE product_id=${product_id};`;
+	return db(query);
+};
+
+module.exports = Image;

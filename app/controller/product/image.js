@@ -1,42 +1,83 @@
 const userController = require('./../user');
 
+const { uploadFileS3, deleteFileS3 } = require("../../middleware/s3");
+const { compressImage } = require("../../middleware/sharp");
+
+const fs = require("fs");
+
 const Product = require('../../model/product/main');
 Product.image = require('../../model/product/image');
 
-const productController = require('./main');
+const imageController = {};
 
-productController.image = {}
-
-productController.image.add = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','n/a','adm-vis'])){
-		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	};
-
-	const image = new Product.image();
-	image.product_id = req.body.product_id;
-	image.url = req.body.url;
-
+imageController.upload = async (file, product_id) => {
 	try {
-		await image.add();
-		res.send({ done: 'Imagem adicionada com sucesso!' });
+		let newPath = await compressImage(file, 425);
+		let imageData = await uploadFileS3(newPath, file.filename.split('.')[0] + '.png', "/produtos");
+
+		fs.promises.unlink(newPath);
+		file.mimetype != 'image/png' && fs.promises.unlink(file.path);
+
+		let image = new Product.image();
+		image.product_id = product_id;
+		image.etag = imageData.ETag.replaceAll(`"`, "");
+		image.url = imageData.Location;
+		image.keycode = imageData.Key;
+		await image.save();
+		
+		return true;
 	} catch (err) {
 		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao incluir a imagem, favor contatar o suporte." });
-	};
+		return false;
+	}
 };
 
-productController.image.remove = async (req, res) => {
+// imageController.delete = async (req, res) => {
+// 	if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','adm-vis'])){
+// 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+// 	};
+
+// 	try {
+// 		await Product.image.delete(req.params.id);
+// 		res.send({ done: 'Imagem excluída!' });
+// 	} catch (err) {
+// 		console.log(err);
+// 		res.send({ msg: "Ocorreu um erro ao remover a imagem do produto, favor contatar o suporte." });
+// 	};
+// };
+
+imageController.deleteByProductId = async (product_id) => {
+	try {
+		const images = await Product.image.list(product_id);
+
+		for(let i in images) {
+			await Product.image.delete(images[i].id);
+			await deleteFileS3(images[i].keycode);
+		};
+
+		return true;
+	} catch (err) {
+		console.log(err);
+		return false;
+	}
+};
+
+imageController.delete = async (req, res) => {
 	if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','adm-vis'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
 	try {
-		await Product.image.remove(req.params.id);
-		res.send({ done: 'Imagem excluída!' });
+		const image = (await Product.image.findById(req.params.id))[0];
+
+		await Product.image.delete(image.id);
+		await deleteFileS3(image.keycode);
+
+		res.send({ done: 'Imagem deletada com sucesso!' });
 	} catch (err) {
 		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao remover a imagem do produto, favor contatar o suporte." });
-	};
+		res.send({ msg: 'Ocorreu um erro ao excluir a imagem.' });
+	}
 };
 
-module.exports = productController.image;
+module.exports = imageController;
