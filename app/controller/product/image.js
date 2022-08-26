@@ -32,27 +32,13 @@ imageController.upload = async (file, product_id) => {
 	}
 };
 
-// imageController.delete = async (req, res) => {
-// 	if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','adm-vis'])){
-// 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-// 	};
-
-// 	try {
-// 		await Product.image.delete(req.params.id);
-// 		res.send({ done: 'Imagem excluída!' });
-// 	} catch (err) {
-// 		console.log(err);
-// 		res.send({ msg: "Ocorreu um erro ao remover a imagem do produto, favor contatar o suporte." });
-// 	};
-// };
-
 imageController.deleteByProductId = async (product_id) => {
 	try {
 		const images = await Product.image.list(product_id);
 
 		for(let i in images) {
 			await Product.image.delete(images[i].id);
-			await deleteFileS3(images[i].keycode);
+			if(images[i].keycode){ await deleteFileS3(images[i].keycode); }
 		};
 
 		return true;
@@ -71,7 +57,7 @@ imageController.delete = async (req, res) => {
 		const image = (await Product.image.findById(req.params.id))[0];
 
 		await Product.image.delete(image.id);
-		await deleteFileS3(image.keycode);
+		if(image.keycode) { await deleteFileS3(image.keycode); }
 
 		res.send({ done: 'Imagem deletada com sucesso!' });
 	} catch (err) {
