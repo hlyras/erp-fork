@@ -1,0 +1,76 @@
+<script>
+	document.getElementById("package-create-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		let package = new FormData();
+		package.append('id', e.target.id.value);
+		package.append('code', e.target.code.value);
+		package.append('name', e.target.name.value);
+		package.append('color', e.target.color.value);
+		package.append('weight', e.target.weight.value);
+		package.append('image', e.target.image.value);
+		package.append('status', e.target.status.value);
+		package.append('brand', e.target.brand.value);
+		package.append('announcement', e.target.announcement.value);
+		package.append('description', e.target.description.value);
+
+		const input = document.getElementById('files');
+		if(!input.files.length){ 
+			if(!confirm("Tem certeza que não deseja incluir imagens do pacote?")) { return false; } 
+		}
+
+		for(let i in input.files) {
+			package.append('file', input.files[i]);
+		};
+
+		let response = await API.response(Product.package.create, package);
+		if(!response){ return false };
+
+		lib.display("package-image-box", "none");
+		lib.display("package-detail-box", "none");
+
+		e.target.id.value = "";
+		e.target.code.value = "";
+		e.target.name.value = "";
+		e.target.color.value = "";
+		e.target.weight.value = "";
+		e.target.image.value = "";
+		e.target.status.value = "Indisponível";
+		e.target.brand.value = "";
+		e.target.announcement.value = "";
+		e.target.description.value = "";
+		clearFileList();
+
+		document.getElementById("package-filter-form").submit.click();
+	});
+
+	async function packageEdit (id) {
+		let package = await API.response(Product.package.findById, id);
+		if(!package){ return false };
+
+		lib.display("package-image-box", "");
+		drawImages(package.images);
+
+		const create_form = document.getElementById("package-create-form");
+		create_form.id.value = package.id;
+		create_form.code.value = package.code;
+		create_form.name.value = package.name;
+		create_form.color.value = package.color;
+		create_form.weight.value = package.weight;
+		create_form.image.value = package.image;
+		create_form.status.value = package.status;
+		create_form.brand.value = package.brand;
+		create_form.announcement.value = package.announcement;
+		create_form.description.value = package.description;
+	};
+
+	async function packageDelete (id) {
+		if(!confirm("Deseja realmente excluir o pacote?")) { return false; }
+
+		let response = await API.response(Product.package.delete, id);
+		if(!response){ return false };
+
+		lib.display("package-detail-box", "none");
+		lib.display("package-filter-form", "");
+	};
+</script>

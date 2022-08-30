@@ -1,0 +1,18 @@
+<div id="package-product-kart-box" class="box b1 container ground border radius-5 padding-10 margin-top-10">
+  <div class="box b1 underline center">Produtos do pacote</div>
+  <form id="package-product-kart-form" class="box b1 container">
+    <input type="hidden" name="product_id">
+    <div class="box b2-3 container dropdown ground margin-top-5">
+      <ul class="box b1 container">
+        <li>
+          <input type="text" id="package-kart-dropdown-input" name="product" data-id="" class="box b1 input-generic center" oninput="productDropdownFilter(this, 'package-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+          <ul id="package-kart-dropdown" class="box one"></ul>
+        </li>
+      </ul>
+    </div>
+    <input type="number" name="amount" class="box b6 input-generic center margin-top-5" placeholder="Qtd">
+    <button type="submit" name="submit" class="box b6 submit-generic border center margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
+  </form>
+  <table id="package-product-kart-table" class="tbl-info box b1 center ground padding-10 margin-top-10"></table>
+  <input type="button" class="box b1 submit-generic bold padding-5 margin-top-10" onclick="packageProductUpdate()" value="Atualizar produtos do pacote">
+</div>

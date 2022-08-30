@@ -1,0 +1,80 @@
+<script>
+	let packageKart = new lib.kart("package-product-kart", "packageKart", 
+		[{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"size":"Tamanho"}]);
+
+	document.getElementById("package-product-kart-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		if(!e.target.product.readOnly){ 
+			return alert("Produto inválido");
+		};
+
+		let product = e.target.product;
+		let splitedProduct = product.value.split(" | ");
+		let amount = e.target.amount.value;
+
+		if(splitedProduct.length < 3 || !splitedProduct){
+			alert("É necessário selecionar um produto.");
+			return;
+		};
+
+		if(amount < 0.01 || !amount){
+			alert("É necessário preencher a quantidade do produto.");
+			return;
+		};
+
+		product = {
+			id: parseInt(product.dataset.id),
+			code: splitedProduct[0],
+			name: splitedProduct[1],
+			color: splitedProduct[2],
+			size: splitedProduct[3],
+			amount: parseInt(amount)
+		};
+
+		packageKart.insert("id", product);
+		packageKart.update("code");
+		packageKart.list("packageKart", packageKart.props);
+
+		e.target.product.value = "";
+		e.target.product.dataset.id = "";
+		e.target.amount.value = "";
+	});
+
+	async function productDropdownFilter(input, dropdown_id) {
+		event.preventDefault();
+
+		let product = {
+			 code: "",
+			 name: input.value,
+			 color: "",
+			 brand: ""
+		};
+
+		let properties = ["code", "name", "color", "size"];
+
+		if(product.name.length > 2){
+			let products = await API.response(Product.filter, product);
+			if(!products){ return false; };
+
+			lib.dropdown.render(products, input.id, dropdown_id, "input", "id", properties);
+		} else {
+			lib.dropdown.render([], input.id, dropdown_id, "input", "id", properties);
+		};
+	};
+
+	async function packageProductUpdate () {
+		let package = {
+			id: document.getElementById("package-id").value,
+			products: JSON.stringify(packageKart.items)
+		};
+
+		package = await API.response(Product.package.product.update, package);
+		if(!package){ return false };
+
+		console.log(package);
+
+		packageKart.update("code");
+		packageKart.list("packageKart", packageKart.props);
+	};
+</script>

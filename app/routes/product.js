@@ -6,16 +6,19 @@ const multer = require('../middleware/multer');
 const productController = require('../controller/product/main');
 productController.color = require('../controller/product/color');
 productController.image = require('../controller/product/image');
-productController.package = require('../controller/product/package');
+
+productController.package = require('../controller/product/package/main');
+productController.package.price = require('../controller/product/package/price');
+productController.package.product = require('../controller/product/package/product');
+productController.package.image = require('../controller/product/package/image');
+
 productController.feedstock = require('../controller/product/feedstock/main');
 productController.price = require('../controller/product/price');
-productController.catalog = require('../controller/product/catalog');
 productController.datasheet = require('../controller/product/datasheet/main');
 productController.conference = require('../controller/product/conference/main');
 
 router.get('/manage', lib.route.toHttps, productController.manage);
 
-// router.get('/', lib.route.toHttps, productController.list);
 router.post('/create', lib.route.toHttps, multer.any('files'), productController.create);
 router.get('/id/:id', lib.route.toHttps, productController.findById);
 router.post('/filter', lib.route.toHttps, productController.filter);
@@ -45,20 +48,18 @@ router.get('/price/category/filter', lib.route.toHttps, productController.price.
 router.get('/price/category/id/:id', lib.route.toHttps, productController.price.category.findById);
 router.delete('/price/category/delete', lib.route.toHttps, productController.price.category.delete);
 
-router.get('/catalog', lib.route.toHttps, productController.catalog.index);
-
 router.get('/package', lib.route.toHttps, productController.package.manage);
-router.post('/package/save', lib.route.toHttps, productController.package.save);
+router.post('/package/create', lib.route.toHttps, multer.any('files'), productController.package.create);
 router.post('/package/filter', lib.route.toHttps, productController.package.filter);
 router.get('/package/id/:id', lib.route.toHttps, productController.package.findById);
-router.delete('/package/delete', lib.route.toHttps, productController.package.delete);
+// router.delete('/package/id/:id', lib.route.toHttps, productController.package.delete);
 router.post('/package/product/update', lib.route.toHttps, productController.package.product.update);
 
 router.post('/package/price/find', lib.route.toHttps, productController.package.price.find);
-router.post('/package/price/update', lib.route.toHttps, productController.package.price.update);
+// router.post('/package/price/update', lib.route.toHttps, productController.package.price.update);
 
-router.post('/package/image/add', lib.route.toHttps, productController.package.image.add);
-router.delete('/package/image/remove', lib.route.toHttps, productController.package.image.remove);
+// router.post('/package/image/add', lib.route.toHttps, productController.package.image.add);
+router.delete('/package/image/:id', lib.route.toHttps, productController.package.image.delete);
 
 router.get('/conference', lib.route.toHttps, productController.conference.index);
 router.get('/conference/id/:id', lib.route.toHttps, productController.conference.findById);

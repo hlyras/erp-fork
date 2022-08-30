@@ -80,10 +80,8 @@ productController.create = async (req, res) => {
 			res.send({ done: "Produto cadastrado com sucesso!" });
 		} else {
 			let verifyCodeDuplicity = await Product.findByCode(product.code);
-			if(verifyCodeDuplicity.length){
-				if(verifyCodeDuplicity[0].id != product.id){
-					return res.send({ msg: 'Este código de produto já está cadastrado.' });
-				};
+			if(verifyCodeDuplicity.length && verifyCodeDuplicity[0].id != product.id){
+				return res.send({ msg: 'Este código de produto já está cadastrado.' });
 			};
 
 			let response = await product.update();

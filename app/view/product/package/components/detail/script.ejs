@@ -1,0 +1,74 @@
+<script>
+	async function packageDetail (package_id) {
+		let package = await API.response(Product.package.findById, package_id);
+		if(!package){ return false };
+
+		let detail_div = document.getElementById("package-detail-div");
+		detail_div.innerHTML = "";
+
+		detail_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold underline center", }, package.name))
+		detail_div.append(lib.element.info("b6 lucida-grande bold", "Id", package.id));
+		detail_div.append(lib.element.info("b6 lucida-grande bold", "Código", package.code));
+		detail_div.append(lib.element.info("b2-3 lucida-grande bold", "Nome", package.name));
+		package.size && detail_div.append(lib.element.info("b4 lucida-grande bold", "Tamanho", package.size));
+		package.weight && detail_div.append(lib.element.info("b4 lucida-grande bold", "Peso", `${package.weight}g`));
+		package.color && detail_div.append(lib.element.info("b4 lucida-grande bold", "Cor", package.color));
+		package.brand && detail_div.append(lib.element.info("b2 lucida-grande bold", "Marca", package.brand));
+		package.description && detail_div.append(lib.element.info("b1 lucida-grande pre-wrap", "Descrição", `${package.description}`));
+
+		imageRender(package.images);
+		package.images[0] && imageDetail(package.images[0].url);
+		!package.images[0] && imageDetail(false);
+
+		document.getElementById("package-id").value = package_id;
+
+		for(i in package.products){
+			let product_info = lib.splitTextBy(package.products[i].product_info, " | ");
+			package.products[i].code = product_info[0];
+			package.products[i].name = product_info[1];
+			package.products[i].color = product_info[2];
+			package.products[i].size = product_info[3];
+		};
+
+		packageKart.items = package.products;
+		packageKart.update("code");
+		packageKart.list("packageKart", packageKart.props);
+	};
+
+	function imageRender(images) {
+		let preview_div = document.getElementById("package-detail-image-preview");
+		preview_div.innerHTML = "";
+
+		for(let i in images) {
+			preview_div.append(lib.element.create("img", { 
+				src: images[i].url, 
+				class: "image-prop max-height-150 shadow-st-hover radius-5 margin-top-10 pointer center",
+				onclick: `imageDetail('${images[i].url}')`
+			}));
+		};
+	};
+
+	function imageDetail(image_url) {
+		let image_div = document.getElementById("package-detail-image-div");
+		image_div.innerHTML = "";
+
+		if(!image_url) {
+			return image_div.append(lib.element.create("img", { 
+				src: "/images/product/no-product.png", 
+				class: "image-prop max-height-500 center",
+			}));
+		}
+
+		image_div.append(lib.element.create("img", { 
+			src: image_url, 
+			class: "image-prop max-height-500 pointer center",
+			onclick: `imageZoom('${image_url}')`
+		}));
+	};
+
+	function imageZoom(path) {
+		document.getElementById("zoom-img").src = path;
+		lib.display("zoom-img-box", "");
+		window.location.href = "#zoom-img-box";
+	};
+</script>

@@ -1,0 +1,45 @@
+<script>
+	function packageFilter(packages, pagination) {
+		let filter_div = document.getElementById("package-filter-div");
+		filter_div.innerHTML = "";
+
+		if(!packages.length) {
+			return filter_div.append(lib.element.create("div", { 
+				class: "box b1 lucida-grande bold padding-10 center" 
+			}, "Nenhum pacote foi encontrado!"));
+		}
+
+		for (let i = pagination.page * pagination.pageSize; i < packages.length && i < (pagination.page + 1) * pagination.pageSize; i++){
+			let package_div = lib.element.create("div", { class: "box b1 container border padding-5 margin-top-5" });
+
+			package_div.append(lib.element.create("div", {
+				class: "mobile-box b5 bold input-show border-st nowrap padding-5 center pointer",
+				onclick: `packageDetail(${packages[i].id})`
+			}, packages[i].code));
+			package_div.append(lib.element.create("div", { class: "mobile-box b2 em09 center" }, packages[i].name ));
+			package_div.append(lib.element.create("div", { class: "mobile-box b10 em09 center" }, packages[i].color ));
+			package_div.append(lib.element.icon('b10 em08', 20, "/images/icon/edit.png", `packageEdit(${packages[i].id})`));
+			package_div.append(lib.element.icon('b10 em08', 20, "/images/icon/trash.png", `packageDelete(${packages[i].id})`));
+			
+			filter_div.append(package_div);
+		};
+	};
+
+	document.getElementById("package-filter-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		let package = {
+			code: e.target.code.value,
+			name: e.target.name.value,
+			color: e.target.color.value
+		};
+
+		let packages = await API.response(Product.package.filter, package);
+		if(!packages) { return false };
+
+		packages = lib.sort(packages, "code");
+
+		const pagination = { pageSize: 10, page: 0};
+		(function(){ lib.carousel.execute("package-filter-box", packageFilter, packages, pagination); }());
+	});
+</script>

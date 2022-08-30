@@ -23,7 +23,6 @@ productController.price.index = async (req, res) => {
 };
 
 productController.price.filter = async (req, res) => {
-	// Product
 	let props = [];
 	let inners = [ 
 		["cms_wt_erp.product product", "product_price.product_id", "product.id"]

@@ -1,6 +1,6 @@
 <script>
 	document.getElementById("product-create-form").addEventListener("submit", async e => {
-		event.preventDefault();
+		e.preventDefault();
 
 		let product = new FormData();
 		product.append('id', e.target.id.value);
@@ -15,10 +15,10 @@
 		product.append('status', e.target.status.value);
 		product.append('description', e.target.description.value);
 		product.append('announcement', e.target.announcement.value);
-		
+
 		const input = document.getElementById('files');
 		if(!input.files.length){ 
-			if(!confirm("Tem certeza que não deseja incluir imagens do seu produto?")) { return false; } 
+			if(!confirm("Tem certeza que não deseja incluir imagens do produto?")) { return false; } 
 		}
 
 		for(let i in input.files) {
@@ -48,8 +48,6 @@
 	async function productEdit (id) {
 		let product = await API.response(Product.findById, id);
 		if(!product){ return false };
-
-		console.log(product.images);
 
 		lib.display("product-image-box", "");
 		drawImages(product.images);
