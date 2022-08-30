@@ -26,8 +26,8 @@
 		let response = await API.response(Product.package.create, package);
 		if(!response){ return false };
 
-		lib.display("package-image-box", "none");
 		lib.display("package-detail-box", "none");
+		lib.display("package-image-box", "none");
 
 		e.target.id.value = "";
 		e.target.code.value = "";
@@ -48,6 +48,7 @@
 		let package = await API.response(Product.package.findById, id);
 		if(!package){ return false };
 
+		lib.display("package-detail-box", "none");
 		lib.display("package-image-box", "");
 		drawImages(package.images);
 
@@ -62,6 +63,7 @@
 		create_form.brand.value = package.brand;
 		create_form.announcement.value = package.announcement;
 		create_form.description.value = package.description;
+		clearFileList();
 	};
 
 	async function packageDelete (id) {
@@ -72,5 +74,7 @@
 
 		lib.display("package-detail-box", "none");
 		lib.display("package-filter-form", "");
+
+		document.getElementById("package-filter-form").submit.click();
 	};
 </script>

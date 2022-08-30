@@ -22,6 +22,8 @@
 
 		document.getElementById("package-id").value = package_id;
 
+		lib.display("package-detail-box", "");
+
 		for(i in package.products){
 			let product_info = lib.splitTextBy(package.products[i].product_info, " | ");
 			package.products[i].code = product_info[0];
