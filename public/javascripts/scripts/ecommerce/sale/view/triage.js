@@ -10,7 +10,7 @@ Ecommerce.sale.view.triage.filter = (sales) => {
 		}, "Sem resultados"));
 	}
 
-	let salesOnDeadline = sales.filter(sale => sale.datetime < (lib.genTimestamp() - lib.timestampDay() * 0.5));
+	let salesOnDeadline = sales.filter(sale => sale.datetime < (lib.genTimestamp() - (lib.timestampDay() * 0.5)));
 
 	filter_box.append(lib.element.create("div", { 
 		class: "box b1 ground lucida-grande bold border radius-5 padding-10 margin-top-10 center" 
@@ -24,7 +24,7 @@ Ecommerce.sale.view.triage.filter = (sales) => {
 	for(let i in sales){
 		let sale_div = lib.element.create("div", { class: "box b2 container ground border-lg-st radius-5 padding-5 margin-top-5" });
 
-		let sale_deadline = sales[i].datetime < (lib.genTimestamp() - lib.timestampDay());
+		let sale_deadline = sales[i].datetime < (lib.genTimestamp() - lib.timestampDay() * 0.5);
 		
 		sale_div.append(lib.element.create("div", { 
 			class: "mobile-box b2 bold em09 input-show border-lg-st padding-5 center pointer",
