@@ -32,7 +32,7 @@ Ecommerce.sale.view.triage.filter = (sales) => {
 		}, sales[i].code));
 		
 		sale_div.append(lib.element.create("div", { 
-			class: "box b2 bold padding-5 center",
+			class: "mobile-box b2 bold padding-5 center",
 			style: sale_deadline && "color: red"
 		}, lib.timestampToFulldate(sales[i].datetime)));
 		sale_div.append(lib.element.createInfo("mobile-box b1 em09 padding-5", "Nome do cliente", `${sales[i].customer_name}` ));
