@@ -10,7 +10,7 @@ Ecommerce.sale.view.triage.filter = (sales) => {
 		}, "Sem resultados"));
 	}
 
-	let salesOnDeadline = sales.filter(sale => sale.datetime < (lib.genTimestamp() - lib.timestampDay()));
+	let salesOnDeadline = sales.filter(sale => sale.datetime < (lib.genTimestamp() - lib.timestampDay() * 0.5));
 
 	filter_box.append(lib.element.create("div", { 
 		class: "box b1 ground lucida-grande bold border radius-5 padding-10 margin-top-10 center" 

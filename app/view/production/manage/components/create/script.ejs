@@ -1,4 +1,16 @@
 <script>
+	document.getElementById("production-create-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		const production = {
+			location: e.target.location.value,
+			product_id: e.target.product_id.dataset.id,
+		};
+
+		if(production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.dataset.id; };
+		if(production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.dataset.id; };
+	});
+	
 	function setLocation (input) {
 		switch(input.value) {
 			case "Interna":
@@ -12,14 +24,36 @@
 		};
 	};
 	
-	document.getElementById("production-create-form").addEventListener("submit", async e => {
-		e.preventDefault();
+	async function internalSeamstressDropdown (input) {
+		let properties = ["code","name","color","size"];
 
-		const production = {
-			location: e.target.location.value,
-			product_id: e.target.product_id.dataset.id,
-		};
+		let seamstresses = await Product.filter({ name: input.value, role: 'sea' });
+		if(!seamstresses) { return false; }
 
-		console.log(production);
-	});
+		lib.Dropdown.setEvents("internal-seamstress-dropdown-box", "internal-seamstress-dropdown-ul");
+		input.value.length >= 2 && lib.Dropdown.render(seamstresses, input, "internal-seamstress-dropdown-ul", properties);
+		input.value.length < 2 && lib.Dropdown.render([], input, "internal-seamstress-dropdown-ul", properties);
+	};
+
+	async function externalSeamstressDropdown (input) {
+		let properties = ["code","name","color","size"];
+
+		let seamstresses = await Product.filter({ name: input.value, category_id: 10 });
+		if(!seamstresses) { return false; }
+
+		lib.Dropdown.setEvents("external-seamstress-dropdown-box", "external-seamstress-dropdown-ul");
+		input.value.length >= 2 && lib.Dropdown.render(seamstresses, input, "external-seamstress-dropdown-ul", properties);
+		input.value.length < 2 && lib.Dropdown.render([], input, "external-seamstress-dropdown-ul", properties);
+	};
+
+	async function productDropdown (input) {
+		let properties = ["code","name","color","size"];
+
+		let products = await Product.filter({ name: input.value });
+		if(!products) { return false; }
+
+		lib.Dropdown.setEvents("product-dropdown-box", "product-dropdown-ul");
+		input.value.length >= 2 && lib.Dropdown.render(products, input, "product-dropdown-ul", properties);
+		input.value.length < 2 && lib.Dropdown.render([], input, "product-dropdown-ul", properties);
+	};
 </script>
