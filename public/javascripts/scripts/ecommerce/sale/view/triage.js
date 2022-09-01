@@ -10,15 +10,32 @@ Ecommerce.sale.view.triage.filter = (sales) => {
 		}, "Sem resultados"));
 	}
 
-	filter_box.append(lib.element.create("div", { class: "box b1 ground lucida-grande bold border radius-5 padding-10 margin-top-10 center" }, `Quantidade de pedidos: ${sales.length}`))
+	let salesOnDeadline = sales.filter(sale => sale.datetime < (lib.genTimestamp() - lib.timestampDay()));
+
+	filter_box.append(lib.element.create("div", { 
+		class: "box b1 ground lucida-grande bold border radius-5 padding-10 margin-top-10 center" 
+	}, `Quantidade de pedidos: ${sales.length}`));
+	
+	salesOnDeadline.length && filter_box.append(lib.element.create("div", {
+		class: "box b1 ground lucida-grande bold border radius-5 padding-10 margin-top-5 center",
+			style: salesOnDeadline.length && "color: red"
+	}, `Atrasados: ${salesOnDeadline.length}`));
 	
 	for(let i in sales){
 		let sale_div = lib.element.create("div", { class: "box b2 container ground border-lg-st radius-5 padding-5 margin-top-5" });
+
+		let sale_deadline = sales[i].datetime < (lib.genTimestamp() - lib.timestampDay());
+		
 		sale_div.append(lib.element.create("div", { 
 			class: "mobile-box b2 bold em09 input-show border-lg-st padding-5 center pointer",
 			onclick: `Ecommerce.sale.controller.triage.show(${sales[i].id})`
 		}, sales[i].code));
-		sale_div.append(lib.element.createInfo("mobile-box b2 em09 padding-5", "Nome do cliente", `${sales[i].customer_name}` ));
+		
+		sale_div.append(lib.element.create("div", { 
+			class: "box b2 bold padding-5 center",
+			style: sale_deadline && "color: red"
+		}, lib.timestampToFulldate(sales[i].datetime)));
+		sale_div.append(lib.element.createInfo("mobile-box b1 em09 padding-5", "Nome do cliente", `${sales[i].customer_name}` ));
 		sale_div.append(lib.element.createInfo("mobile-box b2 em09 padding-5", "Usuário do cliente", `${sales[i].customer_user}` ));
 		sale_div.append(lib.element.createInfo("mobile-box b2 em09 padding-5", "Rastreio", `${sales[i].tracker}` ));
 		sale_div.append(lib.element.createInfo("mobile-box b3 em09 padding-5", "Status", `${sales[i].status}` ));

@@ -1,0 +1,27 @@
+<form id="production-create-form" class="box b2 container ground border radius-5 padding-5 margin-top-5">
+	<div class="box b1 underline lucida-grande bold margin-top-5 center">Nova Produção</div>
+	<input type="hidden" name="id">
+	
+	<div class="mobile-box a2 container h-center padding-10 margin-top-5">
+	  <input type="radio" name="location" value="Interna" class="mobile-box" onclick="setLocation(this);" checked="checked">
+	  <label class="mobile-box">Interna</label>
+	</div>
+	<div class="mobile-box a2 container h-center padding-10 margin-top-5">
+	  <input type="radio" name="location" value="Externa" class="mobile-box" onclick="setLocation(this);">
+	  <label class="mobile-box">Externa</label>
+	</div>
+
+	<div id="internal-seamstress-dropdown-box" class="box a1 container">
+		<input type="text" id="internal-seamstress-dropdown-input" name="internal_seamstress_id" data-id="" class="box b1 input-generic lucida-grande bold margin-top-5 center" oninput="internalSeamstressDropdown(this)" placeholder="Nome do colaborador" onclick="if(this.readOnly){this.value='';this.readOnly = false;}" autocomplete="no">
+		<ul id="internal-seamstress-dropdown-ul" class="box b1"></ul>
+	</div>
+
+	<div id="external-seamstress-dropdown-box" class="box a1 container" style="display:none;">
+		<input type="text" id="external-seamstress-dropdown-input" name="external_seamstress_id" data-id="" class="box b1 input-generic lucida-grande bold margin-top-5 center" oninput="externalSeamstressDropdown(this)" placeholder="Nome da facção" onclick="if(this.readOnly){this.value='';this.readOnly = false;}" autocomplete="no">
+		<ul id="external-seamstress-dropdown-ul" class="box b1"></ul>
+	</div>
+
+	<%- include('./../product/dropdown-box.ejs') %>
+
+	<input type="submit" name="submit" value="Cadastrar Produção" class="box b1 lucida-grande bold submit-generic margin-top-5">
+</form>

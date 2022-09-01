@@ -11,12 +11,12 @@ Product.color = require('../../model/product/color');
 const productionController = {};
 
 productionController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ["adm","com-sel",'com-ass','adm-man','adm-ass','adm-aud','fin-ass'])){
+	if(!await userController.verifyAccess(req, res, ["adm"])){
 		return res.redirect('/');
 	};
 
 	try {
-		res.render('sale/index', { user: req.user });
+		res.render('production/index', { user: req.user });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -24,13 +24,12 @@ productionController.index = async (req, res) => {
 };
 
 productionController.manage = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ["adm","com-sel",'com-ass','adm-man','adm-ass','adm-aud','fin-ass'])){
+	if(!await userController.verifyAccess(req, res, ["adm"])){
 		return res.redirect('/');
 	};
 
 	try {
-		const productColors = await Product.color.list();
-		res.render('sale/index', { productColors, user: req.user });
+		res.render('production/manage/index', { user: req.user });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar requisição." });

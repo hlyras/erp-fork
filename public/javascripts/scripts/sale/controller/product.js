@@ -2,8 +2,6 @@ Sale.product.controller = {};
 
 Sale.product.controller.dropdown = {
 	filter: async (input, dropdown_id) => {
-		event.preventDefault();
-
 		let product = {
 			 code: "",
 			 name: input.value,

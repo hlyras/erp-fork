@@ -1,0 +1,25 @@
+<script>
+	function setLocation (input) {
+		switch(input.value) {
+			case "Interna":
+			lib.display("internal-seamstress-dropdown-box", "");
+			lib.display("external-seamstress-dropdown-box", "none");
+			break;
+			case "Externa":
+			lib.display("external-seamstress-dropdown-box", "");
+			lib.display("internal-seamstress-dropdown-box", "none");
+			break;
+		};
+	};
+	
+	document.getElementById("production-create-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		const production = {
+			location: e.target.location.value,
+			product_id: e.target.product_id.dataset.id,
+		};
+
+		console.log(production);
+	});
+</script>

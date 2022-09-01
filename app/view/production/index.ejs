@@ -5,58 +5,14 @@
 <body>
 	<%- include('./../partials/header.ejs') %>
 	<%- include('./../partials/nav.ejs') %>
-	<section>
-		<div class="container">
-			<div class="box-1">
-				<form id="product-filter-form" class="box-1">
-					<input type="hidden" name="location" value="productProduction">
-					<input type="text" name="name" class="btn-generic-small" placeholder="Nome" autocomplete="off">
-					<input type="text" name="code" class="btn-generic-small" placeholder="Cód" autocomplete="off">
-					<select name="color" class="btn-generic-small" autocomplete="off">
-						<option value="">Cor</option>
-						<% for(i in productColors){ %>
-						<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
-						<% } %>
-					</select>
-					<input type="submit" class="btn-submit" value="Filtrar">
-				</form>
-				<form class="box-1" id="product-production-kart-form">
-					<select name="product_id" class="btn-generic-big"></select>
-					<input type="number" name="product_amount" class="btn-generic-small" placeholder="Qtd" min="1" max="9999" autocomplete="off"/>
-					<input type="submit" class="btn-submit" id="product-production-kart-submit" value="Adicionar">
-				</form>
-				<table id="product-production-kart-tbl" class="tbl-info box-1"></table>
-				<div class="box-1" id="product-production-simulation-box" style="display:none">
-					<h3 class="underline bold">Simulação</h3>
-					<table id="product-production-simulation-tbl" class="tbl-info box-1"></table>
-				</div>
-				<form id="product-production-simulation" class="box-1">
-					<select name="storage_id" class="btn-generic-medium">
-						<option value="">Estoque</option>
-						<% for(i in feedstockStorages){ %>
-						<option value="<%= feedstockStorages[i].id %>"><%= feedstockStorages[i].name %></option>
-						<% } %>
-					</select>
-					<input type="submit" name="submit" class="btn-submit" value="Simular">
-				</form>
-				<form id="product-production-form" class="box-1" style="display:none">
-					<h3 class="underline">Solicitar Produção</h3>
-					<select name="storage_id" class="btn-generic-medium">
-						<option value="">Estoque</option>
-						<% for(i in feedstockStorages){ %>
-						<option value="<%= feedstockStorages[i].id %>"><%= feedstockStorages[i].name %></option>
-						<% } %>
-					</select>
-					<input type="submit" name="submit" class="btn-submit" value="Confirmar">
-				</form>
-			</div>
-		</div>
+	<section class="container h-center">
+		<div class="box b2 container ground padding-10 radius-5 h-center">
+      <div class="box b1 ground lucida-grande em12 bold underline center">Produção</div>
+      <div onclick="window.location.href = '/production/manage'" class="box b1 lucida-grande bold border-lg-st padding-10 margin-top-10 radius-5 center pointer">Gerir Produções</div>
+    </div>
 	</section>
-	<%- include('./../partials/loader.ejs') %>
 </body>
 <footer>
 	<%- include('./../partials/footer.ejs') %>
-	<%- include('./partial.ejs') %>
-	<script src="/javascripts/scripts/product/production.js"></script>
 </footer>
 </html>
