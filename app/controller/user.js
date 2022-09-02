@@ -1,3 +1,4 @@
+const lib = require("jarmlib");
 const User = require('../model/user');
 
 const bcrypt = require('bcrypt-nodejs');
@@ -22,6 +23,30 @@ userController.verifyAccess = (req, res, access) => {
 		};
 	};
 	return false;
+};
+
+userController.filter = async (req, res) => {
+	let props = ["user.id","user.name","user.email","user.phone","user.department","user.role"];
+
+	const params = { keys: [], values: [] };
+	const strict_params = { keys: [], values: [] };
+
+	lib.Query.fillParam("user.id", req.body.id, strict_params);
+	lib.Query.fillParam("user.name", req.body.name, params);
+	lib.Query.fillParam("user.email", req.body.email, params);
+	lib.Query.fillParam("user.phone", req.body.phone, params);
+	lib.Query.fillParam("user.department", req.body.department, strict_params);
+	lib.Query.fillParam("user.role", req.body.role, strict_params);
+
+	let order_params = [ ["user.id","ASC"] ];
+
+	try {
+		const users = await User.filter(props, [], params, strict_params, order_params);
+		res.send({ users });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });
+	};
 };
 
 userController.list = async (req, res) => {

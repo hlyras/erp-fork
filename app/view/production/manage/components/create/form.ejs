@@ -1,3 +1,50 @@
+<!-- <style>
+	.dropdown ul {
+		list-style: none; 
+		position: relative; 
+		display: inline-table;
+	}
+
+	.dropdown ul:after {
+		content: ""; 
+		clear: both; 
+		display: block;
+	}
+
+	.dropdown ul li {
+		float: left;
+		width: 100%;
+	}
+
+	.dropdown ul li:hover > ul {
+		display: block;
+	}
+
+	.dropdown ul ul {
+		display: none;
+		border-radius: 0px; 
+		padding: 0;
+		position: absolute; 
+		top: 100%;
+	}
+
+	.dropdown ul ul li {
+		float: none; 
+		position: relative;
+		z-index: 10;
+	}
+
+	.dropdown ul ul ul {
+		position: absolute;
+		left: 100%; 
+		top:0;
+	}
+
+	ul {
+	  list-style-type: none;
+	}
+</style> -->
+
 <form id="production-create-form" class="box b2 container ground border radius-5 padding-5 margin-top-5" role="presentation" autocomplete="off">
 	<div class="box b1 underline lucida-grande bold margin-top-5 center">Nova Produção</div>
 	<input type="hidden" name="id">
@@ -11,20 +58,32 @@
 		  <label class="mobile-box">Externa</label>
 	</div>
 
-	<div id="internal-seamstress-dropdown-box" class="box a1 container">
-		<input type="text" id="internal-seamstress-dropdown-input" name="internal_seamstress_id" data-id="" class="box b1 input-generic lucida-grande bold margin-top-5 center" oninput="internalSeamstressDropdown(this)" placeholder="Nome do colaborador" onclick="if(this.readOnly){this.value='';this.readOnly = false;}" role="presentation" autocomplete="off">
-		<ul id="internal-seamstress-dropdown-ul" class="box b1"></ul>
+	<div id="internal-seamstress-dropdown-box" class="mobile-box a1 container dropdown ground margin-top-5">
+		<ul class="box a1 container">
+    	<li>
+				<input type="text" id="internal-seamstress-dropdown-input" name="internal_seamstress_id" data-id="" class="box b1 input-generic lucida-grande bold center" oninput="internalSeamstressDropdown(this)" placeholder="Nome do colaborador" onclick="if(this.readOnly){this.value='';this.readOnly = false;}" role="presentation" autocomplete="off">
+				<ul id="internal-seamstress-dropdown-ul" class="box b1" style="z-index: 11"></ul>
+			</li>
+    </ul>
 	</div>
 
-	<div id="external-seamstress-dropdown-box" class="box a1 container" style="display:none;">
-		<input type="text" id="external-seamstress-dropdown-input" name="external_seamstress_id" data-id="" class="box b1 input-generic lucida-grande bold margin-top-5 center" oninput="externalSeamstressDropdown(this)" placeholder="Nome da facção" onclick="if(this.readOnly){this.value='';this.readOnly = false;}" role="presentation" autocomplete="off">
-		<ul id="external-seamstress-dropdown-ul" class="box b1"></ul>
+	<div id="external-seamstress-dropdown-box" class="mobile-box a1 container dropdown ground margin-top-5" style="display:none;">
+		<ul class="box a1 container">
+    	<li>
+				<input type="text" id="external-seamstress-dropdown-input" name="external_seamstress_id" data-id="" class="box b1 input-generic lucida-grande bold center" oninput="externalSeamstressDropdown(this)" placeholder="Nome da facção" onclick="if(this.readOnly){this.value='';this.readOnly = false;}" role="presentation" autocomplete="off">
+				<ul id="external-seamstress-dropdown-ul" class="box b1" style="z-index: 11"></ul>
+			</li>
+    </ul>
 	</div>
 
-	<div id="product-dropdown-box" class="box a1 container">
-		<input type="text" id="product-dropdown-input" name="product_id" data-id="" class="box b1 input-generic lucida-grande bold margin-top-5 center" oninput="productDropdown(this)" placeholder="Nome do produto" onclick="if(this.readOnly){this.value='';this.readOnly = false;}" role="presentation" autocomplete="off">
-		<ul id="product-dropdown-ul" class="box b1"></ul>
-	</div>
+	<div id="product-dropdown-box" class="mobile-box a1 container dropdown ground margin-top-5">
+    <ul class="box a1 container">
+    	<li>
+        <input type="text" id="product-dropdown-input" name="product_id" data-id="" class="box b1 input-generic lucida-grande bold center" oninput="productDropdown(this)" placeholder="Nome do produto" onclick="if(this.readOnly){this.value='';this.readOnly = false;}" role="presentation" autocomplete="off">
+				<ul id="product-dropdown-ul" class="box b1"></ul>
+      </li>
+    </ul>
+  </div>
 
 	<input type="submit" name="submit" value="Cadastrar Produção" class="box b1 lucida-grande bold submit-generic margin-top-5">
 </form>
