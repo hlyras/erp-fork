@@ -65,6 +65,7 @@ const outcomeController = {
 			"category.name category_name",
 			"outcome.origin_id",
 			"origin.name origin_name",
+			"origin.cost_type",
 			"outcome.income_category_id",
 			"outcome.description",
 			"outcome.cost",

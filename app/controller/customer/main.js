@@ -14,6 +14,13 @@ customerController.index = async (req, res) => {
 	res.render('customer/index', { user: req.user });
 };
 
+customerController.report = async (req, res) => {
+	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man',"com-ass",'com-sel','adm-aud'])){
+		return res.redirect('/');
+	};
+	res.render('customer/report/index', { user: req.user });
+};
+
 customerController.save = async (req, res) => {
 	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man',"com-ass",'com-sel','adm-aud'])){
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });

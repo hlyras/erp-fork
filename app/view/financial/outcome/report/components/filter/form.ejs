@@ -1,0 +1,30 @@
+<form id="outcome-filter-form" class="box b1 container">
+	<input type="date" name="periodStart" class="box b4 input-generic center margin-top-5">
+	<input type="date" name="periodEnd" class="box b4 input-generic center margin-top-5">
+	<select name="category_id" class="box b4 input-generic center margin-top-5">
+		<option value="">Categoria</option>
+		<% for(i in outcomeCategories){ %>
+		<option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
+		<% } %>
+	</select>
+	<select name="report_type" class="box b4 input-generic center margin-top-5">
+		<option value="category">Por categoria</option>
+		<option value="cost_type">Por tipo de custo</option>
+	</select>
+	<select name="origin_id" class="box b4 input-generic center margin-top-5">
+		<option value="">Origem</option>
+	</select>
+	<select name="income_category_id" class="box b4 input-generic center margin-top-5">
+		<option value="">Método de pagamento</option>
+		<% for(i in incomeCategories){ %>
+		<option value="<%= incomeCategories[i].id %>"><%= incomeCategories[i].name %></option>
+		<% } %>
+	</select>
+	<select name="status" class="box b4 input-generic margin-top-5">
+		<option value="">Selecionar status</option>
+		<option value="Ag. aprovação">Ag. aprovação</option>
+		<option value="A pagar">A pagar</option>
+		<option value="Pago">Pago</option>
+	</select>
+	<input type="submit" name="submit" class="box b4 submit-generic center margin-top-5" value="Filtrar">
+</form>

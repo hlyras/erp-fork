@@ -14,6 +14,13 @@ const financialController = {
 		const outcomeCategories = await Outcome.category.list();
 
 		res.render('financial/index', { user: req.user, incomeCategories, outcomeCategories });
+	},
+	report: async (req, res) => {
+		if(!await userController.verifyAccess(req, res, ['adm'])){
+			return res.redirect('/');
+		};
+
+		res.render('financial/report', { user: req.user });
 	}
 };
 

@@ -8,6 +8,8 @@ const incomeCategoryController = require('../controller/financial/income/categor
 const incomeOriginController = require('../controller/financial/income/origin');
 
 const outcomeController = require('../controller/financial/outcome/main');
+outcomeController.report = require('../controller/financial/outcome/report');
+
 const outcomeCategoryController = require('../controller/financial/outcome/category');
 const outcomeOriginController = require('../controller/financial/outcome/origin');
 
@@ -15,6 +17,7 @@ const expenseController = require('../controller/financial/expense/main');
 
 //API ROUTES
 router.get('/index', lib.route.toHttps, financialController.index);
+router.get('/report', lib.route.toHttps, financialController.report);
 
 // router.post('/balance', lib.route.toHttps, financialController.balance);
 // ------------------
@@ -66,6 +69,9 @@ router.get('/outcome/origin/payment/filter', lib.route.toHttps, outcomeOriginCon
 router.get('/outcome/origin/payment/id/:id', lib.route.toHttps, outcomeOriginController.payment.findById);
 router.delete('/outcome/origin/payment/id/:id', lib.route.toHttps, outcomeOriginController.payment.delete);
 
+router.get('/outcome/report', lib.route.toHttps, outcomeController.report.index);
+
+// Expense
 router.get('/expense', lib.route.toHttps, expenseController.index);
 router.get('/expense/manage', lib.route.toHttps, expenseController.manage);
 router.get('/expense/payment', lib.route.toHttps, expenseController.payment);

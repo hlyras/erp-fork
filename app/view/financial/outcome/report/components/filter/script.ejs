@@ -1,0 +1,185 @@
+<script>
+	document.getElementById("outcome-filter-form").addEventListener("submit", async e => {
+		e.preventDefault();
+
+		const params = {
+			periodStart: lib.dateToTimestamp(e.target.periodStart.value),
+			periodEnd: lib.dateToTimestamp(e.target.periodEnd.value) + lib.timestampDay(),
+			category_id: e.target.category_id.value,
+			origin_id: e.target.origin_id.value,
+			income_category_id: e.target.income_category_id.value,
+			status: e.target.status.value
+		};
+
+		const outcomes = await API.response(Outcome.filter, params);
+		if(!outcomes) { return false };
+
+		const categories = await API.response(Outcome.category.filter, { name: "" });
+		if(!categories) { return false };
+
+		e.target.report_type.value == "category" && report.category.main(outcomes, categories);
+		e.target.report_type.value == "cost_type" && report.costType.main(outcomes, categories);
+	});
+
+	const report = {}
+	report.category = {}
+	report.costType = {}
+
+	report.category.main = async (outcomes, categories) => {
+		let filter_box = document.getElementById("outcome-filter-box");
+		filter_box.innerHTML = "";
+
+		for(let i in categories) {
+			categories[i].totalCost = categories[i].totalCost || 0;
+			categories[i].fixedOutcomes = categories[i].fixedOutcomes || [];
+			categories[i].variableOutcomes = categories[i].variableOutcomes || [];
+			categories[i].controlOutcomes = categories[i].controlOutcomes || [];
+			categories[i].sporadicOutcomes = categories[i].sporadicOutcomes || [];
+		};
+
+		outcomes.forEach(outcome => {
+			for(let i in categories) {
+				if(categories[i].id == outcome.category_id){
+					categories[i].totalCost += outcome.cost;
+					outcome.cost_type == "Fixo" && categories[i].fixedOutcomes.push(outcome);
+					outcome.cost_type == "Variável" && categories[i].variableOutcomes.push(outcome);
+					outcome.cost_type == "Controlável" && categories[i].controlOutcomes.push(outcome);
+					outcome.cost_type == "Esporádico" && categories[i].sporadicOutcomes.push(outcome);
+				}
+			};
+		});
+
+		for(let i in categories) {
+			let category_box = lib.element.create("div", { class: "mobile-box b1 container ground border radius-5 padding-2 margin-top-2" });
+
+			category_box.append(lib.element.create("div", {
+				class: "mobile-box b12 lucida-grande bold center"
+			}, `${categories[i].id}`));
+
+			category_box.append(lib.element.create("div", {
+				class: "mobile-box b2 lucida-grande bold"
+			}, `${categories[i].name}`));
+
+			category_box.append(lib.element.create("div", {
+				class: "mobile-box b3 lucida-grande bold"
+			}, `R$${lib.roundValue(categories[i].totalCost).toFixed(2)}`));
+			
+			category_box.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('category-${categories[i].id}-div', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
+
+			let category_div = lib.element.create("div", { 
+				id: `category-${categories[i].id}-div`, 
+				class: "box b1 container",
+				style: "display:none;"
+			});
+
+			let fixed_box = report.category.renderCostTypes(categories[i], categories[i].fixedOutcomes, "Fixo");
+			let variable_box = report.category.renderCostTypes(categories[i], categories[i].variableOutcomes, "Variável");
+			let control_box = report.category.renderCostTypes(categories[i], categories[i].controlOutcomes, "Controlável");
+			let sporadic_box = report.category.renderCostTypes(categories[i], categories[i].sporadicOutcomes, "Esporádico");
+
+			category_div.append(fixed_box);
+			category_div.append(variable_box);
+			category_div.append(control_box);
+			category_div.append(sporadic_box);
+
+			category_box.append(category_div);
+			filter_box.append(category_box);
+		};
+	};
+
+	report.category.renderCostTypes = (category, outcomes, cost_type) => {
+		category.totalCost = outcomes.reduce((totalCost, outcome) => { return totalCost += outcome.cost }, 0);
+
+		outcomes = lib.sort(outcomes, "origin_id", "asc");
+
+		let type_box = lib.element.create("div", { class: "box b1 container border radius-5 padding-2 margin-top-2" });
+		type_box.append(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande bold" }, `Custo ${cost_type}`));
+		type_box.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande bold" }, `R$${lib.roundValue(category.totalCost).toFixed(2)}`));
+		category.totalCost && type_box.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('category-${category.id}-${cost_type}', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
+		let type_div = lib.element.create("div", { id: `category-${category.id}-${cost_type}`, class: "box b1 container", style: "display:none;" });
+		type_box.append(type_div);
+
+		for(let i in outcomes) {
+			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1" });
+			outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b8" }, outcomes[i].id));
+			outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b5-8" }, outcomes[i].origin_name));
+			outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b8" }, lib.timestampToDate(outcomes[i].date)));
+			outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b8" }, `R$${outcomes[i].cost.toFixed(2)}`));
+			type_div.append(outcome_div);
+		};
+
+		return type_box;
+	};
+
+	report.costType.main = async (outcomes, categories) => {
+		let filter_box = document.getElementById("outcome-filter-box");
+		filter_box.innerHTML = "";
+
+		let _fixed = { type: "Fixo", totalCost: 0, categories: {} };
+		let _variable = { type: "Variável", totalCost: 0, categories: {} };
+		let _control = { type: "Controlável", totalCost: 0, categories: {} };
+		let _sporadic = { type: "Esporádico", totalCost: 0, categories: {} };
+
+		outcomes.forEach(outcome => {
+			if(outcome.cost_type == _fixed.type) {
+				for(let i in categories) {
+					if(categories[i].id == outcome.category_id) {
+						_fixed.totalCost += outcome.cost;
+						_fixed.categories[categories[i].id] = _fixed.categories[categories[i].id] || [];
+						_fixed.categories[categories[i].id].push(outcome);
+					}
+				}
+			}
+
+			if(outcome.cost_type == _variable.type) {
+				for(let i in categories) {
+					if(categories[i].id == outcome.category_id) {
+						_variable.totalCost += outcome.cost;
+						_variable.categories[categories[i].id] = _variable.categories[categories[i].id] || [];
+						_variable.categories[categories[i].id].push(outcome);
+					}
+				}
+			}
+
+			if(outcome.cost_type == _control.type) {
+				for(let i in categories) {
+					if(categories[i].id == outcome.category_id) {
+						_control.totalCost += outcome.cost;
+						_control.categories[categories[i].id] = _control.categories[categories[i].id] || [];
+						_control.categories[categories[i].id].push(outcome);
+					}
+				}
+			}
+
+			if(outcome.cost_type == _sporadic.type) {
+				for(let i in categories) {
+					if(categories[i].id == outcome.category_id) {
+						_sporadic.totalCost += outcome.cost;
+						_sporadic.categories[categories[i].id] = _sporadic.categories[categories[i].id] || [];
+						_sporadic.categories[categories[i].id].push(outcome);
+					}
+				}
+			}
+		});
+
+		filter_box.append(report.costType.renderCostTypes(_fixed, categories));
+		filter_box.append(report.costType.renderCostTypes(_variable, categories));
+		filter_box.append(report.costType.renderCostTypes(_control, categories));
+		filter_box.append(report.costType.renderCostTypes(_sporadic, categories));
+	};
+
+	report.costType.renderCostTypes = (costType, categories) => {
+		let type_box = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-2 margin-top-2" });
+		type_box.append(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande bold" }, `Custo ${costType.type}`));
+		type_box.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande bold" }, `R$${lib.roundValue(costType.totalCost).toFixed(2)}`));
+		costType.totalCost && type_box.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('cost-type-${costType.type}-div', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
+		let type_div = lib.element.create("div", { id: `cost-type-${costType.type}-div`, class: "box b1 container border padding-10", style: "display:none;" });
+		type_box.append(type_div);
+
+		return type_box;
+	};
+
+	// report.costType.renderCategories = (costType, categories) => {
+		
+	// };
+</script>

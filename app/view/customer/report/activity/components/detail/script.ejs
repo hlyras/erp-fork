@@ -1,0 +1,8 @@
+<script>
+	async function activityDetail(customer_id) {
+		let customer = await API.response(Customer.activity.findById, customer_id);
+		if(!customer) { return false; }
+
+		console.log(customer);
+	};
+</script>
