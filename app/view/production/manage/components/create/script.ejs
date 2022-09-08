@@ -28,7 +28,7 @@
 	};
 	
 	async function internalSeamstressDropdown (input) {
-		let properties = ["id","name"];
+		let properties = ["name"];
 
 		let seamstresses = await Outcome.origin.filter({ name: input.value, category_id: 1 });
 		if(!seamstresses) { return false; }
@@ -39,7 +39,7 @@
 	};
 
 	async function externalSeamstressDropdown (input) {
-		let properties = ["id","name"];
+		let properties = ["name"];
 
 		let seamstresses = await Outcome.origin.filter({ name: input.value, category_id: 10 });
 		if(!seamstresses) { return false; }

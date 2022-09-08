@@ -113,8 +113,9 @@
 			
 			<h3 class="box b1 underline center margin-top-10">Relatório de Saídas</h3>
 			<form id="outcome-filter-form" class="box b1 container">
-				<input type="date" name="periodStart" class="box b2 input-generic center margin-top-5">
-				<input type="date" name="periodEnd" class="box b2 input-generic center margin-top-5">
+				<input type="text" name="id" class="box b7 input-generic center margin-top-5" placeholder="Id" role="presentation" autocomplete="off">
+				<input type="date" name="periodStart" class="box b3-7 input-generic center margin-top-5">
+				<input type="date" name="periodEnd" class="box b3-7 input-generic center margin-top-5">
 				<select name="category-id" class="box b4 input-generic center margin-top-5">
 					<option value="">Categoria</option>
 					<% for(i in outcomeCategories){ %>

@@ -84,6 +84,7 @@ const outcomeController = {
 		let params = { keys: [], values: [] }
 		let strict_params = { keys: [], values: [] }
 		
+		lib.Query.fillParam("outcome.id", req.body.outcome.id, strict_params);
 		lib.Query.fillParam("outcome.category_id", req.body.outcome.category_id, strict_params);
 		lib.Query.fillParam("outcome.origin_id", req.body.outcome.origin_id, strict_params);
 		lib.Query.fillParam("outcome.status", req.body.outcome.status, strict_params);

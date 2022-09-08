@@ -1,84 +1,41 @@
-// class User {
-// 	#password;
+const db = require('../../../config/connection');
+const lib = require("jarmlib");
 
-// 	constructor(id, name, lastName, password) {
-// 		this.id = id;
-// 		this.name = name;
-// 		this.lastName = lastName;
-// 		this.#password = password;
-// 	}
+const Production = function(){
+	this.id;
+	this.datetime;
+	this.estimated_shipment_datetime;
+	this.shipment_datetime;
+	this.shipment_user_id;
+	this.seamstress_id;
+	this.product_id;
+	this.amount;
+	this.status;
+	this.user_id;
 
-// 	get fullName() {
-//     return `${this.name} ${this.lastName}`;
-//   }
+	this.create = () => {
+		if(!this.code) { return { err: "É necessário incluir o código do produto" } };
+		if(!this.name) { return { err: "É necessário incluir o nome do produto" } };
+		if(!this.color) { return { err: "É necessário incluir a cor do produto." } };
+		if(!this.size) { return { err: "É necessário incluir o tamanho do produto." } };
+		if(!this.weight) { return { err: "É necessário incluir o peso do produto." } };
+		if(!this.brand) { return { err: "É necessário incluir a marca do produto." } };
+		if(!this.status) { return { err: "É necessário incluir o status do produto." } };
 
-//   set changeName(newName) {
-// 		this.name = newName;
-// 	}
+		let obj = lib.convertTo.object(this);
+		let query = lib.Query.save(obj, 'cms_wt_erp.product');
 
-//   get password() {
-//     return this.#password;
-//   };
+		return db(query);
+	};
 
-//   set setPassword(newPassword) {
-//     return this.#password = newPassword;
-//   };
+	this.update = () => {
+		if(!this.id) { return { err: "O id do produto é inválido." }; }
 
-// 	greet() {
-// 		return `Olá meu nome é ${this.name}`;
-// 	}
+		let obj = lib.convertTo.object(this);
+		let query = lib.Query.update(obj, 'cms_wt_erp.product', 'id');
 
-// 	static greetings() {
-// 		return `Esse é um metodo static`;
-// 	}
-// }
+    return db(query);
+	};
+};
 
-// class Customer extends User {
-// 	constructor(id, name, lastName, cnpj, trademark, brand) {
-// 		super(id, name, lastName);
-// 		this.cnpj = cnpj;
-// 		this.trademark = trademark;
-// 		this.brand = brand;
-// 	}
-// }
-
-// let user = new User(1,'Henrique','Lyra',123);
-// let customer = new Customer(1,'Wan','Dame',14114,'JC','JA');
-
-// const db = require('../../../config/connection');
-// const lib = require("jarmlib");
-
-// module.exports = class Production {
-// 	constructor (_id, _datetime, _product_id, _product_info, _amount, _status, _user_id) {
-// 		this.id = _id;
-// 		this.datetime = _datetime;
-// 		this.product_id = _product_id;
-// 		this.product_info = _product_info;
-// 		this.amount = _amount;
-// 		this.status = _status;
-// 		this.user_id = _user_id;
-// 	}
-// }
-
-// class Internal extends Production {
-// 	constructor(_id, _datetime) {
-// 		super(_id, _datetime);
-// 	}
-
-// 	conference() {
-// 		console.log('fez a conferencia interna');
-// 	}
-// }
-
-// class External extends Production {
-// 	constructor(_id, _datetime) {
-// 		super(_id, _datetime);
-// 	}
-
-// 	conference() {
-// 		console.log('fez a conferencia externa');
-// 	}
-// }
-
-// let productionInt = new Internal(1, '10-05');
-
+module.exports = Production;

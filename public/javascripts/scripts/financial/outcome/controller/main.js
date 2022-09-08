@@ -36,6 +36,7 @@ if(Outcome.controller.filter){
 		event.preventDefault();
 
 		let outcome = {
+			id: event.target.id.value,
 			periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
 			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
 			category_id: event.target.elements.namedItem("category-id").value,
