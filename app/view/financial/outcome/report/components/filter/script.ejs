@@ -4,7 +4,7 @@
 
 		const params = {
 			periodStart: lib.dateToTimestamp(e.target.periodStart.value),
-			periodEnd: lib.dateToTimestamp(e.target.periodEnd.value) + lib.timestampDay(),
+			periodEnd: lib.dateToTimestamp(e.target.periodEnd.value) + lib.timestampDay() - 1,
 			status: e.target.status.value
 		};
 
@@ -121,7 +121,7 @@
 		type_box.append(type_div);
 
 		for(let i in outcomes) {
-			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1" });
+			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1", onclick: `alert(${outcomes[i].id})` });
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcomes[i].id));
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, outcomes[i].origin_name));
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcomes[i].date)));
@@ -229,7 +229,7 @@
 
 			let outcomes = lib.sort(costCategory[1], "origin_id", "asc");
 			outcomes.forEach(outcome => {
-				let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1" });
+				let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1", onclick: `alert(${outcomes[i].id})` });
 				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b12" }, outcome.id));
 				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b2" }, outcome.origin_name));
 				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b4" }, lib.timestampToDate(outcome.date)));

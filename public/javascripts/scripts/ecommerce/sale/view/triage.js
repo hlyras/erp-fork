@@ -28,7 +28,7 @@ Ecommerce.sale.view.triage.filter = (sales) => {
 		
 		sale_div.append(lib.element.create("div", { 
 			class: "mobile-box b2 bold em09 input-show border-lg-st padding-5 center pointer",
-			onclick: `Ecommerce.sale.controller.triage.show(${sales[i].id})`
+			onclick: sales[i].status == "Ag. Embalo" && `Ecommerce.sale.controller.triage.show(${sales[i].id})`
 		}, sales[i].code));
 		
 		sale_div.append(lib.element.create("div", { 
