@@ -5,10 +5,13 @@
 		const production = {
 			location: e.target.location.value,
 			product_id: e.target.product_id.dataset.id,
+			amount: e.target.amount.value
 		};
 
 		if(production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.dataset.id; };
 		if(production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.dataset.id; };
+
+		console.log(production);
 	});
 	
 	function setLocation (input) {
@@ -27,7 +30,7 @@
 	async function internalSeamstressDropdown (input) {
 		let properties = ["id","name"];
 
-		let seamstresses = await User.filter({ name: input.value, role: 'sea' });
+		let seamstresses = await Outcome.origin.filter({ name: input.value, category_id: 1 });
 		if(!seamstresses) { return false; }
 
 		lib.Dropdown.setEvents("internal-seamstress-dropdown-box", "internal-seamstress-dropdown-ul");
@@ -36,9 +39,9 @@
 	};
 
 	async function externalSeamstressDropdown (input) {
-		let properties = ["code","name","color","size"];
+		let properties = ["id","name"];
 
-		let seamstresses = await Product.filter({ name: input.value, category_id: 10 });
+		let seamstresses = await Outcome.origin.filter({ name: input.value, category_id: 10 });
 		if(!seamstresses) { return false; }
 
 		lib.Dropdown.setEvents("external-seamstress-dropdown-box", "external-seamstress-dropdown-ul");

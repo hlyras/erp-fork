@@ -3,12 +3,12 @@
 	<input type="hidden" name="id">
 	
 	<div class="mobile-box a2 container h-center padding-10 margin-top-5">
-		  <input type="radio" name="location" value="Interna" class="mobile-box" onclick="setLocation(this);" checked="checked">
-		  <label class="mobile-box">Interna</label>
+		  <input type="radio" id="Interna" name="location" value="Interna" class="mobile-box" onclick="setLocation(this);" checked="checked">
+		  <label for="Interna" class="mobile-box">Interna</label>
 	</div>
 	<div class="mobile-box a2 container h-center padding-10 margin-top-5">
-		  <input type="radio" name="location" value="Externa" class="mobile-box" onclick="setLocation(this);">
-		  <label class="mobile-box">Externa</label>
+		  <input type="radio" id="Externa" name="location" value="Externa" class="mobile-box" onclick="setLocation(this);">
+		  <label for="Externa" class="mobile-box">Externa</label>
 	</div>
 
 	<div id="internal-seamstress-dropdown-box" class="mobile-box a1 container dropdown ground margin-top-5">
@@ -29,14 +29,16 @@
     </ul>
 	</div>
 
-	<div id="product-dropdown-box" class="mobile-box a1 container dropdown ground margin-top-5">
+	<div id="product-dropdown-box" class="mobile-box b4-5 container dropdown ground margin-top-5">
     <ul class="box a1 container">
     	<li>
-        <input type="text" id="product-dropdown-input" name="product_id" data-id="" class="box b1 input-generic lucida-grande bold center" oninput="productDropdown(this)" placeholder="Nome do produto" onclick="if(this.readOnly){this.value='';this.readOnly = false;}" role="presentation" autocomplete="off">
+        <input type="text" id="product-dropdown-input" name="product_id" data-id="" class="mobile-box b1 input-generic lucida-grande bold center" oninput="productDropdown(this)" placeholder="Nome do produto" onclick="if(this.readOnly){this.value='';this.readOnly = false;}" role="presentation" autocomplete="off">
 				<ul id="product-dropdown-ul" class="box b1"></ul>
       </li>
     </ul>
   </div>
+
+  <input type="number" name="amount" class="mobile-box b5 input-generic lucida-grande bold margin-top-5 center" step="1" value="0" onfocus="if(this.value < 1){this.value=''}" onblur="if(this.value < 1){this.value=0}"/>
 
 	<input type="submit" name="submit" value="Cadastrar Produção" class="box b1 lucida-grande bold submit-generic margin-top-5">
 </form>

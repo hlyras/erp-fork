@@ -81,7 +81,7 @@ prospectController.confirmContact1 = async(req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	const mainProspect = await Prospect.findByIdAndUserId(req.body.id, req.user.id);
+	let mainProspect = await Prospect.findById(req.body.id);
 
 	if(!mainProspect.length) { return res.send({ msg: "Lead inválido, por favor atualize a página e tente novamente!" }); }
 	if(mainProspect[0].status != "1º contato") { return res.send({ msg: "Este Lead não está mais neste status, por favor atualize a página e tente novamente!" }); }
@@ -138,7 +138,7 @@ prospectController.confirmContact2 = async(req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	const mainProspect = await Prospect.findByIdAndUserId(req.body.id, req.user.id);
+	let mainProspect = await Prospect.findById(req.body.id);
 
 	if(!mainProspect.length) { return res.send({ msg: "Lead inválido, por favor atualize a página e tente novamente!" }); }
 	if(mainProspect[0].status != "Contatar loja novamente") { return res.send({ msg: "Este Lead não está mais neste status, por favor atualize a página e tente novamente!" }); }
@@ -194,7 +194,7 @@ prospectController.confirmContact3 = async(req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	const mainProspect = await Prospect.findById(req.body.id);
+	let mainProspect = await Prospect.findById(req.body.id);
 
 	if(!mainProspect.length) { return res.send({ msg: "Lead inválido, por favor atualize a página e tente novamente!" }); }
 	if(mainProspect[0].status != "Contato com responsável") { return res.send({ msg: "Este Lead não está mais neste status, por favor atualize a página e tente novamente!" }); }
