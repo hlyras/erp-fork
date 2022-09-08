@@ -5,9 +5,6 @@
 		const params = {
 			periodStart: lib.dateToTimestamp(e.target.periodStart.value),
 			periodEnd: lib.dateToTimestamp(e.target.periodEnd.value) + lib.timestampDay(),
-			category_id: e.target.category_id.value,
-			origin_id: e.target.origin_id.value,
-			income_category_id: e.target.income_category_id.value,
 			status: e.target.status.value
 		};
 
@@ -22,12 +19,26 @@
 	});
 
 	const report = {}
+	report.metrics = {}
 	report.category = {}
 	report.costType = {}
+
+	report.metrics.main = (metrics) => {
+		let metrics_box = lib.element.create("div", { class: "box b1 container" });
+		outcome_div = lib.element.create("div", { class: "box b4 container ground border-st radius-5 padding-5 margin-top-5" });
+		outcome_div.append(lib.element.create("div", { class: "mobile-box b1 lucida-grande em08 bold center" }, `Total de saídas:`));
+		outcome_div.append(lib.element.create("div", { class: "mobile-box b1 lucida-grande em09 center" }, `R$${metrics.totalCost.toFixed(2)}`));
+
+		metrics_box.append(outcome_div);
+
+		return metrics_box;
+	};
 
 	report.category.main = async (outcomes, categories) => {
 		let filter_box = document.getElementById("outcome-filter-box");
 		filter_box.innerHTML = "";
+
+		let metrics = {};
 
 		for(let i in categories) {
 			categories[i].totalCost = categories[i].totalCost || 0;
@@ -38,6 +49,9 @@
 		};
 
 		outcomes.forEach(outcome => {
+			metrics.totalCost = metrics.totalCost || 0;
+			metrics.totalCost += outcome.cost;
+
 			for(let i in categories) {
 				if(categories[i].id == outcome.category_id){
 					categories[i].totalCost += outcome.cost;
@@ -49,20 +63,26 @@
 			};
 		});
 
+		filter_box.append(report.metrics.main(metrics));
+
 		for(let i in categories) {
-			let category_box = lib.element.create("div", { class: "mobile-box b1 container ground border radius-5 padding-2 margin-top-2" });
+			let category_box = lib.element.create("div", { class: "box b2 container ground border-lg-st radius-5 padding-2 margin-top-2" });
 
 			category_box.append(lib.element.create("div", {
-				class: "mobile-box b12 lucida-grande bold center"
+				class: "mobile-box b12 lucida-grande bold em09 center"
 			}, `${categories[i].id}`));
 
 			category_box.append(lib.element.create("div", {
-				class: "mobile-box b2 lucida-grande bold"
+				class: "mobile-box b5-12 lucida-grande bold em09"
 			}, `${categories[i].name}`));
 
 			category_box.append(lib.element.create("div", {
-				class: "mobile-box b3 lucida-grande bold"
+				class: "mobile-box b4 lucida-grande bold em09"
 			}, `R$${lib.roundValue(categories[i].totalCost).toFixed(2)}`));
+
+			category_box.append(lib.element.create("div", {
+				class: "mobile-box b6 lucida-grande bold em09"
+			}, `${lib.ruleOfThree(metrics.totalCost, 100, categories[i].totalCost).toFixed(2)}%`));
 			
 			category_box.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('category-${categories[i].id}-div', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
 
@@ -72,10 +92,10 @@
 				style: "display:none;"
 			});
 
-			let fixed_box = report.category.renderCostTypes(categories[i], categories[i].fixedOutcomes, "Fixo");
-			let variable_box = report.category.renderCostTypes(categories[i], categories[i].variableOutcomes, "Variável");
-			let control_box = report.category.renderCostTypes(categories[i], categories[i].controlOutcomes, "Controlável");
-			let sporadic_box = report.category.renderCostTypes(categories[i], categories[i].sporadicOutcomes, "Esporádico");
+			let fixed_box = report.category.renderCostTypes(categories[i], categories[i].fixedOutcomes, "Fixo", metrics);
+			let variable_box = report.category.renderCostTypes(categories[i], categories[i].variableOutcomes, "Variável", metrics);
+			let control_box = report.category.renderCostTypes(categories[i], categories[i].controlOutcomes, "Controlável", metrics);
+			let sporadic_box = report.category.renderCostTypes(categories[i], categories[i].sporadicOutcomes, "Esporádico", metrics);
 
 			category_div.append(fixed_box);
 			category_div.append(variable_box);
@@ -87,24 +107,25 @@
 		};
 	};
 
-	report.category.renderCostTypes = (category, outcomes, cost_type) => {
+	report.category.renderCostTypes = (category, outcomes, cost_type, metrics) => {
 		category.totalCost = outcomes.reduce((totalCost, outcome) => { return totalCost += outcome.cost }, 0);
 
 		outcomes = lib.sort(outcomes, "origin_id", "asc");
 
-		let type_box = lib.element.create("div", { class: "box b1 container border radius-5 padding-2 margin-top-2" });
-		type_box.append(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande bold" }, `Custo ${cost_type}`));
-		type_box.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande bold" }, `R$${lib.roundValue(category.totalCost).toFixed(2)}`));
-		category.totalCost && type_box.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('category-${category.id}-${cost_type}', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
+		let type_box = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-2 margin-top-2" });
+		type_box.append(lib.element.create("div", { class: "mobile-box b2 lucida-grande bold em09" }, `Custo ${cost_type}`));
+		type_box.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande bold em09" }, `R$${lib.roundValue(category.totalCost).toFixed(2)}`));
+		type_box.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande bold em09" }, `${lib.ruleOfThree(metrics.totalCost ,100, category.totalCost).toFixed(2)}%`));
+		category.totalCost && type_box.append(lib.element.icon('b12', 15, "/images/icon/down-arrow.png", `lib.displayDiv('category-${category.id}-${cost_type}', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
 		let type_div = lib.element.create("div", { id: `category-${category.id}-${cost_type}`, class: "box b1 container", style: "display:none;" });
 		type_box.append(type_div);
 
 		for(let i in outcomes) {
 			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1" });
-			outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b8" }, outcomes[i].id));
-			outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b5-8" }, outcomes[i].origin_name));
-			outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b8" }, lib.timestampToDate(outcomes[i].date)));
-			outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b8" }, `R$${outcomes[i].cost.toFixed(2)}`));
+			outcome_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcomes[i].id));
+			outcome_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, outcomes[i].origin_name));
+			outcome_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcomes[i].date)));
+			outcome_div.append(lib.element.create("div", { class: "mobile-box b6 em09" }, `R$${outcomes[i].cost.toFixed(2)}`));
 			type_div.append(outcome_div);
 		};
 
@@ -115,12 +136,17 @@
 		let filter_box = document.getElementById("outcome-filter-box");
 		filter_box.innerHTML = "";
 
+		let metrics = {};
+
 		let _fixed = { type: "Fixo", totalCost: 0, categories: {} };
 		let _variable = { type: "Variável", totalCost: 0, categories: {} };
 		let _control = { type: "Controlável", totalCost: 0, categories: {} };
 		let _sporadic = { type: "Esporádico", totalCost: 0, categories: {} };
 
 		outcomes.forEach(outcome => {
+			metrics.totalCost = metrics.totalCost || 0;
+			metrics.totalCost += outcome.cost;
+
 			if(outcome.cost_type == _fixed.type) {
 				for(let i in categories) {
 					if(categories[i].id == outcome.category_id) {
@@ -162,24 +188,59 @@
 			}
 		});
 
-		filter_box.append(report.costType.renderCostTypes(_fixed, categories));
-		filter_box.append(report.costType.renderCostTypes(_variable, categories));
-		filter_box.append(report.costType.renderCostTypes(_control, categories));
-		filter_box.append(report.costType.renderCostTypes(_sporadic, categories));
+		filter_box.append(report.metrics.main(metrics));
+
+		filter_box.append(report.costType.renderCostTypes(_fixed, categories, metrics));
+		filter_box.append(report.costType.renderCostTypes(_variable, categories, metrics));
+		filter_box.append(report.costType.renderCostTypes(_control, categories, metrics));
+		filter_box.append(report.costType.renderCostTypes(_sporadic, categories, metrics));
 	};
 
-	report.costType.renderCostTypes = (costType, categories) => {
-		let type_box = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-2 margin-top-2" });
-		type_box.append(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande bold" }, `Custo ${costType.type}`));
-		type_box.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande bold" }, `R$${lib.roundValue(costType.totalCost).toFixed(2)}`));
+	report.costType.renderCostTypes = (costType, categories, metrics) => {
+		let type_box = lib.element.create("div", { class: "box b1 container ground border-lg-st radius-5 padding-2 margin-top-2" });
+		type_box.append(lib.element.create("div", { class: "mobile-box b2 lucida-grande em09 bold" }, `Custo ${costType.type}`));
+		type_box.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em09 bold" }, `R$${lib.roundValue(costType.totalCost).toFixed(2)}`));
+		type_box.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em09 bold" }, `${lib.ruleOfThree(metrics.totalCost, 100, costType.totalCost).toFixed(2)}%`));
 		costType.totalCost && type_box.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('cost-type-${costType.type}-div', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
-		let type_div = lib.element.create("div", { id: `cost-type-${costType.type}-div`, class: "box b1 container border padding-10", style: "display:none;" });
-		type_box.append(type_div);
+		
+		let category_box = lib.element.create("div", { id: `cost-type-${costType.type}-div`, class: "box b1 container", style: "display:none;" });
+
+		category_box.append(report.costType.renderCategories(costType, categories, metrics));
+		type_box.append(category_box);
 
 		return type_box;
 	};
 
-	// report.costType.renderCategories = (costType, categories) => {
+	report.costType.renderCategories = (costType, categories, metrics) => {
+		let category_box = lib.element.create("div", { class: "box b1 container" });
 		
-	// };
+		let costTypeCategories = Object.entries(costType.categories);
+		costTypeCategories.forEach(costCategory => {
+			let category = (categories.filter(c => c.id == costCategory[0]))[0];
+			category.totalCost = costCategory[1].reduce((totalCost, outcome) => { return totalCost += outcome.cost; }, 0);
+
+			let category_div = lib.element.create("div", { class: "box b2 container border-lg-st radius-5 padding-2 margin-top-2" });
+			category_div.append(lib.element.create("div", { class: "mobile-box b2 lucida-grande em09 bold" }, `${category.name}`));
+			category_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em09 bold" }, `R$${lib.roundValue(category.totalCost).toFixed(2)}`));
+			category_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em09 bold" }, `${lib.ruleOfThree(metrics.totalCost, 100, category.totalCost).toFixed(2)}%`));
+			costType.totalCost && category_div.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('${costType.type}-category-${category.id}-div', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
+			
+			let outcome_box = lib.element.create("div", { id: `${costType.type}-category-${category.id}-div`, class: "box b1 container border padding-10", style: "display:none;" });
+
+			let outcomes = lib.sort(costCategory[1], "origin_id", "asc");
+			outcomes.forEach(outcome => {
+				let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1" });
+				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b12" }, outcome.id));
+				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b2" }, outcome.origin_name));
+				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b4" }, lib.timestampToDate(outcome.date)));
+				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b6" }, `R$${outcome.cost.toFixed(2)}`));
+				outcome_box.append(outcome_div);
+			});
+
+			category_div.append(outcome_box);
+			category_box.append(category_div);
+		});
+
+		return category_box;
+	};
 </script>
