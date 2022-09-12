@@ -1,7 +1,9 @@
 <html>
+
 <head>
 	<%- include('./../partials/head.ejs') %>
 </head>
+
 <body>
 	<%- include('./../partials/header.ejs') %>
 	<%- include('./../partials/nav.ejs') %>
@@ -15,7 +17,8 @@
 					</select>
 				</form>
 				<form id="user-edit-form" class="box-1">
-					<input type="tel" class="btn-generic-big" name="phone" id="phone" maxlength="11" autocomplete="off" placeholder="Telefone">
+					<input type="tel" class="btn-generic-big" name="phone" id="phone" maxlength="11" autocomplete="off"
+						placeholder="Telefone">
 					<div class="box-1">
 						<select class="btn-generic-small" name="day" id="day" autocomplete="off" placeholder="Dia"></select>
 						<select class="btn-generic-medium" name="month" id="month" autocomplete="off" placeholder="Mês"></select>
@@ -31,4 +34,5 @@
 	<%- include('./../partials/footer.ejs') %>
 	<script src="/javascripts/scripts/user/main.js"></script>
 </footer>
+
 </html>

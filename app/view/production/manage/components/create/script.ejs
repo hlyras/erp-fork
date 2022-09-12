@@ -8,52 +8,52 @@
 			amount: e.target.amount.value
 		};
 
-		if(production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.dataset.id; };
-		if(production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.dataset.id; };
+		if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.dataset.id; };
+		if (production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.dataset.id; };
 
 		console.log(production);
 	});
-	
-	function setLocation (input) {
-		switch(input.value) {
+
+	function setLocation(input) {
+		switch (input.value) {
 			case "Interna":
-			lib.display("internal-seamstress-dropdown-box", "");
-			lib.display("external-seamstress-dropdown-box", "none");
-			break;
+				lib.display("internal-seamstress-dropdown-box", "");
+				lib.display("external-seamstress-dropdown-box", "none");
+				break;
 			case "Externa":
-			lib.display("external-seamstress-dropdown-box", "");
-			lib.display("internal-seamstress-dropdown-box", "none");
-			break;
+				lib.display("external-seamstress-dropdown-box", "");
+				lib.display("internal-seamstress-dropdown-box", "none");
+				break;
 		};
 	};
-	
-	async function internalSeamstressDropdown (input) {
+
+	async function internalSeamstressDropdown(input) {
 		let properties = ["name"];
 
 		let seamstresses = await Outcome.origin.filter({ name: input.value, category_id: 1 });
-		if(!seamstresses) { return false; }
+		if (!seamstresses) { return false; }
 
 		lib.Dropdown.setEvents("internal-seamstress-dropdown-box", "internal-seamstress-dropdown-ul");
 		input.value.length >= 2 && lib.Dropdown.render(seamstresses, input, "internal-seamstress-dropdown-ul", properties);
 		input.value.length < 2 && lib.Dropdown.render([], input, "internal-seamstress-dropdown-ul", properties);
 	};
 
-	async function externalSeamstressDropdown (input) {
+	async function externalSeamstressDropdown(input) {
 		let properties = ["name"];
 
 		let seamstresses = await Outcome.origin.filter({ name: input.value, category_id: 10 });
-		if(!seamstresses) { return false; }
+		if (!seamstresses) { return false; }
 
 		lib.Dropdown.setEvents("external-seamstress-dropdown-box", "external-seamstress-dropdown-ul");
 		input.value.length >= 2 && lib.Dropdown.render(seamstresses, input, "external-seamstress-dropdown-ul", properties);
 		input.value.length < 2 && lib.Dropdown.render([], input, "external-seamstress-dropdown-ul", properties);
 	};
 
-	async function productDropdown (input) {
-		let properties = ["code","name","color","size"];
+	async function productDropdown(input) {
+		let properties = ["code", "name", "color", "size"];
 
 		let products = await Product.filter({ name: input.value });
-		if(!products) { return false; }
+		if (!products) { return false; }
 
 		lib.Dropdown.setEvents("product-dropdown-box", "product-dropdown-ul");
 		input.value.length >= 2 && lib.Dropdown.render(products, input, "product-dropdown-ul", properties);

@@ -14,7 +14,7 @@ const path = require('path');
 const mailController = {};
 
 mailController.send = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-ass'])) {
 		return res.redirect('/');
 	};
 
@@ -49,12 +49,12 @@ mailController.send = async (req, res) => {
 				return res.send({ done: 'Email enviado com sucesso!' });
 			} else {
 				console.log(err);
-				return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" }); 
+				return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" });
 			}
 		});
 	} catch (err) {
 		console.log(err);
-		return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" }); 
+		return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" });
 	}
 };
 

@@ -1,22 +1,25 @@
 <html>
+
 <head>
   <%- include('./partials/head.ejs') %>
 </head>
+
 <body>
   <%- include('./partials/header.ejs') %>
-  <%- include('./partials/nav.ejs') %>
-  <section class="container">
-    
-  </section>
-  <%- include('./partials/loader.ejs') %>
+    <%- include('./partials/nav.ejs') %>
+      <section class="container">
+
+      </section>
+      <%- include('./partials/loader.ejs') %>
 </body>
 <footer>
   <%- include('./partials/footer.ejs') %>
-  <script src="/javascripts/scripts/product/model/main.js"></script>
-  <script src="/javascripts/scripts/product/controller/main.js"></script>
-  <script src="/javascripts/scripts/product/view/main.js"></script>
-  <script type="text/javascript">
-    function print() { openPrintWindow('/product/print','to_print','width=700,height=400,_blank'); };
-  </script>
+    <script src="/javascripts/scripts/product/model/main.js"></script>
+    <script src="/javascripts/scripts/product/controller/main.js"></script>
+    <script src="/javascripts/scripts/product/view/main.js"></script>
+    <script type="text/javascript">
+      function print() { openPrintWindow('/product/print', 'to_print', 'width=700,height=400,_blank'); };
+    </script>
 </footer>
+
 </html>

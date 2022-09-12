@@ -1,49 +1,54 @@
 <html>
+
 <head>
 	<%- include('./partials/head.ejs') %>
 </head>
+
 <body>
 	<header>
-<!-- 
+		<!-- 
 MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=2525
 MAIL_USER=6bb213df93b1be
 MAIL_PASS=479cf4cdd70de7
 -->
-</header>
-<section>
-	<div class="container">
-		<div class="box b1 center ground padding-10 margin-top-15">
-			<h2 class="box b1 padding-10">Catálogo de produtos</h2>
-			<form id="product-catalog-filter-form" class="box b1 ground">
-				<input type="hidden" name="location" value="product-catalog">
-				<input type="text" name="code" class="btn-generic-big" placeholder="Cód" autocomplete="off">
-				<input type="text" name="name" class="btn-generic-big" placeholder="Nome" autocomplete="off">
-				<select name="color" class="btn-generic-big" name="color">
-					<option value="">Cor</option>
-					<% for(i in productColors){ %>
-					<option value="<%= productColors[i].shortcut %>"><%= productColors[i].name %></option>
-					<% } %>
-				</select>
-				<input type="submit" class="btn-generic-big bold" value="Filtrar">
-			</form>
+	</header>
+	<section>
+		<div class="container">
+			<div class="box b1 center ground padding-10 margin-top-15">
+				<h2 class="box b1 padding-10">Catálogo de produtos</h2>
+				<form id="product-catalog-filter-form" class="box b1 ground">
+					<input type="hidden" name="location" value="product-catalog">
+					<input type="text" name="code" class="btn-generic-big" placeholder="Cód" autocomplete="off">
+					<input type="text" name="name" class="btn-generic-big" placeholder="Nome" autocomplete="off">
+					<select name="color" class="btn-generic-big" name="color">
+						<option value="">Cor</option>
+						<% for(i in productColors){ %>
+							<option value="<%= productColors[i].shortcut %>">
+								<%= productColors[i].name %>
+							</option>
+							<% } %>
+					</select>
+					<input type="submit" class="btn-generic-big bold" value="Filtrar">
+				</form>
+			</div>
+			<div id="product-catalog-filter-box" class="box b1 center hide">
+				<div id="product-catalog-container" class="container"></div>
+				<%- include('./partials/carousel.ejs') %>
+			</div>
 		</div>
-		<div id="product-catalog-filter-box" class="box b1 center hide">
-			<div id="product-catalog-container" class="container"></div>
-			<%- include('./partials/carousel.ejs') %>
-		</div>
-	</div>
-</section>
-<%- include('./partials/loader.ejs') %>
+	</section>
+	<%- include('./partials/loader.ejs') %>
 </body>
 <footer>
 	<%- include('./partials/footer.ejs') %>
-	<script src="/javascripts/scripts/product/model/main.js"></script>
-	<script src="/javascripts/scripts/product/view/main.js"></script>
-	<script src="/javascripts/scripts/product/controller/main.js"></script>
-	<script src="/javascripts/scripts/product/controller/catalog.js"></script>
+		<script src="/javascripts/scripts/product/model/main.js"></script>
+		<script src="/javascripts/scripts/product/view/main.js"></script>
+		<script src="/javascripts/scripts/product/controller/main.js"></script>
+		<script src="/javascripts/scripts/product/controller/catalog.js"></script>
 
-	<script src="/javascripts/scripts/product/controller/catalog.js"></script>
-	<script src="/javascripts/scripts/product/view/catalog.js"></script>
+		<script src="/javascripts/scripts/product/controller/catalog.js"></script>
+		<script src="/javascripts/scripts/product/view/catalog.js"></script>
 </footer>
+
 </html>
