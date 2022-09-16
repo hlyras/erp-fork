@@ -1,19 +1,19 @@
 <script>
 	async function mailPreview(mail_id) {
 		const mail = await API.response(Mail.findById, mail_id);
-		if(!mail) { return false; }
+		if (!mail) { return false; }
 
 		lib.display("mailer-mail-preview-window", "");
 
 		mailRender(mail, "mailer-mail-preview");
 	};
 
-	function mailRender (mail_mail, preview_div) {
+	function mailRender(mail_mail, preview_div) {
 		let splitedContent = lib.splitTextBy(mail_mail.content, "\n");
 		let templatedContent = "";
 
-		for(let i in splitedContent) {
-			if(i == 0) {
+		for (let i in splitedContent) {
+			if (i == 0) {
 				templatedContent += splitedContent[i] == "" ? "<br>" : `<p style='margin-left:10px;font-family:georgia;font-size:0.8em;'>${splitedContent[i]}</p>`;
 			} else {
 				templatedContent += splitedContent[i] == "" ? "<br>" : `<p style='margin-left:10px;margin-top:10px;font-family:georgia;font-size:0.8em;'>${splitedContent[i]}</p>`;
@@ -29,14 +29,14 @@
 		let content_box = document.getElementById(`${preview_div}-content`);
 		content_box.innerHTML = "";
 
-		for(let i in templatedContent) {
+		for (let i in templatedContent) {
 			content_box.innerHTML = templatedContent;
 		};
 	};
 
 	async function mailSelect(mail_id, input) {
 		const mail = await API.response(Mail.findById, mail_id);
-		if(!mail) { return false; }
+		if (!mail) { return false; }
 
 		lib.display("mailer-mail-selected-label", "");
 		lib.display("mailer-mail-selected-box", "");

@@ -4,25 +4,39 @@
 
 		const production = {
 			location: e.target.location.value,
-			product_id: e.target.product_id.dataset.id,
-			amount: e.target.amount.value
+			preparation_deadline: lib.dateToTimestamp(e.target.preparation_deadline.value),
+			date: lib.dateToTimestamp(e.target.date.value),
+			products: productKart.items
 		};
 
 		if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.dataset.id; };
 		if (production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.dataset.id; };
 
-		console.log(production);
+		const response = await API.response(Production.create, production);
+		if (!response) { return false; }
+
+		e.target.internal_seamstress_id.dataset.id = "";
+		e.target.internal_seamstress_id.value = "";
+		e.target.external_seamstress_id.dataset.id = "";
+		e.target.external_seamstress_id.value = "";
+		e.target.preparation_deadline.value = "";
+		e.target.date.value = "";
+		productKart.items = [];
+
+		productKart.render([]);
 	});
 
-	function setLocation(input) {
+	function setCreateLocation(input) {
 		switch (input.value) {
 			case "Interna":
 				lib.display("internal-seamstress-dropdown-box", "");
 				lib.display("external-seamstress-dropdown-box", "none");
+				lib.display("production-date", "");
 				break;
 			case "Externa":
 				lib.display("external-seamstress-dropdown-box", "");
 				lib.display("internal-seamstress-dropdown-box", "none");
+				lib.display("production-date", "none");
 				break;
 		};
 	};
@@ -30,7 +44,7 @@
 	async function internalSeamstressDropdown(input) {
 		let properties = ["name"];
 
-		let seamstresses = await Outcome.origin.filter({ name: input.value, category_id: 1 });
+		let seamstresses = await Outcome.origin.filter({ name: input.value, category_id: 1, role_id: 1 });
 		if (!seamstresses) { return false; }
 
 		lib.Dropdown.setEvents("internal-seamstress-dropdown-box", "internal-seamstress-dropdown-ul");
@@ -47,16 +61,5 @@
 		lib.Dropdown.setEvents("external-seamstress-dropdown-box", "external-seamstress-dropdown-ul");
 		input.value.length >= 2 && lib.Dropdown.render(seamstresses, input, "external-seamstress-dropdown-ul", properties);
 		input.value.length < 2 && lib.Dropdown.render([], input, "external-seamstress-dropdown-ul", properties);
-	};
-
-	async function productDropdown(input) {
-		let properties = ["code", "name", "color", "size"];
-
-		let products = await Product.filter({ name: input.value });
-		if (!products) { return false; }
-
-		lib.Dropdown.setEvents("product-dropdown-box", "product-dropdown-ul");
-		input.value.length >= 2 && lib.Dropdown.render(products, input, "product-dropdown-ul", properties);
-		input.value.length < 2 && lib.Dropdown.render([], input, "product-dropdown-ul", properties);
 	};
 </script>

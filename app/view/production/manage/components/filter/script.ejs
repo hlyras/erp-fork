@@ -1,0 +1,51 @@
+<script>
+  document.getElementById("production-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const production = {
+      location: e.target.location.value
+    };
+
+    if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.value; };
+    if (production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.value; };
+
+    const productions = await API.response(Production.filter, production);
+    if (!productions) { return false; }
+
+    productionFilter(productions);
+  });
+
+  function setFilterLocation(input) {
+    switch (input.value) {
+      case "Interna":
+        lib.display("internal-seamstress-select", "");
+        lib.display("external-seamstress-select", "none");
+        break;
+      case "Externa":
+        lib.display("external-seamstress-select", "");
+        lib.display("internal-seamstress-select", "none");
+        break;
+    };
+  };
+
+  function productionFilter(productions) {
+    let filter_div = document.getElementById("production-filter-box");
+    filter_div.innerHTML = "";
+
+    !productions.length && filter_div.append(lib.element.create("div", {
+      class: "box b1 lucida-grande bold center"
+    }, "Sem resultados."));
+
+    productions.forEach(production => {
+      let production_div = lib.element.create("div", { class: "box b1 container border radius-5 padding-5 margin-top-5" });
+      production_div.append(lib.element.create("div", {
+        class: "mobile-box b9 input-show border-st center pointer",
+        onclick: `productionDetail(${production.id})`
+      }, production.id));
+      production_div.append(lib.element.create("div", { class: "mobile-box b4-9 em08 center" }, production.seamstress_name));
+      production_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToFulldate(production.datetime)));
+      production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.status));
+      filter_div.append(production_div);
+    });
+  };
+</script>

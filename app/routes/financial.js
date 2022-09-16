@@ -15,14 +15,8 @@ const outcomeOriginController = require('../controller/financial/outcome/origin'
 
 const expenseController = require('../controller/financial/expense/main');
 
-//API ROUTES
 router.get('/index', lib.route.toHttps, financialController.index);
 router.get('/report', lib.route.toHttps, financialController.report);
-
-// router.post('/balance', lib.route.toHttps, financialController.balance);
-// ------------------
-// income routes
-// ------------------
 
 router.get('/income', lib.route.toHttps, incomeController.index);
 router.post('/income/save', lib.route.toHttps, incomeController.save);
@@ -41,12 +35,6 @@ router.get('/income/origin/category_id/:id', lib.route.toHttps, incomeOriginCont
 router.get('/income/origin/filter', lib.route.toHttps, incomeOriginController.filter);
 router.delete('/income/origin/id/:id', lib.route.toHttps, incomeOriginController.delete);
 
-// // ------------------
-// // outcome routes
-// // ------------------
-
-router.get('/outcome', lib.route.toHttps, outcomeController.index);
-
 router.get('/outcome', lib.route.toHttps, outcomeController.index);
 router.post('/outcome/save', lib.route.toHttps, outcomeController.save);
 router.get('/outcome/id/:id', lib.route.toHttps, outcomeController.findById);
@@ -61,7 +49,7 @@ router.delete('/outcome/category/id/:id', lib.route.toHttps, outcomeCategoryCont
 router.post('/outcome/origin/save', lib.route.toHttps, outcomeOriginController.save);
 router.get('/outcome/origin/id/:id', lib.route.toHttps, outcomeOriginController.findById);
 router.get('/outcome/origin/category_id/:id', lib.route.toHttps, outcomeOriginController.findByCategoryId);
-router.get('/outcome/origin/filter', lib.route.toHttps, outcomeOriginController.filter);
+router.post('/outcome/origin/filter', lib.route.toHttps, outcomeOriginController.filter);
 router.delete('/outcome/origin/id/:id', lib.route.toHttps, outcomeOriginController.delete);
 
 router.post('/outcome/origin/payment/save', lib.route.toHttps, outcomeOriginController.payment.save);
@@ -71,7 +59,6 @@ router.delete('/outcome/origin/payment/id/:id', lib.route.toHttps, outcomeOrigin
 
 router.get('/outcome/report', lib.route.toHttps, outcomeController.report.index);
 
-// Expense
 router.get('/expense', lib.route.toHttps, expenseController.index);
 router.get('/expense/manage', lib.route.toHttps, expenseController.manage);
 router.get('/expense/payment', lib.route.toHttps, expenseController.payment);

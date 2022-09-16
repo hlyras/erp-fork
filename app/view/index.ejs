@@ -5,14 +5,6 @@
 </head>
 
 <body>
-	<header>
-		<!-- 
-MAIL_HOST=smtp.mailtrap.io
-MAIL_PORT=2525
-MAIL_USER=6bb213df93b1be
-MAIL_PASS=479cf4cdd70de7
--->
-	</header>
 	<section>
 		<div class="container">
 			<div class="box b1 center ground padding-10 margin-top-15">
@@ -24,10 +16,10 @@ MAIL_PASS=479cf4cdd70de7
 					<select name="color" class="btn-generic-big" name="color">
 						<option value="">Cor</option>
 						<% for(i in productColors){ %>
-							<option value="<%= productColors[i].shortcut %>">
-								<%= productColors[i].name %>
-							</option>
-							<% } %>
+						<option value="<%= productColors[i].shortcut %>">
+							<%= productColors[i].name %>
+						</option>
+						<% } %>
 					</select>
 					<input type="submit" class="btn-generic-big bold" value="Filtrar">
 				</form>
@@ -42,13 +34,13 @@ MAIL_PASS=479cf4cdd70de7
 </body>
 <footer>
 	<%- include('./partials/footer.ejs') %>
-		<script src="/javascripts/scripts/product/model/main.js"></script>
-		<script src="/javascripts/scripts/product/view/main.js"></script>
-		<script src="/javascripts/scripts/product/controller/main.js"></script>
-		<script src="/javascripts/scripts/product/controller/catalog.js"></script>
+	<script src="/javascripts/scripts/product/model/main.js"></script>
+	<script src="/javascripts/scripts/product/view/main.js"></script>
+	<script src="/javascripts/scripts/product/controller/main.js"></script>
+	<script src="/javascripts/scripts/product/controller/catalog.js"></script>
 
-		<script src="/javascripts/scripts/product/controller/catalog.js"></script>
-		<script src="/javascripts/scripts/product/view/catalog.js"></script>
+	<script src="/javascripts/scripts/product/controller/catalog.js"></script>
+	<script src="/javascripts/scripts/product/view/catalog.js"></script>
 </footer>
 
 </html>

@@ -9,10 +9,10 @@
 		};
 
 		const outcomes = await API.response(Outcome.filter, params);
-		if(!outcomes) { return false };
+		if (!outcomes) { return false };
 
 		const categories = await API.response(Outcome.category.filter, { name: "" });
-		if(!categories) { return false };
+		if (!categories) { return false };
 
 		e.target.report_type.value == "category" && report.category.main(outcomes, categories);
 		e.target.report_type.value == "cost_type" && report.costType.main(outcomes, categories);
@@ -40,7 +40,7 @@
 
 		let metrics = {};
 
-		for(let i in categories) {
+		for (let i in categories) {
 			categories[i].totalCost = categories[i].totalCost || 0;
 			categories[i].fixedOutcomes = categories[i].fixedOutcomes || [];
 			categories[i].variableOutcomes = categories[i].variableOutcomes || [];
@@ -52,8 +52,8 @@
 			metrics.totalCost = metrics.totalCost || 0;
 			metrics.totalCost += outcome.cost;
 
-			for(let i in categories) {
-				if(categories[i].id == outcome.category_id){
+			for (let i in categories) {
+				if (categories[i].id == outcome.category_id) {
 					categories[i].totalCost += outcome.cost;
 					outcome.cost_type == "Fixo" && categories[i].fixedOutcomes.push(outcome);
 					outcome.cost_type == "Variável" && categories[i].variableOutcomes.push(outcome);
@@ -65,7 +65,7 @@
 
 		filter_box.append(report.metrics.main(metrics));
 
-		for(let i in categories) {
+		for (let i in categories) {
 			let category_box = lib.element.create("div", { class: "box b2 container ground border-lg-st radius-5 padding-2 margin-top-2" });
 
 			category_box.append(lib.element.create("div", {
@@ -83,11 +83,11 @@
 			category_box.append(lib.element.create("div", {
 				class: "mobile-box b6 lucida-grande bold em09"
 			}, `${lib.ruleOfThree(metrics.totalCost, 100, categories[i].totalCost).toFixed(2)}%`));
-			
+
 			category_box.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('category-${categories[i].id}-div', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
 
-			let category_div = lib.element.create("div", { 
-				id: `category-${categories[i].id}-div`, 
+			let category_div = lib.element.create("div", {
+				id: `category-${categories[i].id}-div`,
 				class: "box b1 container",
 				style: "display:none;"
 			});
@@ -115,13 +115,13 @@
 		let type_box = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-2 margin-top-2" });
 		type_box.append(lib.element.create("div", { class: "mobile-box b2 lucida-grande bold em09" }, `Custo ${cost_type}`));
 		type_box.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande bold em09" }, `R$${lib.roundValue(category.totalCost).toFixed(2)}`));
-		type_box.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande bold em09" }, `${lib.ruleOfThree(metrics.totalCost ,100, category.totalCost).toFixed(2)}%`));
+		type_box.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande bold em09" }, `${lib.ruleOfThree(metrics.totalCost, 100, category.totalCost).toFixed(2)}%`));
 		category.totalCost && type_box.append(lib.element.icon('b12', 15, "/images/icon/down-arrow.png", `lib.displayDiv('category-${category.id}-${cost_type}', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
 		let type_div = lib.element.create("div", { id: `category-${category.id}-${cost_type}`, class: "box b1 container", style: "display:none;" });
 		type_box.append(type_div);
 
-		for(let i in outcomes) {
-			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1", onclick: `alert(${outcomes[i].id})` });
+		for (let i in outcomes) {
+			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1", onclick: `outcomeDetail(${outcomes[i].id})` });
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcomes[i].id));
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, outcomes[i].origin_name));
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcomes[i].date)));
@@ -147,9 +147,9 @@
 			metrics.totalCost = metrics.totalCost || 0;
 			metrics.totalCost += outcome.cost;
 
-			if(outcome.cost_type == _fixed.type) {
-				for(let i in categories) {
-					if(categories[i].id == outcome.category_id) {
+			if (outcome.cost_type == _fixed.type) {
+				for (let i in categories) {
+					if (categories[i].id == outcome.category_id) {
 						_fixed.totalCost += outcome.cost;
 						_fixed.categories[categories[i].id] = _fixed.categories[categories[i].id] || [];
 						_fixed.categories[categories[i].id].push(outcome);
@@ -157,9 +157,9 @@
 				}
 			}
 
-			if(outcome.cost_type == _variable.type) {
-				for(let i in categories) {
-					if(categories[i].id == outcome.category_id) {
+			if (outcome.cost_type == _variable.type) {
+				for (let i in categories) {
+					if (categories[i].id == outcome.category_id) {
 						_variable.totalCost += outcome.cost;
 						_variable.categories[categories[i].id] = _variable.categories[categories[i].id] || [];
 						_variable.categories[categories[i].id].push(outcome);
@@ -167,9 +167,9 @@
 				}
 			}
 
-			if(outcome.cost_type == _control.type) {
-				for(let i in categories) {
-					if(categories[i].id == outcome.category_id) {
+			if (outcome.cost_type == _control.type) {
+				for (let i in categories) {
+					if (categories[i].id == outcome.category_id) {
 						_control.totalCost += outcome.cost;
 						_control.categories[categories[i].id] = _control.categories[categories[i].id] || [];
 						_control.categories[categories[i].id].push(outcome);
@@ -177,9 +177,9 @@
 				}
 			}
 
-			if(outcome.cost_type == _sporadic.type) {
-				for(let i in categories) {
-					if(categories[i].id == outcome.category_id) {
+			if (outcome.cost_type == _sporadic.type) {
+				for (let i in categories) {
+					if (categories[i].id == outcome.category_id) {
 						_sporadic.totalCost += outcome.cost;
 						_sporadic.categories[categories[i].id] = _sporadic.categories[categories[i].id] || [];
 						_sporadic.categories[categories[i].id].push(outcome);
@@ -202,7 +202,7 @@
 		type_box.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em09 bold" }, `R$${lib.roundValue(costType.totalCost).toFixed(2)}`));
 		type_box.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em09 bold" }, `${lib.ruleOfThree(metrics.totalCost, 100, costType.totalCost).toFixed(2)}%`));
 		costType.totalCost && type_box.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('cost-type-${costType.type}-div', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
-		
+
 		let category_box = lib.element.create("div", { id: `cost-type-${costType.type}-div`, class: "box b1 container", style: "display:none;" });
 
 		category_box.append(report.costType.renderCategories(costType, categories, metrics));
@@ -213,7 +213,7 @@
 
 	report.costType.renderCategories = (costType, categories, metrics) => {
 		let category_box = lib.element.create("div", { class: "box b1 container" });
-		
+
 		let costTypeCategories = Object.entries(costType.categories);
 		costTypeCategories.forEach(costCategory => {
 			let category = (categories.filter(c => c.id == costCategory[0]))[0];
@@ -224,12 +224,12 @@
 			category_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em09 bold" }, `R$${lib.roundValue(category.totalCost).toFixed(2)}`));
 			category_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em09 bold" }, `${lib.ruleOfThree(metrics.totalCost, 100, category.totalCost).toFixed(2)}%`));
 			costType.totalCost && category_div.append(lib.element.icon('b12', 20, "/images/icon/down-arrow.png", `lib.displayDiv('${costType.type}-category-${category.id}-div', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
-			
+
 			let outcome_box = lib.element.create("div", { id: `${costType.type}-category-${category.id}-div`, class: "box b1 container border padding-10", style: "display:none;" });
 
 			let outcomes = lib.sort(costCategory[1], "origin_id", "asc");
 			outcomes.forEach(outcome => {
-				let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1", onclick: `alert(${outcomes[i].id})` });
+				let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1", onclick: `outcomeDetail(${outcomes[i].id})` });
 				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b12" }, outcome.id));
 				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b2" }, outcome.origin_name));
 				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b4" }, lib.timestampToDate(outcome.date)));

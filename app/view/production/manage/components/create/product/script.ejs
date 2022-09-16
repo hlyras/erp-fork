@@ -1,0 +1,75 @@
+<script>
+  async function productDropdown(input) {
+    let properties = ["code", "name", "color", "size"];
+
+    let products = await Product.filter({ name: input.value });
+    if (!products) { return false; }
+
+    lib.Dropdown.setEvents("product-dropdown-box", "product-dropdown-ul");
+    input.value.length >= 2 && lib.Dropdown.render(products, input, "product-dropdown-ul", properties);
+    input.value.length < 2 && lib.Dropdown.render([], input, "product-dropdown-ul", properties);
+  };
+
+  const productKart = {};
+  productKart.items = [];
+
+  productKart.render = (items) => {
+    let kart_div = document.getElementById("product-kart-box");
+    kart_div.innerHTML = "";
+
+    items.forEach(item => {
+      let item_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-5" });
+      item_div.append(lib.element.create("div", { class: "box b2-3 lucida-grande em09" }, item.info));
+      item_div.append(lib.element.icon('b12', 15, "/images/icon/decrease.png", `productKart.decrease("${item.id}")`));
+      item_div.append(lib.element.create("div", { class: "box b12 em09 center" }, `${item.amount}un`));
+      item_div.append(lib.element.icon('b12', 15, "/images/icon/increase.png", `productKart.increase("${item.id}")`));
+      item_div.append(lib.element.icon('b12', 15, "/images/icon/trash.png", `productKart.remove("${item.id}")`));
+      kart_div.append(item_div);
+    });
+  };
+
+  productKart.insert = () => {
+    let product = {
+      id: document.getElementById("product-dropdown-input").dataset.id,
+      info: document.getElementById("product-dropdown-input").value,
+      amount: document.getElementById("product-amount-input").value
+    };
+
+    if (!product.id || !product.info) { return alert("Produto inválido"); }
+    if (product.amount < 1) { return alert("É necessário incluir a quantidade de produtos."); }
+
+    let duplicity = productKart.items.filter(item => item.id == product.id);
+    if (duplicity.length) { return alert("Este item já está incluso."); }
+
+    document.getElementById("product-dropdown-input").dataset.id = "";
+    document.getElementById("product-dropdown-input").value = "";
+    document.getElementById("product-amount-input").value = 0;
+
+    productKart.items.push(product);
+    productKart.render(productKart.items);
+  };
+
+  productKart.decrease = (item_id) => {
+    productKart.items.forEach(item => {
+      if (item.id == item_id && item.amount > 1) { item.amount--; }
+    });
+
+    productKart.render(productKart.items);
+  };
+
+  productKart.increase = (item_id) => {
+    productKart.items.forEach(item => {
+      if (item.id == item_id) { item.amount++; }
+    });
+
+    productKart.render(productKart.items);
+  };
+
+  productKart.remove = (item_id) => {
+    productKart.items.forEach((item, index, arr) => {
+      if (item.id == item_id) { arr.splice(index, 1); }
+    });
+
+    productKart.render(productKart.items);
+  };
+</script>

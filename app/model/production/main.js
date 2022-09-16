@@ -1,41 +1,52 @@
 const db = require('../../../config/connection');
 const lib = require("jarmlib");
 
-const Production = function(){
+const Production = function () {
 	this.id;
 	this.datetime;
-	this.estimated_shipment_datetime;
-	this.shipment_datetime;
-	this.shipment_user_id;
+	this.date;
+	this.location; // Interna | Externa
 	this.seamstress_id;
-	this.product_id;
-	this.amount;
 	this.status;
 	this.user_id;
 
+	this.preparation_deadline;
+
+	this.preparation_datetime;
+	this.preparation_user_id;
+
+	this.shipment_datetime;
+	this.shipment_user_id;
+
 	this.create = () => {
-		if(!this.code) { return { err: "É necessário incluir o código do produto" } };
-		if(!this.name) { return { err: "É necessário incluir o nome do produto" } };
-		if(!this.color) { return { err: "É necessário incluir a cor do produto." } };
-		if(!this.size) { return { err: "É necessário incluir o tamanho do produto." } };
-		if(!this.weight) { return { err: "É necessário incluir o peso do produto." } };
-		if(!this.brand) { return { err: "É necessário incluir a marca do produto." } };
-		if(!this.status) { return { err: "É necessário incluir o status do produto." } };
+		if (!this.datetime) { return { err: "É necessário registrar o horário da solicitação." } };
+		if (!this.location) { return { err: "É necessário registrar o local de produção." } };
+		if (!this.seamstress_id) { return { err: "É necessário inserir o colaborador ou facção." } };
+		if (!this.preparation_deadline) { return { err: "É necessário registrar a data limite para a preparação." } };
+		if (this.location == "Interna" && !this.date) { return { err: "É necessário registrar a data de produção." } };
+		if (!this.status) { return { err: "É necessário cadastrar o status da produção." } };
+		if (!this.user_id) { return { err: "É necessário registrar o usuário." } };
 
 		let obj = lib.convertTo.object(this);
-		let query = lib.Query.save(obj, 'cms_wt_erp.product');
+		let query = lib.Query.save(obj, 'cms_wt_erp.production');
 
 		return db(query);
 	};
 
 	this.update = () => {
-		if(!this.id) { return { err: "O id do produto é inválido." }; }
+		if (!this.id) { return { err: "O id da produção é inválido." }; }
 
 		let obj = lib.convertTo.object(this);
-		let query = lib.Query.update(obj, 'cms_wt_erp.product', 'id');
+		let query = lib.Query.update(obj, 'cms_wt_erp.production', 'id');
 
-    return db(query);
+		return db(query);
 	};
+};
+
+Production.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+	let query = new lib.Query().select().props(props).table("cms_wt_erp.production production")
+		.inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build().query;
+	return db(query);
 };
 
 module.exports = Production;
