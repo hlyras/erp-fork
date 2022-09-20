@@ -1,0 +1,37 @@
+<script>
+  document.getElementById("catalog-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const catalog = {
+      name: e.target.name.value,
+      path: e.target.path.value
+    };
+
+    const catalogs = await API.response(Product.catalog.filter, catalog);
+    if (!catalogs) { return false; }
+
+    catalogFilter(catalogs);
+  });
+
+  function catalogFilter(catalogs) {
+    const filter_div = document.getElementById("catalog-filter-div");
+    filter_div.innerHTML = "";
+
+    if (!catalogs.length) {
+      filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold center" }, "Sem resultados"));
+    }
+
+    catalogs.forEach(catalog => {
+      let catalog_div = lib.element.create("div", { class: "box b1 container border radius-5 padding-5 margin-top-5" });
+      catalog_div.append(lib.element.create("div", {
+        class: "box b10 center input-show border-st pointer",
+        onclick: `catalogDetail(${catalog.id})`
+      }, catalog.id));
+      catalog_div.append(lib.element.create("div", { class: "box b2-5 center" }, catalog.name));
+      catalog_div.append(lib.element.create("div", { class: "box b3-10 center" }, catalog.path));
+      catalog_div.append(lib.element.icon('b10', 20, "/images/icon/edit.png", `catalogEdit(${catalog.id})`));
+      catalog_div.append(lib.element.icon('b10', 20, "/images/icon/trash.png", `catalogDelete(${catalog.id})`));
+      filter_div.append(catalog_div);
+    });
+  };
+</script>

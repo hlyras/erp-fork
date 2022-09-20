@@ -17,6 +17,8 @@ productController.price = require('../controller/product/price');
 productController.datasheet = require('../controller/product/datasheet/main');
 productController.conference = require('../controller/product/conference/main');
 
+productController.catalog = require('../controller/product/catalog/main');
+
 router.get('/manage', lib.route.toHttps, productController.manage);
 
 router.post('/create', lib.route.toHttps, multer.any('files'), productController.create);
@@ -71,5 +73,11 @@ router.delete('/conference/delete/:id', lib.route.toHttps, productController.con
 
 router.post('/colorSave', lib.route.toHttps, productController.color.save);
 router.get('/colorList', lib.route.toHttps, productController.color.list);
+
+router.get('/catalog', lib.route.toHttps, productController.catalog.index);
+router.get('/catalog/manage', lib.route.toHttps, productController.catalog.manage);
+router.post('/catalog/create', lib.route.toHttps, productController.catalog.create);
+router.post('/catalog/filter', lib.route.toHttps, productController.catalog.filter);
+router.get('/catalog/id/:id', lib.route.toHttps, productController.catalog.findById);
 
 module.exports = router;

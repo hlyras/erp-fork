@@ -1,0 +1,16 @@
+<script>
+  document.getElementById("catalog-create-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const catalog = {
+      id: e.target.id.value,
+      name: e.target.name.value,
+      path: e.target.path.value
+    };
+
+    const response = await API.response(Product.catalog.create, catalog);
+    if (!response) { return false; }
+
+    console.log(response);
+  });
+</script>

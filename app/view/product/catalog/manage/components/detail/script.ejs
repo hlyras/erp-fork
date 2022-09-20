@@ -1,0 +1,27 @@
+<script>
+  async function productDropdown(input) {
+    let properties = ["code", "name", "color", "size"];
+
+    let products = await Product.filter({ name: input.value });
+    if (!products) { return false; }
+
+    lib.Dropdown.setEvents("product-dropdown-box", "product-dropdown-ul");
+    input.value.length >= 2 && lib.Dropdown.render(products, input, "product-dropdown-ul", properties);
+    input.value.length < 2 && lib.Dropdown.render([], input, "product-dropdown-ul", properties);
+  };
+
+  async function productAdd() {
+
+  };
+
+  async function catalogDetail(catalog_id) {
+    lib.display("catalog-detail-box", "");
+
+    document.getElementById("catalog-detail-id").value = catalog_id;
+
+    const catalog = await API.response(Product.catalog.findById, catalog_id);
+    if (!catalog) { return false; }
+
+    console.log(catalog);
+  };
+</script>

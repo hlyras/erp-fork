@@ -10,7 +10,7 @@ const userController = require('./../user');
 productController.price = {};
 
 productController.price.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.redirect('/');
 	};
 
@@ -24,7 +24,7 @@ productController.price.index = async (req, res) => {
 
 productController.price.filter = async (req, res) => {
 	let props = [];
-	let inners = [ 
+	let inners = [
 		["cms_wt_erp.product product", "product_price.product_id", "product.id"]
 	];
 
@@ -37,7 +37,7 @@ productController.price.filter = async (req, res) => {
 	lib.Query.fillParam("product.status", "Disponível", strict_params);
 	lib.Query.fillParam("product_price.category_id", req.body.category_id, strict_params);
 
-	let order_params = [ ["product.code","ASC"] ];
+	let order_params = [["product.code", "ASC"]];
 
 	// Product_package
 	let package_props = [];
@@ -54,7 +54,7 @@ productController.price.filter = async (req, res) => {
 	lib.Query.fillParam("package.status", "Disponível", package_strict_params);
 	lib.Query.fillParam("package_price.category_id", req.body.category_id, package_strict_params);
 
-	let package_order_params = [ ["package.code","ASC"] ];
+	let package_order_params = [["package.code", "ASC"]];
 
 	try {
 		let products = await Product.price.filter(props, inners, params, strict_params, order_params);
@@ -79,7 +79,7 @@ productController.price.find = async (req, res) => {
 };
 
 productController.price.update = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -97,21 +97,21 @@ productController.price.update = async (req, res) => {
 productController.price.category = {};
 
 productController.price.category.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'n/a'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'n/a'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
 	let category = req.body.category;
 
-	if(!category.name || category.name.length > 50){ return res.send({ msg: 'O nome da categoria é inválido.' }); };
+	if (!category.name || category.name.length > 50) { return res.send({ msg: 'O nome da categoria é inválido.' }); };
 
 	try {
-		if(!category.id){
+		if (!category.id) {
 			let row = await Product.price.category.save(req.body.category);
 			category.id = row.insertId;
-			
+
 			let products = await Product.list();
-			for(let i in products){
+			for (let i in products) {
 				let price = {
 					category_id: category.id,
 					product_id: products[i].id,
@@ -121,7 +121,7 @@ productController.price.category.save = async (req, res) => {
 			};
 
 			let packages = await Product.package.list();
-			for(let i in packages){
+			for (let i in packages) {
 				let price = {
 					category_id: category.id,
 					package_id: packages[i].id,
@@ -145,7 +145,7 @@ productController.price.category.filter = async (req, res) => {
 	let params = { keys: [], values: [] };
 
 	lib.Query.fillParam("price_category.name", req.body.name, params);
-	let order_params = [ ["price_category.id", "ASC"] ];
+	let order_params = [["price_category.id", "ASC"]];
 
 	try {
 		let categories = await Product.price.category.filter(params, order_params);
@@ -161,13 +161,13 @@ productController.price.category.findById = async (req, res) => {
 		let category = await Product.price.category.findById(req.params.id);
 		category[0].products = await Product.list();
 		category[0].packages = await Product.package.list();
-		
+
 		let product_prices = await Product.price.list(req.params.id);
 		let package_prices = await Product.package.price.list(req.params.id);
 
 		category[0].products = product_prices.reduce((products, price) => {
-			for(i in products){
-				if(products[i].id == price.product_id){
+			for (i in products) {
+				if (products[i].id == price.product_id) {
 					products[i].price_id = price.id;
 					products[i].price = price.price;
 					return products;
@@ -178,8 +178,8 @@ productController.price.category.findById = async (req, res) => {
 		}, category[0].products);
 
 		category[0].packages = package_prices.reduce((packages, price) => {
-			for(i in packages){
-				if(packages[i].id == price.package_id){
+			for (i in packages) {
+				if (packages[i].id == price.package_id) {
 					packages[i].price_id = price.id;
 					packages[i].price = price.price;
 					return packages;
@@ -197,7 +197,7 @@ productController.price.category.findById = async (req, res) => {
 };
 
 productController.price.category.delete = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

@@ -8,7 +8,7 @@ const lib = require("jarmlib");
 const conferenceController = {};
 
 conferenceController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.redirect('/');
 	};
 
@@ -31,7 +31,7 @@ conferenceController.viewer = async (req, res) => {
 };
 
 conferenceController.manage = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.redirect('/');
 	};
 
@@ -45,7 +45,7 @@ conferenceController.manage = async (req, res) => {
 };
 
 conferenceController.create = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
 	};
 
@@ -57,13 +57,13 @@ conferenceController.create = async (req, res) => {
 	conference.user_id = req.user.id;
 
 	try {
-		if(!conference.id) {
+		if (!conference.id) {
 			let response = await conference.create();
-			if(response.err) { return res.send({ msg: response.err }); }
+			if (response.err) { return res.send({ msg: response.err }); }
 			return res.send({ done: "Conferência cadastrada com sucesso!" });
 		} else {
 			let response = await conference.update();
-			if(response.err) { return res.send({ msg: response.err }); }
+			if (response.err) { return res.send({ msg: response.err }); }
 			return res.send({ done: "Conferência atualizada com sucesso!" });
 		}
 	} catch (err) {
@@ -83,7 +83,7 @@ conferenceController.filter = async (req, res) => {
 	lib.Query.fillParam("product_conference.description", req.body.description, params);
 	lib.Query.fillParam("product_conference.video_url", req.body.video_url, params);
 
-	let order_params = [ ["product_conference.id","ASC"] ];
+	let order_params = [["product_conference.id", "ASC"]];
 
 	try {
 		const conferences = await Product.conference.filter(props, inners, params, strict_params, order_params);
@@ -98,14 +98,14 @@ conferenceController.findById = async (req, res) => {
 	try {
 		const conference = (await Product.conference.findById(req.params.id))[0];
 		res.send({ conference });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
 	};
 };
 
 conferenceController.delete = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
