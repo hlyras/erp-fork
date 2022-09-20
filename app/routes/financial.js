@@ -69,4 +69,7 @@ router.put('/expense/confirm', lib.route.toHttps, expenseController.confirm);
 router.put('/expense/pay', lib.route.toHttps, expenseController.pay);
 router.put('/expense/cancel/id/:id', lib.route.toHttps, expenseController.cancel);
 
+router.get('/updateoutcomedate', lib.route.toHttps, outcomeController.updateOutcomeDate);
+
+
 module.exports = router;
