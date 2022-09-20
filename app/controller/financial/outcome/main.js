@@ -191,29 +191,4 @@ const outcomeController = {
 	}
 };
 
-outcomeController.updateOutcomeDate = async (req, res) => {
-	try {
-		let outcomes = await Outcome.filter([], [], [], [], [], [], 0);
-		let expenses = await Expense.filter([], [], [], [], [], [], 0);
-
-		for (let i in outcomes) {
-			for (let j in expenses) {
-				if (outcomes[i].id == expenses[j].outcome_id) {
-					console.log(outcomes[i].id);
-					let outcome = new Outcome();
-					outcome.id = outcomes[i].id;
-					outcome.date = expenses[j].payment_date;
-					await Outcome.update.date(outcome);
-				}
-			};
-		};
-
-		res.send({ msg: "As saídas foram atualizadas com sucesso!" });
-	} catch (err) {
-		if (err) {
-			return res.send({ msg: "Ocorreu um erro!" });
-		}
-	}
-}
-
 module.exports = outcomeController;
