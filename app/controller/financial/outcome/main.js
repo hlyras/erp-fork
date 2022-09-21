@@ -95,7 +95,7 @@ const outcomeController = {
 			lib.Query.fillParam("outcome.income_category_id", req.body.outcome.income_category_id, strict_params);
 		}
 
-		let order_params = [["date", "DESC"], ["id", "DESC"]];
+		let order_params = [["date", "ASC"]];
 		let limit = 0;
 
 		try {

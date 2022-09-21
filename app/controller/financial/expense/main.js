@@ -236,7 +236,7 @@ const expenseController = {
 			lib.Query.fillParam("expense.payment_method", req.body.expense.payment_method, strict_params);
 		}
 
-		let order_params = [["outcome.date", "DESC"], ["expense.id", "DESC"]];
+		let order_params = [["outcome.date", "DESC"]];
 		let limit = 0;
 
 		try {

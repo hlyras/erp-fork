@@ -96,7 +96,7 @@ if (Expense.controller.filter) {
 		let expense = {
 			id: "",
 			periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
-			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value) + lib.timestampDay(),
+			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value) + lib.timestampDay() - 1,
 			category_id: event.target.elements.namedItem("category-id").value,
 			origin_id: event.target.elements.namedItem("origin-id").value,
 			income_category_id: event.target.elements.namedItem("income-category-id").value,
