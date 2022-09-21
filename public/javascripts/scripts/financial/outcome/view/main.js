@@ -19,8 +19,9 @@ Outcome.view.filter = (outcomes, pagination) => {
 			html += "<div class='mobile-box b4 padding-5 v-center'>" + outcomes[i].category_name + "</div>";
 			html += "<div class='mobile-box b4 padding-5 v-center'>" + outcomes[i].origin_name + "</div>";
 			html += "<div class='mobile-box b6 padding-5 v-center bold'>$" + outcomes[i].cost.toFixed(2) + "</div>";
-			html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><img class='icon size-20' src='/images/icon/edit.png' onclick='Outcome.controller.edit(" + outcomes[i].id + ")'></div>";
-			html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><img class='icon size-20' src='/images/icon/trash.png' onclick='Outcome.controller.delete(" + outcomes[i].id + ")'></div>";
+			html += "<div class='mobile-box b6 padding-5 v-center bold'>$" + lib.timestampToDate(outcomes[i].date) + "</div>";
+			// html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><img class='icon size-20' src='/images/icon/edit.png' onclick='Outcome.controller.edit(" + outcomes[i].id + ")'></div>";
+			// html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><img class='icon size-20' src='/images/icon/trash.png' onclick='Outcome.controller.delete(" + outcomes[i].id + ")'></div>";
 			html += "</div>";
 		};
 		document.getElementById("outcome-filter-div").innerHTML = html;
@@ -51,7 +52,7 @@ Outcome.view.show = (outcome) => {
 	html += "</div>";
 	html += "<div class='mobile-box b3 container margin-top-5'>";
 	html += "<div class='box b1 em06 bold'>Data</div>";
-	html += "<div class='box b1 border padding-5 center'>" + lib.timestampToDate(outcome.date) + "</div>";
+	html += "<div class='box b1 border padding-5 center'>" + lib.timestampToDate(outcome.datetime) + "</div>";
 	html += "</div>";
 	html += "<div class='mobile-box b3 container margin-top-5'>";
 	html += "<div class='box b1 em06 bold'>Categoria</div>";

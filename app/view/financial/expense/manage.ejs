@@ -152,6 +152,9 @@
 				Outcome.controller.fillOriginSelect(event.target.value, "expense-filter-form");
 			});
 		}
+
+		document.getElementById("expense-filter-form").periodStart.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+		document.getElementById("expense-filter-form").periodEnd.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
 	</script>
 </footer>
 

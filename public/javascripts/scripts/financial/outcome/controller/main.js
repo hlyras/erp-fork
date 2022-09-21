@@ -1,7 +1,7 @@
 Outcome.controller = {};
 
 Outcome.controller.create = document.getElementById("outcome-create-form");
-if(Outcome.controller.create){
+if (Outcome.controller.create) {
 	Outcome.controller.create.addEventListener("submit", async event => {
 		event.preventDefault();
 
@@ -16,7 +16,7 @@ if(Outcome.controller.create){
 		};
 
 		outcome = await API.response(Outcome.save, outcome);
-		if(!outcome) { return false };
+		if (!outcome) { return false };
 
 		event.target.elements.namedItem("id").value = "";
 		event.target.elements.namedItem("date").value = "";
@@ -31,7 +31,7 @@ if(Outcome.controller.create){
 }
 
 Outcome.controller.filter = document.getElementById("outcome-filter-form");
-if(Outcome.controller.filter){
+if (Outcome.controller.filter) {
 	Outcome.controller.filter.addEventListener("submit", async event => {
 		event.preventDefault();
 
@@ -46,20 +46,20 @@ if(Outcome.controller.filter){
 		};
 
 		outcomes = await API.response(Outcome.filter, outcome);
-		if(!outcomes) { return false };
+		if (!outcomes) { return false };
 
 		document.getElementById("outcome-show-box").style.display = "none";
 
-		const pagination = { pageSize: 10, page: 0};
-		(function(){ lib.carousel.execute("outcome-filter-box", Outcome.view.filter, outcomes, pagination); }());
+		const pagination = { pageSize: 10, page: 0 };
+		(function () { lib.carousel.execute("outcome-filter-box", Outcome.view.filter, outcomes, pagination); }());
 	});
 }
 
 Outcome.controller.edit = async (id) => {
 	let outcome = await API.response(Outcome.findById, id);
-	if(!outcome){ return false };
+	if (!outcome) { return false };
 
-	if(outcome.expense_id){ return alert("Não é possível editar saídas criadas por despesas."); };
+	if (outcome.expense_id) { return alert("Não é possível editar saídas criadas por despesas."); };
 
 	document.getElementById("outcome-create-form").elements.namedItem("id").value = outcome.id;
 	document.getElementById("outcome-create-form").elements.namedItem("date").value = lib.convertDate(lib.timestampToDate(outcome.date));
@@ -73,23 +73,23 @@ Outcome.controller.edit = async (id) => {
 
 Outcome.controller.delete = async (id) => {
 	let outcome = await API.response(Outcome.findById, id);
-	if(!outcome){ return false };
+	if (!outcome) { return false };
 
 	console.log(outcome);
 
-	if(outcome.expense_id){ return alert("Não é possível excluir saídas criadas por despesas."); };
+	if (outcome.expense_id) { return alert("Não é possível excluir saídas criadas por despesas."); };
 
 	let r = confirm('Deseja realmente excluir a saída?');
-	if(r){
-		if(!await API.response(Outcome.delete, id)){ return false };
-		
+	if (r) {
+		if (!await API.response(Outcome.delete, id)) { return false };
+
 		Outcome.controller.filter.submit.click();
 	}
 };
 
 Outcome.controller.show = async (id) => {
 	outcome = await API.response(Outcome.findById, id);
-	if(!outcome) { return false };
+	if (!outcome) { return false };
 
 	document.getElementById("outcome-filter-box").style.display = "none";
 
@@ -98,12 +98,12 @@ Outcome.controller.show = async (id) => {
 
 Outcome.controller.fillOriginSelect = async (category_id, form) => {
 	let html = "";
-	if(category_id){
+	if (category_id) {
 		let origins = await API.response(Outcome.origin.findByCategoryId, category_id);
-		if(!origins) { return false };
+		if (!origins) { return false };
 
 		html += "<option value=''>Origem</option>";
-		for(let i in origins){ html += "<option value='"+origins[i].id+"'>"+origins[i].name+"</option>"; };
+		for (let i in origins) { html += "<option value='" + origins[i].id + "'>" + origins[i].name + "</option>"; };
 	} else {
 		html += "<option value=''>Origem</option>";
 	}

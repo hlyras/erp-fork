@@ -196,6 +196,9 @@
 				Outcome.controller.fillOriginSelect(event.target.value, "outcome-filter-form");
 			});
 		}
+
+		document.getElementById("outcome-filter-form").periodStart.value = lib.convertDate(lib.firstDayOfMonth());
+		document.getElementById("outcome-filter-form").periodEnd.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
 	</script>
 </footer>
 
