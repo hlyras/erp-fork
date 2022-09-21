@@ -1,12 +1,9 @@
 <html>
+
 <head>
 	<%- include('./../partials/head.ejs') %>
 </head>
-<style>
-	@media (max-width: 800px) {
-		.mob-b1 { width:100%; }
-	}
-</style>
+
 <body>
 	<%- include('./../partials/header.ejs') %>
 	<%- include('./../partials/nav.ejs') %>
@@ -36,11 +33,14 @@
 				</div>
 				<div class="box b3 container margin-top-5">
 					<div class="box b1 em08 georgia">Valor do pagamento</div>
-					<input type="number" name="cash" class="box b1 em12 input-generic center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+					<input type="number" name="cash" class="box b1 em12 input-generic center bold" step="0.01" value="0.00"
+						onfocus="if(this.value < 0.01){this.value=''}"
+						onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}" />
 				</div>
 				<div class="box b1 container margin-top-5">
 					<div class="box b1 em08 georgia">Descrição da despesa</div>
-					<textarea name="description" class="box b1 height-80 avant-garde padding-5" placeholder="Descrição"></textarea>
+					<textarea name="description" class="box b1 height-80 avant-garde padding-5"
+						placeholder="Descrição"></textarea>
 				</div>
 				<input type="submit" name="submit" class="box b1 submit-generic center margin-top-5" value="Cadastrar">
 			</form>
@@ -64,7 +64,8 @@
 				<div id="income-filter-div" class="box b1 container"></div>
 				<%- include('./../partials/carousel.ejs') %>
 			</div>
-			<div id="income-show-box" class="box b1 container border-explicit padding-5 margin-top-5" style="display:none;"></div>
+			<div id="income-show-box" class="box b1 container border-explicit padding-5 margin-top-5" style="display:none;">
+			</div>
 		</div>
 
 		<div class="box b2 container ground margin-top-10 padding-10">
@@ -92,7 +93,9 @@
 				</div>
 				<div class="box b3 container margin-top-5">
 					<div class="box b1 em08 georgia">Valor do pagamento</div>
-					<input type="number" name="cost" class="box b1 em12 input-generic center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+					<input type="number" name="cost" class="box b1 em12 input-generic center bold" step="0.01" value="0.00"
+						onfocus="if(this.value < 0.01){this.value=''}"
+						onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}" />
 				</div>
 				<div class="box b1 container margin-top-5">
 					<div class="box b1 em08 georgia">Banco do pagamento</div>
@@ -105,15 +108,17 @@
 				</div>
 				<div class="box b1 container margin-top-5">
 					<div class="box b1 em08 georgia">Descrição da despesa</div>
-					<textarea name="description" class="box b1 height-80 avant-garde padding-5" placeholder="Descrição"></textarea>
+					<textarea name="description" class="box b1 height-80 avant-garde padding-5"
+						placeholder="Descrição"></textarea>
 				</div>
 
 				<input type="submit" name="submit" class="box b1 submit-generic center margin-top-5" value="Cadastrar">
 			</form>
-			
+
 			<h3 class="box b1 underline center margin-top-10">Relatório de Saídas</h3>
 			<form id="outcome-filter-form" class="box b1 container">
-				<input type="text" name="id" class="box b7 input-generic center margin-top-5" placeholder="Id" role="presentation" autocomplete="off">
+				<input type="text" name="id" class="box b7 input-generic center margin-top-5" placeholder="Id"
+					role="presentation" autocomplete="off">
 				<input type="date" name="periodStart" class="box b3-7 input-generic center margin-top-5">
 				<input type="date" name="periodEnd" class="box b3-7 input-generic center margin-top-5">
 				<select name="category-id" class="box b4 input-generic center margin-top-5">
@@ -145,7 +150,7 @@
 				<div id="outcome-filter-div" class="box b1 container margin-top-5"></div>
 				<%- include('./../partials/carousel.ejs') %>
 			</div>
-			
+
 			<div id="outcome-show-box" class="box b1 container border-explicit margin-top-10" style="display:none"></div>
 		</div>
 	</section>
@@ -162,41 +167,36 @@
 
 	<script src="/javascripts/scripts/financial/outcome/model/category.js"></script>
 	<script src="/javascripts/scripts/financial/outcome/model/origin.js"></script>
-	
+
 	<script>
 		Income.controller.create_category = document.getElementById("income-create-form").elements.namedItem("category-id");
-		if(Income.controller.create_category){
+		if (Income.controller.create_category) {
 			Income.controller.create_category.addEventListener("change", async event => {
 				Income.controller.fillOriginSelect(event.target.value, "income-create-form");
 			});
 		}
 
 		Income.controller.filter_category = document.getElementById("income-filter-form").elements.namedItem("category-id");
-		if(Income.controller.filter_category){
+		if (Income.controller.filter_category) {
 			Income.controller.filter_category.addEventListener("change", async event => {
 				Income.controller.fillOriginSelect(event.target.value, "income-filter-form");
 			});
 		}
 
 		Outcome.controller.create_category = document.getElementById("outcome-create-form").elements.namedItem("category-id");
-		if(Outcome.controller.create_category){
+		if (Outcome.controller.create_category) {
 			Outcome.controller.create_category.addEventListener("change", async event => {
 				Outcome.controller.fillOriginSelect(event.target.value, "outcome-create-form");
 			});
 		}
 
 		Outcome.controller.filter_category = document.getElementById("outcome-filter-form").elements.namedItem("category-id");
-		if(Outcome.controller.filter_category){
+		if (Outcome.controller.filter_category) {
 			Outcome.controller.filter_category.addEventListener("change", async event => {
 				Outcome.controller.fillOriginSelect(event.target.value, "outcome-filter-form");
 			});
 		}
-
-		lib.fillDateInput(document.getElementById("income-filter-form").elements.namedItem('periodStart'));
-		lib.fillDateInput(document.getElementById("income-filter-form").elements.namedItem('periodEnd'));
-
-		lib.fillDateInput(document.getElementById("outcome-filter-form").elements.namedItem('periodStart'));
-		lib.fillDateInput(document.getElementById("outcome-filter-form").elements.namedItem('periodEnd'));
 	</script>
 </footer>
+
 </html>

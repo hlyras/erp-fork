@@ -106,7 +106,7 @@
 				</select>
 				<select name="status" class="box b3 input-generic margin-top-5">
 					<option value="">Selecionar status</option>
-					<option value="Ag. aprovação">Ag. aprovação</option>
+					<option value="Ag. aprovação" selected>Ag. aprovação</option>
 					<option value="A pagar">A pagar</option>
 					<option value="Pago">Pago</option>
 					<option value="Cancelada">Cancelada</option>
@@ -152,9 +152,6 @@
 				Outcome.controller.fillOriginSelect(event.target.value, "expense-filter-form");
 			});
 		}
-
-		document.getElementById("expense-filter-form").elements.namedItem('periodStart').value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
-		document.getElementById("expense-filter-form").elements.namedItem('periodEnd').value = lib.convertDate(lib.timestampToDate(parseInt(lib.genTimestamp())));
 	</script>
 </footer>
 
