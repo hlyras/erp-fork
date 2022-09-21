@@ -191,35 +191,4 @@ const outcomeController = {
 	}
 };
 
-outcomeController.updateOutcomeDate = async (req, res) => {
-	try {
-		const outcomes = await Outcome.filter([], [], [], [], [], [], [])
-		const expenses = await Expense.filter([], [], [], [], [], [], [])
-
-		console.log(outcomes.length);
-		console.log(expenses.length);
-
-		for (let i in outcomes) {
-			for (let j in expenses) {
-				if (outcomes[i].id == expenses[j].outcome_id) {
-					if (!expenses[j].payment_date) {
-						console.log("not", expenses[j].id);
-					} else {
-						console.log("has", expenses[j].id);
-						let outcome = new Outcome();
-						outcome.id = outcomes[i].id;
-						outcome.date = expenses[j].payment_date;
-						await Outcome.update.date(outcome);
-					}
-				}
-			}
-		}
-
-		res.send({ msg: "Atualizado com sucesso!" });
-	} catch (err) {
-		console.log(err);
-		res.send({ msg: "Ocorreu um erro!" });
-	}
-};
-
 module.exports = outcomeController;
