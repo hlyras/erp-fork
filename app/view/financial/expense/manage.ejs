@@ -1,10 +1,12 @@
 <html>
+
 <head>
 	<%- include('./../../partials/head.ejs') %>
 </head>
 <style>
 	/** { font-weight: bold; }*/
 </style>
+
 <body>
 	<%- include('./../../partials/header.ejs') %>
 	<%- include('./../../partials/nav.ejs') %>
@@ -35,36 +37,44 @@
 				</div>
 				<div class="box b3 container margin-top-5">
 					<div class="box b1 em08 georgia">Valor do pagamento</div>
-					<input type="number" name="cost" class="box b1 em12 input-generic center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+					<input type="number" name="cost" class="box b1 em12 input-generic center bold" step="0.01" value="0.00"
+						onfocus="if(this.value < 0.01){this.value=''}"
+						onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}" />
 				</div>
 				<div class="box b1 container margin-top-5">
 					<div class="box b1 em08 georgia">Descrição da despesa</div>
-					<textarea name="description" class="box b1 height-80 avant-garde padding-5" placeholder="Descrição"></textarea>
+					<textarea name="description" class="box b1 height-80 avant-garde padding-5"
+						placeholder="Descrição"></textarea>
 				</div>
 			</div>
 
 			<div class="box b1 container border margin-top-5 padding-5">
-				<div class='mobile-box b5 center'><img class='icon width-40' src='/images/icon/billet_icon.png' onclick="lib.displayDiv('expense-billet-form', this)"></div>
+				<div class='mobile-box b5 center'><img class='icon width-40' src='/images/icon/billet_icon.png'
+						onclick="lib.displayDiv('expense-billet-form', this)"></div>
 				<div class="mobile-box b3-5 underline center em13">Método de pagamento</div>
 				<input type="hidden" name="payment-method" value="Boleto">
-				
-				<div id="expense-billet-form" class="box b1 container border-explicit-2 margin-top-5 padding-5" style="display:none;">
+
+				<div id="expense-billet-form" class="box b1 container border-explicit-2 margin-top-5 padding-5"
+					style="display:none;">
 					<input type='radio' id='origin-payment-radio' name='origin-payment-id' class='mobile-box b9 center' value=''>
 					<div class="mobile-box b8-9 underline margin-top-5 bold center">Boleto</div>
 					<div class="box b3 container margin-top-5">
 						<div class="box b3 em08 georgia">Banco</div>
-						<input type="text" name="billet-bank" class="box b1 georgia input-generic center" placeholder="Banco recebedor" autocomplete="off" maxlength="45">
+						<input type="text" name="billet-bank" class="box b1 georgia input-generic center"
+							placeholder="Banco recebedor" autocomplete="off" maxlength="45">
 					</div>
 					<div class="box b2-3 container margin-top-5">
 						<div class="box b1 em08 georgia">Favorecido</div>
-						<input type="text" name="billet-receiver" class="box b1 georgia input-generic center" placeholder="Nome do beneficiário" autocomplete="off" maxlength="45">
+						<input type="text" name="billet-receiver" class="box b1 georgia input-generic center"
+							placeholder="Nome do beneficiário" autocomplete="off" maxlength="45">
 					</div>
 					<div class="box b1 container margin-top-5">
 						<div class="box b1 em08 georgia">Código de barras</div>
-						<input type="text" name="billet-code" class="box b1 georgia input-generic center" placeholder="Código de barras" autocomplete="off" maxlength="100">
+						<input type="text" name="billet-code" class="box b1 georgia input-generic center"
+							placeholder="Código de barras" autocomplete="off" maxlength="100">
 					</div>
 				</div>
-				
+
 				<div id="expense-payment-method-box" class="box b1 container" style="display:none;">
 					<div id="expense-payment-method-div" class="box a1 container"></div>
 					<%- include('./../../partials/carousel.ejs') %>
@@ -113,8 +123,10 @@
 				<div id="expense-filter-div" class="box a1 container margin-top-5"></div>
 				<%- include('./../../partials/carousel.ejs') %>
 			</div>
-			<div id="expense-show-box" class="box a1 container border-explicit padding-5 margin-top-5" style="display:none"></div>
-			<button id="expense-confirm-btn" class='mobile-box b1 submit-generic margin-bottom-5 center' style="display:none;">Aprovar Despesa</button>
+			<div id="expense-show-box" class="box a1 container border-explicit padding-5 margin-top-5" style="display:none">
+			</div>
+			<button id="expense-confirm-btn" class='mobile-box b1 submit-generic margin-bottom-5 center'
+				style="display:none;">Aprovar Despesa</button>
 		</div>
 	</section>
 	<%- include('./../../partials/loader.ejs') %>
@@ -127,7 +139,7 @@
 	<%- include('./partial.ejs') %>
 	<script>
 		Expense.controller.create_category = document.getElementById("expense-create-form").elements.namedItem("category-id");
-		if(Expense.controller.create_category){
+		if (Expense.controller.create_category) {
 			Expense.controller.create_category.addEventListener("change", async event => {
 				Outcome.controller.fillOriginSelect(event.target.value, "expense-create-form");
 				await Expense.controller.fillOriginPayments(0, "expense-payment-method-box", Expense.view.originPayments);
@@ -135,14 +147,15 @@
 		}
 
 		Expense.controller.filter_category = document.getElementById("expense-filter-form").elements.namedItem("category-id");
-		if(Expense.controller.filter_category){
+		if (Expense.controller.filter_category) {
 			Expense.controller.filter_category.addEventListener("change", async event => {
 				Outcome.controller.fillOriginSelect(event.target.value, "expense-filter-form");
 			});
 		}
 
-		lib.fillDateInput(document.getElementById("expense-filter-form").elements.namedItem('periodStart'));
-		lib.fillDateInput(document.getElementById("expense-filter-form").elements.namedItem('periodEnd'));
+		document.getElementById("expense-filter-form").elements.namedItem('periodStart').value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+		document.getElementById("expense-filter-form").elements.namedItem('periodEnd').value = lib.convertDate(lib.timestampToDate(parseInt(lib.genTimestamp())));
 	</script>
 </footer>
+
 </html>
