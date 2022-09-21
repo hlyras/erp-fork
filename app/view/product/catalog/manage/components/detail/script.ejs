@@ -15,13 +15,24 @@
   };
 
   async function catalogDetail(catalog_id) {
-    lib.display("catalog-detail-box", "");
-
-    document.getElementById("catalog-detail-id").value = catalog_id;
-
     const catalog = await API.response(Product.catalog.findById, catalog_id);
     if (!catalog) { return false; }
 
-    console.log(catalog);
+    document.getElementById("catalog-detail-id").value = catalog_id;
+
+    lib.display("catalog-detail-box", "");
+
+    let detail_div = document.getElementById("catalog-detail-div");
+    detail_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold margin-top-10 center" }, "Informações do catálogo"));
+    detail_div.append(lib.element.create("div", { class: "box b6 lucida-grande bold border radius-5 padding-5 margin-top-5" }, catalog.id));
+    detail_div.append(lib.element.create("div", { class: "box b2 lucida-grande bold border radius-5 padding-5 margin-top-5" }, catalog.name));
+    detail_div.append(lib.element.create("div", { class: "box b3 lucida-grande bold border radius-5 padding-5 margin-top-5" }, catalog.path));
+
+    let product_box = document.getElementById("catalog-product-box");
+    catalog.products.forEach(product => {
+      console.log(product);
+      let product_div = lib.element.create("div", { class: "box b1 container lucida-grande bold padding-5" }, product.name);
+      product_box.append(product_div);
+    });
   };
 </script>

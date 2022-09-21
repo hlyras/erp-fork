@@ -210,7 +210,7 @@ const expenseController = {
 			["cms_wt_erp.user user", "outcome.user_id", "user.id"]
 		];
 
-		let period = { key: "outcome.date", start: req.body.expense.periodStart, end: req.body.expense.periodEnd };
+		let period = { key: "outcome.datetime", start: req.body.expense.periodStart, end: req.body.expense.periodEnd };
 
 		let params = { keys: [], values: [] }
 		let strict_params = { keys: [], values: [] }
