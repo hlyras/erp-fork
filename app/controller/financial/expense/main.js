@@ -190,7 +190,7 @@ const expenseController = {
 			"expense.payment_method",
 			"outcome.id outcome_id",
 			"outcome.datetime",
-			"outcome.date",
+			"outcome.date outcome_date",
 			"outcome.category_id",
 			"category.name category_name",
 			"outcome.origin_id",

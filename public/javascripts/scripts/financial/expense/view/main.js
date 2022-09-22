@@ -122,7 +122,7 @@ Expense.view.show = (expense) => {
 	html += "</div>";
 	html += "<div class='mobile-box b3 container margin-top-5'>";
 	html += "<div class='box b1 em06 bold'>Data</div>";
-	html += "<div class='box b1 border padding-5 center'>" + lib.timestampToDate(expense.date) + "</div>";
+	html += "<div class='box b1 border padding-5 center'>" + lib.timestampToDate(expense.datetime) + "</div>";
 	html += "</div>";
 	html += "<div class='mobile-box b3 container margin-top-5'>";
 	html += "<div class='box b1 em06 bold'>Categoria</div>";

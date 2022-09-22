@@ -11,7 +11,7 @@ const Catalog = function () {
 
   this.create = () => {
     if (!this.name) { return { err: "É necessário incluir o nome do catálogo" } };
-    if (!this.path) { return { err: "É necessário incluir o diretório do catálogo" } };
+    if (!this.path || this.path[0] != "/") { return { err: "a URL do catálogo é inválida ou não começa com o caractere '/'" } };
 
     let obj = lib.convertTo.object(this);
     let query = lib.Query.save(obj, 'cms_wt_erp.product_price_category');

@@ -1,6 +1,7 @@
 Product.catalog = {};
 
 Product.catalog.create = async catalog => {
+  console.log(catalog);
   let response = await fetch("/product/catalog/create", {
     method: "POST",
     headers: { 'Content-Type': 'application/json' },
@@ -9,8 +10,9 @@ Product.catalog.create = async catalog => {
   response = await response.json();
 
   if (API.verifyResponse(response)) { return false };
+  alert(response.done);
 
-  return response.products;
+  return true;
 };
 
 Product.catalog.findById = async (id) => {

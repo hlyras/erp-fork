@@ -1,28 +1,17 @@
-<div id="catalog-detail-box" class="box b1 container" style="display:none;">
-  <div id="catalog-detail-div" class="box b1 container border padding-5 margin-top-10"></div>
-  <input type="hidden" id="catalog-detail-id" value="">
-  <div class="box b1 lucida-grande bold em08 margin-top-10">Adicionar produto ao catálogo</div>
-  <div class="box a1 container">
-    <div id="product-dropdown-box" class="mobile-box b7-10 container dropdown ground">
-      <ul class="box a1 container">
-        <li>
-          <input type="text" id="product-dropdown-input" name="product_id" data-id=""
-            class="mobile-box a1 input-generic lucida-grande bold center" oninput="productDropdown(this)"
-            placeholder="Nome do produto"
-            onclick="if(this.readOnly){this.value='';this.dataset.id='';this.readOnly = false;}" role="presentation"
-            autocomplete="off">
-          <ul id="product-dropdown-ul" class="box b1"></ul>
-        </li>
-      </ul>
-    </div>
+<div id="catalog-detail-box" class="box b2-3 container ground border-st radius-5 padding-5 margin-top-5 h-center"
+  style="display:none;">
+  <div id="catalog-detail-div" class="box b1 container padding-5 margin-top-10"></div>
+  <%- include('./filter.ejs') %>
+</div>
 
-    <input type="number" id="product-amount-input" name="amount"
-      class="mobile-box b5 input-generic lucida-grande bold center" step="1" value="0"
-      onfocus="if(this.value < 1){this.value = ''}" onblur="if(this.value < 1){this.value = 0}" />
+<div id="catalog-product-box" class="box b2 container ground border-st radius-5 padding-5 margin-top-10"
+  style="display:none;">
+  <%- include('./../product/dropdown.ejs') %>
+  <div id="catalog-product-div" class="box b1 container ground border-st radius-5 padding-5 margin-top-10"></div>
+</div>
 
-    <div onclick="productAdd()" class="mobile-box b10 center"><img class='size-25 icon center'
-        src="/images/icon/increase.png"></div>
-
-    <div id="catalog-product-box" class="box b1 container border padding-5 margin-top-10"></div>
-  </div>
+<div id="catalog-package-box" class="box b2 container ground border-st radius-5 padding-5 margin-top-10"
+  style="display:none;">
+  <%- include('./../package/dropdown.ejs') %>
+  <div id="catalog-package-div" class="box b1 container ground border-st radius-5 padding-5 margin-top-10"></div>
 </div>

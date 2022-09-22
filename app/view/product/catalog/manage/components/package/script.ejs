@@ -1,0 +1,83 @@
+<script>
+  async function packageDropdown(input) {
+    let properties = ["code", "name", "color", "size"];
+
+    let packages = await Product.package.filter({ name: input.value });
+    if (!packages) { return false; }
+
+    lib.Dropdown.setEvents("package-dropdown-box", "package-dropdown-ul");
+    input.value.length >= 2 && lib.Dropdown.render(packages, input, "package-dropdown-ul", properties);
+    input.value.length < 2 && lib.Dropdown.render([], input, "package-dropdown-ul", properties);
+  };
+
+  function renderPackages(packages) {
+    let package_box = document.getElementById("catalog-package-div");
+    package_box.innerHTML = "";
+
+    if (!packages.length) {
+      return package_box.append(lib.element.create("div", { class: "box b1 lucida-grande bold border radius-5 padding-5 margin-top-5" }, "Sem pacotes cadastrados"));
+    }
+
+    package_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold margin-top-5 center" }, "Pacotes"));
+
+    packages = lib.sort(packages, "code", "ASC");
+
+    packages.forEach(package => {
+      let package_div = lib.element.create("div", { class: "box b1 container box-hover border radius-5 padding-5 margin-top-5" });
+      package_div.append(lib.element.create("div", { class: "box b9 lucida-grande em08 bold border radius-5 padding-5 center" }, package.code));
+      package_div.append(lib.element.create("div", { class: "box b3 lucida-grande em09 v-center" }, package.name));
+      package_div.append(lib.element.create("div", { class: "box b2-9 lucida-grande em08 center" }, package.color));
+      package_div.append(lib.element.create("input", {
+        type: "number",
+        id: `package-${package.id}-price-input`,
+        class: "box b6 lucida-grande input-generic padding-5 nofocus",
+        step: "0.01",
+        min: "0.01",
+        value: parseFloat(package.price)
+      }));
+      package_div.append(lib.element.icon('b12', 20, "/images/icon/save.png", `updatePackagePrice(${package.id})`));
+      package_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `packageRemove(${package.id})`));
+      package_box.append(package_div);
+    });
+  };
+
+  async function packageAdd() {
+    let package = {
+      catalog_id: document.getElementById("catalog-id").value,
+      package_id: document.getElementById("package-dropdown-input").dataset.id,
+      price: document.getElementById("package-price-input").value
+    };
+
+    if (!package.package_id) { return alert("É necessário informar o pacote."); }
+
+    let response = await API.response(Product.catalog.package.add, package);
+    if (!response) { return false; }
+
+    document.getElementById("package-dropdown-input").dataset.id = "";
+    document.getElementById("package-dropdown-input").value = "";
+    document.getElementById("package-price-input").value = "0.00";
+
+    document.getElementById("catalog-product-filter-form").submit.click();
+  };
+
+  async function packageRemove(package_id) {
+    if (!confirm("Deseja realmente remover o pacote? Essa ação não pode ser desfeita.")) { return false; }
+
+    let response = await API.response(Product.catalog.package.remove, package_id);
+    if (!response) { return false; }
+
+    document.getElementById("catalog-product-filter-form").submit.click();
+  };
+
+  async function updatePackagePrice(package_id) {
+    let package = {
+      id: package_id,
+      price: document.getElementById(`package-${package_id}-price-input`).value
+    };
+
+    let response = await API.response(Product.catalog.package.update, package);
+    if (!response) { return false; }
+
+    document.getElementById("catalog-product-filter-form").submit.click();
+  };
+</script>

@@ -8,9 +8,11 @@
       path: e.target.path.value
     };
 
+    console.log(catalog);
+
     const response = await API.response(Product.catalog.create, catalog);
     if (!response) { return false; }
 
-    console.log(response);
+    document.getElementById("catalog-filter-form").submit.click();
   });
 </script>

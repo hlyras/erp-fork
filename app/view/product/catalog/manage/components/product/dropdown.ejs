@@ -1,0 +1,24 @@
+<details class="box b1 container border-st radius-5 padding-10 margin-top-10">
+  <summary class="lucida-grande bold pointer">Adicionar produto ao catálogo</summary>
+  <div class="box b1 container margin-top-5">
+    <div id="product-dropdown-box" class="mobile-box b7-10 container dropdown ground">
+      <ul class="box a1 container">
+        <li>
+          <input type="text" id="product-dropdown-input" data-id=""
+            class="mobile-box a1 input-generic lucida-grande bold center" oninput="productDropdown(this)"
+            placeholder="Nome do produto"
+            onclick="if(this.readOnly){this.value='';this.dataset.id='';this.readOnly = false;}" role="presentation"
+            autocomplete="off">
+          <ul id="product-dropdown-ul" class="box b1"></ul>
+        </li>
+      </ul>
+    </div>
+
+    <input type="number" id="product-price-input" class="mobile-box b5 input-generic lucida-grande bold center"
+      step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value = ''}"
+      onblur="if(this.value < '0.00'){this.value = '0.00'}" />
+
+    <div onclick="productAdd()" class="mobile-box b10 center"><img class='size-25 icon center'
+        src="/images/icon/increase.png"></div>
+  </div>
+</details>

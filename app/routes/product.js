@@ -18,6 +18,8 @@ productController.datasheet = require('../controller/product/datasheet/main');
 productController.conference = require('../controller/product/conference/main');
 
 productController.catalog = require('../controller/product/catalog/main');
+productController.catalog.product = require('../controller/product/catalog/product');
+productController.catalog.package = require('../controller/product/catalog/package');
 
 router.get('/manage', lib.route.toHttps, productController.manage);
 
@@ -79,5 +81,14 @@ router.get('/catalog/manage', lib.route.toHttps, productController.catalog.manag
 router.post('/catalog/create', lib.route.toHttps, productController.catalog.create);
 router.post('/catalog/filter', lib.route.toHttps, productController.catalog.filter);
 router.get('/catalog/id/:id', lib.route.toHttps, productController.catalog.findById);
+router.post('/catalog/product/filter', lib.route.toHttps, productController.catalog.product.filter);
+
+router.post('/catalog/product/add', lib.route.toHttps, productController.catalog.product.add);
+router.post('/catalog/product/update', lib.route.toHttps, productController.catalog.product.update);
+router.delete('/catalog/product/remove/:id', lib.route.toHttps, productController.catalog.product.remove);
+
+router.post('/catalog/package/add', lib.route.toHttps, productController.catalog.package.add);
+router.post('/catalog/package/update', lib.route.toHttps, productController.catalog.package.update);
+router.delete('/catalog/package/remove/:id', lib.route.toHttps, productController.catalog.package.remove);
 
 module.exports = router;

@@ -1,38 +1,40 @@
 <script>
-  async function productDropdown(input) {
-    let properties = ["code", "name", "color", "size"];
-
-    let products = await Product.filter({ name: input.value });
-    if (!products) { return false; }
-
-    lib.Dropdown.setEvents("product-dropdown-box", "product-dropdown-ul");
-    input.value.length >= 2 && lib.Dropdown.render(products, input, "product-dropdown-ul", properties);
-    input.value.length < 2 && lib.Dropdown.render([], input, "product-dropdown-ul", properties);
-  };
-
-  async function productAdd() {
-
-  };
-
   async function catalogDetail(catalog_id) {
     const catalog = await API.response(Product.catalog.findById, catalog_id);
     if (!catalog) { return false; }
 
-    document.getElementById("catalog-detail-id").value = catalog_id;
+    lib.display("catalog-filter-box", "none");
+    lib.display("catalog-detail-box", "");
+    lib.display("catalog-product-box", "");
+    lib.display("catalog-package-box", "");
 
+    document.getElementById("catalog-id").value = catalog_id;
     lib.display("catalog-detail-box", "");
 
     let detail_div = document.getElementById("catalog-detail-div");
-    detail_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold margin-top-10 center" }, "Informações do catálogo"));
-    detail_div.append(lib.element.create("div", { class: "box b6 lucida-grande bold border radius-5 padding-5 margin-top-5" }, catalog.id));
-    detail_div.append(lib.element.create("div", { class: "box b2 lucida-grande bold border radius-5 padding-5 margin-top-5" }, catalog.name));
-    detail_div.append(lib.element.create("div", { class: "box b3 lucida-grande bold border radius-5 padding-5 margin-top-5" }, catalog.path));
+    detail_div.innerHTML = "";
 
-    let product_box = document.getElementById("catalog-product-box");
-    catalog.products.forEach(product => {
-      console.log(product);
-      let product_div = lib.element.create("div", { class: "box b1 container lucida-grande bold padding-5" }, product.name);
-      product_box.append(product_div);
-    });
+    detail_div.append(lib.element.create("div", { class: "box b6 lucida-grande em12 bold center padding-5 margin-top-5" }, catalog.id));
+    detail_div.append(lib.element.create("div", { class: "box b2 lucida-grande em12 bold center padding-5 margin-top-5" }, catalog.name));
+    detail_div.append(lib.element.create("div", { class: "box b3 lucida-grande em12 bold center padding-5 margin-top-5" }, catalog.path));
+
+    renderProducts(catalog.products);
+    renderPackages(catalog.packages);
   };
+
+  document.getElementById("catalog-product-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let product = {
+      catalog_id: e.target.catalog_id.value,
+      code: e.target.code.value,
+      name: e.target.name.value
+    };
+
+    let response = await API.response(Product.catalog.product.filter, product);
+    if (!response) { return false; }
+
+    renderProducts(response.products);
+    renderPackages(response.packages);
+  });
 </script>

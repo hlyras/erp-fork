@@ -1,0 +1,84 @@
+<script>
+  async function productDropdown(input) {
+    let properties = ["code", "name", "color", "size"];
+
+    let products = await Product.filter({ name: input.value });
+    if (!products) { return false; }
+
+    lib.Dropdown.setEvents("product-dropdown-box", "product-dropdown-ul");
+    input.value.length >= 2 && lib.Dropdown.render(products, input, "product-dropdown-ul", properties);
+    input.value.length < 2 && lib.Dropdown.render([], input, "product-dropdown-ul", properties);
+  };
+
+  function renderProducts(products) {
+    let product_box = document.getElementById("catalog-product-div");
+    product_box.innerHTML = "";
+
+    if (!products.length) {
+      return product_box.append(lib.element.create("div", { class: "box b1 lucida-grande bold border radius-5 padding-5 margin-top-5" }, "Sem produtos cadastrados"));
+    }
+
+    product_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold margin-top-5 center" }, "Produtos"));
+
+    products = lib.sort(products, "code", "ASC");
+
+    products.forEach(product => {
+      let product_div = lib.element.create("div", { class: "box b1 container box-hover border radius-5 padding-5 margin-top-5" });
+      product_div.append(lib.element.create("div", { class: "box b9 lucida-grande em08 bold border radius-5 padding-5 center" }, product.code));
+      product_div.append(lib.element.create("div", { class: "box b3 lucida-grande em09 v-center" }, product.name));
+      product_div.append(lib.element.create("div", { class: "box b9 lucida-grande em08 center" }, product.color));
+      product_div.append(lib.element.create("div", { class: "box b9 lucida-grande em09 center" }, product.size));
+      product_div.append(lib.element.create("input", {
+        type: "number",
+        id: `product-${product.id}-price-input`,
+        class: "box b6 lucida-grande input-generic padding-5 nofocus",
+        step: "0.01",
+        min: "0.01",
+        value: parseFloat(product.price)
+      }));
+      product_div.append(lib.element.icon('b12', 20, "/images/icon/save.png", `updateProductPrice(${product.id})`));
+      product_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `productRemove(${product.id})`));
+      product_box.append(product_div);
+    });
+  };
+
+  async function productAdd() {
+    let product = {
+      catalog_id: document.getElementById("catalog-id").value,
+      product_id: document.getElementById("product-dropdown-input").dataset.id,
+      price: document.getElementById("product-price-input").value
+    };
+
+    if (!product.product_id) { return alert("É necessário informar o produto."); }
+
+    let response = await API.response(Product.catalog.product.add, product);
+    if (!response) { return false; }
+
+    document.getElementById("product-dropdown-input").dataset.id = "";
+    document.getElementById("product-dropdown-input").value = "";
+    document.getElementById("product-price-input").value = "0.00";
+
+    document.getElementById("catalog-product-filter-form").submit.click();
+  };
+
+  async function productRemove(product_id) {
+    if (!confirm("Deseja realmente remover o produto? Essa ação não pode ser desfeita.")) { return false; }
+
+    let response = await API.response(Product.catalog.product.remove, product_id);
+    if (!response) { return false; }
+
+    document.getElementById("catalog-product-filter-form").submit.click();
+  };
+
+  async function updateProductPrice(product_id) {
+    let product = {
+      id: product_id,
+      price: document.getElementById(`product-${product_id}-price-input`).value
+    };
+
+    let response = await API.response(Product.catalog.product.update, product);
+    if (!response) { return false; }
+
+    document.getElementById("catalog-product-filter-form").submit.click();
+  };
+</script>

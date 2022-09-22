@@ -7,9 +7,10 @@ const Product = function () {
   this.product_id;
   this.price;
 
-  this.create = () => {
-    if (!this.name) { return { err: "É necessário incluir o nome do catálogo" } };
-    if (!this.path) { return { err: "É necessário incluir o diretório do catálogo" } };
+  this.add = () => {
+    if (!this.category_id) { return { err: "É necessário informar o catálogo." } };
+    if (!this.product_id) { return { err: "É necessário incluir o produto." } };
+    if (!this.price || isNaN(this.price)) { return { err: "É necessário informar o preço do produto." } };
 
     let obj = lib.convertTo.object(this);
     let query = lib.Query.save(obj, 'cms_wt_erp.product_price');
@@ -18,7 +19,8 @@ const Product = function () {
   };
 
   this.update = () => {
-    if (!this.id) { return { err: "O id do catálogo é inválido." }; }
+    if (!this.id) { return { err: "O id do produto é inválido." }; }
+    if (!this.price || isNaN(this.price)) { return { err: "É necessário informar o preço do produto." } };
 
     let obj = lib.convertTo.object(this);
     let query = lib.Query.update(obj, 'cms_wt_erp.product_price', 'id');
@@ -38,7 +40,7 @@ Product.filter = (props, inners, params, strict_params, order_params) => {
   return db(query);
 };
 
-Product.delete = async (id) => {
+Product.remove = async (id) => {
   let query = `DELETE FROM cms_wt_erp.product_price WHERE id='${id}';`;
   return db(query);
 };

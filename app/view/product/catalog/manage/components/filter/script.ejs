@@ -14,6 +14,11 @@
   });
 
   function catalogFilter(catalogs) {
+    lib.display("catalog-filter-box", "");
+    lib.display("catalog-detail-box", "none");
+    lib.display("catalog-product-box", "none");
+    lib.display("catalog-package-box", "none");
+
     const filter_div = document.getElementById("catalog-filter-div");
     filter_div.innerHTML = "";
 
