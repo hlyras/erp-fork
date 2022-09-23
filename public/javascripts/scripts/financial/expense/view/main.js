@@ -86,7 +86,7 @@ Expense.view.filter = (expenses, pagination) => {
 			html += "<div class='mobile-box b9 border-explicit avant-garde bold center nowrap tbl-show-link' onclick='Expense.controller.show(" + expenses[i].id + ")'>" + expenses[i].id + "</div>";
 			html += "<div class='mobile-box b9 avant-garde center'>" + expenses[i].outcome_id + "</div>";
 			html += "<div class='mobile-box b3 padding-5 center bold'>" + expenses[i].status + "</div>";
-			html += "<div class='mobile-box b2-9 padding-5 center bold'>" + lib.timestampToDate(expenses[i].date) + "</div>";
+			html += "<div class='mobile-box b2-9 padding-5 center bold'>" + lib.timestampToDate(expenses[i].outcome_date) + "</div>";
 			html += "<div class='mobile-box b9 padding-5 margin-top-5 center'><img class='icon size-20' src='/images/icon/edit.png' onclick='Expense.controller.edit(" + expenses[i].id + ")'></div>";
 			html += "<div class='mobile-box b9 padding-5 margin-top-5 center'><img class='icon size-20' src='/images/icon/trash.png' onclick='Expense.controller.cancel(" + expenses[i].id + ")'></div>";
 			html += "<div class='mobile-box b2-5 padding-5 center'>" + expenses[i].category_name + "</div>";
