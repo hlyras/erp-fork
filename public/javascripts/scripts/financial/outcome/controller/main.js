@@ -38,12 +38,14 @@ if (Outcome.controller.filter) {
 		let outcome = {
 			id: event.target.id.value,
 			periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
-			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
+			periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value) + lib.timestampDay() - 1,
 			category_id: event.target.elements.namedItem("category-id").value,
 			origin_id: event.target.elements.namedItem("origin-id").value,
 			income_category_id: event.target.elements.namedItem("income-category-id").value,
 			status: event.target.elements.namedItem("status").value
 		};
+
+		console.log(outcome);
 
 		outcomes = await API.response(Outcome.filter, outcome);
 		if (!outcomes) { return false };

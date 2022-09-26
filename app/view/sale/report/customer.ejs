@@ -1,13 +1,26 @@
 <html>
+
 <head>
   <%- include('./../../partials/head.ejs') %>
   <style type="text/css">
-    ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: #f1f1f1; }
-    ::-webkit-scrollbar-thumb { background: #888; }
-    ::-webkit-scrollbar-thumb:hover { background: #555; }
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
   </style>
 </head>
+
 <body>
   <%- include('./../../partials/header.ejs') %>
   <%- include('./../../partials/nav.ejs') %>
@@ -15,13 +28,18 @@
     <div class="box b1">
       <form id="sale-customer-report-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
         <div class="box b1 underline center bold">Atividade de clientes</div>
-        <input type="text" name="customer-id" class="box b8 input-generic center margin-top-5" placeholder="Id do cliente" autocomplete="off">
-        <input type="text" name="customer-name" class="box b4 input-generic center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+        <input type="text" name="customer-id" class="box b8 input-generic center margin-top-5"
+          placeholder="Id do cliente" autocomplete="off">
+        <input type="text" name="customer-name" class="box b4 input-generic center margin-top-5"
+          placeholder="Nome do cliente" autocomplete="off">
 
-        <input type="datetime-local" name="periodStart" class="box b4 input-generic center margin-top-5" autocomplete="off">
-        <input type="datetime-local" name="periodEnd" class="box b4 input-generic center margin-top-5" autocomplete="off">
-        
-        <input type="submit" name="submit" class="box b8 submit-generic box-hover center margin-top-5 bold" value="Atualizar">
+        <input type="datetime-local" name="periodStart" class="box b4 input-generic center margin-top-5"
+          autocomplete="off">
+        <input type="datetime-local" name="periodEnd" class="box b4 input-generic center margin-top-5"
+          autocomplete="off">
+
+        <input type="submit" name="submit" class="box b8 submit-generic box-hover center margin-top-5 bold"
+          value="Atualizar">
       </form>
       <div id="sale-customer-report-filter-box" class="box a1 container ground" style="display:none">
         <div id="sale-customer-report-filter-div" class="box a1 container"></div>
@@ -39,4 +57,5 @@
   <script src="/javascripts/scripts/sale/controller/report/customer.js"></script>
   <script src="/javascripts/scripts/sale/view/report/customer.js"></script>
 </footer>
+
 </html>

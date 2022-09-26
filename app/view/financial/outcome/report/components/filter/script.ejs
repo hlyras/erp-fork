@@ -1,4 +1,7 @@
 <script>
+	document.getElementById("outcome-filter-form").periodStart.value = lib.convertDate(lib.firstDayOfMonth());
+	document.getElementById("outcome-filter-form").periodEnd.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+
 	document.getElementById("outcome-filter-form").addEventListener("submit", async e => {
 		e.preventDefault();
 
@@ -63,6 +66,8 @@
 			};
 		});
 
+		categories = lib.sort(categories, "totalCost", "desc");
+
 		filter_box.append(report.metrics.main(metrics));
 
 		for (let i in categories) {
@@ -121,7 +126,7 @@
 		type_box.append(type_div);
 
 		for (let i in outcomes) {
-			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1", onclick: `outcomeDetail(${outcomes[i].id})` });
+			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1 pointer", onclick: `outcomeDetail(${outcomes[i].id})` });
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcomes[i].id));
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, outcomes[i].origin_name));
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcomes[i].date)));
@@ -215,6 +220,7 @@
 		let category_box = lib.element.create("div", { class: "box b1 container" });
 
 		let costTypeCategories = Object.entries(costType.categories);
+
 		costTypeCategories.forEach(costCategory => {
 			let category = (categories.filter(c => c.id == costCategory[0]))[0];
 			category.totalCost = costCategory[1].reduce((totalCost, outcome) => { return totalCost += outcome.cost; }, 0);
@@ -229,7 +235,7 @@
 
 			let outcomes = lib.sort(costCategory[1], "origin_id", "asc");
 			outcomes.forEach(outcome => {
-				let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1", onclick: `outcomeDetail(${outcomes[i].id})` });
+				let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1 pointer", onclick: `outcomeDetail(${outcome.id})` });
 				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b12" }, outcome.id));
 				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b2" }, outcome.origin_name));
 				outcome_div.append(lib.element.create("div", { class: "mobile-box em09 b4" }, lib.timestampToDate(outcome.date)));

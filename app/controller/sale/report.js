@@ -13,7 +13,7 @@ const Customer = require('../../model/customer/main');
 const reportController = {};
 
 reportController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'COR-GER'])) {
 		return res.redirect('/');
 	};
 	let users = await User.list();
@@ -35,7 +35,7 @@ reportController.index = async (req, res) => {
 reportController.product = {};
 
 reportController.product.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'COR-GER'])) {
 		return res.redirect('/');
 	};
 	let colors = await Product.color.list();
@@ -44,7 +44,7 @@ reportController.product.index = async (req, res) => {
 };
 
 reportController.product.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'adm-aud', 'pro-man', 'log-pac', 'COR-GER'])) {
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
@@ -60,7 +60,7 @@ reportController.product.filter = async (req, res) => {
 		"sale_product.product_id",
 		"sale_product.amount"
 	];
-	
+
 	let package_product_props = ["sale.id",
 		"product.code",
 		"product.name",
@@ -73,27 +73,28 @@ reportController.product.filter = async (req, res) => {
 	];
 
 	let product_inners = [
-		["cms_wt_erp.customer customer","cms_wt_erp.sale.customer_id","cms_wt_erp.customer.id"],
-		["cms_wt_erp.sale_product sale_product","cms_wt_erp.sale.id","cms_wt_erp.sale_product.sale_id"],
-		["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.sale_product.product_id"]
+		["cms_wt_erp.customer customer", "cms_wt_erp.sale.customer_id", "cms_wt_erp.customer.id"],
+		["cms_wt_erp.sale_product sale_product", "cms_wt_erp.sale.id", "cms_wt_erp.sale_product.sale_id"],
+		["cms_wt_erp.product product", "cms_wt_erp.product.id", "cms_wt_erp.sale_product.product_id"]
 	];
 
 	let package_product_inners = [
-		["cms_wt_erp.customer customer","cms_wt_erp.sale.customer_id","cms_wt_erp.customer.id"],
-		["cms_wt_erp.sale_package_product sale_package_product","cms_wt_erp.sale.id","cms_wt_erp.sale_package_product.sale_id"],
-		["cms_wt_erp.sale_package sale_package","cms_wt_erp.sale_package.sale_id","cms_wt_erp.sale.id",
-			"cms_wt_erp.sale_package.package_id","cms_wt_erp.sale_package_product.package_id"],
-		["cms_wt_erp.product product","cms_wt_erp.product.id","cms_wt_erp.sale_package_product.product_id"]
+		["cms_wt_erp.customer customer", "cms_wt_erp.sale.customer_id", "cms_wt_erp.customer.id"],
+		["cms_wt_erp.sale_package_product sale_package_product", "cms_wt_erp.sale.id", "cms_wt_erp.sale_package_product.sale_id"],
+		["cms_wt_erp.sale_package sale_package", "cms_wt_erp.sale_package.sale_id", "cms_wt_erp.sale.id",
+			"cms_wt_erp.sale_package.package_id", "cms_wt_erp.sale_package_product.package_id"],
+		["cms_wt_erp.product product", "cms_wt_erp.product.id", "cms_wt_erp.sale_package_product.product_id"]
 	];
 
+	lib.Query.fillParam("cms_wt_erp.sale.id", req.body.sale.id, strict_params);
 	lib.Query.fillParam("cms_wt_erp.customer.id", req.body.sale.customer_id, strict_params);
 	lib.Query.fillParam("cms_wt_erp.product.name", req.body.sale.product_name, params);
 	lib.Query.fillParam("cms_wt_erp.product.color", req.body.sale.product_color, strict_params);
 	lib.Query.fillParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params);
 
-	let order_params = [ ["sale.id", "DESC"] ];
+	let order_params = [["sale.id", "DESC"]];
 	let limit = 0;
-	
+
 	try {
 		let sale_products = await Sale.filter(product_props, product_inners, period, params, strict_params, order_params, limit);
 		let sale_package_products = await Sale.filter(package_product_props, package_product_inners, period, params, strict_params, order_params, limit);
@@ -108,7 +109,7 @@ reportController.product.filter = async (req, res) => {
 reportController.packment = {};
 
 reportController.packment.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','COR-GER'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'COR-GER'])) {
 		return res.redirect('/');
 	};
 	let colors = await Product.color.list();
@@ -117,7 +118,7 @@ reportController.packment.index = async (req, res) => {
 };
 
 reportController.packment.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'adm-aud', 'pro-man', 'log-pac', 'COR-GER'])) {
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
@@ -125,7 +126,7 @@ reportController.packment.filter = async (req, res) => {
 		"sale.packment_user_id",
 		"sale.packment_user_name"
 	];
-	
+
 	let inners = [];
 
 	const period = { key: "sale.packment_confirmation_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
@@ -135,9 +136,9 @@ reportController.packment.filter = async (req, res) => {
 	lib.Query.fillParam("cms_wt_erp.sale.status", req.body.sale.status, strict_params);
 	lib.Query.fillParam("cms_wt_erp.sale.packment_user_id", req.body.sale.packment_user_id, strict_params);
 
-	let order_params = [ ["sale.id", "DESC"] ];
+	let order_params = [["sale.id", "DESC"]];
 	let limit = 0;
-	
+
 	try {
 		let sale_packments = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
 		res.send({ sale_packments });
@@ -177,7 +178,7 @@ reportController.packment.filter = async (req, res) => {
 
 // 	let order_params = [ ["sale.sale_date", "DESC"] ];
 // 	let limit = 0;
-	
+
 // 	try {
 // 		let sales = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
 // 		res.send({ sales });
