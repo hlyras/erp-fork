@@ -28,7 +28,7 @@ Feedstock.purchase.view.filter = (purchases, pagination) => {
 
 	purchases.forEach(purchase => { metrics.totalValue += purchase.total_value; });
 
-	filter_div.append(lib.element.create("div", { class: "box b1 center lucida-grande bold padding-5 margin-top-5" }, `Gasto total: R$${metrics.totalValue.toFixed()}`));
+	filter_div.append(lib.element.create("div", { class: "box b1 center lucida-grande bold padding-5 margin-top-5" }, `Gasto total: R$${metrics.totalValue.toFixed(2)}`));
 
 	if (purchases.length) {
 		for (let i = pagination.page * pagination.pageSize; i < purchases.length && i < (pagination.page + 1) * pagination.pageSize; i++) {
