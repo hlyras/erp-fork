@@ -11,7 +11,7 @@ Feedstock.supplier = require('../../../model/feedstock/supplier');
 const storageController = {};
 
 storageController.open = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.redirect('/');
 	};
 
@@ -33,12 +33,12 @@ storageController.open = async (req, res) => {
 	];
 	let storage_strict_params = { keys: [], values: [] };
 	lib.Query.fillParam("supplier_storage.supplier_id", req.params.id, storage_strict_params);
-	let storage_order_params = [ ["feedstock.code","ASC"] ];
+	let storage_order_params = [["feedstock.code", "ASC"]];
 
 	try {
-		let supplier = await Feedstock.supplier.filter([],[],[], supplier_strict_params, []);
+		let supplier = await Feedstock.supplier.filter([], [], [], supplier_strict_params, []);
 		supplier[0].storage = await Feedstock.supplier.storage.filter(storage_props, storage_inners, [], storage_strict_params, storage_order_params);
-		
+
 		res.send({ supplier });
 	} catch (err) {
 		console.log(err);
@@ -47,7 +47,7 @@ storageController.open = async (req, res) => {
 };
 
 storageController.add = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.redirect('/');
 	};
 
@@ -63,7 +63,7 @@ storageController.add = async (req, res) => {
 
 	try {
 		let feedstocks = await Feedstock.supplier.storage.filter([], [], [], storage_strict_params, []);
-		if(feedstocks.length) { return res.send({ msg: "Esta matéria-prima já está inserida no catálogo!\n \n Atualize o preço ao invés de incluir novamente!" }); }
+		if (feedstocks.length) { return res.send({ msg: "Esta matéria-prima já está inserida no catálogo!\n \n Atualize o preço ao invés de incluir novamente!" }); }
 
 		await Feedstock.supplier.storage.add(insert);
 		res.send({ done: "Matéria-prima adicionada com sucesso!" });
@@ -74,7 +74,7 @@ storageController.add = async (req, res) => {
 };
 
 storageController.update = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.redirect('/');
 	};
 
@@ -93,7 +93,7 @@ storageController.update = async (req, res) => {
 };
 
 storageController.remove = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -107,7 +107,7 @@ storageController.remove = async (req, res) => {
 };
 
 storageController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -119,8 +119,8 @@ storageController.filter = async (req, res) => {
 		"feedstock.uom",
 		"color.name color_name"
 	];
-	let inners = [ 
-		["cms_wt_erp.feedstock feedstock","feedstock.id","supplier_storage.feedstock_id"],
+	let inners = [
+		["cms_wt_erp.feedstock feedstock", "feedstock.id", "supplier_storage.feedstock_id"],
 		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
 	];
 
@@ -134,8 +134,8 @@ storageController.filter = async (req, res) => {
 	lib.Query.fillParam("feedstock.color_id", req.body.color_id, strict_params);
 	lib.Query.fillParam("supplier_storage.feedstock_id", req.body.feedstock_id, strict_params);
 
-	let order_params = [ ["feedstock.code","ASC"] ];
-	
+	let order_params = [["feedstock.code", "ASC"]];
+
 	try {
 		let feedstocks = await Feedstock.supplier.storage.filter(props, inners, params, strict_params, order_params);
 

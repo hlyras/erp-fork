@@ -11,7 +11,7 @@ Product.color = require('../../../model/product/color');
 const supplierController = {};
 
 supplierController.manage = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.redirect('/');
 	};
 
@@ -20,7 +20,7 @@ supplierController.manage = async (req, res) => {
 };
 
 supplierController.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.redirect('/');
 	};
 
@@ -34,7 +34,7 @@ supplierController.save = async (req, res) => {
 	supplier.phone = req.body.phone;
 
 	try {
-		if(!supplier.id){
+		if (!supplier.id) {
 			await supplier.save();
 			res.send({ done: 'Fornecedor cadastrado com sucesso!' });
 		} else {
@@ -48,14 +48,14 @@ supplierController.save = async (req, res) => {
 };
 
 supplierController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man', 'man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
 	let props = [];
 	let inners = [];
 
-	let params = { keys: [], values: [] };		
+	let params = { keys: [], values: [] };
 	let strict_params = { keys: [], values: [] };
 
 	lib.Query.fillParam("supplier.cnpj", req.body.supplier.cnpj, params);
@@ -63,7 +63,7 @@ supplierController.filter = async (req, res) => {
 	lib.Query.fillParam("supplier.brand", req.body.supplier.brand, params);
 	lib.Query.fillParam("supplier.name", req.body.supplier.name, params);
 
-	let order_params = [ ["supplier.id","ASC"] ];
+	let order_params = [["supplier.id", "ASC"]];
 
 	try {
 		let suppliers = await Feedstock.supplier.filter(props, inners, params, strict_params, order_params);
@@ -75,17 +75,17 @@ supplierController.filter = async (req, res) => {
 };
 
 supplierController.findById = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
 	let props = []; let inners = [];
-	let params = { keys: [], values: [] };		
+	let params = { keys: [], values: [] };
 	let strict_params = { keys: [], values: [] };
 
 	lib.Query.fillParam("supplier.id", req.params.id, strict_params);
 
-	let order_params = [ ["supplier.id","ASC"] ];
+	let order_params = [["supplier.id", "ASC"]];
 
 	try {
 		let supplier = await Feedstock.supplier.filter(props, inners, params, strict_params, order_params);
@@ -97,7 +97,7 @@ supplierController.findById = async (req, res) => {
 };
 
 supplierController.delete = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

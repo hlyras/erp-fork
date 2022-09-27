@@ -111,9 +111,8 @@ Feedstock.purchase.view.show = (purchase) => {
 		feedstock.uom == "cm" && feedstock_div.appendChild(lib.element.info("b4", "Rolos", feedstock.amount / (feedstock.unit / 100) + "un"));
 		feedstock.uom == "un" && feedstock_div.appendChild(lib.element.info("b4", "Pacotes", feedstock.amount / feedstock.unit + "un"));
 
-		feedstock_div.appendChild(lib.element.info("b4 bold", "Preço", "R$" + lib.roundValue(feedstock.price).toFixed(2)));
-
-		feedstock_div.appendChild(lib.element.info("b4 bold", "Total", "R$" + lib.roundValue(feedstock.amount * feedstock.price).toFixed(2)));
+		feedstock_div.appendChild(lib.element.info("b4 bold", "Preço", "R$" + lib.roundValue(feedstock.price).toFixed(4)));
+		feedstock_div.appendChild(lib.element.info("b4 bold", "Total", "R$" + lib.roundValue(feedstock.amount * feedstock.price).toFixed(4)));
 
 		feedstock_box.appendChild(feedstock_div);
 	});

@@ -9,7 +9,7 @@ Feedstock.purchase = require('../../../model/feedstock/purchase');
 const purchaseFeedstockController = {};
 
 purchaseFeedstockController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -20,8 +20,8 @@ purchaseFeedstockController.filter = async (req, res) => {
 	];
 
 	let inners = [
-		["cms_wt_erp.feedstock feedstock","feedstock.id","purchase_feedstock.feedstock_id"],
-		["cms_wt_erp.product_color color","color.id","feedstock.color_id"]
+		["cms_wt_erp.feedstock feedstock", "feedstock.id", "purchase_feedstock.feedstock_id"],
+		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
 	];
 
 	let period = { key: "date", start: req.body.period_start, end: req.body.period_end };
@@ -35,7 +35,7 @@ purchaseFeedstockController.filter = async (req, res) => {
 	lib.Query.fillParam("feedstock.name", req.body.feedstock_name, params);
 	lib.Query.fillParam("feedstock.color", req.body.feedstock_color, params);
 
-	let order_params = [ ["feedstock.code","ASC"] ];
+	let order_params = [["feedstock.code", "ASC"]];
 
 	try {
 		let feedstocks = await Feedstock.purchase.feedstock.filter(props, inners, period, params, strict_params, order_params);
