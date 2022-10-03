@@ -1,0 +1,40 @@
+<script>
+  document.getElementById("category-create-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let category = {
+      id: e.target.id.value,
+      product_id: e.target.product_id.value,
+      name: e.target.name.value
+    };
+
+    const response = await API.response(Product.feedstock.category.create, category);
+    if (!response) { return false; }
+
+    e.target.id.value = "";
+    e.target.name.value = "";
+
+    feedstockFillCategory(category.product_id);
+    document.getElementById("category-filter-form").submit.click();
+    document.getElementById("feedstock-filter-form").submit.click();
+  });
+
+  async function categoryEdit(category_id) {
+    let category = await API.response(Product.feedstock.category.findById, category_id);
+    if (!category) { return false; }
+
+    document.getElementById("category-create-form").id.value = category.id;
+    document.getElementById("category-create-form").product_id.value = category.product_id;
+    document.getElementById("category-create-form").name.value = category.name;
+  };
+
+  async function categoryDelete(category_id) {
+    if (!confirm("Tem certeza que deseja excluir o processo? Essa ação não pode ser desfeita.")) { return false; };
+
+    let response = await API.response(Product.feedstock.category.delete, category_id);
+    if (!response) { return false; }
+
+    document.getElementById("category-filter-form").submit.click();
+    document.getElementById("feedstock-filter-form").submit.click();
+  };
+</script>

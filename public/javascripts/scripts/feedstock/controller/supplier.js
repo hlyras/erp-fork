@@ -156,8 +156,6 @@ if (Feedstock.supplier.storage.controller.filter) {
 
 Feedstock.supplier.storage.controller.dropdown = {
 	filter: async (input, dropdown_id, supplier_id) => {
-		event.preventDefault();
-
 		let feedstock = {
 			name: input.value,
 			supplier_id: supplier_id

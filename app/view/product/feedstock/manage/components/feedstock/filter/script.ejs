@@ -1,0 +1,66 @@
+<script>
+  document.getElementById("feedstock-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let feedstock = {
+      product_id: e.target.product_id.value
+    };
+
+    feedstockFilter(feedstock.product_id);
+  });
+
+  async function feedstockFilter(product_id) {
+    let feedstocks = await API.response(Product.feedstock.filter, { product_id });
+    if (!feedstocks) { return false; }
+
+    let categories = await API.response(Product.feedstock.category.filter, { product_id });
+    if (!categories) { return false; }
+
+    let filter_div = document.getElementById("feedstock-filter-div");
+    filter_div.innerHTML = "";
+
+    if (!feedstocks.length) {
+      return filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold center" }, "Nenhuma matéria-prima incluída."));
+    }
+
+    feedstocks = lib.sort(feedstocks, "feedstock_id");
+
+    let category_div = lib.element.create("details", { class: "box b1 container radius-5 padding-5" });
+    category_div.append(lib.element.create("summary", { class: "box a1 lucida-grande em09 bold box-hover padding-5 pointer" }, "Geral"));
+
+    feedstocks.forEach(feedstock => {
+      if (!feedstock.category_id) {
+        let feedstock_div = lib.element.create("div", { class: "box a1 container box-hover border padding-5" });
+        feedstock_div.append(lib.element.create("div", { class: "mobile-box b3 em09 v-center" }, feedstock.name));
+        feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, feedstock.color));
+        feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b12 em09 v-center" }, `${feedstock.amount}un`));
+        feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 v-center" }, `${feedstock.measure}cm`));
+        feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, `${feedstock.amount}un`));
+        feedstock_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `feedstockEdit(${feedstock.id})`));
+        feedstock_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `feedstockRemove(${feedstock.id})`));
+        category_div.append(feedstock_div);
+        filter_div.append(category_div);
+      };
+    });
+
+    categories.forEach(category => {
+      let category_div = lib.element.create("details", { class: "box b1 container radius-5 padding-5" });
+      category_div.append(lib.element.create("summary", { class: "box a1 lucida-grande em09 bold box-hover padding-5 pointer" }, category.name));
+
+      feedstocks.forEach(feedstock => {
+        if (category.id == feedstock.category_id) {
+          let feedstock_div = lib.element.create("div", { class: "box a1 container box-hover border padding-5" });
+          feedstock_div.append(lib.element.create("div", { class: "mobile-box b3 em09 v-center" }, feedstock.name));
+          feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, feedstock.color));
+          feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b12 em09 v-center" }, `${feedstock.amount}un`));
+          feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 v-center" }, `${feedstock.measure}cm`));
+          feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, `${feedstock.amount}un`));
+          feedstock_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `feedstockEdit(${feedstock.id})`));
+          feedstock_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `feedstockRemove(${feedstock.id})`));
+          category_div.append(feedstock_div);
+          filter_div.append(category_div);
+        };
+      });
+    });
+  };
+</script>

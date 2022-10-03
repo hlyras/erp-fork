@@ -1,0 +1,34 @@
+<details id="feedstock-add-details" class="box a1 container border-st radius-5 padding-10 margin-top-5">
+  <summary class="box b1 lucida-grande em09 bold radius-5 padding-5 pointer">Adicionar matéria-prima</summary>
+  <form id="feedstock-add-form" class="box a1 container margin-top-5">
+    <input type="hidden" name="id" value="">
+    <input type="hidden" name="product_id" value="">
+    <div id="feedstock-dropdown-box" class="mobile-box b1 container dropdown ground">
+      <ul class="box a1 container">
+        <li>
+          <input type="text" name="feedstock" id="feedstock-dropdown-input" data-id=""
+            class="mobile-box a1 input-generic lucida-grande bold center" oninput="feedstockDropdown(this)"
+            placeholder="Nome da matéria-prima"
+            onclick="if(this.readOnly){this.value='';this.dataset.id='';this.readOnly = false;}" role="presentation"
+            autocomplete="off">
+          <ul id="feedstock-dropdown-ul" class="box b1"></ul>
+        </li>
+      </ul>
+    </div>
+
+    <input type="number" name="amount" class="mobile-box b6 input-generic lucida-grande bold margin-top-5 center"
+      step="1" placeholder="Qtd" onfocus="if(this.value < 1){this.value = ''}"
+      onblur="if(this.value < '0'){this.value = ''}" />
+
+    <input type="number" name="measure" class="mobile-box b4 input-generic lucida-grande bold margin-top-5 center"
+      step="0.1" placeholder="Medida" onfocus="if(this.value < 0.1){this.value = '0'}"
+      onblur="if(this.value < '0.0'){this.value = '0'}" />
+
+    <select name="category_id" class="mobile-box b2 input-generic lucida-grande bold margin-top-5 center">
+      <option value="0">Processo de preparação</option>
+    </select>
+
+    <button name="submit" class="mobile-box b12 center noborder"><img class='size-25 icon center'
+        src="/images/icon/increase.png"></button>
+  </form>
+</details>

@@ -1,0 +1,80 @@
+<script>
+  async function feedstockDropdown(input) {
+    let properties = ["code", "name", "color_name", "unit", "uom"];
+
+    let feedstocks = await Feedstock.filter({ name: input.value });
+    if (!feedstocks) { return false; }
+
+    lib.Dropdown.setEvents("feedstock-dropdown-box", "feedstock-dropdown-ul");
+    input.value.length >= 2 && lib.Dropdown.render(feedstocks, input, "feedstock-dropdown-ul", properties);
+    input.value.length < 2 && lib.Dropdown.render([], input, "feedstock-dropdown-ul", properties);
+  };
+
+  async function feedstockFillCategory(product_id) {
+    let categories = await API.response(Product.feedstock.category.filter, { product_id });
+    if (!categories) { return false; }
+
+    document.getElementById("feedstock-add-form").category_id.innerHTML = "";
+    document.getElementById("feedstock-add-form").category_id.append(lib.element.create("option", {
+      value: "0"
+    }, `Processo de produção`));
+
+    categories.forEach(category => {
+      document.getElementById("feedstock-add-form").category_id.append(lib.element.create("option", {
+        value: category.id
+      }, `${category.id} | ${category.name}`));
+    });
+  }
+
+
+  document.getElementById("feedstock-add-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let feedstock = {
+      id: e.target.id.value,
+      product_id: e.target.product_id.value,
+      feedstock_id: e.target.feedstock.dataset.id,
+      measure: e.target.measure.value,
+      amount: e.target.amount.value,
+      category_id: e.target.category_id.value
+    };
+
+    const response = await API.response(Product.feedstock.add, feedstock);
+    if (!response) { return false; }
+
+    e.target.id.value = "";
+    e.target.id.value = "";
+    e.target.feedstock.dataset.id = "";
+    e.target.feedstock.value = "";
+    e.target.feedstock.readOnly = false;
+    e.target.measure.value = "";
+    e.target.amount.value = "";
+    e.target.category_id.value = "0";
+
+    feedstockFilter(feedstock.product_id);
+  });
+
+  async function feedstockEdit(id) {
+    let feedstock = await API.response(Product.feedstock.findById, id);
+    if (!feedstock) { return false; }
+
+    document.getElementById("feedstock-add-details").open = true;
+
+    document.getElementById("feedstock-add-form").id.value = feedstock.id;
+    document.getElementById("feedstock-add-form").product_id.value = feedstock.product_id;
+    document.getElementById("feedstock-add-form").feedstock.dataset.id = feedstock.feedstock_id;
+    document.getElementById("feedstock-add-form").feedstock.value = `${feedstock.code} | ${feedstock.name} | ${feedstock.color} | ${feedstock.unit}${feedstock.uom}`;
+    document.getElementById("feedstock-add-form").feedstock.readOnly = true;
+    document.getElementById("feedstock-add-form").measure.value = feedstock.measure;
+    document.getElementById("feedstock-add-form").amount.value = feedstock.amount;
+    document.getElementById("feedstock-add-form").category_id.value = feedstock.category_id || "0";
+  };
+
+  async function feedstockRemove(id) {
+    let r = confirm('Deseja realmente excluir a matéria-prima? Atenção, essa ação não pode ser desfeita!');
+    if (r) {
+      if (!await API.response(Product.feedstock.remove, id)) { return false; };
+      document.getElementById("feedstock-filter-form").submit.click();
+    }
+  };
+</script>

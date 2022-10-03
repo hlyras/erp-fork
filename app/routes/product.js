@@ -13,6 +13,8 @@ productController.package.product = require('../controller/product/package/produ
 productController.package.image = require('../controller/product/package/image');
 
 productController.feedstock = require('../controller/product/feedstock/main');
+productController.feedstock.category = require('../controller/product/feedstock/category');
+
 productController.price = require('../controller/product/price');
 productController.datasheet = require('../controller/product/datasheet/main');
 productController.conference = require('../controller/product/conference/main');
@@ -36,12 +38,15 @@ router.get('/datasheet', lib.route.toHttps, productController.datasheet.index);
 
 router.get('/feedstock', lib.route.toHttps, productController.feedstock.index);
 router.get('/feedstock/manage', lib.route.toHttps, productController.feedstock.manage);
-// router.post('/feedstock/add', lib.route.toHttps, productController.feedstock.add);
-// router.get('/feedstock/id/:id', lib.route.toHttps, productController.feedstock.findById);
-// router.delete('/feedstock/remove', lib.route.toHttps, productController.feedstock.remove);
-// router.get('/feedstock/list/product_id/:product_id', lib.route.toHttps, productController.feedstock.list);
-// router.post('/feedstock/category/save', lib.route.toHttps, productController.feedstock.category.save);
-// router.get('/feedstock/category/list/product_id/:product_id', lib.route.toHttps, productController.feedstock.category.list);
+router.post('/feedstock/add', lib.route.toHttps, productController.feedstock.add);
+router.post('/feedstock/filter', lib.route.toHttps, productController.feedstock.filter);
+router.get('/feedstock/id/:id', lib.route.toHttps, productController.feedstock.findById);
+router.delete('/feedstock/remove/:id', lib.route.toHttps, productController.feedstock.remove);
+
+router.post('/feedstock/category/create', lib.route.toHttps, productController.feedstock.category.create);
+router.post('/feedstock/category/filter', lib.route.toHttps, productController.feedstock.category.filter);
+router.get('/feedstock/category/id/:id', lib.route.toHttps, productController.feedstock.category.findById);
+router.delete('/feedstock/category/delete/:id', lib.route.toHttps, productController.feedstock.category.delete);
 
 router.get('/price', lib.route.toHttps, productController.price.index);
 router.post('/price/filter', lib.route.toHttps, productController.price.filter);

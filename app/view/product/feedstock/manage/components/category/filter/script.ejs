@@ -1,0 +1,28 @@
+<script>
+  document.getElementById("category-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let category = {
+      id: e.target.id.value,
+      product_id: e.target.product_id.value
+    };
+
+    let categories = await API.response(Product.feedstock.category.filter, category)
+    if (!categories) { return false; }
+
+    categoryFilter(categories);
+  });
+
+  async function categoryFilter(categories) {
+    let filter_div = document.getElementById("category-filter-div");
+    filter_div.innerHTML = "";
+
+    categories.forEach(category => {
+      let category_div = lib.element.create("div", { class: "box b1 container box-hover border radius-5 padding-2 margin-top-2" });
+      category_div.append(lib.element.create("div", { class: "mobile-box b5-6 lucida-grande em09 bold v-center" }, category.name));
+      category_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `categoryEdit(${category.id})`));
+      category_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `categoryDelete(${category.id})`));
+      filter_div.append(category_div);
+    });
+  };
+</script>

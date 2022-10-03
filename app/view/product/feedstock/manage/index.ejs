@@ -1,0 +1,33 @@
+<html>
+
+<head>
+  <%- include('./../../../partials/head.ejs') %>
+</head>
+
+<body class="margin-bottom-50">
+  <%- include('./../../../partials/header.ejs') %>
+  <%- include('./../../../partials/nav.ejs') %>
+  <section class="container h-center">
+    <div class="box b2-3 container ground border radius-5 padding-10 margin-top-5">
+      <%- include('./components/product/filter/form.ejs') %>
+      <%- include('./components/product/detail/box.ejs') %>
+    </div>
+  </section>
+  <%- include('./../../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../../partials/footer.ejs') %>
+  <script src="/javascripts/scripts/product/model/main.js"></script>
+  <script src="/javascripts/scripts/product/model/feedstock/main.js"></script>
+  <script src="/javascripts/scripts/product/model/feedstock/category.js"></script>
+  <script src="/javascripts/scripts/feedstock/model/main.js"></script>
+
+  <%- include('./components/product/filter/script.ejs') %>
+  <%- include('./components/product/detail/script.ejs') %>
+  <%- include('./components/category/create/script.ejs') %>
+  <%- include('./components/category/filter/script.ejs') %>
+  <%- include('./components/feedstock/add/script.ejs') %>
+  <%- include('./components/feedstock/filter/script.ejs') %>
+</footer>
+
+</html>
