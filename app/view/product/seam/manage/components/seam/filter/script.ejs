@@ -1,0 +1,36 @@
+<script>
+  document.getElementById("seam-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let seam = {
+      product_id: e.target.product_id.value
+    };
+
+    let seams = await API.response(Product.seam.filter, seam);
+    if (!seams) { return false; }
+
+    seamFilter(seams);
+  });
+
+  function seamFilter(seams) {
+    let filter_div = document.getElementById("seam-filter-div");
+    filter_div.innerHTML = "";
+
+    seams = lib.sort(seams, "code");
+
+    let totalTime = seams.reduce((tt, seam) => { return tt + seam.time; }, 0);
+
+    filter_div.append(lib.element.create("div", { class: "box b1 center georgia em12 bold border padding-10 margin-top-5" }, `Tempo total: ${totalTime}s`));
+
+    seams.forEach(seam => {
+      let seam_div = lib.element.create("div", { class: "box b1 container border-lg-st padding-2 margin-top-2" });
+      seam_div.append(lib.element.create("div", { class: "mobile-box b12 em09 bold center" }, seam.code));
+      seam_div.append(lib.element.create("div", { class: "mobile-box b3 em09 v-center" }, seam.name));
+      seam_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `${seam.time}s`));
+      seam_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, seam.machine));
+      seam_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `seamEdit(${seam.id})`));
+      seam_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `seamDelete(${seam.id})`));
+      filter_div.append(seam_div);
+    });
+  };
+</script>

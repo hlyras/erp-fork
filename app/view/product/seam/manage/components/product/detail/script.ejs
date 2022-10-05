@@ -1,0 +1,26 @@
+<script>
+  async function productDetail(product_id) {
+    let product = await API.response(Product.findById, product_id);
+    if (!product) { return false };
+
+    lib.display("product-detail-box", "");
+    lib.display("product-filter-box", "none");
+
+    document.getElementById("seam-create-form").product_id.value = product_id;
+    document.getElementById("seam-filter-form").product_id.value = product_id;
+
+    let detail_div = document.getElementById("product-detail-div");
+    detail_div.innerHTML = "";
+
+    detail_div.append(lib.element.create("div", { class: "box b1 underline center bold", }, product.name))
+    detail_div.append(lib.element.info("b6", "Id", product.id));
+    detail_div.append(lib.element.info("b6", "Código", product.code));
+    detail_div.append(lib.element.info("b2-3", "Nome", product.name));
+    detail_div.append(lib.element.info("b6", "Tamanho", product.size));
+    detail_div.append(lib.element.info("b4", "Cor", product.color));
+    detail_div.append(lib.element.info("b5-12", "Marca", product.brand));
+    detail_div.append(lib.element.info("b6", "Peso", `${product.weight}g`));
+
+    document.getElementById("seam-filter-form").submit.click();
+  };
+</script>

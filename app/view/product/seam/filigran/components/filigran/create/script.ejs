@@ -1,0 +1,45 @@
+<script>
+  document.getElementById("filigran-create-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let filigran = {
+      id: e.target.id.value,
+      product_id: e.target.product_id.value,
+      code: e.target.code.value,
+      template: e.target.template.value,
+      name: e.target.name.value,
+      time: e.target.time.value
+    };
+
+    const response = await API.response(Product.filigran.create, filigran);
+    if (!response) { return false; }
+
+    e.target.id.value = "";
+    e.target.code.value = "";
+    e.target.template.value = "";
+    e.target.name.value = "";
+    e.target.time.value = "";
+
+    document.getElementById("filigran-filter-form").submit.click();
+  });
+
+  async function filigranEdit(id) {
+    let filigran = await API.response(Product.filigran.findById, id);
+    if (!filigran) { return false; }
+
+    document.getElementById("filigran-create-form").id.value = filigran.id;
+    document.getElementById("filigran-create-form").product_id.value = filigran.product_id;
+    document.getElementById("filigran-create-form").code.value = filigran.code;
+    document.getElementById("filigran-create-form").template.value = filigran.template;
+    document.getElementById("filigran-create-form").name.value = filigran.name;
+    document.getElementById("filigran-create-form").time.value = filigran.time;
+  };
+
+  async function filigranDelete(id) {
+    let r = confirm('Deseja realmente excluir a matéria-prima? Atenção, essa ação não pode ser desfeita!');
+    if (r) {
+      if (!await API.response(Product.filigran.delete, id)) { return false; };
+      document.getElementById("filigran-filter-form").submit.click();
+    }
+  };
+</script>

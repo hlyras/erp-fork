@@ -12,11 +12,15 @@ productController.package.price = require('../controller/product/package/price')
 productController.package.product = require('../controller/product/package/product');
 productController.package.image = require('../controller/product/package/image');
 
+productController.datasheet = require('../controller/product/datasheet/main');
+
 productController.feedstock = require('../controller/product/feedstock/main');
 productController.feedstock.category = require('../controller/product/feedstock/category');
 
+productController.seam = require('../controller/product/seam/main');
+productController.filigran = require('../controller/product/seam/filigran');
+
 productController.price = require('../controller/product/price');
-productController.datasheet = require('../controller/product/datasheet/main');
 productController.conference = require('../controller/product/conference/main');
 
 productController.catalog = require('../controller/product/catalog/main');
@@ -36,7 +40,7 @@ router.delete('/image/id/:id', lib.route.toHttps, productController.image.delete
 
 router.get('/datasheet', lib.route.toHttps, productController.datasheet.index);
 
-router.get('/feedstock', lib.route.toHttps, productController.feedstock.index);
+// router.get('/feedstock', lib.route.toHttps, productController.feedstock.index);
 router.get('/feedstock/manage', lib.route.toHttps, productController.feedstock.manage);
 router.post('/feedstock/add', lib.route.toHttps, productController.feedstock.add);
 router.post('/feedstock/filter', lib.route.toHttps, productController.feedstock.filter);
@@ -47,6 +51,20 @@ router.post('/feedstock/category/create', lib.route.toHttps, productController.f
 router.post('/feedstock/category/filter', lib.route.toHttps, productController.feedstock.category.filter);
 router.get('/feedstock/category/id/:id', lib.route.toHttps, productController.feedstock.category.findById);
 router.delete('/feedstock/category/delete/:id', lib.route.toHttps, productController.feedstock.category.delete);
+
+router.get('/seam', lib.route.toHttps, productController.seam.index);
+router.get('/seam/manage', lib.route.toHttps, productController.seam.manage);
+router.post('/seam/create', lib.route.toHttps, productController.seam.create);
+router.post('/seam/filter', lib.route.toHttps, productController.seam.filter);
+router.get('/seam/id/:id', lib.route.toHttps, productController.seam.findById);
+router.delete('/seam/delete/:id', lib.route.toHttps, productController.seam.delete);
+
+router.get('/filigran', lib.route.toHttps, productController.filigran.index);
+router.get('/filigran/manage', lib.route.toHttps, productController.filigran.manage);
+router.post('/filigran/create', lib.route.toHttps, productController.filigran.create);
+router.post('/filigran/filter', lib.route.toHttps, productController.filigran.filter);
+router.get('/filigran/id/:id', lib.route.toHttps, productController.filigran.findById);
+router.delete('/filigran/delete/:id', lib.route.toHttps, productController.filigran.delete);
 
 router.get('/price', lib.route.toHttps, productController.price.index);
 router.post('/price/filter', lib.route.toHttps, productController.price.filter);

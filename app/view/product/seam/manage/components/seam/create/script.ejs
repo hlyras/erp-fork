@@ -1,0 +1,45 @@
+<script>
+  document.getElementById("seam-create-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let seam = {
+      id: e.target.id.value,
+      product_id: e.target.product_id.value,
+      code: e.target.code.value,
+      machine: e.target.machine.value,
+      name: e.target.name.value,
+      time: e.target.time.value
+    };
+
+    const response = await API.response(Product.seam.create, seam);
+    if (!response) { return false; }
+
+    e.target.id.value = "";
+    e.target.code.value = "";
+    e.target.machine.value = "";
+    e.target.name.value = "";
+    e.target.time.value = "";
+
+    document.getElementById("seam-filter-form").submit.click();
+  });
+
+  async function seamEdit(id) {
+    let seam = await API.response(Product.seam.findById, id);
+    if (!seam) { return false; }
+
+    document.getElementById("seam-create-form").id.value = seam.id;
+    document.getElementById("seam-create-form").product_id.value = seam.product_id;
+    document.getElementById("seam-create-form").code.value = seam.code;
+    document.getElementById("seam-create-form").machine.value = seam.machine;
+    document.getElementById("seam-create-form").name.value = seam.name;
+    document.getElementById("seam-create-form").time.value = seam.time;
+  };
+
+  async function seamDelete(id) {
+    let r = confirm('Deseja realmente excluir a matéria-prima? Atenção, essa ação não pode ser desfeita!');
+    if (r) {
+      if (!await API.response(Product.seam.delete, id)) { return false; };
+      document.getElementById("seam-filter-form").submit.click();
+    }
+  };
+</script>

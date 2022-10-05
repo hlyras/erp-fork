@@ -1,0 +1,73 @@
+<script>
+  let second = 0;
+  let millisecond = 0;
+  let cron;
+
+  function openCron() {
+    document.getElementById("filigran-create-form").time.style.display = "none";
+    lib.display("cron-open-btn", "none");
+    lib.display("cron-close-btn", "");
+    lib.display("filigran-create-cron", "");
+  };
+
+  function closeCron() {
+    document.getElementById("filigran-create-form").time.style.display = "";
+    lib.display("cron-open-btn", "");
+    lib.display("cron-close-btn", "none");
+    lib.display("filigran-create-cron", "none");
+  };
+
+  function startCron() {
+    pauseCron();
+    cron = setInterval(() => { timer(); }, 10);
+    lib.display("cron-start-btn", "none");
+    lib.display("cron-reset-btn", "");
+    lib.display("cron-pause-btn", "");
+    lib.display("cron-confirm-btn", "");
+  };
+
+  function pauseCron() {
+    clearInterval(cron);
+    lib.display("cron-start-btn", "");
+    lib.display("cron-pause-btn", "none");
+  };
+
+  function confirmCron() {
+    document.getElementById("filigran-create-form").time.style.display = "";
+    document.getElementById("filigran-create-form").time.value = second;
+    pauseCron();
+    document.getElementById("cron-time").innerHTML = `00:00`;
+
+    second = 0;
+    millisecond = 0;
+
+    lib.display("cron-reset-btn", "none");
+    lib.display("cron-confirm-btn", "none");
+
+    lib.display("cron-open-btn", "");
+    lib.display("cron-close-btn", "none");
+    lib.display("filigran-create-cron", "none");
+  };
+
+  function resetCron() {
+    pauseCron();
+    document.getElementById("cron-time").innerHTML = `00:00`;
+
+    second = 0;
+    millisecond = 0;
+
+    lib.display("cron-reset-btn", "none");
+    lib.display("cron-confirm-btn", "none");
+  };
+
+  function timer() {
+    if ((millisecond += 10) == 1000) {
+      millisecond = 0;
+      second++;
+    }
+
+    document.getElementById("cron-time").innerHTML = `${returnData(second)}:${returnData((millisecond / 10).toFixed(0))}`;
+  };
+
+  function returnData(input) { return input >= 10 ? input : `0${input}` }
+</script>

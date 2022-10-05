@@ -37,8 +37,8 @@
 			div_product.append(lib.element.create("div", { class: "mobile-box b4-10 center" }, products[i].name));
 			div_product.append(lib.element.create("div", { class: "mobile-box b9 center" }, products[i].size));
 			div_product.append(lib.element.create("div", { class: "mobile-box b9 center" }, products[i].color));
-			div_product.append(lib.element.icon('b12', 20, "/images/icon/edit.png", "productEdit(" + products[i].id + ")"));
-			div_product.append(lib.element.icon('b12', 20, "/images/icon/trash.png", "productDelete(" + products[i].id + ")"));
+			div_product.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `productEdit(${products[i].id})`));
+			div_product.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `productDelete(${products[i].id})`));
 			filter_div.append(div_product);
 		};
 	};

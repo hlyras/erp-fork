@@ -1,0 +1,48 @@
+<div class="box b1 underline lucida-grande em09 bold margin-top-15 center">Cadastrar novo processo</div>
+<form id="filigran-create-form" class="box a1 container margin-top-5">
+  <input type="hidden" name="id" value="">
+  <input type="hidden" name="product_id" value="">
+
+  <input type="number" name="code" class="mobile-box b2 input-generic lucida-grande bold margin-top-5 center" min="1"
+    step="1" placeholder="Código" onfocus="if(this.value < 1){this.value = ''}"
+    onblur="if(this.value < '0'){this.value = ''}" role="presentation" autocomplete="off" />
+
+  <input type="number" name="template" class="mobile-box b2 input-generic lucida-grande bold margin-top-5 center"
+    min="1" step="1" placeholder="Gabarito" onfocus="if(this.value < 1){this.value = ''}"
+    onblur="if(this.value < '0'){this.value = ''}" role="presentation" autocomplete="off" />
+
+  <input type="text" name="name" class="mobile-box b1 input-generic lucida-grande bold margin-top-5 center"
+    placeholder="Nome do processo" role="presentation" autocomplete="off">
+
+  <input type="button" id="cron-open-btn" onclick="openCron()"
+    class="mobile-box b2 input-generic border-st lucida-grande bold margin-top-5 center pointer" value="Cronômetro">
+
+  <div id="cron-close-btn" onclick="closeCron()" class="mobile-box b12 noborder v-center" style="display:none;"><img
+      class='size-25 icon center' src="/images/icon/back-arrow-black.png"></div>
+
+  <div id="filigran-create-cron" class="mobile-box b5-6 container margin-top-5 h-center" style="display:none;">
+    <div id="cron-time" class="mobile-box b2-3 lucida-grande em15 bold border radius-50 padding-20 center">00:00</div>
+    <div class="box a1 container h-center">
+      <div id="cron-reset-btn" onclick="resetCron()" style="display:none;"
+        class="mobile-box b4 border radius-50 padding-10 margin-top-5 noselect center"><img class='size-25 icon center'
+          src="/images/icon/reset.png"></div>
+      <div id="cron-start-btn" onclick="startCron()"
+        class="mobile-box b2 border radius-50 padding-10 margin-top-5 center"><img class='size-25 icon center'
+          src="/images/icon/play.png"></div>
+      <div id="cron-pause-btn" onclick="pauseCron()" style="display:none;"
+        class="mobile-box b2 border radius-50 padding-10 margin-top-5 noselect center"><img class='size-25 icon center'
+          src="/images/icon/pause.png"></div>
+      <div id="cron-confirm-btn" onclick="confirmCron()" style="display:none;"
+        class="mobile-box b4 border radius-50 padding-10 margin-top-5 noselect center"><img class='size-25 icon center'
+          src="/images/icon/confirm.png">
+      </div>
+    </div>
+  </div>
+
+  <input type="number" name="time" class="mobile-box b5-12 input-generic lucida-grande bold margin-top-5 center" min="1"
+    step="1" placeholder="Segundos" onfocus="if(this.value < 0.1){this.value = ''}"
+    onblur="if(this.value < '0.0'){this.value = ''}" />
+
+  <button name="submit" class="mobile-box b12 noborder v-center"><img class='size-25 icon center'
+      src="/images/icon/increase.png"></button>
+</form>

@@ -1,0 +1,36 @@
+<script>
+  document.getElementById("filigran-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let filigran = {
+      product_id: e.target.product_id.value
+    };
+
+    let filigrans = await API.response(Product.filigran.filter, filigran);
+    if (!filigrans) { return false; }
+
+    filigranFilter(filigrans);
+  });
+
+  function filigranFilter(filigrans) {
+    let filter_div = document.getElementById("filigran-filter-div");
+    filter_div.innerHTML = "";
+
+    filigrans = lib.sort(filigrans, "code");
+
+    let totalTime = filigrans.reduce((tt, filigran) => { return tt + filigran.time; }, 0);
+
+    filter_div.append(lib.element.create("div", { class: "box b1 center georgia em12 bold border padding-10 margin-top-5" }, `Tempo total: ${totalTime}s`));
+
+    filigrans.forEach(filigran => {
+      let filigran_div = lib.element.create("div", { class: "box b1 container border-lg-st padding-2 margin-top-2" });
+      filigran_div.append(lib.element.create("div", { class: "mobile-box b12 em09 bold center" }, filigran.code));
+      filigran_div.append(lib.element.create("div", { class: "mobile-box b3 em09 v-center" }, filigran.name));
+      filigran_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `${filigran.time}s`));
+      filigran_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, filigran.machine));
+      filigran_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `filigranEdit(${filigran.id})`));
+      filigran_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `filigranDelete(${filigran.id})`));
+      filter_div.append(filigran_div);
+    });
+  };
+</script>
