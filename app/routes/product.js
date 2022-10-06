@@ -39,6 +39,7 @@ router.get('/print', lib.route.toHttps, productController.print);
 router.delete('/image/id/:id', lib.route.toHttps, productController.image.delete);
 
 router.get('/datasheet', lib.route.toHttps, productController.datasheet.index);
+router.get('/datasheet/cost', lib.route.toHttps, productController.datasheet.cost);
 
 // router.get('/feedstock', lib.route.toHttps, productController.feedstock.index);
 router.get('/feedstock/manage', lib.route.toHttps, productController.feedstock.manage);
