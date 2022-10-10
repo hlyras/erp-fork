@@ -1,7 +1,7 @@
 Feedstock.controller = {};
 
 Feedstock.controller.create = document.getElementById("feedstock-create-form");
-if(Feedstock.controller.create){
+if (Feedstock.controller.create) {
 	Feedstock.controller.create.addEventListener("submit", async event => {
 		event.preventDefault();
 
@@ -15,7 +15,7 @@ if(Feedstock.controller.create){
 		};
 
 		let response = await API.response(Feedstock.save, feedstock);
-		if(!response){ return false; }
+		if (!response) { return false; }
 
 		event.target.elements.namedItem('id').value = "";
 		event.target.elements.namedItem('code').value = "";
@@ -29,7 +29,7 @@ if(Feedstock.controller.create){
 }
 
 Feedstock.controller.filter = document.getElementById("feedstock-filter-form");
-if(Feedstock.controller.filter){
+if (Feedstock.controller.filter) {
 	Feedstock.controller.filter.addEventListener("submit", async event => {
 		event.preventDefault();
 
@@ -40,18 +40,18 @@ if(Feedstock.controller.filter){
 		};
 
 		let feedstocks = await API.response(Feedstock.filter, feedstock);
-		if(!feedstocks){ return false; }
+		if (!feedstocks) { return false; }
 
 		lib.display("feedstock-filter-box", "none");
 
-		const pagination = { pageSize: 10, page: 0};
-		(function(){ lib.carousel.execute("feedstock-filter-box", Feedstock.view.filter, feedstocks, pagination); }());
+		const pagination = { pageSize: 10, page: 0 };
+		(function () { lib.carousel.execute("feedstock-filter-box", Feedstock.view.filter, feedstocks, pagination); }());
 	});
 }
 
 Feedstock.controller.edit = async (feedstock_id) => {
 	let feedstock = await API.response(Feedstock.findById, feedstock_id);
-	if(!feedstock) { return false; }
+	if (!feedstock) { return false; }
 
 	document.getElementById("feedstock-create-form").elements.namedItem("id").value = feedstock.id;
 	document.getElementById("feedstock-create-form").elements.namedItem("code").value = feedstock.code;
@@ -63,33 +63,31 @@ Feedstock.controller.edit = async (feedstock_id) => {
 
 Feedstock.controller.delete = async (feedstock_id) => {
 	let r = confirm('Deseja realmente excluir a matéria-prima? Essa ação não pode ser revertida!');
-	if(r){
-		if(!await API.response(Feedstock.delete, feedstock_id)){ return false; };
+	if (r) {
+		if (!await API.response(Feedstock.delete, feedstock_id)) { return false; };
 		Feedstock.controller.filter.submit.click();
 	}
 };
 
 Feedstock.controller.report = async (feedstock_id) => {
 	let feedstocks = await API.response(Feedstock.report, feedstock_id);
-	if(!feedstocks){ return false; }
+	if (!feedstocks) { return false; }
 
 	lib.display("feedstock-filter-box", "none");
 
-	const pagination = { pageSize: 10, page: 0};
-	(function(){ lib.carousel.execute("feedstock-report-box", Feedstock.view.report, feedstocks, pagination); }());
+	const pagination = { pageSize: 10, page: 0 };
+	(function () { lib.carousel.execute("feedstock-report-box", Feedstock.view.report, feedstocks, pagination); }());
 };
 
 Feedstock.controller.dropdown = {
 	filter: async (input, dropdown_id) => {
-		event.preventDefault();
-
 		let feedstock = { name: input.value };
-		
-		let properties = ["code","name","color_name","unit","uom"];
 
-		if(feedstock.name.length > 2){
+		let properties = ["code", "name", "color_name", "unit", "uom"];
+
+		if (feedstock.name.length > 2) {
 			let feedstocks = await API.response(Feedstock.filter, feedstock);
-			if(!feedstocks){ return false; };
+			if (!feedstocks) { return false; };
 
 			lib.dropdown.render(feedstocks, input.id, dropdown_id, "input", "id", properties);
 		} else {

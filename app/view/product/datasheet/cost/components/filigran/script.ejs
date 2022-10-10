@@ -1,0 +1,10 @@
+<script>
+  async function filigranRender(product_id) {
+    console.log(`filigran: ${product_id}`);
+
+    let filigrans = await API.response(Product.filigran.filter, { product_id });
+    if (!filigrans) { return false; }
+
+    // console.log(filigrans);
+  };
+</script>

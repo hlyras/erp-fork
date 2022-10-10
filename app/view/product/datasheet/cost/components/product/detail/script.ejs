@@ -17,5 +17,9 @@
     detail_div.append(lib.element.info("b4", "Cor", product.color));
     detail_div.append(lib.element.info("b5-12", "Marca", product.brand));
     detail_div.append(lib.element.info("b6", "Peso", `${product.weight}g`));
+
+    feedstockRender(product_id);
+    filigranRender(product_id);
+    seamRender(product_id);
   };
 </script>

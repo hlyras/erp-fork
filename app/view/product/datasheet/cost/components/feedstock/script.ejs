@@ -1,0 +1,76 @@
+<script>
+  async function feedstockRender(product_id) {
+    let feedstocks = await API.response(Product.feedstock.datasheet, product_id);
+    if (!feedstocks) { return false; }
+
+    feedstocks = feedstocks.reduce((arr, feedstock) => {
+      for (let i in arr) {
+        if (feedstock.feedstock_id == arr[i].feedstock_id) {
+          if (feedstock.uom == "cm") {
+            arr[i].totalMeasure += feedstock.measure * feedstock.amount;
+          } else {
+            arr[i].totalAmount += parseInt(feedstock.amount);
+          }
+          return arr;
+        }
+      };
+
+      if (feedstock.uom == "cm") {
+        feedstock.totalMeasure = feedstock.measure * feedstock.amount;
+      } else {
+        feedstock.totalAmount = feedstock.amount;
+      }
+
+      arr.push(feedstock);
+
+      return arr;
+    }, []);
+
+    let metrics = {
+      totalValue: 0
+    };
+
+    let feedstock_box = document.getElementById("feedstock-cost-box");
+    feedstock_box.innerHTML = "";
+
+    let feedstock_header = lib.element.create("div", { class: "box b1 container border padding-5 margin-top-5" });
+    feedstock_header.append(lib.element.create("div", { class: "mobile-box b8 em08 center" }, "Código"));
+    feedstock_header.append(lib.element.create("div", { class: "mobile-box b2 em08 center" }, "Nome"));
+    feedstock_header.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, "Medida total"));
+    feedstock_header.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, "Preço"));
+    feedstock_box.append(feedstock_header);
+
+    feedstocks.forEach(feedstock => {
+      let feedstock_div = lib.element.create("div", { class: "box b1 container border padding-5" });
+      feedstock_div.append(lib.element.create("div", { class: "mobile-box b12 center" }, feedstock.code));
+      feedstock_div.append(lib.element.create("div", { class: "mobile-box b5-12 v-center" }, feedstock.name));
+      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `${feedstock.totalMeasure}${feedstock.uom}`));
+      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `R$${((feedstock.price / 100) * feedstock.totalMeasure).toFixed(2)}`));
+      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `${feedstock.totalAmount}${feedstock.uom}`));
+      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `R$${((feedstock.price / feedstock.unit) * feedstock.totalAmount).toFixed(2)}`));
+      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `R$${(feedstock.price / 100).toFixed(4)}`));
+      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `R$${(feedstock.price / feedstock.unit).toFixed(4)}`));
+      feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `R$${feedstock.price.toFixed(4)}`));
+      feedstock_box.append(feedstock_div);
+
+      if (feedstock.uom == "cm") {
+        metrics.totalValue += ((feedstock.price / 100) * feedstock.totalMeasure);
+      } else {
+        metrics.totalValue += ((feedstock.price / feedstock.unit) * feedstock.totalAmount);
+      }
+    });
+
+    console.log(metrics);
+  };
+
+</script>
+
+<!-- 
+Preço por m
+Medidas por cm
+Unidades por pacote 
+
+(price/100) * measure
+(price/unit) * amount
+
+-->

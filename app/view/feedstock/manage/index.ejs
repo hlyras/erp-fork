@@ -1,0 +1,28 @@
+<html>
+
+<head>
+  <%- include('./../../partials/head.ejs') %>
+</head>
+
+<body>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
+  <section class="container">
+    <div class="box a2 container">
+      <%- include('./components/feedstock/create/form.ejs') %>
+    </div>
+    <div class="box a2 container">
+      <%- include('./components/feedstock/filter/form.ejs') %>
+    </div>
+  </section>
+  <%- include('./../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../partials/footer.ejs') %>
+  <script src="/javascripts/scripts/feedstock/model/main.js"></script>
+  <%- include('./components/feedstock/create/script.ejs') %>
+  <%- include('./components/feedstock/filter/script.ejs') %>
+  <%- include('./components/feedstock/report/script.ejs') %>
+</footer>
+
+</html>

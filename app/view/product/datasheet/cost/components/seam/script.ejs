@@ -1,0 +1,10 @@
+<script>
+  async function seamRender(product_id) {
+    console.log(`seam: ${product_id}`);
+
+    let seams = await API.response(Product.seam.filter, { product_id });
+    if (!seams) { return false; }
+
+    // console.log(seams);
+  };
+</script>

@@ -3,12 +3,12 @@ const Feedstock = {};
 Feedstock.save = async (feedstock) => {
 	let response = await fetch("/feedstock/save", {
 		method: "POST",
-		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify(feedstock)
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(feedstock)
 	});
 	response = await response.json();
 
-	if(API.verifyResponse(response)){ return false };
+	if (API.verifyResponse(response)) { return false };
 	alert(response.done);
 
 	return response;
@@ -17,41 +17,40 @@ Feedstock.save = async (feedstock) => {
 Feedstock.filter = async feedstock => {
 	let response = await fetch("/feedstock/filter", {
 		method: "POST",
-		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify({ feedstock })
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ feedstock })
 	});
 	response = await response.json();
 
-	if(API.verifyResponse(response)){ return false };
+	if (API.verifyResponse(response)) { return false };
 
 	return response.feedstocks;
 };
 
 Feedstock.findById = async (id) => {
-	let response = await fetch("/feedstock/id/" + id);
+	let response = await fetch(`/feedstock/id/${id}`);
 	response = await response.json();
-	
-	if(API.verifyResponse(response)){ return false };
-	
-	return response.feedstock[0];
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response.feedstock;
 };
 
 Feedstock.report = async (id) => {
-	let response = await fetch("/feedstock/report/id/" + id);
+	let response = await fetch(`/feedstock/report/id/${id}`);
 	response = await response.json();
-	
-	if(API.verifyResponse(response)){ return false };
-	
+
+	if (API.verifyResponse(response)) { return false };
+
 	return response.feedstocks;
 };
 
 Feedstock.delete = async (id) => {
-	let response = await fetch("/feedstock/delete/id/" + id, { method: 'DELETE' });
+	let response = await fetch(`/feedstock/delete/id/${id}`, { method: 'DELETE' });
 	response = await response.json();
 
-	if(API.verifyResponse(response)){ return false };
-	
+	if (API.verifyResponse(response)) { return false };
 	alert(response.done);
-	
+
 	return true;
 };

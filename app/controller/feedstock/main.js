@@ -16,12 +16,18 @@ feedstockController.manage = async (req, res) => {
 		return res.redirect('/');
 	};
 
-	let colors = await Product.color.list();
-	res.render('feedstock/manage', { colors: colors, user: req.user });
+	try {
+		let colors = await Product.color.list();
+		let suppliers = await Feedstock.supplier.filter([], [], [], [], []);
+		res.render('feedstock/manage/index', { colors, suppliers, user: req.user });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro, favor contatar o suporte." });
+	}
 }
 
 feedstockController.save = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -32,26 +38,25 @@ feedstockController.save = async (req, res) => {
 	feedstock.color_id = req.body.color_id;
 	feedstock.unit = req.body.unit;
 	feedstock.uom = req.body.uom;
-
-	if (!feedstock.code || feedstock.code < 1 || feedstock.code > 9999) { return res.send({ msg: 'Código de Máteria-prima inválido.' }) };
-	if (!feedstock.name || feedstock.name.length > 20) { return res.send({ msg: 'Preencha o nome do Matéria-prima.' }) };
-	if (!feedstock.color_id || feedstock.color_id <= 0) { return res.send({ msg: 'Preencha a cor do Matéria-prima.' }) };
-	if (!feedstock.unit || feedstock.unit.length > 5) { return res.send({ msg: 'Preencha a medida padrão.' }) };
-	if (!feedstock.uom || feedstock.uom.length > 2) { return res.send({ msg: 'Preencha a unidade de medida.' }) };
+	feedstock.supplier_id = req.body.supplier_id;
 
 	try {
 		if (!feedstock.id) {
 			let feedstocks = await Feedstock.findByCode(feedstock.code);
 			if (feedstocks.length) { return res.send({ msg: 'Este código de produto já está cadastrado.' }) };
 
-			await feedstock.save();
+			let response = await feedstock.save();
+			if (response.err) { return res.send({ msg: response.err }); }
 
 			res.send({ done: 'Matéria prima cadastrada com sucesso!' });
 		} else {
 			let feedstocks = await Feedstock.findByCode(feedstock.code);
-			if (feedstocks.length) { if (feedstocks[0].id != feedstock.id) { return res.send({ msg: 'Este código de produto já está cadastrado.' }); }; };
+			if (feedstocks.length) {
+				if (feedstocks[0].id != feedstock.id) { return res.send({ msg: 'Este código de produto já está cadastrado.' }); };
+			};
 
-			await feedstock.update();
+			let response = await feedstock.update();
+			if (response.err) { return res.send({ msg: response.err }); }
 
 			res.send({ done: 'Matéria prima atualizada com sucesso!' });
 		};
@@ -100,11 +105,13 @@ feedstockController.findById = async (req, res) => {
 
 	let props = [
 		"feedstock.*",
-		"color.name color_name"
+		"color.name color_name",
+		"supplier.name supplier_name", "supplier.name supplier_brand"
 	];
 
 	let inners = [
-		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
+		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"],
+		["cms_wt_erp.feedstock_supplier supplier", "supplier.id", "feedstock.supplier_id"]
 	];
 
 	let params = { keys: [], values: [] };
@@ -115,7 +122,7 @@ feedstockController.findById = async (req, res) => {
 	let order_params = [["feedstock.code", "ASC"]];
 
 	try {
-		let feedstock = await Feedstock.filter(props, inners, params, strict_params, order_params);
+		let feedstock = (await Feedstock.filter(props, inners, params, strict_params, order_params))[0];
 		res.send({ feedstock });
 	} catch (err) {
 		console.log(err);
