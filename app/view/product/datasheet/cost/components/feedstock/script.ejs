@@ -3,7 +3,9 @@
     let feedstocks = await API.response(Product.feedstock.datasheet, product_id);
     if (!feedstocks) { return false; }
 
-    feedstocks = feedstocks.reduce((arr, feedstock) => {
+    let feedstocksById = [];
+
+    feedstocksById = feedstocks.reduce((arr, feedstock) => {
       for (let i in arr) {
         if (feedstock.feedstock_id == arr[i].feedstock_id) {
           if (feedstock.uom == "cm") {
@@ -33,24 +35,41 @@
     let feedstock_box = document.getElementById("feedstock-cost-box");
     feedstock_box.innerHTML = "";
 
-    let feedstock_header = lib.element.create("div", { class: "box b1 container border padding-5 margin-top-5" });
-    feedstock_header.append(lib.element.create("div", { class: "mobile-box b8 em08 center" }, "Código"));
-    feedstock_header.append(lib.element.create("div", { class: "mobile-box b2 em08 center" }, "Nome"));
-    feedstock_header.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, "Medida total"));
-    feedstock_header.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, "Preço"));
-    feedstock_box.append(feedstock_header);
+    let details_box = lib.element.create("details", { class: "box b1 container ground border radius-5 padding-5 margin-top-5" });
+    details_box.append(lib.element.create("summary", { class: "box b1 lucida-grande bold padding-5 pointer" }, "Matérias-primas"));
+    feedstock_box.append(details_box);
 
     feedstocks.forEach(feedstock => {
       let feedstock_div = lib.element.create("div", { class: "box b1 container border padding-5" });
+      feedstock_div.append(lib.element.create("div", { class: "mobile-box b12 lucida-grande center" }, feedstock.code));
+      feedstock_div.append(lib.element.create("div", { class: "mobile-box b5-12 lucida-grande em09" }, feedstock.name));
+      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `${feedstock.measure}cm`));
+      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `${feedstock.amount}un`));
+      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b3 em09 center" }, `${feedstock.amount}un`));
+      details_box.append(feedstock_div);
+    });
+
+    let report_box = lib.element.create("div", { class: "box b1 container" });
+    feedstock_box.append(report_box);
+
+    let feedstock_header = lib.element.create("div", { class: "box b1 container border padding-5 margin-top-5" });
+    feedstock_header.append(lib.element.create("div", { class: "mobile-box b12 bold em08 center" }, "Código"));
+    feedstock_header.append(lib.element.create("div", { class: "mobile-box b5-12 bold em08 center" }, "Nome"));
+    feedstock_header.append(lib.element.create("div", { class: "mobile-box b6 bold em08 center" }, "Medida/Qtd"));
+    feedstock_header.append(lib.element.create("div", { class: "mobile-box b6 bold em08 center" }, "Preço"));
+    feedstock_header.append(lib.element.create("div", { class: "mobile-box b6 bold em08 center" }, "Custo"));
+    feedstock_box.append(feedstock_header);
+
+    feedstocksById.forEach(feedstock => {
+      let feedstock_div = lib.element.create("div", { class: "box b1 container border padding-5" });
       feedstock_div.append(lib.element.create("div", { class: "mobile-box b12 center" }, feedstock.code));
       feedstock_div.append(lib.element.create("div", { class: "mobile-box b5-12 v-center" }, feedstock.name));
-      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `${feedstock.totalMeasure}${feedstock.uom}`));
-      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `R$${((feedstock.price / 100) * feedstock.totalMeasure).toFixed(2)}`));
-      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `${feedstock.totalAmount}${feedstock.uom}`));
-      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `R$${((feedstock.price / feedstock.unit) * feedstock.totalAmount).toFixed(2)}`));
-      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `R$${(feedstock.price / 100).toFixed(4)}`));
-      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `R$${(feedstock.price / feedstock.unit).toFixed(4)}`));
-      feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em08 v-center" }, `R$${feedstock.price.toFixed(4)}`));
+      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `${feedstock.totalMeasure}${feedstock.uom}`));
+      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `R$${((feedstock.price / 100)).toFixed(4)}`));
+      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `R$${((feedstock.price / 100) * feedstock.totalMeasure).toFixed(2)}`));
+      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `${feedstock.totalAmount}${feedstock.uom}`));
+      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `R$${(feedstock.price).toFixed(4)}`));
+      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `R$${(feedstock.price * feedstock.totalAmount).toFixed(2)}`));
       feedstock_box.append(feedstock_div);
 
       if (feedstock.uom == "cm") {
@@ -60,12 +79,12 @@
       }
     });
 
-    console.log(metrics);
+    report_box.append(lib.element.create("div", { class: "box b1 ground lucida-grande bold radius-5 padding-5 margin-top-5 center" }, `Gasto total: R$${metrics.totalValue.toFixed(2)}`));
   };
-
 </script>
 
-<!-- 
+<!--
+ 
 Preço por m
 Medidas por cm
 Unidades por pacote 
