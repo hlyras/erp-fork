@@ -3,6 +3,8 @@
     let production = await API.response(Production.findById, id);
     if (!production) { return false; }
 
+    console.log(production);
+
     lib.display("production-filter-box", "none");
     lib.display("production-detail-box", "");
 
@@ -31,5 +33,10 @@
     });
 
     detail_box.append(production_div);
+
+    detail_box.append(lib.element.create("button", {
+      class: "box b1 lucida-grande bold border-lg-st radius-5 padding-10 margin-top-10 center pointer",
+      onclick: `lib.openExternalLink('${window.location.origin}/production/preparation/print/${production.id}')`
+    }, `Imprimir guia de preparação`));
   };
 </script>

@@ -82,6 +82,34 @@ productionController.create = async (req, res) => {
 	};
 };
 
+productionController.findById = async (req, res) => {
+	// Production
+	let production_props = ["production.*", "outcome_origin.name seamstress_name"];
+	let production_inners = [
+		["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "production.seamstress_id"]
+	];
+	let production_strict_params = { keys: [], values: [] };
+	lib.Query.fillParam("production.id", req.params.id, production_strict_params);
+
+	// Production product
+	let product_props = ["production_product.*", "product.code", "product.name", "product.color", "product.size"];
+	let product_inners = [
+		["cms_wt_erp.product", "production_product.product_id", "product.id"]
+	];
+	let product_strict_params = { keys: [], values: [] };
+	lib.Query.fillParam("production_product.production_id", req.params.id, product_strict_params);
+
+	try {
+		const production = (await Production.filter(production_props, production_inners, [], [], production_strict_params, [], 0))[0];
+		production.products = await Production.product.filter(product_props, product_inners, [], product_strict_params, []);
+
+		res.send({ production });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });
+	};
+};
+
 productionController.filter = async (req, res) => {
 	let props = ["production.*", "outcome_origin.name seamstress_name"];
 	let inners = [

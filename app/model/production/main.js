@@ -3,19 +3,19 @@ const lib = require("jarmlib");
 
 const Production = function () {
 	this.id;
-	this.datetime;
-	this.date;
+	this.datetime; // Hora do cadastro da produção
+	this.date; // Data estimada para produção final
 	this.location; // Interna | Externa
 	this.seamstress_id;
 	this.status;
 	this.user_id;
 
-	this.preparation_deadline;
+	this.preparation_deadline; // Data limite para preparação
 
 	this.preparation_datetime;
 	this.preparation_user_id;
 
-	this.shipment_datetime;
+	this.shipment_datetime; // Data e hora do despacho para produção
 	this.shipment_user_id;
 
 	this.create = () => {

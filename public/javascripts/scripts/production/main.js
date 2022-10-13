@@ -26,3 +26,12 @@ Production.filter = async (production) => {
 
 	return response.productions;
 };
+
+Production.findById = async (id) => {
+	let response = await fetch(`/production/id/${id}`);
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response.production;
+};

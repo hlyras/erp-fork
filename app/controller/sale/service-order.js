@@ -10,20 +10,20 @@ const lib = require("jarmlib");
 const serviceOrderController = {};
 
 serviceOrderController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-ass','log-pac','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'adm-man', 'adm-ass', 'adm-aud', 'pro-ass', 'log-pac', 'fin-ass'])) {
 		return res.redirect('/');
 	};
 
 	try {
 		res.render('sale/triage/service-order/index', { user: req.user });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao buscar a O.S., favor contatar o suporte." });
 	};
 };
 
 serviceOrderController.findById = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-man','pro-ass','log-pac','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'adm-man', 'adm-ass', 'adm-aud', 'pro-man', 'pro-ass', 'log-pac', 'fin-ass'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -34,7 +34,7 @@ serviceOrderController.findById = async (req, res) => {
 		];
 
 		let inners = [
-			["cms_wt_erp.user user", "service_order.user_id","user.id"]
+			["cms_wt_erp.user user", "service_order.user_id", "user.id"]
 		];
 
 		let strict_params = { keys: [], values: [] };
@@ -49,8 +49,8 @@ serviceOrderController.findById = async (req, res) => {
 		];
 
 		inners = [
-			["cms_wt_erp.sale sale", "service_order_sale.sale_id","sale.id"],
-			["cms_wt_erp.customer customer", "sale.customer_id","customer.id"]
+			["cms_wt_erp.sale sale", "service_order_sale.sale_id", "sale.id"],
+			["cms_wt_erp.customer customer", "sale.customer_id", "customer.id"]
 		];
 
 		strict_params = { keys: [], values: [] };
@@ -58,33 +58,33 @@ serviceOrderController.findById = async (req, res) => {
 		serviceOrder.sales = await ServiceOrder.sale.filter(props, inners, [], strict_params, [], 0);
 
 		props = ["user.name"];
-		if(serviceOrder.collect_user_id) {
+		if (serviceOrder.collect_user_id) {
 			strict_params = { keys: [], values: [] };
 			lib.Query.fillParam("user.id", serviceOrder.collect_user_id, strict_params);
 			serviceOrder.collect_user = (await User.filter(props, [], [], strict_params, []))[0];
 		}
 
-		if(serviceOrder.recept_user_id) {
+		if (serviceOrder.recept_user_id) {
 			strict_params = { keys: [], values: [] };
 			lib.Query.fillParam("user.id", serviceOrder.recept_user_id, strict_params);
 			serviceOrder.recept_user = (await User.filter(props, [], [], strict_params, []))[0];
 		}
 
-		if(serviceOrder.cancel_user_id) {
+		if (serviceOrder.cancel_user_id) {
 			strict_params = { keys: [], values: [] };
 			lib.Query.fillParam("user.id", serviceOrder.cancel_user_id, strict_params);
 			serviceOrder.cancel_user = (await User.filter(props, [], [], strict_params, []))[0];
 		}
 
 		res.send(serviceOrder);
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao tentar encontrar a O.S., favor contatar o suporte." });
 	};
 };
 
 serviceOrderController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','adm-man','adm-ass','adm-aud','pro-man','pro-ass','log-pac','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'adm-man', 'adm-ass', 'adm-aud', 'pro-man', 'pro-ass', 'log-pac', 'fin-ass'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -102,12 +102,12 @@ serviceOrderController.filter = async (req, res) => {
 	lib.Query.fillParam("service_order.method", serviceOrder.method, strict_params);
 	lib.Query.fillParam("service_order.status", serviceOrder.status, strict_params);
 
-	let orderParams = [ ["id", "DESC"] ]
+	let orderParams = [["id", "DESC"]]
 
 	try {
 		let serviceOrders = await ServiceOrder.filter([], [], period, [], strict_params, orderParams, 0);
 		res.send(serviceOrders);
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao registrar a O.S., favor contatar o suporte." });
 	};
@@ -116,7 +116,7 @@ serviceOrderController.filter = async (req, res) => {
 serviceOrderController.shipment = {};
 
 serviceOrderController.shipment.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac'])) {
 		return res.redirect('/');
 	};
 
@@ -130,29 +130,29 @@ serviceOrderController.shipment.index = async (req, res) => {
 
 	const strict_params = { keys: [], values: [] };
 	lib.Query.fillParam("sale.status", "Ag. envio", strict_params);
-	const order_params = [ ["id","DESC"] ];
+	const order_params = [["id", "DESC"]];
 
 	try {
 		let sales = await Sale.filter([], [], [], [], strict_params, order_params, 0);
 
-		for(let i in sales) {
-			if(sales[i].shipment_method == "Correios Pac") { metrics.correios++; }
-			if(sales[i].shipment_method == "Correios sedex") { metrics.correios++; }
-			if(sales[i].shipment_method == "Jadlog") { metrics.jadlog++; }
-			if(sales[i].shipment_method == "Total Express") { metrics.total_express++; }
-			if(sales[i].shipment_method == "Braspress") { metrics.braspress++; }
-			if(sales[i].shipment_method == "Latam") { metrics.latam++; }
+		for (let i in sales) {
+			if (sales[i].shipment_method == "Correios Pac") { metrics.correios++; }
+			if (sales[i].shipment_method == "Correios sedex") { metrics.correios++; }
+			if (sales[i].shipment_method == "Jadlog") { metrics.jadlog++; }
+			if (sales[i].shipment_method == "Total Express") { metrics.total_express++; }
+			if (sales[i].shipment_method == "Braspress") { metrics.braspress++; }
+			if (sales[i].shipment_method == "Latam") { metrics.latam++; }
 		};
 
 		res.render('sale/triage/shipment', { user: req.user, metrics });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao buscar a O.S., favor contatar o suporte." });
 	};
 };
 
 serviceOrderController.shipment.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -165,7 +165,7 @@ serviceOrderController.shipment.save = async (req, res) => {
 		user_id: req.user.id
 	};
 
-	if(!serviceOrder.orders.length) {
+	if (!serviceOrder.orders.length) {
 		return res.send({ msg: "É necessário incluir ao menos 1 pedido para gerar uma O.S." });
 	}
 
@@ -174,7 +174,7 @@ serviceOrderController.shipment.save = async (req, res) => {
 
 		serviceOrder.id = so_response.insertId;
 
-		for(let i in serviceOrder.orders) {
+		for (let i in serviceOrder.orders) {
 			let sale = {
 				id: serviceOrder.orders[i].id,
 				service_order_id: serviceOrder.id,
@@ -190,14 +190,14 @@ serviceOrderController.shipment.save = async (req, res) => {
 		};
 
 		res.send({ done: "O.S. de despacho registrada com sucesso!", serviceOrder });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao registrar a O.S., favor contatar o suporte." });
 	};
 };
 
 serviceOrderController.shipment.print = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -205,18 +205,18 @@ serviceOrderController.shipment.print = async (req, res) => {
 		let serviceOrder = (await ServiceOrder.findById(req.params.id))[0];
 		serviceOrder.date = lib.date.timestamp.toDate(serviceOrder.datetime).split(" ")[0];
 
-		let props = ["sale.*","service_order_sale.*","customer.trademark"];
+		let props = ["sale.*", "service_order_sale.*", "customer.trademark"];
 		let inners = [
-			["cms_wt_erp.sale sale","service_order_sale.sale_id","sale.id"],
-			["cms_wt_erp.customer customer","sale.customer_id","customer.id"]
+			["cms_wt_erp.sale sale", "service_order_sale.sale_id", "sale.id"],
+			["cms_wt_erp.customer customer", "sale.customer_id", "customer.id"]
 		];
-		
+
 		let strict_params = { keys: [], values: [] };
 		lib.Query.fillParam("cms_wt_erp.service_order_sale.service_order_id", req.params.id, strict_params);
 
 		serviceOrder.sales = await ServiceOrder.sale.filter(props, inners, [], strict_params, [], 0);
 		res.render('sale/triage/shipment/print', { user: req.user, serviceOrder });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao imprimir a O.S., favor contatar o suporte." });
 	};
@@ -225,7 +225,7 @@ serviceOrderController.shipment.print = async (req, res) => {
 serviceOrderController.transport = {};
 
 serviceOrderController.transport.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac'])) {
 		return res.redirect('/');
 	};
 
@@ -233,7 +233,7 @@ serviceOrderController.transport.index = async (req, res) => {
 };
 
 serviceOrderController.transport.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -246,7 +246,7 @@ serviceOrderController.transport.save = async (req, res) => {
 		user_id: req.user.id
 	};
 
-	if(!serviceOrder.orders.length) {
+	if (!serviceOrder.orders.length) {
 		return res.send({ msg: "É necessário incluir ao menos 1 pedido para gerar uma O.S." });
 	}
 
@@ -254,7 +254,7 @@ serviceOrderController.transport.save = async (req, res) => {
 		let so_response = await ServiceOrder.save(serviceOrder);
 		serviceOrder.id = so_response.insertId;
 
-		for(let i in serviceOrder.orders) {
+		for (let i in serviceOrder.orders) {
 			let service_order_sale = {
 				service_order_id: serviceOrder.id,
 				sale_id: serviceOrder.orders[i].id
@@ -270,7 +270,7 @@ serviceOrderController.transport.save = async (req, res) => {
 		};
 
 		res.send({ done: "O.S. de transporte registrada com sucesso!", serviceOrder });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao registrar a O.S., favor contatar o suporte." });
 	};
@@ -279,7 +279,7 @@ serviceOrderController.transport.save = async (req, res) => {
 serviceOrderController.collect = {};
 
 serviceOrderController.collect.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass'])) {
 		return res.redirect('/');
 	};
 
@@ -287,7 +287,7 @@ serviceOrderController.collect.index = async (req, res) => {
 };
 
 serviceOrderController.collect.confirm = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -302,7 +302,7 @@ serviceOrderController.collect.confirm = async (req, res) => {
 		serviceOrder.sales = await ServiceOrder.sale.list(serviceOrder.id);
 		await ServiceOrder.collect.confirm(serviceOrder);
 
-		for(let i in serviceOrder.sales) {
+		for (let i in serviceOrder.sales) {
 			let sale = {
 				id: serviceOrder.sales[i].sale_id,
 				status: "A caminho do P.R."
@@ -312,14 +312,14 @@ serviceOrderController.collect.confirm = async (req, res) => {
 		};
 
 		res.send({ done: "O.S. de transporte coletada com sucesso!" });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao coletar a O.S., favor contatar o suporte." });
 	};
 };
 
 serviceOrderController.collect.cancel = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -334,7 +334,7 @@ serviceOrderController.collect.cancel = async (req, res) => {
 		serviceOrder.sales = await ServiceOrder.sale.list(serviceOrder.id);
 		await ServiceOrder.collect.cancel(serviceOrder);
 
-		for(let i in serviceOrder.sales) {
+		for (let i in serviceOrder.sales) {
 			let sale = {
 				id: serviceOrder.sales[i].sale_id,
 				status: "Ag. envio p/ retirada"
@@ -344,7 +344,7 @@ serviceOrderController.collect.cancel = async (req, res) => {
 		};
 
 		res.send({ done: "O.S. de transporte cancelada com sucesso!" });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao cancelar a O.S., favor contatar o suporte." });
 	};
@@ -353,7 +353,7 @@ serviceOrderController.collect.cancel = async (req, res) => {
 serviceOrderController.recept = {};
 
 serviceOrderController.recept.confirm = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-ass','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-ass', 'fin-ass'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -364,14 +364,14 @@ serviceOrderController.recept.confirm = async (req, res) => {
 		recept_user_id: req.user.id
 	};
 
-	if(!serviceOrder.orders.length) { 
+	if (!serviceOrder.orders.length) {
 		return res.send({ msg: "É necessário receber ao menos 1 pedido." });
 	}
 
 	try {
 		serviceOrder.sales = await ServiceOrder.sale.list(serviceOrder.id);
 
-		if(serviceOrder.sales.length > serviceOrder.orders.length) {
+		if (serviceOrder.sales.length > serviceOrder.orders.length) {
 			serviceOrder.status = "Finalizada parcial";
 			await ServiceOrder.recept.confirm(serviceOrder);
 		} else {
@@ -379,15 +379,15 @@ serviceOrderController.recept.confirm = async (req, res) => {
 			await ServiceOrder.recept.confirm(serviceOrder);
 		}
 
-		for(let i in serviceOrder.sales) {
-			for(let j in serviceOrder.orders) {
-				if(serviceOrder.sales[i].sale_id == serviceOrder.orders[j].sale_id){
+		for (let i in serviceOrder.sales) {
+			for (let j in serviceOrder.orders) {
+				if (serviceOrder.sales[i].sale_id == serviceOrder.orders[j].sale_id) {
 					serviceOrder.sales.splice(i, 1);
 				}
 			};
 		};
 
-		for(let i in serviceOrder.sales) {
+		for (let i in serviceOrder.sales) {
 			let sale = {
 				id: serviceOrder.sales[i].sale_id,
 				status: "Extraviado"
@@ -402,7 +402,7 @@ serviceOrderController.recept.confirm = async (req, res) => {
 			await ServiceOrder.sale.update(service_order_sale);
 		};
 
-		for(let i in serviceOrder.orders) {
+		for (let i in serviceOrder.orders) {
 			let sale = {
 				id: serviceOrder.orders[i].sale_id,
 				status: "Disponível para retirada"
@@ -412,7 +412,7 @@ serviceOrderController.recept.confirm = async (req, res) => {
 		};
 
 		res.send({ done: "O.S. recebida com sucesso!" });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao receber a O.S., favor contatar o suporte." });
 	};

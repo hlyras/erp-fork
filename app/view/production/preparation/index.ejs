@@ -1,0 +1,29 @@
+<html>
+
+<head>
+  <%- include('./../../partials/head.ejs') %>
+</head>
+
+<body>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
+  <section class="container h-center">
+    <div class="box a2 container">
+      <%- include('./components/filter/form.ejs') %>
+      <%- include('./components/detail/box.ejs') %>
+    </div>
+  </section>
+  <%- include('./../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../partials/footer.ejs') %>
+  <script src="/javascripts/scripts/product/model/main.js"></script>
+  <script src="/javascripts/scripts/user/model/main.js"></script>
+  <script src="/javascripts/scripts/financial/outcome/model/main.js"></script>
+  <script src="/javascripts/scripts/financial/outcome/model/origin.js"></script>
+  <script src="/javascripts/scripts/production/main.js"></script>
+  <%- include('./components/filter/script.ejs') %>
+  <%- include('./components/detail/script.ejs') %>
+</footer>
+
+</html>
