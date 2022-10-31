@@ -1,0 +1,63 @@
+<script>
+  document.getElementById("sale-filter-form").period_start.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+  document.getElementById("sale-filter-form").period_end.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+
+  document.getElementById("sale-filter-form").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    let sale = {
+      periodStart: lib.dateToTimestamp(event.target.period_start.value),
+      periodEnd: lib.dateToTimestamp(event.target.period_end.value) + (lib.timestampDay() - 1),
+      packment_user_id: event.target.elements.namedItem("packment-user-id").value
+    };
+
+    let response = await API.response(Ecommerce.report.packment.filter, sale);
+    if (!response) { return false };
+
+    let packmentAmountByUserId = {};
+    response.sale_packments.forEach(function (sale) {
+      packmentAmountByUserId[sale.packing_user_id] = (packmentAmountByUserId[sale.packing_user_id] || 0) + 1;
+    });
+
+    let packments = [];
+
+    for (let [key, value] of Object.entries(packmentAmountByUserId)) {
+      let packment = { id: key, amount: value };
+      for (let i in response.sale_packments) {
+        if (key == response.sale_packments[i].packing_user_id) {
+          packment.packment_user_name = response.sale_packments[i].packing_user_name;
+        }
+      };
+      packments.push(packment);
+    };
+
+    if (packments.length) {
+      let index = packments.reduce((total, packment) => total + packment.amount, 0); //Total embalado
+      for (let i in packments) {
+        packments[i].percentage = lib.ruleOfThree(index, 100, packments[i].amount).toFixed(2);
+        packments[i].commission = lib.ruleOfThree(100, 30, packments[i].percentage).toFixed(2);
+      };
+    }
+
+    packmentReportRender(packments);
+  });
+
+  async function packmentReportRender(packments) {
+    let filter_box = document.getElementById("sale-filter-box");
+    filter_box.innerHTML = "";
+
+    if (!packments.length) {
+      return filter_box.append(lib.element.create("div", {
+        class: "box b1 lucida-grande bold border radius-5 margin-top-5 center"
+      }, "Nenhum pedido foi encontrado"));
+    };
+
+    packments.forEach(packment => {
+      let packment_div = lib.element.create("div", { class: "box b1 container border radius-5 margin-top-5" });
+      packment_div.append(lib.element.create("div", { class: "mobile-box a2 em12 padding-10 center" }, packment.packment_user_name));
+      packment_div.append(lib.element.create("div", { class: "mobile-box a4 em12 padding-10 center" }, `${packment.amount}un`));
+      packment_div.append(lib.element.create("div", { class: "mobile-box a4 em12 padding-10 center" }, `${packment.percentage}%`));
+      filter_box.append(packment_div);
+    });
+  };
+</script>

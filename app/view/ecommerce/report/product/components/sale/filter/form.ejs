@@ -1,0 +1,47 @@
+<form id="sale-filter-form" class="box b1 container border padding-10 margin-top-5 shadow">
+  <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
+    <option value="">Plataforma da venda</option>
+    <option value="MLJC">MLJC</option>
+    <option value="MLCHRIS">MLCHRIS</option>
+    <option value="MLSHEYLA">MLSHEYLA</option>
+    <option value="MLANNY">MLANNY</option>
+    <option value="SITE">SITE</option>
+    <option value="SITE - Total Express">Site Total Express</option>
+    <option value="SHOPEE">SHOPEE</option>
+    <option value="B2W">B2W</option>
+    <option value="Via Varejo">Via Varejo</option>
+    <option value="Reclamação">Reclamação</option>
+    <option value="MLJC Full">MLJC Full</option>
+    <option value="MLCHRIS Full">MLCHRIS Full</option>
+    <option value="MLJC Retirada">MLJC Retirada</option>
+    <option value="MLCHRIS Retirada">MLCHRIS Retirada</option>
+    <option value="MLANNY Retirada">MLANNY Retirada</option>
+    <option value="MLSHEYLA Retirada">MLSHEYLA Retirada</option>
+    <option value="SITE Retirada">SITE Retirada</option>
+    <option value="Reclamação Retirada">Reclamação Retirada</option>
+  </select>
+  <!-- <select name="status" class="box b4 input-generic center margin-top-5 hide-disabled">
+    <option value="" selected>Status</option>
+    <option value="Ag. Informações">Ag. Informações</option>
+    <option value="Ag. Embalo">Ag. Embalo</option>
+    <option value="Ag. Coleta">Ag. Coleta</option>
+    <option value="Enviado">Enviado</option>
+    <option value="Cancelada">Cancelada</option>
+  </select> -->
+  <input type="text" name="product-name" placeholder="Nome do Produto" class="box b2 input-generic center margin-top-5"
+    autocomplete="off">
+  <select name="product-color" class="box b4 input-generic margin-top-5 center" autocomplete="off">
+    <option value="">Cor</option>
+    <% for(let i in colors){ %>
+    <option value="<%= colors[i].shortcut %>"><%= colors[i].name %></option>
+    <% } %>
+  </select>
+  <select name="order" class="box b4 input-generic margin-top-5 hide-disabled">
+    <option value="amount">Quantidade</option>
+    <option value="code">Código</option>
+  </select>
+  <input type="date" class="box b4 input-generic center margin-top-5" name="period_start">
+  <input type="date" class="box b4 input-generic center margin-top-5" name="period_end">
+  <input type="submit" name="submit" class="box b4 submit-generic pointer center margin-top-5 margin-bottom-5"
+    value="Filtrar">
+</form>

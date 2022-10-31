@@ -1,7 +1,7 @@
 Ecommerce.sale.controller = {};
 
 Ecommerce.sale.controller.filter = document.getElementById("ecommerce-sale-filter-form");
-if(Ecommerce.sale.controller.filter){
+if (Ecommerce.sale.controller.filter) {
 	Ecommerce.sale.controller.filter.addEventListener("submit", async event => {
 		event.preventDefault();
 
@@ -17,7 +17,7 @@ if(Ecommerce.sale.controller.filter){
 		};
 
 		let sales = await API.response(Ecommerce.sale.filter, sale);
-		if(!sales) { return false };
+		if (!sales) { return false };
 
 		lib.display("ecommerce-sale-filter-box", "");
 		lib.display("ecommerce-sale-show-box", "none");
@@ -30,22 +30,22 @@ Ecommerce.sale.controller.triage = {};
 
 Ecommerce.sale.controller.triage.show = async (id) => {
 	let sale = await API.response(Ecommerce.sale.findById, id);
-	if(!sale) { return false };
+	if (!sale) { return false };
 
 	Ecommerce.sale.view.triage.show(sale);
 };
 
 Ecommerce.sale.controller.update = async (sale_id, status) => {
 	let r = confirm("Deseja realmente confirmar o embalo?");
-	if(r){
+	if (r) {
 		let sale = {
 			id: sale_id,
 			status: status
 		};
 
 		sale = await API.response(Ecommerce.sale.update, sale);
-		if(!sale) { return false };
-		
+		if (!sale) { return false };
+
 		Ecommerce.sale.controller.filter.submit.click();
 	};
 };

@@ -1,0 +1,23 @@
+<html>
+
+<head>
+  <%- include('./../../../partials/head.ejs') %>
+</head>
+
+<body>
+  <%- include('./../../../partials/header.ejs') %>
+  <%- include('./../../../partials/nav.ejs') %>
+  <section class="container">
+    <%- include('./components/sale/filter/form.ejs') %>
+    <%- include('./components/sale/filter/box.ejs') %>
+  </section>
+  <%- include('./../../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../../partials/footer.ejs') %>
+  <script src="/javascripts/scripts/ecommerce/sale/model/main.js"></script>
+  <script src="/javascripts/scripts/ecommerce/sale/model/report/product.js"></script>
+  <%- include('./components/sale/filter/script.ejs') %>
+</footer>
+
+</html>

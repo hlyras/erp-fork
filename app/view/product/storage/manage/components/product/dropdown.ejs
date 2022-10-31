@@ -1,0 +1,15 @@
+<div class="box b1 lucida-grande bold em08 margin-top-10">Produtos</div>
+<div class="box a1 container">
+  <div id="product-dropdown-box" class="mobile-box b7-10 container dropdown ground">
+    <ul class="box a1 container">
+      <li>
+        <input type="text" id="product-dropdown-input" name="product_id" data-id=""
+          class="mobile-box a1 input-generic lucida-grande bold center" oninput="productDropdown(this)"
+          placeholder="Nome do produto"
+          onclick="if(this.readOnly){this.value='';this.dataset.id='';this.readOnly = false;}" role="presentation"
+          autocomplete="off">
+        <ul id="product-dropdown-ul" class="box b1"></ul>
+      </li>
+    </ul>
+  </div>
+</div>

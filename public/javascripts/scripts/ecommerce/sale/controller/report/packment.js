@@ -1,7 +1,7 @@
 Ecommerce.sale.packment.report.controller = {};
 
 Ecommerce.sale.packment.report.controller.filter = document.getElementById("ecommerce-sale-packment-report-filter-form");
-if(Ecommerce.sale.packment.report.controller.filter){
+if (Ecommerce.sale.packment.report.controller.filter) {
   Ecommerce.sale.packment.report.controller.filter.addEventListener("submit", async event => {
     event.preventDefault();
 
@@ -12,8 +12,8 @@ if(Ecommerce.sale.packment.report.controller.filter){
     };
 
     let response = await API.response(Ecommerce.sale.packment.report.filter, sale);
-    if(!response){ return false };
-    
+    if (!response) { return false };
+
     let packmentAmountByUserId = {};
     response.sale_packments.forEach(function (sale) {
       packmentAmountByUserId[sale.packing_user_id] = (packmentAmountByUserId[sale.packing_user_id] || 0) + 1;
@@ -23,25 +23,25 @@ if(Ecommerce.sale.packment.report.controller.filter){
 
     for (let [key, value] of Object.entries(packmentAmountByUserId)) {
       let packment = { id: key, amount: value };
-      for(let i in response.sale_packments){ 
-        if(key == response.sale_packments[i].packing_user_id){
+      for (let i in response.sale_packments) {
+        if (key == response.sale_packments[i].packing_user_id) {
           packment.packment_user_name = response.sale_packments[i].packing_user_name;
         }
       };
       packments.push(packment);
     };
 
-    if(packments.length){
+    if (packments.length) {
       let index = packments.reduce((total, packment) => total + packment.amount, 0); //Total embalado
-      for(let i in packments){
+      for (let i in packments) {
         packments[i].percentage = lib.ruleOfThree(index, 100, packments[i].amount).toFixed(2);
         packments[i].commission = lib.ruleOfThree(100, 30, packments[i].percentage).toFixed(2);
       };
     }
 
     document.getElementById("ecommerce-sale-packment-report-filter-box").style.display = "";
-    
+
     const setup = { pageSize: 10, page: 0 };
-    (function(){ lib.carousel.execute("ecommerce-sale-packment-report-filter-box", Ecommerce.sale.packment.report.view.filter, packments, setup); }());
+    (function () { lib.carousel.execute("ecommerce-sale-packment-report-filter-box", Ecommerce.sale.packment.report.view.filter, packments, setup); }());
   });
 };

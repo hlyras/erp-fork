@@ -20,12 +20,13 @@ productController.feedstock.category = require('../controller/product/feedstock/
 productController.seam = require('../controller/product/seam/main');
 productController.filigran = require('../controller/product/seam/filigran');
 
-productController.price = require('../controller/product/price');
 productController.conference = require('../controller/product/conference/main');
 
 productController.catalog = require('../controller/product/catalog/main');
 productController.catalog.product = require('../controller/product/catalog/product');
 productController.catalog.package = require('../controller/product/catalog/package');
+
+productController.storage = require('../controller/product/storage/main');
 
 router.get('/manage', lib.route.toHttps, productController.manage);
 
@@ -70,15 +71,6 @@ router.post('/filigran/filter', lib.route.toHttps, productController.filigran.fi
 router.get('/filigran/id/:id', lib.route.toHttps, productController.filigran.findById);
 router.delete('/filigran/delete/:id', lib.route.toHttps, productController.filigran.delete);
 
-router.get('/price', lib.route.toHttps, productController.price.index);
-router.post('/price/filter', lib.route.toHttps, productController.price.filter);
-router.post('/price/find', lib.route.toHttps, productController.price.find);
-router.post('/price/update', lib.route.toHttps, productController.price.update);
-router.post('/price/category/save', lib.route.toHttps, productController.price.category.save);
-router.get('/price/category/filter', lib.route.toHttps, productController.price.category.filter);
-router.get('/price/category/id/:id', lib.route.toHttps, productController.price.category.findById);
-router.delete('/price/category/delete', lib.route.toHttps, productController.price.category.delete);
-
 router.get('/package', lib.route.toHttps, productController.package.manage);
 router.post('/package/create', lib.route.toHttps, multer.any('files'), productController.package.create);
 router.post('/package/filter', lib.route.toHttps, productController.package.filter);
@@ -117,5 +109,8 @@ router.delete('/catalog/product/remove/:id', lib.route.toHttps, productControlle
 router.post('/catalog/package/add', lib.route.toHttps, productController.catalog.package.add);
 router.post('/catalog/package/update', lib.route.toHttps, productController.catalog.package.update);
 router.delete('/catalog/package/remove/:id', lib.route.toHttps, productController.catalog.package.remove);
+
+router.get('/storage', lib.route.toHttps, productController.storage.index);
+router.get('/storage/manage', lib.route.toHttps, productController.storage.manage);
 
 module.exports = router;

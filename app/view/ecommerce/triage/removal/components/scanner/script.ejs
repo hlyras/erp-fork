@@ -1,0 +1,23 @@
+<script>
+  console.log(Html5QrcodeScanner);
+
+  function onScanSuccess(decodedText, decodedResult) {
+    // Handle on success condition with the decoded text or result.
+    // console.log(`Scan result: ${decodedText}`, decodedResult);
+    console.log(decodedText);
+    console.log(JSON.parse(decodedText));
+
+    JSON.parse(decodedText).id && saleDetail(JSON.parse(decodedText).id);
+    !JSON.parse(decodedText).id && saleDetail(decodedText);
+
+    html5QrcodeScanner.clear();
+  };
+
+  function onScanError(errorMessage) {
+    // handle on error condition, with error message
+  };
+
+  var html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader", { fps: 10, qrbox: 250 });
+  html5QrcodeScanner.render(onScanSuccess, onScanError);
+</script>

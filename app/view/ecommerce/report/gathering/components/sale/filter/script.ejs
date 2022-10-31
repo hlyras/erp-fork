@@ -1,0 +1,80 @@
+<script>
+  document.getElementById("sale-filter-form").period_start.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+  document.getElementById("sale-filter-form").period_end.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+
+  document.getElementById("sale-filter-form").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    let sale = {
+      origin: event.target.elements.namedItem("origin").value,
+      status: event.target.elements.namedItem("status").value,
+      periodStart: lib.dateToTimestamp(event.target.period_start.value),
+      periodEnd: lib.dateToTimestamp(event.target.period_end.value) + (lib.timestampDay() - 1),
+      user_id: event.target.elements.namedItem("user-id").value
+    };
+
+    let response = await API.response(Ecommerce.report.gathering.filter, sale);
+    if (!response) { return false };
+
+    let gatheringAmountByUserId = {};
+    response.sale_gatherings.forEach(function (sale) {
+      gatheringAmountByUserId[sale.user_id] = (gatheringAmountByUserId[sale.user_id] || 0) + 1;
+    });
+
+    let gatherings = [];
+
+    for (let [key, value] of Object.entries(gatheringAmountByUserId)) {
+      let gathering = { id: key, amount: value };
+      for (let i in response.sale_gatherings) {
+        if (key == response.sale_gatherings[i].user_id) {
+          gathering.user_name = response.sale_gatherings[i].user_name;
+        }
+      };
+      gatherings.push(gathering);
+    };
+
+    if (gatherings.length) {
+      let index = gatherings.reduce((total, gathering) => total + gathering.amount, 0); //Total embalado
+      for (let i in gatherings) {
+        gatherings[i].percentage = lib.ruleOfThree(index, 100, gatherings[i].amount).toFixed(2);
+        gatherings[i].commission = lib.ruleOfThree(100, 20, gatherings[i].percentage).toFixed(2);
+      };
+    }
+
+    reportRender(gatherings, response.sale_gatherings);
+  });
+
+  async function reportRender(gatherings, sales) {
+    let user_box = document.getElementById("sale-user-box");
+    user_box.innerHTML = "";
+
+    for (let i in gatherings) {
+      let user_div = lib.element.create("div", { class: "box a1 container box-hover border margin-top-5" });
+
+      user_div.appendChild(lib.element.create("div", { class: "mobile-box a2 lucida-grande bold padding-10 center" }, gatherings[i].user_name));
+      user_div.appendChild(lib.element.create("div", { class: "mobile-box a4 lucida-grande bold padding-10 center" }, gatherings[i].amount));
+      user_div.appendChild(lib.element.create("div", { class: "mobile-box a4 lucida-grande bold padding-10 center" }, gatherings[i].percentage + "%"));
+
+      user_box.appendChild(user_div);
+    };
+
+    let filter_box = document.getElementById("sale-filter-box");
+    filter_box.innerHTML = "";
+
+    filter_box.appendChild(lib.element.create("div", { class: "box b1 lucida-grande bold underline center margin-top-10" }, "Lista dos pedidos"))
+
+    sales.forEach(sale => {
+      let sale_div = lib.element.create("div", { class: "box b2 container padding-10 margin-top-10 border-st" });
+      sale_div.appendChild(lib.element.create("div", { class: "mobile-box b6 em08 margin-top-10" }, sale.origin));
+      sale_div.appendChild(lib.element.create("div", { class: "mobile-box b3 em08 margin-top-10" }, sale.code));
+      sale_div.appendChild(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, sale.customer_name));
+      sale_div.appendChild(lib.element.create("div", { class: "mobile-box b2 em08 margin-top-10" }, sale.customer_user));
+      sale_div.appendChild(lib.element.create("div", { class: "mobile-box b4 em08 margin-top-10" }, sale.status));
+      sale_div.appendChild(lib.element.create("div", { class: "mobile-box b4 em08 margin-top-10" }, sale.user_name));
+      sale_div.appendChild(lib.element.createInfo("mobile-box b3 em09 border padding-5 margin-top-10", "Hora da venda", lib.convertDatetime(lib.timestampToDatetime(sale.datetime))));
+      sale_div.appendChild(lib.element.createInfo("mobile-box b3 em09 border padding-5 margin-top-10", "Hora da coleta", lib.convertDatetime(lib.timestampToDatetime(sale.date))));
+      sale_div.appendChild(lib.element.createInfo("mobile-box b3 em09 border padding-5 margin-top-10", "Hora do Embalo", lib.convertDatetime(lib.timestampToDatetime(sale.packing_datetime))));
+      filter_box.appendChild(sale_div);
+    });
+  };
+</script>

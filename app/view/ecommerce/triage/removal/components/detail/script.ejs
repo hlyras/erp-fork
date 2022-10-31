@@ -1,0 +1,98 @@
+<script>
+  async function saleRemoval(id) {
+    console.log(id);
+
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+    lib.display('sale-detail-box', 'none');
+  };
+
+  async function saleDetail(tracker) {
+    let sale = await API.response(Ecommerce.sale.findByTracker, tracker);
+    if (!sale) { return false };
+
+    lib.display("sale-detail-box", "");
+
+    let saleBox = document.getElementById("sale-detail-box");
+    saleBox.innerHTML = "";
+
+    if (!sale.length) {
+      saleBox.append(lib.element.create("div", { class: "box b1 lucida-grande bold center" }, "Este pedido não foi encontrado"));
+      saleBox.append(lib.element.create("div", {
+        class: "box b2-3 border-2 radius-5 margin-top-5 padding-15 center pointer",
+        style: "background-color:#c5dbc5;",
+        onclick: `saleRemoval(${sale.id})`
+      }, "Escanear outro pedido"));
+      return;
+    }
+
+    let info_box = lib.element.create("div", { class: "box b1 container border radius-5 padding-10 padding-5 margin-top-5" });
+    info_box.append(lib.element.info("b4", "id", sale[0].id));
+    info_box.append(lib.element.info("b2", "cliente", sale[0].customer_name));
+    info_box.append(lib.element.info("b4", "status", sale[0].status));
+    info_box.append(lib.element.info("b3", "Código", sale[0].code));
+    info_box.append(lib.element.info("b3", "Coletor", sale[0].user_name));
+    info_box.append(lib.element.info("b3", "Data", lib.timestampToDate(sale[0].datetime)));
+    saleBox.append(info_box);
+
+    // Produtos
+    let product_box = lib.element.create("div", { class: "box b2 container border padding-5 margin-top-5" });
+    product_box.append(lib.element.create("div", { class: "box b1 lucida-grande center" }, "Produtos"));
+    sale[0].products.forEach(product => {
+      let product_div = lib.element.create("div", { class: "box b1 container border box-hover padding-5 margin-top-2" });
+      product_div.append(lib.element.create("div", {
+        class: "mobile-box b8 lucida-grande bold border radius-5 center",
+        style: `${product.amount > 1 && 'color:red;'}`
+      }, `${product.amount}un`));
+      product_div.append(lib.element.create("div", { class: "mobile-box b7-8 lucida-grande em09 center" }, product.info));
+      product_box.append(product_div);
+    });
+
+    // Pacotes
+    let package_box = lib.element.create("div", { class: "box b2 container padding-5 margin-top-5 border" });
+    package_box.append(lib.element.create("div", { class: "box b1 lucida-grande center" }, "Pacotes"));
+    sale[0].packages.forEach(package => {
+      let package_div = lib.element.create("div", { class: "box b1 container border padding-5" });
+
+      package_div.append(lib.element.icon('b12', 25, "/images/icon/down-arrow.png", `lib.displayDiv('package-${package.id}-products', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
+      package_div.append(lib.element.create("div", { class: "mobile-box b8 lucida-grande bold border-st radius-5 padding-2 center" }, `${package.amount}un`));
+      package_div.append(lib.element.create("div", { class: "mobile-box b5-8 lucida-grande em09 bold center" }, package.info));
+
+      // Produtos dos Pacotes
+      let package_products = lib.element.create("div", {
+        id: `package-${package.id}-products`,
+        class: "box b1 container",
+        style: "display:none;"
+      });
+
+      for (let i in package.products) {
+        let product_div = lib.element.create("div", { class: "box b1 container border box-hover padding-5 margin-top-2" });
+        product_div.append(lib.element.create("div", {
+          class: "mobile-box b8 lucida-grande bold center",
+          style: `${package.products[i].amount > 1 && 'color:red;'}`
+        }, `${package.products[i].amount}un`));
+        product_div.append(lib.element.create("div", { class: "mobile-box b7-8 lucida-grande em09" }, package.products[i].product_info));
+        package_products.append(product_div);
+      };
+
+      package_div.append(package_products);
+      package_box.append(package_div);
+    });
+
+    saleBox.append(product_box);
+    saleBox.append(package_box);
+
+    if (sale[0].status == "Ag. retirada") {
+      saleBox.append(lib.element.create("div", {
+        class: "box b2-3 border-2 radius-5 margin-top-5 padding-15 center pointer",
+        style: "background-color:#5cdb5c;",
+        onclick: `html5QrcodeScanner.render(onScanSuccess, onScanError);lib.display('sale-detail-box', 'none');`
+      }, "Confirmar retirada de pedido"));
+    }
+
+    saleBox.append(lib.element.create("div", {
+      class: "box b2-3 border-2 radius-5 margin-top-5 padding-15 center pointer",
+      style: "background-color:#c5dbc5;",
+      onclick: `html5QrcodeScanner.render(onScanSuccess, onScanError);lib.display('sale-detail-box', 'none');`
+    }, "Escanear outro pedido"));
+  };
+</script>

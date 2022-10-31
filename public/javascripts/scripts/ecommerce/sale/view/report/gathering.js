@@ -4,27 +4,27 @@ Ecommerce.sale.gathering.report.view.filter = (gatherings, sales) => {
   let user_box = document.getElementById("ecommerce-sale-gathering-report-filter-user");
   user_box.innerHTML = "";
 
-  for(let i in gatherings){
+  for (let i in gatherings) {
     let user_div = lib.element.create("div", { class: "box a1 container box-hover border margin-top-5" });
 
-    user_div.appendChild(lib.element.create("div", { class: "mobile-box a2 lucida-grande bold padding-10 center" }, gatherings[i].user_name ));
-    user_div.appendChild(lib.element.create("div", { class: "mobile-box a4 lucida-grande bold padding-10 center" }, gatherings[i].amount ));
-    user_div.appendChild(lib.element.create("div", { class: "mobile-box a4 lucida-grande bold padding-10 center" }, gatherings[i].percentage+"%" ));
-    
+    user_div.appendChild(lib.element.create("div", { class: "mobile-box a2 lucida-grande bold padding-10 center" }, gatherings[i].user_name));
+    user_div.appendChild(lib.element.create("div", { class: "mobile-box a4 lucida-grande bold padding-10 center" }, gatherings[i].amount));
+    user_div.appendChild(lib.element.create("div", { class: "mobile-box a4 lucida-grande bold padding-10 center" }, gatherings[i].percentage + "%"));
+
     user_box.appendChild(user_div);
   };
 
   const setup = { pageSize: 10, page: 0 };
-  (function(){ lib.carousel.execute("ecommerce-sale-gathering-report-filter-box", Ecommerce.sale.gathering.report.view.list, sales, setup); }());
+  (function () { lib.carousel.execute("ecommerce-sale-gathering-report-filter-box", Ecommerce.sale.gathering.report.view.list, sales, setup); }());
 };
 
 Ecommerce.sale.gathering.report.view.list = (sales, setup) => {
   let filter_div = document.getElementById("ecommerce-sale-gathering-report-filter-div");
   filter_div.innerHTML = "";
 
-  filter_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande bold underline center margin-top-10" }, "Lista dos pedidos" ))
+  filter_div.appendChild(lib.element.create("div", { class: "box b1 lucida-grande bold underline center margin-top-10" }, "Lista dos pedidos"))
 
-  for(let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++){
+  for (let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++) {
     let sale_div = lib.element.create("div", { class: "box b2 container padding-10 margin-top-10 border-st" });
     sale_div.appendChild(lib.element.create("div", { class: "mobile-box b6 em08 margin-top-10" }, sales[i].origin));
     sale_div.appendChild(lib.element.create("div", { class: "mobile-box b3 em08 margin-top-10" }, sales[i].code));

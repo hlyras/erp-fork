@@ -1,0 +1,79 @@
+<script>
+  document.getElementById("sale-filter-form").period_start.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+  document.getElementById("sale-filter-form").period_end.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+
+  document.getElementById("sale-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let sale = {
+      origin: e.target.elements.namedItem("origin").value,
+      product_name: e.target.elements.namedItem("product-name").value,
+      product_color: e.target.elements.namedItem("product-color").value,
+      // status: e.target.elements.namedItem("status").value,
+      periodStart: lib.dateToTimestamp(e.target.elements.namedItem("period_start").value),
+      periodEnd: lib.dateToTimestamp(e.target.elements.namedItem("period_end").value) + (lib.timestampDay() - 1)
+    };
+
+    let response = await API.response(Ecommerce.report.product.filter, sale);
+    if (!response) { return false; }
+
+    reportRender(response);
+  });
+
+  async function reportRender(response) {
+    const productAmountById = {};
+    response.sale_products.forEach(function (product) {
+      productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
+    });
+
+    response.sale_package_products.forEach(function (product) {
+      productAmountById[product.product_id] = (productAmountById[product.product_id] || 0) + product.amount;
+    });
+
+    let products = [];
+
+    for (let [key, value] of Object.entries(productAmountById)) {
+      let product = { id: key, code: 0, name: "", color: "", amount: value };
+      for (let i in response.sale_products) {
+        if (key == response.sale_products[i].product_id) {
+          product.code = response.sale_products[i].code;
+          product.name = response.sale_products[i].name;
+          product.color = response.sale_products[i].color;
+          product.size = response.sale_products[i].size;
+        }
+      };
+      for (let i in response.sale_package_products) {
+        if (key == response.sale_package_products[i].product_id) {
+          product.code = response.sale_package_products[i].code;
+          product.name = response.sale_package_products[i].name;
+          product.color = response.sale_package_products[i].color;
+          product.size = response.sale_package_products[i].size;
+        }
+      };
+      products.push(product);
+    };
+
+    if (document.getElementById("sale-filter-form").elements.namedItem("order").value == "amount") {
+      products = lib.sort(products, "amount", "desc");
+    } else {
+      products = lib.sort(products, "code");
+    }
+
+    let filter_box = document.getElementById("sale-filter-box");
+    filter_box.innerHTML = "";
+
+    if (!products.length) {
+      return console.log('não há produtos');
+    }
+
+    products.forEach(product => {
+      let product_div = lib.element.create("div", { class: "box b1 container box-hover border radius-5 padding-5 margin-top-5" });
+      product_div.append(lib.element.create("div", { class: "mobile-box b9 lucida-grande em09 center" }, product.code));
+      product_div.append(lib.element.create("div", { class: "mobile-box b2 lucida-grande em09" }, product.name));
+      product_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em09 center" }, product.color));
+      product_div.append(lib.element.create("div", { class: "mobile-box b9 lucida-grande em09 center" }, product.size));
+      product_div.append(lib.element.create("div", { class: "mobile-box b9 lucida-grande em09 center bold" }, `${product.amount}un`));
+      filter_box.append(product_div);
+    });
+  };
+</script>

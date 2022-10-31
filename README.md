@@ -74,12 +74,16 @@ Recebe a solicitação do Controller 'view/product/index' (view)
 
 Novas funcionalidades a implementar - 
 
-Finish product manage functions
+Estoque de produtos
 
-Create Production requests
-	Create production products amount controller by status
+product_storage
+id
+product_id
+amount
 
-fix feedstock create and edit
-
-Rework function to verify access;
-Financial filter by user;
+product_storage_log
+id
+datetime
+process (entrada/saída)
+amount
+user_id

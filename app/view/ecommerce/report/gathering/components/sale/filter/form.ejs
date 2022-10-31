@@ -1,0 +1,41 @@
+<form id="sale-filter-form" class="box b1 container ground padding-10 margin-top-10 shadow-hover">
+  <div class="box b1 underline center bold">Relatório de Coleta</div>
+  <select name="origin" class="box b4 input-generic center margin-top-5 hide-disabled">
+    <option value="">Plataforma da venda</option>
+    <option value="MLJC">MLJC</option>
+    <option value="MLCHRIS">MLCHRIS</option>
+    <option value="MLSHEYLA">MLSHEYLA</option>
+    <option value="MLANNY">MLANNY</option>
+    <option value="SITE">SITE</option>
+    <option value="SITE - Total Express">Site Total Express</option>
+    <option value="SHOPEE">SHOPEE</option>
+    <option value="B2W">B2W</option>
+    <option value="Via Varejo">Via Varejo</option>
+    <option value="Reclamação">Reclamação</option>
+    <option value="MLJC Full">MLJC Full</option>
+    <option value="MLCHRIS Full">MLCHRIS Full</option>
+    <option value="MLJC Retirada">MLJC Retirada</option>
+    <option value="MLCHRIS Retirada">MLCHRIS Retirada</option>
+    <option value="MLANNY Retirada">MLANNY Retirada</option>
+    <option value="MLSHEYLA Retirada">MLSHEYLA Retirada</option>
+    <option value="SITE Retirada">SITE Retirada</option>
+    <option value="Reclamação Retirada">Reclamação Retirada</option>
+  </select>
+  <select name="status" class="box b4 input-generic center margin-top-5 hide-disabled">
+    <option value="" selected>Status</option>
+    <option value="Ag. Informações">Ag. Informações</option>
+    <option value="Ag. Embalo">Ag. Embalo</option>
+    <option value="Ag. Coleta">Ag. Coleta</option>
+    <option value="Enviado">Enviado</option>
+    <option value="Cancelada">Cancelada</option>
+  </select>
+  <input type="date" name="period_start" class="box b4 input-generic center margin-top-5" autocomplete="off">
+  <input type="date" name="period_end" class="box b4 input-generic center margin-top-5" autocomplete="off">
+  <select name="user-id" class="box b4 input-generic center margin-top-5" autocomplete="off">
+    <option value="">Coletor</option>
+    <% for(let i in users){ %>
+    <option value="<%= users[i].id %>"><%= users[i].name %></option>
+    <% } %>
+  </select>
+  <input type="submit" name="submit" class="box b4 submit-generic box-hover center margin-top-5 bold" value="Filtrar">
+</form>

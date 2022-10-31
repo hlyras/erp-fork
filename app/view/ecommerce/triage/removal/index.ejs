@@ -1,0 +1,26 @@
+<html>
+
+<head>
+  <%- include('./../../../partials/head.ejs') %>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+
+<body>
+  <%- include('./../../../partials/header.ejs') %>
+  <%- include('./../../../partials/nav.ejs') %>
+  <section class="container h-center">
+    <div class="box b1 container ground padding-10 radius-5 h-center">
+      <div class="box b1 ground lucida-grande em12 bold underline center">Retirada de produtos</div>
+      <%- include('./components/detail/box.ejs') %>
+      <%- include('./components/scanner/box.ejs') %>
+    </div>
+  </section>
+</body>
+<footer>
+  <%- include('./../../../partials/footer.ejs') %>
+  <script src="/javascripts/scripts/ecommerce/sale/model/main.js"></script>
+  <%- include('./components/detail/script.ejs') %>
+  <%- include('./components/scanner/script.ejs') %>
+</footer>
+
+</html>
