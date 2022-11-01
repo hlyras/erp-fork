@@ -50,7 +50,7 @@ ecommerceController.manage = async (req, res) => {
 };
 
 ecommerceController.triage = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'log-pac', 'pro-ass'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'log-pac', 'pro-ass', 'pro-sto'])) {
     return res.redirect('/');
   };
 
@@ -76,7 +76,7 @@ ecommerceController.packment = async (req, res) => {
 };
 
 ecommerceController.removal = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'log-pac', 'pro-ass'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'log-pac', 'pro-ass', 'pro-sto'])) {
     return res.redirect('/');
   };
 

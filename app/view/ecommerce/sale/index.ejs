@@ -1,7 +1,9 @@
 <html>
+
 <head>
   <%- include('./../../partials/head.ejs') %>
 </head>
+
 <body>
   <%- include('./../../partials/header.ejs') %>
   <%- include('./../../partials/nav.ejs') %>
@@ -32,68 +34,87 @@
             <option value="SITE Retirada">SITE Retirada</option>
             <option value="Reclamação Retirada">Reclamação Retirada</option>
           </select>
-          <input type="text" name="code" class="box b4 input-generic ground center margin-top-5" placeholder="Código da venda" autocomplete="off">
+          <input type="text" name="code" class="box b4 input-generic ground center margin-top-5"
+            placeholder="Código da venda" autocomplete="off">
           <input type="datetime-local" name="datetime" class="box b4 input-generic margin-top-5 center">
-          <input type="text" name="customer-user" class="box b4 input-generic ground center margin-top-5" placeholder="Usuário do Cliente" autocomplete="off">
-          <input type="text" name="customer-name" class="box b4 input-generic ground center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
-          <input type="text" name="customer-phone" class="box b4 input-generic ground center margin-top-5" placeholder="Telefone" autocomplete="off">
-          <input type="text" name="tracker" class="box b4 input-generic ground center margin-top-5" placeholder="Código de rastreio" autocomplete="off">
+          <input type="text" name="customer-user" class="box b4 input-generic ground center margin-top-5"
+            placeholder="Usuário do Cliente" autocomplete="off">
+          <input type="text" name="customer-name" class="box b4 input-generic ground center margin-top-5"
+            placeholder="Nome do cliente" autocomplete="off">
+          <input type="text" name="customer-phone" class="box b4 input-generic ground center margin-top-5"
+            placeholder="Telefone" autocomplete="off">
+          <input type="text" name="tracker" class="box b4 input-generic ground center margin-top-5"
+            placeholder="Código de rastreio" autocomplete="off">
           <select name="status" class="box b4 input-generic center margin-top-5 hide-disabled">
             <option value="" selected disabled>Status da venda</option>
             <option value="Ag. Informações">Ag. Informações</option>
             <option value="Ag. Embalo">Enviar p/ embalo</option>
           </select>
-          <input type="text" name="obs" class="box b1 input-generic center ground margin-top-5" placeholder="Observações" maxlength="100" autocomplete="off">
+          <input type="text" name="obs" class="box b1 input-generic center ground margin-top-5"
+            placeholder="Observações" maxlength="100" autocomplete="off">
         </form>
       </div>
 
       <div class="box b1 container ground padding-5 margin-top-5">
-       <div class="box b2 container ground padding-10">
-        <h5 class="box b1 underline center">Produtos</h5>
-        <form id="ecommerce-sale-product-kart-form" class="box b1 container margin-top-5">
-          <div class="mobile-box b3-4 container dropdown ground margin-top-5">
-            <ul class="box b1 container">
-              <li>
-                <input type="hidden" name="product_id">
+        <div class="box b2 container ground padding-10">
+          <h5 class="box b1 underline center">Produtos</h5>
+          <form id="ecommerce-sale-product-kart-form" class="box b1 container margin-top-5">
+            <div class="mobile-box b3-4 container dropdown ground margin-top-5">
+              <ul class="box b1 container">
+                <li>
+                  <input type="hidden" name="product_id">
 
-                <input type="text" id="ecommerce-sale-product-kart-dropdown-input" name="product" data-id="" class="box b1 input-generic center" oninput="Ecommerce.sale.product.controller.dropdown.filter(this, 'ecommerce-sale-product-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                  <input type="text" id="ecommerce-sale-product-kart-dropdown-input" name="product" data-id=""
+                    class="box b1 input-generic center"
+                    oninput="Ecommerce.sale.product.controller.dropdown.filter(this, 'ecommerce-sale-product-kart-dropdown')"
+                    placeholder="Descrição do produto"
+                    onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
 
-                <ul id="ecommerce-sale-product-kart-dropdown" class="box b1 container"></ul>
-              </li>
-            </ul>
-          </div>
-          <input type="number" name="amount" class="mobile-box b6 input-generic border-bottom center margin-top-5" placeholder="Qtd">
-          <button type="submit" name="submit" class="mobile-box b12 input-generic noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
-        </form>
-        <div id="ecommerce-sale-product-kart-div" class="box b1 container"></div>
+                  <ul id="ecommerce-sale-product-kart-dropdown" class="box b1 container"></ul>
+                </li>
+              </ul>
+            </div>
+            <input type="number" name="amount" class="mobile-box b6 input-generic border-bottom center margin-top-5"
+              placeholder="Qtd">
+            <button type="submit" name="submit" class="mobile-box b12 input-generic noborder margin-top-5 pointer"><img
+                class='size-20 icon' src="/images/icon/increase.png"></button>
+          </form>
+          <div id="ecommerce-sale-product-kart-div" class="box b1 container"></div>
+        </div>
+        <div class="box b2 container ground padding-10">
+          <h5 class="box b1 underline center">Pacotes</h5>
+          <form id="ecommerce-sale-package-kart-form" class="box b1 container margin-top-5">
+            <input type="hidden" name="id" value="">
+            <div class="mobile-box b3-4 container dropdown ground margin-top-5">
+              <ul class="box b1 container">
+                <li>
+                  <input type="hidden" name="product_id">
+
+                  <input type="text" id="ecommerce-sale-package-kart-dropdown-input" name="package" data-id=""
+                    class="box b1 input-generic center"
+                    oninput="Ecommerce.sale.package.controller.dropdown.filter(this, 'ecommerce-sale-package-kart-dropdown')"
+                    placeholder="Descrição do pacote" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}"
+                    autocomplete="off">
+
+                  <ul id="ecommerce-sale-package-kart-dropdown" class="box b1 container"></ul>
+                </li>
+              </ul>
+            </div>
+            <input type="number" name="amount" class="mobile-box b6 input-generic border-bottom center margin-top-5"
+              placeholder="Qtd">
+            <button type="submit" name="submit" class="mobile-box b12 input-generic noborder margin-top-5 pointer"><img
+                class='size-20 icon' src="/images/icon/increase.png"></button>
+          </form>
+          <div id="ecommerce-sale-package-kart-div" class="box b1 container"></div>
+        </div>
       </div>
-      <div class="box b2 container ground padding-10">
-        <h5 class="box b1 underline center">Pacotes</h5>
-        <form id="ecommerce-sale-package-kart-form" class="box b1 container margin-top-5">
-          <input type="hidden" name="id" value="">
-          <div class="mobile-box b3-4 container dropdown ground margin-top-5">
-            <ul class="box b1 container">
-              <li>
-                <input type="hidden" name="product_id">
-
-                <input type="text" id="ecommerce-sale-package-kart-dropdown-input" name="package" data-id="" class="box b1 input-generic center" oninput="Ecommerce.sale.package.controller.dropdown.filter(this, 'ecommerce-sale-package-kart-dropdown')" placeholder="Descrição do pacote" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
-
-                <ul id="ecommerce-sale-package-kart-dropdown" class="box b1 container"></ul>
-              </li>
-            </ul>
-          </div>
-          <input type="number" name="amount" class="mobile-box b6 input-generic border-bottom center margin-top-5" placeholder="Qtd">
-          <button type="submit" name="submit" class="mobile-box b12 input-generic noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
-        </form>
-        <div id="ecommerce-sale-package-kart-div" class="box b1 container"></div>
+      <div class="box b1 container ground">
+        <div class="box b3"></div>
+        <input type="button" id="ecommerce-sale-create-submit"
+          class="box b3 submit-generic bold margin-top-5 margin-bottom-15" value="Confirmar">
       </div>
     </div>
-    <div class="box b1 container ground">
-      <div class="box b3"></div>
-      <input type="button" id="ecommerce-sale-create-submit" class="box b3 submit-generic bold margin-top-5 margin-bottom-15" value="Confirmar">
-    </div>
-  </div>
-</section>
+  </section>
   <%- include('./../../partials/loader.ejs') %>
 </body>
 <footer>
@@ -113,4 +134,5 @@
   <script src="/javascripts/scripts/ecommerce/sale/controller/package.js"></script>
   <script src="/javascripts/scripts/ecommerce/sale/view/package.js"></script>
 </footer>
+
 </html>
