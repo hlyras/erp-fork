@@ -78,8 +78,8 @@ router.get('/package/id/:id', lib.route.toHttps, productController.package.findB
 // router.delete('/package/id/:id', lib.route.toHttps, productController.package.delete);
 router.post('/package/product/update', lib.route.toHttps, productController.package.product.update);
 
+router.post('/price/find', lib.route.toHttps, productController.price.find);
 router.post('/package/price/find', lib.route.toHttps, productController.package.price.find);
-// router.post('/package/price/update', lib.route.toHttps, productController.package.price.update);
 
 // router.post('/package/image/add', lib.route.toHttps, productController.package.image.add);
 router.delete('/package/image/:id', lib.route.toHttps, productController.package.image.delete);

@@ -37,7 +37,7 @@ ecommerceController.gathering = async (req, res) => {
 };
 
 ecommerceController.manage = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'log-pac', 'pro-ass'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'log-pac', 'pro-ass', 'pro-sto'])) {
     return res.redirect('/');
   };
 

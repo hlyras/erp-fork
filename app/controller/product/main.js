@@ -163,4 +163,16 @@ productController.delete = async (req, res) => {
 	};
 };
 
+productController.price = {};
+
+productController.price.find = async (req, res) => {
+	try {
+		price = await Product.price.find(req.body.price);
+		res.send({ price });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao realizar a atualização, favor contatar o suporte." });
+	};
+};
+
 module.exports = productController;
