@@ -9,7 +9,7 @@ const lib = require("jarmlib");
 const triageController = {};
 
 triageController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac', 'pro-sto'])) {
 		return res.redirect('/');
 	};
 
@@ -24,7 +24,7 @@ triageController.index = async (req, res) => {
 triageController.packment = {};
 
 triageController.packment.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-man','pro-ass','log-pac'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac', 'pro-sto'])) {
 		return res.redirect('/');
 	};
 
@@ -37,7 +37,7 @@ triageController.packment.index = async (req, res) => {
 };
 
 triageController.packment.confirm = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','pro-ass','log-pac'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-ass', 'log-pac'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -50,17 +50,17 @@ triageController.packment.confirm = async (req, res) => {
 		status: "Ag. nota fiscal"
 	};
 
-	if(isNaN(sale.box_amount)) { return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" }); }
-	if(sale.box_amount <= 0) { return res.send({ msg: "O volume inserido é inválido." }); }
+	if (isNaN(sale.box_amount)) { return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" }); }
+	if (sale.box_amount <= 0) { return res.send({ msg: "O volume inserido é inválido." }); }
 
-	if((await Sale.findById(sale.id))[0].shipment_method == "Retirada em Loja"){
+	if ((await Sale.findById(sale.id))[0].shipment_method == "Retirada em Loja") {
 		sale.status = "Ag. envio p/ retirada";
 	}
 
 	try {
 		await Triage.packment.confirm(sale);
 		res.send({ done: "Embalo confirmado com sucesso!" });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao buscar a venda, favor contatar o suporte." });
 	};
@@ -69,7 +69,7 @@ triageController.packment.confirm = async (req, res) => {
 triageController.nf = {};
 
 triageController.nf.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'fin-ass'])) {
 		return res.redirect('/');
 	};
 
@@ -82,7 +82,7 @@ triageController.nf.index = async (req, res) => {
 };
 
 triageController.nf.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'fin-ass'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -97,19 +97,19 @@ triageController.nf.save = async (req, res) => {
 
 	let sale = (await Sale.findById(req.body.sale.id))[0];
 
-	if(sale.shipment_method == "Retirada em Loja") { saleParams.status = "Ag. envio p/ retirada"; }
-	if(sale.shipment_method != "Retirada em Loja") { 
-		if(saleParams.nf.length < 10) {
+	if (sale.shipment_method == "Retirada em Loja") { saleParams.status = "Ag. envio p/ retirada"; }
+	if (sale.shipment_method != "Retirada em Loja") {
+		if (saleParams.nf.length < 10) {
 			return res.send({ msg: "É necessário incluir a NF para envio dos produtos por transportadora" });
 		}
 		saleParams.status = "Ag. envio";
 	}
-	
+
 	try {
 		await Triage.nf.save(saleParams);
 		!saleParams.nf && res.send({ done: "Não foi incluída nota fiscal neste pedido!" });
 		saleParams.nf && res.send({ done: "Nota fiscal anexada com sucesso!" });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao anexar a NF, favor contatar o suporte." });
 	};

@@ -10,7 +10,7 @@ const lib = require("jarmlib");
 const serviceOrderController = {};
 
 serviceOrderController.index = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'adm-man', 'adm-ass', 'adm-aud', 'pro-ass', 'log-pac', 'fin-ass'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'adm-man', 'adm-ass', 'adm-aud', 'pro-ass', 'pro-man', 'log-pac', 'fin-ass'])) {
 		return res.redirect('/');
 	};
 
