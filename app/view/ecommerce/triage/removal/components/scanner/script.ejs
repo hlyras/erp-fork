@@ -4,11 +4,19 @@
   function onScanSuccess(decodedText, decodedResult) {
     // Handle on success condition with the decoded text or result.
     // console.log(`Scan result: ${decodedText}`, decodedResult);
-    console.log(decodedText);
-    console.log(JSON.parse(decodedText));
 
-    JSON.parse(decodedText).id && saleDetail(JSON.parse(decodedText).id);
-    !JSON.parse(decodedText).id && saleDetail(decodedText);
+    // JSON.parse(decodedText).id && saleDetail(JSON.parse(decodedText).id);
+    // !JSON.parse(decodedText).id && decodedText && saleDetail(decodedText);
+
+    try {
+      console.log(JSON.parse(decodedText));
+      console.log(saleDetail(JSON.parse(decodedText).id));
+    } catch (err) {
+      console.log(err);
+      console.log(saleDetail(decodedText));
+    }
+
+    // saleDetail(decodedText);
 
     html5QrcodeScanner.clear();
   };
