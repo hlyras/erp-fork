@@ -20,19 +20,20 @@
       saleBox.append(lib.element.create("div", {
         class: "box b2-3 border-2 radius-5 margin-top-5 padding-15 center pointer",
         style: "background-color:#c5dbc5;",
-        onclick: `saleRemoval(${sale.id})`
+        onclick: `html5QrcodeScanner.render(onScanSuccess, onScanError);lib.display('sale-detail-box', 'none');`
       }, "Escanear outro pedido"));
       return;
     }
 
     let info_box = lib.element.create("div", { class: "box b1 container border radius-5 padding-10 padding-5 margin-top-5" });
-    info_box.append(lib.element.info("b4", "id", sale[0].id));
+    info_box.append(lib.element.info("b4", "Plataforma", sale[0].origin));
     info_box.append(lib.element.info("b2", "cliente", sale[0].customer_name));
     info_box.append(lib.element.info("b4", "status", sale[0].status));
-    info_box.append(lib.element.info("b3", "Código", sale[0].code));
-    info_box.append(lib.element.info("b3", "Coletor", sale[0].user_name));
-    info_box.append(lib.element.info("b3", "Data", lib.timestampToDate(sale[0].datetime)));
-    info_box.append(lib.element.info("b1", "Observações", sale[0].obs));
+    info_box.append(lib.element.info("b2-5", "Código", sale[0].code));
+    info_box.append(lib.element.info("b5", "Rastreio", sale[0].tracker));
+    info_box.append(lib.element.info("b5", "Coletor", sale[0].user_name));
+    info_box.append(lib.element.info("b5", "Data", lib.timestampToDate(sale[0].datetime)));
+    sale[0].obs && info_box.append(lib.element.info("b1", "Observações", sale[0].obs));
     saleBox.append(info_box);
 
     // Produtos
@@ -86,7 +87,7 @@
       saleBox.append(lib.element.create("div", {
         class: "box b2-3 border-2 radius-5 margin-top-5 padding-15 center pointer",
         style: "background-color:#5cdb5c;",
-        onclick: `html5QrcodeScanner.render(onScanSuccess, onScanError);lib.display('sale-detail-box', 'none');`
+        onclick: `saleRemoval(${sale[0].id});`
       }, "Confirmar retirada de pedido"));
     }
 

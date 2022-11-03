@@ -5,7 +5,9 @@
     // Handle on success condition with the decoded text or result.
 
     try {
-      saleDetail(JSON.parse(decodedText).id);
+      let jsonCode = JSON.parse(decodedText);
+      jsonCode.id && saleDetail(JSON.parse(decodedText).id);
+      !jsonCode.id && saleDetail(JSON.parse(decodedText));
     } catch (err) {
       saleDetail(decodedText);
     }
