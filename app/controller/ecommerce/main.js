@@ -89,7 +89,7 @@ ecommerceController.removal = async (req, res) => {
 };
 
 ecommerceController.report = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'log-pac', 'pro-ass'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'log-pac', 'pro-ass', 'adm-man'])) {
     return res.redirect('/');
   };
 
