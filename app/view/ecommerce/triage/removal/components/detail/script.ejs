@@ -56,8 +56,9 @@
       let package_div = lib.element.create("div", { class: "box b1 container border padding-5" });
 
       package_div.append(lib.element.icon('b12', 25, "/images/icon/down-arrow.png", `lib.displayDiv('package-${package.id}-products', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png')`));
-      package_div.append(lib.element.create("div", { class: "mobile-box b8 lucida-grande bold border-st radius-5 padding-2 center" }, `${package.amount}un`));
-      package_div.append(lib.element.create("div", { class: "mobile-box b5-8 lucida-grande em09 bold center" }, package.info));
+      package_div.append(lib.element.create("div", { class: "mobile-box b12 lucida-grande bold border-st radius-5 padding-2 center" }, `${package.amount}un`));
+      package_div.append(lib.element.create("div", { class: "mobile-box b2-3 lucida-grande em09 bold center" }, package.info));
+      package_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em09 center" }, package.setup));
 
       // Produtos dos Pacotes
       let package_products = lib.element.create("div", {
