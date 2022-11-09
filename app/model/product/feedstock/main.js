@@ -1,6 +1,47 @@
 const db = require('../../../../config/connection');
 const lib = require("jarmlib");
 
+lib.convertTo.object = function (target) {
+  let obj = {};
+  let attributesAsArray = Object.entries(target);
+  attributesAsArray.forEach(([key, value]) => {
+    if (key && value != undefined) {
+      if (typeof value == 'number' || typeof value == 'string') {
+        obj[key] = value;
+      };
+    }
+  });
+  return obj;
+};
+
+lib.Query.update = function (obj, db, param) {
+  let attributesAsArray = Object.entries(obj);
+  let query = "UPDATE " + db + " SET ";
+  if (!param) { return false; }
+
+  attributesAsArray.forEach(([key, value], index, array) => {
+    if (typeof value == 'number' || typeof value == 'string') {
+      if (key && value != undefined && index == array.length - 1) {
+        query += key + "='" + value + "' ";
+      } else if (key && value != undefined && key != param) {
+        query += key + "='" + value + "', ";
+      };
+    };
+  });
+
+  attributesAsArray.forEach(([key, value]) => {
+    if (key == param) {
+      if (key && value) {
+        query += "WHERE " + key + "='" + value + "';";
+      } else {
+        query = false;
+      }
+    }
+  });
+
+  return query;
+};
+
 const Feedstock = function () {
   this.id;
   this.product_id;

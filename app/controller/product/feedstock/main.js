@@ -48,6 +48,7 @@ feedstockController.add = async (req, res) => {
 	feedstock.measure = req.body.measure;
 	feedstock.amount = req.body.amount;
 	feedstock.category_id = req.body.category_id;
+	feedstock.obs = req.body.obs;
 
 	try {
 		if (!feedstock.id) {

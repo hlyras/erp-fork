@@ -24,7 +24,7 @@
         value: category.id
       }, `${category.id} | ${category.name}`));
     });
-  }
+  };
 
 
   document.getElementById("feedstock-add-form").addEventListener("submit", async e => {
@@ -36,7 +36,8 @@
       feedstock_id: e.target.feedstock.dataset.id,
       measure: e.target.measure.value,
       amount: e.target.amount.value,
-      category_id: e.target.category_id.value
+      category_id: e.target.category_id.value,
+      obs: e.target.obs.value
     };
 
     const response = await API.response(Product.feedstock.add, feedstock);
@@ -50,6 +51,7 @@
     e.target.measure.value = "";
     e.target.amount.value = "";
     e.target.category_id.value = "0";
+    e.target.obs.value = "";
 
     feedstockFilter(feedstock.product_id);
   });
@@ -68,6 +70,7 @@
     document.getElementById("feedstock-add-form").measure.value = feedstock.measure;
     document.getElementById("feedstock-add-form").amount.value = feedstock.amount;
     document.getElementById("feedstock-add-form").category_id.value = feedstock.category_id || "0";
+    document.getElementById("feedstock-add-form").obs.value = feedstock.obs;
   };
 
   async function feedstockRemove(id) {

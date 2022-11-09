@@ -31,11 +31,12 @@
     feedstocks.forEach(feedstock => {
       if (!feedstock.category_id) {
         let feedstock_div = lib.element.create("div", { class: "box a1 container box-hover border padding-5" });
-        feedstock_div.append(lib.element.create("div", { class: "mobile-box b3 em09 v-center" }, feedstock.name));
-        feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, feedstock.color));
+        feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, feedstock.name));
+        feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 border em09 v-center" }, feedstock.color));
         feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b12 em09 v-center" }, `${feedstock.amount}un`));
         feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 v-center" }, `${feedstock.measure}cm`));
         feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, `${feedstock.amount}un`));
+        feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em08 v-center" }, feedstock.obs));
         feedstock_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `feedstockEdit(${feedstock.id})`));
         feedstock_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `feedstockRemove(${feedstock.id})`));
         category_div.append(feedstock_div);
@@ -50,11 +51,12 @@
       feedstocks.forEach(feedstock => {
         if (category.id == feedstock.category_id) {
           let feedstock_div = lib.element.create("div", { class: "box a1 container box-hover border padding-5" });
-          feedstock_div.append(lib.element.create("div", { class: "mobile-box b3 em09 v-center" }, feedstock.name));
-          feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, feedstock.color));
+          feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, feedstock.name));
+          feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 v-center" }, feedstock.color));
           feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b12 em09 v-center" }, `${feedstock.amount}un`));
           feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 v-center" }, `${feedstock.measure}cm`));
           feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 v-center" }, `${feedstock.amount}un`));
+          feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em08 v-center" }, feedstock.obs));
           feedstock_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `feedstockEdit(${feedstock.id})`));
           feedstock_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `feedstockRemove(${feedstock.id})`));
           category_div.append(feedstock_div);
