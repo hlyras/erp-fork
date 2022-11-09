@@ -85,6 +85,7 @@ preparationController.print = async (req, res) => {
           if (feedstock.feedstock_id == arr[i].feedstock_id) {
             if (feedstock.uom == "cm") {
               console.log(feedstock);
+              console.log(production.products[i]);
               arr[i].totalMeasure += (feedstock.measure * feedstock.amount) * production.products[i].amount;
             } else {
               arr[i].totalAmount += parseInt(feedstock.amount) * production.products[i].amount;
