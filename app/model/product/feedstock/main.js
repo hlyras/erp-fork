@@ -14,6 +14,32 @@ lib.convertTo.object = function (target) {
   return obj;
 };
 
+lib.Query.save = function (obj, db) {
+  let attributesAsArray = Object.entries(obj);
+  let query = "INSERT INTO " + db + " ";
+  let queryProps = "(";
+  let queryValues = "(";
+
+  attributesAsArray.forEach(([key, value], index, array) => {
+    if (typeof value == 'number' || typeof value == 'string') {
+      if (key && value != undefined && index == array.length - 1) {
+        queryProps += key + "";
+        queryValues += "'" + value + "'";
+      } else if (key && value) {
+        queryProps += key + ",";
+        queryValues += "'" + value + "',";
+      }
+    }
+  });
+
+  queryProps += ")";
+  queryValues += ")";
+
+  query += queryProps + " VALUES " + queryValues + ";";
+
+  return query;
+};
+
 lib.Query.update = function (obj, db, param) {
   let attributesAsArray = Object.entries(obj);
   let query = "UPDATE " + db + " SET ";
