@@ -1,14 +1,17 @@
 <html>
+
 <head>
   <%- include('./../../../partials/head.ejs') %>
 </head>
+
 <body>
   <%- include('./../../../partials/header.ejs') %>
   <%- include('./../../../partials/nav.ejs') %>
   <section class="container h-center">
     <div class="box b1 lucida-grande em12 bold center">Gerir Ordem de serviço</div>
     <form id="service-order-filter-form" class="box b1 container ground padding-10 border radius-5">
-      <input type="id" name="id" class="box b3 lucida-grande bold input-generic border center nofocus" placeholder="Código" autocomplete="off">
+      <input type="id" name="id" class="box b3 lucida-grande bold input-generic border center nofocus"
+        placeholder="Código" autocomplete="off">
       <select name="method" class="box b3 input-generic lucida-grande bold center margin-top-5">
         <option value="">Método de envio</option>
         <option value="Retirada em loja">Retirada em loja</option>
@@ -25,9 +28,12 @@
         <option value="Finalizada">Finalizada</option>
         <option value="Finalizada parcial">Finalizada parcial</option>
       </select>
-      <input type="date" name="period-start" class="box b3 input-generic lucida-grande bold center margin-top-5" autocomplete="off">
-      <input type="date" name="period-end" class="box b3 input-generic lucida-grande bold center margin-top-5" autocomplete="off">
-      <input type="submit" name="submit" value="Filtrar" class="box b3 lucida-grande bold submit-generic border center margin-top-5">
+      <input type="date" name="period-start" class="box b3 input-generic lucida-grande bold center margin-top-5"
+        autocomplete="off">
+      <input type="date" name="period-end" class="box b3 input-generic lucida-grande bold center margin-top-5"
+        autocomplete="off">
+      <input type="submit" name="submit" value="Filtrar"
+        class="box b3 lucida-grande bold submit-generic border center margin-top-5">
     </form>
 
     <div id="service-order-filter-box" class="box b1 container margin-top-10" style="display:none;">
@@ -46,4 +52,5 @@
   <script src="/javascripts/scripts/sale/controller/service-order.js"></script>
   <script src="/javascripts/scripts/sale/view/service-order.js"></script>
 </footer>
+
 </html>

@@ -24,11 +24,11 @@
     production_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande em09 bold margin-top-10 center" }, `Produtos`))
     production.products.forEach(product => {
       let product_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-2" });
-      product_div.append(lib.element.create("div", { class: "box b8 em09 center" }, product.code));
-      product_div.append(lib.element.create("div", { class: "box b2 em09 center" }, product.name));
-      product_div.append(lib.element.create("div", { class: "box b8 em09 center" }, product.color));
-      product_div.append(lib.element.create("div", { class: "box b8 em09 center" }, product.size));
-      product_div.append(lib.element.create("div", { class: "box b8 em09 center" }, `${product.amount}un`));
+      product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.code));
+      product_div.append(lib.element.create("div", { class: "mobile-box b2 em09 center" }, product.name));
+      product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.color));
+      product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.size));
+      product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, `${product.amount}un`));
       production_div.append(product_div);
     });
 

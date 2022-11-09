@@ -12,8 +12,13 @@
     let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-10 margin-top-5" });
     production_div.append(lib.element.createInfo("mobile-box b8 em09 border padding-5 margin-top-5", "Id", `${production.id}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Produção", `${production.location}`));
-    production.location == "Interna" && production_div.append(lib.element.createInfo("mobile-box b5-8 em09 border padding-5 margin-top-5", "Colaborador", `${production.seamstress_name}`));
-    production.location == "Externa" && production_div.append(lib.element.createInfo("mobile-box b5-8 em09 border padding-5 margin-top-5", "Facção", `${production.seamstress_name}`));
+    production.location == "Interna" && production_div.append(lib.element.createInfo("mobile-box b2 em09 border padding-5 margin-top-5", "Colaborador", `${production.seamstress_name}`));
+    production.location == "Externa" && production_div.append(lib.element.createInfo("mobile-box b2 em09 border padding-5 margin-top-5", "Facção", `${production.seamstress_name}`));
+    production_div.append(lib.element.create("img", {
+      src: "/images/icon/print.png",
+      class: "image-prop size-30 center icon",
+      onclick: `lib.openExternalLink('${window.location.origin}/production/preparation/print/${production.id}')`
+    }));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data", `${lib.timestampToDate(production.datetime)}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data p/ Prep", `${lib.timestampToDate(production.preparation_deadline)}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data est.", `${lib.timestampToDate(production.date)}`));
@@ -22,11 +27,11 @@
     production_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande em09 bold margin-top-10 center" }, `Produtos`))
     production.products.forEach(product => {
       let product_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-2" });
-      product_div.append(lib.element.create("div", { class: "box b8 em09 center" }, product.code));
-      product_div.append(lib.element.create("div", { class: "box b2 em09 center" }, product.name));
-      product_div.append(lib.element.create("div", { class: "box b8 em09 center" }, product.color));
-      product_div.append(lib.element.create("div", { class: "box b8 em09 center" }, product.size));
-      product_div.append(lib.element.create("div", { class: "box b8 em09 center" }, `${product.amount}un`));
+      product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.code));
+      product_div.append(lib.element.create("div", { class: "mobile-box b2 em09 center" }, product.name));
+      product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.color));
+      product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.size));
+      product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, `${product.amount}un`));
       production_div.append(product_div);
     });
 
