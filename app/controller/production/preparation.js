@@ -65,6 +65,7 @@ preparationController.print = async (req, res) => {
     production.products = await Production.product.filter(product_props, product_inners, [], product_strict_params, []);
 
     for (let i in production.products) {
+      console.log(production.products[i]);
       let feedstock_props = [
         "product_feedstock.*",
         "feedstock.code", "feedstock.name", "product_color.name color", "feedstock.uom"
