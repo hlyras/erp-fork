@@ -65,7 +65,6 @@ preparationController.print = async (req, res) => {
     production.products = await Production.product.filter(product_props, product_inners, [], product_strict_params, []);
 
     for (let i in production.products) {
-      console.log(production.products[i]);
       let feedstock_props = [
         "product_feedstock.*",
         "feedstock.code", "feedstock.name", "product_color.name color", "feedstock.uom"
@@ -82,6 +81,8 @@ preparationController.print = async (req, res) => {
       let feedstocks = await Product.feedstock.filter(feedstock_props, feedstock_inners, [], feedstock_strict_params, []);
 
       production.products[i].feedstocks = feedstocks.reduce((arr, feedstock) => {
+        console.log('dentro do reduce');
+        console.log(i);
         for (let i in arr) {
           if (feedstock.feedstock_id == arr[i].feedstock_id) {
             if (feedstock.uom == "cm") {
@@ -103,6 +104,9 @@ preparationController.print = async (req, res) => {
 
         return arr;
       }, []);
+
+      console.log('fora do reduce');
+      console.log(i);
     };
 
     res.render('production/preparation/print', { user: req.user, production });
