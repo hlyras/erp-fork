@@ -64,6 +64,8 @@ preparationController.print = async (req, res) => {
 
     production.products = await Production.product.filter(product_props, product_inners, [], product_strict_params, []);
 
+    console.log(production.products);
+
     for (let i in production.products) {
       let feedstock_props = [
         "product_feedstock.*",
@@ -81,14 +83,12 @@ preparationController.print = async (req, res) => {
       let feedstocks = await Product.feedstock.filter(feedstock_props, feedstock_inners, [], feedstock_strict_params, []);
 
       production.products[i].feedstocks = feedstocks.reduce((arr, feedstock) => {
-        console.log('dentro do reduce');
-        console.log(i);
-        for (let i in arr) {
-          if (feedstock.feedstock_id == arr[i].feedstock_id) {
+        for (let j in arr) {
+          if (feedstock.feedstock_id == arr[j].feedstock_id) {
             if (feedstock.uom == "cm") {
-              arr[i].totalMeasure += (feedstock.measure * feedstock.amount) * production.products[i].amount;
+              arr[j].totalMeasure += (feedstock.measure * feedstock.amount) * production.products[i].amount;
             } else {
-              arr[i].totalAmount += parseInt(feedstock.amount) * production.products[i].amount;
+              arr[j].totalAmount += parseInt(feedstock.amount) * production.products[i].amount;
             }
             return arr;
           }
