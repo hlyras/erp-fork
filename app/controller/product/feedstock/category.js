@@ -9,7 +9,7 @@ const lib = require("jarmlib");
 const categoryController = {};
 
 categoryController.index = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-pro'])) {
     return res.redirect('/');
   };
 
@@ -22,7 +22,7 @@ categoryController.index = async (req, res) => {
 };
 
 categoryController.manage = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-pro'])) {
     return res.redirect('/');
   };
 
@@ -36,7 +36,7 @@ categoryController.manage = async (req, res) => {
 };
 
 categoryController.create = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
@@ -62,7 +62,7 @@ categoryController.create = async (req, res) => {
 };
 
 categoryController.findById = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
@@ -76,7 +76,7 @@ categoryController.findById = async (req, res) => {
 };
 
 categoryController.filter = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
@@ -94,7 +94,7 @@ categoryController.filter = async (req, res) => {
 };
 
 categoryController.delete = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
