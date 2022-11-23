@@ -9,7 +9,7 @@ const Product = require('../../../model/product/main');
 const productController = {};
 
 productController.index = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'sto-man'])) {
     return res.redirect('/');
   };
   let colors = await Product.color.list();
@@ -18,7 +18,7 @@ productController.index = async (req, res) => {
 };
 
 productController.filter = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-ass', 'adm-aud', 'pro-man', 'log-pac', 'pro-ass'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-ass', 'adm-aud', 'pro-man', 'log-pac', 'pro-ass', 'sto-man'])) {
     return res.send({ unauthorized: "Você não tem permissão para acessar!" });
   };
 
