@@ -9,7 +9,7 @@ Product.color = require('../../../model/product/color');
 const datasheetController = {};
 
 datasheetController.index = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro'])) {
 		return res.redirect('/');
 	};
 
