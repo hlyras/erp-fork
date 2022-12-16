@@ -61,7 +61,7 @@ Outcome.controller.edit = async (id) => {
 	let outcome = await API.response(Outcome.findById, id);
 	if (!outcome) { return false };
 
-	if (outcome.expense_id) { return alert("Não é possível editar saídas criadas por despesas."); };
+	if (outcome.expense_id) { return alert("Não é permitido editar saídas criadas por despesas."); };
 
 	document.getElementById("outcome-create-form").elements.namedItem("id").value = outcome.id;
 	document.getElementById("outcome-create-form").elements.namedItem("date").value = lib.convertDate(lib.timestampToDate(outcome.date));
