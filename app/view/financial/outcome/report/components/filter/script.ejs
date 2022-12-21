@@ -125,6 +125,7 @@
 		let type_div = lib.element.create("div", { id: `category-${category.id}-${cost_type}`, class: "box b1 container", style: "display:none;" });
 		type_box.append(type_div);
 
+		let getLastId = 0;
 		for (let i in outcomes) {
 			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1 pointer", onclick: `outcomeDetail(${outcomes[i].id})` });
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcomes[i].id));
@@ -132,9 +133,25 @@
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcomes[i].date)));
 			outcome_div.append(lib.element.create("div", { class: "mobile-box b6 em09" }, `R$${outcomes[i].cost.toFixed(2)}`));
 			type_div.append(outcome_div);
-		};
 
-		return type_box;
+			if (getLastId == 0) {
+				getLastId = outcomes[i].id;
+			} else if (getLastId == outcomes[i].id) {
+				console.log("did nothing");
+			} else if (getLastId != 0 && getLastId != outcomes[i].id) {
+
+			}
+
+			let outcome_cost_div = lib.element.create("div", { class: "box b1 container box-hover padding-1 pointer", onclick: `outcomeDetail(${outcomes[i].id})` });
+			outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcomes[i].id));
+			outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, outcomes[i].origin_name));
+			outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcomes[i].date)));
+			outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b6 em09" }, `R$${outcomes[i].cost.toFixed(2)}`));
+			type_div.append(outcome_cost_div);
+		}
+	};
+
+	return type_box;
 	};
 
 	report.costType.main = async (outcomes, categories) => {
