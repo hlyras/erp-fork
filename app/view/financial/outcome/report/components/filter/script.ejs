@@ -125,33 +125,78 @@
 		let type_div = lib.element.create("div", { id: `category-${category.id}-${cost_type}`, class: "box b1 container", style: "display:none;" });
 		type_box.append(type_div);
 
-		let getLastId = 0;
-		for (let i in outcomes) {
-			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1 pointer", onclick: `outcomeDetail(${outcomes[i].id})` });
-			outcome_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcomes[i].id));
-			outcome_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, outcomes[i].origin_name));
-			outcome_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcomes[i].date)));
-			outcome_div.append(lib.element.create("div", { class: "mobile-box b6 em09" }, `R$${outcomes[i].cost.toFixed(2)}`));
-			type_div.append(outcome_div);
+		let origin = { id: 0, name: "", cost: 0 };
+		outcomes.forEach((outcome) => {
+			// if (getLastOriginId == 0) {
+			// 	console.log(outcome.origin_id);
+			// }
 
-			if (getLastId == 0) {
-				getLastId = outcomes[i].id;
-			} else if (getLastId == outcomes[i].id) {
-				console.log("did nothing");
-			} else if (getLastId != 0 && getLastId != outcomes[i].id) {
+			if (origin.id == 0) {
+				console.log(outcome.origin_id, "start");
+				origin.id = outcome.origin_id;
+				origin.name = outcome.origin_name;
+				origin.cost += outcome.cost;
+			} else if (origin.id == outcome.origin_id) {
+				console.log(outcome.origin_id, "sum");
+				origin.cost += outcome.cost;
+			} else if (origin.id != 0 && origin.id != outcome.origin_id) {
+				console.log(outcome.origin_id, "view");
+				console.log(origin);
+				let outcome_cost_div = lib.element.create("div", { class: "box b1 container bold box-hover padding-1 border" });
+				outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, origin.id));
+				outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, origin.name));
+				outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, "Custo total"));
+				outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b6 em09 bold" }, `R$${origin.cost.toFixed(2)}`));
+				type_div.append(outcome_cost_div);
 
+				origin.id = outcome.origin_id;
+				origin.name = outcome.origin_name;
+				origin.cost = 0;
+				origin.cost += outcome.cost;
 			}
 
-			let outcome_cost_div = lib.element.create("div", { class: "box b1 container box-hover padding-1 pointer", onclick: `outcomeDetail(${outcomes[i].id})` });
-			outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcomes[i].id));
-			outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, outcomes[i].origin_name));
-			outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcomes[i].date)));
-			outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b6 em09" }, `R$${outcomes[i].cost.toFixed(2)}`));
-			type_div.append(outcome_cost_div);
-		}
-	};
 
-	return type_box;
+			let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1 pointer", onclick: `outcomeDetail(${outcome.id})` });
+			outcome_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcome.id));
+			outcome_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, outcome.origin_name));
+			outcome_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcome.date)));
+			outcome_div.append(lib.element.create("div", { class: "mobile-box b6 em09" }, `R$${outcome.cost.toFixed(2)}`));
+			type_div.append(outcome_div);
+		});
+
+		// let getLastOriginId = 0;
+		// for (let i in outcomes) {
+		// 	// if (getLastOriginId == 0) {
+		// 	// 	// console.log(' origin id == 0');
+		// 	// 	getLastOriginId = outcomes[i].origin_id;
+		// 	// } else if (getLastOriginId == outcomes[i].origin_id) {
+		// 	// 	// console.log(' origin id == outcomes[i].origin_id');
+		// 	// 	console.log("do nothing");
+		// 	// } else if (getLastOriginId != 0 && getLastOriginId != outcomes[i].origin_id) {
+		// 	// 	// console.log(' origin id == outcomes[i].origin_id');
+		// 	// 	// console.log(outcomes[i].origin_id);
+		// 	// 	let outcome_cost_div = lib.element.create("div", { class: "box b1 container box-hover padding-1 pointer", onclick: `outcomeDetail(${outcomes[i].id})` });
+		// 	// 	outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcomes[i].id));
+		// 	// 	// outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, outcomes[i].origin_name));
+		// 	// 	// outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcomes[i].date)));
+		// 	// 	// outcome_cost_div.append(lib.element.create("div", { class: "mobile-box b6 em09 bold" }, `R$${outcomes[i].cost.toFixed(2)}`));
+		// 	// 	type_div.append(outcome_cost_div);
+		// 	// }
+
+		// 	if (getLastOriginId == 0) {
+		// 		console.log("outcomes[i].origin_id");
+		// 		console.log(outcomes[i].origin_id, outcomes[i].origin_name);
+		// 	}
+
+		// 	let outcome_div = lib.element.create("div", { class: "box b1 container box-hover padding-1 pointer", onclick: `outcomeDetail(${outcomes[i].id})` });
+		// 	outcome_div.append(lib.element.create("div", { class: "mobile-box b12 em09" }, outcomes[i].id));
+		// 	outcome_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, outcomes[i].origin_name));
+		// 	outcome_div.append(lib.element.create("div", { class: "mobile-box b4 em09" }, lib.timestampToDate(outcomes[i].date)));
+		// 	outcome_div.append(lib.element.create("div", { class: "mobile-box b6 em09" }, `R$${outcomes[i].cost.toFixed(2)}`));
+		// 	type_div.append(outcome_div);
+		// }
+
+		return type_box;
 	};
 
 	report.costType.main = async (outcomes, categories) => {
