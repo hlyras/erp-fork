@@ -8,10 +8,10 @@ Template.format = (content) => {
 	let splitedContent = lib.string.splitBy(content, "\n");
 	let templatedContent = ``;
 
-	for(let i in splitedContent) {
+	for (let i in splitedContent) {
 		templatedContent += splitedContent[i] == `` ? `<br>` : `<p style='margin-left:10px;font-family:georgia;'>${splitedContent[i]}</p>`;
 	};
-	
+
 	return templatedContent;
 };
 
@@ -27,7 +27,7 @@ Template.setData = (str, data) => {
 
 Template.render = (mail) => {
 	let template = "";
-	let header = `<!DOCTYPE html><html><body style='padding:0px;margin:0px;'><div style='height:60px;background-color:#000;' align='center'><img src='cid:favicon-white' style='height:40px;margin-top:10px;'></div>`;
+	let header = `<!DOCTYPE html><html><meta name='viewport' content='width=device-width, user-scalable=no'><body style='padding:0px;margin:0px;'><div style='height:60px;background-color:#000;' align='center'><img src='cid:favicon-white' style='height:40px;margin-top:10px;'></div>`;
 	let footer = `<img src='cid:favicon' style='margin-left:10px;margin-top:5px;width:105px;'></body></html>`;
 
 	template += header;
