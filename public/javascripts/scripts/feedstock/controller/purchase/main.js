@@ -62,11 +62,13 @@ if (Feedstock.purchase.controller.filter) {
 		event.preventDefault();
 
 		let purchase = {
-			code: event.target.elements.namedItem("code").value,
+			id: event.target.elements.namedItem("id").value,
 			supplier_id: event.target.elements.namedItem("supplier-id").value,
 			period_start: lib.dateToTimestamp(event.target.elements.namedItem("period-start").value),
 			period_end: parseFloat(lib.dateToTimestamp(event.target.elements.namedItem("period-end").value)) + parseFloat(lib.timestampDay())
 		};
+
+		console.log(purchase);
 
 		let purchases = await API.response(Feedstock.purchase.filter, purchase);
 		if (!purchases) { return false; }
