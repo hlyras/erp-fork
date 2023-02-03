@@ -1,7 +1,9 @@
 <html>
+
 <head>
   <%- include('./../partials/head.ejs') %>
 </head>
+
 <body>
   <%- include('./../partials/header.ejs') %>
   <%- include('./../partials/nav.ejs') %>
@@ -22,7 +24,10 @@
           <div class="box b1 container dropdown ground margin-top-5">
             <ul class="box b1 container">
               <li>
-                <input type="text" id="sale-customer" data-id="" class="box b1 input-generic center" oninput="Sale.customer.controller.filter.input(this, 'sale-customer-dropdown')" placeholder="Digite o Nome do cliente ou CNPJ" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                <input type="text" id="sale-customer" data-id="" class="box b1 input-generic center"
+                  oninput="Sale.customer.controller.filter.input(this, 'sale-customer-dropdown')"
+                  placeholder="Digite o Nome do cliente ou CNPJ"
+                  onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
                 <ul id="sale-customer-dropdown" class="box b1"></ul>
               </li>
             </ul>
@@ -38,13 +43,20 @@
             <div class="mobile-box b7-9 container dropdown ground margin-top-5">
               <ul class="box b1 container">
                 <li>
-                  <input type="text" id="sale-product-kart-dropdown-input" name="product" data-id="" class="box b1 input-generic center" oninput="Sale.product.controller.dropdown.filter(this, 'sale-product-kart-dropdown')" placeholder="Descrição do produto" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                  <input type="text" id="sale-product-kart-dropdown-input" name="product" data-id=""
+                    class="box b1 input-generic center"
+                    oninput="Sale.product.controller.dropdown.filter(this, 'sale-product-kart-dropdown')"
+                    placeholder="Descrição do produto"
+                    onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
                   <ul id="sale-product-kart-dropdown" class="box b1"></ul>
                 </li>
               </ul>
             </div>
-            <input type="number" name="amount" class="mobile-box b9 em11 input-generic border-bottom center margin-top-5" placeholder="0">
-            <button type="submit" name="submit" class="mobile-box b9 input-generic noborder center margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
+            <input type="number" name="amount"
+              class="mobile-box b9 em11 input-generic border-bottom center margin-top-5" placeholder="0">
+            <button type="submit" name="submit"
+              class="mobile-box b9 input-generic noborder center margin-top-5 pointer"><img class='size-20 icon'
+                src="/images/icon/increase.png"></button>
           </form>
           <div id="sale-product-kart-div" class="box b1 container"></div>
         </div>
@@ -55,13 +67,19 @@
             <div class="mobile-box b7-9 container dropdown ground margin-top-5">
               <ul class="box b1 container">
                 <li>
-                  <input type="text" id="sale-package-kart-dropdown-input" name="package" data-id="" class="box b1 input-generic center" oninput="Sale.package.controller.dropdown.filter(this, 'sale-package-kart-dropdown')" placeholder="Descrição do pacote" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}" autocomplete="off">
+                  <input type="text" id="sale-package-kart-dropdown-input" name="package" data-id=""
+                    class="box b1 input-generic center"
+                    oninput="Sale.package.controller.dropdown.filter(this, 'sale-package-kart-dropdown')"
+                    placeholder="Descrição do pacote" onclick="if(this.readOnly){this.value=''; this.readOnly = false;}"
+                    autocomplete="off">
                   <ul id="sale-package-kart-dropdown" class="box b1"></ul>
                 </li>
               </ul>
             </div>
-            <input type="number" name="amount" class="mobile-box b9 em11 input-generic border-bottom center margin-top-5" placeholder="0">
-            <button type="submit" name="submit" class="mobile-box b9 input-generic noborder margin-top-5 pointer"><img class='size-20 icon' src="/images/icon/increase.png"></button>
+            <input type="number" name="amount"
+              class="mobile-box b9 em11 input-generic border-bottom center margin-top-5" placeholder="0">
+            <button type="submit" name="submit" class="mobile-box b9 input-generic noborder margin-top-5 pointer"><img
+                class='size-20 icon' src="/images/icon/increase.png"></button>
           </form>
           <div id="sale-package-kart-div" class="box b1 container"></div>
         </div>
@@ -70,7 +88,8 @@
       <div class="box b2 container ground padding-10 margin-top-10 border radius-5">
         <div class="box b1 em08 georgia bold">Observações gerais</div>
         <div class="box a1 container margin-top-5">
-          <textarea id="sale-obs" class="box b1 height-80 avant-garde padding-5" placeholder="Observações" maxlength="1000"></textarea>
+          <textarea id="sale-obs" class="box b1 height-80 avant-garde padding-5" placeholder="Observações"
+            maxlength="1000"></textarea>
         </div>
 
         <div class="box b1 em08 georgia bold margin-top-10">Informações da venda</div>
@@ -82,7 +101,7 @@
             <option value="Boleto">Boleto</option>
             <option value="Cartão de crédito">Cartão de crédito</option>
           </select>
-          
+
           <select id="payment-period" class="box b2 input-generic margin-top-5 hide-disabled">
             <option value="" disabled selected>Prazo de Pagamento</option>
             <option value="À vista">À Vista</option>
@@ -101,6 +120,9 @@
             <option value="Total Express">Total Express</option>
             <option value="Braspress">Braspress</option>
             <option value="Latam">Latam</option>
+            <option value="Azul Cargo">Azul Cargo</option>
+            <option value="Buslog">Buslog</option>
+            <option value="Fedex">Fedex</option>
           </select>
           <select id="status" class="box b1 input-generic margin-top-5 hide-disabled">
             <option value="" disabled selected>Status da venda</option>
@@ -116,7 +138,8 @@
           <div id="sale-product-weight" class="mobile-box b2 center bold">0g</div>
           <div class="mobile-box b2 center">Peso dos pacotes:</div>
           <div id="sale-package-weight" class="mobile-box b2 center bold">0g</div>
-          <div class="mobile-box b2 center"></div><div class="mobile-box b2 underline"></div>
+          <div class="mobile-box b2 center"></div>
+          <div class="mobile-box b2 underline"></div>
           <div class="mobile-box b2 center">Peso total:</div>
           <div id="sale-weight" class="mobile-box b2 center bold">0g</div>
         </div>
@@ -127,14 +150,20 @@
           <div class="mobile-box b2 center">Valor dos pacotes:</div>
           <div id="sale-package-value" class="mobile-box b2 center bold">$0,00</div>
           <div class="mobile-box b2 center">Valor do frete:</div>
-          <input type="number" id="sale-shipment-value" class="mobile-box b2 border-bottom padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
+          <input type="number" id="sale-shipment-value" class="mobile-box b2 border-bottom padding-5 center bold"
+            step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}"
+            onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}" />
           <div class="mobile-box b2 center">Valor do desconto:</div>
-          <input type="number" id="sale-discount-value" class="mobile-box b2 border-bottom padding-5 center bold" step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"/>
-          <div class="mobile-box b2 center"></div><div class="mobile-box b2 underline"></div>
+          <input type="number" id="sale-discount-value" class="mobile-box b2 border-bottom padding-5 center bold"
+            step="0.01" value="0.00" onfocus="if(this.value < 0.01){this.value=''}"
+            onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}" />
+          <div class="mobile-box b2 center"></div>
+          <div class="mobile-box b2 underline"></div>
           <div class="mobile-box b2 center">Valor total:</div>
           <div id="sale-value" class="mobile-box b2 center bold">$0.00</div>
         </div>
-        <input type="button" id="sale-create-submit" class="box b1 submit-generic bold margin-top-5" value="CONFIRMAR VENDA">
+        <input type="button" id="sale-create-submit" class="box b1 submit-generic bold margin-top-5"
+          value="CONFIRMAR VENDA">
       </div>
     </div>
   </section>
@@ -162,4 +191,5 @@
   <script src="/javascripts/scripts/sale/view/package.js"></script>
   <script src="/javascripts/scripts/sale/controller/package.js"></script>
 </footer>
+
 </html>

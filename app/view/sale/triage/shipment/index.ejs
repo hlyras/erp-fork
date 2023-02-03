@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <%- include('./../../../partials/head.ejs') %>
   <style type="text/css">
@@ -10,24 +11,28 @@
     }
   </style>
 </head>
+
 <body>
   <%- include('./../../../partials/header.ejs') %>
   <%- include('./../../../partials/nav.ejs') %>
 
   <section class="container">
     <div class="box b1 lucida-grande em12 bold center">Gerar O.S. de despacho</div>
-    
+
     <%- include('./components/service-order.ejs') %>
     <%- include('./components/filter-status.ejs') %>
     <%- include('./components/filter-form.ejs') %>
 
-    <div id="service-order" class="box b1 container ground border margin-top-10 padding-10 center sticky" style="display:none;">
+    <div id="service-order" class="box b1 container ground border margin-top-10 padding-10 center sticky"
+      style="display:none;">
       <div id="service-order-box" class="box b1 container"></div>
       <div id="order-filter-box" class="box b1 container margin-top-5 margin-bottom-10" style="display:none">
         <div id="order-filter-div" class="box b1 container"></div>
       </div>
-      <div class="mobile-box b1 container center margin-top-10"><img src="/images/icon/down-arrow.png" class="noselect size-25 center icon transition-02-02 pointer" onclick="Sale.shipment.controller.switch(this)"></div>
-      
+      <div class="mobile-box b1 container center margin-top-10"><img src="/images/icon/down-arrow.png"
+          class="noselect size-25 center icon transition-02-02 pointer" onclick="Sale.shipment.controller.switch(this)">
+      </div>
+
       <div id="sale-filter-box" class="box b1 container margin-top-5 margin-bottom-10" style="display:none">
         <div id="sale-filter-div" class="box b1 container"></div>
       </div>
@@ -46,4 +51,5 @@
   <script src="/javascripts/scripts/sale/view/triage/shipment.js"></script>
 
 </footer>
+
 </html>

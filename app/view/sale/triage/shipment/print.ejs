@@ -1,31 +1,36 @@
 <html>
+
 <head>
   <%- include('./../../../partials/head.ejs') %>
   <style type="text/css">
     @media print {
-      .noprint, .noprint * {
+
+      .noprint,
+      .noprint * {
         display: none !important;
       }
 
-      .pagebreak { 
+      .pagebreak {
         page-break-before: auto;
       }
 
       .container {
-        page-break-inside:avoid;
+        page-break-inside: avoid;
       }
 
       .p-box {
-        box-sizing: border-box; 
-        align-self: flex-start; 
+        box-sizing: border-box;
+        align-self: flex-start;
       }
     }
   </style>
 </head>
+
 <body>
 
   <div class="container padding-10 noprint">
-    <div class="p-box a5 lucida-grande bold border-lg-st padding-5 center pointer noselect" onclick="print()">IMPRIMIR</div>
+    <div class="p-box a5 lucida-grande bold border-lg-st padding-5 center pointer noselect" onclick="print()">IMPRIMIR
+    </div>
   </div>
 
   <div class="container border-st pagebreak">
@@ -51,6 +56,18 @@
       <%- include('./components/print/latam.ejs') %>
       <% } %>
 
+      <% if(serviceOrder.method == "Buslog") { %>
+      <%- include('./components/print/buslog.ejs') %>
+      <% } %>
+
+      <% if(serviceOrder.method == "Azul Cargo") { %>
+      <%- include('./components/print/azul-cargo.ejs') %>
+      <% } %>
+
+      <% if(serviceOrder.method == "Fedex") { %>
+      <%- include('./components/print/fedex.ejs') %>
+      <% } %>
+
       <div class="p-box a1 container">
         <div class="p-box a1 lucida-grande bold">REMETENTE:</div>
         <div class="p-box b2 lucida-grande">Empresa: VestHouse Artigos Taticos e Sobrevivência LTDA</div>
@@ -59,7 +76,7 @@
         <div class="p-box b2 lucida-grande">Telefone: (21) 3449-9000</div>
       </div>
     </div>
-    
+
     <div class="p-box a1 lucida-grande center padding-5">Nº da O.S: #<b><%= serviceOrder.id %></b></div>
 
     <div class="p-box a1 container border">
@@ -73,14 +90,16 @@
     <div class="p-box a1 container border">
       <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].nf_code %></div>
       <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].sale_id %></div>
-      <div class="p-box a5-8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].trademark || serviceOrder.sales[i].customer_name %></div>
+      <div class="p-box a5-8 lucida-grande em08 padding-5 border center">
+        <%= serviceOrder.sales[i].trademark || serviceOrder.sales[i].customer_name %></div>
       <div class="p-box a8 lucida-grande em08 padding-5 border center"><%= serviceOrder.sales[i].box_amount %></div>
     </div>
     <% } %>
 
     <div class="p-box a1 container border">
       <div class="p-box a7-8 lucida-grande em09 padding-5 border center">Total de volumes</div>
-      <div class="p-box a8 lucida-grande em09 padding-5 border center"><%= serviceOrder.sales.reduce((a, b) => a + b.box_amount, 0) %></div>
+      <div class="p-box a8 lucida-grande em09 padding-5 border center">
+        <%= serviceOrder.sales.reduce((a, b) => a + b.box_amount, 0) %></div>
     </div>
 
     <div class="p-box a1 container">
@@ -93,11 +112,10 @@
       <div class="p-box b6 lucida-grande em08 margin-top-5">Data da coleta</div>
       <div class="p-box b6 lucida-grande 0m06 margin-top-1">: <%= serviceOrder.date %></div>
     </div>
-
   </div>
-
 </body>
 <footer>
   <%- include('./../../../partials/footer.ejs') %>
 </footer>
+
 </html>

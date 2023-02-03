@@ -1,60 +1,72 @@
 <div id="filter-status-box" class="box a1 container ground">
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Em negociação', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Em negociação', this)">
 		<div class="box b1 lucida-grande bold em08">Em negociação</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.em_negociacao || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Ag. pagamento', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Ag. pagamento', this)">
 		<div class="box b1 lucida-grande bold em08">Ag. pagamento</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.ag_pagamento || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Ag. embalo', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Ag. embalo', this)">
 		<div class="box b1 lucida-grande bold em08">Ag. embalo</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.ag_embalo || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Ag. nota fiscal', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Ag. nota fiscal', this)">
 		<div class="box b1 lucida-grande bold em08">Ag. nota fiscal</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.ag_nf || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Ag. envio', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Ag. envio', this)">
 		<div class="box b1 lucida-grande bold em08">Ag. envio</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.ag_envio || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Ag. envio p/ retirada', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Ag. envio p/ retirada', this)">
 		<div class="box b1 lucida-grande bold em08">Ag. envio p/ retirada</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.ag_envio_p_retirada || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Ag. transporte p/ P.R.', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Ag. transporte p/ P.R.', this)">
 		<div class="box b1 lucida-grande bold em08">Ag. transporte p/ P.R.</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.ag_transporte_p_pr || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('A caminho do P.R.', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('A caminho do P.R.', this)">
 		<div class="box b1 lucida-grande bold em08">A caminho do P.R.</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.a_caminho_do_pr || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Disponível para retirada', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Disponível para retirada', this)">
 		<div class="box b1 lucida-grande bold em08">Disponível para retirada</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.disponivel_p_retirada || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Enviado', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Enviado', this)">
 		<div class="box b1 lucida-grande bold em08">Enviado</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.enviado || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Entregue', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Entregue', this)">
 		<div class="box b1 lucida-grande bold em08">Entregue</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.entregue || 0 %> vendas</div>
 	</div>
 
-	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer" onclick="Sale.controller.filterBy('Extraviado', this)">
+	<div class="box b6 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.controller.filterBy('Extraviado', this)">
 		<div class="box b1 lucida-grande bold em08">Extraviado</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.extraviado || 0 %> vendas</div>
 	</div>

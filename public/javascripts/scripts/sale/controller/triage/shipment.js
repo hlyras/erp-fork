@@ -38,6 +38,9 @@ Sale.shipment.controller.filter = async (shipment_method) => {
 		shipment_method == "Total Express" && sales[i].shipment_method == "Total Express" && Sale.shipment.serviceOrder.sales.push(sales[i]);
 		shipment_method == "Braspress" && sales[i].shipment_method == "Braspress" && Sale.shipment.serviceOrder.sales.push(sales[i]);
 		shipment_method == "Latam" && sales[i].shipment_method == "Latam" && Sale.shipment.serviceOrder.sales.push(sales[i]);
+		shipment_method == "Azul Cargo" && sales[i].shipment_method == "Azul Cargo" && Sale.shipment.serviceOrder.sales.push(sales[i]);
+		shipment_method == "Buslog" && sales[i].shipment_method == "Buslog" && Sale.shipment.serviceOrder.sales.push(sales[i]);
+		shipment_method == "Fedex" && sales[i].shipment_method == "Fedex" && Sale.shipment.serviceOrder.sales.push(sales[i]);
 	};
 
 	Sale.shipment.serviceOrder.render();
