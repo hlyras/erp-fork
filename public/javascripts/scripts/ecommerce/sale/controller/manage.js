@@ -1,7 +1,7 @@
 Ecommerce.sale.controller = {};
 
 Ecommerce.sale.controller.filter = document.getElementById("ecommerce-sale-filter-form");
-if(Ecommerce.sale.controller.filter){
+if (Ecommerce.sale.controller.filter) {
 	Ecommerce.sale.controller.filter.addEventListener("submit", async event => {
 		event.preventDefault();
 
@@ -17,7 +17,7 @@ if(Ecommerce.sale.controller.filter){
 		};
 
 		let sales = await API.response(Ecommerce.sale.filter, sale);
-		if(!sales) { return false }
+		if (!sales) { return false }
 
 		let service_orders = [];
 
@@ -31,7 +31,7 @@ Ecommerce.sale.controller.manage = {};
 
 Ecommerce.sale.controller.manage.show = async (id) => {
 	let sale = await API.response(Ecommerce.sale.findById, id);
-	if(!sale) { return false };
+	if (!sale) { return false };
 
 	Ecommerce.sale.view.manage.show(sale);
 
@@ -41,14 +41,14 @@ Ecommerce.sale.controller.manage.show = async (id) => {
 Ecommerce.sale.controller.manage.changeStatus = async (id) => {
 	let sale = {
 		id: id,
-		status: document.getElementById("ecommerce-sale-manage-change-status-select-id"+id).value
+		status: document.getElementById("ecommerce-sale-manage-change-status-select-id" + id).value
 	};
 
 	let r = confirm("Deseja realmente atualizar o status da venda.");
 
-	if(sale.id && r){
+	if (sale.id && r) {
 		sale = await API.response(Ecommerce.sale.changeStatus, sale);
-		if(!sale) { return false };
+		if (!sale) { return false };
 
 		Ecommerce.sale.controller.filter.submit.click();
 	};
