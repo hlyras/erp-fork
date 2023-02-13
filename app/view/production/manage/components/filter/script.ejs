@@ -32,31 +32,6 @@
     lib.display("production-detail-box", "none");
     lib.display("production-filter-box", "");
 
-    // let date = new Date(lib.genTimestamp());
-    // console.log(date);
-
-    // console.log(MONTHS[date.getMonth()].name);
-    // console.log(MONTHS[date.getMonth()].days);
-
-    // alert(d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear());
-
-    // console.log(lib.firstDayOfMonth(lib.genTimestamp()));
-
-    // let date = new Date(lib.genTimestamp());
-    // console.log(DAYS[date.getDay()]);
-    // console.log(MONTHS[date.getMonth()]);
-
-    // let filter_box = document.getElementById("production-filter-box");
-
-    // let days_div = lib.element.create("div", { class: "box b1 container" });
-    // filter_box.append(days_div);
-
-    // for (let i = 0; i < MONTHS[date.getMonth()].days; i++) {
-    //   console.log(i + 1);
-    //   days_div.append(lib.element.create("div", { class: "box b1 border" }, `${i}/${MONTHS[date.getMonth()].name}`));
-    //   // Agora basta desenhar na tela os dias do mês
-    // };
-
     productionFilter(productions);
   });
 
@@ -82,61 +57,133 @@
     }, "Sem resultados."));
 
     let date = new Date(lib.genTimestamp());
-    console.log(date);
+    // let date = new Date(1735268400000);
 
-    let month = [];
-    console.log(MONTHS[date.getMonth()]);
+    let previousYear = date.getFullYear() - 1;
+    let currentYear = date.getFullYear();
+    let nextYear = date.getFullYear() + 1;
 
-    for (let i = 0; i < MONTHS[date.getMonth()].days; i++) {
-      filter_div.append(lib.element.create("div", {
-        id: `month-day-${i + 1}`,
-        class: "box b1 container border"
-      }, `${i + 1}/${date.getMonth() + 1}/${date.getFullYear()}`));
+    let previousMonth = date.getMonth() - 1;
+    if (previousMonth < 0) { previousMonth = 11; }
+    let currentMonth = date.getMonth();
+    let nextMonth = date.getMonth() + 1;
+    if (nextMonth > 11) { nextMonth = 0 }
 
-      // console.log(`${i + 1}/${MONTHS[date.getMonth()].name}/${date.getFullYear()}`);
-      // console.log(`${i + 1}-${date.getMonth() + 1}-${date.getFullYear()}`);
+    let currentSunday = date.getDate() - date.getDay();
+    if (currentSunday < 1 && currentMonth == 0) { currentSunday = MONTHS[previousMonth].days - (-currentSunday); }
 
-      let day = lib.convertDate(`${i + 1}-${date.getMonth() + 1}-${date.getFullYear()}`);
-      // console.log(lib.dateToTimestamp(day));
+    let previousSunday = currentSunday - 7;
+    if (previousSunday < 1) { previousSunday = MONTHS[previousMonth].days - (-previousSunday); }
 
-      productions.forEach(production => {
-        if (production.datetime > lib.dateToTimestamp(day) && production.datetime < lib.dateToTimestamp(day) + lib.timestampDay() - 1) {
-          let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-5 margin-top-5" });
-          production_div.append(lib.element.create("div", {
-            class: "mobile-box b9 input-show border-st center pointer",
-            onclick: `productionDetail(${production.id})`
-          }, production.id));
-          production_div.append(lib.element.create("div", { class: "mobile-box b4-9 em08 center" }, production.seamstress_name));
-          production_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToFulldate(production.datetime)));
-          production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.status));
-          production_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `productEdit(${production.id})`));
-          production_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `productDelete(${production.id})`));
-          // filter_div.append(production_div);
-          document.getElementById(`month-day-${i + 1}`).append(production_div);
+    let previous_week_div = lib.element.create("div", { class: "box b3 container border" });
+    let current_week_div = lib.element.create("div", { class: "box b3 container border" });
+    let next_week_div = lib.element.create("div", { class: "box b3 container border" });
+
+    for (let i = 0; i < 7; i++) {
+      if (date.getDate() - date.getDay() - 7 + i <= 0) {
+        if (previousSunday + i <= MONTHS[previousMonth].days) {
+          if (previousMonth == 11) {
+            previous_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
+              `${previousSunday + i} / ${MONTHS[previousMonth].name} / ${previousYear}`));
+
+            // render
+            productionRender(productions, `${previousYear}-${previousMonth + 1}-${previousSunday + i}`, previous_week_div);
+          } else {
+            previous_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
+              `${previousSunday + i} / ${MONTHS[previousMonth].name} / ${currentYear}`));
+
+            // render
+            productionRender(productions, `${currentYear}-${previousMonth + 1}-${previousSunday + i}`, previous_week_div);
+          }
         }
-      });
+      } else {
+        previous_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
+          `${currentSunday - 7 + i} / ${MONTHS[currentMonth].name} / ${currentYear}`));
+
+        // render
+        productionRender(productions, `${currentYear}-${currentMonth + 1}-${currentSunday - 7 + i}`, previous_week_div);
+      }
     };
 
-    console.log(productions);
+    for (let i = 0; i < 7; i++) {
+      if (date.getDate() - date.getDay() + i <= 0) {
+        if (currentSunday + i <= MONTHS[previousMonth].days) {
+          if (previousMonth == 11) {
+            current_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
+              `${currentSunday + i} / ${MONTHS[previousMonth].name} / ${previousYear}`));
 
+            // render
+            productionRender(productions, `${previousYear}-${previousMonth + 1}-${currentSunday + i}`, current_week_div);
+          } else {
+            current_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
+              `${currentSunday + i} / ${MONTHS[previousMonth].name} / ${currentYear}`));
+
+            // render
+            productionRender(productions, `${currentYear}-${previousMonth + 1}-${currentSunday + i}`, current_week_div);
+          }
+        }
+      } else if (currentSunday + i > MONTHS[currentMonth].days) {
+        current_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
+          `${currentSunday - MONTHS[currentMonth].days + i} / ${MONTHS[nextMonth].name} / ${nextYear}`));
+
+        // render
+        productionRender(productions, `${nextYear}-${nextMonth + 1}-${currentSunday - MONTHS[currentMonth].days + i}`, current_week_div);
+      } else {
+        current_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
+          `${date.getDate() - date.getDay() + i} / ${MONTHS[currentMonth].name} / ${currentYear}`));
+
+        // render
+        productionRender(productions, `${currentYear}-${currentMonth + 1}-${date.getDate() - date.getDay() + i}`, current_week_div);
+      }
+    };
+
+    for (let i = 0; i < 7; i++) {
+      if (date.getDate() - date.getDay() + 7 + i <= MONTHS[currentMonth].days) {
+        next_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
+          `${date.getDate() - date.getDay() + 7 + i} / ${MONTHS[currentMonth].name} / ${currentYear}`));
+
+        // render
+        productionRender(productions, `${currentYear}-${currentMonth + 1}-${date.getDate() - date.getDay() + 7 + i}`, next_week_div);
+      } else {
+        if (nextMonth == 0) {
+          next_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
+            `${date.getDate() - date.getDay() + 7 + i - MONTHS[currentMonth].days} / ${MONTHS[nextMonth].name} / ${nextYear}`));
+
+          // render
+          productionRender(productions, `${nextYear}-${nextMonth + 1}-${date.getDate() - date.getDay() + 7 + i - MONTHS[currentMonth].days}`, next_week_div);
+        } else {
+          next_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
+            `${date.getDate() - date.getDay() + 7 + i - MONTHS[currentMonth].days} / ${MONTHS[nextMonth].name} / ${currentYear}`));
+
+          // render
+          productionRender(productions, `${currentYear}-${nextMonth + 1}-${date.getDate() - date.getDay() + 7 + i - MONTHS[currentMonth].days}`, next_week_div);
+        }
+      }
+    };
+
+    filter_div.append(previous_week_div);
+    filter_div.append(current_week_div);
+    filter_div.append(next_week_div);
+  };
+
+  function productionRender(productions, day, div) {
+    // console.log(productions);
+    console.log(lib.timestampToDate(productions[4].date));
+    console.log(day);
     productions.forEach(production => {
-      console.log(production);
+      if (production.preparation_deadline >= lib.dateToTimestamp(day) && production.preparation_deadline < lib.dateToTimestamp(day) + lib.timestampDay() - 1) {
+        let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-5 margin-top-5" });
+        production_div.append(lib.element.create("div", {
+          class: "mobile-box b9 input-show border-st center pointer",
+          onclick: `productionDetail(${production.id})`
+        }, production.id));
+        production_div.append(lib.element.create("div", { class: "mobile-box b4-9 em08 center" }, production.seamstress_name));
+        // production_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToFulldate(production.datetime)));
+        production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.status));
+        // production_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `productEdit(${production.id})`));
+        // production_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `productDelete(${production.id})`));
+        div.append(production_div);
+      }
     });
-
-
-
-    // productions.forEach(production => {
-    //   let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-5 margin-top-5" });
-    //   production_div.append(lib.element.create("div", {
-    //     class: "mobile-box b9 input-show border-st center pointer",
-    //     onclick: `productionDetail(${production.id})`
-    //   }, production.id));
-    //   production_div.append(lib.element.create("div", { class: "mobile-box b4-9 em08 center" }, production.seamstress_name));
-    //   production_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToFulldate(production.datetime)));
-    //   production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.status));
-    //   production_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `productEdit(${production.id})`));
-    //   production_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `productDelete(${production.id})`));
-    //   filter_div.append(production_div);
-    // });
   };
 </script>
