@@ -41,6 +41,7 @@ Sale.shipment.controller.filter = async (shipment_method) => {
 		shipment_method == "Azul Cargo" && sales[i].shipment_method == "Azul Cargo" && Sale.shipment.serviceOrder.sales.push(sales[i]);
 		shipment_method == "Buslog" && sales[i].shipment_method == "Buslog" && Sale.shipment.serviceOrder.sales.push(sales[i]);
 		shipment_method == "Fedex" && sales[i].shipment_method == "Fedex" && Sale.shipment.serviceOrder.sales.push(sales[i]);
+		shipment_method == "Hawk Transportes" && sales[i].shipment_method == "Hawk Transportes" && Sale.shipment.serviceOrder.sales.push(sales[i]);
 	};
 
 	Sale.shipment.serviceOrder.render();

@@ -1,29 +1,29 @@
 <div id="filter-status" class="box b1 container">
-	<div class="box b4 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+	<div class="box b5 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
 		onclick="Sale.shipment.controller.filter('Correios', this)">
 		<div class="box b1 lucida-grande bold em09">Correios</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.correios || 0 %> pedidos</div>
 	</div>
 
-	<div class="box b4 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+	<div class="box b5 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
 		onclick="Sale.shipment.controller.filter('Jadlog', this)">
 		<div class="box b1 lucida-grande bold em09">Jadlog</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.jadlog || 0 %> pedidos</div>
 	</div>
 
-	<div class="box b4 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+	<div class="box b5 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
 		onclick="Sale.shipment.controller.filter('Total Express', this)">
 		<div class="box b1 lucida-grande bold em09">Total Express</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.total_express || 0 %> pedidos</div>
 	</div>
 
-	<div class="box b4 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+	<div class="box b5 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
 		onclick="Sale.shipment.controller.filter('Braspress', this)">
 		<div class="box b1 lucida-grande bold em09">Braspress</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.braspress || 0 %> pedidos</div>
 	</div>
 
-	<div class="box b4 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+	<div class="box b5 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
 		onclick="Sale.shipment.controller.filter('Latam', this)">
 		<div class="box b1 lucida-grande bold em09">Latam</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.latam || 0 %> pedidos</div>
@@ -45,5 +45,11 @@
 		onclick="Sale.shipment.controller.filter('Fedex', this)">
 		<div class="box b1 lucida-grande bold em09">Fedex</div>
 		<div class="box b1 lucida-grande em09"><%= metrics.fedex || 0 %> pedidos</div>
+	</div>
+
+	<div class="box b4 container ground padding-15 margin-top-10 border-lg-st radius-5 pointer"
+		onclick="Sale.shipment.controller.filter('Hawk Transportes', this)">
+		<div class="box b1 lucida-grande bold em09">Hawk Transportes</div>
+		<div class="box b1 lucida-grande em09"><%= metrics.hawk_transportes || 0 %> pedidos</div>
 	</div>
 </div>

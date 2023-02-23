@@ -68,6 +68,10 @@
       <%- include('./components/print/fedex.ejs') %>
       <% } %>
 
+      <% if(serviceOrder.method == "Hawk Transportes") { %>
+      <%- include('./components/print/hawk-transportes.ejs') %>
+      <% } %>
+
       <div class="p-box a1 container">
         <div class="p-box a1 lucida-grande bold">REMETENTE:</div>
         <div class="p-box b2 lucida-grande">Empresa: VestHouse Artigos Taticos e Sobrevivência LTDA</div>

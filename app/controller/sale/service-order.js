@@ -128,7 +128,8 @@ serviceOrderController.shipment.index = async (req, res) => {
 		latam: 0,
 		azul_cargo: 0,
 		buslog: 0,
-		fedex: 0
+		fedex: 0,
+		hawk_transportes: 0
 	};
 
 	const strict_params = { keys: [], values: [] };
@@ -148,6 +149,7 @@ serviceOrderController.shipment.index = async (req, res) => {
 			if (sales[i].shipment_method == "Azul Cargo") { metrics.azul_cargo++; }
 			if (sales[i].shipment_method == "Buslog") { metrics.buslog++; }
 			if (sales[i].shipment_method == "Fedex") { metrics.fedex++; }
+			if (sales[i].shipment_method == "Hawk Transportes") { metrics.hawk_transportes++; }
 		};
 
 		res.render('sale/triage/shipment', { user: req.user, metrics });
