@@ -19,9 +19,17 @@
   document.getElementById("production-filter-form").addEventListener("submit", async e => {
     e.preventDefault();
 
+    let date = new Date(lib.genTimestamp());
+
     const production = {
-      location: e.target.location.value
+      location: e.target.location.value,
+      startPeriod: lib.genTimestamp() - (lib.timestampDay() * (7 + date.getDay())),
+      endPeriod: (lib.genTimestamp() + (lib.timestampDay() * (7 + (7 - date.getDay())))) - 1
     };
+
+    // console.log(lib.dateToTimestamp(lib.convertDate(lib.timestampToDate(lib.genTimestamp()))));
+
+    // console.log(lib.timestampToDatetime(production.endPeriod));
 
     if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.value; };
     if (production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.value; };
@@ -167,9 +175,6 @@
   };
 
   function productionRender(productions, day, div) {
-    // console.log(productions);
-    console.log(lib.timestampToDate(productions[4].date));
-    console.log(day);
     productions.forEach(production => {
       if (production.preparation_deadline >= lib.dateToTimestamp(day) && production.preparation_deadline < lib.dateToTimestamp(day) + lib.timestampDay() - 1) {
         let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-5 margin-top-5" });
