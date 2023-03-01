@@ -50,7 +50,7 @@ reportController.product.filter = async (req, res) => {
 
 	const params = { keys: [], values: [] }
 	const strict_params = { keys: [], values: [] }
-	const period = { key: "sale_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
+	const period = { key: "estimated_shipment_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
 
 	let product_props = ["sale.id",
 		"product.code",
