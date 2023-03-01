@@ -124,7 +124,7 @@
             productionRender(productions, `${previousYear}-${previousMonth + 1}-${currentSunday + i}`, current_week_div);
           } else {
             current_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande em08 bold border-st center" },
-              `${currentSunday + i} / ${MONTHS[previousMonth].name} / ${currentYear}`));
+              `${MONTHS[previousMonth].days - (-currentSunday) + i} / ${MONTHS[previousMonth].name} / ${currentYear}`));
 
             // render
             productionRender(productions, `${currentYear}-${previousMonth + 1}-${currentSunday + i}`, current_week_div);
