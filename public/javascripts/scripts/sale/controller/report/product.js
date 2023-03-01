@@ -11,7 +11,7 @@ if (Sale.product.report.controller.filter) {
       product_name: event.target.elements.namedItem("product-name").value,
       product_color: event.target.elements.namedItem("product-color").value,
       periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
-      periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
+      periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value) + lib.timestampDay() - 1,
       status: event.target.elements.namedItem("status").value
     };
 
