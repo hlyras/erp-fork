@@ -3,13 +3,14 @@
     let production = await API.response(Production.findById, id);
     if (!production) { return false; }
 
-    console.log(production);
-
     lib.display("production-filter-box", "none");
     lib.display("production-detail-box", "");
 
-    let detail_box = document.getElementById("production-detail-box");
-    detail_box.innerHTML = "";
+    document.getElementById("production-prepare-form").id.value = production.id;
+    document.getElementById("production-prepare-form").volume.value = "";
+
+    let detail_div = document.getElementById("production-detail-div");
+    detail_div.innerHTML = "";
 
     let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-10 margin-top-5" });
     production_div.append(lib.element.createInfo("mobile-box b8 em09 border padding-5 margin-top-5", "Id", `${production.id}`));
@@ -32,11 +33,31 @@
       production_div.append(product_div);
     });
 
-    detail_box.append(production_div);
+    detail_div.append(production_div);
 
-    detail_box.append(lib.element.create("button", {
-      class: "box b1 lucida-grande bold border-lg-st radius-5 padding-10 margin-top-10 center pointer",
-      onclick: `lib.openExternalLink('${window.location.origin}/production/preparation/print/${production.id}')`
-    }, `Imprimir guia de preparação`));
+    lib.display("production-detail-box", "");
+    production.status == "Ag. preparação" && lib.display("production-prepare-form", "");
+    production.status != "Ag. preparação" && lib.display("production-prepare-form", "none");
   };
+
+  document.getElementById("production-prepare-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    if (!confirm("Tem certeza que deseja confirmar a preparação?")) { return false; }
+
+    let production = {
+      id: e.target.id.value,
+      preparation_volume: e.target.volume.value
+    };
+
+    let response = await API.response(Production.preparation.confirm, production);
+    if (!response) { return false; }
+
+    e.target.id.value = "";
+    e.target.volume.value = "";
+
+    alert(response.done);
+
+    document.getElementById("production-filter-form").submit.click();
+  });
 </script>

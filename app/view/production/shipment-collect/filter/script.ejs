@@ -1,0 +1,38 @@
+<script>
+  // filtrar todas as O.S. com status Ag. envio => Enviado
+  // Abrir detalhes das O.S. (ver todas as produções que estão indo e quantos malotes são)
+  // Opção para confirmar a coleta => Atualiza status da O.S P/ 'Enviado'
+  // Atualiza status das produções para => 'Em produção'
+  // Atualiza a página após confirmação
+
+  document.getElementById("shipment-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let shipment = { status: 'Ag. envio' };
+
+    let shipments = await API.response(Production.shipment.filter, shipment);
+    if (!shipments) { return false; }
+
+    shipmentFilter(shipments);
+  });
+
+  function shipmentFilter(shipments) {
+    let filter_div = document.getElementById("shipment-filter-div");
+    filter_div.innerHTML = "";
+
+    !shipments.length && filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold center" }, "Nenhuma viagem está agendada."));
+
+    shipments.forEach(shipment => {
+      let shipment_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-5 pointer" });
+      shipment_div.append(lib.element.create("div", {
+        class: "mobile-box b8 input-show shadow-lg-st border-st bold center",
+        onclick: `shipmentDetail(${shipment.id})`
+      }, shipment.id));
+      shipment_div.append(lib.element.info("mobile-box b3-8", "Data da viagem", lib.timestampToFulldate(shipment.travel_datetime)));
+      shipment_div.append(lib.element.info("mobile-box b8", "Produções", shipment.size));
+      shipment_div.append(lib.element.info("mobile-box b8", "Volumes", shipment.volume));
+      shipment_div.append(lib.element.info("mobile-box b4", "Status", shipment.status));
+      filter_div.append(shipment_div);
+    });
+  };
+</script>

@@ -64,8 +64,6 @@ preparationController.print = async (req, res) => {
 
     production.products = await Production.product.filter(product_props, product_inners, [], product_strict_params, []);
 
-    console.log(production.products);
-
     for (let i in production.products) {
       let feedstock_props = [
         "product_feedstock.*",
@@ -104,12 +102,38 @@ preparationController.print = async (req, res) => {
 
         return arr;
       }, []);
-
-      console.log('fora do reduce');
-      console.log(i);
     };
 
     res.render('production/preparation/print', { user: req.user, production });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao imprimir a O.S., favor contatar o suporte." });
+  };
+};
+
+preparationController.confirm = async (req, res) => {
+  if (!await userController.verifyAccess(req, res, ['adm'])) {
+    return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+  };
+
+  let production = new Production();
+  production.id = req.body.id;
+  production.preparation_user_id = req.user.id;
+  production.preparation_datetime = lib.date.timestamp.generate();
+  production.preparation_volume = req.body.preparation_volume;
+
+  if (!production.preparation_volume || isNaN(production.preparation_volume)) { res.send({ msg: "É necessário informar os volumes." }); }
+
+  try {
+    let production_location = (await Production.findById(production.id))[0].location;
+
+    if (production_location == "Interna") { production.status = "Ag. produção" }
+    if (production_location == "Externa") { production.status = "Ag. envio" }
+
+    let response = await production.update();
+    if (response.err) { return res.send({ msg: response.err }); }
+
+    res.send({ done: "Preparação confirmada com sucesso!" });
   } catch (err) {
     console.log(err);
     res.send({ msg: "Ocorreu um erro ao imprimir a O.S., favor contatar o suporte." });

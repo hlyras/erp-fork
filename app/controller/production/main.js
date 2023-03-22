@@ -51,8 +51,9 @@ productionController.create = async (req, res) => {
 	};
 
 	let production = new Production();
+	production.id = req.body.id;
 	production.datetime = new Date().getTime();
-	production.date = req.body.date;
+	production.shipment_datetime = req.body.shipment_datetime;
 	production.location = req.body.location;
 	production.seamstress_id = req.body.seamstress_id;
 	production.products = req.body.products;
@@ -63,19 +64,105 @@ productionController.create = async (req, res) => {
 	if (!production.products.length) { return res.send({ msg: "É necessário incluir pelo menos 1 produto." }); }
 
 	try {
-		let production_response = await production.create();
-		if (production_response.err) { return res.send({ msg: production_response.err }); }
+		if (!production.id) {
+			// create
+			let production_response = await production.create();
+			if (production_response.err) { return res.send({ msg: production_response.err }); }
 
-		for (let i in production.products) {
-			let product = new Production.product();
-			product.production_id = production_response.insertId;
-			product.product_id = production.products[i].id;
-			product.amount = production.products[i].amount;
-			let product_response = await product.insert();
-			if (product_response.err) { return res.send({ msg: product_response.err }); }
-		};
+			for (let i in production.products) {
+				let product = new Production.product();
+				product.production_id = production_response.insertId;
+				product.product_id = production.products[i].id;
+				product.amount = production.products[i].amount;
+				let product_response = await product.insert();
+				if (product_response.err) { return res.send({ msg: product_response.err }); }
+			};
 
-		res.send({ done: "Produção cadastrada com sucesso!" });
+			res.send({ done: "Produção cadastrada com sucesso!" });
+		} else {
+			// update
+			let production_response = await production.update();
+			if (production_response.err) { return res.send({ msg: production_response.err }); }
+
+			// Production product
+			let product_props = ["production_product.*", "product.code", "product.name", "product.color", "product.size"];
+			let product_inners = [
+				["cms_wt_erp.product", "production_product.product_id", "product.id"]
+			];
+			let product_strict_params = { keys: [], values: [] };
+			lib.Query.fillParam("production_product.production_id", production.id, product_strict_params);
+
+			production_products = await Production.product.filter(product_props, product_inners, [], product_strict_params, []);
+
+			let save_products = production.products.reduce((save_products, p) => {
+				for (let i in production_products) {
+					if (p.id == production_products[i].product_id) { return save_products; }
+				};
+
+				let product = {
+					production_id: production.id,
+					product_id: p.id,
+					amount: p.amount
+				};
+
+				save_products.push(product);
+				return save_products;
+			}, []);
+
+			let update_products = production_products.reduce((update_products, p) => {
+				for (let i in production.products) {
+					if (p.product_id == production.products[i].id) {
+
+						let product = {
+							id: p.id,
+							production_id: production.id,
+							product_id: p.product_id,
+							amount: production.products[i].amount
+						};
+
+						update_products.push(product);
+						return update_products;
+					}
+				};
+
+				return update_products;
+			}, []);
+
+			let remove_products = production_products.reduce((remove_products, p) => {
+				for (let i in production.products) {
+					if (p.product_id == production.products[i].id) { return remove_products; }
+				};
+
+				remove_products.push(p);
+				return remove_products;
+			}, []);
+
+			save_products.forEach(async p => {
+				let product = new Production.product();
+				product.production_id = p.production_id;
+				product.product_id = p.product_id;
+				product.amount = p.amount;
+				let response = await product.insert();
+				if (response.err) { return res.send({ msg: response.err }); }
+			});
+
+			update_products.forEach(async p => {
+				let product = new Production.product();
+				product.id = p.id;
+				product.production_id = p.production_id;
+				product.product_id = p.product_id;
+				product.amount = p.amount;
+				let response = await product.update();
+				if (response.err) { return res.send({ msg: response.err }); }
+			});
+
+			remove_products.forEach(async p => {
+				let response = await Production.product.remove(p.id);
+				if (response.err) { return res.send({ msg: "Ocorreu um erro ao remover os produtos." }); }
+			});
+
+			res.send({ done: "Produção atualizada com sucesso!" });
+		}
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -83,6 +170,10 @@ productionController.create = async (req, res) => {
 };
 
 productionController.findById = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
 	// Production
 	let production_props = ["production.*", "outcome_origin.name seamstress_name"];
 	let production_inners = [
@@ -123,8 +214,14 @@ productionController.filter = async (req, res) => {
 	lib.Query.fillParam("production.id", req.body.id, strict_params);
 	lib.Query.fillParam("production.location", req.body.location, strict_params);
 	lib.Query.fillParam("production.seamstress_id", req.body.seamstress_id, params);
+	lib.Query.fillParam("production.status", req.body.status, strict_params);
 	lib.Query.fillParam("production.user_id", req.body.user_id, params);
-	let order_params = [["production.id", "ASC"]];
+	let order_params = "";
+	if (req.body.order) {
+		order_params = [[req.body.order, "ASC"]];
+	} else {
+		order_params = [["production.id", "ASC"]];
+	}
 
 	try {
 		const productions = await Production.filter(props, inners, period, params, strict_params, order_params, 0);

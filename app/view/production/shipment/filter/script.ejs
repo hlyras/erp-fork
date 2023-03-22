@@ -1,0 +1,45 @@
+<script>
+  document.getElementById("production-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const production = {
+      location: "Externa",
+      status: "Ag. envio"
+    };
+
+    const productions = await API.response(Production.filter, production);
+    if (!productions) { return false; }
+
+    lib.display("production-filter-box", "");
+
+    serviceOrder.productions = productions;
+    serviceOrder.render();
+  });
+
+  function productionFilter(productions, box) {
+    let filter_div = document.getElementById(box);
+    filter_div.innerHTML = "";
+
+    let message = box == "production-filter-div" ? 'Não há produções para enviar' : 'Nenhuma produção foi incluída na O.S';
+
+    !productions.length && filter_div.append(lib.element.create("div", {
+      class: "box b1 lucida-grande center padding-5"
+    }, message));
+
+    productions.forEach(production => {
+      let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-5 margin-top-5" });
+      production_div.append(lib.element.create("div", { class: "mobile-box b12 bold center" }, production.id));
+      production_div.append(lib.element.create("div", { class: "mobile-box b5-12 em08 center" }, production.seamstress_name));
+      production_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, `Volumes: ${production.preparation_volume}`));
+      production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.status));
+
+      box == "production-filter-div" && production_div.append(lib.element.icon('b12', 30, "/images/icon/next-arrow-black.png",
+        `serviceOrder.add(${production.id})`));
+
+      box == "service-order-productions" && production_div.append(lib.element.icon('b12', 30, "/images/icon/back-arrow-black.png",
+        `serviceOrder.remove(${production.id})`));
+
+      filter_div.append(production_div);
+    });
+  };
+</script>

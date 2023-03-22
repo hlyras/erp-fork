@@ -4,12 +4,12 @@
 
 	<div class="mobile-box b2 container padding-5 margin-top-5 h-center">
 		<input type="radio" name="location" value="Interna" class="mobile-box b9 margin-top-2"
-			onclick="setCreateLocation(this);" checked="checked">
+			onclick="setCreateLocation(this.value);" checked="checked">
 		<label for="Interna" class="mobile-box">Interna</label>
 	</div>
 	<div class="mobile-box b2 container padding-5 margin-top-5 h-center">
 		<input type="radio" name="location" value="Externa" class="mobile-box b9 margin-top-2"
-			onclick="setCreateLocation(this);">
+			onclick="setCreateLocation(this.value);">
 		<label for="Externa" class="mobile-box">Externa</label>
 	</div>
 
@@ -42,10 +42,11 @@
 	</div>
 
 	<div class="box b1 lucida-grande bold em08 margin-top-10">Prazo para preparação</div>
-	<input type="date" name="preparation_deadline" class="box b1 input-generic lucida-grande bold center">
+	<input type="datetime-local" name="preparation_deadline" class="box b1 input-generic lucida-grande bold center">
 
-	<div class="box b1 lucida-grande bold em08 margin-top-10">Data de produção</div>
-	<input type="date" id="production-date" name="date" class="box b1 input-generic lucida-grande bold center">
+	<div class="box b1 lucida-grande bold em08 margin-top-10">Data para envio</div>
+	<input type="date" id="production-date" name="shipment_datetime"
+		class="box b1 input-generic lucida-grande bold center">
 
 	<div class="box b1 lucida-grande bold em08 margin-top-10">Produtos</div>
 	<div class="box a1 container">

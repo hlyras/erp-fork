@@ -3,31 +3,50 @@
 		e.preventDefault();
 
 		const production = {
+			id: e.target.id.value,
 			location: e.target.location.value,
-			preparation_deadline: lib.dateToTimestamp(e.target.preparation_deadline.value),
-			date: lib.dateToTimestamp(e.target.date.value),
+			preparation_deadline: lib.datetimeToTimestamp(e.target.preparation_deadline.value),
+			shipment_datetime: lib.dateToTimestamp(e.target.shipment_datetime.value),
 			products: productKart.items
 		};
 
 		if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.dataset.id; };
 		if (production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.dataset.id; };
 
+		if (!production.seamstress_id) {
+			switch (production.location) {
+				case "Interna":
+					alert("É necessário selecionar o colaborador");
+					document.getElementById("production-create-form").location.value = "Externa";
+					return setCreateLocation("Externa");
+					break;
+				case "Externa":
+					alert("É necessário selecionar a facção");
+					document.getElementById("production-create-form").location.value = "Interna";
+					return setCreateLocation("Interna");
+					break;
+			}
+		}
+
 		const response = await API.response(Production.create, production);
 		if (!response) { return false; }
 
+		e.target.id.value = "";
 		e.target.internal_seamstress_id.dataset.id = "";
 		e.target.internal_seamstress_id.value = "";
 		e.target.external_seamstress_id.dataset.id = "";
 		e.target.external_seamstress_id.value = "";
 		e.target.preparation_deadline.value = "";
-		e.target.date.value = "";
+		e.target.shipment_datetime.value = "";
 		productKart.items = [];
 
 		productKart.render([]);
+
+		document.getElementById("production-filter-form").submit.click();
 	});
 
-	function setCreateLocation(input) {
-		switch (input.value) {
+	function setCreateLocation(location) {
+		switch (location) {
 			case "Interna":
 				lib.display("internal-seamstress-dropdown-box", "");
 				lib.display("external-seamstress-dropdown-box", "none");
@@ -59,5 +78,44 @@
 		lib.Dropdown.setEvents("external-seamstress-dropdown-box", "external-seamstress-dropdown-ul");
 		input.value.length >= 2 && lib.Dropdown.render(seamstresses, input, "external-seamstress-dropdown-ul", properties);
 		input.value.length < 2 && lib.Dropdown.render([], input, "external-seamstress-dropdown-ul", properties);
+	};
+
+	async function productionEdit(id) {
+		let production = await API.response(Production.findById, id);
+		if (!production) { return false };
+
+		setCreateLocation(production.location);
+
+		document.getElementById("production-create-form").id.value = production.id;
+		document.getElementById("production-create-form").location.value = production.location;
+
+		if (production.location == "Interna") {
+			document.getElementById("production-create-form").internal_seamstress_id.dataset.id = production.seamstress_id;
+			document.getElementById("production-create-form").internal_seamstress_id.value = production.seamstress_name;
+			document.getElementById("production-create-form").external_seamstress_id.dataset.id = "";
+			document.getElementById("production-create-form").external_seamstress_id.value = "";
+		}
+
+		if (production.location == "Externa") {
+			document.getElementById("production-create-form").external_seamstress_id.dataset.id = production.seamstress_id;
+			document.getElementById("production-create-form").external_seamstress_id.value = production.seamstress_name;
+			document.getElementById("production-create-form").internal_seamstress_id.dataset.id = "";
+			document.getElementById("production-create-form").internal_seamstress_id.value = "";
+		}
+
+		document.getElementById("production-create-form").preparation_deadline.value = lib.timestampToDatetime(production.preparation_deadline);
+		document.getElementById("production-create-form").shipment_datetime.value = lib.convertDate(lib.timestampToDate(production.shipment_datetime));
+
+		production.products.forEach(product => {
+			product.id = product.product_id;
+			product.info = `${product.code} | ${product.name} | ${product.color} | ${product.size}`
+		});
+
+		productKart.items = production.products;
+		productKart.render(productKart.items);
+	};
+
+	async function productionCancel(id) {
+		console.log(id);
 	};
 </script>

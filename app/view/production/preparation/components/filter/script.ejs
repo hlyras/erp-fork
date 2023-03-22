@@ -3,7 +3,9 @@
     e.preventDefault();
 
     const production = {
-      location: e.target.location.value
+      location: e.target.location.value,
+      status: e.target.status.value,
+      order: "preparation_deadline"
     };
 
     if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.value; };
@@ -36,7 +38,7 @@
     filter_div.innerHTML = "";
 
     !productions.length && filter_div.append(lib.element.create("div", {
-      class: "box b1 lucida-grande bold center"
+      class: "box b1 lucida-grande bold center margin-top-10 padding-5"
     }, "Sem resultados."));
 
     productions.forEach(production => {
@@ -46,7 +48,7 @@
         onclick: `productionDetail(${production.id})`
       }, production.id));
       production_div.append(lib.element.create("div", { class: "mobile-box b4-9 em08 center" }, production.seamstress_name));
-      production_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToFulldate(production.datetime)));
+      production_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToFulldate(production.preparation_deadline)));
       production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.status));
       filter_div.append(production_div);
     });

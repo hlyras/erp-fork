@@ -18,12 +18,12 @@
     kart_div.innerHTML = "";
 
     items.forEach(item => {
-      let item_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-5" });
-      item_div.append(lib.element.create("div", { class: "box b2-3 lucida-grande em09" }, item.info));
+      let item_div = lib.element.create("div", { class: "mobile-box b1 container border-st radius-5 padding-5 margin-top-5" });
+      item_div.append(lib.element.create("div", { class: "mobile-box b2-3 lucida-grande em09 v-center" }, item.info));
       item_div.append(lib.element.icon('b12', 15, "/images/icon/decrease.png", `productKart.decrease("${item.id}")`));
-      item_div.append(lib.element.create("div", { class: "box b12 em09 center" }, `${item.amount}un`));
+      item_div.append(lib.element.create("div", { class: "mobile-box b12 em09 center" }, `${item.amount}un`));
       item_div.append(lib.element.icon('b12', 15, "/images/icon/increase.png", `productKart.increase("${item.id}")`));
-      item_div.append(lib.element.icon('b12', 15, "/images/icon/trash.png", `productKart.remove("${item.id}")`));
+      item_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `productKart.remove("${item.id}")`));
       kart_div.append(item_div);
     });
   };

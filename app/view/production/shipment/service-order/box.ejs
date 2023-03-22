@@ -1,0 +1,31 @@
+<div id="service-order-box" class="box b2-3 container ground border radius-5 margin-top-5 padding-5 h-center">
+  <div id="service-order-div" class="box b1 container ground border radius-5 margin-top-5 padding-5"></div>
+
+  <div class="box b3 container margin-top-5"><img src="/images/icon/down-arrow.png"
+      class="image-prop size-20 icon center" onclick="serviceOrder.switch(this)">
+  </div>
+
+  <div id="service-order-productions" class="box b1 container margin-top-5 padding-5" style="display: none;">
+  </div>
+</div>
+
+<div id="service-order-detail" class="box b2-3 container ground border radius-5 margin-top-5 padding-5 h-center"
+  style="display: none;">
+
+  <div class="mobile-box b8"></div>
+  <div id="service-order-detail-info" class="mobile-box b3-4 container"></div>
+  <div class="mobile-box b8 container margin-top-5"><img src="/images/icon/close.png"
+      class="image-prop size-20 icon center" onclick="serviceOrder.close()">
+  </div>
+
+  <div id="service-order-detail-div" class="box b1 container"></div>
+
+  <div class="box b2-3 container border-st radius-5 margin-top-10 padding-5">
+    <div class="box b1 lucida-grande em08 bold">Data da viagem:</div>
+    <input id="travel_datetime" type="datetime-local" class="box b1 input-generic center">
+  </div>
+
+  <div id="service-order-submit" class="box b2 btn-act bold noborder radius-5 margin-top-5 padding-10 center pointer"
+    onclick="serviceOrder.create()">Confirmar O.S.
+  </div>
+</div>

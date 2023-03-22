@@ -79,11 +79,14 @@
     let previousSunday = currentSunday - 7;
     if (previousSunday < 1) { previousSunday = MONTHS[previousMonth].days - (-previousSunday); }
 
-    let previous_week_div = lib.element.create("div", { class: "box b3 container border" });
-    let current_week_div = lib.element.create("div", { class: "box b3 container border" });
-    let next_week_div = lib.element.create("div", { class: "box b3 container border" });
+    let previous_week_div = lib.element.create("div", { class: "box b3 container border-st radius-5 margin-top-5 padding-5" });
+    previous_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold underline center margin-top-5" }, "Última semana"));
+    let current_week_div = lib.element.create("div", { class: "box b3 container border-st radius-5 margin-top-5 padding-5" });
+    current_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold underline center margin-top-5" }, "Semana atual"));
+    let next_week_div = lib.element.create("div", { class: "box b3 container border-st radius-5 margin-top-5 padding-5" });
+    next_week_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold underline center margin-top-5" }, "Próxima semana"));
 
-    let day_box_class = "box b1 container lucida-grande em08 bold border-st center margin-top-5";
+    let day_box_class = "box b1 container lucida-grande em08 bold border-st center margin-top-5 padding-5";
 
     // Last Week
     for (let i = 0; i < 7; i++) {
@@ -182,38 +185,46 @@
   };
 
   function productionRender(productions, day, day_box) {
-    day_box.append(lib.element.create("div", { class: "mobile-box b8 margin-top-5 border" }));
-    day_box.append(lib.element.create("div", { class: "mobile-box b3-4 center margin-top-5 border" }, lib.convertDate(day)));
+    let production_amount = 0;
+    let production_amount_div = lib.element.create("div", { class: "mobile-box b8 center" }, (production_amount).toFixed(0));
+    day_box.append(production_amount_div);
 
-    let day_expander = lib.element.create("div", { class: "mobile-box b8 margin-top-5" });
+    day_box.append(lib.element.create("div", { class: "mobile-box b3-4 center" }, lib.convertDate(day)));
+
+    let day_expander = lib.element.create("div", { class: "mobile-box b8" });
     day_expander.append(lib.element.create("img", {
       src: "/images/icon/down-arrow.png",
-      class: "image-prop size-15",
+      class: "image-prop size-20 icon pointer",
       onclick: `lib.displayDiv('$day-${day}', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png',)`
     }));
     day_box.append(day_expander);
 
     let day_div = lib.element.create("div", {
       id: `$day-${day}`,
-      class: "box a1 container center padding-5",
+      class: "mobile-box a1 container center padding-5",
       style: "display: none;"
     });
 
     productions.forEach(production => {
-      if (production.preparation_deadline >= lib.dateToTimestamp(day) && production.preparation_deadline < lib.dateToTimestamp(day) + lib.timestampDay() - 1) {
-        let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-5 margin-top-5" });
+      if (production.shipment_datetime >= lib.dateToTimestamp(day) && production.shipment_datetime < lib.dateToTimestamp(day) + lib.timestampDay() - 1) {
+        let production_div = lib.element.create("div", { class: "mobile-box b1 container box-hover ground border radius-5 padding-5 margin-top-5 noselect" });
         production_div.append(lib.element.create("div", {
           class: "mobile-box b9 input-show border-st center pointer",
           onclick: `productionDetail(${production.id})`
         }, production.id));
         production_div.append(lib.element.create("div", { class: "mobile-box b4-9 em08 center" }, production.seamstress_name));
-        // production_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToFulldate(production.datetime)));
-        production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.status));
-        // production_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `productEdit(${production.id})`));
-        // production_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `productDelete(${production.id})`));
+        production_div.append(lib.element.create("div", { class: "mobile-box b2-9 em08 center" }, production.status));
+        production_div.append(lib.element.icon('b9', 20, "/images/icon/edit.png", `productionEdit(${production.id})`));
+        production_div.append(lib.element.icon('b9', 20, "/images/icon/trash.png", `productionCancel(${production.id})`));
+        production_amount++;
         day_div.append(production_div);
       }
     });
+
+    production_amount_div.innerHTML = "";
+    production_amount_div.append(production_amount.toFixed(0));
+
+    !production_amount && day_div.append(lib.element.create("div", { class: "box b1 center margin-top-5" }, "Nenhuma produção"));
 
     day_box.append(day_div);
   };

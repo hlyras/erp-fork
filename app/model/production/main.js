@@ -4,22 +4,20 @@ const lib = require("jarmlib");
 const Production = function () {
 	this.id;
 	this.datetime; // Hora do cadastro da produção
-	this.date; // Data estimada para produção final
+	this.shipment_datetime; // Data estimada para envio
 	this.location; // Interna | Externa
 	this.seamstress_id;
 	this.status;
 	this.user_id;
 
 	this.preparation_deadline; // Data limite para preparação
-
 	this.preparation_datetime;
+	this.preparation_volume;
 	this.preparation_user_id;
-
-	this.shipment_datetime; // Data e hora do despacho para produção
-	this.shipment_user_id;
 
 	this.create = () => {
 		if (!this.datetime) { return { err: "É necessário registrar o horário da solicitação." } };
+		if (!this.shipment_datetime) { return { err: "É necessário registrar o horário da solicitação." } };
 		if (!this.location) { return { err: "É necessário registrar o local de produção." } };
 		if (!this.seamstress_id) { return { err: "É necessário inserir o colaborador ou facção." } };
 		if (!this.preparation_deadline) { return { err: "É necessário registrar a data limite para a preparação." } };
@@ -41,6 +39,11 @@ const Production = function () {
 
 		return db(query);
 	};
+};
+
+Production.findById = async (id) => {
+	let query = `SELECT * FROM cms_wt_erp.production WHERE id='${id}';`;
+	return db(query);
 };
 
 Production.filter = (props, inners, period, params, strict_params, order_params, limit) => {

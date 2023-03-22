@@ -1,0 +1,27 @@
+<script>
+  async function shipmentDetail(shipment_id) {
+    let shipment = await API.response(Production.shipment.findById, shipment_id);
+    if (!shipment) { return false; }
+
+    lib.display("shipment-detail-box", "");
+    window.scrollTo(0, document.getElementById("shipment-detail-box").getBoundingClientRect().top - document.body.getBoundingClientRect().top);
+
+    let shipment_div = document.getElementById("shipment-detail-div");
+    shipment_div.innerHTML = "";
+
+    shipment_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold center" }, `Produção: #${shipment.id}`));
+    shipment_div.append(lib.element.info("mobile-box b2", "Data da viagem", lib.timestampToFulldate(shipment.travel_datetime)));
+    shipment_div.append(lib.element.info("mobile-box b8", "Produções", shipment.size));
+    shipment_div.append(lib.element.info("mobile-box b8", "Volumes", shipment.volume));
+    shipment_div.append(lib.element.info("mobile-box b4", "Status", shipment.status));
+
+    shipment.productions.forEach(production => {
+      let production_div = lib.element.create("div", { class: "box b1 container ground border-st radius-5 padding-5 margin-top-5" });
+      production_div.append(lib.element.createInfo("mobile-box b8 em09 border padding-5 margin-top-5", "Id", `${production.id}`));
+      production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Produção", `${production.location}`));
+      production_div.append(lib.element.createInfo("mobile-box b2 em09 border padding-5 margin-top-5", "Facção", `${production.seamstress_name}`));
+      production_div.append(lib.element.createInfo("mobile-box b8 em09 border padding-5 margin-top-5", "Volumes", `${production.preparation_volume}`));
+      shipment_div.append(production_div);
+    });
+  };
+</script>

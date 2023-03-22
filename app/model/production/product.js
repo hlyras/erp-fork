@@ -20,6 +20,9 @@ const Product = function () {
 
   this.update = () => {
     if (!this.id) { return { err: "O id do produto é inválido." }; }
+    if (!this.production_id) { return { err: "É necessário registrar de qual produção pertence o produto." } };
+    if (!this.product_id) { return { err: "É necessário registrar o produto." } };
+    if (!this.amount) { return { err: "É necessário a quantidade de produtos." } };
 
     let obj = lib.convertTo.object(this);
     let query = lib.Query.update(obj, 'cms_wt_erp.production_product', 'id');
@@ -31,6 +34,11 @@ const Product = function () {
 Product.filter = (props, inners, params, strict_params, order_params) => {
   let query = new lib.Query().select().props(props).table("cms_wt_erp.production_product")
     .inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
+  return db(query);
+};
+
+Product.remove = async (id) => {
+  let query = `DELETE FROM cms_wt_erp.production_product WHERE id='${id}';`;
   return db(query);
 };
 

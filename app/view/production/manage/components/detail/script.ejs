@@ -3,13 +3,15 @@
     let production = await API.response(Production.findById, id);
     if (!production) { return false; }
 
-    lib.display("production-filter-box", "none");
+    // lib.display("production-filter-box", "none");
     lib.display("production-detail-box", "");
 
-    let detail_box = document.getElementById("production-detail-box");
-    detail_box.innerHTML = "";
+    window.scrollTo(0, document.getElementById("production-detail-box").getBoundingClientRect().top - document.body.getBoundingClientRect().top);
 
-    let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-10 margin-top-5" });
+    let detail_div = document.getElementById("production-detail-div");
+    detail_div.innerHTML = "";
+
+    let production_div = lib.element.create("div", { class: "box b1 container ground radius-5 padding-10 margin-top-5" });
     production_div.append(lib.element.createInfo("mobile-box b8 em09 border padding-5 margin-top-5", "Id", `${production.id}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Produção", `${production.location}`));
     production.location == "Interna" && production_div.append(lib.element.createInfo("mobile-box b2 em09 border padding-5 margin-top-5", "Colaborador", `${production.seamstress_name}`));
@@ -20,11 +22,11 @@
       onclick: `lib.openExternalLink('${window.location.origin}/production/preparation/print/${production.id}')`
     }));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data", `${lib.timestampToDate(production.datetime)}`));
-    production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data p/ Prep", `${lib.timestampToDate(production.preparation_deadline)}`));
+    production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data p/ Prep", `${lib.timestampToFulldate(production.preparation_deadline)}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data est.", `${lib.timestampToDate(production.date)}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Status", `${production.status}`));
 
-    production_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande em09 bold margin-top-10 center" }, `Produtos`))
+    production_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande em09 bold margin-top-10 center" }, `Produtos`));
     production.products.forEach(product => {
       let product_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-2" });
       product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.code));
@@ -35,6 +37,6 @@
       production_div.append(product_div);
     });
 
-    detail_box.append(production_div);
+    detail_div.append(production_div);
   };
 </script>

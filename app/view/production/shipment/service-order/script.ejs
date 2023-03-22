@@ -1,0 +1,104 @@
+<script>
+  let serviceOrder = {};
+
+  serviceOrder.volume = () => {
+    return serviceOrder.items.reduce((volumes, order) => {
+      volumes += order.preparation_volume;
+      return volumes;
+    }, 0);
+  };
+
+  serviceOrder.productions = [];
+  serviceOrder.items = [];
+
+  serviceOrder.render = () => {
+    let so_box = document.getElementById("service-order-div");
+    so_box.innerHTML = "";
+
+    so_box.append(lib.element.createInfo("mobile-box b3 lucida-grande bold padding-5", "Quantidade de produções", `${serviceOrder.items.length}`));
+
+    so_box.append(lib.element.createInfo("mobile-box b3 lucida-grande bold padding-5", "Volumes", `${serviceOrder.volume()}`));
+
+    so_box.append(lib.element.create("div", {
+      class: "mobile-box b3 lucida-grande bold center border-st shadow-lg-st radius-5 padding-5 pointer",
+      onclick: "serviceOrder.generate();"
+    }, `Gerar O.S.`));
+
+    productionFilter(serviceOrder.productions, "production-filter-div");
+    productionFilter(serviceOrder.items, "service-order-productions");
+  };
+
+  serviceOrder.add = async (id) => {
+    for (let i in serviceOrder.items) {
+      if (id == serviceOrder.items[i].id) {
+        alert('Este produto já foi incluído');
+        return serviceOrder.render();
+      }
+    };
+
+    serviceOrder.items.push(serviceOrder.productions.find(production => production.id === id));
+    serviceOrder.productions = serviceOrder.productions.filter(production => production.id !== id);
+
+    serviceOrder.render();
+  };
+
+  serviceOrder.remove = async (id) => {
+    serviceOrder.productions.push(serviceOrder.items.find(production => production.id === id));
+    serviceOrder.items = serviceOrder.items.filter(production => production.id !== id);
+
+    serviceOrder.render();
+  };
+
+  serviceOrder.generate = () => {
+    lib.display("service-order-box", "none");
+    lib.display("production-filter-box", "none");
+    lib.display("service-order-detail", "");
+
+    document.getElementById("service-order-detail-info").innerHTML = "";
+
+    !serviceOrder.items.length > 1 && document.getElementById("service-order-detail-info").append(lib.element.create("div", { class: "mobile-box b1 lucida-grande bold margin-top-5 center" }, `Nenhuma produção foi incluída na O.S.`));
+
+    serviceOrder.items.length && document.getElementById("service-order-detail-info").append(lib.element.create("div", { class: "mobile-box b2 lucida-grande bold margin-top-5 center" }, `Produções: ${serviceOrder.items.length}`));
+
+    serviceOrder.items.length && document.getElementById("service-order-detail-info").append(lib.element.create("div", { class: "mobile-box b2 lucida-grande bold margin-top-5 center" }, `Volumes: ${serviceOrder.volume()}`));
+
+    productionFilter(serviceOrder.items, "service-order-detail-div");
+
+    !serviceOrder.items.length && lib.display("service-order-submit", "none");
+    serviceOrder.items.length && lib.display("service-order-submit", "");
+  };
+
+  serviceOrder.switch = (input) => {
+    document.getElementById("production-filter-box").style.display && lib.display("service-order-productions", "none");
+    !document.getElementById("production-filter-box").style.display && lib.display("service-order-productions", "");
+    lib.displayDiv('production-filter-box', input, '/images/icon/close.png', '/images/icon/down-arrow.png');
+  };
+
+  serviceOrder.create = async () => {
+    let service_order = {
+      travel_datetime: lib.datetimeToTimestamp(document.getElementById("travel_datetime").value),
+      size: serviceOrder.items.length,
+      volume: serviceOrder.volume(),
+      productions: serviceOrder.items
+    };
+
+    if (!service_order.travel_datetime) {
+      return alert("É necessário informar a data da viagem");
+    }
+
+    if (!confirm("Confirmar O.S?")) { return false; }
+
+    let response = await API.response(Production.shipment.create, service_order);
+    if (!response) { return false; }
+
+    alert("Viagem agendada com sucesso!");
+
+    window.location.reload();
+  };
+
+  serviceOrder.close = () => {
+    lib.display("service-order-box", "");
+    lib.display("production-filter-box", "");
+    lib.display("service-order-detail", "none");
+  };
+</script>

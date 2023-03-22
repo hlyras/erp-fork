@@ -3,8 +3,6 @@
     const outcome = await API.response(Outcome.findById, outcome_id);
     if (!outcome) { return false; }
 
-    console.log(outcome);
-
     lib.display("outcome-detail-box", "");
     window.scrollTo(0, document.getElementById("outcome-detail-box").getBoundingClientRect().top - document.body.getBoundingClientRect().top);
 
