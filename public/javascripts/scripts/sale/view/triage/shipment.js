@@ -77,6 +77,6 @@ Sale.shipment.serviceOrder.render = () => {
 		onclick: "Sale.shipment.serviceOrder.generate();"
 	}, `Gerar O.S.`));
 
-	Sale.shipment.view.filter(Sale.shipment.serviceOrder.sales, "production-filter-div");
+	Sale.shipment.view.filter(Sale.shipment.serviceOrder.sales, "sale-filter-div");
 	Sale.shipment.view.filter(Sale.shipment.serviceOrder.orders, "order-filter-div");
 };

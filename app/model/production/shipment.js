@@ -71,7 +71,6 @@ Shipment.production = function () {
 Shipment.production.filter = (props, inners, params, strict_params, order_params) => {
   let query = new lib.Query().select().props(props).table("cms_wt_erp.production_shipment_production shipment_production")
     .inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-  console.log(query);
   return db(query);
 };
 
