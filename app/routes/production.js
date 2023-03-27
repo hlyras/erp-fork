@@ -22,7 +22,7 @@ router.post('/shipment/create', lib.route.toHttps, productionController.shipment
 router.get('/shipment/id/:id', lib.route.toHttps, productionController.shipment.findById);
 router.post('/shipment/filter', lib.route.toHttps, productionController.shipment.filter);
 router.get('/shipment/collect', lib.route.toHttps, productionController.shipment.collect.index);
-// router.get('/shipment/collect/confirm', lib.route.toHttps, productionController.shipment.index);
+router.get('/shipment/collect/confirm/:id', lib.route.toHttps, productionController.shipment.collect.confirm);
 
 router.post('/product/filter', lib.route.toHttps, productionController.product.filter);
 

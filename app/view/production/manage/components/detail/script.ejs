@@ -21,9 +21,9 @@
       class: "image-prop size-30 center icon",
       onclick: `lib.openExternalLink('${window.location.origin}/production/preparation/print/${production.id}')`
     }));
-    production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data", `${lib.timestampToDate(production.datetime)}`));
+    production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data do registro", `${lib.timestampToDate(production.datetime)}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data p/ Prep", `${lib.timestampToFulldate(production.preparation_deadline)}`));
-    production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data est.", `${lib.timestampToDate(production.date)}`));
+    production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data de envio.", `${lib.timestampToFulldate(production.shipment_datetime)}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Status", `${production.status}`));
 
     production_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande em09 bold margin-top-10 center" }, `Produtos`));

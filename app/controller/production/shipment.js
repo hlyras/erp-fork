@@ -125,7 +125,31 @@ shipmentController.collect.confirm = async (req, res) => {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 
+  const shipment = new Production.shipment();
+  shipment.id = req.params.id;
+  shipment.collect_datetime = lib.date.timestamp.generate();
+  shipment.collect_user_id = req.user.id;
+  shipment.status = "Enviado";
+
   try {
+    let shipment_response = await shipment.update();
+    if (shipment_response.err) { return res.send({ msg: shipment_response.err }); }
+
+    let production_strict_params = { keys: [], values: [] };
+    lib.Query.fillParam("shipment_production.shipment_id", shipment.id, production_strict_params);
+
+    shipment.productions = await Production.shipment.production.filter([], [], [], production_strict_params, []);
+
+    shipment.productions.forEach(async p => {
+      let production = new Production();
+      production.id = p.production_id;
+      production.shipment_datetime = lib.date.timestamp.generate();
+      production.status = "Em produção";
+      production.service_order = req.params.id;
+      let production_response = await production.update();
+      if (production_response.err) { return res.send({ msg: production_response.err }); }
+    });
+
     res.send({ done: "O.S. coletada com sucesso!" });
   } catch (err) {
     console.log(err);

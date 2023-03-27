@@ -6,10 +6,12 @@
     lib.display("shipment-detail-box", "");
     window.scrollTo(0, document.getElementById("shipment-detail-box").getBoundingClientRect().top - document.body.getBoundingClientRect().top);
 
+    document.getElementById("shipment-detail-id").value = shipment.id;
+
     let shipment_div = document.getElementById("shipment-detail-div");
     shipment_div.innerHTML = "";
 
-    shipment_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold center" }, `Produção: #${shipment.id}`));
+    shipment_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold center" }, `O.S: #${shipment.id}`));
     shipment_div.append(lib.element.info("mobile-box b2", "Data da viagem", lib.timestampToFulldate(shipment.travel_datetime)));
     shipment_div.append(lib.element.info("mobile-box b8", "Produções", shipment.size));
     shipment_div.append(lib.element.info("mobile-box b8", "Volumes", shipment.volume));
@@ -23,5 +25,19 @@
       production_div.append(lib.element.createInfo("mobile-box b8 em09 border padding-5 margin-top-5", "Volumes", `${production.preparation_volume}`));
       shipment_div.append(production_div);
     });
+  };
+
+  async function collectConfirm() {
+    let shipment_id = document.getElementById("shipment-detail-id").value;
+
+    if (!confirm("Tem certeza que deseja confirmar a coleta?")) { return false; }
+
+    let response = await API.response(Production.shipment.collect.confirm, shipment_id);
+    if (!response) { return false; }
+
+    console.log(response);
+    alert(response);
+
+    window.location.reload();
   };
 </script>

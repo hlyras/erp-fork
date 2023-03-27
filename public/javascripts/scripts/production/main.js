@@ -102,3 +102,14 @@ Production.shipment.filter = async (shipment) => {
 
 	return response.shipments;
 };
+
+Production.shipment.collect = {};
+
+Production.shipment.collect.confirm = async (shipment_id) => {
+	let response = await fetch(`/production/shipment/collect/confirm/${shipment_id}`);
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};

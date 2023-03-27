@@ -1,10 +1,4 @@
 <script>
-  // filtrar todas as O.S. com status Ag. envio => Enviado
-  // Abrir detalhes das O.S. (ver todas as produções que estão indo e quantos malotes são)
-  // Opção para confirmar a coleta => Atualiza status da O.S P/ 'Enviado'
-  // Atualiza status das produções para => 'Em produção'
-  // Atualiza a página após confirmação
-
   document.getElementById("shipment-filter-form").addEventListener("submit", async e => {
     e.preventDefault();
 
@@ -20,7 +14,7 @@
     let filter_div = document.getElementById("shipment-filter-div");
     filter_div.innerHTML = "";
 
-    !shipments.length && filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold center" }, "Nenhuma viagem está agendada."));
+    !shipments.length && filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold margin-top-10 center" }, "Nenhuma viagem está agendada."));
 
     shipments.forEach(shipment => {
       let shipment_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-5 pointer" });
