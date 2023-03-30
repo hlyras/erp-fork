@@ -113,3 +113,18 @@ Production.shipment.collect.confirm = async (shipment_id) => {
 
 	return response;
 };
+
+Production.receipt = {};
+
+Production.receipt.filter = async (receipt) => {
+	let response = await fetch("/production/receipt/filter", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(receipt)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response.receipts;
+};

@@ -1,0 +1,39 @@
+<script>
+  document.getElementById("production-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const production = {
+      location: "Externa",
+      status: "Em produção"
+    };
+
+    const productions = await API.response(Production.filter, production);
+    if (!productions) { return false; }
+
+    lib.display("production-detail-box", "none");
+    lib.display("production-filter-box", "");
+
+    productionFilter(productions);
+  });
+
+  function productionFilter(productions) {
+    let filter_div = document.getElementById("production-filter-box");
+    filter_div.innerHTML = "";
+
+    !productions.length && filter_div.append(lib.element.create("div", {
+      class: "box b1 lucida-grande bold center margin-top-10 padding-5"
+    }, "Sem resultados."));
+
+    productions.forEach(production => {
+      let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-5 margin-top-5" });
+      production_div.append(lib.element.create("div", {
+        class: "mobile-box b9 input-show bold border-st padding-3 center pointer",
+        onclick: `productionDetail(${production.id})`
+      }, `#${production.id}`));
+      production_div.append(lib.element.create("div", { class: "mobile-box b4-9 em08 center" }, production.seamstress_name));
+      production_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToFulldate(production.preparation_deadline)));
+      // production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.status));
+      filter_div.append(production_div);
+    });
+  };
+</script>

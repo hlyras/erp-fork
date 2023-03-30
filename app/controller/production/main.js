@@ -202,6 +202,10 @@ productionController.findById = async (req, res) => {
 };
 
 productionController.filter = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
 	let props = ["production.*", "outcome_origin.name seamstress_name"];
 	let inners = [
 		["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "production.seamstress_id"]

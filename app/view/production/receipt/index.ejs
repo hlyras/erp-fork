@@ -1,0 +1,27 @@
+<html>
+
+<head>
+  <%- include('./../../partials/head.ejs') %>
+</head>
+
+<body>
+  <%- include('./../../partials/header.ejs') %>
+  <%- include('./../../partials/nav.ejs') %>
+  <section class="container h-center">
+    <%- include('./filter/form.ejs') %>
+    <%- include('./filter/box.ejs') %>
+    <%- include('./detail/box.ejs') %>
+  </section>
+  <%- include('./../../partials/loader.ejs') %>
+</body>
+<footer>
+  <%- include('./../../partials/footer.ejs') %>
+  <script src="/javascripts/scripts/production/main.js"></script>
+  <%- include('./filter/script.ejs') %>
+  <%- include('./detail/script.ejs') %>
+  <script>
+    document.getElementById("production-filter-form").submit.click();
+  </script>
+</footer>
+
+</html>

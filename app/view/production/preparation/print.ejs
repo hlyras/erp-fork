@@ -27,113 +27,74 @@
 </head>
 
 <body>
-
   <div class="container padding-10 noprint">
     <div class="p-box a5 lucida-grande bold border-lg-st padding-5 center pointer noselect" onclick="print()">IMPRIMIR
     </div>
   </div>
 
   <div class="container border-st pagebreak">
-    <div class="container padding-10">
-      <div class="p-box a1 container">
-        <div class="p-box a1 lucida-grande padding-5 bold">Produção: #<%= production.id %> </div>
-        <div class="p-box a2 lucida-grande padding-5">Local de produção: <%= production.location %></div>
-        <div class="p-box a2 lucida-grande padding-5">Facção: <%= production.seamstress_name %></div>
-        <div class="p-box a2 lucida-grande padding-5">Data da Prep: <%= production.preparation_deadline %></div>
-        <div class="p-box a2 lucida-grande padding-5">Status: <%= production.status %></div>
-      </div>
+    <div class="p-box a3 lucida-grande em12 border center padding-10">Produção: <b>#<%= production.id %></b></div>
+    <div class="p-box a2-3 lucida-grande em12 border center padding-10"><b><%= production.seamstress_name %></b>
     </div>
-
-    <div class="p-box a1 container border">
-      <div class="p-box a1 container border">
-        <div class="p-box a3-4 lucida-grande em09 padding-left-5 padding-5">Descrição do produto</div>
-        <div class="p-box a8 lucida-grande border padding-5 center">Enviado</div>
-        <div class="p-box a8 lucida-grande border padding-5 center">Recebido</div>
+    <div class="p-box a1 container">
+      <div class="p-box b2-7 lucida-grande em08 margin-top-10">Nome do motorista (legível)</div>
+      <div class="p-box b5-7 underline margin-top-10">:</div>
+      <div class="p-box b6 lucida-grande em08 margin-top-5">Data da coleta:</div>
+      <div class="p-box b6 underline margin-top-5">:
+        <div class="mobile-box p-box b7-8 center">/</div>
       </div>
-
-      <% for(let i in production.products) { %>
-      <div class="p-box a1 container border">
-        <div class="p-box a3-4 lucida-grande padding-10">
-          <%= production.products[i].code %> | <%= production.products[i].name %> |
-          <%= production.products[i].color %> | <%= production.products[i].size %>
-        </div>
-
-        <div class="p-box a8 lucida-grande padding-10 border center">
-          <%= `${production.products[i].amount}un` %>
-        </div>
-
-        <div class="p-box a8 lucida-grande padding-10"></div>
-      </div>
-      <% } %>
-
-      <div class="p-box a1 container">
-        <div class="p-box b2-7 lucida-grande em08 margin-top-10">Nome do motorista (legível)</div>
-        <div class="p-box b5-7 underline margin-top-10">:</div>
-        <div class="p-box b9 lucida-grande em08 margin-top-5">Nº do lacre</div>
-        <div class="p-box b2-9 underline margin-top-5">:</div>
-        <div class="p-box b6 lucida-grande em08 margin-top-5">Data do receb.</div>
-        <div class="p-box b6 underline margin-top-5">:
-          <div class="mobile-box p-box b7-8 center">/</div>
-        </div>
-        <div class="p-box b12 lucida-grande em08 margin-top-5">Estoquista</div>
-        <div class="p-box b4 underline margin-top-5">:</div>
-      </div>
+      <div class="p-box b9 lucida-grande em08 margin-top-5">Nº do lacre</div>
+      <div class="p-box b2-9 underline margin-top-5">:</div>
+      <div class="p-box b12 lucida-grande em08 margin-top-5">Estoquista</div>
+      <div class="p-box b4 underline margin-top-5">:</div>
     </div>
   </div>
 
-  <div class="container border-st pagebreak padding-5 margin-top-10">
-    <div class="p-box a1 center">Separação de Matérias-primas</div>
-  </div>
 
-  <% for(let i in production.products) { %>
+  <% for(let i = 1; i <= production.preparation_volume; i++) { %>
   <div class="container border-st pagebreak">
-
-    <div class="p-box a3-4 lucida-grande padding-10">
-      <%= production.products[i].code %> | <%= production.products[i].name %> |
-      <%= production.products[i].color %> | <%= production.products[i].size %>
-    </div>
-
-    <div class="p-box a8 lucida-grande padding-10">
-      <%= `${production.products[i].amount}un` %>
-    </div>
-
-    <div class="p-box a8 lucida-grande bold padding-10">
-      P: #<%= production.id %>
-    </div>
-
-    <% for(let j in production.products[i].feedstocks) { %>
     <div class="p-box a1 container border">
-      <div class="p-box a2 lucida-grande em08 padding-5 border">
-        <%= production.products[i].feedstocks[j].code %>
-        | <%= production.products[i].feedstocks[j].name %> | <%= production.products[i].feedstocks[j].color %>
+      <div class="p-box a2 container lucida-grande">
+        <div class="p-box a2-3 container lucida-grande padding-5">
+          <div class="p-box a1 lucida-grande padding-5 bold">Produção: #<%= production.id %> </div>
+          <div class="p-box a1 lucida-grande padding-5"><%= production.seamstress_name %></div>
+          <div class="p-box a1 lucida-grande padding-5">Local de produção: <%= production.location %></div>
+          <div class="p-box a4 lucida-grande padding-5">Lacre:</div>
+          <div class="p-box a3-4 lucida-grande underline padding-5 margin-top-15"></div>
+        </div>
+        <div class="p-box a3 container lucida-grande padding-10 border height-100 center">
+          <div class="p-box a3-7 lucida-grande em30 bold center"><%= i %></div>
+          <div class="p-box a7 lucida-grande em30 bold center">/</div>
+          <div class="p-box a3-7 lucida-grande em30 bold center"><%= production.preparation_volume %></div>
+        </div>
       </div>
+      <div class="p-box a2 container border lucida-grande">
+        <div class="p-box a1 container border">
+          <div class="p-box a2 lucida-grande em08 padding-left-5 padding-5">Descrição do produto</div>
+          <div class="p-box a4 lucida-grande em08 border padding-5 center">Quantidade</div>
+          <div class="p-box a4 lucida-grande em08 border padding-5 center">Entregue</div>
+        </div>
 
-      <% if(production.products[i].feedstocks[j].uom == "cm") { %>
-      <div class="p-box a8 lucida-grande em08 padding-5 border center">
-        <%= ((production.products[i].feedstocks[j].totalMeasure)/100).toFixed(2) %>m
+        <% for(let i in production.products) { %>
+        <div class="p-box a1 container border">
+          <div class="p-box a2 lucida-grande em08 padding-5"><%= production.products[i].name %> |
+            <%= production.products[i].color %> | <%= production.products[i].size %>
+          </div>
+
+          <div class="p-box a4 lucida-grande em09 center">
+            <%= `${production.products[i].amount}un` %>
+          </div>
+
+          <div class="p-box a4 lucida-grande height-25 border"></div>
+        </div>
+        <% } %>
+
+        <div class="p-box a1 container border">
+          <div class="p-box a4 lucida-grande padding-5 center">Assinatura:</div>
+          <div class="p-box a3-4 lucida-grande underline margin-top-25"></div>
+        </div>
       </div>
-      <% } %>
-
-      <% if(production.products[i].feedstocks[j].uom == "cm") { %>
-      <div class="p-box a8 lucida-grande em08 padding-5 center"></div>
-      <% } %>
-
-      <% if(production.products[i].feedstocks[j].uom == "un") { %>
-      <div class="p-box a8 lucida-grande em08 padding-5 border center">
-        <%= production.products[i].feedstocks[j].totalAmount %>un
-      </div>
-      <% } %>
-
-      <% if(production.products[i].feedstocks[j].uom == "un") { %>
-      <div class="p-box a8 lucida-grande em08 padding-5 border center">
-        <%= production.products[i].feedstocks[j].totalAmount %>un
-      </div>
-      <% } %>
-
-      <div class="p-box a8 lucida-grande em08 padding-5 border center">:</div>
-      <div class="p-box a8 lucida-grande em08 padding-5 center"></div>
     </div>
-    <% } %>
   </div>
   <% } %>
 

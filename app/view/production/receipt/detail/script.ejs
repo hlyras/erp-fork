@@ -1,0 +1,55 @@
+<script>
+  async function productionDetail(id) {
+    let production = await API.response(Production.findById, id);
+    if (!production) { return false; }
+
+    lib.display("production-filter-box", "none");
+    lib.display("production-detail-box", "");
+
+    let detail_div = document.getElementById("production-detail-div");
+    detail_div.innerHTML = "";
+
+    let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-10 margin-top-5" });
+    production_div.append(lib.element.createInfo("mobile-box b8 bold em09 border padding-5 margin-top-5", "Produção:", `${production.id}`));
+    production_div.append(lib.element.createInfo("mobile-box b3-4 bold em09 border padding-5 margin-top-5", "Facção", `${production.seamstress_name}`));
+    production_div.append(lib.element.createInfo("mobile-box b8 bold em09 border padding-5 margin-top-5", "Volumes:", `${production.preparation_volume}`));
+
+    let receipt = { production_id: production.id };
+
+    production.receipts = await API.response(Production.receipt.filter, receipt);
+
+    let receipts = [];
+    for (let i = 1; i <= production.preparation_volume; i++) {
+      receipts.push({
+        production_id: production.id,
+        pouch: i,
+        seal: ""
+      });
+    };
+
+    receipts = production.receipts.reduce((receipts, production_receipt) => {
+      for (let i in receipts) {
+        if (receipts[i].pouch == production_receipt.pouch) {
+          receipts[i].seal = production_receipt.seal;
+        }
+      };
+    }, receipts);
+
+    console.log(receipts);
+
+    // production_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande em09 bold margin-top-10 center" }, `Produtos`))
+    // production.products.forEach(product => {
+    //   let product_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-2" });
+    //   product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.code));
+    //   product_div.append(lib.element.create("div", { class: "mobile-box b2 em09 center" }, product.name));
+    //   product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.color));
+    //   product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.size));
+    //   product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, `${product.amount}un`));
+    //   production_div.append(product_div);
+    // });
+
+    detail_div.append(production_div);
+
+    lib.display("production-detail-box", "");
+  };
+</script>

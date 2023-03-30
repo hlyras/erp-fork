@@ -6,6 +6,7 @@ const Product = function () {
   this.production_id;
   this.product_id;
   this.amount;
+  this.status = "Ag. produção"; // 'Em produção', 'Finalizado'
 
   this.insert = () => {
     if (!this.production_id) { return { err: "É necessário registrar de qual produção pertence o produto." } };

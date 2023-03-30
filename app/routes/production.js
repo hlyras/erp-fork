@@ -5,6 +5,8 @@ const productionController = require('../controller/production/main');
 productionController.preparation = require('../controller/production/preparation');
 productionController.shipment = require('../controller/production/shipment');
 productionController.product = require('../controller/production/product');
+productionController.receipt = require('../controller/production/receipt');
+productionController.count = require('../controller/production/count');
 
 router.get('/', lib.route.toHttps, productionController.index);
 router.get('/manage', lib.route.toHttps, productionController.manage);
@@ -25,5 +27,10 @@ router.get('/shipment/collect', lib.route.toHttps, productionController.shipment
 router.get('/shipment/collect/confirm/:id', lib.route.toHttps, productionController.shipment.collect.confirm);
 
 router.post('/product/filter', lib.route.toHttps, productionController.product.filter);
+
+router.get('/receipt', lib.route.toHttps, productionController.receipt.index);
+router.post('/receipt/filter', lib.route.toHttps, productionController.receipt.filter);
+
+router.get('/count', lib.route.toHttps, productionController.count.index);
 
 module.exports = router;
