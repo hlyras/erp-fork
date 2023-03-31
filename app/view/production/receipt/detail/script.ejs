@@ -14,9 +14,7 @@
     production_div.append(lib.element.createInfo("mobile-box b3-4 bold em09 border padding-5 margin-top-5", "Facção", `${production.seamstress_name}`));
     production_div.append(lib.element.createInfo("mobile-box b8 bold em09 border padding-5 margin-top-5", "Volumes:", `${production.preparation_volume}`));
 
-    let receipt = { production_id: production.id };
-
-    production.receipts = await API.response(Production.receipt.filter, receipt);
+    production.receipts = await API.response(Production.receipt.filter, { production_id: production.id });
 
     let receipts = [];
     for (let i = 1; i <= production.preparation_volume; i++) {
@@ -35,7 +33,13 @@
       };
     }, receipts);
 
-    console.log(receipts);
+    receipts.forEach(receipt => {
+      let receipt_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-2" });
+      receipt_div.append(lib.element.create("div", {
+        class: "",
+        value: receipt.pouch
+      }, receipt.pouch));
+    });
 
     // production_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande em09 bold margin-top-10 center" }, `Produtos`))
     // production.products.forEach(product => {

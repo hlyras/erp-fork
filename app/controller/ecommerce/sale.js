@@ -183,7 +183,7 @@ saleController.save = async (req, res) => {
 };
 
 saleController.update = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-ass', 'adm-aud', 'pro-man', 'fin-ass', 'log-pac'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-ass', 'adm-aud', 'pro-man', 'fin-ass', 'log-pac', 'pro-sto'])) {
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
