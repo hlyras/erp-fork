@@ -29,6 +29,7 @@ router.get('/shipment/collect/confirm/:id', lib.route.toHttps, productionControl
 router.post('/product/filter', lib.route.toHttps, productionController.product.filter);
 
 router.get('/receipt', lib.route.toHttps, productionController.receipt.index);
+router.post('/receipt/create', lib.route.toHttps, productionController.receipt.create);
 router.post('/receipt/filter', lib.route.toHttps, productionController.receipt.filter);
 
 router.get('/count', lib.route.toHttps, productionController.count.index);

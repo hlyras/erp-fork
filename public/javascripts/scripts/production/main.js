@@ -128,3 +128,16 @@ Production.receipt.filter = async (receipt) => {
 
 	return response.receipts;
 };
+
+Production.receipt.create = async (receipt) => {
+	let response = await fetch("/production/receipt/create", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(receipt)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};

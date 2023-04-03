@@ -9,7 +9,7 @@
     let detail_div = document.getElementById("production-detail-div");
     detail_div.innerHTML = "";
 
-    let production_div = lib.element.create("div", { class: "box b1 container ground border radius-5 padding-10 margin-top-5" });
+    let production_div = lib.element.create("div", { class: "box b1 container ground border-st radius-5 padding-10 margin-top-5" });
     production_div.append(lib.element.createInfo("mobile-box b8 bold em09 border padding-5 margin-top-5", "Produção:", `${production.id}`));
     production_div.append(lib.element.createInfo("mobile-box b3-4 bold em09 border padding-5 margin-top-5", "Facção", `${production.seamstress_name}`));
     production_div.append(lib.element.createInfo("mobile-box b8 bold em09 border padding-5 margin-top-5", "Volumes:", `${production.preparation_volume}`));
@@ -19,41 +19,82 @@
     let receipts = [];
     for (let i = 1; i <= production.preparation_volume; i++) {
       receipts.push({
+        id: "",
         production_id: production.id,
         pouch: i,
         seal: ""
       });
     };
 
-    receipts = production.receipts.reduce((receipts, production_receipt) => {
-      for (let i in receipts) {
-        if (receipts[i].pouch == production_receipt.pouch) {
-          receipts[i].seal = production_receipt.seal;
-        }
+    receipts.forEach(r => {
+      for (let i in production.receipts) {
+        if (production.receipts[i].pouch == r.pouch) {
+          r.id = production.receipts[i].id;
+          r.seal = production.receipts[i].seal;
+          r.datetime = production.receipts[i].datetime;
+        };
       };
-    }, receipts);
-
-    receipts.forEach(receipt => {
-      let receipt_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-2" });
-      receipt_div.append(lib.element.create("div", {
-        class: "",
-        value: receipt.pouch
-      }, receipt.pouch));
     });
 
-    // production_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande em09 bold margin-top-10 center" }, `Produtos`))
-    // production.products.forEach(product => {
-    //   let product_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-2" });
-    //   product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.code));
-    //   product_div.append(lib.element.create("div", { class: "mobile-box b2 em09 center" }, product.name));
-    //   product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.color));
-    //   product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.size));
-    //   product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, `${product.amount}un`));
-    //   production_div.append(product_div);
-    // });
+    receipts.forEach(async receipt => {
+      let receipt_form = lib.element.create("form", { class: "box b1 container border-st radius-5 padding-10 margin-top-5" });
+      receipt_form.append(lib.element.create("input", { type: "hidden", name: "id", value: receipt.id || "" }));
+      receipt_form.append(lib.element.create("input", { type: "hidden", name: "pouch", value: receipt.pouch }));
+
+      receipt_form.append(lib.element.create("div", {
+        class: "mobile-box b8 lucida-grande em12 bold noborder center noselect",
+      }, `${receipt.pouch}/${production.preparation_volume}`));
+
+      !receipt.id && receipt_form.append(lib.element.create("input", {
+        type: "text",
+        name: "seal",
+        maxlength: 20,
+        class: "mobile-box b2 lucida-grande em12 bold border-bottom border-st padding-5 center",
+        autocomplete: "off",
+        role: "presentation",
+        value: receipt.seal || ""
+      },));
+
+      receipt.id && receipt_form.append(lib.element.create("div", {
+        class: "mobile-box b2 lucida-grande em12 bold padding-5 center"
+      }, receipt.seal));
+
+      !receipt.id && receipt_form.append(lib.element.create("input", {
+        type: "submit",
+        name: "submit",
+        value: "Coletar",
+        class: "mobile-box b3-8 btn-act noborder radius-5 lucida-grande em12 bold padding-5 center pointer"
+      },));
+
+      receipt.id && receipt_form.append(lib.element.create("div", {
+        class: "mobile-box b3-8 lucida-grande bold em09 center"
+      }, `Coletado: ${lib.timestampToFulldate(receipt.datetime)}`));
+
+      production_div.append(receipt_form);
+
+      receipt_form.addEventListener("submit", e => receiptCreate(e, production.id));
+    });
 
     detail_div.append(production_div);
 
     lib.display("production-detail-box", "");
+  };
+
+  async function receiptCreate(e, production_id) {
+    e.preventDefault();
+
+    let reception = {
+      id: e.target.id.value || "",
+      production_id: production_id,
+      pouch: e.target.pouch.value,
+      seal: e.target.seal.value
+    };
+
+    if (!confirm("Deseja confirmar a coleta?")) { return false; }
+
+    let response = await API.response(Production.receipt.create, reception);
+    if (!response) { return false; }
+
+    productionDetail(production_id);
   };
 </script>
