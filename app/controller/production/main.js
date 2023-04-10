@@ -24,7 +24,7 @@ productionController.index = async (req, res) => {
 };
 
 productionController.manage = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ["adm"])) {
+	if (!await userController.verifyAccess(req, res, ["adm", "pro-man"])) {
 		return res.redirect('/');
 	};
 
