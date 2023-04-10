@@ -51,9 +51,8 @@
         maxlength: 20,
         class: "mobile-box b2 lucida-grande em12 bold border-bottom border-st padding-5 center",
         autocomplete: "off",
-        role: "presentation",
-        value: receipt.seal || ""
-      },));
+        role: "presentation"
+      }));
 
       receipt.id && receipt_form.append(lib.element.create("div", {
         class: "mobile-box b2 lucida-grande em12 bold padding-5 center"
@@ -78,23 +77,5 @@
     detail_div.append(production_div);
 
     lib.display("production-detail-box", "");
-  };
-
-  async function receiptCreate(e, production_id) {
-    e.preventDefault();
-
-    let reception = {
-      id: e.target.id.value || "",
-      production_id: production_id,
-      pouch: e.target.pouch.value,
-      seal: e.target.seal.value
-    };
-
-    if (!confirm("Deseja confirmar a coleta?")) { return false; }
-
-    let response = await API.response(Production.receipt.create, reception);
-    if (!response) { return false; }
-
-    productionDetail(production_id);
   };
 </script>

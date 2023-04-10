@@ -1,0 +1,19 @@
+<script>
+  async function receiptCreate(e, production_id) {
+    e.preventDefault();
+
+    let reception = {
+      id: e.target.id.value || "",
+      production_id: production_id,
+      pouch: e.target.pouch.value,
+      seal: e.target.seal.value
+    };
+
+    if (!confirm("Deseja confirmar a coleta?")) { return false; }
+
+    let response = await API.response(Production.receipt.create, reception);
+    if (!response) { return false; }
+
+    productionDetail(production_id);
+  };
+</script>

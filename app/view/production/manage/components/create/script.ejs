@@ -84,6 +84,8 @@
 		let production = await API.response(Production.findById, id);
 		if (!production) { return false };
 
+		if (production.status != "Em preparação" && production.status != "Ag. envio" && production.status != "Ag. transporte") { }
+
 		setCreateLocation(production.location);
 
 		document.getElementById("production-create-form").id.value = production.id;

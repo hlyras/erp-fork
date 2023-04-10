@@ -5,22 +5,28 @@
 </head>
 
 <body>
-  <%- include('./../../partials/header.ejs') %>
-  <%- include('./../../partials/nav.ejs') %>
   <section class="container h-center">
-    <%- include('./filter/form.ejs') %>
-    <%- include('./filter/box.ejs') %>
-    <%- include('./detail/box.ejs') %>
+    <div class="box b2-3 underline bold em13 margin-top-20 center">Triagem de malotes</div>
+    <div onclick="window.location.href = '/production/receipt/count'"
+      class="box b2-3 ground lucida-grande bold border-st shadow-lg-st padding-15 margin-top-5 radius-5 center pointer">
+      Contagem de produtos
+    </div>
+    <div onclick="window.location.href = '/production/shipment/collect'"
+      class="box b2-3 ground lucida-grande bold border-st shadow-lg-st padding-15 margin-top-5 radius-5 center pointer">
+      Registro de conferência
+    </div>
+    <div onclick="window.location.href = '/production/shipment/collect'"
+      class="box b2-3 ground lucida-grande bold border-st shadow-lg-st padding-15 margin-top-5 radius-5 center pointer">
+      Coletar O.S
+    </div>
   </section>
   <%- include('./../../partials/loader.ejs') %>
 </body>
 <footer>
   <%- include('./../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/production/main.js"></script>
-  <%- include('./filter/script.ejs') %>
-  <%- include('./detail/script.ejs') %>
   <script>
-    document.getElementById("production-filter-form").submit.click();
+
   </script>
 </footer>
 

@@ -14,7 +14,7 @@ const Outcome = require('../../model/financial/outcome');
 const preparationController = {};
 
 preparationController.index = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ["adm"])) {
+  if (!await userController.verifyAccess(req, res, ["adm", 'pro-man'])) {
     return res.redirect('/');
   };
 
@@ -112,7 +112,7 @@ preparationController.print = async (req, res) => {
 };
 
 preparationController.confirm = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 

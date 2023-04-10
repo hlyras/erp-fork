@@ -81,6 +81,10 @@ productionController.create = async (req, res) => {
 			res.send({ done: "Produção cadastrada com sucesso!" });
 		} else {
 			// update
+			if (production.status == "Ag. envio") {
+				return res.send({ msg: "" });
+			}
+
 			let production_response = await production.update();
 			if (production_response.err) { return res.send({ msg: production_response.err }); }
 
@@ -170,7 +174,7 @@ productionController.create = async (req, res) => {
 };
 
 productionController.findById = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -202,7 +206,7 @@ productionController.findById = async (req, res) => {
 };
 
 productionController.filter = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

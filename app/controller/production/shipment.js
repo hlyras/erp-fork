@@ -62,7 +62,7 @@ shipmentController.create = async (req, res) => {
 };
 
 shipmentController.findById = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 
@@ -108,7 +108,7 @@ shipmentController.filter = async (req, res) => {
 shipmentController.collect = {};
 
 shipmentController.collect.index = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ["adm"])) {
+  if (!await userController.verifyAccess(req, res, ["adm", 'pro-man', 'pro-ass'])) {
     return res.redirect('/');
   };
 
@@ -121,7 +121,7 @@ shipmentController.collect.index = async (req, res) => {
 };
 
 shipmentController.collect.confirm = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 

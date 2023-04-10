@@ -99,13 +99,13 @@
 
             previous_week_div.append(day_box);
 
-            productionRender(productions, day, day_box);
+            productionRender(productions, day, day_box, i);
           } else {
             let day = `${currentYear}-${previousMonth + 1}-${previousSunday + i}`;
 
             previous_week_div.append(day_box);
 
-            productionRender(productions, day, day_box);
+            productionRender(productions, day, day_box, i);
           }
         }
       } else {
@@ -113,7 +113,7 @@
 
         previous_week_div.append(day_box);
 
-        productionRender(productions, day, day_box);
+        productionRender(productions, day, day_box, i);
       }
     };
 
@@ -128,13 +128,13 @@
 
             current_week_div.append(day_box);
 
-            productionRender(productions, day, day_box);
+            productionRender(productions, day, day_box, i);
           } else {
             let day = `${currentYear}-${MONTHS[previousMonth].id}-${MONTHS[previousMonth].days - (-currentSunday) + i}`;
 
             current_week_div.append(day_box);
 
-            productionRender(productions, day, day_box);
+            productionRender(productions, day, day_box, i);
           }
         }
       } else if (currentSunday + i > MONTHS[currentMonth].days) {
@@ -142,13 +142,13 @@
 
         current_week_div.append(day_box);
 
-        productionRender(productions, day, day_box);
+        productionRender(productions, day, day_box, i);
       } else {
         let day = `${currentYear}-${currentMonth + 1}-${date.getDate() - date.getDay() + i}`;
 
         current_week_div.append(day_box);
 
-        productionRender(productions, day, day_box);
+        productionRender(productions, day, day_box, i);
       }
     };
 
@@ -161,20 +161,20 @@
 
         next_week_div.append(day_box);
 
-        productionRender(productions, day, day_box);
+        productionRender(productions, day, day_box, i);
       } else {
         if (nextMonth == 0) {
           let day = `${date.getDate() - date.getDay() + 7 + i - MONTHS[currentMonth].days} / ${MONTHS[nextMonth].name} / ${nextYear}`;
 
           next_week_div.append(day_box);
 
-          productionRender(productions, day, day_box);
+          productionRender(productions, day, day_box, i);
         } else {
           let day = `${currentYear}-${nextMonth + 1}-${date.getDate() - date.getDay() + 7 + i - MONTHS[currentMonth].days}`;
 
           next_week_div.append(day_box);
 
-          productionRender(productions, day, day_box);
+          productionRender(productions, day, day_box, i);
         }
       }
     };
@@ -184,12 +184,14 @@
     filter_div.append(next_week_div);
   };
 
-  function productionRender(productions, day, day_box) {
+  function productionRender(productions, day, day_box, i) {
     let production_amount = 0;
     let production_amount_div = lib.element.create("div", { class: "mobile-box b8 center" }, (production_amount).toFixed(0));
     day_box.append(production_amount_div);
 
-    day_box.append(lib.element.create("div", { class: "mobile-box b3-4 center" }, lib.convertDate(day)));
+    console.log(day);
+    day_box.append(lib.element.create("div", { class: "mobile-box b3-8 center" }, DAYS[i]));
+    day_box.append(lib.element.create("div", { class: "mobile-box b3-8 center" }, lib.convertDate(day)));
 
     let day_expander = lib.element.create("div", { class: "mobile-box b8" });
     day_expander.append(lib.element.create("img", {
