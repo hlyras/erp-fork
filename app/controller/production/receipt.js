@@ -108,6 +108,7 @@ receiptController.filter = async (req, res) => {
   lib.Query.fillParam("production_receipt.id", req.body.id, strict_params);
   lib.Query.fillParam("production_receipt.production_id", req.body.production_id, strict_params);
   lib.Query.fillParam("production_receipt.status", req.body.status, strict_params);
+  lib.Query.fillParam("production_receipt.seal", req.body.seal, params);
   lib.Query.fillParam("production_receipt.user_id", req.body.user_id, params);
   let order_params = [["production_receipt.pouch", "ASC"]];
 

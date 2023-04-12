@@ -2,70 +2,94 @@
 
 <head>
   <%- include('./../../../partials/head.ejs') %>
-  <style>
-
-  </style>
 </head>
 
 <body>
   <%- include('./../../../partials/nav.ejs') %>
   <section class="container h-center">
-
+    <div id="product-dropdown-box" class="box b2 container dropdown ground margin-top-5">
+      <input type="text" id="product-dropdown-input" name="product_id" data-id=""
+        class="mobile-box a1 input-generic border-lg-st nofocus lucida-grande bold center"
+        oninput="receiptDropdown(this)" placeholder="Nome ou código do produto" onclick="console.log('click');"
+        role="presentation" autocomplete="off">
+      <div id="product-dropdown-content" class="box b1 dropdown-content"></div>
+    </div>
   </section>
   <%- include('./../../../partials/loader.ejs') %>
 </body>
 <footer>
   <%- include('./../../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/production/main.js"></script>
-  <script>
-    function criarDropdown(inputSelector, arr) {
-      const button = document.querySelector(inputSelector);
 
-      if (!button) {
-        console.error('Elemento não encontrado:', inputSelector);
-        return;
+  <script>
+    async function receiptDropdown(input) {
+      let products = [];
+
+      if (input.value.length > 1) {
+        products = await Production.receipt.filter({ seal: input.value });
+        if (!products) { return false; }
       }
 
-      const dropdown = document.createElement('div');
-      dropdown.className = 'dropdown';
+      let props = ["production_id", "seal", "status"];
 
-      button.className += ' dropdown-button';
-      button.onclick = function (event) {
+      lib.dropdown.input(products, input, document.getElementById("product-dropdown-content"), props);
+    };
+
+    lib.dropdown.input = (arr, input, content, props) => {
+      if (!input) { return console.error("Elemento não encontrado:", input); }
+
+      content.innerHTML = "";
+      content.style.display = 'block';
+
+      input.onclick = function (event) {
         event.stopPropagation();
-        const content = this.nextElementSibling;
-        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        if (this.readOnly) { this.value = ''; this.dataset.id = ''; this.readOnly = false; }
+        content.style.display = 'block';
       };
 
-      const content = document.createElement('div');
-      content.className = 'dropdown-content';
       content.onclick = function (event) {
         event.stopPropagation();
       };
 
-      for (let i = 0; i < arr.length; i++) {
-        const item = document.createElement('a');
-        item.textContent = arr[i];
-        content.appendChild(item);
-      };
+      arr.forEach(obj => {
+        let obj_info = "";
+        for (let i in props) {
+          if (i != props.length - 1) { obj_info += `${obj[props[i]]} | ` }
+          else { obj_info += `${obj[props[i]]}` }
+        };
 
-      dropdown.appendChild(button);
-      dropdown.appendChild(content);
+        const item = lib.element.create("div", {
+          class: "box b1 lucida-grande bold box-hover wrapper padding-10 border pointer",
+          'data-id': obj.id
+        });
 
-      const container = document.getElementById('dropdown-container');
-      container.appendChild(dropdown);
+        for (let i in props) {
+
+        };
+
+        item.onclick = function (event) {
+          lib.Dropdown.fillInput(item, input.id, content.id);
+          content.style.display = 'none';
+        };
+
+        content.append(item);
+      });
+
+      document.addEventListener('click', function (event) {
+        const dropdownContent = document.querySelector('.dropdown-content');
+        if (dropdownContent.style.display === 'block') {
+          dropdownContent.style.display = 'none';
+        }
+      });
     };
 
-    // Exemplo de uso:
-    const arr = ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4'];
-    criarDropdown('#custom-dropdown-button', arr);
+    lib.dropdown.fillDiv = (div, div_id, dropdown_id) => {
+      document.getElementById(div_id).dataset.id = div.dataset.id;
+      document.getElementById(div_id).value = div.value;
+      document.getElementById(div_id).readOnly = true;
 
-    // Fechar dropdown ao clicar fora
-    document.addEventListener('click', function (event) {
-      const dropdownContent = document.querySelector('.dropdown-content');
-      if (dropdownContent.style.display === 'block') {
-        dropdownContent.style.display = 'none';
-      }
-    });
+      document.getElementById(dropdown_id).innerHTML = "";
+    };
   </script>
 </footer>
 
