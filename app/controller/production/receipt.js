@@ -30,32 +30,32 @@ receiptController.collect = async (req, res) => {
   };
 };
 
-// receiptController.count = async (req, res) => {
-//   try {
-//     res.render('production/receipt/count/index', { user: req.user });
-//   } catch (err) {
-//     console.log(err);
-//     res.send({ msg: "Ocorreu um erro ao realizar requisição." });
-//   };
-// };
+receiptController.count = async (req, res) => {
+  try {
+    res.render('production/receipt/count/index', { user: req.user });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+  };
+};
 
-// receiptController.check = async (req, res) => {
-//   try {
-//     res.render('production/receipt/check/index', { user: req.user });
-//   } catch (err) {
-//     console.log(err);
-//     res.send({ msg: "Ocorreu um erro ao realizar requisição." });
-//   };
-// };
+receiptController.conference = async (req, res) => {
+  try {
+    res.render('production/receipt/conference/index', { user: req.user });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+  };
+};
 
-// receiptController.storage = async (req, res) => {
-//   try {
-//     res.render('production/receipt/storage/index', { user: req.user });
-//   } catch (err) {
-//     console.log(err);
-//     res.send({ msg: "Ocorreu um erro ao realizar requisição." });
-//   };
-// };
+receiptController.storage = async (req, res) => {
+  try {
+    res.render('production/receipt/storage/index', { user: req.user });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+  };
+};
 
 receiptController.create = async (req, res) => {
   if (!await userController.verifyAccess(req, res, ['adm'])) {

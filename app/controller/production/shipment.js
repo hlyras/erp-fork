@@ -30,6 +30,7 @@ shipmentController.create = async (req, res) => {
   let shipment = new Production.shipment();
   shipment.datetime = lib.date.timestamp.generate();
   shipment.travel_datetime = req.body.travel_datetime;
+  shipment.shipment_datetime = req.body.travel_datetime;
   shipment.size = req.body.size;
   shipment.volume = req.body.volume;
   shipment.user_id = req.user.id;

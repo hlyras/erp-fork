@@ -28,6 +28,9 @@ router.get('/shipment/collect/confirm/:id', lib.route.toHttps, productionControl
 router.post('/product/filter', lib.route.toHttps, productionController.product.filter);
 
 router.get('/receipt', lib.route.toHttps, productionController.receipt.index);
+router.get('/receipt/count', lib.route.toHttps, productionController.receipt.count);
+router.get('/receipt/conference', lib.route.toHttps, productionController.receipt.conference);
+router.get('/receipt/storage', lib.route.toHttps, productionController.receipt.storage);
 router.get('/receipt/collect', lib.route.toHttps, productionController.receipt.collect);
 router.post('/receipt/create', lib.route.toHttps, productionController.receipt.create);
 router.post('/receipt/filter', lib.route.toHttps, productionController.receipt.filter);

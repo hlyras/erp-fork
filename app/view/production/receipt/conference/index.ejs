@@ -2,18 +2,15 @@
 
 <head>
   <%- include('./../../../partials/head.ejs') %>
+  <style>
+
+  </style>
 </head>
 
 <body>
   <%- include('./../../../partials/nav.ejs') %>
   <section class="container h-center">
-    <form id="receipt-filter-form" class="box b2-3 container ground border radius-5 padding-5 margin-top-10">
-      <div class="box b1 underline bold center margin-top-5">Recebimentos aguardando contagem</div>
-      <input type="text" name="seal"
-        class="mobile-box b1 lucida-grande em15 bold padding-15 border-st radius-5 margin-top-5 center nofocus"
-        placeholder="Nº do Lacre">
-      <input type="submit" name="submit" hidden>
-    </form>
+
   </section>
   <%- include('./../../../partials/loader.ejs') %>
 </body>
@@ -21,16 +18,7 @@
   <%- include('./../../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/production/main.js"></script>
   <script>
-    document.getElementById("receipt-filter-form").seal.addEventListener("input", async e => {
-      e.preventDefault();
-
-      console.log(e);
-      console.log(e.target.value);
-
-
-    });
-
-    function criarDropdown(inputSelector, opcoes) {
+    function criarDropdown(inputSelector, arr) {
       const button = document.querySelector(inputSelector);
 
       if (!button) {
@@ -54,22 +42,22 @@
         event.stopPropagation();
       };
 
-      for (let i = 0; i < opcoes.length; i++) {
+      for (let i = 0; i < arr.length; i++) {
         const item = document.createElement('a');
-        item.textContent = opcoes[i];
+        item.textContent = arr[i];
         content.appendChild(item);
-      }
+      };
 
       dropdown.appendChild(button);
       dropdown.appendChild(content);
 
       const container = document.getElementById('dropdown-container');
       container.appendChild(dropdown);
-    }
+    };
 
     // Exemplo de uso:
-    const opcoes = ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4'];
-    criarDropdown('#custom-dropdown-button', opcoes);
+    const arr = ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4'];
+    criarDropdown('#custom-dropdown-button', arr);
 
     // Fechar dropdown ao clicar fora
     document.addEventListener('click', function (event) {
