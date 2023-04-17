@@ -2,17 +2,27 @@
 
 <head>
   <%- include('./../../../partials/head.ejs') %>
+  <style>
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 2;
+    }
+  </style>
 </head>
 
 <body>
   <%- include('./../../../partials/nav.ejs') %>
   <section class="container h-center">
-    <div id="product-dropdown-box" class="box b2 container dropdown ground margin-top-5">
-      <input type="text" id="product-dropdown-input" name="product_id" data-id=""
-        class="mobile-box a1 input-generic border-lg-st nofocus lucida-grande bold center"
-        oninput="receiptDropdown(this)" placeholder="Nome ou código do produto" onclick="console.log('click');"
-        role="presentation" autocomplete="off">
-      <div id="product-dropdown-content" class="box b1 dropdown-content"></div>
+    <div id="product-dropdown-box" class="box b2 container ground dropdown margin-top-5">
+      <input type="text" data-id="" class="mobile-box a1 input-generic border-lg-st nofocus lucida-grande bold center"
+        oninput="receiptDropdown(this)" placeholder="Nome ou código do produto" autocomplete="off" role="presentation">
+      <div id="product-dropdown-content" class="box a1 ground dropdown-content"></div>
     </div>
   </section>
   <%- include('./../../../partials/loader.ejs') %>
@@ -30,7 +40,7 @@
         if (!products) { return false; }
       }
 
-      let props = ["production_id", "seal", "status"];
+      let props = ["seal", "pouch", "status"];
 
       lib.dropdown.input(products, input, document.getElementById("product-dropdown-content"), props);
     };
@@ -39,12 +49,12 @@
       if (!input) { return console.error("Elemento não encontrado:", input); }
 
       content.innerHTML = "";
-      content.style.display = 'block';
+      content.style.display = '';
 
       input.onclick = function (event) {
         event.stopPropagation();
         if (this.readOnly) { this.value = ''; this.dataset.id = ''; this.readOnly = false; }
-        content.style.display = 'block';
+        content.style.display = '';
       };
 
       content.onclick = function (event) {
@@ -54,21 +64,26 @@
       arr.forEach(obj => {
         let obj_info = "";
         for (let i in props) {
+          console.log(props[i]);
           if (i != props.length - 1) { obj_info += `${obj[props[i]]} | ` }
           else { obj_info += `${obj[props[i]]}` }
         };
 
         const item = lib.element.create("div", {
-          class: "box b1 lucida-grande bold box-hover wrapper padding-10 border pointer",
+          class: "box a1 container pointer",
           'data-id': obj.id
         });
 
-        for (let i in props) {
-
-        };
+        item.append(lib.element.create("div", { class: "box a1 border-lg-st padding-10 bold" }, `${obj_info}`));
 
         item.onclick = function (event) {
-          lib.Dropdown.fillInput(item, input.id, content.id);
+          input.dataset.id = obj.id;
+          input.value = props.reduce((str, prop, currI, arr) => {
+            if (currI === arr.length - 1) { str += `${obj[prop]}`; }
+            else { str += `${obj[prop]} | `; }
+            return str;
+          }, "");
+          input.readOnly = true;
           content.style.display = 'none';
         };
 
@@ -77,18 +92,10 @@
 
       document.addEventListener('click', function (event) {
         const dropdownContent = document.querySelector('.dropdown-content');
-        if (dropdownContent.style.display === 'block') {
+        if (dropdownContent.style.display === '') {
           dropdownContent.style.display = 'none';
         }
       });
-    };
-
-    lib.dropdown.fillDiv = (div, div_id, dropdown_id) => {
-      document.getElementById(div_id).dataset.id = div.dataset.id;
-      document.getElementById(div_id).value = div.value;
-      document.getElementById(div_id).readOnly = true;
-
-      document.getElementById(dropdown_id).innerHTML = "";
     };
   </script>
 </footer>
