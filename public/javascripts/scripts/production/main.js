@@ -141,3 +141,12 @@ Production.receipt.create = async (receipt) => {
 
 	return response;
 };
+
+Production.receipt.findById = async (receipt_id) => {
+	let response = await fetch(`/production/receipt/id/${receipt_id}`);
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response.receipt;
+};

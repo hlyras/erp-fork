@@ -32,6 +32,7 @@ router.get('/receipt/count', lib.route.toHttps, productionController.receipt.cou
 router.get('/receipt/conference', lib.route.toHttps, productionController.receipt.conference);
 router.get('/receipt/storage', lib.route.toHttps, productionController.receipt.storage);
 router.get('/receipt/collect', lib.route.toHttps, productionController.receipt.collect);
+router.get('/receipt/id/:id', lib.route.toHttps, productionController.receipt.findById);
 router.post('/receipt/create', lib.route.toHttps, productionController.receipt.create);
 router.post('/receipt/filter', lib.route.toHttps, productionController.receipt.filter);
 

@@ -7,78 +7,16 @@
 <body>
   <%- include('./../../../partials/nav.ejs') %>
   <section class="container h-center">
-    <form id="receipt-filter-form" class="box b2-3 container ground border radius-5 padding-5 margin-top-10">
-      <div class="box b1 underline bold center margin-top-5">Recebimentos aguardando contagem</div>
-      <input type="text" name="seal"
-        class="mobile-box b1 lucida-grande em15 bold padding-15 border-st radius-5 margin-top-5 center nofocus"
-        placeholder="Nº do Lacre">
-      <input type="submit" name="submit" hidden>
-    </form>
+    <%- include('./filter/dropdown.ejs') %>
+    <%- include('./detail/box.ejs') %>
   </section>
   <%- include('./../../../partials/loader.ejs') %>
 </body>
 <footer>
   <%- include('./../../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/production/main.js"></script>
-  <script>
-    document.getElementById("receipt-filter-form").seal.addEventListener("input", async e => {
-      e.preventDefault();
-
-      console.log(e);
-      console.log(e.target.value);
-
-
-    });
-
-    function criarDropdown(inputSelector, opcoes) {
-      const button = document.querySelector(inputSelector);
-
-      if (!button) {
-        console.error('Elemento não encontrado:', inputSelector);
-        return;
-      }
-
-      const dropdown = document.createElement('div');
-      dropdown.className = 'dropdown';
-
-      button.className += ' dropdown-button';
-      button.onclick = function (event) {
-        event.stopPropagation();
-        const content = this.nextElementSibling;
-        content.style.display = content.style.display === 'block' ? 'none' : 'block';
-      };
-
-      const content = document.createElement('div');
-      content.className = 'dropdown-content';
-      content.onclick = function (event) {
-        event.stopPropagation();
-      };
-
-      for (let i = 0; i < opcoes.length; i++) {
-        const item = document.createElement('a');
-        item.textContent = opcoes[i];
-        content.appendChild(item);
-      }
-
-      dropdown.appendChild(button);
-      dropdown.appendChild(content);
-
-      const container = document.getElementById('dropdown-container');
-      container.appendChild(dropdown);
-    }
-
-    // Exemplo de uso:
-    const opcoes = ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4'];
-    criarDropdown('#custom-dropdown-button', opcoes);
-
-    // Fechar dropdown ao clicar fora
-    document.addEventListener('click', function (event) {
-      const dropdownContent = document.querySelector('.dropdown-content');
-      if (dropdownContent.style.display === 'block') {
-        dropdownContent.style.display = 'none';
-      }
-    });
-  </script>
+  <%- include('./filter/script.ejs') %>
+  <%- include('./detail/script.ejs') %>
 </footer>
 
 </html>

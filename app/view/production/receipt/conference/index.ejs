@@ -2,26 +2,14 @@
 
 <head>
   <%- include('./../../../partials/head.ejs') %>
-  <style>
-    .dropdown {
-      position: relative;
-    }
-
-    .dropdown-content {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      z-index: 2;
-    }
-  </style>
 </head>
 
 <body>
   <%- include('./../../../partials/nav.ejs') %>
   <section class="container h-center">
     <div id="product-dropdown-box" class="box b2 container ground dropdown margin-top-5">
-      <input type="text" data-id="" class="mobile-box a1 input-generic border-lg-st nofocus lucida-grande bold center"
-        oninput="receiptDropdown(this)" placeholder="Nome ou código do produto" autocomplete="off" role="presentation">
+      <input type="text" data-id="" class="mobile-box a1 lucida-grande em15 bold border-lg-st nofocus padding-10 center"
+        oninput="receiptDropdown(this)" placeholder="Nº do Lacre" autocomplete="off" role="presentation">
       <div id="product-dropdown-content" class="box a1 ground dropdown-content"></div>
     </div>
   </section>
@@ -30,74 +18,6 @@
 <footer>
   <%- include('./../../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/production/main.js"></script>
-
-  <script>
-    async function receiptDropdown(input) {
-      let products = [];
-
-      if (input.value.length > 1) {
-        products = await Production.receipt.filter({ seal: input.value });
-        if (!products) { return false; }
-      }
-
-      let props = ["seal", "pouch", "status"];
-
-      lib.dropdown.input(products, input, document.getElementById("product-dropdown-content"), props);
-    };
-
-    lib.dropdown.input = (arr, input, content, props) => {
-      if (!input) { return console.error("Elemento não encontrado:", input); }
-
-      content.innerHTML = "";
-      content.style.display = '';
-
-      input.onclick = function (event) {
-        event.stopPropagation();
-        if (this.readOnly) { this.value = ''; this.dataset.id = ''; this.readOnly = false; }
-        content.style.display = '';
-      };
-
-      content.onclick = function (event) {
-        event.stopPropagation();
-      };
-
-      arr.forEach(obj => {
-        let obj_info = "";
-        for (let i in props) {
-          console.log(props[i]);
-          if (i != props.length - 1) { obj_info += `${obj[props[i]]} | ` }
-          else { obj_info += `${obj[props[i]]}` }
-        };
-
-        const item = lib.element.create("div", {
-          class: "box a1 container pointer",
-          'data-id': obj.id
-        });
-
-        item.append(lib.element.create("div", { class: "box a1 border-lg-st padding-10 bold" }, `${obj_info}`));
-
-        item.onclick = function (event) {
-          input.dataset.id = obj.id;
-          input.value = props.reduce((str, prop, currI, arr) => {
-            if (currI === arr.length - 1) { str += `${obj[prop]}`; }
-            else { str += `${obj[prop]} | `; }
-            return str;
-          }, "");
-          input.readOnly = true;
-          content.style.display = 'none';
-        };
-
-        content.append(item);
-      });
-
-      document.addEventListener('click', function (event) {
-        const dropdownContent = document.querySelector('.dropdown-content');
-        if (dropdownContent.style.display === '') {
-          dropdownContent.style.display = 'none';
-        }
-      });
-    };
-  </script>
 </footer>
 
 </html>

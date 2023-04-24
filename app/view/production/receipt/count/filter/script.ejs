@@ -1,0 +1,17 @@
+<script>
+  async function receiptDropdown(input) {
+    let receipts = [];
+    if (input.value.length > 1) {
+      receipts = await Production.receipt.filter({ seal: input.value });
+      if (!receipts) { return false; }
+    }
+
+    let properties = [
+      ["production_id", "Produção", "b4"],
+      ["seal", "Lacre", "b2"],
+      ["pouch", "Malote", "b4"]
+    ];
+
+    lib.dropdown.input(receipts, input, document.getElementById("product-dropdown-content"), properties, receiptDetail);
+  };
+</script>

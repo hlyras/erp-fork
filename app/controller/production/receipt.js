@@ -5,6 +5,7 @@ const lib = require("jarmlib");
 
 const Production = require('../../model/production/main');
 Production.receipt = require('../../model/production/receipt');
+Production.product = require('../../model/production/product');
 
 const receiptController = {};
 
@@ -96,7 +97,7 @@ receiptController.create = async (req, res) => {
     res.send({ done: "Produção recebida com sucesso!" });
   } catch (err) {
     console.log(err);
-    res.send({ msg: "Ocorreu um erro ao imprimir a O.S., favor contatar o suporte." });
+    res.send({ msg: "Ocorreu um erro ao gerar o recebimento." });
   };
 };
 
@@ -117,8 +118,44 @@ receiptController.filter = async (req, res) => {
     res.send({ receipts });
   } catch (err) {
     console.log(err);
-    res.send({ msg: "Ocorreu um erro ao filtrar os produtos." });
+    res.send({ msg: "Ocorreu um erro ao filtrar os recebimentos." });
   };
+};
+
+receiptController.findById = async (req, res) => {
+  try {
+    const receipt_props = ["production.preparation_volume", "production_receipt.*", "financial_outcome_origin.name seamstress_name"];
+    const receipt_inners = [
+      ["cms_wt_erp.production", "production.id", "production_receipt.production_id"],
+      ["cms_wt_erp.financial_outcome_origin", "financial_outcome_origin.id", "production.seamstress_id"]
+    ];
+    const strict_params = { keys: [], values: [] };
+    lib.Query.fillParam("production_receipt.id", req.params.id, strict_params);
+    const receipt = (await Production.receipt.filter(receipt_props, receipt_inners, [], [], strict_params, []))[0];
+
+    const product_props = ["production_product.production_id", "production_product.product_id", "production_product.amount", "product.code", "product.name", "product.color", "product.size"];
+    const product_inners = [
+      ["cms_wt_erp.product", "product.id", "production_product.product_id"]
+    ];
+    const product_strict_params = { keys: [], values: [] };
+    lib.Query.fillParam("production_product.production_id", receipt.production_id, product_strict_params);
+    let product_order_params = [["production_product.id", "ASC"]];
+    receipt.products = await Production.product.filter(product_props, product_inners, [], product_strict_params, product_order_params);
+
+    const received_product_props = ["production_receipt_product.*", "product.code", "product.name", "product.color", "product.size"];
+    const received_product_inners = [
+      ["cms_wt_erp.product", "product.id", "production_receipt_product.product_id"]
+    ];
+    const received_product_strict_params = { keys: [], values: [] };
+    lib.Query.fillParam("production_receipt_product.receipt_id", receipt.id, received_product_strict_params);
+    let received_product_order_params = [["production_receipt_product.id", "ASC"]];
+    receipt.received_products = await Production.receipt.product.filter(received_product_props, received_product_inners, [], [], received_product_strict_params, received_product_order_params);
+
+    res.send({ receipt });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao encontrar os recebimento." });
+  }
 };
 
 module.exports = receiptController;

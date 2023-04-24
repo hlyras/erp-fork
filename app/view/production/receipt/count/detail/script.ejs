@@ -1,0 +1,71 @@
+<script>
+  async function receiptDetail(id) {
+    let receipt = await API.response(Production.receipt.findById, id);
+    if (!receipt) { return alert("Não foi possível encontrar o recebimento"); }
+
+    console.log(receipt);
+
+    lib.display("product-dropdown-box", "none");
+    lib.display("receipt-detail-box", "");
+
+    let detail_div = document.getElementById("receipt-detail-div");
+    detail_div.innerHTML = "";
+
+    detail_div.append(lib.element.info("b3", "Nº da produção", receipt.production_id));
+    detail_div.append(lib.element.info("b3", "Lacre", receipt.seal));
+    detail_div.append(lib.element.info("b3", "Malote", `${receipt.pouch}/${receipt.preparation_volume}`));
+
+    let products = receipt.products.reduce((products, product) => {
+      for (let i in receipt.received_products) {
+        if (receipt.received_products[i].product_id == product.product_id) {
+          products.push(receipt.received_products[i]);
+          return products;
+        }
+      };
+
+      products.push(product);
+      return products;
+    }, []);
+
+    products.forEach(product => {
+      console.log(product);
+      let product_form = lib.element.create("form", { class: "box b1 container border-st radius-5 padding-10 margin-top-5" });
+      product_form.append(lib.element.create("input", { type: "hidden", name: "id", value: product.id || "" }));
+
+      product_form.append(lib.element.create("div", { class: "mobile-box b3-5 em09 bold v-center" }, `${product.name} | ${product.color} | ${product.size}`));
+
+      !product.id && product_form.append(lib.element.create("input", {
+        type: "number", step: 1,
+        name: "amount",
+        class: "mobile-box b5 em15 bold border-bottom padding-5 center",
+        autocomplete: "off",
+        role: "presentation",
+        onblur: "this.value=parseInt(this.value)"
+      }));
+
+      !product.id && product_form.append(lib.element.create("input", {
+        type: "submit",
+        name: "submit",
+        value: "Confirmar",
+        class: "mobile-box b5 btn-act em11 bold noborder radius-5 padding-5 center pointer"
+      }));
+
+      detail_div.append(product_form);
+
+      product_form.addEventListener("submit", e => countCreate(e, receipt.id));
+    });
+  };
+
+  function countCreate(e, receipt_id) {
+    e.preventDefault();
+
+    let received_product = {
+
+    };
+
+    let response = Production.receipt.product.create();
+
+
+    receiptDetail(receipt_id);
+  };
+</script>
