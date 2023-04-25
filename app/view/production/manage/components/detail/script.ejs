@@ -12,15 +12,18 @@
     detail_div.innerHTML = "";
 
     let production_div = lib.element.create("div", { class: "box b1 container ground radius-5 padding-10 margin-top-5" });
-    production_div.append(lib.element.createInfo("mobile-box b8 em09 border padding-5 margin-top-5", "Id", `${production.id}`));
+    production_div.append(lib.element.createInfo("mobile-box b12 em09 border padding-5 margin-top-5", "Id", `${production.id}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Produção", `${production.location}`));
     production.location == "Interna" && production_div.append(lib.element.createInfo("mobile-box b2 em09 border padding-5 margin-top-5", "Colaborador", `${production.seamstress_name}`));
     production.location == "Externa" && production_div.append(lib.element.createInfo("mobile-box b2 em09 border padding-5 margin-top-5", "Facção", `${production.seamstress_name}`));
-    production_div.append(lib.element.create("img", {
+    production.preparation_volume && production_div.append(lib.element.createInfo("mobile-box b12 em09 border padding-5 margin-top-5", "Volumes", `${production.preparation_volume}`));
+    let print_div = lib.element.create("div", { class: "mobile-box b12 container center" });
+    print_div.append(lib.element.create("img", {
       src: "/images/icon/print.png",
       class: "image-prop size-30 center icon",
       onclick: `lib.openExternalLink('${window.location.origin}/production/preparation/print/${production.id}')`
     }));
+    production.preparation_volume && production_div.append(print_div);
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data do registro", `${lib.timestampToDate(production.datetime)}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data p/ Prep", `${lib.timestampToFulldate(production.preparation_deadline)}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Data de envio.", `${lib.timestampToFulldate(production.shipment_datetime)}`));
