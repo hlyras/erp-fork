@@ -14,8 +14,12 @@
     let production_div = lib.element.create("div", { class: "box b1 container ground radius-5 padding-10 margin-top-5" });
     production_div.append(lib.element.createInfo("mobile-box b12 em09 border padding-5 margin-top-5", "Id", `${production.id}`));
     production_div.append(lib.element.createInfo("mobile-box b4 em09 border padding-5 margin-top-5", "Produção", `${production.location}`));
-    production.location == "Interna" && production_div.append(lib.element.createInfo("mobile-box b2 em09 border padding-5 margin-top-5", "Colaborador", `${production.seamstress_name}`));
-    production.location == "Externa" && production_div.append(lib.element.createInfo("mobile-box b2 em09 border padding-5 margin-top-5", "Facção", `${production.seamstress_name}`));
+    production.preparation_volume && production.location == "Interna" && production_div.append(lib.element.createInfo("mobile-box b2 em09 border padding-5 margin-top-5", "Colaborador", `${production.seamstress_name}`));
+    production.preparation_volume && production.location == "Externa" && production_div.append(lib.element.createInfo("mobile-box b2 em09 border padding-5 margin-top-5", "Facção", `${production.seamstress_name}`));
+
+    !production.preparation_volume && production.location == "Interna" && production_div.append(lib.element.createInfo("mobile-box b2-3 em09 border padding-5 margin-top-5", "Colaborador", `${production.seamstress_name}`));
+    !production.preparation_volume && production.location == "Externa" && production_div.append(lib.element.createInfo("mobile-box b2-3 em09 border padding-5 margin-top-5", "Facção", `${production.seamstress_name}`));
+
     production.preparation_volume && production_div.append(lib.element.createInfo("mobile-box b12 em09 border padding-5 margin-top-5", "Volumes", `${production.preparation_volume}`));
     let print_div = lib.element.create("div", { class: "mobile-box b12 container center" });
     print_div.append(lib.element.create("img", {
