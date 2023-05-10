@@ -5,18 +5,25 @@
 </head>
 
 <body>
-  <%- include('./../../../partials/nav.ejs') %>
+  <div class="box b12 padding-10 margin-top-5">
+    <img onclick="window.location.href = '/production/receipt'" src="/images/icon/back-arrow-black.png"
+      class="image-prop size-50 icon">
+  </div>
   <section class="container h-center">
     <%- include('./filter/dropdown.ejs') %>
     <%- include('./detail/box.ejs') %>
   </section>
+  <%- include('./../../../partials/msg.ejs') %>
   <%- include('./../../../partials/loader.ejs') %>
 </body>
 <footer>
   <%- include('./../../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/production/main.js"></script>
+  <script src="/javascripts/scripts/product/model/main.js"></script>
   <%- include('./filter/script.ejs') %>
+  <%- include('./detail/kart.ejs') %>
   <%- include('./detail/script.ejs') %>
+  <%- include('./detail/product/script.ejs') %>
 </footer>
 
 </html>

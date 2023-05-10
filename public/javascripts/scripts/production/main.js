@@ -150,3 +150,31 @@ Production.receipt.findById = async (receipt_id) => {
 
 	return response.receipt;
 };
+
+Production.receipt.product = {};
+
+Production.receipt.product.create = async (product) => {
+	let response = await fetch("/production/receipt/product/create", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(product)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};
+
+Production.receipt.updateByPass = async (receipt) => {
+	let response = await fetch("/production/receipt/update/pass", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(receipt)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};

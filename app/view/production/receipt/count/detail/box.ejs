@@ -1,3 +1,17 @@
 <div id="receipt-detail-box" class="box b2-3 container ground border radius-5 padding-5" style="display: none;">
-  <div id="receipt-detail-div" class="box b1 container"></div>
+  <div class="mobile-box b11-12"></div>
+  <div class="mobile-box b12 container margin-top-5"><img src="/images/icon/close.png" onclick="closeReceiptDetail()"
+      class="image-prop size-20 center icon pointer"></div>
+
+  <div id="receipt-detail-div" class="box b1 container margin-top-5"></div>
+  <div id="receipt-product-div" class="box b1 container margin-top-5"></div>
+
+  <%- include('./product/dropdown.ejs') %>
+
+  <!-- <button onclick="countConfirm()"
+    class="box b1 btn-act lucida-grande em15 bold noborder radius-5 padding-15 margin-top-5 pointer">Finalizar
+    contagem</button> -->
+  <button id="receipt-count-btn"
+    class="box b1 btn-act lucida-grande em15 bold noborder radius-5 padding-15 margin-top-5 pointer">Finalizar
+    contagem</button>
 </div>

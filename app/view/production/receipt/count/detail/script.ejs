@@ -3,10 +3,11 @@
     let receipt = await API.response(Production.receipt.findById, id);
     if (!receipt) { return alert("Não foi possível encontrar o recebimento"); }
 
-    console.log(receipt);
+    receiptKart.receipt_id = receipt.id;
 
-    lib.display("product-dropdown-box", "none");
+    lib.display("receipt-dropdown-box", "none");
     lib.display("receipt-detail-box", "");
+    document.getElementById("receipt-count-btn").addEventListener("click", () => { countConfirm(receipt.id); });
 
     let detail_div = document.getElementById("receipt-detail-div");
     detail_div.innerHTML = "";
@@ -15,7 +16,7 @@
     detail_div.append(lib.element.info("b3", "Lacre", receipt.seal));
     detail_div.append(lib.element.info("b3", "Malote", `${receipt.pouch}/${receipt.preparation_volume}`));
 
-    let products = receipt.products.reduce((products, product) => {
+    receiptKart.products = receipt.products.reduce((products, product) => {
       for (let i in receipt.received_products) {
         if (receipt.received_products[i].product_id == product.product_id) {
           products.push(receipt.received_products[i]);
@@ -27,45 +28,63 @@
       return products;
     }, []);
 
-    products.forEach(product => {
-      console.log(product);
-      let product_form = lib.element.create("form", { class: "box b1 container border-st radius-5 padding-10 margin-top-5" });
-      product_form.append(lib.element.create("input", { type: "hidden", name: "id", value: product.id || "" }));
+    receiptKart.products = receipt.received_products.reduce((received_products, received_product) => {
+      for (let i in receiptKart.products) {
+        if (received_product.product_id == receiptKart.products[i].product_id) {
+          return received_products;
+        }
+      }
 
-      product_form.append(lib.element.create("div", { class: "mobile-box b3-5 em09 bold v-center" }, `${product.name} | ${product.color} | ${product.size}`));
+      received_products.push(received_product);
+      return received_products;
+    }, receiptKart.products);
 
-      !product.id && product_form.append(lib.element.create("input", {
-        type: "number", step: 1,
-        name: "amount",
-        class: "mobile-box b5 em15 bold border-bottom padding-5 center",
-        autocomplete: "off",
-        role: "presentation",
-        onblur: "this.value=parseInt(this.value)"
-      }));
-
-      !product.id && product_form.append(lib.element.create("input", {
-        type: "submit",
-        name: "submit",
-        value: "Confirmar",
-        class: "mobile-box b5 btn-act em11 bold noborder radius-5 padding-5 center pointer"
-      }));
-
-      detail_div.append(product_form);
-
-      product_form.addEventListener("submit", e => countCreate(e, receipt.id));
-    });
+    receiptKart.render();
   };
 
-  function countCreate(e, receipt_id) {
+  function closeReceiptDetail() {
+    lib.display("receipt-detail-box", "none");
+    lib.display("receipt-dropdown-box", "");
+  };
+
+  function receiptCount(e, receipt_id) {
     e.preventDefault();
 
     let received_product = {
-
+      id: e.target.id.value,
+      receipt_id: receipt_id,
+      product_id: e.target.product_id.value,
+      amount: e.target.amount.value
     };
 
-    let response = Production.receipt.product.create();
+    lib.pass(async (pass) => {
+      received_product.user_pass = pass;
+
+      let response = await API.response(Production.receipt.product.create, received_product);
+      if (!response) { return false; }
+
+      receiptDetail(receipt_id);
+    });
+  };
+
+  function countConfirm(receipt_id) {
+    for (let i in receiptKart.products) {
+      if (!receiptKart.products[i].id) {
+        return lib.msg("Não é possível confirmar a contagem sem preencher todos os produtos.");
+      }
+    }
+
+    lib.pass(async (pass) => {
+      let receipt = {
+        id: receipt_id || "",
+        status: "Ag. conferência",
+        user_pass: pass
+      };
+
+      let response = await API.response(Production.receipt.updateByPass, receipt);
+      if (!response) { return false; }
+    });
 
 
-    receiptDetail(receipt_id);
   };
 </script>

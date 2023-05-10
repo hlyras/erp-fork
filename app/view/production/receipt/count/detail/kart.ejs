@@ -1,0 +1,54 @@
+<script>
+  let receiptKart = {};
+
+  receiptKart.receipt_id = 0;
+  receiptKart.products = [];
+
+  receiptKart.render = () => {
+    let product_div = document.getElementById("receipt-product-div");
+    product_div.innerHTML = "";
+
+    receiptKart.products.forEach(product => {
+      let product_form = lib.element.create("form", { class: "box b1 container border-st radius-5 padding-10 margin-top-5" });
+      product_form.append(lib.element.create("input", { type: "hidden", name: "id", value: product.id || "" }));
+      product_form.append(lib.element.create("input", {
+        type: "hidden", name: "product_id", value: product.product_id || ""
+      }));
+
+      product_form.append(lib.element.create("div", { class: "mobile-box b3-5 em09 bold v-center" }, `${product.name} | ${product.color} | ${product.size}`));
+
+      !product.id && product_form.append(lib.element.create("input", {
+        type: "number",
+        name: "amount",
+        class: "mobile-box b5 em15 bold border-bottom-lg-st padding-5 center",
+        step: 1,
+        onblur: "this.value=parseInt(this.value)",
+        autocomplete: "off",
+        role: "presentation"
+      }));
+
+      product.id && product_form.append(lib.element.create("input", {
+        type: "number",
+        name: "amount",
+        class: "mobile-box b5 em15 bold border-bottom-lg-st padding-5 center",
+        step: 1,
+        onblur: "this.value=parseInt(this.value)",
+        autocomplete: "off",
+        role: "presentation",
+        readOnly: true,
+        value: product.amount
+      }));
+
+      !product.id && product_form.append(lib.element.create("input", {
+        type: "submit",
+        name: "submit",
+        value: "Confirmar",
+        class: "mobile-box b5 btn-act em11 bold noborder radius-5 padding-5 center pointer"
+      }));
+
+      product_div.append(product_form);
+
+      product_form.addEventListener("submit", e => receiptCount(e, receiptKart.receipt_id));
+    });
+  };
+</script>

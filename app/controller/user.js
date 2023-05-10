@@ -9,15 +9,28 @@ userController.index = (req, res) => {
 	res.render('user/profile', { user: req.user });
 };
 
+userController.verifyPass = async (pass, access) => {
+	let user = (await User.findByPass(pass))[0];
+	if (!user) { return false; }
+
+	for (let i in access) {
+		if (access[i] == user.access) {
+			return user;
+		};
+	};
+
+	return false;
+};
+
 userController.verify = (req, res, next) => {
-	if (req.isAuthenticated()){ return next() };
+	if (req.isAuthenticated()) { return next() };
 	res.redirect('/login');
 };
 
 userController.verifyAccess = (req, res, access) => {
-	if(req.isAuthenticated()){
-		for(let i in access){
-			if(access[i]==req.user.access){
+	if (req.isAuthenticated()) {
+		for (let i in access) {
+			if (access[i] == req.user.access) {
 				return true;
 			};
 		};
@@ -26,7 +39,7 @@ userController.verifyAccess = (req, res, access) => {
 };
 
 userController.filter = async (req, res) => {
-	let props = ["user.id","user.name","user.email","user.phone","user.department","user.role"];
+	let props = ["user.id", "user.name", "user.email", "user.phone", "user.department", "user.role"];
 
 	const params = { keys: [], values: [] };
 	const strict_params = { keys: [], values: [] };
@@ -38,7 +51,7 @@ userController.filter = async (req, res) => {
 	lib.Query.fillParam("user.department", req.body.department, strict_params);
 	lib.Query.fillParam("user.role", req.body.role, strict_params);
 
-	let order_params = [ ["user.id","ASC"] ];
+	let order_params = [["user.id", "ASC"]];
 
 	try {
 		const users = await User.filter(props, [], params, strict_params, order_params);
@@ -50,7 +63,7 @@ userController.filter = async (req, res) => {
 };
 
 userController.list = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['dvp','prp','spt','grf','grl','crd'])){
+	if (!await userController.verifyAccess(req, res, ['dvp', 'prp', 'spt', 'grf', 'grl', 'crd'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 	try {
@@ -63,7 +76,7 @@ userController.list = async (req, res) => {
 };
 
 userController.show = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['dvp','prp','spt','grf','grl','crd'])){
+	if (!await userController.verifyAccess(req, res, ['dvp', 'prp', 'spt', 'grf', 'grl', 'crd'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -77,7 +90,7 @@ userController.show = async (req, res) => {
 };
 
 userController.updateInfo = async (req, res) => {
-	if(!req.isAuthenticated()){
+	if (!req.isAuthenticated()) {
 		res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -87,9 +100,9 @@ userController.updateInfo = async (req, res) => {
 	};
 
 	try {
-		if(user.email){
+		if (user.email) {
 			var row = await User.findByEmail(user.email);
-			if(row.length){ return res.send({ msg: "Este e-mail já está cadastrado." })};
+			if (row.length) { return res.send({ msg: "Este e-mail já está cadastrado." }) };
 		};
 		row = await User.updateInfo(user);
 		res.send({ done: "Informações atualizadas com sucesso.", user });
@@ -100,7 +113,7 @@ userController.updateInfo = async (req, res) => {
 };
 
 userController.updatePassword = async (req, res) => {
-	if(!req.isAuthenticated()){
+	if (!req.isAuthenticated()) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -110,8 +123,8 @@ userController.updatePassword = async (req, res) => {
 		password_confirm: bcrypt.hashSync(req.body.user.password_confirm, null, null),
 	}
 
-	if(!req.body.user.password || req.body.user.password.length < 4){ return res.send({ msg: 'Senha inválida.' }); };
-	if(req.body.user.password !== req.body.user.password_confirm){ return res.send({ msg: 'As senhas não correspondem.' }); }
+	if (!req.body.user.password || req.body.user.password.length < 4) { return res.send({ msg: 'Senha inválida.' }); };
+	if (req.body.user.password !== req.body.user.password_confirm) { return res.send({ msg: 'As senhas não correspondem.' }); }
 
 	try {
 		let row = await User.updatePassword(user);

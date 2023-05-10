@@ -37,7 +37,7 @@ const Receipt = function () {
   };
 };
 
-Receipt.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+Receipt.filter = (props, inners, period, params, strict_params, order_params) => {
   let query = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt")
     .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build().query;
   return db(query);
@@ -57,7 +57,7 @@ Receipt.product = function () {
     if (!this.datetime) { return { err: "A data é inválida." }; };
     if (!this.receipt_id) { return { err: "É necessário registrar de qual recebimento pertence o produto." }; };
     if (!this.product_id) { return { err: "É necessário informar o produto." }; };
-    if (!this.amount) { return { err: "É necessário informar a quantidade recebida." }; };
+    if (!this.amount || isNaN(this.amount) || this.amount < 1) { return { err: "É necessário informar a quantidade recebida." }; };
     if (!this.user_id) { return { err: "Usuário inválido." }; };
 
     let obj = lib.convertTo.object(this);
