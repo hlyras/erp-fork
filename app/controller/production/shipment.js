@@ -10,7 +10,7 @@ Production.shipment = require('../../model/production/shipment');
 const shipmentController = {};
 
 shipmentController.index = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ["adm"])) {
+  if (!await userController.verifyAccess(req, res, ["adm", "pro-man"])) {
     return res.redirect('/');
   };
 
@@ -23,7 +23,7 @@ shipmentController.index = async (req, res) => {
 };
 
 shipmentController.create = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', "pro-man"])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 

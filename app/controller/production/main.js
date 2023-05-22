@@ -46,7 +46,7 @@ productionController.manage = async (req, res) => {
 };
 
 productionController.create = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ["adm"])) {
+	if (!await userController.verifyAccess(req, res, ["adm", "pro-man"])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

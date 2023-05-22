@@ -72,7 +72,7 @@
       if (!receiptKart.products[i].id) {
         return lib.msg("Não é possível confirmar a contagem sem preencher todos os produtos.");
       }
-    }
+    };
 
     lib.pass(async (pass) => {
       let receipt = {
@@ -84,7 +84,5 @@
       let response = await API.response(Production.receipt.updateByPass, receipt);
       if (!response) { return false; }
     });
-
-
   };
 </script>
