@@ -22,7 +22,7 @@ datasheetController.index = async (req, res) => {
 };
 
 datasheetController.cost = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.redirect('/');
 	};
 
@@ -36,7 +36,7 @@ datasheetController.cost = async (req, res) => {
 };
 
 datasheetController.feedstock = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
 	};
 

@@ -1,5 +1,6 @@
 <script>
   async function feedstockRender(product_id) {
+    console.log(product_id);
     let feedstocks = await API.response(Product.feedstock.datasheet, product_id);
     if (!feedstocks) { return false; }
 
