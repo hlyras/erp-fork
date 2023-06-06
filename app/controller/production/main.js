@@ -82,7 +82,7 @@ productionController.create = async (req, res) => {
 			res.send({ done: "Produção cadastrada com sucesso!" });
 		} else {
 			// update
-			if (!(await Production.findById(production.id))[0].status != "Ag. confirmação") {
+			if ((await Production.findById(production.id))[0].status != "Ag. confirmação") {
 				return res.send({ msg: "Não é possível editar produções já confirmadas \n\n Entre em contato com o suporte para atualizar" });
 			}
 
