@@ -7,6 +7,7 @@ const Production = require('../../model/production/main');
 Production.product = require('../../model/production/product');
 
 const Outcome = require('../../model/financial/outcome');
+const Product = require('../../model/production/product');
 
 const productionController = {};
 
@@ -58,7 +59,7 @@ productionController.create = async (req, res) => {
 	production.seamstress_id = req.body.seamstress_id;
 	production.products = req.body.products;
 	production.preparation_deadline = req.body.preparation_deadline;
-	production.status = "Ag. preparação";
+	production.status = "Ag. confirmação";
 	production.user_id = req.user.id;
 
 	if (!production.products.length) { return res.send({ msg: "É necessário incluir pelo menos 1 produto." }); }
@@ -81,8 +82,8 @@ productionController.create = async (req, res) => {
 			res.send({ done: "Produção cadastrada com sucesso!" });
 		} else {
 			// update
-			if (production.status == "Ag. envio") {
-				return res.send({ msg: "" });
+			if (!(await Production.findById(production.id))[0].status != "Ag. confirmação") {
+				return res.send({ msg: "Não é possível editar produções já confirmadas \n\n Entre em contato com o suporte para atualizar" });
 			}
 
 			let production_response = await production.update();
@@ -173,6 +174,28 @@ productionController.create = async (req, res) => {
 	};
 };
 
+productionController.confirm = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	let production = new Production();
+	production.id = req.body.id;
+	production.preparation_user_id = req.user.id;
+	production.datetime = lib.date.timestamp.generate();
+	production.status = "Ag. preparação";
+
+	try {
+		let response = await production.update();
+		if (response.err) { return res.send({ msg: response.err }); }
+
+		res.send({ done: "Produção confirmada com sucesso!" });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao imprimir a O.S., favor contatar o suporte." });
+	};
+};
+
 productionController.findById = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
@@ -224,12 +247,10 @@ productionController.filter = async (req, res) => {
 	lib.Query.fillParam("production.seamstress_id", req.body.seamstress_id, params);
 	lib.Query.fillParam("production.status", req.body.status, strict_params);
 	lib.Query.fillParam("production.user_id", req.body.user_id, params);
+
 	let order_params = "";
-	if (req.body.order) {
-		order_params = [[req.body.order, "ASC"]];
-	} else {
-		order_params = [["production.id", "ASC"]];
-	}
+	if (req.body.order) { order_params = [[req.body.order, "ASC"]]; }
+	else { order_params = [["production.id", "ASC"]]; }
 
 	try {
 		const productions = await Production.filter(props, inners, period, params, strict_params, order_params, 0);

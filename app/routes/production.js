@@ -11,6 +11,7 @@ router.get('/', lib.route.toHttps, productionController.index);
 router.get('/manage', lib.route.toHttps, productionController.manage);
 
 router.post('/create', lib.route.toHttps, productionController.create);
+router.post('/confirm', lib.route.toHttps, productionController.confirm);
 router.post('/filter', lib.route.toHttps, productionController.filter);
 router.get('/id/:id', lib.route.toHttps, productionController.findById);
 

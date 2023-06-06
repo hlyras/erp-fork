@@ -69,7 +69,30 @@
         onclick: `productionDetail(${production.production_id})`
       }, production.production_id));
       production_div.append(lib.element.create("div", { class: "mobile-box b4-9 lucida-grande em08 bold center" }, production.seamstress_name));
-      production_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToFulldate(production.preparation_deadline)));
+
+      console.log(production.preparation_deadline, lib.genTimestamp());
+      console.log(production.production_id, production.preparation_deadline > lib.genTimestamp());
+
+      // blue
+      production.preparation_deadline > lib.genTimestamp() &&
+        production.preparation_deadline - (lib.timestampDay() / 2) > lib.genTimestamp() && production_div.append(lib.element.create("div", {
+          class: "mobile-box b6 em08 bold center",
+          style: 'color:blue'
+        }, lib.timestampToFulldate(production.preparation_deadline)));
+
+      // orange
+      production.preparation_deadline - (lib.timestampDay() / 2) < lib.genTimestamp() &&
+        production.preparation_deadline > lib.genTimestamp() && production_div.append(lib.element.create("div", {
+          class: "mobile-box b6 em09 bold center",
+          style: 'color:OrangeRed'
+        }, lib.timestampToFulldate(production.preparation_deadline)));
+
+      // red
+      production.preparation_deadline < lib.genTimestamp() && production_div.append(lib.element.create("div", {
+        class: "mobile-box b6 em08 bold center",
+        style: 'color:red'
+      }, lib.timestampToFulldate(production.preparation_deadline)));
+
       production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.production_status));
 
       production.products.forEach(product => {

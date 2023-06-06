@@ -14,6 +14,19 @@ Production.create = async (production) => {
 	return response;
 };
 
+Production.confirm = async (production) => {
+	let response = await fetch("/production/confirm", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(production)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};
+
 Production.filter = async (production) => {
 	let response = await fetch("/production/filter", {
 		method: "POST",

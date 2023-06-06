@@ -189,7 +189,6 @@
     let production_amount_div = lib.element.create("div", { class: "mobile-box b8 center" }, (production_amount).toFixed(0));
     day_box.append(production_amount_div);
 
-    console.log(day);
     day_box.append(lib.element.create("div", { class: "mobile-box b3-8 center" }, DAYS[i]));
     day_box.append(lib.element.create("div", { class: "mobile-box b3-8 center" }, lib.convertDate(day)));
 
@@ -215,9 +214,9 @@
           onclick: `productionDetail(${production.id})`
         }, production.id));
         production_div.append(lib.element.create("div", { class: "mobile-box b4-9 em08 center" }, production.seamstress_name));
-        production_div.append(lib.element.create("div", { class: "mobile-box b2-9 em08 center" }, production.status));
-        production_div.append(lib.element.icon('b9', 20, "/images/icon/edit.png", `productionEdit(${production.id})`));
-        production_div.append(lib.element.icon('b9', 20, "/images/icon/trash.png", `productionCancel(${production.id})`));
+        production_div.append(lib.element.create("div", { class: "mobile-box b3 em08 center" }, production.status));
+        production.status == "Ag. confirmação" && production_div.append(lib.element.icon('b9', 20, "/images/icon/edit.png", `productionEdit(${production.id})`));
+        // production.status == "Ag. confirmação" && production_div.append(lib.element.icon('b9', 20, "/images/icon/trash.png", `productionCancel(${production.id})`));
         production_amount++;
         day_div.append(production_div);
       }

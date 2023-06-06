@@ -3,7 +3,6 @@
     let production = await API.response(Production.findById, id);
     if (!production) { return false; }
 
-    // lib.display("production-filter-box", "none");
     lib.display("production-detail-box", "");
 
     window.scrollTo(0, document.getElementById("production-detail-box").getBoundingClientRect().top - document.body.getBoundingClientRect().top);
@@ -44,6 +43,24 @@
       production_div.append(product_div);
     });
 
+    production.status == "Ag. confirmação" && production_div.append(lib.element.create("div", {
+      class: "box b1 btn-act radius-5 padding-5 margin-top-10 center pointer noselect",
+      onclick: `productionConfirm(${production.id});`
+    }, "Confirmar produção"));
+
     detail_div.append(production_div);
+  };
+
+  async function productionConfirm(id) {
+    if (!confirm("Tem certeza que deseja confirmar a produção?")) { return false; }
+
+    const response = await API.response(Production.confirm, { id });
+    if (!response) { return false; }
+
+    lib.msg(response.done);
+
+    lib.display("production-detail-box", "none");
+
+    document.getElementById("production-filter-form").submit.click();
   };
 </script>
