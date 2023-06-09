@@ -81,10 +81,12 @@
         user_pass: pass
       };
 
-      return console.log(receipt);
-
       let response = await API.response(Production.receipt.updateByPass, receipt);
       if (!response) { return false; }
+
+      alert(response.done);
+
+      window.location.reload();
     });
   };
 </script>

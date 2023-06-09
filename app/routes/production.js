@@ -35,7 +35,7 @@ router.get('/receipt/storage', lib.route.toHttps, productionController.receipt.s
 router.get('/receipt/collect', lib.route.toHttps, productionController.receipt.collect);
 router.get('/receipt/id/:id', lib.route.toHttps, productionController.receipt.findById);
 router.post('/receipt/create', lib.route.toHttps, productionController.receipt.create);
-// router.post('/receipt/update/pass', lib.route.toHttps, productionController.receipt.updateByPass);
+router.post('/receipt/update/pass', lib.route.toHttps, productionController.receipt.updateByPass);
 router.post('/receipt/filter', lib.route.toHttps, productionController.receipt.filter);
 
 router.post('/receipt/product/create', lib.route.toHttps, productionController.receipt.product.create);

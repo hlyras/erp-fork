@@ -9,6 +9,8 @@ const Receipt = function () {
   this.seal;
   this.status = "Ag. contagem"; // "Ag. conferência", "Ag. armazenamento"
   this.user_id;
+  this.count_datetime;
+  this.count_user_id;
 
   this.create = () => {
     if (!this.production_id) { return { err: "É necessário registrar de qual produção pertence o produto." }; };
@@ -25,10 +27,7 @@ const Receipt = function () {
   };
 
   this.update = () => {
-    if (!this.id) { return { err: "O id do produto é inválido." }; }
-    if (!this.production_id) { return { err: "É necessário registrar de qual produção pertence o produto." }; };
-    if (!this.product_id) { return { err: "É necessário registrar o produto." }; };
-    if (!this.amount) { return { err: "É necessário a quantidade de produtos." }; };
+    if (!this.id) { return { err: "O id do recebimento é inválido." }; }
 
     let obj = lib.convertTo.object(this);
     let query = lib.Query.update(obj, 'cms_wt_erp.production_receipt', 'id');
