@@ -26,8 +26,8 @@ preparationController.index = async (req, res) => {
   lib.Query.fillParam("outcome_origin.category_id", 10, external_strict_params);
 
   try {
-    let internal_seamstresses = await Outcome.origin.filter([], [], internal_strict_params, []);
-    let external_seamstresses = await Outcome.origin.filter([], [], external_strict_params, []);
+    let internal_seamstresses = await Outcome.origin.filter([], [], internal_strict_params, [['name', 'ASC']]);
+    let external_seamstresses = await Outcome.origin.filter([], [], external_strict_params, [['name', 'ASC']]);
     res.render('production/preparation/index', { user: req.user, internal_seamstresses, external_seamstresses });
   } catch (err) {
     console.log(err);

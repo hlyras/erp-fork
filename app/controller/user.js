@@ -10,6 +10,8 @@ userController.index = (req, res) => {
 };
 
 userController.verifyPass = async (pass, access) => {
+	if (!pass || pass.length < 4) { return false; }
+
 	let user = (await User.findByPass(pass))[0];
 	if (!user) { return false; }
 

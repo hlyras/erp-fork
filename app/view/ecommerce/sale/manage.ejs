@@ -1,7 +1,9 @@
 <html>
+
 <head>
   <%- include('./../../partials/head.ejs') %>
 </head>
+
 <body>
   <%- include('./../../partials/header.ejs') %>
   <%- include('./../../partials/nav.ejs') %>
@@ -19,6 +21,7 @@
           <option value="SITE - JADLOG">Site JADLOG</option>
           <option value="SHOPEE">SHOPEE</option>
           <option value="B2W">B2W</option>
+          <option value="Amazon">Amazon</option>
           <option value="Via Varejo">Via Varejo</option>
           <option value="Reclamação">Reclamação</option>
           <option value="MLJC Full">MLJC Full</option>
@@ -30,11 +33,14 @@
           <option value="SITE Retirada">SITE Retirada</option>
           <option value="Reclamação Retirada">Reclamação Retirada</option>
         </select>
-        <input type="text" name="code" class="box b4 input-generic center margin-top-5" placeholder="Código da venda" autocomplete="off">
+        <input type="text" name="code" class="box b4 input-generic center margin-top-5" placeholder="Código da venda"
+          autocomplete="off">
         <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodStart">
         <input type="datetime-local" class="box b4 input-generic center margin-top-5" name="periodEnd">
-        <input type="text" name="customer_name" class="box b2 input-generic center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
-        <input type="text" name="customer_user" class="box b2 input-generic center margin-top-5" placeholder="Usuário do cliente" autocomplete="off">
+        <input type="text" name="customer_name" class="box b2 input-generic center margin-top-5"
+          placeholder="Nome do cliente" autocomplete="off">
+        <input type="text" name="customer_user" class="box b2 input-generic center margin-top-5"
+          placeholder="Usuário do cliente" autocomplete="off">
         <select name="status" class="box b3 input-generic center margin-top-5 hide-disabled">
           <option value="" selected>Status</option>
           <option value="Ag. Informações">Ag. Informações</option>
@@ -43,18 +49,24 @@
           <option value="Enviado">Enviado</option>
           <option value="Cancelada">Cancelada</option>
         </select>
-        <input type="text" name="tracker" class="box b3 input-generic center margin-top-5" placeholder="Rastreio" autocomplete="off">
-        <input type="submit" name="submit" class="box b3 submit-generic pointer center margin-top-5 margin-bottom-5" value="Filtrar">
+        <input type="text" name="tracker" class="box b3 input-generic center margin-top-5" placeholder="Rastreio"
+          autocomplete="off">
+        <input type="submit" name="submit" class="box b3 submit-generic pointer center margin-top-5 margin-bottom-5"
+          value="Filtrar">
       </form>
-      <form id='ecommerce-sale-os-create-form' class='box b1 container ground padding-10 margin-top-5 border-explicit shadow' style="display:none">
+      <form id='ecommerce-sale-os-create-form'
+        class='box b1 container ground padding-10 margin-top-5 border-explicit shadow' style="display:none">
         <div class="underline center">Cadastrar Ordem de Serviço</div>
         <input type="datetime-local" name="datetime" class="box b4 input-generic margin-top-5 center">
-        <input name="code" class='box b4 padding-5 margin-top-5 input-generic center' placeholder='Código da OS' autocomplete="off">
-        <input name="sale-amount" class='box b4 padding-5 margin-top-5 input-generic center' placeholder='Quantidade de vendas' autocomplete="off">
+        <input name="code" class='box b4 padding-5 margin-top-5 input-generic center' placeholder='Código da OS'
+          autocomplete="off">
+        <input name="sale-amount" class='box b4 padding-5 margin-top-5 input-generic center'
+          placeholder='Quantidade de vendas' autocomplete="off">
         <button class='box b4 submit-generic margin-top-5 center'>Nova OS</button>
       </form>
       <div id="ecommerce-sale-filter-box" class="box b1 container padding-5 margin-top-5"></div>
-      <div id="ecommerce-sale-show-box" class="box b1 container ground padding-5 margin-top-5" style="display:none"></div>
+      <div id="ecommerce-sale-show-box" class="box b1 container ground padding-5 margin-top-5" style="display:none">
+      </div>
     </div>
   </section>
   <%- include('./../../partials/loader.ejs') %>
@@ -75,8 +87,9 @@
   <script src="/javascripts/scripts/ecommerce/sale/controller/service_order.js"></script>
 
   <script>
-    document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodStart").value = lib.timestampToDatetime(lib.genTimestamp() - (lib.timestampDay()*7));
+    document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodStart").value = lib.timestampToDatetime(lib.genTimestamp() - (lib.timestampDay() * 7));
     document.getElementById("ecommerce-sale-filter-form").elements.namedItem("periodEnd").value = lib.timestampToDatetime(lib.genTimestamp());
   </script>
 </footer>
+
 </html>

@@ -1,7 +1,9 @@
 <html>
+
 <head>
   <%- include('./../../partials/head.ejs') %>
 </head>
+
 <body>
   <%- include('./../../partials/header.ejs') %>
   <%- include('./../../partials/nav.ejs') %>
@@ -12,9 +14,12 @@
         <form id="ecommerce-sale-after-sale-flow-filter-form" class="box b1 container">
           <input type="date" name="periodStart" class="box b3 input-generic margin-top-5">
           <input type="date" name="periodEnd" class="box b3 input-generic margin-top-5">
-          <input type="text" name="code" class="box b3 input-generic ground center margin-top-5" placeholder="Código da venda" autocomplete="off">
-          <input type="text" name="customer-user" class="box b4 input-generic ground center margin-top-5" placeholder="Usuário do Cliente" autocomplete="off">
-          <input type="text" name="customer-name" class="box b4 input-generic ground center margin-top-5" placeholder="Nome do cliente" autocomplete="off">
+          <input type="text" name="code" class="box b3 input-generic ground center margin-top-5"
+            placeholder="Código da venda" autocomplete="off">
+          <input type="text" name="customer-user" class="box b4 input-generic ground center margin-top-5"
+            placeholder="Usuário do Cliente" autocomplete="off">
+          <input type="text" name="customer-name" class="box b4 input-generic ground center margin-top-5"
+            placeholder="Nome do cliente" autocomplete="off">
           <select name="status" class="box b4 input-generic center margin-top-5 hide-disabled">
             <option value="">Experiência do cliente</option>
             <option value="Ag. contato">Ag. contato</option>
@@ -29,7 +34,7 @@
         </form>
       </div>
       <div id="ecommerce-sale-after-sale-flow-filter-box" class="box b1 container padding-10">
-        
+
       </div>
     </div>
   </section>
@@ -42,4 +47,5 @@
   <script src="/javascripts/scripts/ecommerce/sale/view/after_sale.js"></script>
   <script src="/javascripts/scripts/ecommerce/sale/controller/after_sale.js"></script>
 </footer>
+
 </html>

@@ -24,7 +24,8 @@
     const production = {
       location: e.target.location.value,
       startPeriod: lib.genTimestamp() - (lib.timestampDay() * (7 + date.getDay())),
-      endPeriod: (lib.genTimestamp() + (lib.timestampDay() * (7 + (7 - date.getDay())))) - 1
+      endPeriod: (lib.genTimestamp() + (lib.timestampDay() * (7 + (7 - date.getDay())))) - 1,
+      status: e.target.status.value
     };
 
     if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.value; };

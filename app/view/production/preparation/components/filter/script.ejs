@@ -11,6 +11,8 @@
     if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.value; };
     if (production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.value; };
 
+    console.log(production);
+
     const production_products = await API.response(Production.product.filter, production);
     if (!production_products) { return false; }
 
@@ -69,9 +71,6 @@
         onclick: `productionDetail(${production.production_id})`
       }, production.production_id));
       production_div.append(lib.element.create("div", { class: "mobile-box b4-9 lucida-grande em08 bold center" }, production.seamstress_name));
-
-      console.log(production.preparation_deadline, lib.genTimestamp());
-      console.log(production.production_id, production.preparation_deadline > lib.genTimestamp());
 
       // blue
       production.preparation_deadline > lib.genTimestamp() &&

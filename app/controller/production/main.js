@@ -37,8 +37,8 @@ productionController.manage = async (req, res) => {
 	lib.Query.fillParam("outcome_origin.category_id", 10, external_strict_params);
 
 	try {
-		let internal_seamstresses = await Outcome.origin.filter([], [], internal_strict_params, []);
-		let external_seamstresses = await Outcome.origin.filter([], [], external_strict_params, []);
+		let internal_seamstresses = await Outcome.origin.filter([], [], internal_strict_params, [['name', 'ASC']]);
+		let external_seamstresses = await Outcome.origin.filter([], [], external_strict_params, [['name', 'ASC']]);
 		res.render('production/manage/index', { user: req.user, internal_seamstresses, external_seamstresses });
 	} catch (err) {
 		console.log(err);
@@ -244,9 +244,9 @@ productionController.filter = async (req, res) => {
 	let period = { key: "production.datetime", start: req.body.periodStart, end: req.body.periodEnd };
 	lib.Query.fillParam("production.id", req.body.id, strict_params);
 	lib.Query.fillParam("production.location", req.body.location, strict_params);
-	lib.Query.fillParam("production.seamstress_id", req.body.seamstress_id, params);
+	lib.Query.fillParam("production.seamstress_id", req.body.seamstress_id, strict_params);
 	lib.Query.fillParam("production.status", req.body.status, strict_params);
-	lib.Query.fillParam("production.user_id", req.body.user_id, params);
+	lib.Query.fillParam("production.user_id", req.body.user_id, strict_params);
 
 	let order_params = "";
 	if (req.body.order) { order_params = [[req.body.order, "ASC"]]; }

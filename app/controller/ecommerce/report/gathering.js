@@ -8,7 +8,7 @@ const Sale = require('../../../model/ecommerce/sale');
 const gatheringController = {};
 
 gatheringController.index = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'adm-man', 'log-pac'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'adm-man', 'log-pac', 'pro-sto'])) {
     return res.redirect('/');
   };
 
@@ -17,7 +17,7 @@ gatheringController.index = async (req, res) => {
 };
 
 gatheringController.filter = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-ass', 'adm-aud', 'pro-man', 'log-pac', 'pro-ass', 'log-pac'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-ass', 'adm-aud', 'pro-man', 'log-pac', 'pro-ass', 'pro-sto'])) {
     return res.send({ unauthorized: "Você não tem permissão para acessar!" });
   };
 

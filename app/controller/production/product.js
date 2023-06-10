@@ -30,6 +30,7 @@ productController.filter = async (req, res) => {
   lib.Query.fillParam("production_product.production_id", req.body.production_id, strict_params);
   lib.Query.fillParam("product.code", req.body.code, params);
   lib.Query.fillParam("product.name", req.body.name, params);
+  lib.Query.fillParam("production.seamstress_id", req.body.seamstress_id, strict_params);
   lib.Query.fillParam("production.location", req.body.location, strict_params);
   lib.Query.fillParam("production.status", req.body.status, strict_params);
   if (req.body.order) {
