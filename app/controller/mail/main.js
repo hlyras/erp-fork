@@ -6,7 +6,7 @@ const lib = require("jarmlib");
 const mailController = {};
 
 mailController.index = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel'])) {
 		return res.redirect('/');
 	};
 	res.render('mail/index', { user: req.user });
@@ -20,7 +20,7 @@ mailController.manage = async (req, res) => {
 };
 
 mailController.emitter = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-man', 'com-sel'])) {
 		return res.redirect('/');
 	};
 	res.render('mail/emitter/index', { user: req.user });
@@ -82,7 +82,7 @@ mailController.filter = async (req, res) => {
 };
 
 mailController.findById = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-man', 'com-sel'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

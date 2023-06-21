@@ -56,7 +56,7 @@ Receipt.product = function () {
     if (!this.datetime) { return { err: "A data é inválida." }; };
     if (!this.receipt_id) { return { err: "É necessário registrar de qual recebimento pertence o produto." }; };
     if (!this.product_id) { return { err: "É necessário informar o produto." }; };
-    if (!this.amount || isNaN(this.amount) || this.amount < 1) { return { err: "É necessário informar a quantidade recebida." }; };
+    if (!this.amount || isNaN(this.amount) || this.amount < 0) { return { err: "É necessário informar a quantidade recebida." }; };
     if (!this.user_id) { return { err: "Usuário inválido." }; };
 
     let obj = lib.convertTo.object(this);
@@ -69,7 +69,7 @@ Receipt.product = function () {
     if (!this.id) { return { err: "O id do produto é inválido." }; }
     if (!this.production_id) { return { err: "É necessário registrar de qual produção pertence o produto." }; };
     if (!this.product_id) { return { err: "É necessário registrar o produto." }; };
-    if (!this.amount) { return { err: "É necessário a quantidade de produtos." }; };
+    if (!this.amount || isNaN(this.amount) || this.amount < 0) { return { err: "É necessário a quantidade de produtos." }; };
 
     let obj = lib.convertTo.object(this);
     let query = lib.Query.update(obj, 'cms_wt_erp.production_receipt_product', 'id');

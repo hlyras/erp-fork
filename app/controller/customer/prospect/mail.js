@@ -14,7 +14,7 @@ const path = require('path');
 const mailController = {};
 
 mailController.send = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-ass', 'com-sel'])) {
 		return res.redirect('/');
 	};
 
@@ -22,12 +22,12 @@ mailController.send = async (req, res) => {
 		const prospect = (await Prospect.findById(req.body.prospect_id))[0];
 		const user = (await User.findById(req.user.id))[0];
 
-		if(prospect.name) { prospect.full_name = prospect.name; }
-		if(prospect.name) { prospect.name = prospect.name.split(" ")[0]; }
+		if (prospect.name) { prospect.full_name = prospect.name; }
+		if (prospect.name) { prospect.name = prospect.name.split(" ")[0]; }
 		prospect.user_full_name = user.name;
 		prospect.user_name = user.name.split(" ")[0];
-		if(user.phone) { prospect.user_phone = user.phone; }
-		if(user.phone) { prospect.user_contact = user.contact; }
+		if (user.phone) { prospect.user_phone = user.phone; }
+		if (user.phone) { prospect.user_contact = user.contact; }
 
 		const mail = (await Mail.findById(req.body.mail_id))[0];
 
@@ -49,12 +49,12 @@ mailController.send = async (req, res) => {
 				return res.send({ done: 'Email enviado com sucesso!' });
 			} else {
 				console.log(err);
-				return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" }); 
+				return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" });
 			}
 		});
 	} catch (err) {
 		console.log(err);
-		return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" }); 
+		return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" });
 	}
 };
 

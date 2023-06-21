@@ -7,11 +7,36 @@ const Production = require('../../model/production/main');
 Production.receipt = require('../../model/production/receipt');
 Production.product = require('../../model/production/product');
 
+const Outcome = require('../../model/financial/outcome');
+
 const receiptController = {};
 
 receiptController.index = async (req, res) => {
   try {
     res.render('production/receipt/index', { user: req.user });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+  };
+};
+
+receiptController.manage = async (req, res) => {
+  if (!await userController.verifyAccess(req, res, ['adm'])) {
+    return res.redirect('/');
+  };
+
+  const internal_strict_params = { keys: [], values: [] };
+  lib.Query.fillParam("outcome_origin.category_id", 1, internal_strict_params);
+  lib.Query.fillParam("outcome_origin.role_id", 1, internal_strict_params);
+
+  const external_strict_params = { keys: [], values: [] };
+  lib.Query.fillParam("outcome_origin.category_id", 10, external_strict_params);
+
+  try {
+    let internal_seamstresses = await Outcome.origin.filter([], [], internal_strict_params, [['name', 'ASC']]);
+    let external_seamstresses = await Outcome.origin.filter([], [], external_strict_params, [['name', 'ASC']]);
+    console.log(internal_seamstresses, external_seamstresses);
+    res.render('production/receipt/manage/index', { user: req.user, internal_seamstresses, external_seamstresses });
   } catch (err) {
     console.log(err);
     res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -59,7 +84,7 @@ receiptController.storage = async (req, res) => {
 };
 
 receiptController.create = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man',])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 
