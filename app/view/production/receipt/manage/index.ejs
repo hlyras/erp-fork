@@ -2,18 +2,12 @@
 
 <head>
   <%- include('./../../../partials/head.ejs') %>
+  <%- include('./../../../partials/header.ejs') %>
 </head>
 
 <body>
   <section class="container h-center">
-    <% for(let i in internal_seamstresses) { %>
-    <%= internal_seamstresses[i].name %>
-    <% } %>
-
-    <% for(let i in external_seamstresses) { %>
-    <%= external_seamstresses[i].name %>
-    <% } %>
-    production receipt manage
+    <%- include('./filter/form.ejs') %>
   </section>
   <%- include('./../../../partials/msg.ejs') %>
   <%- include('./../../../partials/loader.ejs') %>
@@ -21,6 +15,7 @@
 <footer>
   <%- include('./../../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/production/main.js"></script>
+  <%- include('./filter/script.ejs') %>
 </footer>
 
 </html>

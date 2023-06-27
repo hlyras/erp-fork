@@ -35,7 +35,6 @@ receiptController.manage = async (req, res) => {
   try {
     let internal_seamstresses = await Outcome.origin.filter([], [], internal_strict_params, [['name', 'ASC']]);
     let external_seamstresses = await Outcome.origin.filter([], [], external_strict_params, [['name', 'ASC']]);
-    console.log(internal_seamstresses, external_seamstresses);
     res.render('production/receipt/manage/index', { user: req.user, internal_seamstresses, external_seamstresses });
   } catch (err) {
     console.log(err);
@@ -56,7 +55,7 @@ receiptController.collect = async (req, res) => {
   };
 };
 
-receiptController.count = async (req, res) => {
+receiptController.count.index = async (req, res) => {
   try {
     res.render('production/receipt/count/index', { user: req.user });
   } catch (err) {
@@ -126,7 +125,7 @@ receiptController.create = async (req, res) => {
   };
 };
 
-receiptController.updateByPass = async (req, res) => {
+receiptController.count.confirm = async (req, res) => {
   const production_receipt = new Production.receipt();
   production_receipt.id = req.body.id;
   production_receipt.count_datetime = lib.date.timestamp.generate();
@@ -149,6 +148,9 @@ receiptController.updateByPass = async (req, res) => {
 };
 
 receiptController.filter = async (req, res) => {
+  const props = ["production_receipt.*"];
+  const inners = [];
+
   const params = { keys: [], values: [] };
   const strict_params = { keys: [], values: [] };
 
@@ -156,12 +158,12 @@ receiptController.filter = async (req, res) => {
   lib.Query.fillParam("production_receipt.id", req.body.id, strict_params);
   lib.Query.fillParam("production_receipt.production_id", req.body.production_id, strict_params);
   lib.Query.fillParam("production_receipt.status", req.body.status, strict_params);
-  lib.Query.fillParam("production_receipt.seal", req.body.seal, params);
-  lib.Query.fillParam("production_receipt.user_id", req.body.user_id, params);
+  lib.Query.fillParam("production_receipt.seal", req.body.seal, strict_params);
+  lib.Query.fillParam("production_receipt.user_id", req.body.user_id, strict_params);
   let order_params = [["production_receipt.pouch", "ASC"]];
 
   try {
-    const receipts = await Production.receipt.filter([], [], period, params, strict_params, order_params);
+    const receipts = await Production.receipt.filter([], [], period, strict_params, strict_params, order_params);
     res.send({ receipts });
   } catch (err) {
     console.log(err);

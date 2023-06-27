@@ -14,7 +14,7 @@ const path = require('path');
 const mailController = {};
 
 mailController.send = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'com-ass'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-ass', 'com-sel'])) {
 		return res.redirect('/');
 	};
 

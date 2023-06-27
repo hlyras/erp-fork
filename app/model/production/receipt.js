@@ -84,4 +84,33 @@ Receipt.product.filter = (props, inners, period, params, strict_params, order_pa
   return db(query);
 };
 
+Receipt.count = function () {
+  this.id;
+  this.production_receipt_id;
+  this.datetime;
+  this.user_id;
+
+  this.create = () => {
+    if (!this.production_receipt_id) { return { err: "É necessário registrar de qual recebimento pertence a contagem." }; };
+    if (!this.datetime) { return { err: "Data inválida." }; };
+    if (!this.user_id) { return { err: "Usuário inválido." }; };
+
+    let obj = lib.convertTo.object(this);
+    let query = lib.Query.save(obj, 'cms_wt_erp.production_receipt_count');
+
+    return db(query);
+  };
+};
+
+Receipt.count.findById = async (id) => {
+  let query = `SELECT * FROM cms_wt_erp.production_receipt_count WHERE id='${id}';`;
+  return db(query);
+};
+
+Receipt.count.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+  let query = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt_count")
+    .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build().query;
+  return db(query);
+};
+
 module.exports = Receipt;

@@ -1,0 +1,44 @@
+<form id="receipt-filter-form" class="box b1 container border-st radius-5 padding-5 margin-top-5 h-center">
+  <div class="box b1 underline lucida-grande bold margin-top-5 center">Filtrar Produções</div>
+  <div class="box b2 container padding-5 margin-top-5 h-center">
+    <input type="radio" name="location" value="Interna" class="box b9 margin-top-2" onclick="setFilterLocation(this);"
+      checked="checked">
+    <label for="Interna" class="box">Interna</label>
+  </div>
+  <div class="box b2 container padding-5 margin-top-5 h-center">
+    <input type="radio" name="location" value="Externa" class="box b9 margin-top-2" onclick="setFilterLocation(this);">
+    <label for="Externa" class="box">Externa</label>
+  </div>
+
+  <select id="internal-seamstress-select" name="internal_seamstress_id" class="box b2-9 input-generic margin-top-5">
+    <option value="">Todos os colaboradores</option>
+    <% for(let i in internal_seamstresses) { %>
+    <option value="<%= internal_seamstresses[i].id %>"><%= internal_seamstresses[i].name %></option>
+    <% } %>
+  </select>
+
+  <select name="status" class="box b2-9 input-generic center margin-top-5">
+    <option value="">Todos os status</option>
+    <option value="Ag. contagem">Ag. contagem</option>
+    <option value="Em conferência">Em conferência</option>
+    <option value="Ag. armazenamento">Ag. armazenamento</option>
+  </select>
+
+  <select id="external-seamstress-select" name="external_seamstress_id" class="box b2-9 input-generic margin-top-5"
+    style="display:none;">
+    <option value="">Todas as fações</option>
+    <% for(let i in external_seamstresses) { %>
+    <option value="<%= external_seamstresses[i].id %>"><%= external_seamstresses[i].name %></option>
+    <% } %>
+  </select>
+
+  <input type="text" name="production_id" class="box b6 input-generic border radius-5 margin-top-5 center"
+    placeholder="Id da produção">
+
+  <input type="text" name="seal" class="box b3 input-generic border radius-5 margin-top-5 center" placeholder="Lacre">
+
+  <input type="date" name="periodStart" class="box b3 input-generic center margin-top-5">
+  <input type="date" name="periodEnd" class="box b3 input-generic center margin-top-5">
+
+  <input type="submit" name="submit" class="box b3 submit-generic margin-top-5">
+</form>
