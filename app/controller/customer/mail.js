@@ -15,14 +15,14 @@ const path = require('path');
 const mailController = {};
 
 mailController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.redirect('/');
 	};
 	res.render('customer/mailer', { user: req.user });
 };
 
 mailController.send = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-ass', 'com-sel'])) {
 		return res.redirect('/');
 	};
 
@@ -57,12 +57,12 @@ mailController.send = async (req, res) => {
 				return res.send({ done: 'Email enviado com sucesso!' });
 			} else {
 				console.log(err);
-				return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" }); 
+				return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" });
 			}
 		});
 	} catch (err) {
 		console.log(err);
-		return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" }); 
+		return res.send({ msg: "Ocorreu um erro ao enviar o e-mail, atualize a página e tente novamente!" });
 	}
 };
 
@@ -86,14 +86,14 @@ mailController.save = async (customer, mail, user) => {
 // 	lib.Query.fillParam("customer.cnpj", req.params.register, pj_params);
 // 	lib.Query.fillParam("customer.mailer", 1, pj_params);
 // 	let pj_customer = await Customer.adFilter([],[],[],pj_params,[]);
-	
+
 // 	if(!pj_customer.length){
 // 		let pf_params = { keys: [], values: [] };
 // 		lib.Query.fillParam("customer.id", req.params.id, pf_params);
 // 		lib.Query.fillParam("customer.cpf", req.params.register, pf_params);
 // 		lib.Query.fillParam("customer.mailer", 1, pj_params);
 // 		let pf_customer = await Customer.adFilter([],[],[],pf_params,[]);
-	
+
 // 		if(pf_customer.length){ Customer.mailer.pf.signout(pf_customer[0]); }
 // 	} else {
 // 		Customer.mailer.pj.signout(pj_customer[0]);

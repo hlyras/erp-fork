@@ -30,13 +30,13 @@ router.post('/product/filter', lib.route.toHttps, productionController.product.f
 
 router.get('/receipt', lib.route.toHttps, productionController.receipt.index);
 router.get('/receipt/manage', lib.route.toHttps, productionController.receipt.manage);
-router.get('/receipt/count', lib.route.toHttps, productionController.receipt.count);
+// router.get('/receipt/count', lib.route.toHttps, productionController.receipt.count);
 router.get('/receipt/conference', lib.route.toHttps, productionController.receipt.conference);
 router.get('/receipt/storage', lib.route.toHttps, productionController.receipt.storage);
 router.get('/receipt/collect', lib.route.toHttps, productionController.receipt.collect);
 router.get('/receipt/id/:id', lib.route.toHttps, productionController.receipt.findById);
 router.post('/receipt/create', lib.route.toHttps, productionController.receipt.create);
-router.post('/receipt/update/pass', lib.route.toHttps, productionController.receipt.updateByPass);
+// router.post('/receipt/update/pass', lib.route.toHttps, productionController.receipt.updateByPass);
 router.post('/receipt/filter', lib.route.toHttps, productionController.receipt.filter);
 
 router.post('/receipt/product/create', lib.route.toHttps, productionController.receipt.product.create);

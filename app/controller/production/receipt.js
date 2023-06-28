@@ -55,14 +55,14 @@ receiptController.collect = async (req, res) => {
   };
 };
 
-receiptController.count.index = async (req, res) => {
-  try {
-    res.render('production/receipt/count/index', { user: req.user });
-  } catch (err) {
-    console.log(err);
-    res.send({ msg: "Ocorreu um erro ao realizar requisição." });
-  };
-};
+// receiptController.count.index = async (req, res) => {
+//   try {
+//     res.render('production/receipt/count/index', { user: req.user });
+//   } catch (err) {
+//     console.log(err);
+//     res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+//   };
+// };
 
 receiptController.conference = async (req, res) => {
   try {
@@ -125,27 +125,27 @@ receiptController.create = async (req, res) => {
   };
 };
 
-receiptController.count.confirm = async (req, res) => {
-  const production_receipt = new Production.receipt();
-  production_receipt.id = req.body.id;
-  production_receipt.count_datetime = lib.date.timestamp.generate();
-  production_receipt.status = req.body.status;
+// receiptController.count.confirm = async (req, res) => {
+//   const production_receipt = new Production.receipt();
+//   production_receipt.id = req.body.id;
+//   production_receipt.count_datetime = lib.date.timestamp.generate();
+//   production_receipt.status = req.body.status;
 
-  try {
-    let verifiedUser = await userController.verifyPass(req.body.user_pass, ["adm"]);
-    if (!verifiedUser) { return res.send({ msg: "Você não tem acesso para realizar essa ação." }); }
+//   try {
+//     let verifiedUser = await userController.verifyPass(req.body.user_pass, ["adm"]);
+//     if (!verifiedUser) { return res.send({ msg: "Você não tem acesso para realizar essa ação." }); }
 
-    production_receipt.count_user_id = verifiedUser.id;
+//     production_receipt.count_user_id = verifiedUser.id;
 
-    let response = await production_receipt.update();
-    if (response.err) { return res.send({ msg: response.err }); }
+//     let response = await production_receipt.update();
+//     if (response.err) { return res.send({ msg: response.err }); }
 
-    res.send({ done: "Produção atualizada com sucesso!" });
-  } catch (err) {
-    console.log(err);
-    res.send({ msg: "Ocorreu um erro ao realizar o registro." });
-  };
-};
+//     res.send({ done: "Produção atualizada com sucesso!" });
+//   } catch (err) {
+//     console.log(err);
+//     res.send({ msg: "Ocorreu um erro ao realizar o registro." });
+//   };
+// };
 
 receiptController.filter = async (req, res) => {
   const props = ["production_receipt.*"];

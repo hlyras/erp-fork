@@ -8,21 +8,21 @@ const lib = require("jarmlib");
 const leadController = {};
 
 leadController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.redirect('/');
 	};
 	res.render('customer/lead/index', { user: req.user });
 };
 
 leadController.manage = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.redirect('/');
 	};
 	res.render('customer/lead/manage/index', { user: req.user });
 };
 
 leadController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man',"com-ass",'com-sel','adm-aud'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-man', "com-ass", 'com-sel', 'adm-aud'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -45,7 +45,7 @@ leadController.filter = async (req, res) => {
 	lib.Query.fillParam("customer_lead.status", req.body.lead.status, strict_params);
 	lib.Query.fillParam("customer_lead.user_id", req.body.lead.user_id, strict_params);
 
-	const order_params = [ ["id","DESC"] ];
+	const order_params = [["id", "DESC"]];
 
 	try {
 		const leads = await Customer.lead.filter([], [], period, params, strict_params, order_params);
