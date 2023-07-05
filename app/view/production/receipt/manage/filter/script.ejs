@@ -19,8 +19,8 @@
       location: e.target.location.value,
       production_id: e.target.production_id.value,
       seal: e.target.seal.value,
-      periodStart: e.target.periodStart.value,
-      periodEnd: e.target.periodEnd.value,
+      periodStart: lib.datetimeToTimestamp(e.target.periodStart.value),
+      periodEnd: lib.datetimeToTimestamp(e.target.periodEnd.value),
       status: e.target.status.value
     };
 
@@ -32,6 +32,34 @@
     const receipts = await API.response(Production.receipt.filter, receipt);
     if (!receipts) { return lib.message("Nenhum recebimento foi encontrado"); }
 
-    console.log(receipts);
+    receiptFilter(receipts);
   });
+
+  function receiptFilter(receipts) {
+    const filter_div = document.getElementById("receipt-filter-div");
+    filter_div.innerHTML = "";
+
+    if (!receipts.length) {
+      return filter_div.append(lib.element.create("div", {
+        class: "box b1 border lucida-grande bold padding-10 margin-top-10 center"
+      }, "Nenhum resultado encontrado."));
+    }
+
+    console.log(receipts);
+
+    receipts.forEach(receipt => {
+      let receipt_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-5" });
+      receipt_div.append(lib.element.info("b4", "Id", receipt.id));
+      receipt_div.append(lib.element.info("b4", "Id da produção", receipt.production_id));
+      receipt_div.append(lib.element.info("b4", "Status", receipt.status));
+      receipt_div.append(lib.element.info("b4", "Costureira", receipt.name));
+      receipt_div.append(lib.element.info("b4", "Malote", receipt.pouch));
+      receipt_div.append(lib.element.info("b4", "Data do recebimento", lib.timestampToFulldate(receipt.datetime)));
+      receipt_div.append(lib.element.info("b4", "Data da contagem", lib.timestampToFulldate(receipt.count_datetime)));
+      receipt_div.append(lib.element.info("b4", "Lacre", receipt.seal));
+      filter_div.append(receipt_div);
+    });
+  };
+
+  // count_datetime, count_user_id, datetime, id, name, pouch, production_id, seal, seamstress_id, status, user_id
 </script>
