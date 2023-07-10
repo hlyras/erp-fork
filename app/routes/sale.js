@@ -29,6 +29,8 @@ router.get("/admin", lib.route.toHttps, adminController.index);
 // financial controller
 router.get("/financial/payment", lib.route.toHttps, financialController.payment.index);
 router.get("/financial/payment/confirm/:id", lib.route.toHttps, financialController.payment.confirm);
+router.get("/financial/payment2/confirm/:id", lib.route.toHttps, financialController.payment2.confirm);
+router.post("/financial/billet/confirm", lib.route.toHttps, financialController.billet.confirm);
 // router.get("/financial/report", lib.route.toHttps, financialController.report.index);
 
 // triage controller

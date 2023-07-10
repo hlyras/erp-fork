@@ -27,8 +27,6 @@
     if (receipt.location == "Interna") { receipt.seamstress_id = e.target.internal_seamstress_id.value; };
     if (receipt.location == "Externa") { receipt.seamstress_id = e.target.external_seamstress_id.value; };
 
-    console.log(receipt);
-
     const receipts = await API.response(Production.receipt.filter, receipt);
     if (!receipts) { return lib.message("Nenhum recebimento foi encontrado"); }
 
@@ -45,7 +43,7 @@
       }, "Nenhum resultado encontrado."));
     }
 
-    console.log(receipts);
+    receipts = lib.sort(receipts, "datetime");
 
     receipts.forEach(receipt => {
       let receipt_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-5" });

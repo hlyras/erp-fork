@@ -1,0 +1,44 @@
+<script>
+  document.getElementById("sale-filter-form").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    let sale = {
+      customer_name: event.target.elements.namedItem("customer_name").value,
+      customer_cnpj: event.target.elements.namedItem("customer_cnpj").value,
+      periodStart: lib.dateToTimestamp(event.target.elements.namedItem("periodStart").value),
+      periodEnd: lib.dateToTimestamp(event.target.elements.namedItem("periodEnd").value),
+      status: event.target.elements.namedItem("status").value
+    };
+
+    let sales = await API.response(Sale.filter, sale);
+
+    lib.display('sale-filter-box', "");
+    lib.display('sale-detail-box', "none");
+
+    const setup = { pageSize: 10, page: 0, status: sale.status };
+    (function () { lib.carousel.execute("sale-filter-box", saleFilter, sales, setup); }());
+  });
+
+  function saleFilter(sales, setup) {
+    const filter_div = document.getElementById("sale-filter-div");
+    filter_div.innerHTML = "";
+
+    if (!sales.length) {
+      return filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold margin-top-20 center" }, "Nenhum resultado encontrado"));
+    }
+
+    for (let i = setup.page * setup.pageSize; i < sales.length && i < (setup.page + 1) * setup.pageSize; i++) {
+      let sale_div = lib.element.create("div", {
+        class: "box b2 container border-lg-st radius-5 padding-5 margin-top-5 pointer",
+        onclick: `saleDetail(${sales[i].id})`
+      });
+      sale_div.append(lib.element.create("div", { class: "mobile-box b7 lucida-grande em09 bold" }, sales[i].id));
+      sale_div.append(lib.element.create("div", { class: "mobile-box b4-7 lucida-grande em08 bold" }, sales[i].customer_name));
+      sale_div.append(lib.element.create("div", { class: "mobile-box b2-7 lucida-grande em08" }, sales[i].customer_cnpj || sales[i].customer_cpf));
+      sale_div.append(lib.element.create("div", { class: "mobile-box b2-5 lucida-grande em09 bold center" }, sales[i].status));
+      sale_div.append(lib.element.create("div", { class: "mobile-box b5 lucida-grande em09 center" }, lib.timestampToDate(sales[i].sale_date)));
+      sale_div.append(lib.element.create("div", { class: "mobile-box b2-5 lucida-grande em09 center" }, sales[i].user_name));
+      filter_div.append(sale_div);
+    };
+  };
+</script>

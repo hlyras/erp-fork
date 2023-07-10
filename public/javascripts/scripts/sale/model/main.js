@@ -3,12 +3,12 @@ const Sale = {};
 Sale.save = async (sale) => {
 	let response = await fetch("/sale/save", {
 		method: "POST",
-		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify({ sale })
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ sale })
 	});
 	response = await response.json();
 
-	if(API.verifyResponse(response)){ return false };
+	if (API.verifyResponse(response)) { return false };
 
 	return response.sale;
 };
@@ -16,21 +16,21 @@ Sale.save = async (sale) => {
 Sale.cancel = async sale_id => {
 	let response = await fetch("/sale/cancel/id/" + sale_id);
 	response = await response.json();
-	
-	if(API.verifyResponse(response)){ return false };
-	
-	return response.done;	
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response.done;
 };
 
 Sale.filter = async (sale) => {
 	let response = await fetch("/sale/filter", {
 		method: "POST",
-		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify({ sale })
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ sale })
 	});
 	response = await response.json();
 
-	if(API.verifyResponse(response)){ return false };
+	if (API.verifyResponse(response)) { return false };
 
 	return response.sales;
 };
@@ -38,9 +38,9 @@ Sale.filter = async (sale) => {
 Sale.findById = async (sale_id) => {
 	let response = await fetch("/sale/id/" + sale_id);
 	response = await response.json();
-	
-	if(API.verifyResponse(response)){ return false };
-	
+
+	if (API.verifyResponse(response)) { return false };
+
 	return response.sale[0];
 };
 
@@ -49,10 +49,36 @@ Sale.payment = {};
 Sale.payment.confirm = async sale_id => {
 	let response = await fetch("/sale/financial/payment/confirm/" + sale_id);
 	response = await response.json();
-	
-	if(API.verifyResponse(response)){ return false };
-	
-	return response.done;	
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response.done;
+};
+
+Sale.payment2 = {};
+
+Sale.payment2.confirm = async sale_id => {
+	let response = await fetch(`/sale/financial/payment2/confirm/${sale_id}`);
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response.done;
+};
+
+Sale.billet = {};
+
+Sale.billet.confirm = async sale => {
+	let response = await fetch("/sale/financial/billet/confirm", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(sale)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
 };
 
 Sale.packment = {};
@@ -60,12 +86,12 @@ Sale.packment = {};
 Sale.packment.confirm = async packmentInfo => {
 	let response = await fetch("/sale/triage/packment/confirm", {
 		method: "POST",
-		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify(packmentInfo)
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(packmentInfo)
 	});
 	response = await response.json();
 
-	if(API.verifyResponse(response)){ return false };
+	if (API.verifyResponse(response)) { return false };
 	alert(response.done);
 
 	return response;
@@ -76,12 +102,12 @@ Sale.nf = {};
 Sale.nf.save = async (sale) => {
 	let response = await fetch("/sale/nf/save", {
 		method: "POST",
-		headers: {'Content-Type': 'application/json'},
-	    body: JSON.stringify({ sale })
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ sale })
 	});
 	response = await response.json();
 
-	if(API.verifyResponse(response)){ return false };
+	if (API.verifyResponse(response)) { return false };
 
 	return response.done;
 };
@@ -91,9 +117,9 @@ Sale.shipment = {};
 Sale.shipment.confirm = async sale_id => {
 	let response = await fetch("/sale/shipment/confirm/id/" + sale_id);
 	response = await response.json();
-	
-	if(API.verifyResponse(response)){ return false };
-	
+
+	if (API.verifyResponse(response)) { return false };
+
 	return response.done;
 };
 
@@ -106,9 +132,9 @@ Sale.deliver = {};
 Sale.deliver.confirm = async sale_id => {
 	let response = await fetch(`/sale/deliver/confirm/${sale_id}`);
 	response = await response.json();
-	
-	if(API.verifyResponse(response)){ return false };
+
+	if (API.verifyResponse(response)) { return false };
 	alert(response.done);
-	
+
 	return response.done;
 };

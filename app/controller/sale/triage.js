@@ -57,6 +57,11 @@ triageController.packment.confirm = async (req, res) => {
 		sale.status = "Ag. envio p/ retirada";
 	}
 
+	let verifySalePaymentMethod = (await Sale.findById(req.body.sale_id))[0];
+	if (verifySalePaymentMethod.payment_method == "Boleto") { sale.status = "Ag. boletos"; }
+	if (verifySalePaymentMethod.payment_method == "Cartão de crédito") { sale.status = "Ag. cartão de crédito"; }
+	if (verifySalePaymentMethod.payment_period == "50%/50%") { sale.status = "Ag. pagamento 2/2"; }
+
 	try {
 		await Triage.packment.confirm(sale);
 		res.send({ done: "Embalo confirmado com sucesso!" });

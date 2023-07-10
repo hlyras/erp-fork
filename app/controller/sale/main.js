@@ -38,6 +38,9 @@ saleController.manage = async (req, res) => {
 	let metrics = {
 		em_negociacao: 0,
 		ag_pagamento: 0,
+		ag_pagamento2: 0,
+		ag_boletos: 0,
+		ag_cartao_de_credito: 0,
 		ag_embalo: 0,
 		ag_nf: 0,
 		ag_envio: 0,
@@ -56,6 +59,9 @@ saleController.manage = async (req, res) => {
 		for (let i in sales) {
 			if (sales[i].status == "Em negociação") { metrics.em_negociacao++; }
 			if (sales[i].status == "Ag. pagamento") { metrics.ag_pagamento++; }
+			if (sales[i].status == "Ag. pagamento 2/2") { metrics.ag_pagamento2++; }
+			if (sales[i].status == "Ag. boletos") { metrics.ag_boletos++; }
+			if (sales[i].status == "Ag. cartão de crédito") { metrics.ag_cartao_de_credito++; }
 			if (sales[i].status == "Ag. embalo") { metrics.ag_embalo++; }
 			if (sales[i].status == "Ag. nota fiscal") { metrics.ag_nf++; }
 			if (sales[i].status == "Ag. envio") { metrics.ag_envio++; }
