@@ -44,9 +44,14 @@
     });
 
     production.status == "Ag. confirmação" && production_div.append(lib.element.create("div", {
-      class: "box b1 btn-act radius-5 padding-5 margin-top-10 center pointer noselect",
+      class: "box b1 btn-act bold radius-5 padding-10 margin-top-10 center pointer noselect",
       onclick: `productionConfirm(${production.id});`
     }, "Confirmar produção"));
+
+    production.status == "Ag. produção" && production_div.append(lib.element.create("div", {
+      class: "box b1 btn-act bold radius-5 padding-10 margin-top-10 center pointer noselect",
+      onclick: `productionConfirm(${production.id});`
+    }, "Iniciar produção"));
 
     detail_div.append(production_div);
   };

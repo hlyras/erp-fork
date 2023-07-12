@@ -31,6 +31,8 @@
 		const response = await API.response(Production.create, production);
 		if (!response) { return false; }
 
+		lib.message(response.done);
+
 		e.target.id.value = "";
 		e.target.internal_seamstress_id.dataset.id = "";
 		e.target.internal_seamstress_id.value = "";

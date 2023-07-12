@@ -4,6 +4,7 @@ const lib = require("jarmlib");
 const Production = function () {
 	this.id;
 	this.datetime; // Hora do cadastro da produção
+	this.shipment_datetime; // Data da produção Interna / Data estimada para envio
 	this.location; // Interna | Externa
 	this.seamstress_id;
 	this.status;
@@ -14,7 +15,6 @@ const Production = function () {
 	this.preparation_volume;
 	this.preparation_user_id;
 
-	this.shipment_datetime; // Data estimada para envio
 	this.service_order; // Data estimada para envio
 
 	this.create = () => {
@@ -23,7 +23,6 @@ const Production = function () {
 		if (!this.location) { return { err: "É necessário registrar o local de produção." } };
 		if (!this.seamstress_id) { return { err: "É necessário inserir o colaborador ou facção." } };
 		if (!this.preparation_deadline) { return { err: "É necessário registrar a data limite para a preparação." } };
-		if (this.location == "Interna" && !this.date) { return { err: "É necessário registrar a data de produção." } };
 		if (!this.status) { return { err: "É necessário cadastrar o status da produção." } };
 		if (!this.user_id) { return { err: "É necessário registrar o usuário." } };
 

@@ -183,16 +183,19 @@ productionController.confirm = async (req, res) => {
 	production.id = req.body.id;
 	production.preparation_user_id = req.user.id;
 	production.datetime = lib.date.timestamp.generate();
-	production.status = "Ag. preparação";
 
 	try {
+		const production_status = (await Production.findById(production.id))[0].status;
+		if (production_status == "Ag. confirmação") { production.status = "Ag. preparação"; }
+		if (production_status == "Ag. produção") { production.status = "Em produção"; }
+
 		let response = await production.update();
 		if (response.err) { return res.send({ msg: response.err }); }
 
 		res.send({ done: "Produção confirmada com sucesso!" });
 	} catch (err) {
 		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao imprimir a O.S., favor contatar o suporte." });
+		res.send({ msg: "Ocorreu um erro ao confirmar a produção, favor contatar o suporte." });
 	};
 };
 
