@@ -74,6 +74,7 @@ Receipt.product = function () {
     let obj = lib.convertTo.object(this);
     let query = lib.Query.update(obj, 'cms_wt_erp.production_receipt_product', 'id');
 
+    console.log(query);
     return db(query);
   };
 };

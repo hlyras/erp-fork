@@ -30,6 +30,9 @@
     const receipts = await API.response(Production.receipt.filter, receipt);
     if (!receipts) { return lib.message("Nenhum recebimento foi encontrado"); }
 
+    lib.display("receipt-filter-box", "");
+    lib.display("receipt-detail-box", "none");
+
     receiptFilter(receipts);
   });
 
@@ -46,18 +49,18 @@
     receipts = lib.sort(receipts, "datetime");
 
     receipts.forEach(receipt => {
-      let receipt_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-5" });
-      receipt_div.append(lib.element.info("b4", "Id", receipt.id));
-      receipt_div.append(lib.element.info("b4", "Id da produção", receipt.production_id));
-      receipt_div.append(lib.element.info("b4", "Status", receipt.status));
-      receipt_div.append(lib.element.info("b4", "Costureira", receipt.name));
-      receipt_div.append(lib.element.info("b4", "Malote", receipt.pouch));
-      receipt_div.append(lib.element.info("b4", "Data do recebimento", lib.timestampToFulldate(receipt.datetime)));
-      receipt_div.append(lib.element.info("b4", "Data da contagem", lib.timestampToFulldate(receipt.count_datetime)));
-      receipt_div.append(lib.element.info("b4", "Lacre", receipt.seal));
+      let receipt_div = lib.element.create("div", {
+        class: "box b1 container ground border-st shadow-lg-st radius-5 padding-10 margin-top-5 pointer",
+        onclick: `receiptDetail(${receipt.id});`
+      });
+      receipt_div.append(lib.element.create("div", { class: "mobile-box b8 lucida-grande bold center" }, receipt.production_id));
+      receipt_div.append(lib.element.create("div", { class: "mobile-box b5-8 lucida-grande bold center" }, receipt.name));
+      receipt_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em08 bold center" }, receipt.status));
+      receipt_div.append(lib.element.info("b9 em08 margin-top-5", "Malote", receipt.pouch));
+      receipt_div.append(lib.element.info("b2-9 em08 margin-top-5", "Lacre", receipt.seal));
+      receipt_div.append(lib.element.info("b3 em08 margin-top-5", "Data do recebimento", lib.timestampToFulldate(receipt.datetime)));
+      receipt_div.append(lib.element.info("b3 em08 margin-top-5", "Data da contagem", (lib.timestampToFulldate(receipt.count_datetime)) || "Ag. contagem"));
       filter_div.append(receipt_div);
     });
   };
-
-  // count_datetime, count_user_id, datetime, id, name, pouch, production_id, seal, seamstress_id, status, user_id
 </script>

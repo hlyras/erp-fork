@@ -5,7 +5,9 @@ const productionController = require('../controller/production/main');
 productionController.preparation = require('../controller/production/preparation');
 productionController.shipment = require('../controller/production/shipment');
 productionController.product = require('../controller/production/product');
-productionController.receipt = require('../controller/production/receipt');
+productionController.receipt = require('../controller/production/receipt/main');
+productionController.receipt.count = require('../controller/production/receipt/count');
+productionController.receipt.product = require('../controller/production/receipt/product');
 
 router.get('/', lib.route.toHttps, productionController.index);
 router.get('/manage', lib.route.toHttps, productionController.manage);
@@ -30,13 +32,13 @@ router.post('/product/filter', lib.route.toHttps, productionController.product.f
 
 router.get('/receipt', lib.route.toHttps, productionController.receipt.index);
 router.get('/receipt/manage', lib.route.toHttps, productionController.receipt.manage);
-// router.get('/receipt/count', lib.route.toHttps, productionController.receipt.count);
+router.get('/receipt/count', lib.route.toHttps, productionController.receipt.count.index);
+router.post('/receipt/count/confirm', lib.route.toHttps, productionController.receipt.count.confirm);
 router.get('/receipt/conference', lib.route.toHttps, productionController.receipt.conference);
 router.get('/receipt/storage', lib.route.toHttps, productionController.receipt.storage);
 router.get('/receipt/collect', lib.route.toHttps, productionController.receipt.collect);
 router.get('/receipt/id/:id', lib.route.toHttps, productionController.receipt.findById);
 router.post('/receipt/create', lib.route.toHttps, productionController.receipt.create);
-// router.post('/receipt/update/pass', lib.route.toHttps, productionController.receipt.updateByPass);
 router.post('/receipt/filter', lib.route.toHttps, productionController.receipt.filter);
 
 router.post('/receipt/product/create', lib.route.toHttps, productionController.receipt.product.create);

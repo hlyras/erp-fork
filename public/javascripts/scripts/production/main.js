@@ -178,13 +178,17 @@ Production.receipt.product.create = async (product) => {
 	return response;
 };
 
-Production.receipt.updateByPass = async (receipt) => {
-	let response = await fetch("/production/receipt/update/pass", {
+Production.receipt.count = {};
+
+Production.receipt.count.confirm = async (receipt) => {
+	let response = await fetch("/production/receipt/count/confirm", {
 		method: "POST",
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(receipt)
 	});
 	response = await response.json();
+
+	console.log(response);
 
 	if (API.verifyResponse(response)) { return false };
 

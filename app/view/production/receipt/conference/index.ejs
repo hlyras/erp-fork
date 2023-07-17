@@ -5,20 +5,24 @@
 </head>
 
 <body>
-  <%- include('./../../../partials/nav.ejs') %>
-  <div class="box b5" href="/production/receipt/conference">Voltar</div>
+  <div class="box b12 padding-10 margin-top-5">
+    <img onclick="window.location.href = '/production/receipt'" src="/images/icon/back-arrow-black.png"
+      class="image-prop size-50 icon">
+  </div>
   <section class="container h-center">
-    <div id="product-dropdown-box" class="box b2 container ground dropdown margin-top-5">
-      <input type="text" data-id="" class="mobile-box a1 lucida-grande em15 bold border-lg-st nofocus padding-10 center"
-        oninput="receiptDropdown(this)" placeholder="Nº do Lacre" autocomplete="off" role="presentation">
-      <div id="product-dropdown-content" class="box a1 ground dropdown-content"></div>
-    </div>
+    <%- include('./filter/dropdown.ejs') %>
+    <%- include('./detail/box.ejs') %>
   </section>
   <%- include('./../../../partials/loader.ejs') %>
 </body>
 <footer>
   <%- include('./../../../partials/footer.ejs') %>
   <script src="/javascripts/scripts/production/main.js"></script>
+  <script src="/javascripts/scripts/product/model/main.js"></script>
+  <%- include('./filter/script.ejs') %>
+  <%- include('./detail/kart.ejs') %>
+  <%- include('./detail/script.ejs') %>
+  <%- include('./detail/product/script.ejs') %>
 </footer>
 
 </html>
