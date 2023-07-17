@@ -3,8 +3,6 @@
     let receipt = await API.response(Production.receipt.findById, id);
     if (!receipt) { return alert("Não foi possível encontrar o recebimento"); }
 
-    receiptKart.receipt_id = receipt.id;
-
     lib.display("receipt-dropdown-box", "none");
     lib.display("receipt-detail-box", "");
     document.getElementById("receipt-conference-btn").addEventListener("click", () => { conferenceConfirm(receipt.id); });
@@ -16,30 +14,26 @@
     detail_div.append(lib.element.info("b3", "Lacre", receipt.seal));
     detail_div.append(lib.element.info("b3", "Malote", `${receipt.pouch}/${receipt.preparation_volume}`));
 
-    receiptKart.products = receipt.products.reduce((products, product) => {
+    receipt.products.forEach(product => {
+      let product_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-5" });
+      product_div.append(lib.element.create("div", { class: "mobile-box b2-3 em08 v-center" }, `${product.code} | ${product.name} | ${product.color}`));
+      product_div.append(lib.element.info("b6", "Quantidade", product.amount));
+
       for (let i in receipt.received_products) {
-        if (receipt.received_products[i].product_id == product.product_id) {
-          products.push(receipt.received_products[i]);
-          return products;
+        if (product.product_id == receipt.received_products[i].product_id) {
+          product_div.append(lib.element.info("b6", "Recebido", (receipt.received_products[i].amount || "0")));
         }
+
+        let approval_form = lib.element.create("form", { class: "mobile-box b3 container border-st padding-5 margin-top-5" });
+        approval_form.append(lib.element.create("input",
+          name: "amount",
+          type: "number",
+          class: "box b1"
+        ));
       };
 
-      products.push(product);
-      return products;
-    }, []);
-
-    receiptKart.products = receipt.received_products.reduce((received_products, received_product) => {
-      for (let i in receiptKart.products) {
-        if (received_product.product_id == receiptKart.products[i].product_id) {
-          return received_products;
-        }
-      }
-
-      received_products.push(received_product);
-      return received_products;
-    }, receiptKart.products);
-
-    receiptKart.render();
+      detail_div.append(product_div);
+    });
   };
 
   function closeReceiptDetail() {
@@ -67,25 +61,25 @@
     });
   };
 
-  function countConfirm(receipt_id) {
-    for (let i in receiptKart.products) {
-      if (!receiptKart.products[i].id) {
-        return lib.msg("Não é possível confirmar a contagem sem preencher todos os produtos.");
-      }
-    };
+  // function countConfirm(receipt_id) {
+  //   for (let i in receiptKart.products) {
+  //     if (!receiptKart.products[i].id) {
+  //       return lib.msg("Não é possível confirmar a contagem sem preencher todos os produtos.");
+  //     }
+  //   };
 
-    lib.pass(async (pass) => {
-      let receipt = {
-        id: receipt_id || "",
-        user_pass: pass
-      };
+  //   lib.pass(async (pass) => {
+  //     let receipt = {
+  //       id: receipt_id || "",
+  //       user_pass: pass
+  //     };
 
-      let response = await API.response(Production.receipt.count.confirm, receipt);
-      if (!response) { return false; }
+  //     let response = await API.response(Production.receipt.count.confirm, receipt);
+  //     if (!response) { return false; }
 
-      lib.message(response.done);
+  //     lib.message(response.done);
 
-      window.location.reload();
-    });
-  };
+  //     window.location.reload();
+  //   });
+  // };
 </script>

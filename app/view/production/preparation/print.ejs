@@ -32,25 +32,6 @@
     </div>
   </div>
 
-  <div class="container border-st pagebreak">
-    <div class="p-box a3 lucida-grande em12 border center padding-10">Produção: <b>#<%= production.id %></b></div>
-    <div class="p-box a2-3 lucida-grande em12 border center padding-10"><b><%= production.seamstress_name %></b>
-    </div>
-    <div class="p-box a1 container">
-      <div class="p-box b2-7 lucida-grande em08 margin-top-10">Nome do motorista (legível)</div>
-      <div class="p-box b5-7 underline margin-top-10">:</div>
-      <div class="p-box b6 lucida-grande em08 margin-top-5">Data da coleta:</div>
-      <div class="p-box b6 underline margin-top-5">:
-        <div class="mobile-box p-box b7-8 center">/</div>
-      </div>
-      <div class="p-box b9 lucida-grande em08 margin-top-5">Nº do lacre</div>
-      <div class="p-box b2-9 underline margin-top-5">:</div>
-      <div class="p-box b12 lucida-grande em08 margin-top-5">Estoquista</div>
-      <div class="p-box b4 underline margin-top-5">:</div>
-    </div>
-  </div>
-
-
   <% for(let i = 1; i <= production.preparation_volume; i++) { %>
   <div class="container border-st pagebreak">
     <div class="p-box a1 container border">
