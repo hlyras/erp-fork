@@ -1,10 +1,10 @@
 // const User = require('../../model/user');
-const userController = require('./../user');
+const userController = require('./../user/main');
 
 const ecommerceDocumentationController = {};
 
 ecommerceDocumentationController.asks = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','eco-home'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'eco-home'])) {
 		return res.redirect('/');
 	};
 
@@ -17,7 +17,7 @@ ecommerceDocumentationController.asks = async (req, res) => {
 };
 
 ecommerceDocumentationController.solution = async (req, res) => {
-	if(!req.user){ res.redirect('/'); } else {
+	if (!req.user) { res.redirect('/'); } else {
 		try {
 			res.render('documentation/ecommerce/solution', { user: req.user });
 		} catch (err) {
@@ -28,7 +28,7 @@ ecommerceDocumentationController.solution = async (req, res) => {
 };
 
 ecommerceDocumentationController.gathering = async (req, res) => {
-	if(!req.user){ res.redirect('/'); } else {
+	if (!req.user) { res.redirect('/'); } else {
 		try {
 			res.render('documentation/ecommerce/gathering', { user: req.user });
 		} catch (err) {

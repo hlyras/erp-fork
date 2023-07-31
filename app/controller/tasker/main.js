@@ -1,14 +1,14 @@
 const lib = require("jarmlib");
 
 const User = require('../../model/user');
-const userController = require('./../user');
+const userController = require('./../user/main');
 
 const Department = require('../../model/department/main');
 
 const departmentController = {};
 
 departmentController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'adm-man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man'])) {
 		return res.redirect("/");
 	};
 
@@ -16,7 +16,7 @@ departmentController.index = async (req, res) => {
 };
 
 departmentController.manage = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'adm-man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man'])) {
 		return res.redirect("/");
 	};
 

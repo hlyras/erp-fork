@@ -5,14 +5,14 @@ Product.package.product = require('../../../model/product/package/product');
 
 const lib = require("jarmlib");
 
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 
 const imageController = require('./image');
 
 packageController = {};
 
 packageController.manage = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-vis'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-vis'])) {
 		return res.redirect('/');
 	};
 
@@ -26,7 +26,7 @@ packageController.manage = async (req, res) => {
 };
 
 packageController.create = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','adm-vis'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'man', 'adm-man', 'adm-vis'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -43,30 +43,30 @@ packageController.create = async (req, res) => {
 	package.description = req.body.description;
 
 	try {
-		if(!package.id) {
+		if (!package.id) {
 			let verifyCodeDuplicity = await Product.package.findByCode(package.code);
-			if(verifyCodeDuplicity.length){ return res.send({ msg: 'Este código de pacote já está cadastrado.' }); }
+			if (verifyCodeDuplicity.length) { return res.send({ msg: 'Este código de pacote já está cadastrado.' }); }
 
 			let response = await package.create();
-			if(response.err) { return res.send({ msg: response.err }); }
+			if (response.err) { return res.send({ msg: response.err }); }
 
-			for(let i in req.files){
+			for (let i in req.files) {
 				await imageController.upload(req.files[i], parseInt(response.insertId));
 			};
 
 			res.send({ done: "Pacote cadastrado com sucesso!" });
 		} else {
 			let verifyCodeDuplicity = await Product.package.findByCode(package.code);
-			if(verifyCodeDuplicity.length && verifyCodeDuplicity[0].id != package.id){
+			if (verifyCodeDuplicity.length && verifyCodeDuplicity[0].id != package.id) {
 				return res.send({ msg: 'Este código de pacote já está cadastrado.' });
 			}
 
-			for(let i in req.files){
+			for (let i in req.files) {
 				await imageController.upload(req.files[i], parseInt(package.id));
 			};
 
 			let response = await package.update();
-			if(response.err) { return res.send({ msg: response.err }); }
+			if (response.err) { return res.send({ msg: response.err }); }
 
 			res.send({ done: "Pacote atualizado com sucesso!" });
 		}
@@ -83,7 +83,7 @@ packageController.findById = async (req, res) => {
 		package.products = await Product.package.product.list(req.params.id);
 
 		res.send({ package });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
 	};
@@ -98,7 +98,7 @@ packageController.filter = async (req, res) => {
 	lib.Query.fillParam("package.color", req.body.color, strict_params);
 	lib.Query.fillParam("package.status", req.body.status, strict_params);
 
-	let order_params = [ ["package.code","ASC"] ];
+	let order_params = [["package.code", "ASC"]];
 
 	try {
 		const packages = await Product.package.filter([], [], params, strict_params, order_params);

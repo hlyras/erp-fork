@@ -1,7 +1,7 @@
 const db = require('../../../config/connection');
 const lib = require("jarmlib");
 
-const Mail = function(){
+const Mail = function () {
 	this.id;
 	this.datetime;
 	this.category;
@@ -13,13 +13,13 @@ const Mail = function(){
 	this.user_id;
 
 	this.save = () => {
-		if(!this.datetime) { return { err: "É necessário incluir o horário de criação do modelo" } };
-		if(!this.title) { return { err: "É necessário incluir o título do modelo" } };
-		if(!this.description) { return { err: "É necessário incluir a descrição do modelo" } };
-		if(!this.subject) { return { err: "É necessário incluir o Subject do modelo" } };
-		if(!this.text) { return { err: "É necessário incluir o texto do modelo" } };
-		if(!this.content) { return { err: "É necessário incluir o conteúdo do modelo" } };
-		if(!this.user_id) { return { err: "É necessário incluir o conteúdo do modelo" } };
+		if (!this.datetime) { return { err: "É necessário incluir o horário de criação do modelo" } };
+		if (!this.title) { return { err: "É necessário incluir o título do modelo" } };
+		if (!this.description) { return { err: "É necessário incluir a descrição do modelo" } };
+		if (!this.subject) { return { err: "É necessário incluir o Subject do modelo" } };
+		if (!this.text) { return { err: "É necessário incluir o texto do modelo" } };
+		if (!this.content) { return { err: "É necessário incluir o conteúdo do modelo" } };
+		if (!this.user_id) { return { err: "É necessário incluir o conteúdo do modelo" } };
 
 		let obj = lib.convertTo.object(this);
 		let query = lib.Query.save(obj, 'cms_wt_erp.mail');
@@ -28,18 +28,18 @@ const Mail = function(){
 	};
 
 	this.update = () => {
-		if(!this.id) { return { err: "O id do modelo é inválido" }; }
+		if (!this.id) { return { err: "O id do modelo é inválido" }; }
 
 		let obj = lib.convertTo.object(this);
 		let query = lib.Query.update(obj, 'cms_wt_erp.mail', 'id');
 
-    return db(query);
+		return db(query);
 	};
 };
 
 Mail.filter = (props, inners, params, strictParams, orderParams) => {
 	let query = new lib.Query().select().props(props).table("cms_wt_erp.mail mail")
-	.inners(inners).params(params).strictParams(strictParams).order(orderParams).build().query;
+		.inners(inners).params(params).strictParams(strictParams).order(orderParams).build().query;
 	return db(query);
 };
 

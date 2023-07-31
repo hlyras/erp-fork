@@ -43,7 +43,14 @@
         type: "submit",
         name: "submit",
         value: "Confirmar",
-        class: "mobile-box b5 btn-act em11 bold noborder radius-5 padding-5 center pointer"
+        class: "mobile-box b5 btn-act bold noborder radius-5 padding-5 center pointer"
+      }));
+
+      product.id && product_form.append(lib.element.create("input", {
+        type: "submit",
+        name: "submit",
+        value: "Recontar",
+        class: "mobile-box b5 btn-cancel bold noborder radius-5 padding-5 center pointer"
       }));
 
       product_div.append(product_form);

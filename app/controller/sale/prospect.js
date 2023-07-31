@@ -1,10 +1,10 @@
 const User = require('../../model/user');
-const userController = require('./../user');
+const userController = require('./../user/main');
 
 const prospectController = {};
 
 prospectController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-ass'])) {
 		return res.redirect('/');
 	};
 

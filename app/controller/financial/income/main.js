@@ -1,11 +1,11 @@
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 const Income = require('../../../model/financial/income');
 
 const lib = require("jarmlib");
 
 const incomeController = {
 	index: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if (!await userController.verifyAccess(req, res, ['adm'])) {
 			return res.redirect('/');
 		};
 
@@ -14,7 +14,7 @@ const incomeController = {
 		res.render('financial/income/index', { user: req.user, incomeCategories });
 	},
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel', "adm-aud"])){
+		if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-man', 'com-sel', "adm-aud"])) {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -28,13 +28,13 @@ const incomeController = {
 		income.description = req.body.income.description;
 		income.user_id = req.user.id;
 
-		if(!income.date){ return res.send({ msg: "É necessário selecionar a data." }); };
-		if(!income.category_id){ return res.send({ msg: "É necessário selecionar a categoria." }); };
-		if(!income.origin_id){ return res.send({ msg: "É necessário selecionar a origem." }); };
-		if(!income.cash){ return res.send({ msg: "É necessário selecionar o valor da entrada." }); };
+		if (!income.date) { return res.send({ msg: "É necessário selecionar a data." }); };
+		if (!income.category_id) { return res.send({ msg: "É necessário selecionar a categoria." }); };
+		if (!income.origin_id) { return res.send({ msg: "É necessário selecionar a origem." }); };
+		if (!income.cash) { return res.send({ msg: "É necessário selecionar o valor da entrada." }); };
 
 		try {
-			if(!income.id){
+			if (!income.id) {
 				let row = await income.save();
 				income.id = row.insertId;
 				res.send({ done: "Entrada cadastrada com sucesso!", income });
@@ -49,10 +49,10 @@ const incomeController = {
 		};
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','adm-aud','pro-man','log-pac','COR-GER','fin-ass'])){
+		if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'adm-aud', 'pro-man', 'log-pac', 'COR-GER', 'fin-ass'])) {
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
-		
+
 		let params = { keys: [], values: [] }
 		let strict_params = { keys: [], values: [] }
 
@@ -70,17 +70,17 @@ const incomeController = {
 		];
 
 		let inners = [
-			["cms_wt_erp.financial_income_category category","income.category_id","category.id"],
-			["cms_wt_erp.financial_income_origin origin","income.origin_id","origin.id"],
-			["cms_wt_erp.user user","income.user_id","user.id"]
+			["cms_wt_erp.financial_income_category category", "income.category_id", "category.id"],
+			["cms_wt_erp.financial_income_origin origin", "income.origin_id", "origin.id"],
+			["cms_wt_erp.user user", "income.user_id", "user.id"]
 		];
-		
+
 		let period = { key: "date", start: req.query.periodStart, end: req.query.periodEnd };
 		lib.Query.fillParam("income.id", req.query.id, strict_params);
 		lib.Query.fillParam("income.category_id", req.query.category_id, strict_params);
 		lib.Query.fillParam("income.origin_id", req.query.origin_id, strict_params);
 
-		let order_params = [ ["date","DESC"], ["id","DESC"] ];
+		let order_params = [["date", "DESC"], ["id", "DESC"]];
 		let limit = 0;
 
 		try {
@@ -92,7 +92,7 @@ const incomeController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','fin-ass'])){
+		if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass'])) {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -110,18 +110,18 @@ const incomeController = {
 		];
 
 		let inners = [
-			["cms_wt_erp.financial_income_category category","income.category_id","category.id"],
-			["cms_wt_erp.financial_income_origin origin","income.origin_id","origin.id"],
-			["cms_wt_erp.user user","income.user_id","user.id"]
+			["cms_wt_erp.financial_income_category category", "income.category_id", "category.id"],
+			["cms_wt_erp.financial_income_origin origin", "income.origin_id", "origin.id"],
+			["cms_wt_erp.user user", "income.user_id", "user.id"]
 		];
 
 		let period = { key: "", start: '', end: '' };
 		let params = { keys: [], values: [] };
 		let strict_params = { keys: [], values: [] };
-		
+
 		lib.Query.fillParam("income.id", req.params.id, strict_params);
 
-		let order_params = [ ["date","DESC"], ["id","DESC"] ];
+		let order_params = [["date", "DESC"], ["id", "DESC"]];
 		let limit = 0;
 
 		try {
@@ -133,7 +133,7 @@ const incomeController = {
 		};
 	},
 	delete: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if (!await userController.verifyAccess(req, res, ['adm'])) {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 

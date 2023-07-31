@@ -1,4 +1,4 @@
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 
 const Product = require('../../../model/product/main');
 Product.package = require('../../../model/product/package/main');
@@ -10,7 +10,7 @@ const lib = require("jarmlib");
 const priceController = {};
 
 priceController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.redirect('/');
 	};
 
@@ -39,7 +39,7 @@ priceController.update = async (req, res) => {
 
 	try {
 		await Product.package.price.update(price);
-		res.send({ done: "Preço atualizado com sucesso!", price: price});
+		res.send({ done: "Preço atualizado com sucesso!", price: price });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar a atualização, favor contatar o suporte." });

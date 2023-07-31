@@ -1,5 +1,5 @@
 const User = require('../../../model/user');
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 const Expense = require('../../../model/financial/expense');
 const Income = require('../../../model/financial/income');
 const Outcome = require('../../../model/financial/outcome');

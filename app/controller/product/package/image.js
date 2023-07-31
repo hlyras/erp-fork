@@ -1,4 +1,4 @@
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 
 const { uploadFileS3, deleteFileS3 } = require("../../../middleware/s3");
 const { compressImage } = require("../../../middleware/sharp");
@@ -25,7 +25,7 @@ imageController.upload = async (file, package_id) => {
 		image.url = imageData.Location;
 		image.keycode = imageData.Key;
 		await image.save();
-		
+
 		return true;
 	} catch (err) {
 		console.log(err);
@@ -37,9 +37,9 @@ imageController.deleteByPackageId = async (package_id) => {
 	try {
 		const images = await Product.package.image.list(package_id);
 
-		for(let i in images) {
+		for (let i in images) {
 			await Product.package.image.delete(images[i].id);
-			if(images[i].keycode){ await deleteFileS3(images[i].keycode); }
+			if (images[i].keycode) { await deleteFileS3(images[i].keycode); }
 		};
 
 		return true;
@@ -50,7 +50,7 @@ imageController.deleteByPackageId = async (package_id) => {
 };
 
 imageController.delete = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','man','adm-man','adm-vis'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'man', 'adm-man', 'adm-vis'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -58,7 +58,7 @@ imageController.delete = async (req, res) => {
 		const image = (await Product.package.image.findById(req.params.id))[0];
 
 		await Product.package.image.delete(image.id);
-		if(image.keycode) { await deleteFileS3(image.keycode); }
+		if (image.keycode) { await deleteFileS3(image.keycode); }
 
 		res.send({ done: 'Imagem deletada com sucesso!' });
 	} catch (err) {

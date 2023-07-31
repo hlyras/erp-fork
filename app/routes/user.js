@@ -3,18 +3,19 @@ const lib = require('jarmlib');
 
 const passport = require('../../config/passport');
 
-const userController = require("../controller/user");
+const userController = require("../controller/user/main");
 const homeController = require("../controller/home");
 
 router.get('/', lib.route.toHttps, userController.verify, userController.index);
 router.post('/filter', lib.route.toHttps, userController.filter);
+router.post('/create', lib.route.toHttps, userController.create);
 
-router.post('/login', passport.authenticate('local-login', { 
+router.post('/login', passport.authenticate('local-login', {
 	failureRedirect: '/login',
 	failureFlash: true
 }), homeController.successfulLogin);
 
-router.post('/signup', passport.authenticate('local-signup', { 
+router.post('/signup', passport.authenticate('local-signup', {
 	failureRedirect: '/signup',
 	failureFlash: true
 }), homeController.successfulSignup);

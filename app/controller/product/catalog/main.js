@@ -1,4 +1,4 @@
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 const lib = require("jarmlib");
 
 const Product = require('../../../model/product/main');

@@ -1,4 +1,4 @@
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 const Outcome = require('../../../model/financial/outcome');
 const Expense = require('../../../model/financial/expense');
 

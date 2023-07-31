@@ -1,4 +1,4 @@
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 const User = require('../../../model/user');
 const Customer = require('../../../model/customer/main');
 Customer.lead = require('../../../model/customer/lead');

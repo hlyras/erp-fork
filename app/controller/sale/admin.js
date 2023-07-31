@@ -1,5 +1,5 @@
 const User = require('../../model/user');
-const userController = require('./../user');
+const userController = require('./../user/main');
 
 const lib = require("jarmlib");
 
@@ -8,7 +8,7 @@ const Sale = require('../../model/sale/main');
 const adminController = {};
 
 adminController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud","fin-ass"])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', "adm-man", "adm-ass", "adm-aud", "fin-ass"])) {
 		return res.redirect('/');
 	};
 
@@ -53,7 +53,7 @@ adminController.index = async (req, res) => {
 };
 
 adminController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass',"adm-man","adm-ass","adm-aud","fin-ass"])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', "adm-man", "adm-ass", "adm-aud", "fin-ass"])) {
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
@@ -71,7 +71,7 @@ adminController.filter = async (req, res) => {
 	lib.Query.fillParam("sale.shipment_method", req.body.sale.shipment_method, strict_params);
 	lib.Query.fillParam("sale.user_id", req.body.sale.user_id, strict_params);
 
-	const order_params = [ ["id","DESC"] ];
+	const order_params = [["id", "DESC"]];
 	const limit = 0;
 
 	try {

@@ -15,7 +15,7 @@
     detail_div.append(lib.element.info("b3", "Malote", `${receipt.pouch}/${receipt.preparation_volume}`));
 
     receipt.products.forEach(product => {
-      let product_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-5" });
+      let product_div = lib.element.create("div", { class: "box b1 container border-st shadow-st radius-5 padding-5 margin-top-5" });
       product_div.append(lib.element.create("div", { class: "mobile-box b2-3 bold em08 v-center" }, `${product.code} | ${product.name} | ${product.color}`));
       product_div.append(lib.element.info("b6", "Quantidade", product.amount));
 

@@ -1,11 +1,11 @@
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 const Income = require('../../../model/financial/income');
 
 const lib = require("jarmlib");
 
 const categoryController = {
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','adm-man','adm-ass','com-man','com-sel', "adm-aud"])){
+		if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-man', 'com-sel', "adm-aud"])) {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -13,10 +13,10 @@ const categoryController = {
 		category.id = parseInt(req.body.category.id);
 		category.name = req.body.category.name;
 
-		if(!category.name){ return res.send({ msg: "É necessário identificar a categoria." }); };
+		if (!category.name) { return res.send({ msg: "É necessário identificar a categoria." }); };
 
 		try {
-			if(!category.id){
+			if (!category.id) {
 				let row = await category.save();
 				category.id = row.insertId;
 				res.send({ done: "Categoria cadastrada com sucesso!", category });
@@ -31,18 +31,18 @@ const categoryController = {
 		};
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','fin-ass'])){
+		if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass'])) {
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
 		let props = [];
 		let params = { keys: [], values: [] };
 		let strict_params = { keys: [], values: [] };
-		
+
 		lib.Query.fillParam("income_category.name", req.query.name, params);
 
-		let order_params = [ ["income_category.name","ASC"] ];
-		
+		let order_params = [["income_category.name", "ASC"]];
+
 		try {
 			let categories = await Income.category.filter(props, params, strict_params, order_params);
 			res.send({ categories });
@@ -52,20 +52,20 @@ const categoryController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','fin-ass'])){
+		if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass'])) {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
 			const category = await Income.category.findById(req.params.id);
 			res.send({ category });
-		} catch (err){
+		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar a categoria, favor contatar o suporte." });
 		};
 	},
 	delete: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if (!await userController.verifyAccess(req, res, ['adm'])) {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 

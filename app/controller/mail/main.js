@@ -1,4 +1,4 @@
-const userController = require('./../user');
+const userController = require('./../user/main');
 const Mail = require('../../model/mail/main');
 
 const lib = require("jarmlib");

@@ -1,14 +1,14 @@
 const lib = require("jarmlib");
 
 const User = require('../../model/user');
-const userController = require('./../user');
+const userController = require('./../user/main');
 
 const Department = require('../../model/department/main');
 
 const departmentController = {};
 
 departmentController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'adm-man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man'])) {
 		return res.redirect("/");
 	};
 
@@ -16,7 +16,7 @@ departmentController.index = async (req, res) => {
 };
 
 departmentController.save = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'adm-man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
@@ -26,7 +26,7 @@ departmentController.save = async (req, res) => {
 
 	try {
 		let result = await department.save();
-		if(result.err){ return res.send({ msg: result.err }); }
+		if (result.err) { return res.send({ msg: result.err }); }
 
 		res.send({ done: "Departamento cadastrado com sucesso!" });
 	} catch (err) {
@@ -36,7 +36,7 @@ departmentController.save = async (req, res) => {
 };
 
 departmentController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'adm-man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
@@ -44,7 +44,7 @@ departmentController.filter = async (req, res) => {
 	const strict_params = { keys: [], values: [] };
 
 	try {
-		let departments = await Department.filter([],[],params,strict_params,[]);
+		let departments = await Department.filter([], [], params, strict_params, []);
 
 		res.send({ departments });
 	} catch (err) {
@@ -54,7 +54,7 @@ departmentController.filter = async (req, res) => {
 };
 
 departmentController.getById = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm', 'adm-man'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 

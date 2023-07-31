@@ -1,7 +1,7 @@
 <script>
   async function receiptDetail(id) {
     let receipt = await API.response(Production.receipt.findById, id);
-    if (!receipt) { return alert("Não foi possível encontrar o recebimento"); }
+    if (!receipt) { return lib.message("Não foi possível encontrar o recebimento"); }
 
     receiptKart.receipt_id = receipt.id;
 
@@ -33,7 +33,7 @@
         if (received_product.product_id == receiptKart.products[i].product_id) {
           return received_products;
         }
-      }
+      };
 
       received_products.push(received_product);
       return received_products;

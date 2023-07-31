@@ -1,11 +1,11 @@
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 const Income = require('../../../model/financial/income');
 
 const lib = require("jarmlib");
 
 const originController = {
 	save: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if (!await userController.verifyAccess(req, res, ['adm'])) {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
@@ -14,10 +14,10 @@ const originController = {
 		origin.category_id = parseInt(req.body.origin.category_id);
 		origin.name = req.body.origin.name;
 
-		if(!origin.name){ return res.send({ msg: "É necessário identificar a categoria." }); };
+		if (!origin.name) { return res.send({ msg: "É necessário identificar a categoria." }); };
 
 		try {
-			if(!origin.id){
+			if (!origin.id) {
 				let row = await origin.save();
 				origin.id = row.insertId;
 				res.send({ done: "Origem cadastrada com sucesso!", origin });
@@ -32,7 +32,7 @@ const originController = {
 		};
 	},
 	filter: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','fin-ass'])){
+		if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass'])) {
 			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 		};
 
@@ -43,8 +43,8 @@ const originController = {
 		lib.Query.fillParam("income_origin.category_id", req.query.category_id, strict_params);
 		lib.Query.fillParam("income_origin.name", req.query.name, params);
 
-		let order_params = [ ["income_origin.name","ASC"] ];
-		
+		let order_params = [["income_origin.name", "ASC"]];
+
 		try {
 			let categories = await Income.origin.filter(props, params, strict_params, order_params);
 			res.send({ categories });
@@ -54,33 +54,33 @@ const originController = {
 		};
 	},
 	findById: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','fin-ass'])){
+		if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass'])) {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
 			const origin = await Income.origin.findById(req.params.id);
 			res.send({ origin });
-		} catch (err){
+		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar a origem, favor contatar o suporte." });
 		};
 	},
 	findByCategoryId: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm','fin-ass'])){
+		if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass'])) {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 
 		try {
 			const origins = await Income.origin.findByCategoryId(req.params.id);
 			res.send({ origins });
-		} catch (err){
+		} catch (err) {
 			console.log(err);
 			res.send({ msg: "Ocorreu um erro ao buscar produto, favor contatar o suporte." });
 		};
 	},
 	delete: async (req, res) => {
-		if(!await userController.verifyAccess(req, res, ['adm'])){
+		if (!await userController.verifyAccess(req, res, ['adm'])) {
 			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 		};
 

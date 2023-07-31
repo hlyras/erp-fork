@@ -1,4 +1,4 @@
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 const User = require('../../../model/user');
 
 const Sale = require('../../../model/sale/main');
@@ -8,20 +8,20 @@ const lib = require("jarmlib");
 const activityController = {};
 
 activityController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm'])){
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.redirect('/');
 	};
 	res.render('customer/report/activity/index', { user: req.user });
 };
 
 activityController.filter = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel'])) {
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
 	let props = ["sale.*"];
 
-	let inners = [ ["cms_wt_erp.customer customer", "customer.id", "sale.customer_id"] ];
+	let inners = [["cms_wt_erp.customer customer", "customer.id", "sale.customer_id"]];
 
 	const period = { key: "sale.shipment_confirmation_date", start: req.body.period_start, end: req.body.period_end };
 	const params = { keys: [], values: [] };

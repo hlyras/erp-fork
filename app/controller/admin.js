@@ -1,4 +1,4 @@
-const userController = require('./user');
+const userController = require('./user/main');
 
 const adminController = {};
 
@@ -13,7 +13,7 @@ adminController.user = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm'])) {
 		return res.redirect('/');
 	};
-	res.render('admin/user', { user: req.user });
+	res.render('admin/user/index', { user: req.user });
 };
 
 module.exports = adminController;

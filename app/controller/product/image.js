@@ -1,4 +1,4 @@
-const userController = require('./../user');
+const userController = require('./../user/main');
 
 const { uploadFileS3, deleteFileS3 } = require("../../middleware/s3");
 const { compressImage } = require("../../middleware/sharp");

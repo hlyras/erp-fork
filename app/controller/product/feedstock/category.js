@@ -1,4 +1,4 @@
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 
 const Product = require('../../../model/product/main');
 Product.feedstock = require('../../../model/product/feedstock/main');

@@ -1,5 +1,5 @@
 const User = require('../../../model/user');
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 
 const lib = require("jarmlib");
 

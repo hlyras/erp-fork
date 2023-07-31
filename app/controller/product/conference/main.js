@@ -1,5 +1,6 @@
 const User = require('../../../model/user');
-const userController = require('./../../user');
+const userController = require('./../../user/main');
+
 const Product = require('../../../model/product/main');
 Product.conference = require('../../../model/product/conference');
 

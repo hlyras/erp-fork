@@ -1,6 +1,6 @@
 const lib = require("jarmlib");
 
-const userController = require('./../../user');
+const userController = require('./../../user/main');
 
 const Income = require('../../../model/financial/income');
 const Outcome = require('../../../model/financial/outcome');

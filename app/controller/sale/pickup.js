@@ -1,5 +1,5 @@
 const User = require('../../model/user');
-const userController = require('./../user');
+const userController = require('./../user/main');
 
 const Sale = require('../../model/sale/main');
 const Customer = require('../../model/customer/main');
@@ -10,7 +10,7 @@ const lib = require("jarmlib");
 const pickupController = {};
 
 pickupController.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-ass','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-ass', 'fin-ass'])) {
 		return res.redirect('/');
 	};
 
@@ -25,7 +25,7 @@ pickupController.index = async (req, res) => {
 pickupController.recept = {};
 
 pickupController.recept.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-ass','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-ass', 'fin-ass'])) {
 		return res.redirect('/');
 	};
 
@@ -35,7 +35,7 @@ pickupController.recept.index = async (req, res) => {
 pickupController.deliver = {};
 
 pickupController.deliver.index = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'fin-ass'])) {
 		return res.redirect('/');
 	};
 
@@ -43,7 +43,7 @@ pickupController.deliver.index = async (req, res) => {
 };
 
 pickupController.deliver.confirm = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'fin-ass'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -58,14 +58,14 @@ pickupController.deliver.confirm = async (req, res) => {
 	try {
 		await Triage.shipment.confirm(sale);
 		res.send({ done: "Entrega confirmada!" });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao confirmar a entrega, favor contatar o suporte." });
 	};
 };
 
 pickupController.deliver.print = async (req, res) => {
-	if(!await userController.verifyAccess(req, res, ['adm','com-sel','com-ass','fin-ass'])){
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'fin-ass'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -75,7 +75,7 @@ pickupController.deliver.print = async (req, res) => {
 		sale.payment_confirmation_date = lib.date.timestamp.toDate(sale.payment_confirmation_date).split(" ")[0];
 		sale.shipment_confirmation_date = lib.date.timestamp.toDate(sale.shipment_confirmation_date).split(" ")[0];
 		res.render('sale/pickup/deliver/print', { user: req.user, sale });
-	} catch (err){
+	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao imprimir a O.S., favor contatar o suporte." });
 	};

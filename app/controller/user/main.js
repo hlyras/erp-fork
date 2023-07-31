@@ -1,5 +1,5 @@
 const lib = require("jarmlib");
-const User = require('../model/user');
+const User = require('../../model/user/main');
 
 const bcrypt = require('bcrypt-nodejs');
 
@@ -7,6 +7,33 @@ const userController = {};
 
 userController.index = (req, res) => {
 	res.render('user/profile', { user: req.user });
+};
+
+userController.create = async (req, res) => {
+	if (!userController.verifyAccess(req, res, ["adm"])) {
+		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+	};
+
+	let user = new User();
+	user.id = req.body.id;
+	user.name = req.body.name;
+	user.username = req.body.username;
+	user.password = bcrypt.hashSync(req.body.password, null, null);
+	user.access = req.body.access;
+	user.pass = req.body.pass;
+
+	try {
+		var foundUser = await User.findByUsername(user.username);
+		if (foundUser.length) { return res.send({ msg: "Este usuário já está cadastrado." }) };
+
+		let createdUser = await user.create();
+		if (createdUser.err) { return res.send({ msg: createdUser.err }); }
+
+		res.send({ done: "Informações atualizadas com sucesso.", user });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao atualizar suas informações, favor contatar o suporte." });
+	};
 };
 
 userController.verifyPass = async (pass, access) => {
@@ -65,7 +92,7 @@ userController.filter = async (req, res) => {
 };
 
 userController.list = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['dvp', 'prp', 'spt', 'grf', 'grl', 'crd'])) {
+	if (!userController.verifyAccess(req, res, ['dvp', 'prp', 'spt', 'grf', 'grl', 'crd'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 	try {
@@ -78,7 +105,7 @@ userController.list = async (req, res) => {
 };
 
 userController.show = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['dvp', 'prp', 'spt', 'grf', 'grl', 'crd'])) {
+	if (!userController.verifyAccess(req, res, ['dvp', 'prp', 'spt', 'grf', 'grl', 'crd'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

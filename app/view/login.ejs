@@ -16,14 +16,16 @@
   <div class="container h-center">
     <% if (message.length > 0) { %>
     <div class="box b1 container alert-msg margin-top-10">
-      <div class="box b1 bold"><%= message %></div>
+      <div class="box b1 bold center"><%= message %></div>
     </div>
     <% } %>
     <form action="/user/login" method="post" class="box b3 container ground padding-10">
-      <h5 class="box b1 center margin-top-10">E-mail</h5>
-      <input type="email" class="box b1 input-generic center margin-top-5" name="email" autocomplete="off">
+      <h5 class="box b1 center margin-top-10">Usuário</h5>
+      <input type="text" class="box b1 input-generic center margin-top-5" name="username" placeholder="Usuário"
+        autocomplete="off">
       <h5 class="box b1 center margin-top-10">Senha</h5>
-      <input type="password" class="box b1 input-generic center margin-top-5" name="password" autocomplete="off">
+      <input type="password" class="box b1 input-generic center margin-top-5" name="password" placeholder="Senha"
+        autocomplete="off">
       <button type="submit" class="box b1 submit-generic margin-top-5 bold">Login</button>
     </form>
   </div>

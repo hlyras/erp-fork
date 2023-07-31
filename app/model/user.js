@@ -4,7 +4,7 @@ const lib = require("jarmlib");
 const User = function () {
 	this.id;
 	this.name;
-	this.email;
+	this.username;
 	this.phone;
 	this.password;
 	this.birth;
@@ -15,9 +15,9 @@ const User = function () {
 };
 
 User.save = (user) => {
-	let query = "INSERT INTO cms_wt_erp.user (name, email, password) values ('"
+	let query = "INSERT INTO cms_wt_erp.user (name, username, password) values ('"
 		+ user.name + "', '"
-		+ user.email + "', '"
+		+ user.username + "', '"
 		+ user.password + "')";
 	console.log(query);
 	return db(query);
@@ -39,13 +39,8 @@ User.findById = (id) => {
 	return db(query);
 };
 
-User.findByUsername = (user) => {
-	let query = "SELECT * FROM cms_wt_erp.user WHERE username='" + user.username + "';";
-	return db(query);
-};
-
-User.findByEmail = (email) => {
-	let query = "SELECT * FROM cms_wt_erp.user WHERE email='" + email + "';";
+User.findByUsername = (username) => {
+	let query = "SELECT * FROM cms_wt_erp.user WHERE username='" + username + "';";
 	return db(query);
 };
 
@@ -60,7 +55,7 @@ User.updatePassword = (user) => {
 };
 
 User.updateInfo = (user) => {
-	let query = "UPDATE cms_wt_erp.user SET email='" + user.email + "' WHERE id ='" + user.id + "';";
+	let query = "UPDATE cms_wt_erp.user SET username='" + user.username + "' WHERE id ='" + user.id + "';";
 	return db(query);
 };
 

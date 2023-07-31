@@ -20,12 +20,12 @@ passport.deserializeUser(async (user, done) => {
 passport.use(
   'local-signup',
   new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
   },
-    async (req, email, password, done) => {
-      let user = await User.findByEmail(req.body.email);
+    async (req, username, password, done) => {
+      let user = await User.findByUsername(req.body.username);
 
       if (!req.body.name) {
         return done(null, false, req.flash('signupMessage', 'É necessário preencher todos os campos.'));
@@ -41,7 +41,7 @@ passport.use(
         } else {
           const newUser = {
             name: req.body.name,
-            email: req.body.email,
+            username: req.body.username,
             password: bcrypt.hashSync(req.body.password, null, null),
             phone: req.body.phone
           };
@@ -60,12 +60,12 @@ passport.use(
 passport.use(
   'local-login',
   new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
   },
-    async (req, email, password, done) => {
-      let user = await User.findByEmail(req.body.email);
+    async (req, username, password, done) => {
+      let user = await User.findByUsername(req.body.username);
 
       if (!user.length) {
         return done(null, false, req.flash('loginMessage', 'Usuário não encontrado.'));
