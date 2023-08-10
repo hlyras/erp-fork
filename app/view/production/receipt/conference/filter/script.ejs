@@ -2,8 +2,6 @@
   async function receiptDropdown(input) {
     let receipts = [];
 
-    console.log(input.value);
-
     if (input.value.length > 1) {
       receipts = await Production.receipt.filter({ seal: input.value, status: 'Em conferência' });
       if (!receipts) { return false; }

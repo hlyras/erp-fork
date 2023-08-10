@@ -23,7 +23,8 @@
       return filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold center" }, "Nenhuma matéria-prima incluída."));
     }
 
-    feedstocks = lib.sort(feedstocks, "feedstock_id");
+    console.log(feedstocks);
+    feedstocks = lib.sort(feedstocks, "code");
 
     let category_div = lib.element.create("details", { class: "box b1 container radius-5 padding-5" });
     category_div.append(lib.element.create("summary", { class: "box a1 lucida-grande em09 bold box-hover padding-5 pointer" }, "Geral"));

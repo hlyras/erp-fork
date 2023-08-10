@@ -73,7 +73,7 @@ feedstockController.filter = async (req, res) => {
 
 	let props = [
 		"product_feedstock.*",
-		"feedstock.name", "product_color.name color", "feedstock.uom"
+		"feedstock.name", "feedstock.code", "product_color.name color", "feedstock.uom"
 	];
 
 	let inners = [

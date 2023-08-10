@@ -55,15 +55,6 @@ receiptController.collect = async (req, res) => {
   };
 };
 
-receiptController.conference = async (req, res) => {
-  try {
-    res.render('production/receipt/conference/index', { user: req.user });
-  } catch (err) {
-    console.log(err);
-    res.send({ msg: "Ocorreu um erro ao realizar requisição." });
-  };
-};
-
 receiptController.storage = async (req, res) => {
   try {
     res.render('production/receipt/storage/index', { user: req.user });

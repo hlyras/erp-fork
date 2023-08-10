@@ -188,7 +188,46 @@ Production.receipt.count.confirm = async (receipt) => {
 	});
 	response = await response.json();
 
-	console.log(response);
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};
+
+Production.receipt.conference = {};
+
+Production.receipt.conference.approved = async (receipt) => {
+	let response = await fetch("/production/receipt/conference/approved", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(receipt)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};
+
+Production.receipt.conference.reproved = async (receipt) => {
+	let response = await fetch("/production/receipt/conference/reproved", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(receipt)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};
+
+Production.receipt.conference.filigran_reproved = async (receipt) => {
+	let response = await fetch("/production/receipt/conference/filigran_reproved", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(receipt)
+	});
+	response = await response.json();
 
 	if (API.verifyResponse(response)) { return false };
 
