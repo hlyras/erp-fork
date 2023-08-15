@@ -200,7 +200,7 @@ productionController.confirm = async (req, res) => {
 };
 
 productionController.findById = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'sea-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -232,7 +232,7 @@ productionController.findById = async (req, res) => {
 };
 
 productionController.filter = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'sea-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
