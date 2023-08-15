@@ -43,7 +43,7 @@ receiptController.manage = async (req, res) => {
 };
 
 receiptController.collect = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ["adm", 'pro-man', 'pro-ass', 'log-pac'])) {
+  if (!await userController.verifyAccess(req, res, ["adm", 'pro-man', 'pro-ass', 'log-pac', 'sea-man'])) {
     return res.redirect('/');
   };
 
