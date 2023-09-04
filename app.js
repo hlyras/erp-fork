@@ -11,7 +11,7 @@ const corsOptions = {
   methods: 'GET,HEAD,POST',
   credentials: true, // Permite que os cookies e cabeçalhos de autorização sejam enviados
 };
-app.use(cors());
+app.use(cors(corsOptions));
 
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
