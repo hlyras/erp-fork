@@ -5,6 +5,12 @@ const path = require('path');
 const app = express();
 
 require('dotenv').config();
+
+const corsOptions = {
+  origin: 'https://earnest-mandazi-85ed13.netlify.app/', // Substitua pelo domínio do seu aplicativo React
+  methods: 'GET,HEAD,POST',
+  credentials: true, // Permite que os cookies e cabeçalhos de autorização sejam enviados
+};
 app.use(cors());
 
 const bodyParser = require('body-parser');
