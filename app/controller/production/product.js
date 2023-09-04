@@ -27,7 +27,7 @@ productController.filter = async (req, res) => {
   const params = { keys: [], values: [] };
   const strict_params = { keys: [], values: [] };
 
-  let dateProp = "production.datetime";
+  let dateProp = null;
   if (req.body.dateProp == "Preparação") { dateProp = "production.preparation_datetime"; }
   if (req.body.dateProp == "Envio") { dateProp = "production.shipment_datetime"; }
   if (req.body.dateProp == "Recebimento") { dateProp = "production.receipt_datetime"; }
