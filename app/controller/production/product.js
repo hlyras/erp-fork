@@ -27,6 +27,12 @@ productController.filter = async (req, res) => {
   const params = { keys: [], values: [] };
   const strict_params = { keys: [], values: [] };
 
+  let dateProp = "production.datetime";
+  if (req.body.dateProp == "Preparação") { dateProp = "production.preparation_datetime"; }
+  if (req.body.dateProp == "Envio") { dateProp = "production.shipment_datetime"; }
+  if (req.body.dateProp == "Recebimento") { dateProp = "production.receipt_datetime"; }
+
+  let period = { key: dateProp, start: req.body.periodStart, end: req.body.periodEnd };
   lib.Query.fillParam("production_product.production_id", req.body.production_id, strict_params);
   lib.Query.fillParam("product.code", req.body.code, params);
   lib.Query.fillParam("product.name", req.body.name, params);
@@ -40,7 +46,7 @@ productController.filter = async (req, res) => {
   }
 
   try {
-    let products = await Production.product.filter(props, inners, params, strict_params, order_params);
+    let products = await Production.product.filter(props, inners, period, params, strict_params, order_params);
     res.send({ products });
   } catch (err) {
     console.log(err);

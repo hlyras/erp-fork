@@ -1,0 +1,58 @@
+<form id="production-filter-form" class="box b2-3 container ground border radius-5 padding-5 margin-top-5">
+  <div class="box b1 underline lucida-grande bold margin-top-5 center">Filtrar Produções</div>
+  <div class="mobile-box b2 container padding-5 margin-top-5 h-center">
+    <input type="radio" name="location" value="Interna" class="mobile-box b9 margin-top-2"
+      onclick="setFilterLocation(this);" checked="checked">
+    <label for="Interna" class="mobile-box">Interna</label>
+  </div>
+  <div class="mobile-box b2 container padding-5 margin-top-5 h-center">
+    <input type="radio" name="location" value="Externa" class="mobile-box b9 margin-top-2"
+      onclick="setFilterLocation(this);">
+    <label for="Externa" class="mobile-box">Externa</label>
+  </div>
+
+  <input type="text" name="production_id" class="box b4 input-generic margin-top-5 center" placeholder="Id da produção">
+
+  <select id="internal-seamstress-select" name="internal_seamstress_id" class="box b2 input-generic margin-top-5">
+    <option value="">Todos os colaboradores</option>
+    <% for(let i in internal_seamstresses) { %>
+    <option value="<%= internal_seamstresses[i].id %>"><%= internal_seamstresses[i].name %></option>
+    <% } %>
+  </select>
+
+  <select id="external-seamstress-select" name="external_seamstress_id" class="box b2 input-generic margin-top-5"
+    style="display:none;">
+    <option value="">Todas as fações</option>
+    <% for(let i in external_seamstresses) { %>
+    <option value="<%= external_seamstresses[i].id %>"><%= external_seamstresses[i].name %></option>
+    <% } %>
+  </select>
+
+  <select name="status" class="box b4 input-generic margin-top-5">
+    <option value="">Todos os status</option>
+    <option value="Ag. confirmação">Ag. confirmação</option>
+    <option value="Ag. preparação">Ag. preparação</option>
+    <option value="Ag. envio">Ag. envio</option>
+    <option value="Ag. transporte">Ag. transporte</option>
+    <option value="Ag. produção">Ag. produção</option>
+    <option value="Em produção">Em produção</option>
+    <option value="Entregue">Entregue</option>
+  </select>
+
+  <select name="dateProp" class="box b4 input-generic margin-top-5">
+    <option value="Preparação">Data de Preparação</option>
+    <option value="Envio" seletect>Data de Envio</option>
+    <option value="Recebimento">Data de recebimento</option>
+  </select>
+
+  <input type="date" name="periodStart" class="box b4 input-generic lucida-grande bold center margin-top-5"
+    autocomplete="off">
+  <input type="date" name="periodEnd" class="box b4 input-generic lucida-grande bold center margin-top-5"
+    autocomplete="off">
+
+  <input type="submit" name="submit" value="Buscar" class="box b4 lucida-grande bold submit-generic margin-top-5">
+</form>
+
+<div id="production-filter-box" class="box b1 container margin-bottom-15">
+  <div id="production-filter-div" class="box b1 container"></div>
+</div>

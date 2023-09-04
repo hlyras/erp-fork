@@ -96,6 +96,7 @@ receiptController.create = async (req, res) => {
       let p = new Production();
       p.id = production.id;
       p.status = "Entregue";
+      p.receipt_datetime = lib.date.timestamp.generate();
       let response = await p.update();
       if (response.err) { return res.send({ msg: response.err }); }
     }

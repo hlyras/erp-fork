@@ -1,0 +1,109 @@
+<script>
+  document.getElementById("production-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const production = {
+      production_id: e.target.production_id.value,
+      location: e.target.location.value,
+      status: e.target.status.value,
+      order: "preparation_deadline"
+    };
+
+    if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.value; };
+    if (production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.value; };
+
+    const production_products = await API.response(Production.product.filter, production);
+    if (!production_products) { return false; }
+
+    let productions = production_products.reduce((productions, product) => {
+      for (let i in productions) {
+        if (productions[i].production_id == product.production_id) {
+          productions[i].products.push(product);
+          return productions;
+        }
+      };
+
+      let p = {
+        production_id: product.production_id,
+        production_status: product.production_status,
+        seamstress_name: product.seamstress_name,
+        preparation_deadline: product.preparation_deadline,
+        products: []
+      };
+
+      p.products.push(product);
+      productions.push(p);
+      return productions;
+    }, []);
+
+    lib.display("production-detail-box", "none");
+    lib.display("production-filter-box", "");
+
+    productionFilter(productions);
+  });
+
+  function setFilterLocation(input) {
+    switch (input.value) {
+      case "Interna":
+        lib.display("internal-seamstress-select", "");
+        lib.display("external-seamstress-select", "none");
+        break;
+      case "Externa":
+        lib.display("external-seamstress-select", "");
+        lib.display("internal-seamstress-select", "none");
+        break;
+    };
+  };
+
+  function productionFilter(productions) {
+    let filter_div = document.getElementById("production-filter-box");
+    filter_div.innerHTML = "";
+
+    !productions.length && filter_div.append(lib.element.create("div", {
+      class: "box b1 lucida-grande bold center margin-top-10 padding-5"
+    }, "Sem resultados."));
+
+    productions.forEach(production => {
+      let production_div = lib.element.create("div", { class: "box b1 container ground border-st shadow-lg-st radius-5 padding-5 margin-top-5" });
+      production_div.append(lib.element.create("div", {
+        class: "mobile-box b9 input-show border-st bold center pointer",
+        onclick: `productionDetail(${production.production_id})`
+      }, production.production_id));
+      production_div.append(lib.element.create("div", { class: "mobile-box b4-9 lucida-grande em08 bold center" }, production.seamstress_name));
+
+      // blue
+      production.preparation_deadline > lib.genTimestamp() &&
+        production.preparation_deadline - (lib.timestampDay() / 2) > lib.genTimestamp() && production_div.append(lib.element.create("div", {
+          class: "mobile-box b6 em08 bold center",
+          style: 'color:blue'
+        }, lib.timestampToFulldate(production.preparation_deadline)));
+
+      // orange
+      production.preparation_deadline - (lib.timestampDay() / 2) < lib.genTimestamp() &&
+        production.preparation_deadline > lib.genTimestamp() && production_div.append(lib.element.create("div", {
+          class: "mobile-box b6 em09 bold center",
+          style: 'color:OrangeRed'
+        }, lib.timestampToFulldate(production.preparation_deadline)));
+
+      // red
+      production.preparation_deadline < lib.genTimestamp() && production_div.append(lib.element.create("div", {
+        class: "mobile-box b6 em08 bold center",
+        style: 'color:red'
+      }, lib.timestampToFulldate(production.preparation_deadline)));
+
+      production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.production_status));
+
+      production.products.forEach(product => {
+        let product_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-2" });
+        product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.code));
+        product_div.append(lib.element.create("div", { class: "mobile-box b2 em09 center" }, product.name));
+        product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.color));
+        product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.size));
+        product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, `${product.amount}un`));
+        production_div.append(product_div);
+      });
+
+      filter_div.append(production_div);
+    });
+  };
+</script>
