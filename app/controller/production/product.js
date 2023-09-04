@@ -39,6 +39,8 @@ productController.filter = async (req, res) => {
   lib.Query.fillParam("production.seamstress_id", req.body.seamstress_id, strict_params);
   lib.Query.fillParam("production.location", req.body.location, strict_params);
   lib.Query.fillParam("production.status", req.body.status, strict_params);
+
+  let order_params = null;
   if (req.body.order) {
     order_params = [[req.body.order, "ASC"]];
   } else {
