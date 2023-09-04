@@ -1,10 +1,11 @@
 const express = require('express');
 const session = require('express-session');
-const connect = require('connect');
+const cors = require('cors');
 const path = require('path');
 const app = express();
 
 require('dotenv').config();
+app.use(cors());
 
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
