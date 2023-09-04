@@ -6,12 +6,13 @@ const app = express();
 
 require('dotenv').config();
 
-const corsOptions = {
-  origin: 'https://earnest-mandazi-85ed13.netlify.app', // Substitua pelo domínio do seu aplicativo React
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, // Permite que os cookies e cabeçalhos de autorização sejam enviados
-};
-app.use(cors(corsOptions));
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://earnest-mandazi-85ed13.netlify.app');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
 
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
