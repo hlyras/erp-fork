@@ -40,12 +40,14 @@ productController.filter = async (req, res) => {
   lib.Query.fillParam("production.location", req.body.location, strict_params);
   lib.Query.fillParam("production.status", req.body.status, strict_params);
 
-  let order_params = null;
+  let order_params = [];
   if (req.body.order) {
-    order_params = [[req.body.order, "ASC"]];
+    order_params = [[`production.${req.body.order}`, "ASC"]];
   } else {
     order_params = [["production.id", "ASC"]];
   }
+
+  console.log(order_params);
 
   try {
     let products = await Production.product.filter(props, inners, period, params, strict_params, order_params);

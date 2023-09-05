@@ -126,14 +126,12 @@
           if (previousMonth == 11) {
             let day = `${previousYear}-${previousMonth + 1}-${currentSunday + i}`;
 
-            console.log(day);
             current_week_div.append(day_box);
 
             productionRender(productions, day, day_box, i);
           } else {
             let day = `${currentYear}-${MONTHS[previousMonth].id}-${MONTHS[previousMonth].days - (-currentSunday) + i}`;
 
-            console.log(day);
             current_week_div.append(day_box);
 
             productionRender(productions, day, day_box, i);
@@ -142,7 +140,6 @@
       } else if (currentSunday + i > MONTHS[currentMonth].days) {
         let day = `${currentYear}-${nextMonth + 1}-${currentSunday - MONTHS[currentMonth].days + i}`;
 
-        console.log(day);
         current_week_div.append(day_box);
 
         productionRender(productions, day, day_box, i);

@@ -97,7 +97,7 @@ productionController.create = async (req, res) => {
 			let product_strict_params = { keys: [], values: [] };
 			lib.Query.fillParam("production_product.production_id", production.id, product_strict_params);
 
-			production_products = await Production.product.filter(product_props, product_inners, [], product_strict_params, []);
+			production_products = await Production.product.filter(product_props, product_inners, [], [], product_strict_params, []);
 
 			let save_products = production.products.reduce((save_products, p) => {
 				for (let i in production_products) {
@@ -222,7 +222,7 @@ productionController.findById = async (req, res) => {
 
 	try {
 		const production = (await Production.filter(production_props, production_inners, [], [], production_strict_params, [], 0))[0];
-		production.products = await Production.product.filter(product_props, product_inners, [], product_strict_params, []);
+		production.products = await Production.product.filter(product_props, product_inners, [], [], product_strict_params, []);
 
 		res.send({ production });
 	} catch (err) {

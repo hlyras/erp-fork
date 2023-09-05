@@ -156,7 +156,7 @@ receiptController.findById = async (req, res) => {
     const product_strict_params = { keys: [], values: [] };
     lib.Query.fillParam("production_product.production_id", receipt.production_id, product_strict_params);
     let product_order_params = [["production_product.id", "ASC"]];
-    receipt.products = await Production.product.filter(product_props, product_inners, [], product_strict_params, product_order_params);
+    receipt.products = await Production.product.filter(product_props, product_inners, [], [], product_strict_params, product_order_params);
 
     const received_product_props = ["production_receipt_product.*", "product.code", "product.name", "product.color", "product.size"];
     const received_product_inners = [

@@ -62,7 +62,7 @@ preparationController.print = async (req, res) => {
     production.preparation_deadline = lib.date.timestamp.toDate(production.preparation_deadline).split(" ")[0];
     production.datetime = lib.date.timestamp.toDate(production.datetime).split(" ")[0];
 
-    production.products = await Production.product.filter(product_props, product_inners, [], product_strict_params, []);
+    production.products = await Production.product.filter(product_props, product_inners, [], [], product_strict_params, []);
 
     for (let i in production.products) {
       let feedstock_props = [
