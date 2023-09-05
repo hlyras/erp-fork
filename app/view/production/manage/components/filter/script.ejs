@@ -216,6 +216,7 @@
         production_div.append(lib.element.create("div", { class: "mobile-box b4-9 em08 center" }, production.seamstress_name));
         production_div.append(lib.element.create("div", { class: "mobile-box b3 em08 center" }, production.status));
         production.status == "Ag. confirmação" && production_div.append(lib.element.icon('b9', 20, "/images/icon/edit.png", `productionEdit(${production.id})`));
+        production.status == "Ag. envio" && production_div.append(lib.element.icon('b9', 20, "/images/icon/calendar.png", `shipmentEdit(${production.id})`));
         // production.status == "Ag. confirmação" && production_div.append(lib.element.icon('b9', 20, "/images/icon/trash.png", `productionCancel(${production.id})`));
         production_amount++;
         day_div.append(production_div);
@@ -228,5 +229,43 @@
     !production_amount && day_div.append(lib.element.create("div", { class: "box b1 center margin-top-5" }, "Nenhuma produção"));
 
     day_box.append(day_div);
+  };
+
+  async function shipmentEdit(production_id) {
+    let form = lib.element.create("form", { class: "box b1 container" });
+
+    form.append(lib.element.create("input", {
+      type: "date",
+      name: "shipment_date",
+      class: "box b2-3 input-generic margin-top-5",
+      value: lib.timestampToDate(lib.genTimestamp())
+    }));
+
+    form.append(lib.element.create("input", {
+      type: "submit",
+      name: "submit",
+      class: "box b3 btn-act noborder radius-5 padding-5 margin-top-5"
+    }));
+
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+
+      let production = {
+        id: production_id,
+        shipment_datetime: lib.dateToTimestamp(e.target.shipment_date.value)
+      }
+
+      console.log(production);
+
+      let response = await API.response(Production.create, production);
+      if (!response) { return false; }
+
+      let response_message = lib.element.create("div", { class: "box b1 lucida-grande em12 bold center" }, "Data atualizada");
+      form.parentNode.append(response_message);
+
+      form.remove();
+    });
+
+    lib.popup(form);
   };
 </script>

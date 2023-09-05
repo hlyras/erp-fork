@@ -59,14 +59,13 @@ productionController.create = async (req, res) => {
 	production.seamstress_id = req.body.seamstress_id;
 	production.products = req.body.products;
 	production.preparation_deadline = req.body.preparation_deadline;
-	production.status = "Ag. confirmação";
 	production.user_id = req.user.id;
-
-	if (!production.products.length) { return res.send({ msg: "É necessário incluir pelo menos 1 produto." }); }
 
 	try {
 		if (!production.id) {
 			// create
+			production.status = "Ag. confirmação";
+
 			let production_response = await production.create();
 			if (production_response.err) { return res.send({ msg: production_response.err }); }
 
@@ -79,15 +78,24 @@ productionController.create = async (req, res) => {
 				if (product_response.err) { return res.send({ msg: product_response.err }); }
 			};
 
+			if (!production.products.length) { return res.send({ msg: "É necessário incluir pelo menos 1 produto." }); }
+
 			res.send({ done: "Produção cadastrada com sucesso!" });
 		} else {
 			// update
-			if ((await Production.findById(production.id))[0].status != "Ag. confirmação") {
+			let verifyStatus = (await Production.findById(production.id))[0].status;
+			if (verifyStatus != "Ag. confirmação" && verifyStatus != "Ag. envio") {
 				return res.send({ msg: "Não é possível editar produções já confirmadas \n\n Entre em contato com o suporte para atualizar" });
 			}
 
 			let production_response = await production.update();
 			if (production_response.err) { return res.send({ msg: production_response.err }); }
+
+			if (verifyStatus == "Ag. envio") {
+				return res.send({ done: "Produção atualizada com sucesso!" });
+			}
+
+			if (!production.products.length) { return res.send({ msg: "É necessário incluir pelo menos 1 produto." }); }
 
 			// Production product
 			let product_props = ["production_product.*", "product.code", "product.name", "product.color", "product.size"];
