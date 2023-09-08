@@ -22,6 +22,29 @@ shipmentController.index = async (req, res) => {
   };
 };
 
+// shorter code
+shipmentController.confirm = async (req, res) => {
+  if (!await userController.verifyAccess(req, res, ['adm', "pro-man"])) {
+    return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+  };
+
+  try {
+    let production = new Production();
+    production.id = p.production_id;
+    production.shipment_datetime = lib.date.timestamp.generate();
+    production.status = "Em produção";
+    production.service_order = req.params.id;
+
+    let production_response = await production.update();
+    if (production_response.err) { return res.send({ msg: production_response.err }); }
+
+    res.send({ done: "O.S. cadastrada com sucesso!" });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+  };
+};
+
 shipmentController.create = async (req, res) => {
   if (!await userController.verifyAccess(req, res, ['adm', "pro-man"])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });

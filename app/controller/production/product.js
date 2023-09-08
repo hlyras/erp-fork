@@ -47,8 +47,6 @@ productController.filter = async (req, res) => {
     order_params = [["production.id", "ASC"]];
   }
 
-  console.log(order_params);
-
   try {
     let products = await Production.product.filter(props, inners, period, params, strict_params, order_params);
     res.send({ products });

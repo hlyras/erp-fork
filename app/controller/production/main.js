@@ -53,18 +53,18 @@ productionController.create = async (req, res) => {
 
 	let production = new Production();
 	production.id = req.body.id;
-	production.datetime = new Date().getTime();
 	production.shipment_datetime = req.body.shipment_datetime;
 	production.location = req.body.location;
 	production.seamstress_id = req.body.seamstress_id;
 	production.products = req.body.products;
 	production.preparation_deadline = req.body.preparation_deadline;
-	production.user_id = req.user.id;
 
 	try {
 		if (!production.id) {
 			// create
+			production.datetime = new Date().getTime();
 			production.status = "Ag. confirmação";
+			production.user_id = req.user.id;
 
 			let production_response = await production.create();
 			if (production_response.err) { return res.send({ msg: production_response.err }); }
@@ -91,7 +91,7 @@ productionController.create = async (req, res) => {
 			let production_response = await production.update();
 			if (production_response.err) { return res.send({ msg: production_response.err }); }
 
-			if (verifyStatus == "Ag. envio") {
+			if (verifyStatus == "Ag. envio" || verifyStatus == "Ag. transporte") {
 				return res.send({ done: "Produção atualizada com sucesso!" });
 			}
 
@@ -196,6 +196,7 @@ productionController.confirm = async (req, res) => {
 		const production_status = (await Production.findById(production.id))[0].status;
 		if (production_status == "Ag. confirmação") { production.status = "Ag. preparação"; }
 		if (production_status == "Ag. produção") { production.status = "Em produção"; }
+		if (production_status == "Ag. envio") { production.status = "Em produção"; }
 
 		let response = await production.update();
 		if (response.err) { return res.send({ msg: response.err }); }

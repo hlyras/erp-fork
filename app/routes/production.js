@@ -24,6 +24,7 @@ router.post('/preparation/confirm', lib.route.toHttps, productionController.prep
 
 router.get('/shipment', lib.route.toHttps, productionController.shipment.index);
 router.post('/shipment/create', lib.route.toHttps, productionController.shipment.create);
+router.post('/shipment/confirm', lib.route.toHttps, productionController.shipment.confirm);
 router.get('/shipment/id/:id', lib.route.toHttps, productionController.shipment.findById);
 router.post('/shipment/filter', lib.route.toHttps, productionController.shipment.filter);
 router.get('/shipment/collect', lib.route.toHttps, productionController.shipment.collect.index);
