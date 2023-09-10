@@ -10,7 +10,7 @@ require('dotenv').config();
 // app.use(cors());
 
 const corsOptions = {
-  origin: 'https://earnest-mandazi-85ed13.netlify.app/',
+  origin: '*',
 };
 
 app.use(cors(corsOptions));
