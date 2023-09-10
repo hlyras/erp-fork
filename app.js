@@ -6,14 +6,6 @@ const app = express();
 
 require('dotenv').config();
 
-// app.use(cors({ credentials: true }));
-
-app.use(cors({
-  origin: 'https://main--earnest-mandazi-85ed13.netlify.app',
-  credentials: false,
-  exposedHeaders: 'Content-Type'
-}));
-
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const passport = require('./config/passport');
@@ -39,6 +31,8 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(cors());
 
 app.use('/', require('./app/routes/index'));
 
