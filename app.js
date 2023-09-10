@@ -10,7 +10,7 @@ require('dotenv').config();
 
 app.use(cors({
   origin: 'https://main--earnest-mandazi-85ed13.netlify.app',
-  credentials: true
+  credentials: false
 }));
 
 const bodyParser = require('body-parser');
