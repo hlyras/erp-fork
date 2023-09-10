@@ -7,14 +7,11 @@ const app = express();
 require('dotenv').config();
 
 // app.use(cors({ credentials: true }));
-// app.use(cors());
 
-const corsOptions = {
+app.use(cors({
   origin: 'https://main--earnest-mandazi-85ed13.netlify.app',
-  methods: 'OPTIONS', // Add other allowed methods if needed
-};
-
-app.use(cors(corsOptions));
+  credentials: true
+}));
 
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
