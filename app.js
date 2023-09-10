@@ -11,6 +11,7 @@ require('dotenv').config();
 
 const corsOptions = {
   origin: '*',
+  methods: ['GET', 'POST']
 };
 
 app.use(cors(corsOptions));
