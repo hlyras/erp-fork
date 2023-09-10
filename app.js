@@ -10,8 +10,8 @@ require('dotenv').config();
 // app.use(cors());
 
 const corsOptions = {
-  origin: 'main--earnest-mandazi-85ed13.netlify.app/',
-  methods: 'POST'
+  origin: 'https://main--earnest-mandazi-85ed13.netlify.app',
+  methods: ['GET', 'POST'], // Add other allowed methods if needed
 };
 
 app.use(cors(corsOptions));
