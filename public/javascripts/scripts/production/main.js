@@ -195,11 +195,11 @@ Production.receipt.count.confirm = async (receipt) => {
 
 Production.receipt.conference = {};
 
-Production.receipt.conference.approved = async (receipt) => {
+Production.receipt.conference.approved = async (receipt_product) => {
 	let response = await fetch("/production/receipt/conference/approved", {
 		method: "POST",
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(receipt)
+		body: JSON.stringify(receipt_product)
 	});
 	response = await response.json();
 
@@ -208,11 +208,11 @@ Production.receipt.conference.approved = async (receipt) => {
 	return response;
 };
 
-Production.receipt.conference.reproved = async (receipt) => {
+Production.receipt.conference.reproved = async (receipt_product) => {
 	let response = await fetch("/production/receipt/conference/reproved", {
 		method: "POST",
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(receipt)
+		body: JSON.stringify(receipt_product)
 	});
 	response = await response.json();
 
@@ -221,8 +221,21 @@ Production.receipt.conference.reproved = async (receipt) => {
 	return response;
 };
 
-Production.receipt.conference.filigran_reproved = async (receipt) => {
+Production.receipt.conference.filigranReproved = async (receipt_product) => {
 	let response = await fetch("/production/receipt/conference/filigran_reproved", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(receipt_product)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};
+
+Production.receipt.conference.confirm = async (receipt) => {
+	let response = await fetch("/production/receipt/conference/confirm", {
 		method: "POST",
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(receipt)

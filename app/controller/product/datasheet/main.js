@@ -27,7 +27,7 @@ datasheetController.cost = async (req, res) => {
 	};
 
 	try {
-		let productColors = Product.color.list();
+		let productColors = await Product.color.list();
 		res.render('product/datasheet/cost/index', { user: req.user, productColors });
 	} catch (err) {
 		console.log(err);

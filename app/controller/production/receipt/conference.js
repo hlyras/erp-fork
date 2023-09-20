@@ -25,7 +25,7 @@ conferenceController.index = async (req, res) => {
 conferenceController.approved = async (req, res) => {
   const receipt_product = new Production.receipt.product();
   receipt_product.id = req.body.id;
-  receipt_product.approved_amount = req.body.amount;
+  receipt_product.approved_amount = req.body.approved_amount;
   receipt_product.approved_datetime = lib.date.timestamp.generate();
 
   try {
@@ -47,8 +47,12 @@ conferenceController.approved = async (req, res) => {
 conferenceController.reproved = async (req, res) => {
   const receipt_product = new Production.receipt.product();
   receipt_product.id = req.body.id;
-  receipt_product.reproved_amount = req.body.amount;
+  receipt_product.reproved_amount = req.body.reproved_amount;
   receipt_product.reproved_datetime = lib.date.timestamp.generate();
+  receipt_product.reproved_status = "Concluído";
+
+  if (isNaN(receipt_product.reproved_amount)) { return res.send({ msg: "Quantidade de defeitos inválida!" }); }
+  if (receipt_product.reproved_amount > 0) { receipt_product.reproved_status = "Pendente"; }
 
   try {
     let verifiedUser = await userController.verifyPass(req.body.user_pass, ["adm"]);
@@ -59,7 +63,7 @@ conferenceController.reproved = async (req, res) => {
     let response = await receipt_product.update();
     if (response.err) { return res.send({ msg: response.err }); }
 
-    res.send({ done: "Produtos aprovados!" });
+    res.send({ done: "Produtos reprovados!" });
   } catch (err) {
     console.log(err);
     res.send({ msg: "Ocorreu um erro ao realizar o registro." });
@@ -69,8 +73,12 @@ conferenceController.reproved = async (req, res) => {
 conferenceController.filigran_reproved = async (req, res) => {
   const receipt_product = new Production.receipt.product();
   receipt_product.id = req.body.id;
-  receipt_product.filigran_reproved_amount = req.body.amount;
+  receipt_product.filigran_reproved_amount = req.body.filigran_reproved_amount;
   receipt_product.filigran_reproved_datetime = lib.date.timestamp.generate();
+  receipt_product.filigran_reproved_status = "Concluído";
+
+  if (isNaN(receipt_product.filigran_reproved_amount)) { return res.send({ msg: "Quantidade de defeitos inválida!" }); }
+  if (receipt_product.filigran_reproved_amount > 0) { receipt_product.filigran_reproved_status = "Pendente"; }
 
   try {
     let verifiedUser = await userController.verifyPass(req.body.user_pass, ["adm"]);
@@ -81,7 +89,29 @@ conferenceController.filigran_reproved = async (req, res) => {
     let response = await receipt_product.update();
     if (response.err) { return res.send({ msg: response.err }); }
 
-    res.send({ done: "Produtos aprovados!" });
+    res.send({ done: "Produtos reprovados!" });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao realizar o registro." });
+  };
+};
+
+conferenceController.confirm = async (req, res) => {
+  const production_receipt = new Production.receipt();
+  production_receipt.id = req.body.id;
+  production_receipt.conference_datetime = lib.date.timestamp.generate();
+  production_receipt.status = "Ag. armazenamento";
+
+  try {
+    let verifiedUser = await userController.verifyPass(req.body.user_pass, ["adm"]);
+    if (!verifiedUser) { return res.send({ msg: "Você não tem acesso para realizar essa ação." }); }
+
+    production_receipt.conference_user_id = verifiedUser.id;
+
+    let response = await production_receipt.update();
+    if (response.err) { return res.send({ msg: response.err }); }
+
+    res.send({ done: "Produção conferida com sucesso!" });
   } catch (err) {
     console.log(err);
     res.send({ msg: "Ocorreu um erro ao realizar o registro." });

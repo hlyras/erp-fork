@@ -44,9 +44,10 @@
       let feedstock_div = lib.element.create("div", { class: "box b1 container border padding-5" });
       feedstock_div.append(lib.element.create("div", { class: "mobile-box b12 lucida-grande center" }, feedstock.code));
       feedstock_div.append(lib.element.create("div", { class: "mobile-box b5-12 lucida-grande em09" }, feedstock.name));
-      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `${feedstock.measure}cm`));
-      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 em09 center" }, `${feedstock.amount}un`));
-      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b3 em09 center" }, `${feedstock.amount}un`));
+      feedstock.uom == "un" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 em09 center" }, `${feedstock.amount}un`));
+      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, `${feedstock.measure}cm`));
+      feedstock.uom == "cm" && feedstock_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, `${feedstock.amount}un`));
+      feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em09" }, feedstock.obs));
       details_box.append(feedstock_div);
     });
 

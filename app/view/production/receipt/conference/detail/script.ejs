@@ -1,15 +1,15 @@
 <script>
-  async function approved(e) {
+  async function approved(e, receipt_id) {
     e.preventDefault();
     let product = {
       id: e.target.id.value,
       approved_amount: e.target.amount.value
     };
 
-    lib.pass(async (pass) => {
+    lib.auth(async (pass) => {
       product.user_pass = pass;
 
-      let response = API.response(Production.receipt.product.create, product);
+      let response = await API.response(Production.receipt.conference.approved, product);
       if (!response) { return false; }
 
       lib.message(response.done);
@@ -18,14 +18,42 @@
     });
   };
 
-  async function reproved(e) {
+  async function reproved(e, receipt_id) {
     e.preventDefault();
-    console.log(e.target.amount.value);
+    let product = {
+      id: e.target.id.value,
+      reproved_amount: e.target.amount.value
+    };
+
+    lib.auth(async (pass) => {
+      product.user_pass = pass;
+
+      let response = await API.response(Production.receipt.conference.reproved, product);
+      if (!response) { return false; }
+
+      lib.message(response.done);
+
+      receiptDetail(receipt_id);
+    });
   };
 
-  async function filigranReproved(e) {
+  async function filigranReproved(e, receipt_id) {
     e.preventDefault();
-    console.log(e.target.amount.value);
+    let product = {
+      id: e.target.id.value,
+      filigran_reproved_amount: e.target.amount.value
+    };
+
+    lib.auth(async (pass) => {
+      product.user_pass = pass;
+
+      let response = await API.response(Production.receipt.conference.filigranReproved, product);
+      if (!response) { return false; }
+
+      lib.message(response.done);
+
+      receiptDetail(receipt_id);
+    });
   };
 
   async function receiptDetail(id) {
@@ -43,108 +71,110 @@
     detail_div.append(lib.element.info("b3", "Lacre", receipt.seal));
     detail_div.append(lib.element.info("b3", "Malote", `${receipt.pouch}/${receipt.preparation_volume}`));
 
-    receipt.products.forEach(product => {
+    receipt.received_products.forEach(product => {
       let product_div = lib.element.create("div", { class: "box b1 container border-st shadow-st radius-5 padding-5 margin-top-5" });
       product_div.append(lib.element.create("div", { class: "mobile-box b2-3 bold em08 v-center" }, `${product.code} | ${product.name} | ${product.color}`));
       product_div.append(lib.element.info("b6", "Quantidade", product.amount));
 
-      for (let i in receipt.received_products) {
-        if (product.product_id == receipt.received_products[i].product_id) {
-          product_div.append(lib.element.info("b6", "Recebido", (receipt.received_products[i].amount || "0")));
-          product.id = receipt.received_products[i].id;
-        }
-      };
+      let approved_form = lib.element.create("form", { class: "mobile-box b3 container border-st padding-5 margin-top-5" });
 
-      console.log(product);
+      lib.isValidNumber(product.approved_amount) && approved_form.append(lib.element.create("div", { class: "box b1 em15 lucida-grande bold border-bottom-lg padding-5 center" }, `${product.approved_amount}`));
+      lib.isValidNumber(product.approved_amount) && approved_form.append(lib.element.create("div", { class: "box b1 center lucida-grande bold em08 center margin-top-1" }, `Aprovado em:`));
+      lib.isValidNumber(product.approved_amount) && approved_form.append(lib.element.create("div", { class: "box b1 center lucida-grande em08 center" }, lib.timestampToFulldate(product.approved_datetime)));
 
-      let approval_form = lib.element.create("form", { class: "mobile-box b3 container border-st padding-5 margin-top-5" });
-
-      approval_form.append(lib.element.create("input", {
+      !lib.isValidNumber(product.approved_amount) && approved_form.append(lib.element.create("input", {
         type: "hidden",
         name: "id",
         value: product.id
       }));
 
-      approval_form.append(lib.element.create("input", {
+      !lib.isValidNumber(product.approved_amount) && approved_form.append(lib.element.create("input", {
         type: "number",
         name: "amount",
-        class: "mobile-box b1 em15 bold border-bottom-lg-st padding-5 center",
+        class: "mobile-box b1 lucida-grande em15 bold border-bottom-lg-st padding-5 center",
         step: 1,
         onblur: "this.value=parseInt(this.value)",
         autocomplete: "off",
-        role: "presentation"
+        role: "presentation",
+        max: product.amount - (product.reproved_amount || 0) - (product.filigran_reproved_amount || 0)
       }));
 
-      approval_form.append(lib.element.create("input", {
+      !lib.isValidNumber(product.approved_amount) && approved_form.append(lib.element.create("input", {
         type: "submit",
         name: "submit",
         value: "Aprovado",
-        class: "mobile-box b1 btn-act em11 bold noborder radius-5 padding-5 margin-top-3 center pointer"
+        class: "mobile-box b1 btn-act lucida-grande em11 bold noborder radius-5 padding-5 margin-top-3 center pointer"
       }));
 
-      approval_form.addEventListener("submit", approved);
+      !lib.isValidNumber(product.approved_amount) && approved_form.addEventListener("submit", (e) => { approved(e, receipt.id) });
 
       let reproved_form = lib.element.create("form", { class: "mobile-box b3 container border-st padding-5 margin-top-5" });
 
-      reproved_form.append(lib.element.create("input", {
+      lib.isValidNumber(product.reproved_amount) && reproved_form.append(lib.element.create("div", { class: "box b1 em15 lucida-grande bold border-bottom-lg padding-5 center" }, `${product.reproved_amount}`));
+      lib.isValidNumber(product.reproved_amount) && reproved_form.append(lib.element.create("div", { class: "box b1 center lucida-grande bold em08 center margin-top-1" }, `Reprovado em:`));
+      lib.isValidNumber(product.reproved_amount) && reproved_form.append(lib.element.create("div", { class: "box b1 center lucida-grande em08 center" }, lib.timestampToFulldate(product.reproved_datetime)));
+
+      !lib.isValidNumber(product.reproved_amount) && reproved_form.append(lib.element.create("input", {
         type: "hidden",
         name: "id",
         value: product.id
       }));
 
-      reproved_form.append(lib.element.create("input", {
+      !lib.isValidNumber(product.reproved_amount) && reproved_form.append(lib.element.create("input", {
         type: "number",
         name: "amount",
-        class: "mobile-box b1 em15 bold border-bottom-lg-st padding-5 center",
+        class: "mobile-box b1 lucida-grande em15 bold border-bottom-lg-st padding-5 center",
         step: 1,
         onblur: "this.value=parseInt(this.value)",
         autocomplete: "off",
-        role: "presentation"
+        role: "presentation",
+        max: product.amount - (product.approved_amount || 0) - (product.filigran_reproved_amount || 0)
       }));
 
-      reproved_form.append(lib.element.create("input", {
+      !lib.isValidNumber(product.reproved_amount) && reproved_form.append(lib.element.create("input", {
         type: "submit",
         name: "submit",
         value: "Defeito",
-        class: "mobile-box b1 btn-cancel em11 bold noborder radius-5 padding-5 margin-top-3 center pointer"
+        class: "mobile-box b1 btn-cancel lucida-grande em11 bold noborder radius-5 padding-5 margin-top-3 center pointer"
       }));
 
-      reproved_form.addEventListener("submit", reproved);
+      !lib.isValidNumber(product.reproved_amount) && reproved_form.addEventListener("submit", (e) => { reproved(e, receipt.id) });
 
       let filigran_reproved_form = lib.element.create("form", { class: "mobile-box b3 container border-st padding-5 margin-top-5" });
 
-      filigran_reproved_form.append(lib.element.create("input", {
+      lib.isValidNumber(product.filigran_reproved_amount) && filigran_reproved_form.append(lib.element.create("div", { class: "box b1 em15 lucida-grande bold border-bottom-lg padding-5 center" }, `${product.filigran_reproved_amount}`));
+      lib.isValidNumber(product.filigran_reproved_amount) && filigran_reproved_form.append(lib.element.create("div", { class: "box b1 center lucida-grande bold em08 center margin-top-1" }, `Reprovado em:`));
+      lib.isValidNumber(product.filigran_reproved_amount) && filigran_reproved_form.append(lib.element.create("div", { class: "box b1 center lucida-grande em08 center" }, lib.timestampToFulldate(product.filigran_reproved_datetime)));
+
+      !lib.isValidNumber(product.filigran_reproved_amount) && filigran_reproved_form.append(lib.element.create("input", {
         type: "hidden",
         name: "id",
         value: product.id
       }));
 
-      filigran_reproved_form.append(lib.element.create("input", {
+      !lib.isValidNumber(product.filigran_reproved_amount) && filigran_reproved_form.append(lib.element.create("input", {
         type: "number",
         name: "amount",
-        class: "mobile-box b1 em15 bold border-bottom-lg-st padding-5 center",
+        class: "mobile-box b1 lucida-grande em15 bold border-bottom-lg-st padding-5 center",
         step: 1,
         onblur: "this.value=parseInt(this.value)",
         autocomplete: "off",
-        role: "presentation"
+        role: "presentation",
+        max: product.amount - (product.approved_amount || 0) - (product.reproved_amount || 0)
       }));
 
-      filigran_reproved_form.append(lib.element.create("input", {
+      !lib.isValidNumber(product.filigran_reproved_amount) && filigran_reproved_form.append(lib.element.create("input", {
         type: "submit",
         name: "submit",
         value: "Def. Filigrana",
-        class: "mobile-box b1 btn-cancel em11 bold noborder radius-5 padding-5 margin-top-3 center pointer"
+        class: "mobile-box b1 btn-cancel lucida-grande em11 bold noborder radius-5 padding-5 margin-top-3 center pointer"
       }));
 
-      filigran_reproved_form.addEventListener("submit", filigranReproved);
+      !lib.isValidNumber(product.filigran_reproved_amount) && filigran_reproved_form.addEventListener("submit", (e) => { filigranReproved(e, receipt.id) });
 
-      for (let i in receipt.received_products) {
-        if (product.product_id == receipt.received_products[i].product_id) {
-          receipt.received_products[i].amount && product_div.append(approval_form);
-          receipt.received_products[i].amount && product_div.append(reproved_form);
-          receipt.received_products[i].amount && product_div.append(filigran_reproved_form);
-        }
-      };
+      product_div.append(approved_form);
+      product_div.append(reproved_form);
+      product_div.append(filigran_reproved_form);
 
       detail_div.append(product_div);
     });
@@ -155,45 +185,28 @@
     lib.display("receipt-dropdown-box", "");
   };
 
-  function receiptCount(e, receipt_id) {
-    e.preventDefault();
+  async function conferenceConfirm(receipt_id) {
+    let receipt = await API.response(Production.receipt.findById, receipt_id);
+    if (!receipt) { return false; }
 
-    let received_product = {
-      id: e.target.id.value,
-      receipt_id: receipt_id,
-      product_id: e.target.product_id.value,
-      amount: e.target.amount.value
+    for (let i in receipt.received_products) {
+      if (!lib.isValidNumber(receipt.received_products[i].approved_amount)) { return lib.message(`${receipt.received_products[i].name} pendente: Aprovados`); }
+      if (!lib.isValidNumber(receipt.received_products[i].reproved_amount)) { return lib.message(`${receipt.received_products[i].name} pendente: Defeitos`); }
+      if (!lib.isValidNumber(receipt.received_products[i].filigran_reproved_amount)) { return lib.message(`${receipt.received_products[i].name} pendente: Filigrana`); }
     };
 
-    lib.pass(async (pass) => {
-      received_product.user_pass = pass;
+    lib.auth(async (pass) => {
+      let receipt = {
+        id: receipt_id || "",
+        user_pass: pass
+      };
 
-      let response = await API.response(Production.receipt.product.create, received_product);
+      let response = await API.response(Production.receipt.conference.confirm, receipt);
       if (!response) { return false; }
 
-      receiptDetail(receipt_id);
+      lib.message(response.done);
+
+      window.location.reload();
     });
   };
-
-  // function countConfirm(receipt_id) {
-  //   for (let i in receiptKart.products) {
-  //     if (!receiptKart.products[i].id) {
-  //       return lib.msg("Não é possível confirmar a contagem sem preencher todos os produtos.");
-  //     }
-  //   };
-
-  //   lib.pass(async (pass) => {
-  //     let receipt = {
-  //       id: receipt_id || "",
-  //       user_pass: pass
-  //     };
-
-  //     let response = await API.response(Production.receipt.count.confirm, receipt);
-  //     if (!response) { return false; }
-
-  //     lib.message(response.done);
-
-  //     window.location.reload();
-  //   });
-  // };
 </script>

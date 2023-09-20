@@ -13,15 +13,14 @@
 
   <input type="text" name="production_id" class="box b6 input-generic margin-top-5 center" placeholder="Id da produção">
 
-  <select id="internal-seamstress-select" name="internal_seamstress_id"
-    class="mobile-box b2 input-generic margin-top-5">
+  <select id="internal-seamstress-select" name="internal_seamstress_id" class="box b2 input-generic margin-top-5">
     <option value="">Todos os colaboradores</option>
     <% for(let i in internal_seamstresses) { %>
     <option value="<%= internal_seamstresses[i].id %>"><%= internal_seamstresses[i].name %></option>
     <% } %>
   </select>
 
-  <select id="external-seamstress-select" name="external_seamstress_id" class="mobile-box b2 input-generic margin-top-5"
+  <select id="external-seamstress-select" name="external_seamstress_id" class="box b2 input-generic margin-top-5"
     style="display:none;">
     <option value="">Todas as fações</option>
     <% for(let i in external_seamstresses) { %>
@@ -29,7 +28,7 @@
     <% } %>
   </select>
 
-  <select name="status" class="mobile-box b3 input-generic margin-top-5">
+  <select name="status" class="box b3 input-generic margin-top-5">
     <option value="">Todos os status</option>
     <option value="Ag. confirmação">Ag. confirmação</option>
     <option value="Ag. preparação" selected>Ag. preparação</option>

@@ -67,14 +67,10 @@ Receipt.product = function () {
 
   this.update = () => {
     if (!this.id) { return { err: "O id do produto é inválido." }; }
-    if (!this.production_id) { return { err: "É necessário registrar de qual produção pertence o produto." }; };
-    if (!this.product_id) { return { err: "É necessário registrar o produto." }; };
-    if (!this.amount || isNaN(this.amount) || this.amount < 0) { return { err: "É necessário a quantidade de produtos." }; };
 
     let obj = lib.convertTo.object(this);
     let query = lib.Query.update(obj, 'cms_wt_erp.production_receipt_product', 'id');
 
-    console.log(query);
     return db(query);
   };
 };
@@ -82,6 +78,11 @@ Receipt.product = function () {
 Receipt.product.filter = (props, inners, period, params, strict_params, order_params, limit) => {
   let query = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt_product")
     .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build().query;
+  return db(query);
+};
+
+Receipt.product.findById = async (id) => {
+  let query = `SELECT * FROM cms_wt_erp.production_receipt_product WHERE id='${id}';`;
   return db(query);
 };
 

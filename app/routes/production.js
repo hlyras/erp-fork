@@ -36,6 +36,7 @@ router.get('/receipt', lib.route.toHttps, productionController.receipt.index);
 router.get('/receipt/manage', lib.route.toHttps, productionController.receipt.manage);
 router.get('/receipt/count', lib.route.toHttps, productionController.receipt.count.index);
 router.post('/receipt/count/confirm', lib.route.toHttps, productionController.receipt.count.confirm);
+router.post('/receipt/conference/confirm', lib.route.toHttps, productionController.receipt.conference.confirm);
 router.get('/receipt/conference', lib.route.toHttps, productionController.receipt.conference.index);
 router.post('/receipt/conference/approved', lib.route.toHttps, productionController.receipt.conference.approved);
 router.post('/receipt/conference/reproved', lib.route.toHttps, productionController.receipt.conference.reproved);
