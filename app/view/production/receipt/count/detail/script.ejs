@@ -7,7 +7,8 @@
 
     lib.display("receipt-dropdown-box", "none");
     lib.display("receipt-detail-box", "");
-    document.getElementById("receipt-count-btn").addEventListener("click", () => { countConfirm(receipt.id); });
+
+    document.getElementById("count-confirm-btn").dataset.receipt_id = receipt.id;
 
     let detail_div = document.getElementById("receipt-detail-div");
     detail_div.innerHTML = "";
@@ -57,7 +58,7 @@
       amount: e.target.amount.value
     };
 
-    lib.pass(async (pass) => {
+    lib.auth(async (pass) => {
       received_product.user_pass = pass;
 
       let response = await API.response(Production.receipt.product.create, received_product);
@@ -67,25 +68,23 @@
     });
   };
 
-  function countConfirm(receipt_id) {
+  document.getElementById("count-confirm-btn").addEventListener("click", async e => {
     for (let i in receiptKart.products) {
       if (!receiptKart.products[i].id) {
-        return lib.msg("Não é possível confirmar a contagem sem preencher todos os produtos.");
+        return lib.message("Não é possível confirmar a contagem sem preencher todos os produtos.");
       }
     };
 
-    lib.pass(async (pass) => {
+    lib.auth(async (pass) => {
       let receipt = {
-        id: receipt_id || "",
+        id: e.target.dataset.receipt_id || "",
         user_pass: pass
       };
 
       let response = await API.response(Production.receipt.count.confirm, receipt);
       if (!response) { return false; }
 
-      lib.message(response.done);
-
-      window.location.reload();
+      lib.message(response.done, () => { window.location.reload() });
     });
-  };
+  });
 </script>

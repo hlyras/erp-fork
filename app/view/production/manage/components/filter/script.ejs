@@ -219,6 +219,8 @@
         production.status == "Ag. envio" && production_div.append(lib.element.icon('b9', 20, "/images/icon/calendar.png", `shipmentEdit(${production.id})`));
         production.status == "Ag. envio" && production_div.append(lib.element.icon('b9', 20, "/images/icon/check.png", `shipmentConfirm(${production.id})`));
         production.status == "Ag. transporte" && production_div.append(lib.element.icon('b9', 20, "/images/icon/calendar.png", `shipmentEdit(${production.id})`));
+        production.status == "Ag. produção" && production_div.append(lib.element.icon('b9', 20, "/images/icon/calendar.png", `shipmentEdit(${production.id})`));
+        production.status == "Ag. preparação" && production_div.append(lib.element.icon('b9', 20, "/images/icon/calendar.png", `shipmentEdit(${production.id})`));
         // production.status == "Ag. transporte" && production_div.append(lib.element.icon('b9', 20, "/images/icon/check.png", `shipmentConfirm(${production.id})`));
         // production.status == "Ag. confirmação" && production_div.append(lib.element.icon('b9', 20, "/images/icon/trash.png", `productionCancel(${production.id})`));
         production_amount++;

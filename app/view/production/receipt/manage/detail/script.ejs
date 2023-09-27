@@ -3,8 +3,6 @@
     const receipt = await API.response(Production.receipt.findById, receipt_id);
     if (!receipt) { return false; }
 
-    console.log(receipt);
-
     lib.display("receipt-filter-box", "none");
     lib.display("receipt-detail-box", "");
 

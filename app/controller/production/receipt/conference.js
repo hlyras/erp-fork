@@ -28,6 +28,8 @@ conferenceController.approved = async (req, res) => {
   receipt_product.approved_amount = req.body.approved_amount;
   receipt_product.approved_datetime = lib.date.timestamp.generate();
 
+  if (isNaN(receipt_product.approved_amount)) { return res.send({ msg: "Quantidade aprovada inválida!" }); }
+
   try {
     let verifiedUser = await userController.verifyPass(req.body.user_pass, ["adm"]);
     if (!verifiedUser) { return res.send({ msg: "Você não tem acesso para realizar essa ação." }); }
