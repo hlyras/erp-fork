@@ -84,7 +84,7 @@ productionController.create = async (req, res) => {
 		} else {
 			// update
 			let verifyStatus = (await Production.findById(production.id))[0].status;
-			if (verifyStatus != "Ag. confirmação" && verifyStatus != "Ag. envio" && verifyStatus != "Ag. produção") {
+			if (verifyStatus != "Ag. confirmação" && verifyStatus != "Ag. envio" && verifyStatus != "Ag. produção" || verifyStatus == "Ag. preparação") {
 				return res.send({ msg: "Não é possível editar produções já confirmadas \n\n Entre em contato com o suporte para atualizar" });
 			}
 
