@@ -67,6 +67,8 @@
       class: "box b1 lucida-grande bold center margin-top-10 padding-5"
     }, "Sem resultados."));
 
+    productions = lib.sort(productions, "shipment_datetime", "ASC");
+
     productions.forEach(production => {
       console.log(production);
       let production_div = lib.element.create("div", { class: "box b2-3 container ground border-st shadow-lg-st radius-5 padding-5 margin-top-5" });
