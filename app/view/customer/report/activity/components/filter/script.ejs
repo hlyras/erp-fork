@@ -1,8 +1,8 @@
 <script>
-	document.getElementById("activity-filter-form").addEventListener("submit", async e => {
-		e.preventDefault();
+  document.getElementById("activity-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
 
-		let customer = { 
+    let customer = {
       customer_id: e.target.customer_id.value,
       customer_name: e.target.customer_name.value,
       period_start: lib.datetimeToTimestamp(e.target.period_start.value),
@@ -10,7 +10,7 @@
     };
 
     let sales = await API.response(Customer.activity.filter, customer);
-    if(!sales){ return false };
+    if (!sales) { return false };
 
     let saleAmountByCustomerId = {};
     sales.forEach(function (sale) {
@@ -26,8 +26,8 @@
 
     for (let [key, amount] of Object.entries(saleAmountByCustomerId)) {
       let customer = { id: key, amount: amount, sales: [] };
-      for(let i in sales){ 
-        if(key == sales[i].customer_id){
+      for (let i in sales) {
+        if (key == sales[i].customer_id) {
           customer.name = sales[i].customer_name;
           customer.brand = sales[i].brand;
           customer.trademark = sales[i].trademark;
@@ -37,39 +37,39 @@
       customers.push(customer);
     };
 
-    for(let [key, totalValue] of Object.entries(customerTotalSaleValue)) {
-    	customers.forEach((customer) => {
-    		if(key === customer.id){ customer.totalValue = lib.roundValue(totalValue)};
-    	});
+    for (let [key, totalValue] of Object.entries(customerTotalSaleValue)) {
+      customers.forEach((customer) => {
+        if (key === customer.id) { customer.totalValue = lib.roundValue(totalValue) };
+      });
     };
 
-   	lib.sort(sales, 'sale_date');
+    lib.sort(sales, 'sale_date');
 
-   	customers.forEach((customer) => {
-   		sales.forEach((sale) => {
-   			if(customer.id === sale.customer_id) { 
-   				customer.lastValue = lib.roundValue((sale.product_value + sale.package_value - sale.discount_value)); 
-   				customer.lastDate = lib.timestampToDate(sale.sale_date);
+    customers.forEach((customer) => {
+      sales.forEach((sale) => {
+        if (customer.id === sale.customer_id) {
+          customer.lastValue = lib.roundValue((sale.product_value + sale.package_value - sale.discount_value));
+          customer.lastDate = lib.timestampToDate(sale.sale_date);
           customer.daysOff = lib.roundToInt((lib.genTimestamp() - sale.sale_date) / lib.timestampDay());
-   				customer.user_name = sale.user_name;
-   			};
-   		});
-   	});
+          customer.user_name = sale.user_name;
+        };
+      });
+    });
 
     lib.sort(customers, 'daysOff', 'desc');
 
     const setup = { pageSize: 10, page: 0 };
-    (function(){ lib.carousel.execute("activity-filter-box", activityFilter, customers, setup); }());
-	});
+    (function () { lib.carousel.execute("activity-filter-box", activityFilter, customers, setup); }());
+  });
 
-  async function activityFilter (customers, setup) {
+  async function activityFilter(customers, setup) {
     let filter_div = document.getElementById("activity-filter-div");
     filter_div.innerHTML = "";
 
-    for(let i = setup.page * setup.pageSize; i < customers.length && i < (setup.page + 1) * setup.pageSize; i++){
+    for (let i = setup.page * setup.pageSize; i < customers.length && i < (setup.page + 1) * setup.pageSize; i++) {
       let activity_div = lib.element.create("div", { class: "box b2 container ground border-lg-st radius-5 padding-5 margin-top-5" });
 
-      activity_div.append(lib.element.create("div", { 
+      activity_div.append(lib.element.create("div", {
         class: "mobile-box b6 bold input-show border-st padding-5 center pointer",
         onclick: `lib.displayDiv('customer-${customers[i].id}-sale-box', this)`
       }, customers[i].id));
@@ -82,13 +82,13 @@
       activity_div.append(lib.element.createInfo("mobile-box b4 em09 margin-top-5", "Total em compras", customers[i].totalValue));
       activity_div.append(lib.element.createInfo("mobile-box b4 em09 margin-top-5", "Vendedor", customers[i].user_name));
 
-      let sale_box = lib.element.create("div", { 
+      let sale_box = lib.element.create("div", {
         id: `customer-${customers[i].id}-sale-box`,
         class: "box b1 container border-top padding-5 margin-top-5",
         style: "display:none;"
       });
 
-      for(let j in customers[i].sales) {
+      for (let j in customers[i].sales) {
         let sale_div = lib.element.create("div", { class: "box b1 container border radius-5 padding-5" });
         sale_div.append(lib.element.createInfo("mobile-box b2 em09", "Id", customers[i].sales[j].id));
         // sale_div.append(lib.element.createInfo("mobile-box b6 em09 margin-top-5", "Dias sem comprar", customers[i].daysOff));

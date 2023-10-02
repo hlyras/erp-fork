@@ -15,8 +15,6 @@
     if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.value; };
     if (production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.value; };
 
-    console.log(production);
-
     const production_products = await API.response(Production.product.filter, production);
     if (!production_products) { return false; }
 
@@ -33,6 +31,8 @@
         production_status: product.production_status,
         seamstress_name: product.seamstress_name,
         preparation_deadline: product.preparation_deadline,
+        shipment_datetime: product.shipment_datetime,
+        receipt_datetime: product.receipt_datetime,
         products: []
       };
 
@@ -60,7 +60,7 @@
   };
 
   function productionFilter(productions) {
-    let filter_div = document.getElementById("production-filter-box");
+    let filter_div = document.getElementById("production-filter-div");
     filter_div.innerHTML = "";
 
     !productions.length && filter_div.append(lib.element.create("div", {
@@ -68,37 +68,20 @@
     }, "Sem resultados."));
 
     productions.forEach(production => {
-      let production_div = lib.element.create("div", { class: "box b1 container ground border-st shadow-lg-st radius-5 padding-5 margin-top-5" });
+      console.log(production);
+      let production_div = lib.element.create("div", { class: "box b2-3 container ground border-st shadow-lg-st radius-5 padding-5 margin-top-5" });
       production_div.append(lib.element.create("div", {
-        class: "mobile-box b9 input-show border-st bold center pointer",
+        class: "mobile-box b8 input-show border-st bold center pointer",
         onclick: `productionDetail(${production.production_id})`
       }, production.production_id));
-      production_div.append(lib.element.create("div", { class: "mobile-box b4-9 lucida-grande em08 bold center" }, production.seamstress_name));
+      production_div.append(lib.element.create("div", { class: "mobile-box b7-8 lucida-grande em09 bold center" }, production.seamstress_name));
 
-      // blue
-      production.preparation_deadline > lib.genTimestamp() &&
-        production.preparation_deadline - (lib.timestampDay() / 2) > lib.genTimestamp() && production_div.append(lib.element.create("div", {
-          class: "mobile-box b6 em08 bold center",
-          style: 'color:blue'
-        }, lib.timestampToFulldate(production.preparation_deadline)));
-
-      // orange
-      production.preparation_deadline - (lib.timestampDay() / 2) < lib.genTimestamp() &&
-        production.preparation_deadline > lib.genTimestamp() && production_div.append(lib.element.create("div", {
-          class: "mobile-box b6 em09 bold center",
-          style: 'color:OrangeRed'
-        }, lib.timestampToFulldate(production.preparation_deadline)));
-
-      // red
-      production.preparation_deadline < lib.genTimestamp() && production_div.append(lib.element.create("div", {
-        class: "mobile-box b6 em08 bold center",
-        style: 'color:red'
-      }, lib.timestampToFulldate(production.preparation_deadline)));
-
-      production_div.append(lib.element.create("div", { class: "mobile-box b4 em08 center" }, production.production_status));
+      production_div.append(lib.element.info("b3 em09 bold margin-top-5 center", "Data de produção", `${lib.timestampToDate(production.shipment_datetime)}`));
+      production_div.append(lib.element.info("b3 em09 bold margin-top-5 center", "Data de conclusão", `${lib.timestampToFulldate(production.receipt_datetime) || 'Pendente'}`));
+      production_div.append(lib.element.create("div", { class: "mobile-box b3 lucida-grande em09 bold center margin-top-5" }, production.production_status));
 
       production.products.forEach(product => {
-        let product_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-2" });
+        let product_div = lib.element.create("div", { class: "box b1 container border-lg-st radius-5 padding-5 margin-top-5" });
         product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.code));
         product_div.append(lib.element.create("div", { class: "mobile-box b2 em09 center" }, product.name));
         product_div.append(lib.element.create("div", { class: "mobile-box b8 em09 center" }, product.color));

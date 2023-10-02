@@ -25,13 +25,15 @@ router.get('/address/id/:id', lib.route.toHttps, addressController.findById);
 router.get('/address/list/customer_id/:customer_id', lib.route.toHttps, addressController.list);
 router.delete('/address/delete', lib.route.toHttps, addressController.delete);
 
-router.get('/report', lib.route.toHttps, customerController.report);
+// router.get('/report', lib.route.toHttps, customerController.report.index);
 
 router.get('/activity', lib.route.toHttps, customerController.activity.index);
 router.post('/activity/filter', lib.route.toHttps, customerController.activity.filter);
 
 // router.get('/mailer/remove-sign/:id/:register', lib.route.toHttps, mailController.removeSign);
 // router.get('/mailer/signout/:id/:register', lib.route.toHttps, mailController.signOut);
+
+// router.get('/report/sale', lib.route.toHttps, customerController.report.sale.index);
 
 // Leads
 router.get('/lead', lib.route.toHttps, leadController.index);

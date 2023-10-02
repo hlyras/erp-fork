@@ -14,8 +14,8 @@ productController.filter = async (req, res) => {
   };
 
   let props = ["production_product.*",
-    "production.id production_id", "production.id seamstress_name",
-    "production.preparation_deadline", "production.status production_status",
+    "production.id production_id", "production.seamstress_id seamstress_id",
+    "production.preparation_deadline", "production.shipment_datetime", "production.receipt_datetime", "production.status production_status",
     "outcome_origin.name seamstress_name",
     "product.code", "product.name", "product.color", "product.size"];
   let inners = [
