@@ -14,7 +14,7 @@ prospectController.index = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'com-pro'])) {
 		return res.redirect('/');
 	};
-	res.render('customer/prospect/index', { user: req.user });
+	res.render('customer/prospect/manage/index', { user: req.user });
 };
 
 prospectController.save = async (req, res) => {
@@ -26,15 +26,49 @@ prospectController.save = async (req, res) => {
 	prospect.datetime = new Date().getTime();
 	prospect.brand = req.body.brand;
 	prospect.state = req.body.state;
+	prospect.city = req.body.city;
 	prospect.phone = req.body.phone;
 	prospect.social_media = req.body.social_media;
 	prospect.product_approach = req.body.product_approach;
 	prospect.user_id = req.user.id;
 
 	try {
-		let saveProspect = await prospect.save();
-		if (saveProspect.err) { return res.send({ msg: saveProspect.err }); }
+		let saveResponse = await prospect.save();
+		if (saveResponse.err) { return res.send({ msg: saveResponse.err }); }
 		res.send({ done: "Lead cadastrado com sucesso!" });
+	} catch (err) {
+		if (err.code == "ER_DUP_ENTRY") { return res.send({ msg: "Duplicidade para: " + err.sqlMessage.split("'")[1] }); }
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao cadastrar o Lead, favor contate o suporte!" });
+	};
+};
+
+prospectController.update = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'com-pro'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	const prospect = new Prospect();
+	prospect.id = req.body.id;
+	prospect.brand = req.body.brand;
+	prospect.state = req.body.state;
+	prospect.city = req.body.city;
+	prospect.phone = req.body.phone;
+	prospect.social_media = req.body.social_media;
+	prospect.product_approach = req.body.product_approach;
+	prospect.name = req.body.name;
+	prospect.email = req.body.email;
+	prospect.cellphone = req.body.cellphone;
+	prospect.status = req.body.status;
+	prospect.user_id = req.user.id;
+
+	try {
+		const verifyUserId = (await Prospect.findById(prospect.id))[0].user_id;
+		if (req.user.id != verifyUserId) { return res.send({ msg: "Você não tem autorização para atualizar este prospect" }); }
+
+		let updateResponse = await prospect.update();
+		if (updateResponse.err) { return res.send({ msg: updateResponse.err }); }
+		res.send({ done: "Lead atualizado com sucesso!" });
 	} catch (err) {
 		if (err.code == "ER_DUP_ENTRY") { return res.send({ msg: "Duplicidade para: " + err.sqlMessage.split("'")[1] }); }
 		console.log(err);
@@ -62,6 +96,7 @@ prospectController.filter = async (req, res) => {
 	lib.Query.fillParam("customer_prospect.status", req.body.status, params);
 	lib.Query.fillParam("customer_prospect.brand", req.body.brand, params);
 	lib.Query.fillParam("customer_prospect.state", req.body.state, strictParams);
+	lib.Query.fillParam("customer_prospect.user_id", req.user.id, strictParams);
 
 	let orderParams = [["datetime", "ASC"], ["id", "ASC"]];
 
@@ -76,158 +111,48 @@ prospectController.filter = async (req, res) => {
 	};
 };
 
-prospectController.confirmContact1 = async (req, res) => {
+prospectController.findById = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'com-pro'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	let mainProspect = await Prospect.findById(req.body.id);
-
-	if (!mainProspect.length) { return res.send({ msg: "Lead inválido, por favor atualize a página e tente novamente!" }); }
-	if (mainProspect[0].status != "1º contato") { return res.send({ msg: "Este Lead não está mais neste status, por favor atualize a página e tente novamente!" }); }
-
-	if (req.body.status == "Contatar loja novamente") {
-		if (!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
-	}
-
-	if (req.body.status == "Contato com responsável") {
-		if (!req.body.name && !mainProspect[0].name) { return res.send({ msg: "É necessário cadastrar o nome do responsável para o próximo contato." }); }
-		// if(!req.body.email && !mainProspect[0].email) { return res.send({ msg: "É necessário ter um email cadastrado antes do próximo contato." }); }	
-		if (!req.body.cellphone && !mainProspect[0].cellphone) { return res.send({ msg: "É necessário ter o número de WhatsApp do responsável para fazer o contato." }); }
-		// if(!req.body.meeting) { return res.send({ msg: "É necessário informar o horário da reunião." }); };
-		if (!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
-	}
-
-	if (req.body.status == "Lista de transmissão") {
-		if (!req.body.name && !mainProspect[0].name) { return res.send({ msg: "É necessário cadastrar o nome do responsável para o próximo contato." }); }
-		if (!req.body.email && !mainProspect[0].email) { return res.send({ msg: "É necessário ter um email cadastrado." }); }
-		if (!req.body.cellphone && !mainProspect[0].cellphone) { return res.send({ msg: "É necessário ter o número de WhatsApp do responsável para fazer o contato." }); }
-		if (!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
-	}
-
-	if (!req.body.status) { return res.send({ msg: "É necessário selecionar o status do Lead." }); };
-
-	let prospect = { id: mainProspect[0].id };
-	if (req.body.name) { prospect.name = req.body.name; }
-	if (req.body.email) { prospect.email = req.body.email; }
-	if (req.body.cellphone) { prospect.cellphone = req.body.cellphone; }
-	if (req.body.meeting) { prospect.meeting = req.body.meeting; }
-	if (req.body.status) { prospect.status = req.body.status; }
-
-	let prospect_log = new Prospect.log();
-	prospect_log.datetime = new Date().getTime();
-	prospect_log.prospect_id = mainProspect[0].id;
-	prospect_log.fromstatus = mainProspect[0].status;
-	prospect_log.tostatus = req.body.status;
-	prospect_log.comment = req.body.comment;
-	prospect_log.user_id = req.user.id;
-
 	try {
-		let response = await Prospect.update(prospect);
-		let response_log = await prospect_log.save();
-		res.send({ done: "Lead atualizado com sucesso!" });
+		let prospect = (await Prospect.findById(req.params.id))[0];
+		prospect.comments = await Prospect.log.list(req.params.id);
+
+		res.send({ prospect });
 	} catch (err) {
-		if (err.code == "ER_DUP_ENTRY") { return res.send({ msg: "Duplicidade para: " + err.sqlMessage.split("'")[1] }); }
 		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao atualizar o Lead, favor contate o suporte!" });
+		res.send({ msg: "Ocorreu um erro ao buscar os leads, favor contatar o suporte!" });
 	};
 };
 
-prospectController.confirmContact2 = async (req, res) => {
+prospectController.log = {};
+
+prospectController.log.create = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'com-pro'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	let mainProspect = await Prospect.findById(req.body.id);
-
-	if (!mainProspect.length) { return res.send({ msg: "Lead inválido, por favor atualize a página e tente novamente!" }); }
-	if (mainProspect[0].status != "Contatar loja novamente") { return res.send({ msg: "Este Lead não está mais neste status, por favor atualize a página e tente novamente!" }); }
-
-	if (req.body.status == "Contatar loja novamente") {
-		if (!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
-	}
-
-	if (req.body.status == "Contato com responsável") {
-		if (!req.body.name && !mainProspect[0].name) { return res.send({ msg: "É necessário cadastrar o nome do responsável para o próximo contato." }); }
-		// if(!req.body.email && !mainProspect[0].email) { return res.send({ msg: "É necessário ter um email cadastrado antes do próximo contato." }); }
-		if (!req.body.cellphone && !mainProspect[0].cellphone) { return res.send({ msg: "É necessário ter o número de WhatsApp do responsável para fazer o contato." }); }
-		// if(!req.body.meeting) { return res.send({ msg: "É necessário informar o horário da reunião." }); };
-		if (!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
-	}
-
-	if (req.body.status == "Lista de transmissão") {
-		if (!req.body.email && !mainProspect[0].email) { return res.send({ msg: "É necessário ter um email cadastrado." }); }
-		if (!req.body.cellphone && !mainProspect[0].cellphone) { return res.send({ msg: "É necessário ter o número de WhatsApp do responsável para fazer o contato." }); }
-		if (!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
-	}
-
-	if (!req.body.status) { return res.send({ msg: "É necessário selecionar o status do Lead." }); };
-
-	let prospect = { id: mainProspect[0].id };
-	if (req.body.name) { prospect.name = req.body.name; }
-	if (req.body.email) { prospect.email = req.body.email; }
-	if (req.body.cellphone) { prospect.cellphone = req.body.cellphone; }
-	if (req.body.meeting) { prospect.meeting = req.body.meeting; }
-	if (req.body.status) { prospect.status = req.body.status; }
-
-	let prospect_log = new Prospect.log();
-	prospect_log.datetime = new Date().getTime();
-	prospect_log.prospect_id = mainProspect[0].id;
-	prospect_log.fromstatus = mainProspect[0].status;
-	prospect_log.tostatus = req.body.status;
-	prospect_log.comment = req.body.comment;
-	prospect_log.user_id = req.user.id;
+	const log = new Prospect.log();
+	log.datetime = new Date().getTime();
+	log.prospect_id = req.body.prospect_id;
+	log.comment = req.body.comment;
+	log.user_id = req.user.id;
 
 	try {
-		let response = await Prospect.update(prospect);
-		let response_log = await prospect_log.save();
-		res.send({ done: "Lead atualizado com sucesso!" });
+		const verifyUser = (await Prospect.findById(log.prospect_id))[0];
+		if (req.user.id != verifyUser.user_id) { return res.send({ msg: "Você não tem autorização para atualizar este prospect" }); }
+
+		log.fromstatus = verifyUser.status;
+
+		let createResponse = await log.create();
+		if (createResponse.err) { return res.send({ msg: createResponse.err }); }
+		res.send({ done: "Comentário adicionado com sucesso!" });
 	} catch (err) {
 		if (err.code == "ER_DUP_ENTRY") { return res.send({ msg: "Duplicidade para: " + err.sqlMessage.split("'")[1] }); }
 		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao atualizar o Lead, favor contate o suporte!" });
-	};
-};
-
-prospectController.confirmContact3 = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'com-pro'])) {
-		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	};
-
-	let mainProspect = await Prospect.findById(req.body.id);
-
-	if (!mainProspect.length) { return res.send({ msg: "Lead inválido, por favor atualize a página e tente novamente!" }); }
-	if (mainProspect[0].status != "Contato com responsável") { return res.send({ msg: "Este Lead não está mais neste status, por favor atualize a página e tente novamente!" }); }
-
-	if (req.body.status == "Lista de transmissão") {
-		if (!req.body.email && !mainProspect[0].email) { return res.send({ msg: "É necessário ter um email cadastrado." }); }
-		if (!req.body.comment) { return res.send({ msg: "É necessário informar nas observações o que ocorreu durante o contato." }); };
-		if (!req.body.rating && !mainProspect[0].rating) { return res.send({ msg: "É necessário avaliar a qualidade do lead." }); };
-	}
-
-	if (!req.body.status) { return res.send({ msg: "É necessário selecionar o status do Lead." }); };
-
-	let prospect = { id: mainProspect[0].id };
-	if (req.body.email) { prospect.email = req.body.email; }
-	if (req.body.rating) { prospect.rating = req.body.rating; }
-	if (req.body.status) { prospect.status = req.body.status; }
-
-	let prospect_log = new Prospect.log();
-	prospect_log.datetime = new Date().getTime();
-	prospect_log.prospect_id = mainProspect[0].id;
-	prospect_log.fromstatus = mainProspect[0].status;
-	prospect_log.tostatus = req.body.status;
-	prospect_log.comment = req.body.comment;
-	prospect_log.user_id = req.user.id;
-
-	try {
-		let response = await Prospect.update(prospect);
-		let response_log = await prospect_log.save();
-		res.send({ done: "Lead atualizado com sucesso!" });
-	} catch (err) {
-		if (err.code == "ER_DUP_ENTRY") { return res.send({ msg: "Duplicidade para: " + err.sqlMessage.split("'")[1] }); }
-		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao atualizar o Lead, favor contate o suporte!" });
+		res.send({ msg: "Ocorreu um erro ao adicionar o comentário, favor contate o suporte!" });
 	};
 };
 

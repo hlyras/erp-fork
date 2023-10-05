@@ -1,0 +1,282 @@
+<script>
+  async function renderFlow() {
+    let sem_contato_box = lib.element.create("div", { class: "box b8 container border-st padding-10" });
+    sem_contato_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold em09 center" }, "Sem contato"));
+    let sem_contato_div = lib.element.create("div", { class: "box b1 container height-500 padding-3 scroll-y" });
+    sem_contato_box.append(sem_contato_div);
+    lib.drag.drop(sem_contato_div, (element_id) => { updateProspectStatus(lib.removeChar(element_id, "prospect-"), "Sem contato", sem_contato_div) });
+
+    let ag_contato_box = lib.element.create("div", { class: "box b8 container border-st padding-10" });
+    ag_contato_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold em09 center" }, "Ag. 1º contato"));
+    let ag_contato_div = lib.element.create("div", { class: "box b1 container height-500 padding-3 scroll-y" });
+    ag_contato_box.append(ag_contato_div);
+    lib.drag.drop(ag_contato_div, (element_id) => { updateProspectStatus(lib.removeChar(element_id, "prospect-"), "Ag. contato", ag_contato_div) });
+
+    let contatar_novamente_box = lib.element.create("div", { class: "box b8 container border-st padding-10" });
+    contatar_novamente_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold em09 center" }, "Contatar novamente"));
+    let contatar_novamente_div = lib.element.create("div", { class: "box b1 container height-500 padding-3 scroll-y" });
+    contatar_novamente_box.append(contatar_novamente_div);
+    lib.drag.drop(contatar_novamente_div, (element_id) => { updateProspectStatus(lib.removeChar(element_id, "prospect-"), "Contatar novamente", contatar_novamente_div) });
+
+    let ag_resposta_box = lib.element.create("div", { class: "box b8 container border-st padding-10" });
+    ag_resposta_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold em09 center" }, "Aguardando resposta"));
+    let ag_resposta_div = lib.element.create("div", { class: "box b1 container height-500 padding-3 scroll-y" });
+    ag_resposta_box.append(ag_resposta_div);
+    lib.drag.drop(ag_resposta_div, (element_id) => { updateProspectStatus(lib.removeChar(element_id, "prospect-"), "Ag. resposta", ag_resposta_div) });
+
+    let contatar_responsavel_box = lib.element.create("div", { class: "box b8 container border-st padding-10" });
+    contatar_responsavel_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold em09 center" }, "Contatar responsável"));
+    let contatar_responsavel_div = lib.element.create("div", { class: "box b1 container height-500 padding-3 scroll-y" });
+    contatar_responsavel_box.append(contatar_responsavel_div);
+    lib.drag.drop(contatar_responsavel_div, (element_id) => { updateProspectStatus(lib.removeChar(element_id, "prospect-"), "Contatar responsável", contatar_responsavel_div) });
+
+    let lista_de_transmissao_box = lib.element.create("div", { class: "box b8 container border-st padding-10" });
+    lista_de_transmissao_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold em09 center" }, "Lista de transmissão"));
+    let lista_de_transmissao_div = lib.element.create("div", { class: "box b1 container height-500 padding-3 scroll-y" });
+    lista_de_transmissao_box.append(lista_de_transmissao_div);
+    lib.drag.drop(lista_de_transmissao_div, (element_id) => { updateProspectStatus(lib.removeChar(element_id, "prospect-"), "Lista de transmissão", lista_de_transmissao_div) });
+
+    let convertido_box = lib.element.create("div", { class: "box b8 container border-st padding-10" });
+    convertido_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold em09 center" }, "Convertido"));
+    let convertido_div = lib.element.create("div", { class: "box b1 container height-500 padding-3 scroll-y" });
+    convertido_box.append(convertido_div);
+    lib.drag.drop(convertido_div, (element_id) => { updateProspectStatus(lib.removeChar(element_id, "prospect-"), "Convertido", convertido_div) });
+
+    let sem_interesse_box = lib.element.create("div", { class: "box b8 container border-st padding-10" });
+    sem_interesse_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold em09 center" }, "Sem interesse"));
+    let sem_interesse_div = lib.element.create("div", { class: "box b1 container height-500 padding-3 scroll-y" });
+    sem_interesse_box.append(sem_interesse_div);
+    lib.drag.drop(sem_interesse_div, (element_id) => { updateProspectStatus(lib.removeChar(element_id, "prospect-"), "Sem interesse", sem_interesse_div) });
+
+    return {
+      sem_contato_div, ag_contato_div, contatar_novamente_div, ag_resposta_div,
+      contatar_responsavel_div, lista_de_transmissao_div, convertido_div, sem_interesse_div
+    };
+  };
+
+  async function updateProspectStatus(prospect_id, value, status_div) {
+    const prospect = { id: parseInt(prospect_id) };
+    prospect.status = value;
+
+    console.log(prospect);
+
+    const response = await API.response(Customer.prospect.update, prospect, status_div);
+    if (!response) { return false; }
+
+    // lib.message(response.done);
+  };
+
+  async function updateProspectProp(prospect_id, prop, icon) {
+    const prospect = { id: prospect_id };
+    prospect[prop] = document.getElementById(`prospect-form-${prospect_id}`)[prop].value;
+
+    const response = await API.response(Customer.prospect.update, prospect, icon);
+    if (!response) { return false; }
+
+    lib.message(response.done);
+  };
+
+  async function createLog(prospect_id, icon) {
+    const log = { prospect_id };
+    log.comment = document.getElementById(`prospect-form-${prospect_id}`).log.value;
+
+    const response = await API.response(Customer.prospect.log.create, log, icon);
+    if (!response) { return false; }
+
+    lib.message(response.done);
+
+    updateProspect(prospect_id);
+
+    // document.getElementById(`prospect-form-${prospect_id}`).log.value = "";
+  };
+
+  function renderProspect(prospect, status_div) {
+    let prospect_div = lib.element.create("div", {
+      id: `prospect-${prospect.id}`,
+      class: "box b1 container padding-10 margin-top-5 radius-5 border-st",
+      draggable: "true",
+      style: "background-color:#f0f0f0;"
+    });
+
+    prospect_div.append(lib.element.icon('b8', 20, "/images/icon/down-arrow.png",
+      `lib.displayDiv('prospect-form-${prospect.id}', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png');`));
+    prospect_div.append(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande bold em09 padding-3 radius-5 center" }, prospect.brand));
+    prospect_div.append(lib.element.create("div", { class: "mobile-box b8 em08 lucida-grande radius-5 center" }, prospect.state));
+    prospect_div.append(lib.element.info("b7-8 em09 lucida-grande radius-5", "Telefone:", prospect.phone))
+    prospect.social_media && prospect_div.append(lib.element.icon('b8 radius-5', 20, "/images/icon/social-media.png", `lib.openExternalLink('${prospect.social_media}')`));
+    prospect.product_approach && prospect_div.append(lib.element.info("b1 em09 lucida-grande margin-top-5 radius-5", "Produto de abordagem:", prospect.product_approach))
+
+    let form_prospect = lib.element.create("form", {
+      id: `prospect-form-${prospect.id}`,
+      class: "box b1 container margin-top-5",
+      style: "display:none;"
+    });
+
+    form_prospect.append(lib.element.create("input", {
+      type: "text",
+      name: "name",
+      class: "box b7-8 em08 border-bottom-lg-st padding-5 margin-top-5 center",
+      placeholder: "Nome do Responsável",
+      role: 'presentation',
+      autocomplete: "off",
+      value: `${prospect.name}`
+    }));
+
+    form_prospect.append(lib.element.create("img", {
+      src: "/images/icon/save.png",
+      class: "image-prop size-20 center icon",
+      onclick: `updateProspectProp(${prospect.id}, 'name', this)`
+    }));
+
+    form_prospect.append(lib.element.create("input", {
+      type: "text",
+      name: "email",
+      class: "box b7-8 em08 border-bottom-lg-st padding-5 margin-top-5 center",
+      placeholder: "E-mail do Responsável",
+      role: 'presentation',
+      autocomplete: "off",
+      value: `${prospect.email}`
+    }));
+
+    form_prospect.append(lib.element.create("img", {
+      src: "/images/icon/save.png",
+      class: "image-prop size-20 center icon",
+      onclick: `updateProspectProp(${prospect.id}, 'email', this)`
+    }));
+
+    form_prospect.append(lib.element.create("input", {
+      type: "text",
+      name: "cellphone",
+      class: "box b7-8 em08 border-bottom-lg-st padding-5 margin-top-5 center",
+      placeholder: "WhatsApp do Responsável",
+      role: 'presentation',
+      autocomplete: "off",
+      value: `${prospect.cellphone}`,
+      oninput: "lib.mask.phone(this)"
+    }));
+
+    form_prospect.append(lib.element.create("img", {
+      src: "/images/icon/save.png",
+      class: "image-prop size-20 center icon",
+      onclick: `updateProspectProp(${prospect.id}, 'cellphone', this)`
+    }));
+
+    for (let i in prospect.comments) {
+      let div_comments = lib.element.create("div", { type: "text", class: "box b1 container padding-3 margin-top-5 radius-5 box-hover border" });
+      div_comments.appendChild(lib.element.create("div", { class: "box b1 em07 lucida-grande" }, `Status: ${prospect.comments[i].fromstatus}`));
+      div_comments.appendChild(lib.element.create("div", { class: "box b1 em07 lucida-grande bold" }, lib.convertDatetime(lib.timestampToDatetime(prospect.comments[i].datetime))));
+      div_comments.appendChild(lib.element.create("div", { class: "box b1 em09 lucida-grande" }, prospect.comments[i].comment));
+      form_prospect.appendChild(div_comments);
+    };
+
+    form_prospect.append(lib.element.create("textarea", {
+      name: "log",
+      class: "box b7-8 height-80 avant-garde margin-top-5 padding-5 radius-5",
+      placeholder: "Observações do contato"
+    }));
+
+    form_prospect.append(lib.element.create("img", {
+      src: "/images/icon/save.png",
+      class: "image-prop size-20 center icon",
+      onclick: `createLog(${prospect.id}, this)`
+    }));
+
+    prospect_div.append(form_prospect);
+    status_div.append(prospect_div);
+
+    lib.drag.element(prospect_div);
+  };
+
+  async function updateProspect(prospect_id) {
+    let prospect_div = document.getElementById(`prospect-${prospect_id}`);
+    prospect_div.innerHTML = "";
+
+    let prospect = await API.response(Customer.prospect.findById, prospect_id, prospect_div);
+    if (!prospect) { return false; }
+
+    prospect_div.append(lib.element.icon('b8', 20, "/images/icon/up-arrow.png",
+      `lib.displayDiv('prospect-form-${prospect.id}', this, '/images/icon/up-arrow.png', '/images/icon/down-arrow.png');`));
+    prospect_div.append(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande bold em09 padding-3 radius-5 center" }, prospect.brand));
+    prospect_div.append(lib.element.create("div", { class: "mobile-box b8 em08 lucida-grande radius-5 center" }, prospect.state));
+    prospect_div.append(lib.element.info("b7-8 em09 lucida-grande radius-5", "Telefone:", prospect.phone))
+    prospect.social_media && prospect_div.append(lib.element.icon('b8 radius-5', 20, "/images/icon/social-media.png", `lib.openExternalLink('${prospect.social_media}')`));
+    prospect.product_approach && prospect_div.append(lib.element.info("b1 em09 lucida-grande margin-top-5 radius-5", "Produto de abordagem:", prospect.product_approach))
+
+    let form_prospect = lib.element.create("form", {
+      id: `prospect-form-${prospect.id}`,
+      class: "box b1 container margin-top-5"
+    });
+
+    form_prospect.append(lib.element.create("input", {
+      type: "text",
+      name: "name",
+      class: "box b7-8 em08 border-bottom-lg-st padding-5 margin-top-5 center",
+      placeholder: "Nome do Responsável",
+      role: 'presentation',
+      autocomplete: "off",
+      value: `${prospect.name}`
+    }));
+
+    form_prospect.append(lib.element.create("img", {
+      src: "/images/icon/save.png",
+      class: "image-prop size-20 center icon",
+      onclick: `updateProspectProp(${prospect.id}, 'name', this)`
+    }));
+
+    form_prospect.append(lib.element.create("input", {
+      type: "text",
+      name: "email",
+      class: "box b7-8 em08 border-bottom-lg-st padding-5 margin-top-5 center",
+      placeholder: "E-mail do Responsável",
+      role: 'presentation',
+      autocomplete: "off",
+      value: `${prospect.email}`
+    }));
+
+    form_prospect.append(lib.element.create("img", {
+      src: "/images/icon/save.png",
+      class: "image-prop size-20 center icon",
+      onclick: `updateProspectProp(${prospect.id}, 'email', this)`
+    }));
+
+    form_prospect.append(lib.element.create("input", {
+      type: "text",
+      name: "cellphone",
+      class: "box b7-8 em08 border-bottom-lg-st padding-5 margin-top-5 center",
+      placeholder: "WhatsApp do Responsável",
+      role: 'presentation',
+      autocomplete: "off",
+      value: `${prospect.cellphone}`,
+      oninput: "lib.mask.phone(this)"
+    }));
+
+    form_prospect.append(lib.element.create("img", {
+      src: "/images/icon/save.png",
+      class: "image-prop size-20 center icon",
+      onclick: `updateProspectProp(${prospect.id}, 'cellphone', this)`
+    }));
+
+    for (let i in prospect.comments) {
+      let div_comments = lib.element.create("div", { type: "text", class: "box b1 container padding-3 margin-top-5 radius-5 box-hover border" });
+      div_comments.appendChild(lib.element.create("div", { class: "box b1 em07 lucida-grande" }, `Status: ${prospect.comments[i].fromstatus}`));
+      div_comments.appendChild(lib.element.create("div", { class: "box b1 em07 lucida-grande bold" }, lib.convertDatetime(lib.timestampToDatetime(prospect.comments[i].datetime))));
+      div_comments.appendChild(lib.element.create("div", { class: "box b1 em09 lucida-grande" }, prospect.comments[i].comment));
+      form_prospect.appendChild(div_comments);
+    };
+
+    form_prospect.append(lib.element.create("textarea", {
+      name: "log",
+      class: "box b7-8 height-80 avant-garde margin-top-5 padding-5 radius-5",
+      placeholder: "Observações do contato"
+    }));
+
+    form_prospect.append(lib.element.create("img", {
+      src: "/images/icon/save.png",
+      class: "image-prop size-20 center icon",
+      onclick: `createLog(${prospect.id}, this)`
+    }));
+
+    prospect_div.append(form_prospect);
+    prospect_div.parentNode.scrollTop = prospect_div.offsetTop;
+  };
+</script>

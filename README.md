@@ -1,8 +1,4 @@
-Notas do desenvolvedor
-
-Lista de tarefas
-
-count_datetime, count_user_id, datetime, id, name, pouch, production_id, seal, seamstress_id, status, user_id
-
-Criar nova tabela no banco de dados para que seja contabilizado o count_datetime, count_user_id. 
-Relacionar os produtos do recebimento 'production_receipt' 'production_receipt_product'
+<!-- UPDATE `cms_wt_erp`.`customer_prospect` SET `status` = 'Ag. contato' where status = "1º contato";
+UPDATE `cms_wt_erp`.`customer_prospect` SET `status` = 'Contatar novamente' where status = "Contatar loja novamente";
+UPDATE `cms_wt_erp`.`customer_prospect` SET `status` = "Contatar responsável" where status = 'Contato com responsável'; -->
+Atualizar status corrente

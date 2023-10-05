@@ -46,8 +46,6 @@
       }, "Nenhum resultado encontrado."));
     }
 
-    receipts = lib.sort(receipts, "datetime");
-
     receipts.forEach(receipt => {
       let receipt_div = lib.element.create("div", {
         class: "box b1 container ground border-st shadow-lg-st radius-5 padding-10 margin-top-5 pointer",

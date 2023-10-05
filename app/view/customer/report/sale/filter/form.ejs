@@ -1,0 +1,36 @@
+<div id="customer-filter-box" class="box b1 container h-center">
+  <form id="customer-filter-form" class="box b2-3 container ground border radius-5 padding-5">
+    <input type="text" name="id" placeholder="Id do cliente"
+      class="box b2-9 input-generic lucida-grande bold margin-top-5 center" autocomplete="off">
+    <input type="text" name="customer_name" placeholder="Nome do cliente"
+      class="box b5-9 input-generic lucida-grande bold margin-top-5 center" autocomplete="off">
+    <input type="text" name="customer_cpf" placeholder="CPF"
+      class="box b2-9 input-generic lucida-grande bold margin-top-5 center" autocomplete="off">
+    <input type="text" name="customer_cnpj" placeholder="CNPJ"
+      class="box b4 input-generic lucida-grande bold margin-top-5 center" autocomplete="off">
+
+    <input type="date" name="periodStart" class="box b4 input-generic lucida-grande bold center margin-top-5"
+      autocomplete="off">
+    <input type="date" name="periodEnd" class="box b4 input-generic lucida-grande bold center margin-top-5"
+      autocomplete="off">
+
+    <select id="shipment_method" class="box b4 lucida-grande bold input-generic margin-top-5">
+      <option value="">Forma de entrega</option>
+      <option value="Retirada em Loja">Retirada em Loja</option>
+      <option value="Correios Pac">Correios Pac</option>
+      <option value="Correios sedex">Correios Sedex</option>
+      <option value="Jadlog">Jadlog</option>
+      <option value="Total Express">Total Express</option>
+      <option value="Braspress">Braspress</option>
+      <option value="Latam">Latam</option>
+      <option value="Azul Cargo">Azul Cargo</option>
+      <option value="Buslog">Buslog</option>
+      <option value="Fedex">Fedex</option>
+    </select>
+
+    <button type="submit" name="submit"
+      class="box b5 submit-generic lucida-grande bold center margin-top-5 radius-5 pointer">Filtrar</button>
+  </form>
+
+  <div id="customer-filter-div" class="box b2-3 container"></div>
+</div>

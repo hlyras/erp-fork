@@ -1,0 +1,30 @@
+<form id="prospect-filter-form" class="box b4 container ground border radius-5 padding-5 margin-top-5">
+  <div class="box b1 underline lucida-grande bold center">Filtro de clientes</div>
+
+  <input type="text" name="brand" class="box b1 input-generic margin-top-5 center" placeholder="Nome da Empresa"
+    autocomplete="off">
+
+  <select name="state" class="box b1 input-generic margin-top-5">
+    <option selected value="">Estado</option>
+  </select>
+
+  <select name="city" class="box b1 input-generic margin-top-5">
+    <option selected value="">Cidade</option>
+  </select>
+
+  <select name="status" class="box b1 input-generic margin-top-5">
+    <option selected value="">Status</option>
+    <option value="1º contato">1º contato</option>
+    <option value="Contatar novamente">Contatar novamente</option>
+    <option value="Contato com responsável">Contato com responsável</option>
+    <option value="Lista de transmissão">Lista de transmissão</option>
+  </select>
+
+  <input type="date" name="period-start" class="box b1 input-generic center margin-top-5 center">
+  <input type="date" name="period-end" class="box b1 input-generic center margin-top-5 center">
+  <button name="submit" class="box b1 submit-generic radius-5 margin-top-5 center">Filtrar</button>
+</form>
+
+<div id="prospect-filter-box" class="box b1 margin-top-10 margin-bottom-50 scroll-x">
+  <div id="prospect-filter-div" class="box container width-2400 padding-10"></div>
+</div>

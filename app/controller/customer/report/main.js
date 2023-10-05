@@ -9,7 +9,7 @@ reportController.index = async (req, res) => {
   if (!await userController.verifyAccess(req, res, ['adm'])) {
     return res.redirect('/');
   };
-  res.render('customer/report/sale/index', { user: req.user });
+  res.render('customer/report/index', { user: req.user });
 };
 
 module.exports = reportController;

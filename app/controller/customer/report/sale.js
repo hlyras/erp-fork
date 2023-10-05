@@ -15,4 +15,12 @@ saleController.index = async (req, res) => {
   res.render('customer/report/sale/index', { user: req.user });
 };
 
+// saleController.filter = async (req, res) => {
+//   if (!await userController.verifyAccess(req, res, ['adm', 'com-sel'])) {
+//     return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+//   };
+
+//   res.send();
+// };
+
 module.exports = saleController;

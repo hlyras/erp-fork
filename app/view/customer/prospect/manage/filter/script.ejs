@@ -1,0 +1,66 @@
+<script>
+  document.getElementById("prospect-filter-form").state.addEventListener("change", async e => {
+    let cidades = await API.response(lib.listarCidadesPorEstado, e.target.value);
+    if (!cidades) { return false; }
+
+    document.getElementById("prospect-filter-form").city.innerHTML = "";
+
+    cidades = lib.sort(cidades, "nome");
+
+    cidades.forEach(cidade => {
+      document.getElementById("prospect-filter-form").city.append(lib.element.create("option", {
+        value: `${cidade.nome}`
+      }, `${cidade.nome}`));
+    });
+  });
+
+  document.getElementById("prospect-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const prospect = {
+      status: e.target.elements.namedItem("status").value,
+      brand: e.target.elements.namedItem("brand").value,
+      state: e.target.elements.namedItem("state").value,
+      city: e.target.elements.namedItem("city").value,
+      periodStart: lib.dateToTimestamp(e.target.elements.namedItem("period-start").value),
+      periodEnd: parseInt(lib.dateToTimestamp(e.target.elements.namedItem("period-end").value)) + parseInt(lib.timestampDay())
+    };
+
+    let prospects = await API.response(Customer.prospect.filter, prospect, e.target.submit);
+    if (!prospects) { return false; }
+
+    window.location.href = "#prospect-filter-box";
+
+    prospectFilter(prospects);
+  });
+
+  async function prospectFilter(prospects) {
+    let filter_div = document.getElementById("prospect-filter-div");
+    filter_div.innerHTML = "";
+
+    let {
+      sem_contato_div, ag_contato_div, contatar_novamente_div, ag_resposta_div,
+      contatar_responsavel_div, lista_de_transmissao_div, convertido_div, sem_interesse_div
+    } = await renderFlow();
+
+    filter_div.append(sem_contato_div.parentNode);
+    filter_div.append(ag_contato_div.parentNode);
+    filter_div.append(contatar_novamente_div.parentNode);
+    filter_div.append(ag_resposta_div.parentNode);
+    filter_div.append(contatar_responsavel_div.parentNode);
+    filter_div.append(lista_de_transmissao_div.parentNode);
+    filter_div.append(convertido_div.parentNode);
+    filter_div.append(sem_interesse_div.parentNode);
+
+    prospects.forEach(prospect => {
+      prospect.status == "Sem contato" && renderProspect(prospect, sem_contato_div);
+      prospect.status == "Ag. contato" && renderProspect(prospect, ag_contato_div);
+      prospect.status == "Contatar novamente" && renderProspect(prospect, contatar_novamente_div);
+      prospect.status == "Ag. resposta" && renderProspect(prospect, ag_resposta_div);
+      prospect.status == "Contatar responsável" && renderProspect(prospect, contatar_responsavel_div);
+      prospect.status == "Lista de transmissão" && renderProspect(prospect, lista_de_transmissao_div);
+      prospect.status == "Convertido" && renderProspect(prospect, convertido_div);
+      prospect.status == "Sem interesse" && renderProspect(prospect, sem_interesse_div);
+    });
+  };
+</script>

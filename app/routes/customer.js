@@ -4,6 +4,8 @@ const lib = require('jarmlib');
 const customerController = require('../controller/customer/main');
 customerController.mail = require('../controller/customer/mail');
 customerController.activity = require('../controller/customer/report/activity');
+customerController.report = require('../controller/customer/report/main');
+customerController.report.sale = require('../controller/customer/report/sale');
 
 const addressController = require('../controller/customer/address');
 const leadController = require('../controller/customer/lead/main');
@@ -25,7 +27,8 @@ router.get('/address/id/:id', lib.route.toHttps, addressController.findById);
 router.get('/address/list/customer_id/:customer_id', lib.route.toHttps, addressController.list);
 router.delete('/address/delete', lib.route.toHttps, addressController.delete);
 
-// router.get('/report', lib.route.toHttps, customerController.report.index);
+router.get('/report', lib.route.toHttps, customerController.report.index);
+router.get('/report/sale', lib.route.toHttps, customerController.report.sale.index);
 
 router.get('/activity', lib.route.toHttps, customerController.activity.index);
 router.post('/activity/filter', lib.route.toHttps, customerController.activity.filter);
@@ -44,11 +47,15 @@ router.post('/lead/mail/send', lib.route.toHttps, leadController.mail.send);
 // Prospects
 router.get('/prospect', lib.route.toHttps, prospectController.index);
 router.post('/prospect/save', lib.route.toHttps, prospectController.save);
+router.patch('/prospect', lib.route.toHttps, prospectController.update);
 router.post('/prospect/filter', lib.route.toHttps, prospectController.filter);
+router.get('/prospect/id/:id', lib.route.toHttps, prospectController.findById);
 router.post('/prospect/mail/send', lib.route.toHttps, prospectController.mail.send);
 
-router.post('/prospect/confirm-contact-1', lib.route.toHttps, prospectController.confirmContact1);
-router.post('/prospect/confirm-contact-2', lib.route.toHttps, prospectController.confirmContact2);
-router.post('/prospect/confirm-contact-3', lib.route.toHttps, prospectController.confirmContact3);
+router.post('/prospect/log/create', lib.route.toHttps, prospectController.log.create);
+
+// router.post('/prospect/confirm-contact-1', lib.route.toHttps, prospectController.confirmContact1);
+// router.post('/prospect/confirm-contact-2', lib.route.toHttps, prospectController.confirmContact2);
+// router.post('/prospect/confirm-contact-3', lib.route.toHttps, prospectController.confirmContact3);
 
 module.exports = router;

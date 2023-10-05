@@ -1,0 +1,43 @@
+<html>
+
+<head>
+  <%- include('./../../../partials/head.ejs') %>
+</head>
+
+<body>
+  <%- include('./../../../partials/header.ejs') %>
+  <%- include('./../../../partials/nav.ejs') %>
+  <section class="container h-center">
+    <%- include('./create/form.ejs') %>
+    <%- include('./filter/form.ejs') %>
+  </section>
+</body>
+<footer>
+  <%- include('./../../../partials/footer.ejs') %>
+  <script src="/javascripts/scripts/customer/model/main.js"></script>
+  <script src="/javascripts/scripts/customer/model/prospect/main.js"></script>
+  <%- include('./create/script.ejs') %>
+  <%- include('./filter/script.ejs') %>
+  <%- include('./filter/flow.ejs') %>
+</footer>
+
+<script>
+  const Estados = lib.sort(lib.listarEstados(), "uf");
+
+  Estados.forEach(estado => {
+    document.getElementById("prospect-create-form").state.append(lib.element.create("option", {
+      value: `${estado.uf}`
+    }, `${estado.uf} | ${estado.unidade_federativa}`));
+
+    document.getElementById("prospect-filter-form").state.append(lib.element.create("option", {
+      value: `${estado.uf}`
+    }, `${estado.uf} | ${estado.unidade_federativa}`));
+  });
+
+  document.getElementById("prospect-filter-form").elements.namedItem("period-start").value = lib.genPatternDate();
+  document.getElementById("prospect-filter-form").elements.namedItem("period-end").value = lib.genPatternDate();
+
+  document.getElementById("prospect-filter-form").submit.click();
+</script>
+
+</html>

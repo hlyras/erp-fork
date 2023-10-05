@@ -1,0 +1,84 @@
+<script>
+  document.getElementById("customer-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let sale = {
+      periodStart: lib.dateToTimestamp(e.target.periodStart.value),
+      periodEnd: lib.dateToTimestamp(e.target.periodEnd.value),
+      shipment_method: e.target.shipment_method.value
+    };
+
+    let customer = {
+      name: e.target.customer_name.value
+    };
+
+    e.target.submit.disabled = true;
+
+    let sales = await API.response(Sale.filter, sale, e.target.submit);
+    if (!sales) { return false; }
+
+    let customers = await API.response(Customer.filter, customer, e.target.submit);
+    if (!customers) { return false; }
+
+    e.target.submit.disabled = false;
+
+    customers.forEach(customer => {
+      customer.sales = sales.reduce((sales, sale) => {
+        if (customer.id == sale.customer_id) {
+          sales.push(sale);
+          return sales;
+        }
+        return sales;
+      }, []);
+    });
+
+    customers = customerRevenue(customers);
+    customers = lib.sort(customers, "revenue", "desc");
+
+    customerFilter(customers);
+  });
+
+  async function customerFilter(customers) {
+    let filter_div = document.getElementById("customer-filter-div");
+    filter_div.innerHTML = "";
+
+    customers.forEach(customer => {
+      let customer_div = lib.element.create("div", { class: "box b1 container ground border-lg-st shadow-lg-st radius-5 padding-5 margin-top-5" });
+      customer_div.append(lib.element.createInfo("mobile-box b8 border", "Id", customer.id));
+      customer_div.append(lib.element.createInfo("mobile-box b3-4 border", "Nome do cliente", customer.name));
+      customer_div.append(lib.element.createInfo("mobile-box b8 border", "Rede social", ``));
+      customer.person_type == "natural-person" && customer_div.append(lib.element.createInfo("mobile-box b2", "CPF", customer.cpf));
+      customer.person_type == "legal-entity" && customer_div.append(lib.element.createInfo("mobile-box b2", "Nome da empresa", customer.brand));
+      customer.person_type == "legal-entity" && customer_div.append(lib.element.createInfo("mobile-box b2", "Razão social", customer.trademark));
+      customer.person_type == "legal-entity" && customer_div.append(lib.element.createInfo("mobile-box b2", "CNPJ", customer.cnpj));
+      customer.person_type == "legal-entity" && customer_div.append(lib.element.createInfo("mobile-box b2", "Inscrição Estadual", customer.ie));
+      customer_div.append(lib.element.createInfo("mobile-box b2", "E-mail", customer.email));
+      customer_div.append(lib.element.createInfo("mobile-box b2", "WhatsApp", customer.cellphone));
+      customer_div.append(lib.element.createInfo("mobile-box b2", "Telefone", customer.phone));
+      customer_div.append(lib.element.createInfo("mobile-box b2", "Receita total", `R$${lib.roundValue(customer.revenue).toFixed(2)}`));
+
+      customer.sales.forEach(sale => {
+        let sale_div = lib.element.create("div", { class: "box b1 container ground border-lg-st shadow-lg-st radius-5 padding-5 margin-top-5" });
+        sale_div.append(lib.element.createInfo("mobile-box b3", "Código da venda", `${sale.id}`));
+        sale_div.append(lib.element.createInfo("mobile-box b3", "Status", `${sale.status}`));
+        sale_div.append(lib.element.createInfo("mobile-box b3", "Valor", `${sale.value}`));
+        customer_div.append(sale_div);
+      });
+
+      filter_div.append(customer_div);
+    });
+  };
+
+  function customerRevenue(customers) {
+    customers.forEach(customer => {
+      customer.revenue = customer.sales.reduce((revenue, sale) => {
+        if (sale.status != "Em negociação" && sale.payment_confirmation_date) {
+          revenue += lib.roundValue(sale.value);
+        }
+        return revenue;
+      }, 0);
+    });
+
+    return customers;
+  };
+</script>

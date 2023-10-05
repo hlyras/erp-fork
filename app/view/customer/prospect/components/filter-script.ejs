@@ -6,6 +6,7 @@
 			status: e.target.elements.namedItem("status").value,
 			brand: e.target.elements.namedItem("brand").value,
 			state: e.target.elements.namedItem("state").value,
+			city: e.target.elements.namedItem("city").value,
 			periodStart: lib.dateToTimestamp(e.target.elements.namedItem("period-start").value),
 			periodEnd: parseInt(lib.dateToTimestamp(e.target.elements.namedItem("period-end").value)) + parseInt(lib.timestampDay())
 		};
