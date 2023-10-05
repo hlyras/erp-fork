@@ -5,7 +5,7 @@
 
     document.getElementById("prospect-create-form").city.innerHTML = "";
 
-    cidades = lib.sort(cidades, "nome");
+    cidades = lib.sort2(cidades, "nome");
 
     cidades.forEach(cidade => {
       document.getElementById("prospect-create-form").city.append(lib.element.create("option", {
@@ -36,6 +36,6 @@
     e.target.elements.namedItem("social-media").value = "";
     e.target.elements.namedItem("product-approach").value = "";
 
-    // document.getElementById("prospect-filter-form").submit.click();
+    document.getElementById("prospect-filter-form").submit.click();
   });
 </script>

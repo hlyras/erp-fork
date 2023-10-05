@@ -28,6 +28,7 @@ prospectController.save = async (req, res) => {
 	prospect.state = req.body.state;
 	prospect.city = req.body.city;
 	prospect.phone = req.body.phone;
+	prospect.status = "Ag. contato";
 	prospect.social_media = req.body.social_media;
 	prospect.product_approach = req.body.product_approach;
 	prospect.user_id = req.user.id;

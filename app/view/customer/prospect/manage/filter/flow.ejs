@@ -58,12 +58,8 @@
     const prospect = { id: parseInt(prospect_id) };
     prospect.status = value;
 
-    console.log(prospect);
-
     const response = await API.response(Customer.prospect.update, prospect, status_div);
     if (!response) { return false; }
-
-    // lib.message(response.done);
   };
 
   async function updateProspectProp(prospect_id, prop, icon) {
@@ -86,8 +82,6 @@
     lib.message(response.done);
 
     updateProspect(prospect_id);
-
-    // document.getElementById(`prospect-form-${prospect_id}`).log.value = "";
   };
 
   function renderProspect(prospect, status_div) {
