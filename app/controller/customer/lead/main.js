@@ -30,6 +30,8 @@ leadController.filter = async (req, res) => {
 		id: req.body.lead.id,
 		name: req.body.lead.name,
 		email: req.body.lead.email,
+		phone: req.body.lead.phone,
+		origin: req.body.lead.origin,
 		periodStart: req.body.lead.periodStart,
 		periodEnd: req.body.lead.periodEnd,
 		status: req.body.lead.status
@@ -42,6 +44,8 @@ leadController.filter = async (req, res) => {
 	lib.Query.fillParam("customer_lead.id", req.body.lead.id, strict_params);
 	lib.Query.fillParam("customer_lead.name", req.body.lead.name, params);
 	lib.Query.fillParam("customer_lead.email", req.body.lead.email, params);
+	lib.Query.fillParam("customer_lead.phone", req.body.lead.phone, params);
+	lib.Query.fillParam("customer_lead.origin", req.body.lead.origin, params);
 	lib.Query.fillParam("customer_lead.status", req.body.lead.status, strict_params);
 	lib.Query.fillParam("customer_lead.user_id", req.body.lead.user_id, strict_params);
 
