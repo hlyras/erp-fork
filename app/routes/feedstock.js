@@ -5,7 +5,8 @@ const feedstockController = require('../controller/feedstock/main');
 const supplierController = require('../controller/feedstock/supplier/main');
 const supplierStorageController = require('../controller/feedstock/supplier/storage');
 const purchaseController = require('../controller/feedstock/purchase/main');
-const purchaseFeedstockController = require('../controller/feedstock/purchase/feedstock');
+purchaseController.feedstock = require('../controller/feedstock/purchase/feedstock');
+purchaseController.order = require('../controller/feedstock/purchase/order');
 
 router.get('/manage', lib.route.toHttps, feedstockController.manage);
 
@@ -28,6 +29,7 @@ router.post('/supplier/storage/update', lib.route.toHttps, supplierStorageContro
 router.post('/supplier/storage/filter', lib.route.toHttps, supplierStorageController.filter);
 router.delete('/supplier/storage/remove/id/:id', lib.route.toHttps, supplierStorageController.remove);
 
+
 router.get('/purchase', lib.route.toHttps, purchaseController.index);
 router.get('/purchase/manage', lib.route.toHttps, purchaseController.manage);
 router.post('/purchase/save', lib.route.toHttps, purchaseController.save);
@@ -35,6 +37,12 @@ router.put('/purchase/update', lib.route.toHttps, purchaseController.updateStatu
 router.post('/purchase/filter', lib.route.toHttps, purchaseController.filter);
 router.delete('/purchase/delete/:id', lib.route.toHttps, purchaseController.delete);
 
-router.post('/purchase/feedstock/filter', lib.route.toHttps, purchaseFeedstockController.filter);
+router.post('/purchase/feedstock/filter', lib.route.toHttps, purchaseController.feedstock.filter);
+
+router.get('/purchase/order', lib.route.toHttps, purchaseController.order.index);
+router.post('/purchase/order/create', lib.route.toHttps, purchaseController.order.create);
+router.post('/purchase/order/update', lib.route.toHttps, purchaseController.order.update);
+router.post('/purchase/order/filter', lib.route.toHttps, purchaseController.order.filter);
+router.delete('/purchase/order/delete/:id', lib.route.toHttps, purchaseController.order.delete);
 
 module.exports = router;

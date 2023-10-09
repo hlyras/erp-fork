@@ -3,6 +3,8 @@
     const receipt = await API.response(Production.receipt.findById, receipt_id);
     if (!receipt) { return false; }
 
+    console.log(receipt);
+
     lib.display("receipt-filter-box", "none");
     lib.display("receipt-detail-box", "");
 
@@ -11,13 +13,13 @@
 
     let receipt_div = lib.element.create("div", { class: "box b1 container ground border-st padding-5 margin-top-5" });
 
-    receipt_div.append(lib.element.info("b8 margin-top-5", "Produção", receipt.production_id));
-    receipt_div.append(lib.element.info("b2 margin-top-5", "Costureiro(a)", receipt.seamstress_name));
-    receipt_div.append(lib.element.info("b3-8 margin-top-5", "status", receipt.status));
-    receipt_div.append(lib.element.info("b2 margin-top-5", "Malote", `${receipt.pouch}/${receipt.preparation_volume}`));
-    receipt_div.append(lib.element.info("b2 margin-top-5", "Data do recebimento", lib.timestampToFulldate(receipt.datetime)));
-    receipt_div.append(lib.element.info("b2 margin-top-5", "Data da contagem", lib.timestampToFulldate(receipt.count_datetime)));
-    receipt_div.append(lib.element.info("b2 margin-top-5", "Lacre", receipt.seal));
+    receipt_div.append(lib.element.info("b8 lucida-grande em09 margin-top-5", "Produção", receipt.production_id));
+    receipt_div.append(lib.element.info("b5-8 lucida-grande margin-top-5", "Costureiro(a)", receipt.seamstress_name));
+    receipt_div.append(lib.element.create("div", { class: "b4 lucida-grande em08 bold margin-top-5 center" }, receipt.status));
+    receipt_div.append(lib.element.info("b8 lucida-grande em08 margin-top-5", "Malote", `${receipt.pouch}/${receipt.preparation_volume}`));
+    receipt_div.append(lib.element.info("b8 lucida-grande em08 margin-top-5", "Lacre", receipt.seal));
+    receipt_div.append(lib.element.info("b3-8 lucida-grande em08 margin-top-5", "Data do recebimento", lib.timestampToFulldate(receipt.datetime)));
+    receipt_div.append(lib.element.info("b3-8 lucida-grande em08 margin-top-5", "Data da contagem", lib.timestampToFulldate(receipt.count_datetime)));
 
     receipt.products.forEach(product => {
       let product_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-5" });

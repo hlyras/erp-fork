@@ -1,0 +1,19 @@
+<form id="feedstock-order-create-form" class="box b2-3 container ground border-st radius-5 padding-10 margin-top-10">
+  <div class="box b1 underline lucida-grande bold center">Registrar pedido de matéria-prima</div>
+
+  <div id="feedstock-order-dropdown-box" class="mobile-box b2-3 container dropdown ground margin-top-5">
+    <input type="text" id="feedstock-order-dropdown-input" name="feedstock_id" data-id=""
+      class="mobile-box a1 input-generic border-lg-st nofocus lucida-grande bold center" oninput="productDropdown(this)"
+      placeholder="Nome da matéria-prima" role="presentation" autocomplete="off">
+
+    <div id="feedstock-order-dropdown-content" class="ground dropdown-content border"></div>
+  </div>
+
+  <input type="number" name="amount" class="mobile-box b4 lucida-grande input-generic margin-top-5 center bold"
+    step="0.01" placeholder="'un' ou 'm'" onfocus="if(this.value < 0.01){this.value=''}"
+    onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}" autocomplete="off" />
+
+  <button name="submit" class="mobile-box b12 input-generic center noborder margin-top-5 pointer">
+    <img class='size-20 icon' src="/images/icon/increase.png">
+  </button>
+</form>

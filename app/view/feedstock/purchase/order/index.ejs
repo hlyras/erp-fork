@@ -1,0 +1,29 @@
+<html>
+
+<head>
+  <%- include('./../../../partials/head.ejs') %>
+</head>
+
+<body>
+  <%- include('./../../../partials/header.ejs') %>
+  <%- include('./../../../partials/nav.ejs') %>
+
+  <section class="container h-center">
+    <%- include('./feedstock/create/form.ejs') %>
+    <%- include('./feedstock/filter/form.ejs') %>
+    <%- include('./feedstock/filter/box.ejs') %>
+  </section>
+</body>
+<footer>
+  <%- include('./../../../partials/footer.ejs') %>
+  <script src="/javascripts/scripts/feedstock/model/main.js"></script>
+  <script src="/javascripts/scripts/feedstock/model/purchase.js"></script>
+  <%- include('./feedstock/create/script.ejs') %>
+  <%- include('./feedstock/filter/script.ejs') %>
+
+  <script>
+    document.getElementById("feedstock-order-filter-form").submit.click();
+  </script>
+</footer>
+
+</html>

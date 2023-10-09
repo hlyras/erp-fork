@@ -1,0 +1,31 @@
+<script>
+  async function productDropdown(input) {
+    let feedstocks = [];
+
+    if (input.value.length > 1) {
+      feedstocks = await Feedstock.filter({ name: input.value });
+      if (!feedstocks) { return false; }
+    }
+
+    let properties = [["code", "Código", "b6"], ["name", "Descrição", "b2"], ["color_name", "Cor", "b3"]];
+
+    lib.dropdown.input(feedstocks, input, document.getElementById("feedstock-order-dropdown-content"), properties);
+  };
+
+  document.getElementById("feedstock-order-create-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const order_feedstock = {
+      feedstock_id: e.target.feedstock_id.dataset.id,
+      amount: e.target.amount.value
+    };
+
+    let response = await API.response(Feedstock.purchase.order.create, order_feedstock, e.target.submit);
+    if (!response) { return false; }
+
+    e.target.feedstock_id.value = "";
+    e.target.amount.value = "";
+
+    document.getElementById("feedstock-order-filter-form").submit.click();
+  });
+</script>

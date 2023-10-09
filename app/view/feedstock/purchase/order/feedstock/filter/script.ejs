@@ -1,0 +1,67 @@
+<script>
+  document.getElementById("feedstock-order-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const order_feedstock = {
+      feedstock_name: e.target.feedstock_name.value,
+      status: e.target.status.value
+    };
+
+    const orders = await API.response(Feedstock.purchase.order.filter, order_feedstock, e.target.submit);
+    if (!orders) { return false; }
+
+    orderFilter(orders);
+  });
+
+  function orderFilter(orders) {
+    let filter_div = document.getElementById("feedstock-order-filter-div");
+    filter_div.innerHTML = "";
+
+    !orders.length && filter_div.append(lib.element.create("div", { class: "box b1 ground lucida-grande bold border-st radius-5 padding-5 margin-top-5 center" }, "Nenhum pedido"));
+
+    orders.forEach(order => {
+      let order_div = lib.element.create("div", { class: "box b1 container ground border-st radius-5 padding-5 margin-top-5" });
+      order_div.append(lib.element.create("div", { class: "mobile-box b12 lucida-grande em09 center" }, order.code));
+      order_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em09 center" }, order.name));
+      order_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em09 center" }, order.color_name));
+
+      let order_amount = lib.element.create("input", {
+        type: "number",
+        class: "mobile-box b6 lucida-grande em09 bold border-bottom-lg-st center",
+        "data-initial_value": order.amount,
+        value: order.amount
+      });
+      order_div.append(order_amount);
+
+      order_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em08 center" }, order.status));
+
+      order_amount.addEventListener("blur", async e => {
+        if (!e.target.value || e.target.value < 1) {
+          lib.message("Valor inválido");
+
+          return e.target.value = e.target.dataset.initial_value;
+        }
+
+        let response = await API.response(Feedstock.purchase.order.update, { id: order.id, amount: e.target.value });
+        if (!response) { return false };
+
+        e.target.dataset.initial_value = e.target.value;
+      });
+
+      order_div.append(lib.element.icon("b12", "20", "/images/icon/trash.png", `deleteOrder(${order.id}, this)`));
+
+      filter_div.append(order_div);
+    });
+  };
+
+  function deleteOrder(order_id, input) {
+    lib.confirm("Confirmar cancelamento?", async (r) => {
+      if (r) {
+        let response = await API.response(Feedstock.purchase.order.delete, order_id, input);
+        if (!response) { return false; }
+
+        input.parentNode.parentNode.remove();
+      }
+    });
+  };
+</script>
