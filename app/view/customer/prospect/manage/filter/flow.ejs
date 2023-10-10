@@ -113,7 +113,7 @@
       placeholder: "Nome do Responsável",
       role: 'presentation',
       autocomplete: "off",
-      value: `${prospect.name}`
+      value: `${prospect.name || ""}`
     }));
 
     form_prospect.append(lib.element.create("img", {
@@ -129,7 +129,7 @@
       placeholder: "E-mail do Responsável",
       role: 'presentation',
       autocomplete: "off",
-      value: `${prospect.email}`
+      value: `${prospect.email || ""}`
     }));
 
     form_prospect.append(lib.element.create("img", {
@@ -145,7 +145,7 @@
       placeholder: "WhatsApp do Responsável",
       role: 'presentation',
       autocomplete: "off",
-      value: `${prospect.cellphone}`,
+      value: `${prospect.cellphone || ""}`,
       oninput: "lib.mask.phone(this)"
     }));
 

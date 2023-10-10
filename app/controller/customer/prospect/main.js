@@ -64,8 +64,9 @@ prospectController.update = async (req, res) => {
 	prospect.user_id = req.user.id;
 
 	try {
-		const verifyUserId = (await Prospect.findById(prospect.id))[0].user_id;
-		if (req.user.id != verifyUserId) { return res.send({ msg: "Você não tem autorização para atualizar este prospect" }); }
+		const userAcess = (await User.findById(req.user.id))[0].access;
+		const verifyUser = (await Prospect.findById(prospect.id))[0];
+		if (req.user.id != verifyUser.id && userAcess != "adm") { return res.send({ msg: "Você não tem autorização para atualizar este prospect" }); }
 
 		let updateResponse = await prospect.update();
 		if (updateResponse.err) { return res.send({ msg: updateResponse.err }); }
