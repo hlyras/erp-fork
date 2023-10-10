@@ -34,6 +34,9 @@ orderController.create = async (req, res) => {
   order_feedstock.amount = req.body.amount;
   order_feedstock.user_id = req.user.id;
 
+  if (!order_feedstock.feedstock_id) { return res.send({ msg: "É necessário selecionar a matéria-prima." }); }
+  if (!order_feedstock.amount || order_feedstock.amount < 1) { return res.send({ msg: "Quantidade inválida" }); }
+
   try {
     let strict_params = { keys: [], values: [] };
     lib.Query.fillParam("purchase_order.feedstock_id", order_feedstock.feedstock_id, strict_params);
