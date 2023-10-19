@@ -64,6 +64,8 @@ orderController.update = async (req, res) => {
   order_feedstock.status = req.body.status; //Cancelado, Pendente, Confirmado
   order_feedstock.amount = req.body.amount;
   order_feedstock.user_id = req.user.id;
+  order_feedstock.supplier_id = req.body.supplier_id;
+  order_feedstock.user_id = req.user.id;
 
   try {
     const response = await order_feedstock.update();

@@ -1,0 +1,18 @@
+<form id="receipt-product-filter-form" class="box b1 container radius-5 padding-5 margin-top-5">
+  <select id="internal-seamstress-select" name="internal_seamstress_id" class="box b2-5 input-generic margin-top-5">
+    <option value="">Todos os colaboradores</option>
+    <% for(let i in internal_seamstresses) { %>
+    <option value="<%= internal_seamstresses[i].id %>"><%= internal_seamstresses[i].name %></option>
+    <% } %>
+  </select>
+  <select name="reproved_status" class="box b2-5 input-generic margin-top-5">
+    <option value="Pendente" selected>Pendente</option>
+    <option value="Em conserto">Em conserto</option>
+    <option value="Concluído">Concluído</option>
+  </select>
+  <button name="submit" class="box b5 btn-act em11 bold noborder radius-5 padding-6 margin-top-5">Filtrar</button>
+</form>
+
+<div id="receipt-product-filter-box" class="box b1 container">
+  <div id="receipt-product-filter-div" class="box b1 container"></div>
+</div>

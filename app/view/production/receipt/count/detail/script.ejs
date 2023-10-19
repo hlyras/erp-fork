@@ -58,7 +58,8 @@
       amount: e.target.amount.value
     };
 
-    lib.auth(async (pass) => {
+    lib.auth(`Confirmar ${received_product.amount} unidades`, async (pass) => {
+      if (!pass) { return; }
       received_product.user_pass = pass;
 
       let response = await API.response(Production.receipt.product.create, received_product);
@@ -75,7 +76,9 @@
       }
     };
 
-    lib.auth(async (pass) => {
+    lib.auth("Finalizar contagem", async (pass) => {
+      if (!pass) { return; }
+
       let receipt = {
         id: e.target.dataset.receipt_id || "",
         user_pass: pass

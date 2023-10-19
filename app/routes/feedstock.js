@@ -29,7 +29,6 @@ router.post('/supplier/storage/update', lib.route.toHttps, supplierStorageContro
 router.post('/supplier/storage/filter', lib.route.toHttps, supplierStorageController.filter);
 router.delete('/supplier/storage/remove/id/:id', lib.route.toHttps, supplierStorageController.remove);
 
-
 router.get('/purchase', lib.route.toHttps, purchaseController.index);
 router.get('/purchase/manage', lib.route.toHttps, purchaseController.manage);
 router.post('/purchase/save', lib.route.toHttps, purchaseController.save);

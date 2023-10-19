@@ -43,4 +43,66 @@ Product.remove = async (id) => {
   return db(query);
 };
 
+Product.defect = function () {
+  this.id;
+  this.datetime;
+  this.product_id;
+  this.approved_datetime;
+  this.approved_amount;
+  this.approved_user_id;
+  this.reproved_datetime;
+  this.reproved_amount;
+  this.reproved_user_id;
+  this.user_id;
+
+  this.insert = () => {
+    if (!this.product_id) { return { err: "É necessário registrar o produto." } };
+
+    let obj = lib.convertTo.object(this);
+    let query = lib.Query.save(obj, 'cms_wt_erp.production_product_defect');
+
+    return db(query);
+  };
+
+  this.update = () => {
+    if (!this.id) { return { err: "O id do produto é inválido." }; }
+
+    let obj = lib.convertTo.object(this);
+    let query = lib.Query.update(obj, 'cms_wt_erp.production_product_defect', 'id');
+
+    return db(query);
+  };
+};
+
+Product.filigran_defect = function () {
+  this.id;
+  this.datetime;
+  this.product_id;
+  this.approved_datetime;
+  this.approved_amount;
+  this.approved_user_id;
+  this.reproved_datetime;
+  this.reproved_amount;
+  this.reproved_user_id;
+  this.user_id;
+
+  this.insert = () => {
+    if (!this.product_id) { return { err: "É necessário registrar o produto." } };
+
+    let obj = lib.convertTo.object(this);
+    let query = lib.Query.save(obj, 'cms_wt_erp.production_product_filigran_defect');
+
+    return db(query);
+  };
+
+  this.update = () => {
+    if (!this.id) { return { err: "O id do produto é inválido." }; }
+
+    let obj = lib.convertTo.object(this);
+    let query = lib.Query.update(obj, 'cms_wt_erp.production_product_filigran_defect', 'id');
+
+    return db(query);
+  };
+};
+
 module.exports = Product;

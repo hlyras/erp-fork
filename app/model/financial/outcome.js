@@ -146,6 +146,11 @@ Outcome.origin.findByCategoryId = (category_id) => {
 	return db(query);
 };
 
+Outcome.origin.findByPass = async (pass) => {
+	let query = `SELECT * FROM cms_wt_erp.financial_outcome_origin WHERE pass='${pass}';`;
+	return db(query);
+};
+
 Outcome.origin.list = () => {
 	let query = "SELECT * FROM cms_wt_erp.financial_outcome_origin ORDER BY name ASC;";
 	return db(query);

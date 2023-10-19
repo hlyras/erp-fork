@@ -33,4 +33,42 @@ productController.create = async (req, res) => {
   };
 };
 
+productController.filter = async (req, res) => {
+  const props = ["receipt_product.*",
+    "product.code product_code", "product.name product_name", "product.color product_color", "product.size product_size",
+    "receipt.production_id production_id", "receipt.pouch", "receipt.status receipt_status",
+    "production.seamstress_id", "production.location", "production.preparation_volume",
+    "seamstress.name seamstress_name"
+  ];
+
+  const inners = [
+    ["cms_wt_erp.product", "product.id", "receipt_product.product_id"],
+    ["cms_wt_erp.production_receipt receipt", "receipt.id", "receipt_product.receipt_id"],
+    ["cms_wt_erp.production", "receipt.production_id", "production.id"],
+    ["cms_wt_erp.financial_outcome_origin seamstress", "production.seamstress_id", "seamstress.id"]
+  ];
+
+  const params = { keys: [], values: [] };
+  const strict_params = { keys: [], values: [] };
+
+  let period = { key: "receipt_product.datetime", start: req.body.periodStart, end: req.body.periodEnd };
+
+  lib.Query.fillParam("receipt.status", req.body.receipt_status, strict_params);
+  lib.Query.fillParam("production.seamstress_id", req.body.seamstress_id, strict_params);
+  lib.Query.fillParam("receipt_product.reproved_status", req.body.reproved_status, strict_params);
+  lib.Query.fillParam("receipt_product.filigran_reproved_status", req.body.filigran_reproved_status, strict_params);
+  lib.Query.fillParam("production.location", req.body.location, strict_params);
+
+  let order_params = [["receipt_product.product_id", "ASC"]];
+
+  try {
+    const products = await Production.receipt.product.filter(props, inners, period, params, strict_params, order_params);
+
+    res.send({ products });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao filtrar os recebimentos." });
+  };
+};
+
 module.exports = productController;

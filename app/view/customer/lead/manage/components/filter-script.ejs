@@ -1,5 +1,10 @@
 <!-- Script -->
 <script>
+  async function setStatus(lead, input) {
+    let response = await API.response(Customer.lead.update, lead, input);
+    if (!response) { return false; }
+  };
+
   function renderLeads(leads, setup) {
     const filter_div = document.getElementById("leadlp-filter-div");
     filter_div.innerHTML = "";
@@ -11,12 +16,23 @@
       lead_div.append(lib.element.create("div", { class: "mobile-box b3 em09 padding-5 center" }, leads[i].phone));
       lead_div.append(lib.element.create("div", { class: "mobile-box b3 em09 padding-5 center" }, lib.convertDatetime(lib.timestampToDatetime(leads[i].datetime))));
       lead_div.append(lib.element.create("div", { class: "mobile-box b3 em09 padding-5 center" }, leads[i].email));
-      lead_div.append(lib.element.create("div", { class: "mobile-box b3 em09 padding-5 center" }, leads[i].status));
+
+      let status_select = lib.element.create("select", { class: "mobile-box b3 09 padding-5 center" });
+      status_select.append(lib.element.create("option", { value: "Ag. contato" }, "Ag. contato"));
+      status_select.append(lib.element.create("option", { value: "Lista de transmissão" }, "Lista de transmissão"));
+      status_select.append(lib.element.create("option", { value: "Convertido" }, "Convertido"));
+      status_select.append(lib.element.create("option", { value: "Varejo" }, "Varejo"));
+      status_select.append(lib.element.create("option", { value: "Sem contato" }, "Sem contato"));
+
+      for (let j in status_select.options) {
+        if (status_select.options[j].value == leads[i].status) { status_select.options[j].selected = true; }
+      };
+
+      status_select.addEventListener('change', async e => { setStatus({ id: leads[i].id, status: e.target.value }, e.target); });
+      lead_div.append(status_select);
+
       lead_div.append(lib.element.create("div", { class: "mobile-box b3 em09 padding-5 center" }, leads[i].origin));
-      // leads[i].user_id && lead_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em08 bold border-lg-st radius-5 padding-5 center pointer" }, leads[i].user_id));
-      // !leads[i].user_id && lead_div.append(lib.element.create("div", { 
-      //   class: "mobile-box b6 lucida-grande em08 bold border-lg-st radius-5 padding-5 center pointer"
-      // }, "Atender"));
+
       filter_div.append(lead_div);
     }
   };

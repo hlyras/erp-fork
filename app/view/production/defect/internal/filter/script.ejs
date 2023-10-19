@@ -1,0 +1,86 @@
+<script>
+  document.getElementById("receipt-product-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let product = {
+      seamstress_id: e.target.internal_seamstress_id.value,
+      reproved_status: e.target.reproved_status.value,
+      location: "Interna"
+    };
+
+    let products = await API.response(Production.receipt.product.filter, product);
+    if (!products) { return false; }
+
+    receiptProductFilter(products);
+  });
+
+  function receiptProductFilter(products) {
+    let filter_div = document.getElementById("receipt-product-filter-div");
+    filter_div.innerHTML = "";
+
+    let receipts = products.reduce((receipts, product) => {
+      for (let i in receipts) {
+        if (receipts[i].id == product.receipt_id) {
+          receipts[i].products.push(product);
+          return receipts;
+        }
+      };
+
+      let receipt = {
+        id: product.receipt_id,
+        production_id: product.production_id,
+        seamstress_id: product.seamstress_id,
+        seamstress_name: product.seamstress_name,
+        pouch: product.pouch,
+        preparation_volume: product.preparation_volume,
+        products: []
+      };
+
+      receipt.products.push(product);
+      receipts.push(receipt);
+
+      return receipts;
+    }, []);
+
+    receipts.forEach(receipt => {
+      let receipt_div = lib.element.create("div", {
+        class: "box b1 container ground border-st radius-5 shadow-lg-st padding-5 margin-top-5 pointer"
+      });
+
+      receipt_div.addEventListener("click", async e => {
+        defectRepairCollect(receipt);
+      });
+
+      receipt_div.append(lib.element.info("b8 em09", "Produção:", receipt.production_id));
+      receipt_div.append(lib.element.info("b3-4 em09 bold", "Costureira:", receipt.seamstress_name));
+      receipt_div.append(lib.element.info("b8 em09", "Malote:", `${receipt.pouch}/${receipt.preparation_volume}`));
+
+      receipt.products.forEach(product => {
+        let product_div = lib.element.create("div", { class: "box b1 container" });
+
+        product_div.append(lib.element.info("b5-8 em09 margin-top-5", "Produto:", `${product.product_code} | ${product.product_name} | ${product.product_color} | ${product.product_size}`));
+        product_div.append(lib.element.info("b8 em09 margin-top-5 margin-top-5", "Defeitos:", product.reproved_amount));
+        product_div.append(lib.element.info("b4 em09 margin-top-5 margin-top-5", "Prazo:", lib.timestampToDate(parseInt(product.reproved_datetime) + (lib.timestampDay() * 3))));
+
+        receipt_div.append(product_div);
+      });
+
+      filter_div.append(receipt_div);
+    });
+  };
+
+  async function defectRepairCollect(receipt) {
+    lib.auth(`Confirmar retirada para conserto: #${receipt.products[0].production_id} | ${receipt.products[0].pouch}/${receipt.products[0].preparation_volume}`, async pass => {
+
+      receipt.products.forEach(async product => {
+        let response = await API.response(Production.defect.internal.collect, receipt);
+        if (!response) { return false; }
+      });
+
+
+      // console.log(response);
+    });
+  };
+
+  document.getElementById("receipt-product-filter-form").submit.click();
+</script>

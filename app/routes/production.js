@@ -10,6 +10,11 @@ productionController.receipt.count = require('../controller/production/receipt/c
 productionController.receipt.conference = require('../controller/production/receipt/conference');
 productionController.receipt.product = require('../controller/production/receipt/product');
 
+productionController.defect = require('../controller/production/defect/main');
+productionController.defect.internal = require('../controller/production/defect/internal');
+// productionController.defect.external = require('../controller/production/defect/external');
+// productionController.defect.filigran = require('../controller/production/defect/filigran');
+
 router.get('/', lib.route.toHttps, productionController.index);
 router.get('/manage', lib.route.toHttps, productionController.manage);
 
@@ -48,5 +53,14 @@ router.post('/receipt/create', lib.route.toHttps, productionController.receipt.c
 router.post('/receipt/filter', lib.route.toHttps, productionController.receipt.filter);
 
 router.post('/receipt/product/create', lib.route.toHttps, productionController.receipt.product.create);
+router.post('/receipt/product/filter', lib.route.toHttps, productionController.receipt.product.filter);
+
+router.get('/defect', lib.route.toHttps, productionController.defect.index);
+
+router.get('/defect/internal', lib.route.toHttps, productionController.defect.internal.index);
+router.post('/defect/internal/collect', lib.route.toHttps, productionController.defect.internal.collect);
+
+
+// router.get('/defect/filigran', lib.route.toHttps, productionController.defect.filigran.index);
 
 module.exports = router;

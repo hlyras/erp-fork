@@ -178,6 +178,19 @@ Production.receipt.product.create = async (product) => {
 	return response;
 };
 
+Production.receipt.product.filter = async (product) => {
+	let response = await fetch("/production/receipt/product/filter", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(product)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response.products;
+};
+
 Production.receipt.count = {};
 
 Production.receipt.count.confirm = async (receipt) => {
@@ -236,6 +249,23 @@ Production.receipt.conference.filigranReproved = async (receipt_product) => {
 
 Production.receipt.conference.confirm = async (receipt) => {
 	let response = await fetch("/production/receipt/conference/confirm", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(receipt)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};
+
+Production.defect = {};
+
+Production.defect.internal = {};
+
+Production.defect.internal.collect = async (receipt) => {
+	let response = await fetch("/production/defect/internal/collect", {
 		method: "POST",
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify(receipt)

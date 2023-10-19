@@ -6,7 +6,9 @@
       approved_amount: e.target.amount.value
     };
 
-    lib.auth(async (pass) => {
+    lib.auth(`Confirmar ${product.approved_amount} unidades`, async (pass) => {
+      if (!pass) { return; }
+
       product.user_pass = pass;
 
       let response = await API.response(Production.receipt.conference.approved, product);
@@ -25,7 +27,9 @@
       reproved_amount: e.target.amount.value
     };
 
-    lib.auth(async (pass) => {
+    lib.auth(`Confirmar ${product.reproved_amount} unidades`, async (pass) => {
+      if (!pass) { return; }
+
       product.user_pass = pass;
 
       let response = await API.response(Production.receipt.conference.reproved, product);
@@ -44,7 +48,9 @@
       filigran_reproved_amount: e.target.amount.value
     };
 
-    lib.auth(async (pass) => {
+    lib.auth(`Confirmar ${product.filigran_reproved_amount} unidades`, async (pass) => {
+      if (!pass) { return; }
+
       product.user_pass = pass;
 
       let response = await API.response(Production.receipt.conference.filigranReproved, product);
@@ -99,7 +105,7 @@
         role: "presentation",
         required: true,
         min: lib.isValidNumber(product.reproved_amount) && lib.isValidNumber(product.filigran_reproved_amount)
-          && product.amount - product.reproved_amount - product.filigran_reproved_amount,
+          && product.amount - product.reproved_amount - product.filigran_reproved_amount || 0,
         max: product.amount - (product.reproved_amount || 0) - (product.filigran_reproved_amount || 0)
       }));
 
@@ -134,7 +140,7 @@
         role: "presentation",
         required: true,
         min: lib.isValidNumber(product.approved_amount) && lib.isValidNumber(product.filigran_reproved_amount)
-          && product.amount - product.approved_amount - product.filigran_reproved_amount,
+          && product.amount - product.approved_amount - product.filigran_reproved_amount || 0,
         max: product.amount - (product.approved_amount || 0) - (product.filigran_reproved_amount || 0)
       }));
 
@@ -169,7 +175,7 @@
         role: "presentation",
         required: true,
         min: lib.isValidNumber(product.approved_amount) && lib.isValidNumber(product.reproved_amount)
-          && product.amount - product.approved_amount - product.reproved_amount,
+          && product.amount - product.approved_amount - product.reproved_amount || 0,
         max: product.amount - (product.approved_amount || 0) - (product.reproved_amount || 0)
       }));
 
@@ -207,7 +213,9 @@
       }
     };
 
-    lib.auth(async (pass) => {
+    lib.auth("Finalizar conferência", async (pass) => {
+      if (!pass) { return; }
+
       let receipt = {
         id: e.target.dataset.receipt_id || "",
         user_pass: pass

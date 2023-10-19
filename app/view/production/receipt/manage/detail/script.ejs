@@ -19,22 +19,35 @@
     receipt_div.append(lib.element.info("b8 lucida-grande em08 margin-top-5", "Malote", `${receipt.pouch}/${receipt.preparation_volume}`));
     receipt_div.append(lib.element.info("b8 lucida-grande em08 margin-top-5", "Lacre", receipt.seal));
     receipt_div.append(lib.element.info("b3-8 lucida-grande em08 margin-top-5", "Data do recebimento", lib.timestampToFulldate(receipt.datetime)));
-    receipt_div.append(lib.element.info("b3-8 lucida-grande em08 margin-top-5", "Data da contagem", lib.timestampToFulldate(receipt.count_datetime)));
+    receipt_div.append(lib.element.info("b3-8 lucida-grande em08 margin-top-5", "Data da contagem", lib.timestampToFulldate(receipt.count_datetime) || "Pendente"));
 
-    receipt.products.forEach(product => {
+    !receipt.received_products.length && receipt.products.forEach(product => {
       let product_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-5" });
-      product_div.append(lib.element.create("div", { class: "mobile-box b2-3 bold em08 v-center" }, `${product.code} | ${product.name} | ${product.color}`));
-      product_div.append(lib.element.info("b6", "Quantidade", product.amount));
+      product_div.append(lib.element.create("div", { class: "mobile-box b2-3 bold em08 v-center" }, `${product.code} | ${product.name} | ${product.color} | ${product.size}`));
 
-      for (let i in receipt.received_products) {
-        if (product.product_id == receipt.received_products[i].product_id) {
-          product_div.append(lib.element.info("b6", "Recebido", (receipt.received_products[i].amount || "0")));
-        }
-      };
+      product_div.append(lib.element.info("b3", "Total da produção:", product.amount));
 
       receipt_div.append(product_div);
-      detail_div.append(receipt_div);
     });
+
+    receipt.received_products.length && receipt.received_products.forEach(product => {
+      let product_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-5" });
+      product_div.append(lib.element.create("div", { class: "mobile-box b2-3 bold em08 v-center" }, `${product.code} | ${product.name} | ${product.color}`));
+
+      product_div.append(lib.element.info("b3", "Recebido", product.amount));
+
+      product_div.append(lib.element.info("b5 margin-top-5", "Aprovados", (lib.isValidNumber(product.approved_amount) && `${product.approved_amount}`) || "Pendente"));
+
+      product_div.append(lib.element.info("b5 margin-top-5", "Reprovados", (lib.isValidNumber(product.reproved_amount) && `${product.reproved_amount}`) || "Pendente"));
+      product_div.append(lib.element.info("b5 margin-top-5", "Rep status", product.reproved_status || "Pendente"));
+
+      product_div.append(lib.element.info("b5 margin-top-5", "Rep Filig.", (lib.isValidNumber(product.filigran_reproved_amount) && `${product.filigran_reproved_amount}`) || "Pendente"));
+      product_div.append(lib.element.info("b5 margin-top-5", "Rep Fil status", product.filigran_reproved_status || "Pendente"));
+
+      product.amount && receipt_div.append(product_div);
+    });
+
+    detail_div.append(receipt_div);
   };
 
 </script>

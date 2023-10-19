@@ -76,7 +76,7 @@ Receipt.product = function () {
 };
 
 Receipt.product.filter = (props, inners, period, params, strict_params, order_params, limit) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt_product")
+  let query = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt_product receipt_product")
     .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build().query;
   return db(query);
 };

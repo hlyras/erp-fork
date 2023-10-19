@@ -42,6 +42,7 @@ router.post('/activity/filter', lib.route.toHttps, customerController.activity.f
 router.get('/lead', lib.route.toHttps, leadController.index);
 router.get('/lead/manage', lib.route.toHttps, leadController.manage);
 router.post('/lead/filter', lib.route.toHttps, leadController.filter);
+router.post('/lead/update', lib.route.toHttps, leadController.update);
 router.post('/lead/mail/send', lib.route.toHttps, leadController.mail.send);
 
 // Prospects

@@ -122,7 +122,7 @@ receiptController.filter = async (req, res) => {
   lib.Query.fillParam("production_receipt.production_id", req.body.production_id, strict_params);
   lib.Query.fillParam("production_receipt.status", req.body.status, strict_params);
   lib.Query.fillParam("production_receipt.seal", req.body.seal, strict_params);
-  lib.Query.fillParam("production_receipt.user_id", req.body.user_id, strict_params);
+  // lib.Query.fillParam("production_receipt.user_id", req.user.id, strict_params);
 
   lib.Query.fillParam("production.location", req.body.location, strict_params);
   lib.Query.fillParam("production.seamstress_id", req.body.seamstress_id, strict_params);
@@ -131,6 +131,7 @@ receiptController.filter = async (req, res) => {
 
   try {
     const receipts = await Production.receipt.filter(props, inners, period, params, strict_params, order_params);
+
     res.send({ receipts });
   } catch (err) {
     console.log(err);
@@ -158,13 +159,13 @@ receiptController.findById = async (req, res) => {
     let product_order_params = [["production_product.id", "ASC"]];
     receipt.products = await Production.product.filter(product_props, product_inners, [], [], product_strict_params, product_order_params);
 
-    const received_product_props = ["production_receipt_product.*", "product.code", "product.name", "product.color", "product.size"];
+    const received_product_props = ["receipt_product.*", "product.code", "product.name", "product.color", "product.size"];
     const received_product_inners = [
-      ["cms_wt_erp.product", "product.id", "production_receipt_product.product_id"]
+      ["cms_wt_erp.product", "product.id", "receipt_product.product_id"]
     ];
     const received_product_strict_params = { keys: [], values: [] };
-    lib.Query.fillParam("production_receipt_product.receipt_id", receipt.id, received_product_strict_params);
-    let received_product_order_params = [["production_receipt_product.id", "ASC"]];
+    lib.Query.fillParam("receipt_product.receipt_id", receipt.id, received_product_strict_params);
+    let received_product_order_params = [["receipt_product.id", "ASC"]];
     receipt.received_products = await Production.receipt.product.filter(received_product_props, received_product_inners, [], [], received_product_strict_params, received_product_order_params);
 
     res.send({ receipt });

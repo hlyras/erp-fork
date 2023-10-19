@@ -21,6 +21,26 @@ leadController.manage = async (req, res) => {
 	res.render('customer/lead/manage/index', { user: req.user });
 };
 
+leadController.update = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-man', "com-ass", 'com-sel', 'adm-aud'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	const lead = new Customer.lead();
+	lead.id = req.body.id;
+	lead.status = req.body.status;
+
+	try {
+		let response = await lead.update();
+		if (response.err) { return res.send({ msg: response.err }); }
+
+		res.send({ done: "Lead atualizado" });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao cadastrar o cliente. Código do erro" });
+	};
+};
+
 leadController.filter = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-man', "com-ass", 'com-sel', 'adm-aud'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
