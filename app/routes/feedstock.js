@@ -44,4 +44,8 @@ router.post('/purchase/order/update', lib.route.toHttps, purchaseController.orde
 router.post('/purchase/order/filter', lib.route.toHttps, purchaseController.order.filter);
 router.delete('/purchase/order/delete/:id', lib.route.toHttps, purchaseController.order.delete);
 
+router.get('/purchase/order', lib.route.toHttps, purchaseController.order.index);
+router.get('/purchase/order/request', lib.route.toHttps, purchaseController.order.request);
+router.get('/purchase/order/manage', lib.route.toHttps, purchaseController.order.manage);
+
 module.exports = router;

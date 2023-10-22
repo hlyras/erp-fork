@@ -1,0 +1,55 @@
+<script>
+  document.getElementById("supplier-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const supplier = {
+      brand: e.target.brand.value
+    };
+
+    const suppliers = await API.response(Feedstock.supplier.filter, supplier);
+    if (!suppliers) { return false; }
+
+    const orders = await API.response(Feedstock.purchase.order.filter, { status: "Ag. pedido" });
+    if (!orders) { return false; }
+
+    filterSupplier(suppliers, orders);
+  });
+
+  async function filterSupplier(suppliers, orders) {
+    const filter_div = document.getElementById("supplier-filter-div");
+    filter_div.innerHTML = "";
+
+    suppliers.forEach(supplier => {
+      let supplier_div = lib.element.create("div", { class: "box b2 container border-st padding-10 margin-top-5 radius-5" });
+      supplier_div.append(lib.element.icon("b12", "20",
+        "/images/icon/down-arrow.png", `lib.displayDiv('supplier-order-${supplier.id}', this, "/images/icon/down-arrow.png", "/images/icon/up-arrow.png")`));
+
+      supplier_div.append(lib.element.create("div", { class: "mobile-box b7-12 border lucida-grande bold" }, supplier.brand.slice(0, 13)));
+      let value_div = lib.element.create("div", { class: "mobile-box b3 border lucida-grande bold center" }, `R$${'0000.00'}`);
+      supplier_div.append(value_div);
+
+      let order_box = lib.element.create("div", { id: `supplier-order-${supplier.id}`, style: "display:none;", class: "box b1 container min-height-50 border radius-5 padding-5 margin-top-1" });
+      orders.forEach(order => {
+        if (order.supplier_id == supplier.id) {
+          let order_div = orderRender(order);
+
+          order_box.append(order_div);
+        }
+      });
+      lib.drag.drop(supplier_div, (element_id) => { updateOrderSupplier(lib.removeChar(element_id, "order-"), supplier.id); }, order_box);
+      supplier_div.append(order_box);
+
+      filter_div.append(supplier_div);
+    });
+  };
+
+  async function updateOrderSupplier(order_id, supplier_id) {
+    let order = {
+      id: order_id,
+      supplier_id
+    }
+
+    let response = await API.response(Feedstock.purchase.order.update, order);
+    if (!response) { return false; }
+  };
+</script>

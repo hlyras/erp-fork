@@ -22,6 +22,33 @@ orderController.index = async (req, res) => {
   };
 };
 
+orderController.request = async (req, res) => {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+    return res.redirect('/');
+  };
+
+  try {
+    let suppliers = await Feedstock.supplier.filter([], [], [], [], []);
+    res.render('feedstock/purchase/order/request/index', { user: req.user, suppliers });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+  };
+};
+
+orderController.manage = async (req, res) => {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+    return res.redirect('/');
+  };
+
+  try {
+    res.render('feedstock/purchase/order/manage/index', { user: req.user });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+  };
+};
+
 orderController.create = async (req, res) => {
   if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });

@@ -1,0 +1,62 @@
+<script>
+  document.getElementById("feedstock-order-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const order_feedstock = {
+      feedstock_name: e.target.feedstock_name.value,
+      status: e.target.status.value
+    };
+
+    const orders = await API.response(Feedstock.purchase.order.filter, order_feedstock, e.target.submit);
+    if (!orders) { return false; }
+
+    orderFilter(orders);
+  });
+
+  function orderFilter(orders) {
+    let filter_div = document.getElementById("feedstock-order-filter-div");
+    filter_div.innerHTML = "";
+
+    lib.drag.drop(filter_div, (element_id) => { updateOrderSupplier(lib.removeChar(element_id, "order-"), 0); });
+
+    !orders.length && filter_div.append(lib.element.create("div", { class: "box b1 ground lucida-grande bold border-st radius-5 padding-5 margin-top-5 center" }, "Nenhum pedido"));
+
+    orders.forEach(order => {
+      let order_div = orderRender(order);
+
+      !order.supplier_id && filter_div.append(order_div);
+    });
+  };
+
+  function orderRender(order) {
+    let order_div = lib.element.create("div", { id: `order-${order.id}`, draggable: true, class: "box b1 container ground border-st radius-5 padding-5 margin-top-5" });
+    order_div.append(lib.element.create("div", { class: "mobile-box b12 lucida-grande em09 noselect center" }, order.code));
+    order_div.append(lib.element.create("div", { class: "mobile-box b2 lucida-grande em09 noselect center" }, order.name));
+    order_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em09 noselect center" }, order.color_name));
+
+    let order_amount = lib.element.create("input", {
+      type: "number",
+      class: "mobile-box b6 lucida-grande em09 bold border-bottom-lg-st center",
+      "data-initial_value": order.amount,
+      value: order.amount
+    });
+    order_div.append(order_amount);
+
+    order_amount.addEventListener("blur", async e => {
+      if (!e.target.value || e.target.value < 1) {
+        lib.message("Valor inválido");
+
+        return e.target.value = e.target.dataset.initial_value;
+      }
+
+      let response = await API.response(Feedstock.purchase.order.update, { id: order.id, amount: e.target.value });
+      if (!response) { return false };
+
+      e.target.dataset.initial_value = e.target.value;
+    });
+
+    lib.drag.element(order_div);
+
+    return order_div;
+  };
+</script>
