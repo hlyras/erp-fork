@@ -105,6 +105,22 @@ orderController.update = async (req, res) => {
   }
 };
 
+orderController.verifySupplier = async (req, res) => {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+    return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+  };
+
+  // 
+
+  try {
+
+    res.send({ done: "" });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao ." });
+  }
+};
+
 orderController.filter = async (req, res) => {
   if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
@@ -112,13 +128,17 @@ orderController.filter = async (req, res) => {
 
   let props = [
     "purchase_order.*",
-    "feedstock.id feedstock_id", "feedstock.code", "feedstock.name", "feedstock.name", "feedstock.color_id", "feedstock.uom", "feedstock.unit",
-    "color.name color_name"
+    "feedstock.id feedstock_id", "feedstock.code", "feedstock.name", "feedstock.color_id", "feedstock.uom", "feedstock.unit",
+    "color.name color_name",
+    "supplier_feedstock.price"
   ];
 
   let inners = [
     ["cms_wt_erp.feedstock", "feedstock.id", "purchase_order.feedstock_id"],
-    ["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
+    ["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"],
+    ["cms_wt_erp.feedstock_supplier_storage supplier_feedstock",
+      "supplier_feedstock.feedstock_id", "feedstock.id",
+      "supplier_feedstock.supplier_id", "purchase_order.supplier_id"]
   ];
 
   let period = { key: "datetime", start: req.body.period_start, end: req.body.period_end };
@@ -131,6 +151,7 @@ orderController.filter = async (req, res) => {
   lib.Query.fillParam("purchase_order.feedstock_id", req.body.feedstock_id, strict_params);
   lib.Query.fillParam("feedstock.name", req.body.feedstock_name, params);
   lib.Query.fillParam("feedstock.color", req.body.feedstock_color, params);
+  lib.Query.fillParam("supplier_feedstock.supplier_id", req.body.supplier_id, params);
 
   let order_params = [["feedstock.code", "ASC"]];
 

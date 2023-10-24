@@ -135,7 +135,6 @@ Feedstock.purchase.order.filter = (props, inners, period, params, strict_params,
 	return db(query);
 };
 
-
 Feedstock.purchase.order.delete = async (id) => {
 	let query = `DELETE FROM cms_wt_erp.feedstock_purchase_order WHERE id='${id}';`;
 	return db(query);

@@ -20,15 +20,14 @@
     filter_div.innerHTML = "";
 
     suppliers.forEach(supplier => {
-      let supplier_div = lib.element.create("div", { class: "box b2 container border-st padding-10 margin-top-5 radius-5" });
+      let supplier_div = lib.element.create("div", { class: "box b1 container border-st padding-10 margin-top-5 radius-5" });
       supplier_div.append(lib.element.icon("b12", "20",
-        "/images/icon/down-arrow.png", `lib.displayDiv('supplier-order-${supplier.id}', this, "/images/icon/down-arrow.png", "/images/icon/up-arrow.png")`));
+        "/images/icon/up-arrow.png", `lib.displayDiv('supplier-order-${supplier.id}', this, "/images/icon/down-arrow.png", "/images/icon/up-arrow.png")`));
 
-      supplier_div.append(lib.element.create("div", { class: "mobile-box b7-12 border lucida-grande bold" }, supplier.brand.slice(0, 13)));
-      let value_div = lib.element.create("div", { class: "mobile-box b3 border lucida-grande bold center" }, `R$${'0000.00'}`);
-      supplier_div.append(value_div);
+      supplier_div.append(lib.element.create("div", { class: "mobile-box b7-12 lucida-grande bold" }, supplier.brand));
+      supplier_div.append(lib.element.create("div", { id: `supplier-${supplier.id}-cost`, class: "mobile-box b3 lucida-grande bold center" }));
 
-      let order_box = lib.element.create("div", { id: `supplier-order-${supplier.id}`, style: "display:none;", class: "box b1 container min-height-50 border radius-5 padding-5 margin-top-1" });
+      let order_box = lib.element.create("div", { id: `supplier-order-${supplier.id}`, class: "box b1 container min-height-50 radius-5 padding-5 margin-top-1" });
       orders.forEach(order => {
         if (order.supplier_id == supplier.id) {
           let order_div = orderRender(order);
@@ -36,6 +35,7 @@
           order_box.append(order_div);
         }
       });
+
       lib.drag.drop(supplier_div, (element_id) => { updateOrderSupplier(lib.removeChar(element_id, "order-"), supplier.id); }, order_box);
       supplier_div.append(order_box);
 
@@ -49,7 +49,25 @@
       supplier_id
     }
 
-    let response = await API.response(Feedstock.purchase.order.update, order);
-    if (!response) { return false; }
+    let updateResponse = await API.response(Feedstock.purchase.order.update, order);
+    if (!updateResponse) { return false; }
+
+    order.price = (await API.response(Feedstock.purchase.order.filter, order))[0].price;
+
+    if (!order.price && order.supplier_id) { document.getElementById(`order-${order.id}`).style.backgroundColor = "red"; }
+    else { document.getElementById(`order-${order.id}`).style.backgroundColor = "#fff"; }
+
+    updateSupplierInfo(supplier_id);
+  };
+
+  async function updateSupplierInfo(supplier_id) {
+    if (!supplier_id) { return false; }
+
+    const orders = await API.response(Feedstock.purchase.order.filter, { supplier_id, status: "Ag. pedido" });
+    if (!orders) { return false; }
+
+    const supplier_cost = orders.reduce((cost, order) => { return cost += (order.price * order.amount) }, 0);
+
+    document.getElementById(`supplier-${supplier_id}-cost`).innerHTML = `R$${supplier_cost.toFixed(2)}`;
   };
 </script>
