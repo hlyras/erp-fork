@@ -9,15 +9,6 @@
   <%- include('./../../../../partials/nav.ejs') %>
 
   <section class="container h-center">
-    <div class="box b2-5 container">
-      <%- include('./order/filter/form.ejs') %>
-      <%- include('./order/filter/box.ejs') %>
-    </div>
-
-    <div class="box b3-5 container">
-      <%- include('./supplier/filter/form.ejs') %>
-      <%- include('./supplier/filter/box.ejs') %>
-    </div>
   </section>
 </body>
 <footer>
@@ -25,13 +16,9 @@
   <script src="/javascripts/scripts/feedstock/model/main.js"></script>
   <script src="/javascripts/scripts/feedstock/model/purchase.js"></script>
   <script src="/javascripts/scripts/feedstock/model/supplier.js"></script>
-  <%- include('./order/filter/script.ejs') %>
-  <%- include('./supplier/filter/script.ejs') %>
 </footer>
 
 <script>
-  document.getElementById("feedstock-order-filter-form").submit.click();
-  document.getElementById("supplier-filter-form").submit.click();
 </script>
 
 </html>

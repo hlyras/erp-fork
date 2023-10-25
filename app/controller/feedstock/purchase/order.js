@@ -49,6 +49,19 @@ orderController.manage = async (req, res) => {
   };
 };
 
+orderController.supplier = async (req, res) => {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+    return res.redirect('/');
+  };
+
+  try {
+    res.render('feedstock/purchase/order/supplier/index', { user: req.user });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+  };
+};
+
 orderController.create = async (req, res) => {
   if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
