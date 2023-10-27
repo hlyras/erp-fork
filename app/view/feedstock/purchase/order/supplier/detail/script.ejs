@@ -33,18 +33,18 @@
       class: "box b1 container ground border-st radius-5 padding-5 margin-top-5"
     });
 
-    order_div.append(lib.element.create("div", { class: "mobile-box b10 border lucida-grande em09 noselect center" }, order.code));
-    order_div.append(lib.element.create("div", { class: "mobile-box b2-5 border lucida-grande em09 noselect center" }, `${order.name} | ${order.color_name}`));
+    order_div.append(lib.element.create("div", { class: "mobile-box b10 lucida-grande em09 noselect center" }, order.code));
+    order_div.append(lib.element.create("div", { class: "mobile-box b2-5 lucida-grande em09 noselect center" }, `${order.name} | ${order.color_name}`));
 
-    order.uom == 'un' && order_div.append(lib.element.create("div", { class: "mobile-box b10 border center" }, `${order.amount}un`));
-    order.uom == 'cm' && order_div.append(lib.element.create("div", { class: "mobile-box b10 border center" }, `${order.amount}m`));
+    order.uom == 'un' && order_div.append(lib.element.create("div", { class: "mobile-box b10 center" }, `${order.amount}un`));
+    order.uom == 'cm' && order_div.append(lib.element.create("div", { class: "mobile-box b10 center" }, `${order.amount}m`));
 
     let order_price = await orderPriceRender(order);
     order_div.append(order_price);
 
     order_div.append(lib.element.create("div", {
       id: `order-${order.id}-cost`,
-      class: "mobile-box b5 lucida-grande em09 bold border center"
+      class: "mobile-box b5 lucida-grande em09 bold center"
     }, `R$${(order.amount * order.price).toFixed(2)}`));
 
     return order_div;
