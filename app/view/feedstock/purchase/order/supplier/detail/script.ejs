@@ -1,0 +1,101 @@
+<script>
+  function getOrders() {
+    lib.auth("Acessar pedido", async pass => {
+      let detail_div = document.getElementById("order-detail-div");
+      detail_div.innerHTML = "";
+
+      if (!pass) {
+        detail_div.innerHTML = "";
+        detail_div.append(lib.element.create("div", {
+          class: "box b1 lucida-grande center bold border shadow-st radius-5 padding-10 margin-top-10 pointer",
+          onclick: 'getOrders()'
+        }, "Carregar pedido"));
+      } else {
+        let supplier = (await API.response(Feedstock.supplier.filter, { pass }))[0];
+        if (!supplier) { return lib.message("Não autorizado!", getOrders); }
+
+        detail_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold padding-10 margin-top-10 center" }, `Ag. pedido de ${supplier.trademark}`));
+
+        const orders = await API.response(Feedstock.purchase.order.filter, { supplier_id: supplier.id, status: "Ag. pedido" });
+        orders.forEach(async order => {
+          let order_div = await renderOrder(order);
+          detail_div.append(order_div);
+        });
+
+        purchaseCostRender(supplier.id);
+      }
+    });
+  };
+
+  async function renderOrder(order) {
+    let order_div = lib.element.create("div", {
+      id: `order-${order.id}`,
+      class: "box b1 container ground border-st radius-5 padding-5 margin-top-5"
+    });
+
+    order_div.append(lib.element.create("div", { class: "mobile-box b10 border lucida-grande em09 noselect center" }, order.code));
+    order_div.append(lib.element.create("div", { class: "mobile-box b2-5 border lucida-grande em09 noselect center" }, `${order.name} | ${order.color_name}`));
+
+    order.uom == 'un' && order_div.append(lib.element.create("div", { class: "mobile-box b10 border center" }, `${order.amount}un`));
+    order.uom == 'cm' && order_div.append(lib.element.create("div", { class: "mobile-box b10 border center" }, `${order.amount}m`));
+
+    let order_price = await orderPriceRender(order);
+    order_div.append(order_price);
+
+    order_div.append(lib.element.create("div", {
+      id: `order-${order.id}-cost`,
+      class: "mobile-box b5 lucida-grande em09 bold border center"
+    }, `R$${(order.amount * order.price).toFixed(2)}`));
+
+    return order_div;
+  };
+
+  async function orderPriceRender(order) {
+    let order_price = lib.element.create("input", {
+      type: "number",
+      class: "mobile-box b5 lucida-grande em09 bold border-bottom padding-3 center",
+      value: order.price.toFixed(4),
+      step: 0.0001
+    });
+
+    order_price.dataset.initial_price = order.price;
+
+    order_price.addEventListener("blur", async e => {
+      if (!lib.isValidNumber(e.target.value) || !e.target.value || e.target.value <= 0) {
+        e.target.value = parseFloat(e.target.dataset.initial_price).toFixed(4);
+        return;
+      };
+
+      e.target.value = parseFloat(e.target.value).toFixed(4);
+
+      let supplier_feedstock = await API.response(Feedstock.supplier.storage.filter, { supplier_id: order.supplier_id, feedstock_id: order.feedstock_id });
+      let response = await API.response(Feedstock.supplier.storage.update, { id: supplier_feedstock[0].id, price: e.target.value });
+      if (!response) { return false; }
+
+      e.target.dataset.initial_price = e.target.value;
+
+      orderCostUpdate(order.id);
+    });
+
+    return order_price;
+  };
+
+  async function orderCostUpdate(order_id) {
+    let order = (await API.response(Feedstock.purchase.order.filter, { id: order_id }))[0];
+    !order && (document.getElementById(`order-${order.id}-cost`).innerHTML = `Erro ao calcular`);
+
+    order.price && order.amount &&
+      (document.getElementById(`order-${order.id}-cost`).innerHTML = `R$${(order.amount * order.price).toFixed(2)}`);
+  };
+
+  async function purchaseCostRender(supplier_id) {
+    let purchase_div = document.getElementById("purchase-detail-div");
+
+    let orders = await API.response(Feedstock.purchase.order.filter, { supplier_id, status: "Ag. pedido" });
+
+    purchase_div.append(lib.element.create("div", { class: "mobile-box lucida-grande padding-5 right" }, `Valor do pedido:`));
+    purchase_div.append(lib.element.create("div", {
+      class: "mobile-box lucida-grande bold padding-5"
+    }, `R$${orders.reduce((cost, order) => { return cost += (order.amount * order.price) }, 0).toFixed(2)}`));
+  };
+</script>

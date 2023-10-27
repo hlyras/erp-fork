@@ -50,10 +50,6 @@ orderController.manage = async (req, res) => {
 };
 
 orderController.supplier = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
-    return res.redirect('/');
-  };
-
   try {
     res.render('feedstock/purchase/order/supplier/index', { user: req.user });
   } catch (err) {
@@ -118,27 +114,20 @@ orderController.update = async (req, res) => {
   }
 };
 
-orderController.verifySupplier = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
-    return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-  };
+// orderController.verifySupplier = async (req, res) => {
+//   if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+//     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+//   };
 
-  // 
-
-  try {
-
-    res.send({ done: "" });
-  } catch (err) {
-    console.log(err);
-    res.send({ msg: "Ocorreu um erro ao ." });
-  }
-};
+//   try {
+//     res.send({ done: "" });
+//   } catch (err) {
+//     console.log(err);
+//     res.send({ msg: "Ocorreu um erro ao ." });
+//   }
+// };
 
 orderController.filter = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
-    return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-  };
-
   let props = [
     "purchase_order.*",
     "feedstock.id feedstock_id", "feedstock.code", "feedstock.name", "feedstock.color_id", "feedstock.uom", "feedstock.unit",
@@ -162,9 +151,9 @@ orderController.filter = async (req, res) => {
   lib.Query.fillParam("purchase_order.status", req.body.status, strict_params);
   lib.Query.fillParam("purchase_order.purchase_id", req.body.purchase_id, strict_params);
   lib.Query.fillParam("purchase_order.feedstock_id", req.body.feedstock_id, strict_params);
+  lib.Query.fillParam("purchase_order.supplier_id", req.body.supplier_id, strict_params);
   lib.Query.fillParam("feedstock.name", req.body.feedstock_name, params);
   lib.Query.fillParam("feedstock.color", req.body.feedstock_color, params);
-  lib.Query.fillParam("supplier_feedstock.supplier_id", req.body.supplier_id, params);
 
   let order_params = [["feedstock.code", "ASC"]];
 

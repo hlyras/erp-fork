@@ -48,10 +48,6 @@ supplierController.save = async (req, res) => {
 };
 
 supplierController.filter = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
-		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	};
-
 	let props = [];
 	let inners = [];
 
@@ -62,6 +58,7 @@ supplierController.filter = async (req, res) => {
 	lib.Query.fillParam("supplier.trademark", req.body.supplier.trademark, params);
 	lib.Query.fillParam("supplier.brand", req.body.supplier.brand, params);
 	lib.Query.fillParam("supplier.name", req.body.supplier.name, params);
+	lib.Query.fillParam("supplier.pass", req.body.supplier.pass, strict_params);
 
 	let order_params = [["supplier.id", "ASC"]];
 

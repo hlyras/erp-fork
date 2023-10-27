@@ -74,10 +74,6 @@ storageController.add = async (req, res) => {
 };
 
 storageController.update = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
-		return res.redirect('/');
-	};
-
 	let feedstock = {
 		id: req.body.id,
 		price: req.body.price
@@ -107,10 +103,6 @@ storageController.remove = async (req, res) => {
 };
 
 storageController.filter = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
-		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	};
-
 	let props = [
 		"supplier_storage.*",
 		"feedstock.code",
@@ -145,6 +137,5 @@ storageController.filter = async (req, res) => {
 		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
 	};
 };
-
 
 module.exports = storageController;
