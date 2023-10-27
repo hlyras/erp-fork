@@ -19,6 +19,8 @@
 
     !orders.length && filter_div.append(lib.element.create("div", { class: "box b1 ground lucida-grande bold border-st radius-5 padding-5 margin-top-5 center" }, "Nenhum pedido"));
 
+    orders = lib.sort2(orders, "datetime", "asc");
+
     orders.forEach(order => {
       let order_div = lib.element.create("div", { class: "box b1 container ground border-st radius-5 padding-5 margin-top-5" });
       order_div.append(lib.element.create("div", { class: "mobile-box b12 lucida-grande em09 center" }, order.code));
