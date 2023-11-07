@@ -23,12 +23,26 @@
       supplier_div.append(order_box);
 
       supplier_div.append(lib.element.create("div", { class: "box b2 btn-act lucida-grande bold padding-5 margin-top-5 noborder radius-5 center pointer" }, "Visualizar pedido"));
-      supplier_div.append(lib.element.create("div", { class: "box b2 btn-confirm lucida-grande bold padding-5 margin-top-5 noborder radius-5 center pointer" }, "Confirmar pedido"));
+      let purchase_confirm = lib.element.create("div", { id: `supplier-${supplier.id}-purchase`, class: "box b2 btn-confirm lucida-grande bold padding-5 margin-top-5 noborder radius-5 center pointer" }, "Confirmar pedido");
+      supplier_div.append(purchase_confirm);
+
+      purchase_confirm.addEventListener("click", async e => { purchaseConfirm(supplier.id); });
 
       filter_div.append(supplier_div);
     });
 
     updateSuppliersInfo();
+  };
+
+  async function purchaseConfirm(supplier_id) {
+    lib.confirm("Deseja realmente confirmar o pedido?", async r => {
+      if (!r) { return false; }
+
+      const response = await API.response(Feedstock.purchase.order.confirm, supplier_id);
+      if (!response) { return false; }
+
+      window.location.reload(true);
+    });
   };
 
   document.getElementById("supplier-filter-form").addEventListener("submit", async e => {

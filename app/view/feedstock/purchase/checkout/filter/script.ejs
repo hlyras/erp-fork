@@ -1,0 +1,35 @@
+<script>
+  console.log('filter-script');
+
+  document.getElementById("purchase-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const purchase = {
+      supplier_id: e.target.supplier_id.value,
+      status: e.target.status.value
+    };
+
+    const purchases = await API.response(Feedstock.purchase.filter, purchase);
+    if (!purchases) { return false; }
+
+    purchaseFilter(purchases);
+  });
+
+  function purchaseFilter(purchases) {
+    const filter_div = document.getElementById("purchase-filter-div");
+    filter_div.innerHTML = "";
+
+    console.log(purchases);
+
+    if (!purchases.length) {
+      return filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold padding-5 center" }, `Nenhum pedido aguardando aprovação`));
+    }
+
+    purchases.forEach(purchase => {
+      let purchase_div = lib.element.create("div", { class: "box b1 container border radius-5 padding-5" });
+      purchase_div.append(lib.element.create("div", { class: "box b6 center border" }, purchase.id));
+      purchase_div.append(lib.element.create("div", { class: "box b6 center border" }, purchase.supplier_brand));
+      filter_div.append(purchase_div);
+    });
+  };
+</script>

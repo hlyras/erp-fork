@@ -95,6 +95,19 @@ Feedstock.purchase.order.update = async (order_feedstock) => {
 	return response;
 };
 
+Feedstock.purchase.order.confirm = async (supplier_id) => {
+	let response = await fetch("/feedstock/purchase/order/confirm", {
+		method: "POST",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ supplier_id })
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};
+
 Feedstock.purchase.order.filter = async order_feedstock => {
 	let response = await fetch("/feedstock/purchase/order/filter", {
 		method: "POST",

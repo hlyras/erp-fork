@@ -30,6 +30,7 @@ router.post('/supplier/storage/filter', lib.route.toHttps, supplierStorageContro
 router.delete('/supplier/storage/remove/id/:id', lib.route.toHttps, supplierStorageController.remove);
 
 router.get('/purchase', lib.route.toHttps, purchaseController.index);
+router.get('/purchase/checkout', lib.route.toHttps, purchaseController.checkout);
 router.get('/purchase/manage', lib.route.toHttps, purchaseController.manage);
 router.post('/purchase/save', lib.route.toHttps, purchaseController.save);
 router.put('/purchase/update', lib.route.toHttps, purchaseController.updateStatus);
@@ -45,6 +46,7 @@ router.post('/purchase/order/filter', lib.route.toHttps, purchaseController.orde
 router.delete('/purchase/order/delete/:id', lib.route.toHttps, purchaseController.order.delete);
 
 router.get('/purchase/order', lib.route.toHttps, purchaseController.order.index);
+router.post('/purchase/order/confirm/', lib.route.toHttps, purchaseController.order.confirm);
 router.get('/purchase/order/request', lib.route.toHttps, purchaseController.order.request);
 router.get('/purchase/order/manage', lib.route.toHttps, purchaseController.order.manage);
 router.get('/purchase/order/supplier', lib.route.toHttps, purchaseController.order.supplier);

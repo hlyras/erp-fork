@@ -23,6 +23,20 @@ purchaseController.index = async (req, res) => {
 	};
 };
 
+purchaseController.checkout = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+		return res.redirect('/');
+	};
+
+	try {
+		let suppliers = await Feedstock.supplier.filter([], [], [], [], []);
+		res.render('feedstock/purchase/checkout/index', { user: req.user, suppliers });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+	};
+};
+
 purchaseController.manage = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.redirect('/');
@@ -30,7 +44,7 @@ purchaseController.manage = async (req, res) => {
 
 	try {
 		let suppliers = await Feedstock.supplier.filter([], [], [], [], []);
-		res.render('feedstock/purchase/manage', { user: req.user, suppliers });
+		res.render('feedstock/purchase/manage/index', { user: req.user, suppliers });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -133,7 +147,7 @@ purchaseController.filter = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
-	//139561143
+
 	let props = [
 		"purchase.*",
 		"supplier.cnpj supplier_cnpj",
@@ -154,6 +168,7 @@ purchaseController.filter = async (req, res) => {
 
 	lib.Query.fillParam("purchase.id", req.body.id, strict_params);
 	lib.Query.fillParam("purchase.supplier_id", req.body.supplier_id, strict_params);
+	lib.Query.fillParam("purchase.status", req.body.status, strict_params);
 
 	let order_params = [["purchase.date", "DESC"]];
 

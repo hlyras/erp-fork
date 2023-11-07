@@ -4,42 +4,36 @@ const lib = require("jarmlib");
 const Feedstock = require('./main');
 
 Feedstock.purchase = function () {
-	this.id = 0;
-	this.date = "";
-	this.status = "";
-	this.supplier_id = 0;
-	this.payment_method = "";
-	this.total_value = 0;
-	this.user_id = 0;
-	this.confirmation_user_id = 0;
-	this.confirmation_date = "";
-	this.receiver_user_id = 0;
-	this.receiver_date = "";
+	this.id;
+	this.date;
+	this.status;
+	this.supplier_id;
+	this.payment_method;
+	this.total_value;
+	this.user_id;
+	this.confirmation_user_id;
+	this.confirmation_date;
+	this.receiver_user_id;
+	this.receiver_date;
 
 	this.save = () => {
-		let query = "INSERT INTO cms_wt_erp.feedstock_purchase (date, status, supplier_id, payment_method, value, shipment_value, discount_value, total_value, user_id) VALUES ('" +
-			this.date + "','" +
-			this.status + "','" +
-			this.supplier_id + "','" +
-			this.payment_method + "','" +
-			this.value + "','" +
-			this.shipment_value + "','" +
-			this.discount_value + "','" +
-			this.total_value + "','" +
-			this.user_id + "');";
+		if (!this.date) { return { err: "A data do pedido é inválida." } };
+		if (!this.status) { return { err: "É necessário incluir a unidade de medida." } };
+		if (!this.supplier_id) { return { err: "É necessário informar o fornecedor." } };
+		if (!this.user_id) { return { err: "É necessário informar o principal fornecedor." } };
+
+		let obj = lib.convertTo.object(this);
+		let query = lib.Query.save(obj, 'cms_wt_erp.feedstock_purchase');
+
 		return db(query);
 	};
 
 	this.update = () => {
-		let query = "UPDATE cms_wt_erp.feedstock_purchase SET date='" + this.date
-			+ "', status='" + this.status
-			+ "', supplier_id='" + this.supplier_id
-			+ "', payment_method='" + this.payment_method
-			+ "', value='" + this.value
-			+ "', shipment_value='" + this.shipment_value
-			+ "', discount_value='" + this.discount_value
-			+ "', total_value='" + this.total_value
-			+ "', user_id='" + this.user_id + "' WHERE id='" + this.id + "';";
+		if (!this.id) { return { err: "O id da compra é inválido" }; }
+
+		let obj = lib.convertTo.object(this);
+		let query = lib.Query.update(obj, 'cms_wt_erp.feedstock_purchase', 'id');
+
 		return db(query);
 	};
 };
@@ -67,18 +61,24 @@ Feedstock.purchase.feedstock = function () {
 	this.price = 0;
 	this.amount = 0;
 
-	this.add = () => {
-		let query = "INSERT INTO cms_wt_erp.feedstock_purchase_feedstock (purchase_id, feedstock_id, price, amount) VALUES ('" +
-			this.purchase_id + "','" +
-			this.feedstock_id + "','" +
-			this.price + "','" +
-			this.amount + "');";
+	this.save = () => {
+		if (!this.purchase_id) { return { err: "A compra é inválida." } };
+		if (!this.feedstock_id) { return { err: "É necessário informar a matéria-prima." } };
+		if (!this.price) { return { err: "É necessário informar o preço." } };
+		if (!this.amount) { return { err: "É necessário informar a quantidade." } };
+
+		let obj = lib.convertTo.object(this);
+		let query = lib.Query.save(obj, 'cms_wt_erp.feedstock_purchase_feedstock');
+
 		return db(query);
 	};
 
 	this.update = () => {
-		let query = "UPDATE cms_wt_erp.feedstock_purchase_feedstock SET price='" + this.price
-			+ "', amount='" + this.amount + "' WHERE purchase_id='" + this.purchase_id + "' AND feedstock_id='" + this.feedstock_id + "';";
+		if (!this.id) { return { err: "O id da compra é inválido" }; }
+
+		let obj = lib.convertTo.object(this);
+		let query = lib.Query.update(obj, 'cms_wt_erp.feedstock_purchase_feedstock', 'id');
+
 		return db(query);
 	};
 };
