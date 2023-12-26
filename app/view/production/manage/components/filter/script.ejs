@@ -164,7 +164,7 @@
         productionRender(productions, day, day_box, i);
       } else {
         if (nextMonth == 0) {
-          let day = `${date.getDate() - date.getDay() + 7 + i - MONTHS[currentMonth].days} / ${MONTHS[nextMonth].name} / ${nextYear}`;
+          let day = `${nextYear}-${MONTHS[nextMonth].id}-${date.getDate() - date.getDay() + 7 + i - MONTHS[currentMonth].days}`;
 
           next_week_div.append(day_box);
 
@@ -196,12 +196,12 @@
     day_expander.append(lib.element.create("img", {
       src: "/images/icon/down-arrow.png",
       class: "image-prop size-20 icon pointer",
-      onclick: `lib.displayDiv('$day-${day}', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png',)`
+      onclick: `lib.displayDiv('day-${day}', this, '/images/icon/down-arrow.png', '/images/icon/up-arrow.png',)`
     }));
     day_box.append(day_expander);
 
     let day_div = lib.element.create("div", {
-      id: `$day-${day}`,
+      id: `day-${day}`,
       class: "mobile-box a1 container center padding-5",
       style: "display: none;"
     });
