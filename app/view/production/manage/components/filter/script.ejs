@@ -138,7 +138,8 @@
           }
         }
       } else if (currentSunday + i > MONTHS[currentMonth].days) {
-        let day = `${currentYear}-${nextMonth + 1}-${currentSunday - MONTHS[currentMonth].days + i}`;
+        console.log(nextMonth);
+        let day = `${currentYear}-${currentMonth + 1}-${currentSunday - MONTHS[currentMonth].days + i}`;
 
         current_week_div.append(day_box);
 

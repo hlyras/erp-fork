@@ -7,7 +7,7 @@ Sale.financial.controller.filter = async () => {
 	};
 
 	sale.periodStart = lib.splitTextBy(sale.periodStart, "-");
-	
+
 	let days = parseInt(sale.periodStart[0]);
 	let currentMonth = `${sale.periodStart[1]}-${sale.periodStart[2]}`;
 
@@ -15,21 +15,21 @@ Sale.financial.controller.filter = async () => {
 	sale.periodStart = lib.dateToTimestamp(sale.periodStart);
 
 	let sales = await API.response(Sale.financial.filter, sale);
-	if(!sales) { return false; }
+	if (!sales) { return false; }
 
 	sale.user_id = document.getElementById("sale-filter-form").elements.namedItem("user_id").value;
 
 	let monthlyGoal = Sale.financial.controller.calcMonthlyGoal(currentMonth);
 
 	let metrics = { invoicing: 0, ticket: 0, estimated_invoicing: 0 };
-	for(let i in sales) { metrics.invoicing += (sales[i].product_value + sales[i].package_value - sales[i].discount_value); };
+	for (let i in sales) { metrics.invoicing += (sales[i].product_value + sales[i].package_value - sales[i].discount_value); };
 	metrics.ticket = metrics.invoicing / days;
 	metrics.estimated_invoicing = (metrics.invoicing / days) * 30;
 
 	let individualMetrics = { invoicing: 0, ticket: 0, estimated_invoicing: 0, share: 0 };
-	for(let i in sales) {
-		if(sales[i].user_id == sale.user_id){
-			individualMetrics.invoicing += (sales[i].product_value + sales[i].package_value - sales[i].discount_value); 
+	for (let i in sales) {
+		if (sales[i].user_id == sale.user_id) {
+			individualMetrics.invoicing += (sales[i].product_value + sales[i].package_value - sales[i].discount_value);
 		}
 	};
 	individualMetrics.ticket = individualMetrics.invoicing / days;
@@ -82,12 +82,12 @@ Sale.financial.controller.calcMonthlyGoal = (currentMonth) => {
 	let monthlyGoal = 0;
 	let month = "";
 
-	let years = [2021,2022,2023];
+	let years = [2021, 2022, 2023, 2024];
 	let months = [];
 
-	for(let i in years) {
-		for(let j = 0; j < 12; j++) {
-			if(i == 0 && j == 0) { cumulativeGoal = initialGoal; }
+	for (let i in years) {
+		for (let j = 0; j < 12; j++) {
+			if (i == 0 && j == 0) { cumulativeGoal = initialGoal; }
 			else {
 				month = (j + 1 < 10) ? `0${j + 1}-${years[i]}` : `${j + 1}-${years[i]}`;
 				cumulativeGoal = cumulativeGoal + (cumulativeGoal * 0.03);
