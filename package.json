@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "A monolitic nodejs-ejs-mysql framework model for free lancers.",
   "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "aws-sdk": "^2.1203.0",
