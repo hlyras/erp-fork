@@ -26,21 +26,24 @@ customerController.save = async (req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	let customer = {
-		id: req.body.id,
-		person_type: req.body.person_type,
-		name: req.body.name,
-		cpf: req.body.cpf,
-		trademark: req.body.trademark,
-		brand: req.body.brand,
-		cnpj: req.body.cnpj,
-		ie: req.body.ie,
-		social_media: req.body.social_media,
-		email: req.body.email,
-		phone: req.body.phone,
-		cellphone: req.body.cellphone,
-		password: "$2a$10$6sLFnGfJE05trUMtF1Cpm.f.h6lwOg6cSW3E0D0IrDXjEi7F1yV06"
-	};
+	let customer = new Customer();
+	customer.id = req.body.id;
+	customer.person_type = req.body.person_type;
+	customer.name = req.body.name;
+	customer.cpf = req.body.cpf;
+	customer.trademark = req.body.trademark;
+	customer.brand = req.body.brand;
+	customer.cnpj = req.body.cnpj;
+	customer.ie = req.body.ie;
+	customer.social_media = req.body.social_media;
+	customer.email = req.body.email;
+	customer.phone = req.body.phone;
+	customer.cellphone = req.body.cellphone;
+
+	//auto config para cliente alterar no portal do lojista
+	customer.password = "$2a$10$6sLFnGfJE05trUMtF1Cpm.f.h6lwOg6cSW3E0D0IrDXjEi7F1yV06"
+
+	console.log(customer);
 
 	if (customer.person_type != "legal-entity" && customer.person_type != "natural-person") { return res.send({ msg: "A pessoa do cliente é inválida, favor recarregar a página, caso o problema persista favor contatar o suporte." }); };
 	if (!customer.name && !customer.trademark && !customer.brand) { return res.send({ msg: "É necessário identificar o cliente" }); };
@@ -65,7 +68,7 @@ customerController.save = async (req, res) => {
 				if (cnpj.length) { return res.send({ msg: "Este CNPJ já está cadastrado." }); };
 			};
 
-			let row = await Customer.save(customer);
+			let row = await customer.save();
 			customer.id = row.insertId;
 			res.send({ done: "Cliente cadastrado com sucesso!", customer });
 		} else {
@@ -87,7 +90,7 @@ customerController.save = async (req, res) => {
 				};
 			};
 
-			let row = await Customer.update(customer);
+			let row = await customer.update();
 			customer.id = row.insertId;
 			res.send({ done: "Cliente atualizado com sucesso!", customer });
 		};

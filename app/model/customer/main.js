@@ -29,7 +29,9 @@ const Customer = function () {
 		if (this.cellphone.length > 13) { return { err: "Celular inválido." }; };
 
 		let obj = lib.convertTo.object(this);
-		let { query, values } = lib.Query.save(obj, 'cms_wt_erp.customer_mail');
+		let { query, values } = lib.Query.save(obj, 'cms_wt_erp.customer');
+
+		console.log(query, values);
 
 		return db(query, values);
 	};
@@ -40,26 +42,10 @@ const Customer = function () {
 		let obj = lib.convertTo.object(this);
 		let { query, values } = lib.Query.update(obj, 'cms_wt_erp.customer', 'id');
 
+		console.log(query, values);
+
 		return db(query, values);
 	};
-};
-
-Customer.save = () => {
-	if (!this.user_id) { return { err: "É necessário incluir o id do usuário" } };
-
-	let obj = lib.convertTo.object(this);
-	let { query, values } = lib.Query.save(obj, 'cms_wt_erp.customer');
-
-	return db(query, values);
-};
-
-Customer.update = async (customer) => {
-	if (!this.id) { return { err: "O id do cliente é inválido" }; }
-
-	let obj = lib.convertTo.object(this);
-	let { query, values } = lib.Query.update(obj, 'cms_wt_erp.customer', 'id');
-
-	return db(query, values);
 };
 
 Customer.findBy = {

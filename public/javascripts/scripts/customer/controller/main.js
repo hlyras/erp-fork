@@ -8,33 +8,33 @@ if (Customer.controller.create) {
 		let customer = {
 			id: lib.sanitize(event.target.elements.namedItem("id").value) || null,
 			person_type: lib.sanitize(event.target.elements.namedItem("person-type").value) || null,
-			name: lib.sanitize(event.target.name.value) || null,
+			name: lib.sanitize(event.target.name.value),
 
-			cpf: lib.sanitize(event.target.cpf.value) || null,
-			trademark: lib.sanitize(event.target.trademark.value) || null,
-			brand: lib.sanitize(event.target.brand.value) || null,
-			cnpj: lib.sanitize(event.target.cnpj.value) || null,
-			ie: lib.sanitize(event.target.ie.value) || null,
+			cpf: lib.sanitize(event.target.cpf.value),
+			trademark: lib.sanitize(event.target.trademark.value),
+			brand: lib.sanitize(event.target.brand.value),
+			cnpj: lib.sanitize(event.target.cnpj.value),
+			ie: lib.sanitize(event.target.ie.value),
 
-			email: lib.sanitize(event.target.email.value) || null,
-			phone: lib.sanitize(event.target.phone.value) || null,
-			cellphone: lib.sanitize(event.target.cellphone.value) || null,
-			social_media: lib.sanitize(event.target.elements.namedItem("social-media").value) || null
+			email: lib.sanitize(event.target.email.value),
+			phone: lib.sanitize(event.target.phone.value),
+			cellphone: lib.sanitize(event.target.cellphone.value),
+			social_media: lib.sanitize(event.target.elements.namedItem("social-media").value)
 		};
 
 		customer = await API.response(Customer.save, customer);
 		if (!customer) { return false };
 
-		e.target.id.value = "";
-		e.target.name.value = "";
-		e.target.cpf.value = "";
-		e.target.trademark.value = "";
-		e.target.brand.value = "";
-		e.target.cnpj.value = "";
-		e.target.ie.value = "";
-		e.target.email.value = "";
-		e.target.phone.value = "";
-		e.target.cellphone.value = "";
+		event.target.id.value = "";
+		event.target.name.value = "";
+		event.target.cpf.value = "";
+		event.target.trademark.value = "";
+		event.target.brand.value = "";
+		event.target.cnpj.value = "";
+		event.target.ie.value = "";
+		event.target.email.value = "";
+		event.target.phone.value = "";
+		event.target.cellphone.value = "";
 		event.target.elements.namedItem("social-media").value = "";
 
 		Customer.controller.filter.submit.click();
