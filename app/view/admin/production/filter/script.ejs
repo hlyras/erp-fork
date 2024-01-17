@@ -4,13 +4,23 @@
 
     const production = {
       production_id: e.target.production_id.value,
-      dateProp: e.target.dateProp.value,
-      periodStart: lib.dateToTimestamp(e.target.periodStart.value),
-      periodEnd: lib.dateToTimestamp(e.target.periodEnd.value) + (lib.timestampDay() - 1),
+      period_prop: e.target.period_prop.value,
+      period_start: lib.dateToTimestamp(e.target.period_start.value),
+      period_end: lib.dateToTimestamp(e.target.period_end.value) + (lib.timestampDay() - 1),
       location: e.target.location.value,
       status: e.target.status.value,
       order: "preparation_deadline"
     };
+
+    // date_prop
+    // shipment_datetime
+    // preparation_datetime
+    // receipt_datetime
+
+    // order
+    // shipment_datetime
+    // preparation_datetime
+    // receipt_datetime
 
     if (production.location == "Interna") { production.seamstress_id = e.target.internal_seamstress_id.value; };
     if (production.location == "Externa") { production.seamstress_id = e.target.external_seamstress_id.value; };
@@ -70,7 +80,6 @@
     productions = lib.sort(productions, "shipment_datetime", "ASC");
 
     productions.forEach(production => {
-      console.log(production);
       let production_div = lib.element.create("div", { class: "box b2-3 container ground border-st shadow-lg-st radius-5 padding-5 margin-top-5" });
       production_div.append(lib.element.create("div", {
         class: "mobile-box b8 input-show border-st bold center pointer",

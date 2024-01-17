@@ -7,8 +7,6 @@ const Production = require('../../../model/production/main');
 Production.receipt = require('../../../model/production/receipt');
 Production.product = require('../../../model/production/product');
 
-const Outcome = require('../../../model/financial/outcome');
-
 const countController = {};
 
 countController.count = {};

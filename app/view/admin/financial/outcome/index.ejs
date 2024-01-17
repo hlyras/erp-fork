@@ -1,0 +1,112 @@
+<html>
+
+<head>
+  <%- include('./../../../partials/head.ejs') %>
+</head>
+
+<body>
+  <%- include('./../../../partials/header.ejs') %>
+  <%- include('./../../../partials/nav.ejs') %>
+  <section class="container">
+    <div class="box a2 container ground border padding-10 margin-top-5">
+      <form id="outcome-category-create-form" class="box b1 container center">
+        <div class="box b1 em08 georgia bold underline center">Cadastrar Categoria de saída</div>
+        <input type="hidden" name="id" value="" autocomplete="off">
+        <input type="text" name="name" class="box b2-3 input-generic margin-top-5 center"
+          placeholder="Nome da categoria" autocomplete="off" maxlength="100">
+        <input type="submit" class="box b3 submit-generic margin-top-5 center"
+          id="financial-outcome-category-create-submit" value="Cadastrar">
+      </form>
+      <div id="outcome-category-filter-box" class="box b1 container ground border padding-10 margin-top-5">
+        <div class="box b1 em08 georgia bold underline center">Filtrar Categorias de saída</div>
+        <form id="outcome-category-filter-form" class="box b1 container">
+          <input type="text" name="name" class="box b2-3 input-generic center margin-top-5"
+            placeholder="Nome da categoria" autocomplete="off">
+          <input type="submit" name="submit" class="box b3 submit-generic center margin-top-5" value="Filtrar">
+        </form>
+        <div id="outcome-category-filter-div" class="box b1 ground avant-garde margin-top-10"></div>
+        <%- include('./../../../partials/carousel.ejs') %>
+      </div>
+    </div>
+
+    <div class="box a2 container ground border padding-10 margin-top-5">
+      <!-- Division box -->
+      <div id="outcome-category-show-box" class="box b1 container ground border padding-5 margin-top-5"
+        style="display:none"></div>
+
+      <form id="outcome-origin-create-form" class="box b1 ground border-explicit container margin-top-5 padding-5"
+        style="display:none;">
+        <div class="box b1 em08 georgia bold underline center">Cadastrar Origem de saída</div>
+        <input type="hidden" name="id" value="" autocomplete="off">
+        <input type="hidden" name="category-id" value="" autocomplete="off">
+        <input type="text" name="name" class="box b2-3 input-generic margin-top-5 center" placeholder="Nome da origem"
+          autocomplete="off" maxlength="100">
+        <input type="submit" class="box b3 submit-generic margin-top-5 center"
+          id="financial-outcome-origin-create-submit" value="Cadastrar">
+      </form>
+
+      <div id="outcome-origin-filter-box" class="box b1 container ground border padding-10 margin-top-5">
+        <div class="box b1 em08 georgia bold underline center">Filtrar Origens de saída</div>
+        <form id="outcome-origin-filter-form" class="box b1 container">
+          <input type="hidden" name="category-id" value="" autocomplete="off">
+          <input type="text" name="name" class="box b2-3 input-generic center margin-top-5" placeholder="Nome da origem"
+            autocomplete="off">
+          <input type="submit" name="submit" class="box b3 submit-generic center margin-top-5" value="Filtrar">
+        </form>
+        <div id="outcome-origin-filter-div" class="box b1 ground avant-garde margin-top-10"></div>
+        <%- include('./../../../partials/carousel.ejs') %>
+      </div>
+
+      <div id="outcome-origin-show-box" class="box a1 container ground border padding-10 margin-top-5"
+        style="display:none;"></div>
+      <%- include('./origin-payment-form.ejs') %>
+
+      <div id="origin-payment-filter-box" class="box b1 container ground border padding-10 margin-top-10"
+        style="display:none;">
+        <form id="origin-payment-filter-form" hidden>
+          <input type="hidden" name="origin-id">
+          <input type="submit" name="submit">
+        </form>
+        <div id="origin-payment-filter-div" class="box b1 ground avant-garde margin-top-10">origin-payment-filter-div
+        </div>
+        <%- include('./../../../partials/carousel.ejs') %>
+      </div>
+
+      <div id="origin-payment-show-box" class="box a1 container ground border padding-10 margin-top-5"
+        style="display:none;">origin-payment-show-box</div>
+    </div>
+  </section>
+</body>
+<footer>
+  <%- include('./../../../partials/footer.ejs') %>
+  <script src="/js/financial/outcome/main.js"></script>
+  <script src="/js/financial/outcome/category.js"></script>
+  <script src="/js/financial/outcome/origin/main.js"></script>
+  <script src="/js/financial/outcome/origin/payment.js"></script>
+
+  <script src="/javascripts/scripts/financial/outcome/view/main.js"></script>
+  <script src="/javascripts/scripts/financial/outcome/controller/main.js"></script>
+
+  <script src="/javascripts/scripts/financial/outcome/view/category.js"></script>
+  <script src="/javascripts/scripts/financial/outcome/controller/category.js"></script>
+
+  <script src="/javascripts/scripts/financial/outcome/view/origin.js"></script>
+  <script src="/javascripts/scripts/financial/outcome/controller/origin.js"></script>
+
+  <script>
+    OutcomeOriginPaymentController.method = document.getElementById("origin-payment-create-form").elements.namedItem("payment-method");
+    if (OutcomeOriginPaymentController.method) {
+      OutcomeOriginPaymentController.method.addEventListener("change", event => {
+        if (event.target.value == "Pix") {
+          document.getElementById("payment-transfer-box").style.display = "none";
+          document.getElementById("payment-pix-box").style.display = "";
+        } else if (event.target.value == "Transferência bancária") {
+          document.getElementById("payment-pix-box").style.display = "none";
+          document.getElementById("payment-transfer-box").style.display = "";
+        }
+      });
+    }
+  </script>
+</footer>
+
+</html>

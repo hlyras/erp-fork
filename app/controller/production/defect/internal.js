@@ -7,8 +7,7 @@ const lib = require("jarmlib");
 const Production = require('../../../model/production/main');
 Production.product = require('../../../model/production/product');
 
-const Outcome = require('../../../model/financial/outcome');
-const Product = require('../../../model/production/product');
+const OutcomeOrigin = require('../../../model/financial/outcome/origin/main');
 
 const internalController = {};
 
@@ -25,8 +24,8 @@ internalController.index = async (req, res) => {
   lib.Query.fillParam("outcome_origin.category_id", 10, external_strict_params);
 
   try {
-    let internal_seamstresses = await Outcome.origin.filter([], [], internal_strict_params, [['name', 'ASC']]);
-    let external_seamstresses = await Outcome.origin.filter([], [], external_strict_params, [['name', 'ASC']]);
+    let internal_seamstresses = await OutcomeOrigin.filter([], [], internal_strict_params, [['name', 'ASC']]);
+    let external_seamstresses = await OutcomeOrigin.filter([], [], external_strict_params, [['name', 'ASC']]);
     res.render('production/defect/internal/index', { user: req.user, internal_seamstresses, external_seamstresses });
   } catch (err) {
     console.log(err);

@@ -1,0 +1,15 @@
+<script>
+  function incomeDetailRender(income) {
+    let detail_div = lib.element.create("div", { class: "box b1 container" });
+
+    detail_div.append(lib.element.createInfo("mobile-box b7 lucida-grande em09 bold margin-top-10", "Id", `#${income.id}`));
+    detail_div.append(lib.element.createInfo("mobile-box b3-7 lucida-grande em09 margin-top-10", "Origem do recebimento", income.category_name));
+    detail_div.append(lib.element.createInfo("mobile-box b3-7 lucida-grande em09 margin-top-10", "Método de recebimento", income.origin_name));
+    detail_div.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Data do recebimento", lib.timestampToDate(income.date)));
+    detail_div.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Valor", `R$${income.value.toFixed(2)}`));
+    detail_div.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Usuário", income.user_name));
+    detail_div.append(lib.element.createInfo("mobile-box b1 lucida-grande em09 padding-5 margin-top-15 border pre-wrap", "Descrição", income.description || "Sem descrição"));
+
+    return detail_div;
+  };
+</script>

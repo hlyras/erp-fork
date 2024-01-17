@@ -1,11 +1,11 @@
-const User = require('../../../model/user');
 const userController = require('./../../user/main');
 
 const lib = require("jarmlib");
 
-const Feedstock = require('../../../model/feedstock/main');
-Feedstock.supplier = require('../../../model/feedstock/supplier');
-Feedstock.purchase = require('../../../model/feedstock/purchase');
+const FeedstockSupplier = require('../../../model/feedstock/supplier/main');
+const FeedstockPurchase = require('../../../model/feedstock/purchase/main');
+const FeedstockPurchaseFeedstock = require('../../../model/feedstock/purchase/feedstock');
+const { response } = require('express');
 
 const purchaseController = {};
 
@@ -15,22 +15,8 @@ purchaseController.index = async (req, res) => {
 	};
 
 	try {
-		let suppliers = await Feedstock.supplier.filter([], [], [], [], []);
+		let suppliers = await FeedstockSupplier.filter({});
 		res.render('feedstock/purchase/index', { user: req.user, suppliers });
-	} catch (err) {
-		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
-	};
-};
-
-purchaseController.checkout = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
-		return res.redirect('/');
-	};
-
-	try {
-		let suppliers = await Feedstock.supplier.filter([], [], [], [], []);
-		res.render('feedstock/purchase/checkout/index', { user: req.user, suppliers });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
@@ -43,7 +29,7 @@ purchaseController.manage = async (req, res) => {
 	};
 
 	try {
-		let suppliers = await Feedstock.supplier.filter([], [], [], [], []);
+		let suppliers = await FeedstockSupplier.filter({});
 		res.render('feedstock/purchase/manage/index', { user: req.user, suppliers });
 	} catch (err) {
 		console.log(err);
@@ -51,12 +37,12 @@ purchaseController.manage = async (req, res) => {
 	};
 };
 
-purchaseController.save = async (req, res) => {
+purchaseController.create = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.redirect('/');
 	};
 
-	let purchase = new Feedstock.purchase();
+	let purchase = new FeedstockPurchase();
 	purchase.id = req.body.id;
 	purchase.date = lib.date.timestamp.generate();
 	purchase.status = req.body.status;
@@ -78,15 +64,16 @@ purchaseController.save = async (req, res) => {
 
 	try {
 		if (!purchase.id) {
-			let saved_purchase = await purchase.save();
+			let create_response = await purchase.create();
+			if (create_response.err) { return res.send({ msg: response.err }); }
 
 			purchase.feedstocks.forEach(async feedstock => {
-				let item = new Feedstock.purchase.feedstock();
-				item.purchase_id = saved_purchase.insertId;
-				item.feedstock_id = feedstock.feedstock_id;
-				item.price = feedstock.price;
-				item.amount = feedstock.amount;
-				await item.add();
+				let purchase_feedstock = new FeedstockPurchaseFeedstock();
+				purchase_feedstock.purchase_id = saved_purchase.insertId;
+				purchase_feedstock.feedstock_id = feedstock.feedstock_id;
+				purchase_feedstock.price = feedstock.price;
+				purchase_feedstock.amount = feedstock.amount;
+				await purchase_feedstock.create();
 			});
 
 			res.send({ done: 'Compra cadastrada sucesso!' });
@@ -95,7 +82,7 @@ purchaseController.save = async (req, res) => {
 
 			let strict_params = { keys: [], values: [] };
 			lib.Query.fillParam("purchase_feedstock.purchase_id", purchase.id, strict_params);
-			let purchase_feedstocks = await Feedstock.purchase.feedstock.filter([], [], [], [], strict_params, []);
+			let purchase_feedstocks = await FeedstockPurchaseFeedstock.filter({ strict_params });
 
 			purchase.feedstocks = purchase_feedstocks.reduce((feedstocks, feedstock) => {
 				for (let i in feedstocks) { if (feedstocks[i].feedstock_id == feedstock.feedstock_id) { return feedstocks; } };
@@ -111,27 +98,27 @@ purchaseController.save = async (req, res) => {
 
 			//add feedstocks
 			for (let i in purchase.feedstock_actions.add) {
-				let item = new Feedstock.purchase.feedstock();
-				item.purchase_id = purchase.id;
-				item.feedstock_id = purchase.feedstock_actions.add[i].feedstock_id;
-				item.price = purchase.feedstock_actions.add[i].price;
-				item.amount = purchase.feedstock_actions.add[i].amount;
-				await item.add();
+				let purchase_feedstock = new FeedstockPurchaseFeedstock();
+				purchase_feedstock.purchase_id = purchase.id;
+				purchase_feedstock.feedstock_id = purchase.feedstock_actions.add[i].feedstock_id;
+				purchase_feedstock.price = purchase.feedstock_actions.add[i].price;
+				purchase_feedstock.amount = purchase.feedstock_actions.add[i].amount;
+				await purchase_feedstock.create();
 			};
 
 			//update feedstocks
 			for (let i in purchase.feedstock_actions.update) {
-				let item = new Feedstock.purchase.feedstock();
-				item.purchase_id = purchase.id;
-				item.feedstock_id = purchase.feedstock_actions.update[i].feedstock_id;
-				item.price = purchase.feedstock_actions.update[i].price;
-				item.amount = purchase.feedstock_actions.update[i].amount;
-				await item.update();
+				let purchase_feedstock = new FeedstockPurchaseFeedstock();
+				purchase_feedstock.purchase_id = purchase.id;
+				purchase_feedstock.feedstock_id = purchase.feedstock_actions.update[i].feedstock_id;
+				purchase_feedstock.price = purchase.feedstock_actions.update[i].price;
+				purchase_feedstock.amount = purchase.feedstock_actions.update[i].amount;
+				await purchase_feedstock.update();
 			};
 
 			//remove feedstocks
 			for (let i in purchase.feedstock_actions.remove) {
-				await Feedstock.purchase.feedstock.remove(purchase.feedstock_actions.remove[i]);
+				await FeedstockPurchaseFeedstock.remove(purchase.feedstock_actions.remove[i]);
 			};
 
 			await purchase.update();
@@ -141,6 +128,40 @@ purchaseController.save = async (req, res) => {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao cadastrar a matéria-prima, favor contatar o suporte" });
 	};
+};
+
+purchaseController.update = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	const purchase = new FeedstockPurchase();
+	purchase.id = req.body.id;
+	purchase.value = req.body.value;
+	purchase.total_value = req.body.total_value;
+	purchase.shipment_value = req.body.shipment_value;
+	purchase.discount_value = req.body.discount_value;
+	purchase.addition_value = req.body.addition_value;
+	purchase.status = req.body.status;
+	purchase.payment_method = req.body.payment_method;
+
+	try {
+		const response = await purchase.update();
+		if (response.err) { return res.send({ msg: response.err }); }
+
+		res.send({ done: "Matéria-prima atualizada com sucesso!" });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao cadastrar a matéria-prima." });
+	}
+};
+
+purchaseController.confirm = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+
 };
 
 purchaseController.filter = async (req, res) => {
@@ -155,12 +176,20 @@ purchaseController.filter = async (req, res) => {
 		"supplier.name supplier_name",
 		"supplier.trademark supplier_trademark",
 		"supplier.phone supplier_phone",
-		"user.name user_name"
+		"supplier.origin_id",
+		"outcome_origin.category_id origin_category_id",
+		"user.name user_name",
+		"confirmation_user.name confirmation_user_name"
 	];
 
 	let inners = [
 		["cms_wt_erp.feedstock_supplier supplier", "supplier.id", "purchase.supplier_id"],
-		["cms_wt_erp.user user", "user.id", "purchase.user_id"]
+		["cms_wt_erp.user", "user.id", "purchase.user_id"],
+		["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "supplier.origin_id"]
+	];
+
+	let lefts = [
+		["cms_wt_erp.user confirmation_user", "confirmation_user.id", "purchase.user_id"]
 	];
 
 	let period = { key: "date", start: req.body.period_start, end: req.body.period_end };
@@ -173,7 +202,7 @@ purchaseController.filter = async (req, res) => {
 	let order_params = [["purchase.date", "DESC"]];
 
 	try {
-		let purchases = await Feedstock.purchase.filter(props, inners, period, [], strict_params, order_params);
+		let purchases = await FeedstockPurchase.filter({ props, inners, lefts, period, strict_params, order_params });
 		res.send({ purchases });
 	} catch (err) {
 		console.log(err);
@@ -181,13 +210,19 @@ purchaseController.filter = async (req, res) => {
 	};
 };
 
-purchaseController.updateStatus = async (req, res) => {
+purchaseController.update = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
+	const purchase = new FeedstockPurchase();
+	purchase.id = req.body.id;
+	purchase.status = req.body.status;
+
 	try {
-		await Feedstock.purchase.updateStatus(req.body.id, req.body.status);
+		let update_response = await purchase.update();
+		if (update_response.err) { return res.send({ msg: update_response.err }); }
+
 		res.send({ done: 'Compra atualizada com sucesso!' });
 	} catch (err) {
 		console.log(err);
@@ -203,11 +238,11 @@ purchaseController.delete = async (req, res) => {
 	try {
 		let strict_params = { keys: [], values: [] };
 		lib.Query.fillParam("purchase.id", req.params.id, strict_params);
-		let purchase = await Feedstock.purchase.filter([], [], [], [], strict_params, []);
+		let purchase = await FeedstockPurchase.filter({ strict_params });
 
 		if (purchase[0].status == "Em orçamento") {
-			await Feedstock.purchase.delete(req.params.id);
-			await Feedstock.purchase.feedstock.deleteByPurchaseId(req.params.id);
+			await FeedstockPurchase.delete(req.params.id);
+			await FeedstockPurchaseFeedstock.deleteByPurchaseId(req.params.id);
 			res.send({ done: 'Compra excluída com sucesso!' });
 		} else {
 			res.send({ done: 'Não é possível excluir compras após serem confirmadas.' });
@@ -216,6 +251,56 @@ purchaseController.delete = async (req, res) => {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
 	};
+};
+
+purchaseController.checkout = {};
+
+purchaseController.checkout.index = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+		return res.redirect('/');
+	};
+
+	try {
+		let suppliers = await FeedstockSupplier.filter({});
+		res.render('feedstock/purchase/checkout/index', { user: req.user, suppliers });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao realizar requisição." });
+	};
+};
+
+purchaseController.checkout.confirm = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	console.log('req.body', req.body);
+
+	let purchase = new FeedstockPurchase();
+	purchase.id = req.body.purchase_id;
+	purchase.payment_method = req.body.payment_method;
+	purchase.status = "Ag. recebimento";
+	purchase.confirmation_date = lib.date.timestamp.generate();
+	purchase.confirmation_user_id = req.user.id;
+	purchase.expenses = req.body.expenses;
+
+	if (!purchase.payment_method) { return res.send({ msg: "É necessário informar o método de pagamento." }); }
+
+	try {
+		let update_response = await purchase.update();
+		if (update_response.err) { return res.send({ msg: update_response.err }); }
+
+		if (!purchase.expenses) { return res.send({ done: "Pedido confirmado!" }); }
+
+		for (let i in purchase.expenses) {
+			console.log(`purchase.expenses[${i}]`, purchase.expenses[i]);
+		};
+
+		res.send({ done: "Pedido atualizado!" });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao cadastrar a matéria-prima." });
+	}
 };
 
 module.exports = purchaseController;

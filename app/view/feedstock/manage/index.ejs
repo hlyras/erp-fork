@@ -9,20 +9,20 @@
   <%- include('./../../partials/nav.ejs') %>
   <section class="container">
     <div class="box a2 container">
-      <%- include('./components/feedstock/create/form.ejs') %>
+      <%- include('./create/form.ejs') %>
     </div>
     <div class="box a2 container">
-      <%- include('./components/feedstock/filter/form.ejs') %>
+      <%- include('./filter/form.ejs') %>
     </div>
   </section>
-  <%- include('./../../partials/loader.ejs') %>
 </body>
 <footer>
   <%- include('./../../partials/footer.ejs') %>
-  <script src="/javascripts/scripts/feedstock/model/main.js"></script>
-  <%- include('./components/feedstock/create/script.ejs') %>
-  <%- include('./components/feedstock/filter/script.ejs') %>
-  <%- include('./components/feedstock/report/script.ejs') %>
+  <script src="/js/feedstock/main.js"></script>
+  <script src="/js/feedstock/supplier/storage.js"></script>
+  <%- include('./create/script.ejs') %>
+  <%- include('./filter/script.ejs') %>
+  <%- include('./detail/script.ejs') %>
 </footer>
 
 </html>

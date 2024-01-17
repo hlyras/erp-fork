@@ -13,9 +13,9 @@ const Package = function () {
     if (!this.price || isNaN(this.price)) { return { err: "É necessário informar o preço do pacote." } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.product_package_price');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.product_package_price');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
@@ -23,9 +23,9 @@ const Package = function () {
     if (!this.price || isNaN(this.price)) { return { err: "É necessário informar o preço do pacote." } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.product_package_price', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.product_package_price', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
@@ -35,9 +35,9 @@ Package.findById = async (id) => {
 };
 
 Package.filter = (props, inners, params, strict_params, order_params) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.product_package_price catalog_package")
-    .inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_package_price catalog_package")
+    .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+  return db(query, values);
 };
 
 Package.remove = async (id) => {

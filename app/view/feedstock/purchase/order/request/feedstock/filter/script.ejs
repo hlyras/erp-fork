@@ -7,7 +7,7 @@
       status: e.target.status.value
     };
 
-    const orders = await API.response(Feedstock.purchase.order.filter, order_feedstock, e.target.submit);
+    const orders = await API.response(FeedstockPurchaseOrder.filter, order_feedstock, e.target.submit);
     if (!orders) { return false; }
 
     orderFilter(orders);
@@ -44,7 +44,7 @@
           return e.target.value = e.target.dataset.initial_value;
         }
 
-        let response = await API.response(Feedstock.purchase.order.update, { id: order.id, amount: e.target.value });
+        let response = await API.response(FeedstockPurchaseOrder.update, { id: order.id, amount: e.target.value });
         if (!response) { return false };
 
         e.target.dataset.initial_value = e.target.value;
@@ -59,7 +59,7 @@
   function deleteOrder(order_id, input) {
     lib.confirm("Confirmar cancelamento?", async (r) => {
       if (r) {
-        let response = await API.response(Feedstock.purchase.order.delete, order_id, input);
+        let response = await API.response(FeedstockPurchaseOrder.delete, order_id, input);
         if (!response) { return false; }
 
         input.parentNode.parentNode.remove();

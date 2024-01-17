@@ -17,18 +17,18 @@ const Filigran = function () {
     if (!this.time) { return { err: "É necessário o tempo do processo." } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.product_filigran');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.product_filigran');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
     if (!this.id) { return { err: "O id da matéria-prima é inválido." }; }
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.product_filigran', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.product_filigran', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
@@ -38,9 +38,9 @@ Filigran.findById = async (id) => {
 };
 
 Filigran.filter = (props, inners, params, strict_params, order_params) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.product_filigran product_filigran")
-    .inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_filigran product_filigran")
+    .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+  return db(query, values);
 };
 
 Filigran.delete = async (id) => {

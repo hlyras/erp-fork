@@ -6,12 +6,13 @@ if (Feedstock.supplier.controller.create) {
 		event.preventDefault();
 
 		let supplier = {
-			id: event.target.elements.namedItem("id").value,
-			cnpj: event.target.elements.namedItem("cnpj").value,
-			trademark: event.target.elements.namedItem("trademark").value,
-			brand: event.target.elements.namedItem("brand").value,
-			name: event.target.elements.namedItem("name").value,
-			phone: event.target.elements.namedItem("phone").value,
+			id: event.target.elements.namedItem("id").value || null,
+			cnpj: event.target.elements.namedItem("cnpj").value || null,
+			trademark: event.target.elements.namedItem("trademark").value || null,
+			brand: event.target.elements.namedItem("brand").value || null,
+			name: event.target.elements.namedItem("name").value || null,
+			phone: event.target.elements.namedItem("phone").value || null,
+			origin_id: event.target.elements.namedItem("origin_id").value || null,
 		};
 
 		let response = await API.response(Feedstock.supplier.save, supplier);
@@ -23,6 +24,7 @@ if (Feedstock.supplier.controller.create) {
 		event.target.elements.namedItem('brand').value = "";
 		event.target.elements.namedItem('name').value = "";
 		event.target.elements.namedItem('phone').value = "";
+		event.target.elements.namedItem('origin_id').value = "";
 
 		Feedstock.supplier.controller.filter.submit.click();
 	});
@@ -61,6 +63,7 @@ Feedstock.supplier.controller.edit = async (supplier_id) => {
 	document.getElementById("supplier-create-form").elements.namedItem("brand").value = supplier.brand;
 	document.getElementById("supplier-create-form").elements.namedItem("name").value = supplier.name;
 	document.getElementById("supplier-create-form").elements.namedItem("phone").value = supplier.phone;
+	document.getElementById("supplier-create-form").elements.namedItem("origin_id").value = supplier.origin_id;
 };
 
 Feedstock.supplier.controller.delete = async (supplier_id) => {

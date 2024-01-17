@@ -1,0 +1,107 @@
+<script>
+  const outcomeDetail = async id => {
+    const outcome = (await API.response(Outcome.filter, { id }))[0];
+    if (!outcome) { return false; }
+
+    let outcome_detail = lib.element.create("div", { class: "box b1 container h-center" });
+    outcome_detail.append(lib.element.create("div", { class: "box a1 lucida-grande bold margin-top-10 center" }, "Informações da despesa"));
+    outcome_detail.append(lib.element.createInfo("mobile-box b5 lucida-grande em09", "ID", outcome.id));
+    outcome_detail.append(lib.element.createInfo("mobile-box b2-5 lucida-grande em09", "Status", outcome.status));
+    outcome_detail.append(lib.element.createInfo("mobile-box b2-5 lucida-grande em09", "Data de pagamento", lib.timestampToDate(outcome.payment_date)));
+    outcome_detail.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Categoria", outcome.category_name));
+    outcome_detail.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Origem", outcome.origin_name));
+    outcome_detail.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Usuário", outcome.user_name));
+    outcome_detail.append(lib.element.createInfo("mobile-box b2-3 lucida-grande em09 margin-top-10", "Método de pagamento", outcome.payment_method));
+    outcome_detail.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Valor da despesa", `R$${outcome.value.toFixed(2)}`));
+    outcome.description && outcome_detail.append(lib.element.createInfo("mobile-box b1 pre-wrap lucida-grande em09 margin-top-10", "Descrição", outcome.description));
+
+    outcome_detail.append(lib.element.create("div", { class: "box a1 border-bottom margin-top-5" }));
+    outcome_detail.append(lib.element.create("div", { class: "box a1 lucida-grande bold center" }, "Dados de pagamento"));
+
+    switch (outcome.payment_method) {
+      case "Pix":
+        outcome_detail.append(lib.element.createInfo("mobile-box b2 lucida-grande em09 margin-top-5", "Beneficiário", outcome.pix_receiver));
+        outcome_detail.append(lib.element.createInfo("mobile-box b2 lucida-grande em09 margin-top-5", "Chave", outcome.pix_key));
+        break;
+
+      case "Boleto":
+        outcome_detail.append(lib.element.createInfo("mobile-box b2 lucida-grande em09 margin-top-5", "Banco", outcome.billet_bank));
+        outcome_detail.append(lib.element.createInfo("mobile-box b2 lucida-grande em09 margin-top-5", "Beneficiário", outcome.billet_receiver));
+        outcome_detail.append(lib.element.createInfo("mobile-box b1 lucida-grande em09 margin-top-5", "Código de barras", outcome.billet_code));
+        break;
+
+      case "Cheque":
+        outcome_detail.append(lib.element.createInfo("mobile-box b2-5 lucida-grande em09 margin-top-5", "Banco", outcome.check_bank));
+        outcome_detail.append(lib.element.createInfo("mobile-box b2-5 lucida-grande em09 margin-top-5", "Beneficiário", outcome.check_receiver));
+        outcome_detail.append(lib.element.createInfo("mobile-box b5 lucida-grande em09 margin-top-5", "Nº do cheque", outcome.check_number));
+        break;
+
+      case "Transferência bancária":
+        outcome_detail.append(lib.element.createInfo("mobile-box b2-5 lucida-grande em09 margin-top-5", "Beneficiário", outcome.transfer_receiver));
+        outcome_detail.append(lib.element.createInfo("mobile-box b2-5 lucida-grande em09 margin-top-5", "CPF ou CNPJ", outcome.transfer_register));
+        outcome_detail.append(lib.element.createInfo("mobile-box b5 lucida-grande em09 margin-top-5", "Banco", outcome.transfer_bank));
+        outcome_detail.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Nº da Conta", outcome.transfer_account));
+        outcome_detail.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Agência", outcome.transfer_agency));
+        outcome_detail.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Tipo de conta", outcome.transfer_account_type));
+        break;
+    }
+
+    outcome.status != "Pago" && outcome_detail.append(lib.element.create("div", { class: "box a1 border-bottom margin-top-5" }));
+
+    let income_categories = await API.response(IncomeCategory.filter, {});
+
+    outcome.status != "Pago" && outcome_detail.append(lib.element.create("div", {
+      class: "mobile-box b3-7 lucida-grande em09 bold v-center padding-7 margin-top-5 right"
+    }, "Instituição de pagamento:"));
+
+    let income_category_id = lib.element.create("select", { class: "mobile-box b3-7 lucida-grande bold padding-7 margin-top-5" });
+    income_category_id.append(lib.element.create("option", { value: "" }, "Selecionar instituição"));
+    income_categories.forEach(income_category => {
+      income_category_id.append(lib.element.create("option", { value: income_category.id }, income_category.name));
+    });
+    outcome.status != "Pago" && outcome_detail.append(income_category_id);
+
+    outcome_detail.append(lib.element.create("div", { class: "box a1 border-bottom margin-top-5" }));
+
+    const payment_approve_btn = lib.element.create("button", { class: "mobile-box b2 btn-act lucida-grande em11 bold noborder radius padding-7 margin-top-5 pointer" }, "Aprovar despesa");
+    payment_approve_btn.addEventListener("click", async e => {
+      approvePayment(outcome.id, () => { lib.popout(outcome_detail); });
+    });
+    outcome.status == "Ag. aprovação" && outcome_detail.append(payment_approve_btn);
+
+    const payment_confirm_btn = lib.element.create("button", { class: "mobile-box b2 btn-confirm lucida-grande em11 bold noborder radius padding-7 margin-top-5 pointer" }, "Confirmar pagamento");
+    payment_confirm_btn.addEventListener("click", async e => {
+      confirmPayment({
+        id: outcome.id,
+        income_category_id: income_category_id.value
+      }, () => { lib.popout(outcome_detail); });
+    });
+    outcome.status != "Pago" && outcome_detail.append(payment_confirm_btn);
+
+    lib.popup(outcome_detail);
+  };
+
+  const approvePayment = (id, cb) => {
+    lib.confirm("Deseja realmente aprovar este pagamento?", async r => {
+      if (!r) { return false; }
+
+      const approval_response = await API.response(Outcome.payment.approve, id);
+      if (!approval_response) { return false; }
+
+      document.getElementById("outcome-filter-form").submit.click();
+      lib.message(approval_response, cb);
+    });
+  };
+
+  const confirmPayment = (outcome, cb) => {
+    lib.confirm("Deseja realmente confirmar o pagamento?", async r => {
+      if (!r) { return false; }
+
+      const payment_response = await API.response(Outcome.payment.confirm, outcome);
+      if (!payment_response) { return false; }
+
+      document.getElementById("outcome-filter-form").submit.click();
+      lib.message(payment_response, cb);
+    });
+  };
+</script>

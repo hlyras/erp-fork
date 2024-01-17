@@ -1,0 +1,60 @@
+<script>
+  async function supplierRender(supplier) {
+    let supplier_div = lib.element.create("div", {
+      id: `supplier-${supplier.id}-box`,
+      class: "box b1 container ground border-st padding-10 margin-top-5 radius-5 h-center"
+    });
+
+    supplier_div.append(lib.element.icon("b12", "20",
+      "/images/icon/up-arrow.png", `lib.displayDiv('supplier-${supplier.id}-order-box', this, "/images/icon/down-arrow.png", "/images/icon/up-arrow.png")`));
+
+    supplier_div.append(lib.element.create("div", { class: "mobile-box b7-12 lucida-grande bold" }, supplier.brand));
+    supplier_div.append(lib.element.create("div", { id: `supplier-${supplier.id}-value`, class: "mobile-box b3 lucida-grande bold center" }));
+
+    let order_box = lib.element.create("div", { id: `supplier-${supplier.id}-order-box`, class: "box b1 container min-height-50 radius-5 padding-5 margin-top-1" });
+
+    lib.drag.drop(supplier_div, (element_id) => { updateOrderSupplier(lib.removeChar(element_id, "order-"), supplier.id); }, order_box);
+    supplier_div.append(order_box);
+
+    let order_confirm = lib.element.create("div", { id: `supplier-${supplier.id}-purchase`, class: "box b2 btn-act lucida-grande bold padding-5 margin-top-5 noborder radius-5 center pointer" }, "Confirmar pedido");
+    supplier_div.append(order_confirm);
+
+    order_confirm.addEventListener("click", async e => { orderConfirm(supplier.id); });
+
+    return supplier_div;
+  };
+
+  async function suppliersUpdate() {
+    const suppliers = await API.response(FeedstockSupplier.filter, {});
+    if (!suppliers) { return false; }
+
+    const orders = await API.response(FeedstockPurchaseOrder.filter, { status: "Ag. pedido" });
+    if (!orders) { return false; }
+
+    for (let i in suppliers) {
+      suppliers[i].total_value = 0;
+
+      for (let j in orders) {
+        if (suppliers[i].id == orders[j].supplier_id) {
+          suppliers[i].total_value += orders[j].price * orders[j].amount;
+        }
+      };
+
+      let supplier_value = document.getElementById(`supplier-${suppliers[i].id}-value`);
+      supplier_value.textContent = `R$${lib.roundValue(suppliers[i].total_value).toFixed(2)}`;
+    };
+  };
+
+  async function updateOrderSupplier(order_id, supplier_id) {
+    let order = {
+      id: order_id,
+      supplier_id
+    };
+
+    let updateResponse = await API.response(FeedstockPurchaseOrder.update, order);
+    if (!updateResponse) { return false; }
+
+    orderUpdate(order_id);
+    suppliersUpdate();
+  };
+</script>

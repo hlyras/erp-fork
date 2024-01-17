@@ -1,0 +1,48 @@
+<script>
+  const feedstockDetail = async id => {
+    const feedstock = (await API.response(Feedstock.filter, { id }))[0];
+    if (!feedstock) { return false; }
+
+    const storages = await API.response(FeedstockSupplierStorage.filter, { feedstock_id: id });
+    if (!storages) { return false; }
+
+    const feedstock_div = lib.element.create("div", { class: "box b1 container" });
+    feedstock_div.append(lib.element.createInfo("b5", "Id", feedstock.id));
+    feedstock_div.append(lib.element.createInfo("b2-5", "Nome", feedstock.name));
+    feedstock_div.append(lib.element.createInfo("b2-5", "Cor", feedstock.color_name));
+
+    storages.forEach(storage => {
+      let storage_div = lib.element.create("div", { class: "box b1 container border padding-5 margin-top-5" });
+
+      storage_div.append(lib.element.createInfo("mobile-box b2-3", "Nome", storage.supplier_trademark));
+
+      storage_div.append(lib.element.create("div", { class: "mobile-box b12 lucida-grande em09 bold right v-center" }, `R$`));
+
+      let price_input = lib.element.create("input", {
+        type: "number",
+        class: "mobile-box b4 lucida-grande bold border-bottom-lg-st padding-5 v-center",
+        value: storage.price.toFixed(2),
+        step: 0.01,
+        min: 0.01,
+        onfocus: `if(this.value < 0.01) { this.value = "" }`,
+        onblur: `if(this.value < 0.01) { this.value = (0).toFixed(2) } else { this.value = lib.roundValue(this.value).toFixed(2) }`
+      });
+
+      price_input.addEventListener("blur", async e => {
+        let supplier_storage = {
+          id: storage.id,
+          price: e.target.value
+        };
+
+        let response = await API.response(FeedstockSupplierStorage.update, supplier_storage, e.target);
+        if (!response) { return false; }
+      });
+
+      storage_div.append(price_input);
+
+      feedstock_div.append(storage_div);
+    });
+
+    lib.popup(feedstock_div);
+  };
+</script>

@@ -17,25 +17,25 @@ const Shipment = function () {
     if (!this.volume) { return { err: "A quantidade de volumes é inválida" } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.production_shipment');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.production_shipment');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
     if (!this.id) { return { err: "O id do envio é inválido." }; }
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.production_shipment', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.production_shipment', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
 Shipment.filter = (props, inners, params, strict_params, order_params) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.production_shipment")
-    .inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.production_shipment")
+    .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+  return db(query, values);
 };
 
 Shipment.findById = async (id) => {
@@ -53,25 +53,25 @@ Shipment.production = function () {
     if (!this.production_id) { return { err: "A quantidade de produções é inválida" } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.production_shipment_production');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.production_shipment_production');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
     if (!this.id) { return { err: "O id do envio é inválido." }; }
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.production_shipment_production', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.production_shipment_production', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
 Shipment.production.filter = (props, inners, params, strict_params, order_params) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.production_shipment_production shipment_production")
-    .inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.production_shipment_production shipment_production")
+    .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+  return db(query, values);
 };
 
 module.exports = Shipment;

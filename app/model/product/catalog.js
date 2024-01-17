@@ -2,12 +2,12 @@ const db = require('../../../config/connection');
 const Product = require('./main');
 const lib = require("jarmlib");
 
-Product.catalog = function() {
-	this.id = 0;
-	this.name = "";
+Product.catalog = function () {
+	this.id;
+	this.name;
 
 	this.save = () => {
-		let query = "INSERT INTO cms_wt_erp.feedstock_supplier (name) VALUES ('"+this.name+"');";
+		let query = "INSERT INTO cms_wt_erp.feedstock_supplier (name) VALUES ('" + this.name + "');";
 		return db(query);
 	};
 }

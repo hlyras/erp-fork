@@ -1,96 +1,24 @@
 <script>
-  async function supplierComponent(suppliers, orders) {
-    const filter_div = document.getElementById("supplier-filter-div");
-    filter_div.innerHTML = "";
-
-    suppliers.forEach(supplier => {
-      let supplier_div = lib.element.create("div", { class: "box b1 container border-st padding-10 margin-top-5 radius-5" });
-      supplier_div.append(lib.element.icon("b12", "20",
-        "/images/icon/up-arrow.png", `lib.displayDiv('supplier-order-${supplier.id}', this, "/images/icon/down-arrow.png", "/images/icon/up-arrow.png")`));
-
-      supplier_div.append(lib.element.create("div", { class: "mobile-box b7-12 lucida-grande bold" }, supplier.brand));
-      supplier_div.append(lib.element.create("div", { id: `supplier-${supplier.id}-cost`, class: "mobile-box b3 lucida-grande bold center" }));
-
-      let order_box = lib.element.create("div", { id: `supplier-order-${supplier.id}`, class: "box b1 container min-height-50 radius-5 padding-5 margin-top-1" });
-      orders.forEach(order => {
-        if (order.supplier_id == supplier.id) {
-          let order_div = orderRender(order);
-          order_box.append(order_div);
-        }
-      });
-
-      lib.drag.drop(supplier_div, (element_id) => { updateOrderSupplier(lib.removeChar(element_id, "order-"), supplier.id); }, order_box);
-      supplier_div.append(order_box);
-
-      supplier_div.append(lib.element.create("div", { class: "box b2 btn-act lucida-grande bold padding-5 margin-top-5 noborder radius-5 center pointer" }, "Visualizar pedido"));
-      let purchase_confirm = lib.element.create("div", { id: `supplier-${supplier.id}-purchase`, class: "box b2 btn-confirm lucida-grande bold padding-5 margin-top-5 noborder radius-5 center pointer" }, "Confirmar pedido");
-      supplier_div.append(purchase_confirm);
-
-      purchase_confirm.addEventListener("click", async e => { purchaseConfirm(supplier.id); });
-
-      filter_div.append(supplier_div);
-    });
-
-    updateSuppliersInfo();
-  };
-
-  async function purchaseConfirm(supplier_id) {
-    lib.confirm("Deseja realmente confirmar o pedido?", async r => {
-      if (!r) { return false; }
-
-      const response = await API.response(Feedstock.purchase.order.confirm, supplier_id);
-      if (!response) { return false; }
-
-      window.location.reload(true);
-    });
-  };
-
   document.getElementById("supplier-filter-form").addEventListener("submit", async e => {
     e.preventDefault();
 
-    const supplier = {
-      brand: e.target.brand.value
+    const all_suppliers = await API.response(FeedstockSupplier.filter, {});
+    if (!all_suppliers) { return false; }
+
+    for (let i in all_suppliers) {
+      lib.display(`supplier-${all_suppliers[i].id}-box`, "none");
     };
 
-    const suppliers = await API.response(Feedstock.supplier.filter, supplier);
+    let brand = e.target.brand.value;
+    const suppliers = await API.response(FeedstockSupplier.filter, { brand });
     if (!suppliers) { return false; }
 
-    const orders = await API.response(Feedstock.purchase.order.filter, { status: "Ag. pedido" });
-    if (!orders) { return false; }
-
-    supplierComponent(suppliers, orders);
+    for (let i in all_suppliers) {
+      for (let j in suppliers) {
+        if (all_suppliers[i].id == suppliers[j].id) {
+          lib.display(`supplier-${suppliers[j].id}-box`, "");
+        }
+      };
+    };
   });
-
-  async function updateOrderSupplier(order_id, supplier_id) {
-    let order = {
-      id: order_id,
-      supplier_id
-    }
-
-    let updateResponse = await API.response(Feedstock.purchase.order.update, order);
-    if (!updateResponse) { return false; }
-
-    updateSuppliersInfo();
-    orderPriceUpdate(order_id, supplier_id);
-  };
-
-  async function updateSuppliersInfo() {
-    const suppliers = await API.response(Feedstock.supplier.filter, {});
-    if (!suppliers) { return false; }
-
-    const orders = await API.response(Feedstock.purchase.order.filter, { status: "Ag. pedido" });
-    if (!orders) { return false; }
-
-    suppliers.forEach(supplier => {
-      supplier.cost = orders.reduce((cost, order) => {
-        if (order.supplier_id == supplier.id) { return cost += (order.price * order.amount); }
-        return cost;
-      }, 0);
-
-      let supplier_cost = document.getElementById(`supplier-${supplier.id}-cost`);
-      if (supplier_cost) {
-        supplier_cost.innerHTML = `R$${supplier.cost.toFixed(2)}`;
-      }
-    });
-  };
 </script>

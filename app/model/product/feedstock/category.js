@@ -10,18 +10,18 @@ const Category = function () {
     if (!this.name) { return { err: "É necessário incluir o nome da categoria" } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.product_feedstock_category');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.product_feedstock_category');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
     if (!this.id) { return { err: "O id da categoria é inválido." }; }
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.product_feedstock_category', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.product_feedstock_category', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
@@ -36,9 +36,9 @@ Category.findByCode = async (code) => {
 };
 
 Category.filter = (props, inners, params, strict_params, order_params) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.product_feedstock_category product_feedstock_category")
-    .inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_feedstock_category product_feedstock_category")
+    .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+  return db(query, values);
 };
 
 Category.delete = async (id) => {

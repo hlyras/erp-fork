@@ -1,0 +1,133 @@
+<script>
+  let purchase_expenses = [];
+
+  function createExpenses(period, purchase, method) {
+    purchase_expenses = [];
+
+    for (let i = 1; i <= period; i++) {
+      let purchase_expense = {
+        id: i,
+        date: null,
+        cost: null,
+        description: null,
+        status: "Pendente"
+      };
+
+      if (purchase_expenses.length < i) {
+        purchase_expenses.push(purchase_expense);
+      }
+    };
+
+    if (method != "Pix" && method != "Boleto" && method != "Cheque") {
+      document.getElementById("purchase-expense-box").innerHTML = "";
+      purchase_expenses = [];
+    } else {
+      renderExpenses(method);
+    }
+  };
+
+  function renderExpenses(method) {
+    let expense_box = document.getElementById("purchase-expense-box");
+    expense_box.innerHTML = "";
+
+    purchase_expenses.forEach((purchase_expense) => {
+      let expense_form = lib.element.create("form", { class: "box b3 container margin-top-10 padding-10 border-st radius-5 " });
+      expense_form.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold em09 center" }, `Parcela ${purchase_expense.id}/${purchase_expenses.length}`));
+      expense_form.append(lib.element.create("input", { type: 'hidden', name: 'id', value: purchase_expense.id }));
+      expense_form.append(lib.element.create("input", { type: 'date', name: 'date', class: "box b1 padding-5 margin-top-5 border center", required: true }));
+      expense_form.append(lib.element.create("textarea", {
+        name: 'description',
+        class: "box b1 padding-5 margin-top-5 border"
+      }, `Pedido: #${document.getElementById("purchase-checkout-form").purchase_id.value} | Parcela ${purchase_expense.id}/${purchase_expenses.length}`));
+      expense_form.append(lib.element.create("input", {
+        type: 'number',
+        name: 'cost',
+        class: "box b1 lucida-grande bold padding-5 margin-top-5 border center",
+        min: 0.01,
+        step: 0.01,
+        value: (0).toFixed(2),
+        onblur: 'this.value < 0.01 && (this.value = (0).toFixed(2)) || this.value > 0 && (this.value = parseFloat(this.value).toFixed(2))',
+        onfocus: 'this.value < 0.01 && (this.value = "")',
+        required: true,
+        role: "presentation",
+        autocomplete: "off"
+      }));
+
+      method == "Boleto" && renderBoletoFields(expense_form);
+      method == "Cheque" && renderChequeFields(expense_form);
+
+      expense_form.append(lib.element.create("button", {
+        type: "submit",
+        name: "submit",
+        class: "box b1 btn-act lucida-grande em09 bold noborder radius-5 padding-5 margin-top-5 center pointer"
+      }, "Criar Despesa"));
+
+      expense_form.addEventListener("submit", async e => {
+        e.preventDefault();
+        confirmExpense(e.target, method);
+      });
+
+      expense_box.append(expense_form);
+    });
+
+    return expense_box;
+  };
+
+  function renderBoletoFields(expense_form) {
+    expense_form.append(lib.element.create("input", { type: 'text', name: 'billet_bank', class: "box b1 padding-8 margin-top-5 border", placeholder: "Nome do banco", required: true }));
+    expense_form.append(lib.element.create("input", { type: 'text', name: 'billet_receiver', class: "box b1 padding-8 margin-top-5 border", placeholder: "Nome do recebedor", required: true }));
+    expense_form.append(lib.element.create("textarea", { name: 'billet_code', class: "box b1 padding-8 margin-top-5 border", placeholder: "Código de barras", required: true }));
+  };
+
+  function renderChequeFields(expense_form) {
+    expense_form.append(lib.element.create("input", { type: 'text', name: 'check_bank', class: "box b1 padding-8 margin-top-5 border", placeholder: "Nome do banco", required: true }));
+    expense_form.append(lib.element.create("input", { type: 'text', name: 'check_receiver', class: "box b1 padding-8 margin-top-5 border", placeholder: "Nome do favorecido", required: true }));
+    expense_form.append(lib.element.create("input", { type: 'text', name: 'check_number', class: "box b1 padding-8 margin-top-5 border", placeholder: "Nº do Cheque", required: true }));
+  };
+
+  function confirmExpense(expense_form, method) {
+    const checkout_form = document.getElementById("purchase-checkout-form");
+
+    let expense_pos = parseInt(expense_form.id.value) - 1;
+
+    purchase_expenses[expense_pos].date = expense_form.date.value;
+    purchase_expenses[expense_pos].description = expense_form.description.value;
+    purchase_expenses[expense_pos].cost = expense_form.cost.value;
+    purchase_expenses[expense_pos].method = checkout_form.payment_method.value;
+
+    if (purchase_expenses[expense_pos].method == "Pix") {
+      purchase_expenses[expense_pos].origin_payment_id = checkout_form.origin_payment_id.value;
+    }
+
+    if (purchase_expenses[expense_pos].method == "Boleto") {
+      purchase_expenses[expense_pos].billet_bank = expense_form.billet_bank.value;
+      purchase_expenses[expense_pos].billet_receiver = expense_form.billet_receiver.value;
+      purchase_expenses[expense_pos].billet_code = expense_form.billet_code.value;
+    }
+
+    if (purchase_expenses[expense_pos].method == "Cheque") {
+      purchase_expenses[expense_pos].check_bank = expense_form.check_bank.value;
+      purchase_expenses[expense_pos].check_receiver = expense_form.check_receiver.value;
+      purchase_expenses[expense_pos].check_number = expense_form.check_number.value;
+    }
+
+    purchase_expenses[expense_pos].status = "Confirmado";
+
+    for (let i in expense_form.elements) { expense_form.elements[i].disabled = true; };
+    lib.display(expense_form.submit, "none");
+
+    let cancel_btn = lib.element.create("button", {
+      class: 'box b1 btn-cancel lucida-grande em09 bold noborder radius-5 padding-5 margin-top-5 center pointer'
+    }, 'Editar despesa');
+    expense_form.append(cancel_btn);
+
+    cancel_btn.addEventListener("click", async e => {
+      e.preventDefault();
+
+      lib.display(expense_form.submit, "");
+      lib.display(e.target, "none");
+      for (let i in expense_form.elements) { expense_form.elements[i].disabled = false; };
+      purchase_expenses[expense_pos].status = "Pendente";
+    });
+  };
+</script>

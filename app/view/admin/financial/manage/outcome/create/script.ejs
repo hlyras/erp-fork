@@ -1,0 +1,119 @@
+<script>
+  document.getElementById("outcome-create-form").category_id.addEventListener("change", async e => {
+    let origins = await API.response(OutcomeOrigin.filter, { category_id: e.target.value }, e.target);
+
+    let origin_select = document.getElementById("outcome-create-form").origin_id;
+    origin_select.innerHTML = "";
+    origin_select.append(lib.element.create("option", { value: "", selected: true, disabled: true }, `Origem`));
+
+    origins.forEach(origin => {
+      origin_select.append(lib.element.create("option", { value: origin.id }, origin.name));
+    });
+
+    e.target.focus();
+  });
+
+  document.getElementById("outcome-create-form").origin_id.addEventListener("change", async e => {
+    let payments = await API.response(OutcomeOriginPayment.filter, { origin_id: e.target.value }, e.target);
+
+    let payment_box = document.getElementById("origin-payment-box");
+    payment_box.innerHTML = "";
+
+    payments.forEach(payment => {
+      let payment_div = lib.element.create("div", { class: "box b1 container border-st-2 padding-5 margin-top-5" });
+      payment_div.append(lib.element.create("input", {
+        type: "radio",
+        name: "origin_payment_id",
+        value: payment.id,
+        class: "mobile-box b9 center",
+        onclick: `setPaymentMethod('${payment.method}')`
+      }));
+
+      payment_div.append(lib.element.create("div", { class: "mobile-box b8-9 underline lucida-grande bold center" }, payment.method));
+
+      payment.method == "Pix" && payment_div.append(lib.element.info("b3 margin-top-5 em09", "Nome do beneficiário", payment.pix_receiver));
+      payment.method == "Pix" && payment_div.append(lib.element.info("b2-3 margin-top-5 em09", "Chave", payment.pix_key));
+
+      payment.method == "Transferência bancária" && payment_div.append(lib.element.info("b3 margin-top-5 em09", "Nome do beneficiário", payment.transfer_receiver));
+      payment.method == "Transferência bancária" && payment_div.append(lib.element.info("b3 margin-top-5 em09", "CPF | CNPJ", payment.transfer_register));
+      payment.method == "Transferência bancária" && payment_div.append(lib.element.info("b3 margin-top-5 em09", "Nome do banco", payment.transfer_bank));
+      payment.method == "Transferência bancária" && payment_div.append(lib.element.info("b3 margin-top-5 em09", "Agência", payment.transfer_agency));
+      payment.method == "Transferência bancária" && payment_div.append(lib.element.info("b3 margin-top-5 em09", "Nº da conta", payment.transfer_account));
+      payment.method == "Transferência bancária" && payment_div.append(lib.element.info("b3 margin-top-5 em09", "Tipo de conta", payment.transfer_account_type));
+
+      payment_box.append(payment_div);
+    });
+
+    e.target.focus();
+  });
+
+  document.getElementById("outcome-create-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let outcome = {
+      id: lib.sanitize(e.target.id.value) || null,
+      payment_date: lib.sanitize(lib.dateToTimestamp(e.target.payment_date.value)) || null,
+      category_id: lib.sanitize(e.target.category_id.value) || null,
+      origin_id: lib.sanitize(e.target.origin_id.value) || null,
+      income_category_id: lib.sanitize(e.target.income_category_id.value) || null,
+      payment_method: lib.sanitize(e.target.payment_method.value) || null,
+      description: lib.sanitize(e.target.description.value) || null,
+      value: lib.sanitize(e.target.value.value) || null,
+      status: "Pago" || null
+    };
+
+    if (!outcome.payment_method) {
+      return lib.message("É necessário informar o método de pagamento.");
+    }
+
+    if (outcome.payment_method == "Boleto") {
+      outcome.billet_bank = e.target.billet_bank.value;
+      outcome.billet_receiver = e.target.billet_receiver.value;
+      outcome.billet_code = e.target.billet_code.value;
+    } else if (outcome.payment_method == "Cheque") {
+      outcome.check_bank = e.target.check_bank.value;
+      outcome.check_receiver = e.target.check_receiver.value;
+      outcome.check_number = e.target.check_number.value;
+    } else {
+      let origin_payment = (await API.response(OutcomeOriginPayment.filter, { id: e.target.origin_payment_id.value }))[0];
+      if (!origin_payment) { return false };
+
+      if (origin_payment.method == "Pix") {
+        outcome.pix_receiver = origin_payment.pix_receiver;
+        outcome.pix_key = lib.removeChar(origin_payment.pix_key, []);
+      } else if (origin_payment.method == "Transferência bancária") {
+        outcome.transfer_receiver = origin_payment.transfer_receiver;
+        outcome.transfer_register = origin_payment.transfer_register;
+        outcome.transfer_bank = origin_payment.transfer_bank;
+        outcome.transfer_agency = origin_payment.transfer_agency;
+        outcome.transfer_account = origin_payment.transfer_account;
+        outcome.transfer_account_type = origin_payment.transfer_account_type;
+      }
+    }
+
+    let response = await API.response(Outcome.create, outcome, e.target);
+    if (!response) { return false; }
+
+    e.target.id.value = "";
+    e.target.payment_date.value = "";
+    e.target.category_id.value = "";
+    e.target.origin_id.value = "";
+    e.target.income_category_id.value = "";
+    e.target.payment_method.value = "";
+    e.target.origin_payment_id.forEach(radio => radio.checked = false);
+    e.target.description.value = "";
+    e.target.value.value = "";
+
+    e.target.check_bank.value = "";
+    e.target.check_receiver.value = "";
+    e.target.check_number.value = "";
+
+    e.target.billet_bank.value = "";
+    e.target.billet_receiver.value = "";
+    e.target.billet_code.value = "";
+
+    document.getElementById("origin-payment-box").innerHTML = "";
+
+    lib.message(response);
+  });
+</script>

@@ -1,0 +1,353 @@
+<script>
+  async function purchaseDetail(purchase_id) {
+    const purchase = (await API.response(FeedstockPurchase.filter, { id: purchase_id }))[0];
+    purchase.feedstocks = await API.response(FeedstockPurchaseFeedstock.filter, { purchase_id });
+
+    let detail_div = document.getElementById("purchase-detail-div");
+    detail_div.innerHTML = "";
+
+    lib.display("purchase-detail-box", "");
+    lib.display("purchase-filter-box", "none");
+
+    let purchase_div = lib.element.create("div", { class: "box b1 container padding-10 border" });
+    purchase_div.append(lib.element.create("div", { class: "mobile-box b6 bold center em09" }, purchase.id));
+    purchase_div.append(lib.element.create("div", { class: "mobile-box b3 bold center em09" }, purchase.supplier_brand));
+    purchase_div.append(lib.element.create("div", { class: "mobile-box b3 bold center em09" }, purchase.status));
+    detail_div.append(purchase_div);
+
+    purchase.feedstocks.forEach(feedstock => {
+      let feedstock_div = lib.element.create("div", { class: "box b1 container padding-5 border-bottom-st" });
+      purchase_div.append(feedstock_div);
+
+      feedstock_div.append(lib.element.create("div", { class: "mobile-box b3 center em09" }, feedstock.name));
+      feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 center em09" }, feedstock.color_name));
+
+      let feedstock_amount = lib.element.create("input", {
+        type: "number",
+        class: "mobile-box b6 lucida-grande em09 border-bottom-lg-st center",
+        "data-initial_value": feedstock.amount,
+        value: feedstock.amount
+      });
+      feedstock_div.append(feedstock_amount);
+
+      feedstock_amount.addEventListener("blur", async e => {
+        if (!e.target.value || e.target.value < 0.01) {
+          lib.message("Quantidade inválida");
+
+          return e.target.value = e.target.dataset.initial_value;
+        }
+
+        let response = await API.response(FeedstockPurchaseFeedstock.update, { id: feedstock.id, amount: e.target.value });
+        if (!response) { return false };
+
+        e.target.dataset.initial_value = e.target.value;
+        updateFeedstockPrice(feedstock.id);
+        updatePurchaseValue(purchase.id)
+      });
+
+      let feedstock_price = lib.element.create("input", {
+        type: "number",
+        class: "mobile-box b6 lucida-grande em09 border-bottom-lg-st center",
+        "data-initial_value": feedstock.price,
+        value: feedstock.price.toFixed(4),
+        step: '0.0001'
+      });
+      feedstock_div.append(feedstock_price);
+
+      feedstock_price.addEventListener("blur", async e => {
+        if (!e.target.value || e.target.value < 0.0001) {
+          lib.message("Valor inválido");
+
+          return e.target.value = e.target.dataset.initial_value;
+        }
+
+        let response = await API.response(FeedstockPurchaseFeedstock.update, { id: feedstock.id, price: e.target.value });
+        if (!response) { return false };
+
+        e.target.dataset.initial_value = e.target.value;
+        e.target.value = parseFloat(e.target.value).toFixed(4);
+        updateFeedstockPrice(feedstock.id);
+        updatePurchaseValue(purchase.id);
+      });
+
+      feedstock_div.append(lib.element.create("div", { id: `feedstock-${feedstock.id}-value`, class: "mobile-box b6 center em09" }, `R$${(feedstock.amount * feedstock.price).toFixed(2)}`));
+    });
+
+    let price_box = lib.element.create("div", { class: "box b1 container margin-top-5 margin-bottom-20" });
+    price_box.append(lib.element.create("div", { class: "mobile-box b3-4 margin-top-2 right" }, 'Desconto:'));
+    let discount_value = lib.element.create("input", {
+      type: "number",
+      class: "mobile-box b4 lucida-grande em09 border-bottom-lg-st center",
+      "data-initial_value": purchase.discount_value,
+      value: purchase.discount_value.toFixed(2),
+      step: '0.01'
+    });
+    price_box.append(discount_value);
+    discount_value.addEventListener("blur", async e => {
+      if (!e.target.value || e.target.value < 0) {
+        lib.message("Valor inválido");
+
+        return e.target.value = parseFloat(e.target.dataset.initial_value).toFixed(2);
+      }
+
+      let response = await API.response(FeedstockPurchase.update, { id: purchase.id, discount_value: e.target.value });
+      if (!response) { return false };
+
+      e.target.dataset.initial_value = e.target.value;
+      e.target.value = parseFloat(e.target.value).toFixed(2);
+      updatePurchaseValue(purchase.id);
+    });
+
+    price_box.append(lib.element.create("div", { class: "mobile-box b3-4 margin-top-2 right" }, 'Frete:'));
+    let shipment_value = lib.element.create("input", {
+      type: "number",
+      class: "mobile-box b4 lucida-grande em09 border-bottom-lg-st center",
+      "data-initial_value": purchase.shipment_value,
+      value: purchase.shipment_value.toFixed(2),
+      step: '0.01'
+    });
+    price_box.append(shipment_value);
+    shipment_value.addEventListener("blur", async e => {
+      if (!e.target.value || e.target.value < 0) {
+        lib.message("Valor inválido");
+
+        return e.target.value = parseFloat(e.target.dataset.initial_value).toFixed(2);
+      }
+
+      let response = await API.response(FeedstockPurchase.update, { id: purchase.id, shipment_value: e.target.value });
+      if (!response) { return false };
+
+      e.target.dataset.initial_value = e.target.value;
+      e.target.value = parseFloat(e.target.value).toFixed(2);
+      updatePurchaseValue(purchase.id);
+    });
+
+    price_box.append(lib.element.create("div", { class: "mobile-box b3-4 margin-top-2 right" }, 'Acréscimo:'));
+    let addition_value = lib.element.create("input", {
+      type: "number",
+      class: "mobile-box b4 lucida-grande em09 border-bottom-lg-st center",
+      "data-initial_value": purchase.addition_value,
+      value: purchase.addition_value.toFixed(2),
+      step: '0.01'
+    });
+    price_box.append(addition_value);
+    addition_value.addEventListener("blur", async e => {
+      if (!e.target.value || e.target.value < 0) {
+        lib.message("Valor inválido");
+
+        return e.target.value = parseFloat(e.target.dataset.initial_value).toFixed(2);
+      }
+
+      let response = await API.response(FeedstockPurchase.update, { id: purchase.id, addition_value: e.target.value });
+      if (!response) { return false };
+
+      e.target.dataset.initial_value = e.target.value;
+      e.target.value = parseFloat(e.target.value).toFixed(2);
+      updatePurchaseValue(purchase.id);
+    });
+
+    price_box.append(lib.element.create("div", { class: "mobile-box b3-4 lucida-grande bold margin-top-2 right" }, 'Valor total:'));
+    price_box.append(lib.element.create("div", { id: `purchase-${purchase.id}-value`, class: "mobile-box b4 bold lucida-grande center" }, `R$${purchase.total_value.toFixed(2)}`));
+
+    detail_div.append(price_box);
+
+    let checkout_form = lib.element.create("form", {
+      id: "purchase-checkout-form",
+      class: "box b1 container border padding-5 margin-top-5 margin-bottom-20"
+    });
+    checkout_form.append(lib.element.create("input", { type: "hidden", name: "purchase_id", value: purchase.id }));
+    checkout_form.append(lib.element.create("input", { type: "hidden", name: "origin_category_id", value: purchase.origin_category_id }));
+    checkout_form.append(lib.element.create("input", { type: "hidden", name: "origin_id", value: purchase.origin_id }));
+
+    detail_div.append(checkout_form);
+
+    let payment_box = lib.element.create("div", { class: "box b1 container" });
+    payment_box.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold margin-bottom-5 center" }, "Método de pagamento"));
+    checkout_form.append(payment_box);
+
+    let payment_method = lib.element.create("select", {
+      name: "payment_method",
+      class: "box b2-5 bold border-st padding-10 margin-top-5 hide-disabled"
+    });
+    payment_method.append(lib.element.create("option", { value: "", selected: true, disabled: true }, `Método de pagamento`));
+    payment_method.append(lib.element.create("option", { value: "Pix" }, `Pix`));
+    payment_method.append(lib.element.create("option", { value: "Boleto" }, `Boleto`));
+    payment_method.append(lib.element.create("option", { value: "Cheque" }, `Cheque`));
+    payment_method.append(lib.element.create("option", { value: "Cartão de crédito" }, `Cartão de crédito`));
+    payment_method.append(lib.element.create("option", { value: "Transferência bancária" }, `Transferência bancária`));
+    payment_method.addEventListener("change", async e => { definePaymentMethod(e.target.value, purchase.origin_id, payment_box); });
+    payment_box.append(payment_method);
+
+    let origin_payment_id = lib.element.create("select", {
+      name: "origin_payment_id",
+      class: "box b2-5 bold border-st padding-10 margin-top-5 hide-disabled",
+      disabled: true
+    });
+    origin_payment_id.append(lib.element.create("option", { value: null, selected: true, disabled: true }, "Selecione a conta"));
+    payment_box.append(origin_payment_id);
+
+    let payment_period = lib.element.create("select", {
+      name: "payment_period",
+      class: "box b5 bold border-st padding-10 margin-top-5 hide-disabled",
+      disabled: true
+    });
+    payment_period.append(lib.element.create("option", { value: "", selected: true }, `Sem despesas`));
+    for (let i = 1; i <= 12; i++) {
+      payment_period.append(lib.element.create("option", { value: i }, `${i}x`));
+    };
+    payment_period.addEventListener("change", e => { createExpenses(e.target.value, purchase, payment_method.value); });
+    payment_box.append(payment_period);
+
+    let expense_box = lib.element.create("div", { id: "purchase-expense-box", class: "box b1 container" });
+    payment_box.append(expense_box);
+
+    checkout_form.append(lib.element.create("button", {
+      type: "submit",
+      name: "submit",
+      class: "box b1 btn-act lucida-grande bold padding-10 noborder radius-5 margin-top-10 center pointer"
+    }, "Confirmar pedido"));
+
+    checkout_form.addEventListener("submit", async e => {
+      e.preventDefault();
+      purchaseConfirm(e.target);
+    });
+  };
+
+  async function pixPayment(origin_id) {
+    const origin_payments = await API.response(OutcomeOriginPayment.filter, { origin_id });
+
+    let payment_pix = false;
+    for (let i in origin_payments) {
+      if (origin_payments[i].method == "Pix") { payment_pix = true; }
+    };
+    if (!payment_pix) { return lib.message("Nenhum cadastro de pagamento foi encontrado."); }
+
+    let origin_payment_id = document.getElementById("purchase-checkout-form").origin_payment_id;
+    origin_payment_id.innerHTML = "";
+
+    origin_payment_id.append(lib.element.create("option", { value: "", disabled: true }, `Selecionar Pix`));
+
+    for (let i in origin_payments) {
+      if (origin_payments[i].method == "Pix") {
+        origin_payment_id.append(lib.element.create("option", {
+          value: origin_payments[i].id
+        }, `${origin_payments[i].pix_receiver} | Chave: ${origin_payments[i].pix_key}`));
+
+        document.getElementById("purchase-checkout-form").origin_payment_id.disabled = false;
+      }
+    };
+  };
+
+  async function definePaymentMethod(payment_method, origin_id) {
+    if (payment_method == "Pix") {
+      document.getElementById("purchase-expense-box").innerHTML = "";
+      pixPayment(origin_id);
+      document.getElementById("purchase-checkout-form").payment_period.value = "";
+      document.getElementById("purchase-checkout-form").payment_period.disabled = false;
+    }
+
+    if (payment_method == "Boleto") {
+      document.getElementById("purchase-expense-box").innerHTML = "";
+      document.getElementById("purchase-checkout-form").origin_payment_id.value = null;
+      document.getElementById("purchase-checkout-form").origin_payment_id.disabled = true;
+      document.getElementById("purchase-checkout-form").origin_payment_id.innerHTML = "";
+      document.getElementById("purchase-checkout-form").origin_payment_id.
+        append(lib.element.create("option", { value: "" }, `Informe os dados`));
+      document.getElementById("purchase-checkout-form").payment_period.value = "";
+      document.getElementById("purchase-checkout-form").payment_period.disabled = false;
+    }
+
+    if (payment_method == "Cheque") {
+      document.getElementById("purchase-expense-box").innerHTML = "";
+      document.getElementById("purchase-checkout-form").origin_payment_id.value = null;
+      document.getElementById("purchase-checkout-form").origin_payment_id.disabled = true;
+      document.getElementById("purchase-checkout-form").origin_payment_id.innerHTML = "";
+      document.getElementById("purchase-checkout-form").origin_payment_id.
+        append(lib.element.create("option", { value: "" }, `Informe os dados`));
+      document.getElementById("purchase-checkout-form").payment_period.value = "";
+      document.getElementById("purchase-checkout-form").payment_period.disabled = false;
+    }
+
+    if (payment_method == "Cartão de crédito") {
+      document.getElementById("purchase-expense-box").innerHTML = "";
+      document.getElementById("purchase-checkout-form").origin_payment_id.value = null;
+      document.getElementById("purchase-checkout-form").origin_payment_id.disabled = true;
+      document.getElementById("purchase-checkout-form").origin_payment_id.innerHTML = "";
+      document.getElementById("purchase-checkout-form").origin_payment_id.
+        append(lib.element.create("option", { value: "" }, `Informe os dados`));
+      document.getElementById("purchase-checkout-form").payment_period.value = "";
+      document.getElementById("purchase-checkout-form").payment_period.disabled = true;
+    }
+
+    if (payment_method == "Transferência bancária") {
+      document.getElementById("purchase-expense-box").innerHTML = "";
+      document.getElementById("purchase-checkout-form").origin_payment_id.value = null;
+      document.getElementById("purchase-checkout-form").origin_payment_id.disabled = true;
+      document.getElementById("purchase-checkout-form").origin_payment_id.innerHTML = "";
+      document.getElementById("purchase-checkout-form").origin_payment_id.
+        append(lib.element.create("option", { value: "" }, `Informe os dados`));
+      document.getElementById("purchase-checkout-form").payment_period.value = "";
+      document.getElementById("purchase-checkout-form").payment_period.disabled = true;
+    }
+  };
+
+  async function updateFeedstockPrice(feedstock_id) {
+    const feedstock = (await API.response(FeedstockPurchaseFeedstock.filter, { id: feedstock_id }))[0];
+    document.getElementById(`feedstock-${feedstock_id}-value`).innerHTML = `R$${(feedstock.amount * feedstock.price).toFixed(2)}`;
+  };
+
+  async function updatePurchaseValue(purchase_id) {
+    const purchase = (await API.response(FeedstockPurchase.filter, { id: purchase_id }))[0];
+    purchase.feedstocks = await API.response(FeedstockPurchaseFeedstock.filter, { purchase_id });
+
+    let total_value = purchase.feedstocks.reduce((value, feedstock) => {
+      return value += (feedstock.amount * feedstock.price);
+    }, 0);
+
+    total_value -= purchase.discount_value;
+    total_value += purchase.shipment_value;
+    total_value += purchase.addition_value;
+
+    let response = await API.response(FeedstockPurchase.update, { id: purchase_id, total_value: lib.roundValue(total_value) });
+
+    document.getElementById(`purchase-${purchase_id}-value`).textContent = `R$${lib.roundValue(total_value).toFixed(2)}`;
+  };
+
+  async function purchaseConfirm(checkout_form) {
+    let checkout = {
+      purchase_id: checkout_form.purchase_id.value,
+      payment_method: checkout_form.payment_method.value,
+      origin_category_id: checkout_form.origin_category_id.value,
+      origin_id: checkout_form.origin_id.value,
+      payment_period: checkout_form.payment_period.value
+    };
+
+    if (!checkout.payment_period) {
+      lib.confirm("Tem certeza que não deseja criar despesas para esse pedido?", async r => {
+        if (!r) { return console.log(r); }
+
+        let response = await API.response(FeedstockPurchase.checkout, checkout);
+        if (!response) { return false; }
+
+        lib.message(response.done, () => { window.location.reload(); });
+      });
+    } else {
+      for (let i in purchase_expenses) {
+        if (purchase_expenses[i].status != "Confirmado") {
+          return lib.message(`Despesa ${purchase_expenses[i].id}/${checkout.payment_period} está pendente!`);
+        }
+      };
+
+      lib.confirm("Deseja realmente confirmar o pedido?", async r => {
+        if (!r) { return console.log(r); }
+
+        checkout.expenses = purchase_expenses;
+
+        let response = await API.response(FeedstockPurchase.checkout, checkout);
+        if (!response) { return false; }
+
+        lib.message(response.done, () => { window.location.reload(); });
+      });
+    }
+  };
+</script>

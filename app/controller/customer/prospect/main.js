@@ -102,8 +102,8 @@ prospectController.filter = async (req, res) => {
 	let orderParams = [["datetime", "ASC"], ["id", "ASC"]];
 
 	try {
-		let userAcess = (await User.findById(req.user.id))[0].access;
-		if (userAcess != "adm") { lib.Query.fillParam("customer_prospect.user_id", req.user.id, strictParams); }
+		// let userAcess = (await User.findById(req.user.id))[0].access;
+		// if (userAcess != "adm") { lib.Query.fillParam("customer_prospect.user_id", req.user.id, strictParams); }
 
 		let prospects = await Prospect.filter([], [], period, params, strictParams, orderParams, 0);
 		for (let i in prospects) { prospects[i].comments = await Prospect.log.list(prospects[i].id); };

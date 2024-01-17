@@ -1,21 +1,40 @@
-const User = require('../../../model/user');
-const userController = require('./../../user/main');
-
 const lib = require("jarmlib");
 
-const Feedstock = require('../../../model/feedstock/main');
-Feedstock.purchase = require('../../../model/feedstock/purchase');
+const userController = require('./../../user/main');
 
-const purchaseFeedstockController = {};
+const FeedstockPurchaseStorage = require('../../../model/feedstock/purchase/feedstock');
 
-purchaseFeedstockController.filter = async (req, res) => {
+const feedstockController = {};
+
+feedstockController.update = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	const purchaseFeedstock = new FeedstockPurchaseStorage();
+	purchaseFeedstock.id = req.body.id;
+	purchaseFeedstock.price = req.body.price;
+	purchaseFeedstock.amount = req.body.amount;
+
+	try {
+		const response = await purchaseFeedstock.update();
+		if (response.err) { return res.send({ msg: response.err }); }
+
+		res.send({ done: "Matéria-prima atualizada com sucesso!" });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao cadastrar a matéria-prima." });
+	}
+};
+
+feedstockController.filter = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
 	let props = [
 		"purchase_feedstock.*",
-		"feedstock.*",
+		"feedstock.id feedstock_id", "feedstock.code", "feedstock.name", "feedstock.unit", "feedstock.uom", "feedstock.supplier_id",
 		"color.name color_name"
 	];
 
@@ -38,7 +57,7 @@ purchaseFeedstockController.filter = async (req, res) => {
 	let order_params = [["feedstock.code", "ASC"]];
 
 	try {
-		let feedstocks = await Feedstock.purchase.feedstock.filter(props, inners, period, params, strict_params, order_params);
+		let feedstocks = await FeedstockPurchaseStorage.filter({ props, inners, period, params, strict_params, order_params });
 		res.send({ feedstocks });
 	} catch (err) {
 		console.log(err);
@@ -46,4 +65,4 @@ purchaseFeedstockController.filter = async (req, res) => {
 	};
 };
 
-module.exports = purchaseFeedstockController;
+module.exports = feedstockController;

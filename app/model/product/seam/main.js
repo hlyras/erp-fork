@@ -17,18 +17,18 @@ const Seam = function () {
     if (!this.time) { return { err: "É necessário o tempo do processo." } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.product_seam');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.product_seam');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
     if (!this.id) { return { err: "O id da matéria-prima é inválido." }; }
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.product_seam', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.product_seam', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
@@ -38,9 +38,9 @@ Seam.findById = async (id) => {
 };
 
 Seam.filter = (props, inners, params, strict_params, order_params) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.product_seam product_seam")
-    .inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_seam product_seam")
+    .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+  return db(query, values);
 };
 
 Seam.delete = async (id) => {

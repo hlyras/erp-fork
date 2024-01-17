@@ -3,10 +3,8 @@ const userController = require('./../../user/main');
 
 const lib = require("jarmlib");
 
-const Feedstock = require('../../../model/feedstock/main');
-Feedstock.supplier = require('../../../model/feedstock/supplier');
-// const Product = require('../../../model/product/main');
-// Product.color = require('../../../model/product/color');
+const FeedstockSupplier = require('../../../model/feedstock/supplier/main');
+const FeedstockSupplierStorage = require('../../../model/feedstock/supplier/storage');
 
 const storageController = {};
 
@@ -15,29 +13,31 @@ storageController.open = async (req, res) => {
 		return res.redirect('/');
 	};
 
-	//Supplier
-	let supplier_strict_params = { keys: [], values: [] };
-	lib.Query.fillParam("supplier.id", req.params.id, supplier_strict_params);
+	const supplier_options = {
+		strict_params: { keys: [], values: [] }
+	};
+	lib.Query.fillParam("supplier.id", req.params.id, supplier_options.strict_params);
 
-	//Storage
-	let storage_props = ["supplier_storage.*",
-		"feedstock.code",
-		"feedstock.name",
-		"feedstock.unit",
-		"feedstock.uom",
-		"color.name color_name"
-	];
-	let storage_inners = [
-		["cms_wt_erp.feedstock feedstock", "feedstock.id", "supplier_storage.feedstock_id"],
-		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
-	];
-	let storage_strict_params = { keys: [], values: [] };
-	lib.Query.fillParam("supplier_storage.supplier_id", req.params.id, storage_strict_params);
-	let storage_order_params = [["feedstock.code", "ASC"]];
+	const storage_options = {
+		props: ["supplier_storage.*",
+			"feedstock.code",
+			"feedstock.name",
+			"feedstock.unit",
+			"feedstock.uom",
+			"color.name color_name"
+		],
+		inners: [
+			["cms_wt_erp.feedstock feedstock", "feedstock.id", "supplier_storage.feedstock_id"],
+			["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
+		],
+		strict_params: { keys: [], values: [] },
+		order_params: [["feedstock.code", "ASC"]]
+	};
+	lib.Query.fillParam("supplier_storage.supplier_id", req.params.id, storage_options.strict_params);
 
 	try {
-		let supplier = await Feedstock.supplier.filter([], [], [], supplier_strict_params, []);
-		supplier[0].storage = await Feedstock.supplier.storage.filter(storage_props, storage_inners, [], storage_strict_params, storage_order_params);
+		let supplier = await FeedstockSupplier.filter(supplier_options);
+		supplier[0].storage = await FeedstockSupplierStorage.filter(storage_options);
 
 		res.send({ supplier });
 	} catch (err) {
@@ -46,7 +46,7 @@ storageController.open = async (req, res) => {
 	};
 };
 
-storageController.add = async (req, res) => {
+storageController.create = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.redirect('/');
 	};
@@ -62,43 +62,16 @@ storageController.add = async (req, res) => {
 	lib.Query.fillParam("supplier_storage.feedstock_id", insert.feedstock_id, storage_strict_params);
 
 	try {
-		let feedstocks = await Feedstock.supplier.storage.filter([], [], [], storage_strict_params, []);
+		let feedstocks = await FeedstockSupplierStorage.filter([], [], [], storage_strict_params, []);
 		if (feedstocks.length) { return res.send({ msg: "Esta matéria-prima já está inserida no catálogo!\n \n Atualize o preço ao invés de incluir novamente!" }); }
 
-		await Feedstock.supplier.storage.add(insert);
+		let create_response = await storage.create();
+		if (create_response.err) { return res.send({ msg: create_response }); }
+
 		res.send({ done: "Matéria-prima adicionada com sucesso!" });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
-	};
-};
-
-storageController.update = async (req, res) => {
-	let feedstock = {
-		id: req.body.id,
-		price: req.body.price
-	};
-
-	try {
-		await Feedstock.supplier.storage.update(feedstock);
-		res.send({ done: "Matéria-prima atualizada com sucesso!" });
-	} catch (err) {
-		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
-	};
-};
-
-storageController.remove = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
-		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	};
-
-	try {
-		await Feedstock.supplier.storage.remove(req.params.id);
-		res.send({ done: 'Matéria-prima removida com sucesso!' });
-	} catch (err) {
-		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
 	};
 };
 
@@ -109,11 +82,15 @@ storageController.filter = async (req, res) => {
 		"feedstock.name",
 		"feedstock.unit",
 		"feedstock.uom",
-		"color.name color_name"
+		"color.name color_name",
+		"supplier.name supplier_name",
+		"supplier.brand supplier_brand",
+		"supplier.trademark supplier_trademark"
 	];
 	let inners = [
 		["cms_wt_erp.feedstock feedstock", "feedstock.id", "supplier_storage.feedstock_id"],
-		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
+		["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"],
+		["cms_wt_erp.feedstock_supplier supplier", "supplier.id", "supplier_storage.supplier_id"]
 	];
 
 	let params = { keys: [], values: [] };
@@ -129,12 +106,42 @@ storageController.filter = async (req, res) => {
 	let order_params = [["feedstock.code", "ASC"]];
 
 	try {
-		let feedstocks = await Feedstock.supplier.storage.filter(props, inners, params, strict_params, order_params);
+		let storages = await FeedstockSupplierStorage.filter({ props, inners, params, strict_params, order_params });
 
-		res.send({ feedstocks });
+		res.send({ storages });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
+	};
+};
+
+storageController.update = async (req, res) => {
+	const storage = new FeedstockSupplierStorage();
+	storage.id = req.body.id;
+	storage.price = req.body.price;
+
+	try {
+		let storage_response = await storage.update();
+		if (storage_response.err) { return res.send({ msg: storage_response.err }); }
+
+		res.send({ done: "Matéria-prima atualizada com sucesso!" });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
+	};
+};
+
+storageController.delete = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	try {
+		await FeedstockSupplierStorage.delete(req.params.id);
+		res.send({ done: 'Matéria-prima removida com sucesso!' });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
 	};
 };
 

@@ -12,15 +12,15 @@ Feedstock.purchase.controller.setSupplier = (supplier_id) => {
 
 Feedstock.purchase.controller.confirm = async () => {
 	let purchase = {
-		id: document.getElementById("purchase-id").value,
-		supplier_id: document.getElementById("purchase-supplier-id").value,
-		status: document.getElementById("purchase-feedstock-kart-status").value,
-		payment_method: document.getElementById("purchase-feedstock-kart-payment-method").value,
-		value: Feedstock.purchase.controller.kart.value,
-		discount_value: Feedstock.purchase.controller.kart.discount_value,
-		shipment_value: Feedstock.purchase.controller.kart.shipment_value,
-		total_value: Feedstock.purchase.controller.kart.total_value,
-		feedstocks: JSON.stringify(Feedstock.purchase.controller.kart.items)
+		id: lib.sanitize(document.getElementById("purchase-id").value) || null,
+		supplier_id: document.getElementById("purchase-supplier-id").value || null,
+		status: document.getElementById("purchase-feedstock-kart-status").value || null,
+		payment_method: document.getElementById("purchase-feedstock-kart-payment-method").value || null,
+		value: Feedstock.purchase.controller.kart.value || null,
+		discount_value: Feedstock.purchase.controller.kart.discount_value || null,
+		shipment_value: Feedstock.purchase.controller.kart.shipment_value || null,
+		total_value: Feedstock.purchase.controller.kart.total_value || null,
+		feedstocks: JSON.stringify(Feedstock.purchase.controller.kart.items) || null
 	};
 
 	purchase = await API.response(Feedstock.purchase.save, purchase);

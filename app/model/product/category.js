@@ -1,13 +1,13 @@
 const db = require('../../../config/connection');
 const Product = require('./main');
 
-Product.category = function() {
-	this.id = 0;
-	this.name = "";
-	this.shortcut = "";
+Product.category = function () {
+	this.id;
+	this.name;
+	this.shortcut;
 
 	this.save = () => {
-		let query = "INSERT INTO backup.product_category (name, shortcut) VALUES ('"+this.name+"','"+this.shortcut+"');";
+		let query = "INSERT INTO backup.product_category (name, shortcut) VALUES ('" + this.name + "','" + this.shortcut + "');";
 		return db(query);
 	};
 };

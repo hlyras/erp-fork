@@ -1,83 +1,89 @@
 const userController = require('./../../user/main');
-const Income = require('../../../model/financial/income');
+const IncomeCategory = require('../../../model/financial/income/category');
+const IncomeOrigin = require('../../../model/financial/income/origin');
 
 const lib = require("jarmlib");
 
-const categoryController = {
-	save: async (req, res) => {
-		if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-man', 'com-sel', "adm-aud"])) {
-			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+const categoryController = {};
+
+categoryController.create = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-man', 'adm-ass', 'com-man', 'com-sel', "adm-aud"])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	let category = new IncomeCategory();
+	category.id = req.body.id;
+	category.name = req.body.name;
+
+	try {
+		if (!category.id) {
+			let create_response = await category.create();
+			if (create_response.err) { return res.send({ msg: create_response.err }); }
+
+			category.id = create_response.insertId;
+
+			res.send({ done: "Categoria cadastrada com sucesso!" });
+		} else {
+			let update_response = await category.update();
+			if (update_response.err) { return res.send({ msg: update_response.err }); }
+
+			res.send({ done: "Categoria atualizado com sucesso!" });
 		};
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao cadastrar o cliente. Código do erro" });
+	};
+};
 
-		let category = new Income.category();
-		category.id = parseInt(req.body.category.id);
-		category.name = req.body.category.name;
+categoryController.filter = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass'])) {
+		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
+	};
 
-		if (!category.name) { return res.send({ msg: "É necessário identificar a categoria." }); };
+	let strict_params = { keys: [], values: [] };
+	let params = { keys: [], values: [] };
 
-		try {
-			if (!category.id) {
-				let row = await category.save();
-				category.id = row.insertId;
-				res.send({ done: "Categoria cadastrada com sucesso!", category });
-			} else {
-				let row = await category.update();
-				category.id = row.insertId;
-				res.send({ done: "Categoria atualizado com sucesso!", category });
-			};
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: "Ocorreu um erro ao cadastrar o cliente. Código do erro" });
-		};
-	},
-	filter: async (req, res) => {
-		if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass'])) {
-			return res.send({ unauthorized: "Você não tem permissão para acessar!" });
-		};
+	lib.Query.fillParam("income_category.id", req.body.name, strict_params);
+	lib.Query.fillParam("income_category.name", req.body.name, params);
 
-		let props = [];
-		let params = { keys: [], values: [] };
-		let strict_params = { keys: [], values: [] };
+	let order_params = [["income_category.name", "ASC"]];
 
-		lib.Query.fillParam("income_category.name", req.query.name, params);
+	try {
+		let categories = await IncomeCategory.filter({ params, strict_params, order_params });
+		res.send({ categories });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
+	};
+};
 
-		let order_params = [["income_category.name", "ASC"]];
+categoryController.findById = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
 
-		try {
-			let categories = await Income.category.filter(props, params, strict_params, order_params);
-			res.send({ categories });
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: "Ocorreu um erro ao filtrar as vendas, favor contatar o suporte" });
-		};
-	},
-	findById: async (req, res) => {
-		if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass'])) {
-			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-		};
+	try {
+		const category = (await IncomeCategory.findById(req.params.id))[0];
+		res.send({ category });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao buscar a categoria, favor contatar o suporte." });
+	};
+};
 
-		try {
-			const category = await Income.category.findById(req.params.id);
-			res.send({ category });
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: "Ocorreu um erro ao buscar a categoria, favor contatar o suporte." });
-		};
-	},
-	delete: async (req, res) => {
-		if (!await userController.verifyAccess(req, res, ['adm'])) {
-			return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-		};
+categoryController.delete = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
 
-		try {
-			await Income.category.delete(req.params.id);
-			await Income.origin.deleteByCategoryId(req.params.id);
-			res.send({ done: 'Categoria excluída com sucesso!' });
-		} catch (err) {
-			console.log(err);
-			res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
-		};
-	}
+	try {
+		await IncomeCategory.delete(req.params.id);
+		await IncomeOrigin.deleteByCategoryId(req.params.id);
+		res.send({ done: 'Categoria excluída com sucesso!' });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
+	};
 };
 
 module.exports = categoryController;

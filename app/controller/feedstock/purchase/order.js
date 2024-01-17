@@ -4,7 +4,10 @@ const userController = require('./../../user/main');
 const lib = require("jarmlib");
 
 const Feedstock = require('../../../model/feedstock/main');
-Feedstock.purchase = require('../../../model/feedstock/purchase');
+const FeedstockSupplier = require('../../../model/feedstock/supplier/main');
+const FeedstockPurchase = require('../../../model/feedstock/purchase/main');
+const FeedstockPurchaseOrder = require('../../../model/feedstock/purchase/order');
+const FeedstockPurchaseFeedstock = require('../../../model/feedstock/purchase/feedstock');
 
 const orderController = {};
 
@@ -14,7 +17,7 @@ orderController.index = async (req, res) => {
   };
 
   try {
-    let suppliers = await Feedstock.supplier.filter([], [], [], [], []);
+    let suppliers = await FeedstockSupplier.filter({});
     res.render('feedstock/purchase/order/index', { user: req.user, suppliers });
   } catch (err) {
     console.log(err);
@@ -28,7 +31,7 @@ orderController.request = async (req, res) => {
   };
 
   try {
-    let suppliers = await Feedstock.supplier.filter([], [], [], [], []);
+    let suppliers = await FeedstockSupplier.filter({});
     res.render('feedstock/purchase/order/request/index', { user: req.user, suppliers });
   } catch (err) {
     console.log(err);
@@ -63,24 +66,24 @@ orderController.create = async (req, res) => {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 
-  const order_feedstock = new Feedstock.purchase.order();
-  order_feedstock.datetime = lib.date.timestamp.generate();
-  order_feedstock.status = "Ag. pedido"; //Cancelado, Pendente, Confirmado
-  order_feedstock.feedstock_id = req.body.feedstock_id;
-  order_feedstock.amount = req.body.amount;
-  order_feedstock.user_id = req.user.id;
+  const order = new FeedstockPurchaseOrder();
+  order.datetime = lib.date.timestamp.generate();
+  order.status = "Ag. pedido"; //Cancelado, Pendente, Confirmado
+  order.feedstock_id = req.body.feedstock_id;
+  order.amount = req.body.amount;
+  order.user_id = req.user.id;
 
-  if (!order_feedstock.feedstock_id) { return res.send({ msg: "É necessário selecionar a matéria-prima." }); }
-  if (!order_feedstock.amount || order_feedstock.amount < 1) { return res.send({ msg: "Quantidade inválida" }); }
+  if (!order.feedstock_id) { return res.send({ msg: "É necessário selecionar a matéria-prima." }); }
+  if (!order.amount || order.amount < 1) { return res.send({ msg: "Quantidade inválida" }); }
 
   try {
     let strict_params = { keys: [], values: [] };
-    lib.Query.fillParam("purchase_order.feedstock_id", order_feedstock.feedstock_id, strict_params);
+    lib.Query.fillParam("purchase_order.feedstock_id", order.feedstock_id, strict_params);
     lib.Query.fillParam("purchase_order.status", "Ag. pedido", strict_params);
-    let verifyDuplicity = await Feedstock.purchase.order.filter([], [], [], [], strict_params, []);
+    let verifyDuplicity = await FeedstockPurchaseOrder.filter({ strict_params });
     if (verifyDuplicity.length) { return res.send({ msg: "Este insumo já está cadastrado." }); }
 
-    const response = await order_feedstock.create();
+    const response = await order.create();
     if (response.err) { res.send({ msg: response.err }); }
 
     res.send({ done: "Matéria-prima solicitada com sucesso!" });
@@ -95,7 +98,7 @@ orderController.confirm = async (req, res) => {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 
-  const purchase = new Feedstock.purchase();
+  const purchase = new FeedstockPurchase();
   purchase.date = lib.date.timestamp.generate();
   purchase.status = "Ag. aprovação";
   purchase.supplier_id = req.body.supplier_id;
@@ -103,48 +106,52 @@ orderController.confirm = async (req, res) => {
   purchase.value = 0;
   purchase.total_value = 0;
 
-  let props = ["purchase_order.*", "supplier_feedstock.price"];
+  let props = ["purchase_order.*", "supplier_storage.price"];
 
   let inners = [
-    ["cms_wt_erp.feedstock", "feedstock.id", "purchase_order.feedstock_id"],
-    ["cms_wt_erp.feedstock_supplier_storage supplier_feedstock",
-      "supplier_feedstock.feedstock_id", "feedstock.id",
-      "supplier_feedstock.supplier_id", "purchase_order.supplier_id"]
+    ["cms_wt_erp.feedstock", "feedstock.id", "purchase_order.feedstock_id"]
+  ];
+
+  let lefts = [
+    ["cms_wt_erp.feedstock_supplier_storage supplier_storage",
+      "supplier_storage.feedstock_id", "feedstock.id",
+      "supplier_storage.supplier_id", "purchase_order.supplier_id"]
   ];
 
   let strict_params = { keys: [], values: [] };
 
+  lib.Query.fillParam("purchase_order.status", "Ag. pedido", strict_params);
   lib.Query.fillParam("purchase_order.supplier_id", req.body.supplier_id, strict_params);
   let order_params = [["feedstock.code", "ASC"]];
 
   try {
-    let orders = await Feedstock.purchase.order.filter(props, inners, [], [], strict_params, order_params);
+    let orders = await FeedstockPurchaseOrder.filter({ props, inners, lefts, strict_params, order_params });
     if (!orders.length) { return res.send({ msg: "Não há nenhum pedido em aberto." }); }
 
-    let purchase_save = await purchase.save();
-    if (purchase_save.err) { return res.send({ msg: purchase_save.err }); }
+    let purchase_create = await purchase.create();
+    if (purchase_create.err) { return res.send({ msg: purchase_create.err }); }
 
-    purchase.id = purchase_save.insertId;
+    purchase.id = purchase_create.insertId;
 
     for (let i in orders) {
-      let purchase_feedstock = new Feedstock.purchase.feedstock();
+      let purchase_feedstock = new FeedstockPurchaseFeedstock();
       purchase_feedstock.purchase_id = purchase.id;
       purchase_feedstock.feedstock_id = orders[i].feedstock_id;
       purchase_feedstock.price = orders[i].price;
       purchase_feedstock.amount = orders[i].amount;
 
-      let purchase_feedstock_save = await purchase_feedstock.save();
-      if (purchase_feedstock_save.err) { return res.send({ msg: purchase_feedstock_save.err }); }
+      let purchase_feedstock_create = await purchase_feedstock.create();
+      if (purchase_feedstock_create.err) { return res.send({ msg: purchase_feedstock_create.err }); }
 
       purchase.value += orders[i].price * orders[i].amount;
       purchase.total_value += orders[i].price * orders[i].amount;
 
-      let purchase_order = new Feedstock.purchase.order();
-      purchase_order.id = orders[i].id;
-      purchase_order.status = "Confirmado";
-      purchase_order.purchase_id = purchase.id;
-      let purchase_order_update = await purchase_order.update();
-      if (purchase_order_update.err) { return res.send({ msg: purchase_order_update.err }); }
+      let order = new FeedstockPurchaseOrder();
+      order.id = orders[i].id;
+      order.status = "Confirmado";
+      order.purchase_id = purchase.id;
+      let order_update = await order.update();
+      if (order_update.err) { return res.send({ msg: order_update.err }); }
     };
 
     let purchase_update = await purchase.update();
@@ -162,7 +169,7 @@ orderController.update = async (req, res) => {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 
-  const order_feedstock = new Feedstock.purchase.order();
+  const order_feedstock = new FeedstockPurchaseOrder();
   order_feedstock.id = req.body.id;
   order_feedstock.status = req.body.status; //Cancelado, Pendente, Confirmado
   order_feedstock.amount = req.body.amount;
@@ -186,15 +193,23 @@ orderController.filter = async (req, res) => {
     "purchase_order.*",
     "feedstock.id feedstock_id", "feedstock.code", "feedstock.name", "feedstock.color_id", "feedstock.uom", "feedstock.unit",
     "color.name color_name",
-    "supplier_feedstock.price"
+    "supplier_storage.id storage_id",
+    "supplier_storage.price",
+    "supplier.name supplier_name",
+    "supplier.brand supplier_brand",
+    "supplier.trademark supplier_trademark"
   ];
 
   let inners = [
     ["cms_wt_erp.feedstock", "feedstock.id", "purchase_order.feedstock_id"],
-    ["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"],
-    ["cms_wt_erp.feedstock_supplier_storage supplier_feedstock",
-      "supplier_feedstock.feedstock_id", "feedstock.id",
-      "supplier_feedstock.supplier_id", "purchase_order.supplier_id"]
+    ["cms_wt_erp.product_color color", "color.id", "feedstock.color_id"]
+  ];
+
+  let lefts = [
+    ["cms_wt_erp.feedstock_supplier_storage supplier_storage",
+      "supplier_storage.feedstock_id", "feedstock.id",
+      "supplier_storage.supplier_id", "purchase_order.supplier_id"],
+    ["cms_wt_erp.feedstock_supplier supplier", "supplier.id", "purchase_order.supplier_id"]
   ];
 
   let period = { key: "datetime", start: req.body.period_start, end: req.body.period_end };
@@ -212,7 +227,7 @@ orderController.filter = async (req, res) => {
   let order_params = [["feedstock.code", "ASC"]];
 
   try {
-    let orders = await Feedstock.purchase.order.filter(props, inners, period, params, strict_params, order_params);
+    let orders = await FeedstockPurchaseOrder.filter({ props, inners, lefts, period, params, strict_params, order_params });
 
     res.send({ orders });
   } catch (err) {
@@ -227,7 +242,7 @@ orderController.delete = async (req, res) => {
   };
 
   try {
-    await Feedstock.purchase.order.delete(req.params.id);
+    await FeedstockPurchaseOrder.delete(req.params.id);
 
     res.send({ done: "Cancelado com sucesso." });
   } catch (err) {

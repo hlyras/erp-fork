@@ -22,25 +22,25 @@ const Mail = function () {
 		if (!this.user_id) { return { err: "É necessário incluir o conteúdo do modelo" } };
 
 		let obj = lib.convertTo.object(this);
-		let query = lib.Query.save(obj, 'cms_wt_erp.mail');
+		let { query, values } = lib.Query.save(obj, 'cms_wt_erp.mail');
 
-		return db(query);
+		return db(query, values);
 	};
 
 	this.update = () => {
 		if (!this.id) { return { err: "O id do modelo é inválido" }; }
 
 		let obj = lib.convertTo.object(this);
-		let query = lib.Query.update(obj, 'cms_wt_erp.mail', 'id');
+		let { query, values } = lib.Query.update(obj, 'cms_wt_erp.mail', 'id');
 
-		return db(query);
+		return db(query, values);
 	};
 };
 
 Mail.filter = (props, inners, params, strictParams, orderParams) => {
-	let query = new lib.Query().select().props(props).table("cms_wt_erp.mail mail")
-		.inners(inners).params(params).strictParams(strictParams).order(orderParams).build().query;
-	return db(query);
+	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.mail mail")
+		.inners(inners).params(params).strictParams(strictParams).order(orderParams).build();
+	return db(query, values);
 };
 
 Mail.findById = (model_id) => {

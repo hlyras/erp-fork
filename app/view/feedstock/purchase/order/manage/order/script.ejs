@@ -1,0 +1,134 @@
+<script>
+  async function orderRender(order) {
+    let order_div = lib.element.create("div", {
+      id: `order-${order.id}`,
+      draggable: true, class: "box b1 container ground border-st radius-5 padding-5 margin-top-5"
+    });
+
+    order_div.append(lib.element.create("div", { class: "mobile-box b12 lucida-grande em09 noselect center" }, order.code));
+    order_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em09 noselect center" }, order.name));
+    order_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em09 noselect center" }, order.color_name));
+
+    let order_amount = lib.element.create("input", {
+      type: "number",
+      class: "mobile-box b6 lucida-grande em09 bold border-bottom-lg-st center",
+      "data-initial_value": order.amount,
+      value: order.amount
+    });
+    order_div.append(order_amount);
+
+    order_amount.addEventListener("blur", async e => {
+      if (!e.target.value || e.target.value < 1) {
+        lib.message("Valor inválido");
+
+        return e.target.value = e.target.dataset.initial_value;
+      }
+
+      let response = await API.response(FeedstockPurchaseOrder.update, { id: order.id, amount: e.target.value });
+      if (!response) { return false };
+
+      e.target.dataset.initial_value = e.target.value;
+
+      orderUpdate(order.id);
+    });
+
+    let supplier_price = lib.element.create("input", {
+      id: `order-${order.id}-supplier-price`,
+      type: "number",
+      class: "mobile-box b6 lucida-grande em09 bold border-bottom-lg-st center",
+      "data-initial_value": order.price,
+      value: order.price ? order.price.toFixed(4) : null,
+      step: 0.0001,
+      min: 0.0001,
+    });
+    order_div.append(supplier_price);
+
+    supplier_price.addEventListener("blur", async e => {
+      if (!e.target.value || e.target.value < 0.0001) {
+        lib.message("Valor inválido");
+
+        return e.target.value = e.target.dataset.initial_value;
+      }
+
+      let storage_id = (await API.response(FeedstockPurchaseOrder.filter, { id: order.id }))[0].storage_id;
+      if (!storage_id) { return lib.message("Ocorreu um erro"); }
+
+      let response = await API.response(FeedstockSupplierStorage.update, { id: storage_id, price: e.target.value });
+      if (!response) { return false };
+
+      e.target.dataset.initial_value = e.target.value;
+      e.target.value = parseFloat(e.target.value).toFixed(4);
+
+      orderUpdate(order.id);
+    });
+
+    let order_price = lib.element.create("div", {
+      id: `order-${order.id}-price`,
+      class: `mobile-box b6 lucida-grande em09 noselect center`
+    });
+
+    order_div.append(order_price);
+
+    lib.drag.element(order_div);
+
+    return order_div;
+  };
+
+  async function orderPriceUpdate(order) {
+    const supplier_price = document.getElementById(`order-${order.id}-supplier-price`);
+    const order_price = document.getElementById(`order-${order.id}-price`);
+
+    if (order.supplier_id && order.price) {
+      lib.display(supplier_price, "");
+      supplier_price.value = order.price.toFixed(4);
+      order_price.textContent = `R$${lib.roundValue(order.amount * order.price).toFixed(2)}`;
+      order_price.parentNode.style.backgroundColor = "#fff";
+      lib.addCss(order_price, ["b6"]);
+      lib.removeCss(order_price, ["b3"]);
+    }
+
+    if (order.supplier_id && !order.price) {
+      lib.display(supplier_price, "none");
+      order_price.textContent = `Não fornece`;
+      order_price.parentNode.style.backgroundColor = "#E34234";
+      lib.addCss(order_price, ["b3"]);
+      lib.removeCss(order_price, ["b6"]);
+    }
+
+    if (!order.supplier_id) {
+      lib.display(supplier_price, "none");
+      order_price.textContent = `Escolher fornecedor`;
+      order_price.parentNode.style.backgroundColor = "#fff";
+      lib.addCss(order_price, ["b3"]);
+      lib.removeCss(order_price, ["b6"]);
+    }
+  };
+
+  async function orderUpdate(id) {
+    console.log(id);
+
+    let order = (await API.response(FeedstockPurchaseOrder.filter, { id }))[0];
+    if (!order) { return false; }
+
+    orderPriceUpdate(order);
+    suppliersUpdate();
+  };
+
+  async function orderConfirm(supplier_id) {
+    lib.confirm("Deseja realmente confirmar o pedido?", async r => {
+      if (!r) { return false; }
+
+      const orders = await API.response(FeedstockPurchaseOrder.filter, { status: "Ag. pedido", supplier_id });
+      if (!orders) { return false; }
+
+      for (let i in orders) {
+        if (!orders[i].price) { return lib.message("O fornecedor não oferece todos os produtos."); }
+      };
+
+      const response = await API.response(FeedstockPurchaseOrder.confirm, supplier_id);
+      if (!response) { return false; }
+
+      window.location.reload(true);
+    });
+  };
+</script>

@@ -1,0 +1,67 @@
+<div id="income-filter-component" class="box a1 container"></div>
+
+<div id="income-filter-box" class="box a1 container ground border-st radius-5 padding-5 margin-top-5">
+  <div class="box b1 lucida-grande bold border-bottom-st center padding-5 margin-top-10">Relatório de entradas</div>
+  <div id="income-filter-div" class="box a1 container"></div>
+  <%- include('./../../../../../partials/carousel.ejs') %>
+</div>
+
+<script>
+  function incomeFilterForm(form_id, categories) {
+    let income_filter_form = lib.element.create("form", {
+      id: form_id,
+      class: "box b1 container ground border-st radius-5 padding-5 margin-top-5"
+    });
+
+    income_filter_form.append(lib.element.create("span", { class: "box b1 underline lucida-grande em11 bold center margin-top-5" }, "Filtrar entradas"))
+
+    income_filter_form.append(lib.element.create("input", {
+      type: "text",
+      name: "id",
+      class: "box b5 bold border-st padding-9 margin-top-5 center",
+      placeholder: "Id",
+      step: 1,
+      role: "presentation",
+      autocomplete: "off"
+    }));
+
+    income_filter_form.append(lib.element.create("input", {
+      type: "date",
+      name: "period_start",
+      class: "box b2-5 padding-7 margin-top-5 border-st center",
+      value: lib.convertDate(lib.firstDayOfMonth())
+    }));
+
+    income_filter_form.append(lib.element.create("input", {
+      type: "date",
+      name: "period_end",
+      class: "box b2-5 padding-7 margin-top-5 border-st center",
+      value: lib.convertDate(lib.genDate())
+    }));
+
+    let category_select = lib.element.create("select", {
+      name: "category_id",
+      class: "box b2 border-st padding-9 margin-top-5 center"
+    }, "Categoria");
+    category_select.append(lib.element.create("option", { value: "" }, "Categoria"));
+    income_filter_form.append(category_select);
+
+    categories.length && categories.forEach(category => {
+      category_select.append(lib.element.create("option", { value: category.id }, category.name));
+    });
+
+    let origin_select = lib.element.create("select", {
+      name: "origin_id",
+      class: "box b2 hide-disabled border-st padding-9 margin-top-5 center"
+    }, "Origem");
+    origin_select.append(lib.element.create("option", { value: "", selected: true, disabled: true }, "Origem"));
+    income_filter_form.append(origin_select);
+
+    income_filter_form.append(lib.element.create("button", {
+      name: "submit",
+      class: "box b1 submit-generic lucida-grande em11 bold noborder radius-5 margin-top-5 pointer"
+    }, "Buscar"));
+
+    return income_filter_form;
+  };
+</script>

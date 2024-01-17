@@ -1,0 +1,52 @@
+<script>
+  document.getElementById("outcome-filter-form").category_id.addEventListener("change", async e => {
+    let origins = await API.response(OutcomeOrigin.filter, { category_id: e.target.value }, e.target);
+
+    let origin_select = document.getElementById("outcome-filter-form").origin_id;
+    origin_select.innerHTML = "";
+    origin_select.append(lib.element.create("option", { value: "", selected: true, disabled: true }, `Origem`));
+
+    origins.forEach(origin => {
+      origin_select.append(lib.element.create("option", { value: origin.id }, origin.name));
+    });
+
+    e.target.focus();
+  });
+
+  document.getElementById("outcome-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let outcome = {
+      id: lib.sanitize(e.target.id.value),
+      category_id: lib.sanitize(e.target.category_id.value),
+      origin_id: lib.sanitize(e.target.origin_id.value),
+      period_start: lib.dateToTimestamp(e.target.period_start.value),
+      period_end: lib.dateToTimestamp(e.target.period_end.value),
+      status: lib.sanitize(e.target.status.value)
+    };
+
+    const outcomes = await API.response(Outcome.filter, outcome);
+    if (!outcomes) { return false; }
+
+    lib.carousel.execute("outcome-filter-box", outcomeFilter, outcomes, { pageSize: 10, page: 0 });
+  });
+
+  const outcomeFilter = (outcomes, pagination) => {
+    let filter_div = document.getElementById("outcome-filter-div");
+    filter_div.innerHTML = "";
+
+    let report_value = outcomes.reduce((value, outcome) => { return value += outcome.value }, 0);
+    filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 margin-top-5 margin-bottom-5 center" }, `Valor total: R$${report_value.toFixed(2)}`));
+
+    for (let i = pagination.page * pagination.pageSize; i < outcomes.length && i < (pagination.page + 1) * pagination.pageSize; i++) {
+      let outcome_div = lib.element.create("div", { class: "box b1 container border-bottom-st box-hover padding-3 pointer" });
+      outcome_div.addEventListener("click", e => { outcomeDetail(outcomes[i].id); });
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em09 bold center" }, outcomes[i].id));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em07 bold v-center" }, lib.timestampToDate(outcomes[i].payment_date)));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em08 v-center" }, outcomes[i].category_name));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b3 lucida-grande em08 v-center" }, outcomes[i].origin_name));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em08 bold v-center" }, `R$${outcomes[i].value.toFixed(2)}`));
+      filter_div.append(outcome_div);
+    };
+  };
+</script>

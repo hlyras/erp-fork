@@ -13,9 +13,9 @@ const Product = function () {
     if (!this.price || isNaN(this.price)) { return { err: "É necessário informar o preço do produto." } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.product_price');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.product_price');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
@@ -23,9 +23,9 @@ const Product = function () {
     if (!this.price || isNaN(this.price)) { return { err: "É necessário informar o preço do produto." } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.product_price', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.product_price', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
@@ -35,9 +35,9 @@ Product.findById = async (id) => {
 };
 
 Product.filter = (props, inners, params, strict_params, order_params) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.product_price catalog_product")
-    .inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_price catalog_product")
+    .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+  return db(query, values);
 };
 
 Product.remove = async (id) => {

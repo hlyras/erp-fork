@@ -27,30 +27,30 @@ const Production = function () {
 		if (!this.user_id) { return { err: "É necessário registrar o usuário." } };
 
 		let obj = lib.convertTo.object(this);
-		let query = lib.Query.save(obj, 'cms_wt_erp.production');
+		let { query, values } = lib.Query.save(obj, 'cms_wt_erp.production');
 
-		return db(query);
+		return db(query, values);
 	};
 
 	this.update = () => {
 		if (!this.id) { return { err: "O id da produção é inválido." }; }
 
 		let obj = lib.convertTo.object(this);
-		let query = lib.Query.update(obj, 'cms_wt_erp.production', 'id');
+		let { query, values } = lib.Query.update(obj, 'cms_wt_erp.production', 'id');
 
-		return db(query);
+		return db(query, values);
 	};
 };
 
 Production.findById = async (id) => {
-	let query = `SELECT * FROM cms_wt_erp.production WHERE id='${id}';`;
-	return db(query);
+	let query = `SELECT * FROM cms_wt_erp.production WHERE id = ?`;
+	return db(query, [id]);
 };
 
 Production.filter = (props, inners, period, params, strict_params, order_params, limit) => {
-	let query = new lib.Query().select().props(props).table("cms_wt_erp.production production")
-		.inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build().query;
-	return db(query);
+	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.production production")
+		.inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build();
+	return db(query, values);
 };
 
 module.exports = Production;

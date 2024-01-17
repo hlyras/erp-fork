@@ -6,12 +6,12 @@ if (Feedstock.controller.create) {
 		event.preventDefault();
 
 		let feedstock = {
-			id: event.target.elements.namedItem("id").value,
-			code: event.target.elements.namedItem("code").value,
-			name: event.target.elements.namedItem("name").value,
-			color_id: event.target.elements.namedItem("color-id").value,
-			unit: event.target.elements.namedItem("unit").value,
-			uom: event.target.elements.namedItem("uom").value,
+			id: event.target.elements.namedItem("id").value || null,
+			code: event.target.elements.namedItem("code").value || null,
+			name: event.target.elements.namedItem("name").value || null,
+			color_id: event.target.elements.namedItem("color-id").value || null,
+			unit: event.target.elements.namedItem("unit").value || null,
+			uom: event.target.elements.namedItem("uom").value || null,
 		};
 
 		let response = await API.response(Feedstock.save, feedstock);

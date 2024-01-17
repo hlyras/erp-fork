@@ -21,25 +21,25 @@ const Receipt = function () {
     if (!this.status) { return { err: "É necessário informar o status do recebimento." }; };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.production_receipt');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.production_receipt');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
     if (!this.id) { return { err: "O id do recebimento é inválido." }; }
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.production_receipt', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.production_receipt', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
 Receipt.filter = (props, inners, period, params, strict_params, order_params) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt")
-    .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt")
+    .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build();
+  return db(query, values);
 };
 
 Receipt.product = function () {
@@ -60,25 +60,25 @@ Receipt.product = function () {
     if (!this.user_id) { return { err: "Usuário inválido." }; };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.production_receipt_product');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.production_receipt_product');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
     if (!this.id) { return { err: "O id do produto é inválido." }; }
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.production_receipt_product', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.production_receipt_product', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
 Receipt.product.filter = (props, inners, period, params, strict_params, order_params, limit) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt_product receipt_product")
-    .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt_product receipt_product")
+    .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build();
+  return db(query, values);
 };
 
 Receipt.product.findById = async (id) => {
@@ -98,9 +98,9 @@ Receipt.count = function () {
     if (!this.user_id) { return { err: "Usuário inválido." }; };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.production_receipt_count');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.production_receipt_count');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
@@ -110,9 +110,9 @@ Receipt.count.findById = async (id) => {
 };
 
 Receipt.count.filter = (props, inners, period, params, strict_params, order_params, limit) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt_count")
-    .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt_count")
+    .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build();
+  return db(query, values);
 };
 
 module.exports = Receipt;

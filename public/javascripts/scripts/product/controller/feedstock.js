@@ -27,13 +27,13 @@ if (Product.controller.feedstock.add) {
 		};
 
 		let product_feedstock = {
-			id: document.getElementById("product-feedstock-add-form").elements.namedItem('id').value,
-			product_id: document.getElementById("product-feedstock-add-form").elements.namedItem('product_id').value,
-			feedstock_id: document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_id').value,
+			id: document.getElementById("product-feedstock-add-form").elements.namedItem('id').value || null,
+			product_id: document.getElementById("product-feedstock-add-form").elements.namedItem('product_id').value || null,
+			feedstock_id: document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_id').value || null,
 			uom: document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").options[document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_id").selectedIndex].text.split(' | ')[3],
-			amount: document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_amount').value,
-			measure: document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_measure').value,
-			category_id: document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_category_id").value
+			amount: document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_amount').value || null,
+			measure: document.getElementById("product-feedstock-add-form").elements.namedItem('feedstock_measure').value || null,
+			category_id: document.getElementById("product-feedstock-add-form").elements.namedItem("feedstock_category_id").value || null
 		};
 
 		if (!await API.response(Product.feedstock.add, product_feedstock)) { return false };
@@ -179,9 +179,9 @@ if (Product.controller.feedstock.category.create) {
 		event.preventDefault();
 
 		let category = {
-			id: document.getElementById("product-feedstock-category-create-form").elements.namedItem("id").value,
-			product_id: document.getElementById("product-feedstock-category-create-form").elements.namedItem("product_id").value,
-			category_name: document.getElementById("product-feedstock-category-create-form").elements.namedItem("category_name").value
+			id: document.getElementById("product-feedstock-category-create-form").elements.namedItem("id").value || null,
+			product_id: document.getElementById("product-feedstock-category-create-form").elements.namedItem("product_id").value || null,
+			category_name: document.getElementById("product-feedstock-category-create-form").elements.namedItem("category_name").value || null
 		};
 
 		// if(!await Product.feedstock.category.save(category)){ return false };

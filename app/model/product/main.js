@@ -25,18 +25,18 @@ const Product = function () {
 		if (!this.status) { return { err: "É necessário incluir o status do produto." } };
 
 		let obj = lib.convertTo.object(this);
-		let query = lib.Query.save(obj, 'cms_wt_erp.product');
+		let { query, values } = lib.Query.save(obj, 'cms_wt_erp.product');
 
-		return db(query);
+		return db(query, values);
 	};
 
 	this.update = () => {
 		if (!this.id) { return { err: "O id do produto é inválido." }; }
 
 		let obj = lib.convertTo.object(this);
-		let query = lib.Query.update(obj, 'cms_wt_erp.product', 'id');
+		let { query, values } = lib.Query.update(obj, 'cms_wt_erp.product', 'id');
 
-		return db(query);
+		return db(query, values);
 	};
 };
 
@@ -56,9 +56,9 @@ Product.findByCode = async (code) => {
 };
 
 Product.filter = (props, inners, params, strict_params, order_params) => {
-	let query = new lib.Query().select().props(props).table("cms_wt_erp.product product")
-		.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-	return db(query);
+	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product")
+		.inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+	return db(query, values);
 };
 
 Product.delete = async (id) => {

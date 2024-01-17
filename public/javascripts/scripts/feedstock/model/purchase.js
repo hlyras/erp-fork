@@ -36,7 +36,6 @@ Feedstock.purchase.update = async (purchase) => {
 	response = await response.json();
 
 	if (API.verifyResponse(response)) { return false };
-	alert(response.done);
 
 	return response;
 };
@@ -53,6 +52,19 @@ Feedstock.purchase.delete = async (purchase_id) => {
 };
 
 Feedstock.purchase.feedstock = {};
+
+Feedstock.purchase.feedstock.update = async (feedstock) => {
+	let response = await fetch("/feedstock/purchase/feedstock/update", {
+		method: "PUT",
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(feedstock)
+	});
+	response = await response.json();
+
+	if (API.verifyResponse(response)) { return false };
+
+	return response;
+};
 
 Feedstock.purchase.feedstock.filter = async purchase => {
 	let response = await fetch("/feedstock/purchase/feedstock/filter", {

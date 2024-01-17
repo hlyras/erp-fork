@@ -1,10 +1,10 @@
-const User = require('../../../model/user');
 const userController = require('./../../user/main');
 
 const lib = require("jarmlib");
 
-const Feedstock = require('../../../model/feedstock/main');
-Feedstock.supplier = require('../../../model/feedstock/supplier');
+const OutcomeOrigin = require('../../../model/financial/outcome/origin/main');
+
+const FeedstockSupplier = require('../../../model/feedstock/supplier/main');
 const Product = require('../../../model/product/main');
 Product.color = require('../../../model/product/color');
 
@@ -15,16 +15,26 @@ supplierController.manage = async (req, res) => {
 		return res.redirect('/');
 	};
 
-	let colors = await Product.color.list();
-	res.render('feedstock/supplier/manage', { user: req.user, colors });
+	try {
+		let colors = await Product.color.list();
+
+		let strict_params = { keys: [], values: [] };
+		lib.Query.fillParam("outcome_origin.category_id", 2, strict_params);
+		let outcomeOrigins = await OutcomeOrigin.filter({ strict_params });
+
+		res.render('feedstock/supplier/manage', { user: req.user, colors, outcomeOrigins });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro, favor contatar o suporte." });
+	}
 };
 
-supplierController.save = async (req, res) => {
+supplierController.create = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
 		return res.redirect('/');
 	};
 
-	let supplier = new Feedstock.supplier();
+	let supplier = new FeedstockSupplier();
 
 	supplier.id = req.body.id;
 	supplier.cnpj = req.body.cnpj;
@@ -32,10 +42,11 @@ supplierController.save = async (req, res) => {
 	supplier.brand = req.body.brand;
 	supplier.name = req.body.name;
 	supplier.phone = req.body.phone;
+	supplier.origin_id = req.body.origin_id;
 
 	try {
 		if (!supplier.id) {
-			await supplier.save();
+			await supplier.create();
 			res.send({ done: 'Fornecedor cadastrado com sucesso!' });
 		} else {
 			await supplier.update();
@@ -48,45 +59,20 @@ supplierController.save = async (req, res) => {
 };
 
 supplierController.filter = async (req, res) => {
-	let props = [];
-	let inners = [];
-
 	let params = { keys: [], values: [] };
 	let strict_params = { keys: [], values: [] };
 
-	lib.Query.fillParam("supplier.cnpj", req.body.supplier.cnpj, params);
-	lib.Query.fillParam("supplier.trademark", req.body.supplier.trademark, params);
-	lib.Query.fillParam("supplier.brand", req.body.supplier.brand, params);
-	lib.Query.fillParam("supplier.name", req.body.supplier.name, params);
-	lib.Query.fillParam("supplier.pass", req.body.supplier.pass, strict_params);
+	lib.Query.fillParam("supplier.cnpj", req.body.cnpj, params);
+	lib.Query.fillParam("supplier.trademark", req.body.trademark, params);
+	lib.Query.fillParam("supplier.brand", req.body.brand, params);
+	lib.Query.fillParam("supplier.name", req.body.name, params);
+	lib.Query.fillParam("supplier.pass", req.body.pass, strict_params);
 
 	let order_params = [["supplier.id", "ASC"]];
 
 	try {
-		let suppliers = await Feedstock.supplier.filter(props, inners, params, strict_params, order_params);
+		let suppliers = await FeedstockSupplier.filter({ params, strict_params, order_params });
 		res.send({ suppliers });
-	} catch (err) {
-		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
-	};
-};
-
-supplierController.findById = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
-		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	};
-
-	let props = []; let inners = [];
-	let params = { keys: [], values: [] };
-	let strict_params = { keys: [], values: [] };
-
-	lib.Query.fillParam("supplier.id", req.params.id, strict_params);
-
-	let order_params = [["supplier.id", "ASC"]];
-
-	try {
-		let supplier = await Feedstock.supplier.filter(props, inners, params, strict_params, order_params);
-		res.send({ supplier });
 	} catch (err) {
 		console.log(err);
 		res.send({ msg: "Ocorreu um erro ao filtrar as matérias, favor contatar o suporte" });
@@ -99,8 +85,8 @@ supplierController.delete = async (req, res) => {
 	};
 
 	try {
-		await Feedstock.supplier.delete(req.params.id);
-		await Feedstock.supplier.storage.deleteBySupplierId(req.params.id);
+		await FeedstockSupplier.delete(req.params.id);
+		await FeedstockSupplierFeedstock.deleteBySupplierId(req.params.id);
 		res.send({ done: 'Matéria-prima excluída com sucesso!' });
 	} catch (err) {
 		console.log(err);

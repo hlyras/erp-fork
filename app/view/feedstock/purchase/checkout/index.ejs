@@ -8,15 +8,29 @@
   <%- include('./../../../partials/header.ejs') %>
   <%- include('./../../../partials/nav.ejs') %>
   <section class="container h-center">
-    <%- include('./filter/form.ejs') %>
-    <%- include('./filter/box.ejs') %>
+    <div class="box b2-3 ground padding-5 border radius-5">
+      <%- include('./filter/form.ejs') %>
+      <%- include('./filter/box.ejs') %>
+      <%- include('./detail/box.ejs') %>
+    </div>
   </section>
 </body>
 <footer>
   <%- include('./../../../partials/footer.ejs') %>
-  <script src="/javascripts/scripts/feedstock/model/main.js"></script>
-  <script src="/javascripts/scripts/feedstock/model/purchase.js"></script>
+  <script src="/js/feedstock/main.js"></script>
+  <script src="/js/feedstock/purchase/main.js"></script>
+  <script src="/js/feedstock/purchase/feedstock.js"></script>
+  <script src="/js/financial/outcome/main.js"></script>
+  <!-- <script src="/js/financial/outcome/origin/main.js"></script> -->
+  <script src="/js/financial/outcome/origin/payment.js"></script>
+
   <%- include('./filter/script.ejs') %>
+  <%- include('./detail/expense.ejs') %>
+  <%- include('./detail/script.ejs') %>
+
+  <script>
+    document.getElementById("purchase-filter-form").submit.click();
+  </script>
 </footer>
 
 </html>

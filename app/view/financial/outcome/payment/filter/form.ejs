@@ -1,0 +1,48 @@
+<form id="outcome-filter-form" class="box b1 container ground border-st radius-5 padding-5 margin-top-5">
+  <div class="box b1 underline lucida-grande em11 bold center">Relatório de despesas</div>
+
+  <div class="box b5 container margin-top-5">
+    <div class="box b1 em08 lucida-grande bold">ID da despesa</div>
+    <input type="text" name="id" class="box b1 georgia border-st padding-10 center" placeholder="ID" role="presentation"
+      autocomplete="off">
+  </div>
+
+  <div class="box b2-5 container margin-top-5">
+    <div class="box b1 em08 lucida-grande bold">Categoria</div>
+    <select name="category_id" class="box b1 border-st padding-9 hide-disabled center">
+      <option value="">Categoria</option>
+      <% for(i in outcomeCategories){ %>
+      <option value="<%= outcomeCategories[i].id %>"><%= outcomeCategories[i].name %></option>
+      <% } %>
+    </select>
+  </div>
+
+  <div class="box b2-5 container margin-top-5">
+    <div class="box b1 em08 lucida-grande bold">Origem</div>
+    <select name="origin_id" class="box b1 border-st padding-9 hide-disabled center">
+      <option value="">Origem</option>
+    </select>
+  </div>
+
+  <div class="box b3 container margin-top-5">
+    <div class="box b1 em08 lucida-grande bold">Data inicial</div>
+    <input type="date" name="period_start" class="box b1 georgia border-st padding-10 center">
+  </div>
+
+  <div class="box b3 container margin-top-5">
+    <div class="box b1 em08 lucida-grande bold">Data final</div>
+    <input type="date" name="period_end" class="box b1 georgia border-st padding-10 center">
+  </div>
+
+  <div class="box b3 container margin-top-5">
+    <div class="box b1 em08 lucida-grande bold">Status</div>
+    <select name="status" class="box b1 border-st padding-9 hide-disabled center">
+      <option value="Ag. aprovação" selected>Ag. aprovação</option>
+      <option value="A pagar">A pagar</option>
+      <option value="Pago">Pago</option>
+    </select>
+  </div>
+
+  <input type="submit" name="submit"
+    class="box b1 submit-generic lucida-grande em11 bold noborder radius-5 margin-top-5 center pointer" value="Filtrar">
+</form>

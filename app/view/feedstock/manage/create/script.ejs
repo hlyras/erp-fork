@@ -1,0 +1,49 @@
+<script>
+  document.getElementById("feedstock-create-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let feedstock = {
+      id: e.target.id.value || null,
+      code: e.target.code.value || null,
+      name: e.target.name.value || null,
+      color_id: e.target.color_id.value || null,
+      unit: e.target.unit.value || null,
+      uom: e.target.uom.value || null,
+      supplier_id: e.target.supplier_id.value || null
+    };
+
+    let response = await API.response(Feedstock.create, feedstock);
+    if (!response) { return false; }
+
+    e.target.id.value = "";
+    e.target.code.value = "";
+    e.target.name.value = "";
+    e.target.color_id.value = "";
+    e.target.unit.value = "";
+    e.target.uom.value = "";
+    e.target.supplier_id.value = "";
+
+    document.getElementById("feedstock-filter-form").submit.click();
+  });
+
+  async function feedstockEdit(id) {
+    let feedstock = (await API.response(Feedstock.filter, { id }))[0];
+    if (!feedstock) { return false; }
+
+    document.getElementById("feedstock-create-form").id.value = feedstock.id;
+    document.getElementById("feedstock-create-form").code.value = feedstock.code;
+    document.getElementById("feedstock-create-form").name.value = feedstock.name;
+    document.getElementById("feedstock-create-form").color_id.value = feedstock.color_id;
+    document.getElementById("feedstock-create-form").unit.value = feedstock.unit;
+    document.getElementById("feedstock-create-form").uom.value = feedstock.uom;
+    document.getElementById("feedstock-create-form").supplier_id.value = feedstock.supplier_id;
+  };
+
+  async function feedstockDelete(id) {
+    let r = confirm('Deseja realmente excluir a matéria-prima? Essa ação não pode ser revertida!');
+    if (r) {
+      if (!await API.response(Feedstock.delete, id)) { return false; };
+      document.getElementById("feedstock-filter-form").submit.click();
+    }
+  };
+</script>

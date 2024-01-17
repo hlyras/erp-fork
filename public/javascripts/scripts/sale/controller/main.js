@@ -57,24 +57,24 @@ if (Sale.controller.save) {
 		};
 
 		let sale = {
-			id: document.getElementById("sale-id").value,
-			sale_date: lib.dateToTimestamp(lib.genPatternDate()),
-			customer_id: customer.id,
-			customer_name: customer[1],
-			customer_address_id: lib.findCheckedRadios("sale-customer-address").value,
-			products: JSON.stringify(Sale.product.kart.items),
-			packages: JSON.stringify(Sale.package.kart.items),
-			weight: Sale.pos.total_weight,
-			obs: document.getElementById("sale-obs").value,
-			shipment_method: document.getElementById("shipment-method").value,
-			payment_method: document.getElementById("payment-method").value,
-			payment_period: document.getElementById("payment-period").value,
-			status: document.getElementById("status").value,
-			product_value: Sale.product.kart.total_value,
-			package_value: Sale.package.kart.total_value,
-			shipment_value: Sale.pos.shipment_value,
-			discount_value: Sale.pos.discount_value,
-			value: Sale.pos.total_value
+			id: document.getElementById("sale-id").value || null,
+			sale_date: lib.dateToTimestamp(lib.genPatternDate()) || null,
+			customer_id: customer.id || null,
+			customer_name: customer[1] || null,
+			customer_address_id: lib.findCheckedRadios("sale-customer-address").value || null,
+			products: JSON.stringify(Sale.product.kart.items) || null,
+			packages: JSON.stringify(Sale.package.kart.items) || null,
+			weight: Sale.pos.total_weight || null,
+			obs: document.getElementById("sale-obs").value || null,
+			shipment_method: document.getElementById("shipment-method").value || null,
+			payment_method: document.getElementById("payment-method").value || null,
+			payment_period: document.getElementById("payment-period").value || null,
+			status: document.getElementById("status").value || null,
+			product_value: Sale.product.kart.total_value || null,
+			package_value: Sale.package.kart.total_value || null,
+			shipment_value: Sale.pos.shipment_value || null,
+			discount_value: Sale.pos.discount_value || null,
+			value: Sale.pos.total_value || null
 		};
 
 		if (customer.person_type == "legal-entity") { sale.customer_cnpj = customer[4]; }

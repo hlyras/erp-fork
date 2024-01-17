@@ -3,12 +3,12 @@
     e.preventDefault();
 
     let user = {
-      id: e.target.id.value,
-      name: e.target.name.value,
-      username: e.target.username.value,
-      password: e.target.password.value,
-      access: e.target.access.value,
-      pass: e.target.pass.value
+      id: lib.sanitize(e.target.id.value) || null,
+      name: lib.sanitize(e.target.name.value) || null,
+      username: lib.sanitize(e.target.username.value) || null,
+      password: lib.sanitize(e.target.password.value) || null,
+      access: lib.sanitize(e.target.access.value) || null,
+      pass: lib.sanitize(e.target.pass.value) || null
     };
 
     let response = await API.response(User.create, user);

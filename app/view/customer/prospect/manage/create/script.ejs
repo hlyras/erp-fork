@@ -18,12 +18,12 @@
     e.preventDefault();
 
     const prospect = {
-      brand: lib.capitalizeFirst(e.target.elements.namedItem("brand").value),
-      state: e.target.elements.namedItem("state").value,
-      city: e.target.elements.namedItem("city").value,
-      phone: e.target.elements.namedItem("phone").value,
-      social_media: e.target.elements.namedItem("social-media").value,
-      product_approach: e.target.elements.namedItem("product-approach").value
+      brand: lib.capitalizeFirst(lib.sanitize(e.target.elements.namedItem("brand").value)) || null,
+      state: e.target.state.value || null,
+      city: e.target.city.value || null,
+      phone: e.target.phone.value || null,
+      social_media: lib.sanitize(e.target.elements.namedItem("social-media").value) || null,
+      product_approach: lib.sanitize(e.target.elements.namedItem("product-approach").value) || null
     };
 
     let response = await API.response(Customer.prospect.save, prospect);

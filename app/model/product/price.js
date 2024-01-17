@@ -23,9 +23,9 @@ Product.price = {
 		return db(query);
 	},
 	filter: (props, inners, params, strict_params, order_params) => {
-		let query = new lib.Query().select().props(props).table("cms_wt_erp.product_price product_price")
-			.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-		return db(query);
+		let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_price product_price")
+			.inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+		return db(query, values);
 	},
 	delete: async (id) => {
 		let query = "DELETE FROM cms_wt_erp.product_price WHERE product_id='" + id + "';";
@@ -49,9 +49,9 @@ Product.price = {
 			return db(query);
 		},
 		filter: async (params, order_params) => {
-			let query = new lib.Query().select().table("cms_wt_erp.product_price_category price_category")
-				.params(params).order(order_params).build().query;
-			return db(query);
+			let { query, values } = new lib.Query().select().table("cms_wt_erp.product_price_category price_category")
+				.params(params).order(order_params).build();
+			return db(query, values);
 		},
 		findById: async (id) => {
 			let query = "SELECT * FROM cms_wt_erp.product_price_category WHERE id='" + id + "';";

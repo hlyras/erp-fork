@@ -1,9 +1,6 @@
 const db = require('../../../../config/connection');
 const lib = require("jarmlib");
 
-// product_price_category = product_catalog
-// product_price = product_catalog_price
-
 const Catalog = function () {
   this.id;
   this.name;
@@ -14,18 +11,18 @@ const Catalog = function () {
     if (!this.path || this.path[0] != "/") { return { err: "a URL do catálogo é inválida ou não começa com o caractere '/'" } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.product_price_category');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.product_price_category');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
     if (!this.id) { return { err: "O id do catálogo é inválido." }; }
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.product_price_category', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.product_price_category', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
@@ -40,9 +37,9 @@ Catalog.findByCode = async (code) => {
 };
 
 Catalog.filter = (props, inners, params, strict_params, order_params) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.product_price_category catalog")
-    .inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+  let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_price_category catalog")
+    .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+  return db(query, values);
 };
 
 Catalog.delete = async (id) => {

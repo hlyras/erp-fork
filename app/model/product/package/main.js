@@ -14,26 +14,26 @@ const Package = function () {
 	this.description;
 
 	this.create = () => {
-		if(!this.code) { return { err: "É necessário incluir o código do produto" } };
-		if(!this.name) { return { err: "É necessário incluir o nome do produto" } };
-		if(!this.color) { return { err: "É necessário incluir a cor do produto." } };
-		if(!this.brand) { return { err: "É necessário incluir a marca do produto." } };
-		if(!this.weight) { return { err: "É necessário incluir o peso do produto." } };
-		if(!this.status) { return { err: "É necessário incluir o status do produto." } };
+		if (!this.code) { return { err: "É necessário incluir o código do produto" } };
+		if (!this.name) { return { err: "É necessário incluir o nome do produto" } };
+		if (!this.color) { return { err: "É necessário incluir a cor do produto." } };
+		if (!this.brand) { return { err: "É necessário incluir a marca do produto." } };
+		if (!this.weight) { return { err: "É necessário incluir o peso do produto." } };
+		if (!this.status) { return { err: "É necessário incluir o status do produto." } };
 
 		let obj = lib.convertTo.object(this);
-		let query = lib.Query.save(obj, 'cms_wt_erp.product_package');
+		let { query, values } = lib.Query.save(obj, 'cms_wt_erp.product_package');
 
-		return db(query);
+		return db(query, values);
 	};
 
 	this.update = () => {
-		if(!this.id) { return { err: "O id do produto é inválido." }; }
+		if (!this.id) { return { err: "O id do produto é inválido." }; }
 
 		let obj = lib.convertTo.object(this);
-		let query = lib.Query.update(obj, 'cms_wt_erp.product_package', 'id');
+		let { query, values } = lib.Query.update(obj, 'cms_wt_erp.product_package', 'id');
 
-    return db(query);
+		return db(query, values);
 	};
 };
 
@@ -48,9 +48,9 @@ Package.findByCode = async (code) => {
 };
 
 Package.filter = (props, inners, params, strict_params, order_params) => {
-	let query = new lib.Query().select().props(props).table("cms_wt_erp.product_package package")
-		.inners(inners).params(params).strictParams(strict_params).order(order_params).build().query;
-	return db(query);
+	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_package package")
+		.inners(inners).params(params).strictParams(strict_params).order(order_params).build();
+	return db(query, values);
 };
 
 Package.delete = async (id) => {

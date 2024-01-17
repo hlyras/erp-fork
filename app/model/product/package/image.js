@@ -1,7 +1,7 @@
 const db = require('../../../../config/connection');
 
-const Image = function(){
-	this.id = 0;
+const Image = function () {
+	this.id;
 	this.package_id;
 	this.etag;
 	this.url;
@@ -9,12 +9,12 @@ const Image = function(){
 
 	this.save = () => {
 		let query = `INSERT INTO cms_wt_erp.product_package_image (package_id, etag, url, keycode) VALUES (${this.package_id},'${this.etag}','${this.url}','${this.keycode}');`;
-    return db(query);
+		return db(query);
 	};
 };
 
 Image.findById = async (id) => {
-	let query = "SELECT * FROM cms_wt_erp.product_package_image WHERE id='"+id+"';";
+	let query = "SELECT * FROM cms_wt_erp.product_package_image WHERE id='" + id + "';";
 	return db(query);
 };
 

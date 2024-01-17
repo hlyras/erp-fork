@@ -1,0 +1,42 @@
+<script>
+  document.getElementById("income-create-form").category_id.addEventListener("change", async e => {
+    let origins = await API.response(IncomeOrigin.filter, { category_id: e.target.value }, e.target);
+    if (!origins) { return false; }
+
+    let origin_select = document.getElementById("income-create-form").origin_id;
+    origin_select.innerHTML = "";
+
+    origin_select.append(lib.element.create("option", { value: "", selected: true, disabled: true }, `Origem`));
+
+    origins.forEach(origin => {
+      origin_select.append(lib.element.create("option", { value: origin.id }, `${origin.name}`));
+    });
+
+    e.target.focus();
+  });
+
+  document.getElementById("income-create-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const income = {
+      id: lib.sanitize(e.target.id.value) || null,
+      date: lib.dateToTimestamp(lib.sanitize(e.target.date.value)) || null,
+      category_id: lib.sanitize(e.target.category_id.value) || null,
+      origin_id: lib.sanitize(e.target.origin_id.value) || null,
+      value: lib.sanitize(e.target.value.value) || null,
+      description: lib.sanitize(e.target.description.value) || null
+    };
+
+    let response = await API.response(Income.create, income);
+    if (!response) { return false; }
+
+    e.target.id.value = "";
+    e.target.date.value = "";
+    e.target.category_id.value = "";
+    e.target.origin_id.value = "";
+    e.target.value.value = "";
+    e.target.description.value = "";
+
+    lib.message(response);
+  });
+</script>

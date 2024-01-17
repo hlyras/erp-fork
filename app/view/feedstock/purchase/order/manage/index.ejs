@@ -9,29 +9,56 @@
   <%- include('./../../../../partials/nav.ejs') %>
 
   <section class="container h-center">
-    <div class="box b2-5 container">
-      <%- include('./order/filter/form.ejs') %>
-      <%- include('./order/filter/box.ejs') %>
-    </div>
-
-    <div class="box b3-5 container">
-      <%- include('./supplier/filter/form.ejs') %>
-      <%- include('./supplier/filter/box.ejs') %>
-    </div>
+    <%- include('./order/box.ejs') %>
+    <%- include('./supplier/box.ejs') %>
   </section>
 </body>
 <footer>
   <%- include('./../../../../partials/footer.ejs') %>
-  <script src="/javascripts/scripts/feedstock/model/main.js"></script>
-  <script src="/javascripts/scripts/feedstock/model/purchase.js"></script>
-  <script src="/javascripts/scripts/feedstock/model/supplier.js"></script>
-  <%- include('./order/filter/script.ejs') %>
+  <script src="/js/feedstock/purchase/order.js"></script>
+  <script src="/js/feedstock/supplier/main.js"></script>
+  <script src="/js/feedstock/supplier/storage.js"></script>
+  <%- include('./supplier/script.ejs') %>
   <%- include('./supplier/filter/script.ejs') %>
+  <%- include('./order/script.ejs') %>
 </footer>
 
 <script>
-  document.getElementById("feedstock-order-filter-form").submit.click();
-  document.getElementById("supplier-filter-form").submit.click();
+  (async function () {
+    const suppliers = await API.response(FeedstockSupplier.filter, {});
+    if (!suppliers) { return false; }
+
+    const supplier_box = document.getElementById("supplier-box");
+
+    for (let i in suppliers) {
+      supplier_box.append(await supplierRender(suppliers[i]));
+    };
+
+    const orders = await API.response(FeedstockPurchaseOrder.filter, { status: "Ag. pedido" });
+    if (!orders) { return false; }
+
+    const order_box = document.getElementById("order-box");
+    lib.drag.drop(order_box, (element_id) => { updateOrderSupplier(lib.removeChar(element_id, "order-"), 0); });
+
+    orders.forEach(async order => {
+      if (!order.supplier_id) {
+        order_box.append(await orderRender(order));
+        orderPriceUpdate(order);
+      }
+    });
+
+    for (let i in suppliers) {
+      for (let j in orders) {
+        if (suppliers[i].id == orders[j].supplier_id) {
+          let supplier_order_box = document.getElementById(`supplier-${suppliers[i].id}-order-box`);
+          supplier_order_box.append(await orderRender(orders[j]));
+          orderPriceUpdate(orders[j]);
+        }
+      };
+    };
+
+    suppliersUpdate();
+  })();
 </script>
 
 </html>

@@ -1,6 +1,6 @@
-Outcome.view = {};
+const OutcomeView = {};
 
-Outcome.view.filter = (outcomes, pagination) => {
+OutcomeView.filter = (outcomes, pagination) => {
 	let outcomeTotalValue = 0;
 	if (outcomes.length) {
 		for (let i in outcomes) { outcomeTotalValue += parseFloat(outcomes[i].cost); };
@@ -15,13 +15,13 @@ Outcome.view.filter = (outcomes, pagination) => {
 		html += "</div>";
 		for (let i = pagination.page * pagination.pageSize; i < outcomes.length && i < (pagination.page + 1) * pagination.pageSize; i++) {
 			html += "<div class='box b1 container border-explicit padding-5 margin-top-5'>";
-			html += "<div class='mobile-box b9 border em09 border-explicit avant-garde bold center nowrap tbl-show-link' onclick='Outcome.controller.show(" + outcomes[i].id + ")'>" + outcomes[i].id + "</div>";
+			html += "<div class='mobile-box b9 border em09 border-explicit avant-garde bold center nowrap tbl-show-link' onclick='OutcomeController.show(" + outcomes[i].id + ")'>" + outcomes[i].id + "</div>";
 			html += "<div class='mobile-box b5 em09 padding-5 v-center'>" + outcomes[i].category_name + "</div>";
 			html += "<div class='mobile-box b5 em09 padding-5 v-center'>" + outcomes[i].origin_name + "</div>";
 			html += "<div class='mobile-box b8 em09 padding-5 v-center bold'>$" + outcomes[i].cost.toFixed(2) + "</div>";
 			html += "<div class='mobile-box b6 em09 padding-5 v-center'>" + lib.timestampToDate(outcomes[i].date) + "</div>";
-			html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><img class='icon size-20 v-center' src='/images/icon/edit.png' onclick='Outcome.controller.edit(" + outcomes[i].id + ")'></div>";
-			html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><img class='icon size-20 v-center' src='/images/icon/trash.png' onclick='Outcome.controller.delete(" + outcomes[i].id + ")'></div>";
+			html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><img class='icon size-20 v-center' src='/images/icon/edit.png' onclick='OutcomeController.edit(" + outcomes[i].id + ")'></div>";
+			html += "<div class='mobile-box b12 padding-5 margin-top-5 center'><img class='icon size-20 v-center' src='/images/icon/trash.png' onclick='OutcomeController.delete(" + outcomes[i].id + ")'></div>";
 			html += "</div>";
 		};
 		document.getElementById("outcome-filter-div").innerHTML = html;
@@ -33,7 +33,7 @@ Outcome.view.filter = (outcomes, pagination) => {
 	};
 };
 
-Outcome.view.show = (outcome) => {
+OutcomeView.show = (outcome) => {
 	let html = "";
 	html += "<div class='box b1 underline padding-5 center bold center'>Dados da despesa " + outcome.expense_id + "</div>";
 

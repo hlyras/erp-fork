@@ -1,6 +1,4 @@
 <script>
-  console.log('filter-script');
-
   document.getElementById("purchase-filter-form").addEventListener("submit", async e => {
     e.preventDefault();
 
@@ -9,8 +7,11 @@
       status: e.target.status.value
     };
 
-    const purchases = await API.response(Feedstock.purchase.filter, purchase);
+    const purchases = await API.response(FeedstockPurchase.filter, purchase, e.target.submit);
     if (!purchases) { return false; }
+
+    lib.display("purchase-detail-box", "none");
+    lib.display("purchase-filter-box", "");
 
     purchaseFilter(purchases);
   });
@@ -19,16 +20,19 @@
     const filter_div = document.getElementById("purchase-filter-div");
     filter_div.innerHTML = "";
 
-    console.log(purchases);
-
     if (!purchases.length) {
       return filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold padding-5 center" }, `Nenhum pedido aguardando aprovação`));
     }
 
     purchases.forEach(purchase => {
-      let purchase_div = lib.element.create("div", { class: "box b1 container border radius-5 padding-5" });
-      purchase_div.append(lib.element.create("div", { class: "box b6 center border" }, purchase.id));
-      purchase_div.append(lib.element.create("div", { class: "box b6 center border" }, purchase.supplier_brand));
+      let purchase_div = lib.element.create("div", {
+        class: "box b1 container ground border-st box-hover radius-5 padding-10 margin-top-5 pointer",
+        onclick: `purchaseDetail(${purchase.id})`
+      });
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b6 em09 bold center" }, purchase.id));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b3 em09 bold center" }, purchase.supplier_brand));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b3 em09 center" }, purchase.user_name));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b6 em09 bold center" }, `R$${purchase.total_value.toFixed(2)}`));
       filter_div.append(purchase_div);
     });
   };

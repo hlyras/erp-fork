@@ -19,7 +19,7 @@ Sale.view.filter = (sales, setup) => {
 		}, sales[i].customer_name));
 
 		sales[i].status == 'Em negociação' && sale_div.append(lib.element.icon('b12', 20,
-			"https://spaces.jariomilitar.com/erp-images/icon/edit.png",
+			"https://wt-images-cdn.sfo3.cdn.digitaloceanspaces.com/erp-images/icon/edit.png",
 			`Sale.controller.edit(${sales[i].id})`
 		));
 

@@ -10,10 +10,10 @@ const pool = mysql.createPool({
 	password: dbconfig.production.database.password
 });
 
-const db = async (query) => {
+const db = async (query, values) => {
 	return new Promise(async (resolve, reject) => {
 		pool.getConnection((err, connection) => {
-			connection.query(query, (err, rows) => {
+			connection.query(query, values, (err, rows) => {
 				connection.release();
 				if (!err) {
 					resolve(rows);

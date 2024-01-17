@@ -2,18 +2,18 @@ Ecommerce.sale.controller = {};
 
 Ecommerce.sale.controller.filter = document.getElementById("ecommerce-sale-filter-form");
 if (Ecommerce.sale.controller.filter) {
-	Ecommerce.sale.controller.filter.addEventListener("submit", async event => {
-		event.preventDefault();
+	Ecommerce.sale.controller.filter.addEventListener("submit", async e => {
+		e.preventDefault();
 
 		let sale = {
-			periodStart: lib.datetimeToTimestamp(event.target.elements.namedItem("periodStart").value),
-			periodEnd: lib.datetimeToTimestamp(event.target.elements.namedItem("periodEnd").value),
-			origin: event.target.elements.namedItem("origin").value,
-			code: event.target.elements.namedItem("code").value,
-			customer_name: event.target.elements.namedItem("customer_name").value,
-			customer_user: event.target.elements.namedItem("customer_user").value,
-			status: event.target.elements.namedItem("status").value,
-			tracker: event.target.elements.namedItem("tracker").value
+			periodStart: lib.datetimeToTimestamp(lib.sanitize(e.target.periodStart.value)),
+			periodEnd: lib.datetimeToTimestamp(lib.sanitize(e.target.periodEnd.value)),
+			origin: lib.sanitize(e.target.origin.value),
+			code: lib.sanitize(e.target.code.value),
+			customer_name: lib.sanitize(e.target.customer_name.value),
+			customer_user: lib.sanitize(e.target.customer_user.value),
+			status: lib.sanitize(e.target.status.value),
+			tracker: lib.sanitize(e.target.tracker.value)
 		};
 
 		let sales = await API.response(Ecommerce.sale.filter, sale);

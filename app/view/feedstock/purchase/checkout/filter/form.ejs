@@ -1,4 +1,6 @@
-<form id="purchase-filter-form" class="box b2-3 container border padding-5">
+<form id="purchase-filter-form" class="box b1 container padding-5">
+  <div class="box b1 underline lucida-grande bold center">Pedidos Ag. confirmação</div>
+
   <select name="supplier_id" class="box b3 lucida-grande bold padding-5 margin-top-5 center">
     <option value="">Fornecedor</option>
     <% for(i in suppliers) { %>
@@ -11,5 +13,6 @@
     <option value="Confirmado">Confirmado</option>
   </select>
 
-  <input type="submit" name="submit" class="box b3 btn-act lucida-grande bold noborder padding-7 margin-top-5 pointer">
+  <button name="submit"
+    class="box b3 btn-act lucida-grande bold noborder padding-7 margin-top-5 pointer">Buscar</button>
 </form>

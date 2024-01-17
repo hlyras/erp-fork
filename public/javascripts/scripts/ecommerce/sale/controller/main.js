@@ -2,7 +2,7 @@ Ecommerce.sale.controller = {};
 
 Ecommerce.sale.controller.save = document.getElementById("ecommerce-sale-create-submit");
 if (Ecommerce.sale.controller.save) {
-	Ecommerce.sale.controller.save.addEventListener("click", async event => {
+	Ecommerce.sale.controller.save.addEventListener("click", async e => {
 		for (let i in Ecommerce.sale.package.kart.items) {
 			for (let j in Ecommerce.sale.package.product) {
 				if (Ecommerce.sale.package.kart.items[i].id == Ecommerce.sale.package.product[j].id) {
@@ -12,32 +12,32 @@ if (Ecommerce.sale.controller.save) {
 		};
 
 		let sale = {
-			id: document.getElementById("ecommerce-sale-create-form").elements.namedItem("id").value.trim(),
-			origin: document.getElementById("ecommerce-sale-create-form").elements.namedItem("origin").value,
-			datetime: lib.datetimeToTimestamp(document.getElementById("ecommerce-sale-create-form").elements.namedItem("datetime").value),
-			code: document.getElementById("ecommerce-sale-create-form").elements.namedItem("code").value.trim(),
-			customer_user: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-user").value.trim(),
-			customer_name: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-name").value.trim(),
-			customer_phone: document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-phone").value.trim(),
-			tracker: document.getElementById("ecommerce-sale-create-form").elements.namedItem("tracker").value.trim(),
-			status: document.getElementById("ecommerce-sale-create-form").elements.namedItem("status").value,
-			obs: document.getElementById("ecommerce-sale-create-form").elements.namedItem("obs").value,
-			products: JSON.stringify(Ecommerce.sale.product.kart.items),
-			packages: JSON.stringify(Ecommerce.sale.package.kart.items)
+			id: lib.sanitize(e.target.id.value).trim() || null,
+			origin: lib.sanitize(e.target.origin.value) || null,
+			datetime: lib.datetimeToTimestamp(lib.sanitize(e.target.datetime.value)) || null,
+			code: lib.sanitize(e.target.code.value).trim() || null,
+			customer_user: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-user").value).trim() || null,
+			customer_name: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-name").value).trim() || null,
+			customer_phone: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-phone").value).trim() || null,
+			tracker: lib.sanitize(e.target.tracker.value).trim() || null,
+			status: lib.sanitize(e.target.status.value) || null,
+			obs: lib.sanitize(e.target.obs.value) || null,
+			products: JSON.stringify(Ecommerce.sale.product.kart.items) || null,
+			packages: JSON.stringify(Ecommerce.sale.package.kart.items) || null
 		};
 
 		sale = await API.response(Ecommerce.sale.save, sale);
 		if (!sale) { return false };
 
-		document.getElementById("ecommerce-sale-create-form").elements.namedItem("origin").value = "";
-		document.getElementById("ecommerce-sale-create-form").elements.namedItem("code").value = "";
+		e.target.origin.value = "";
+		e.target.code.value = "";
 		document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-user").value = "";
 		document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-name").value = "";
 		document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-phone").value = "";
-		document.getElementById("ecommerce-sale-create-form").elements.namedItem("datetime").value = "";
-		document.getElementById("ecommerce-sale-create-form").elements.namedItem("tracker").value = "";
-		document.getElementById("ecommerce-sale-create-form").elements.namedItem("status").value = "";
-		document.getElementById("ecommerce-sale-create-form").elements.namedItem("obs").value = "";
+		e.target.datetime.value = "";
+		e.target.tracker.value = "";
+		e.target.status.value = "";
+		e.target.obs.value = "";
 		Ecommerce.sale.product.kart.items = [];
 		Ecommerce.sale.package.kart.items = [];
 

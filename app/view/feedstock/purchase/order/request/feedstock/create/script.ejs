@@ -1,11 +1,11 @@
 <script>
   async function productDropdown(input) {
-    let feedstocks = [];
+    console.log(input.value);
 
-    if (input.value.length > 1) {
-      feedstocks = await Feedstock.filter({ name: input.value });
-      if (!feedstocks) { return false; }
-    }
+    let feedstocks = await API.response(Feedstock.filter, { name: input.value });
+    if (!feedstocks) { return false; }
+
+    console.log(feedstocks);
 
     let properties = [["code", "Código", "b6"], ["name", "Descrição", "b2"], ["color_name", "Cor", "b3"]];
 
@@ -20,7 +20,7 @@
       amount: e.target.amount.value
     };
 
-    let response = await API.response(Feedstock.purchase.order.create, order_feedstock, e.target.submit);
+    let response = await API.response(FeedstockPurchaseOrder.create, order_feedstock, e.target.submit);
     if (!response) { return false; }
 
     e.target.feedstock_id.value = "";

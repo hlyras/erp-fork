@@ -22,6 +22,14 @@
 					placeholder="Nome do representante" autocomplete="off">
 				<input type="text" name="phone" class="box b3 input-generic center margin-top-5"
 					placeholder="Telefone de contato" autocomplete="off">
+
+				<select name="origin_id" class="mobile-box b3 input-generic center margin-top-5">
+					<option value="">Origem financeira</option>
+					<% for(i in outcomeOrigins){ %>
+					<option value="<%= outcomeOrigins[i].id %>"><%= outcomeOrigins[i].name %></option>
+					<% } %>
+				</select>
+
 				<input type="submit" name="submit" class="box b3 submit-generic center margin-top-5" value="Cadastrar">
 			</form>
 

@@ -1,0 +1,17 @@
+<script>
+  function displayPaymentMethod(method, icon) {
+    if (method == "Boleto") {
+      lib.displayDiv('outcome-billet-form', icon);
+      lib.display('outcome-check-form', "none");
+    }
+
+    if (method == "Cheque") {
+      lib.displayDiv('outcome-check-form', icon);
+      lib.display('outcome-billet-form', "none");
+    }
+  };
+
+  function setPaymentMethod(method) {
+    document.getElementById("outcome-create-form").payment_method.value = method;
+  };
+</script>

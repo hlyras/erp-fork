@@ -1,0 +1,7 @@
+<script>
+  async function incomeDetail(income_id) {
+    let income = (await API.response(Income.findById, income_id))[0];
+    let detail_box = incomeDetailRender(income);
+    lib.popup(detail_box);
+  };
+</script>

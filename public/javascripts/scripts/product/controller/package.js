@@ -1,25 +1,25 @@
 Product.controller.package = {};
 
 Product.controller.package.create = document.getElementById("product-package-create-form");
-if(Product.controller.package.create){
+if (Product.controller.package.create) {
 	Product.controller.package.create.addEventListener("submit", async event => {
 		event.preventDefault();
 
 		let package = {
-			id: event.target.elements.namedItem("id").value,
-			code: event.target.elements.namedItem("code").value,
-			name: event.target.elements.namedItem("name").value,
-			color: event.target.elements.namedItem("color").value,
-			weight: event.target.elements.namedItem("weight").value,
-			image: event.target.elements.namedItem("image").value,
-			status: event.target.elements.namedItem("status").value,
-			brand: event.target.elements.namedItem("brand").value,
-			announcement: event.target.elements.namedItem("announcement").value,
-			description: event.target.elements.namedItem("description").value
+			id: event.target.elements.namedItem("id").value || null,
+			code: event.target.elements.namedItem("code").value || null,
+			name: event.target.elements.namedItem("name").value || null,
+			color: event.target.elements.namedItem("color").value || null,
+			weight: event.target.elements.namedItem("weight").value || null,
+			image: event.target.elements.namedItem("image").value || null,
+			status: event.target.elements.namedItem("status").value || null,
+			brand: event.target.elements.namedItem("brand").value || null,
+			announcement: event.target.elements.namedItem("announcement").value || null,
+			description: event.target.elements.namedItem("description").value || null
 		};
 
 		package = await API.response(Product.package.save, package);
-		if(!package){ return false };
+		if (!package) { return false };
 
 		event.target.elements.namedItem("id").value = "";
 		event.target.elements.namedItem("code").value = "";
@@ -40,7 +40,7 @@ if(Product.controller.package.create){
 Product.controller.package = {};
 
 Product.controller.package.filter = document.getElementById("product-package-filter-form");
-if(Product.controller.package.filter){
+if (Product.controller.package.filter) {
 	Product.controller.package.filter.addEventListener("submit", async (event) => {
 		event.preventDefault();
 
@@ -51,12 +51,12 @@ if(Product.controller.package.filter){
 		};
 
 		let packages = await API.response(Product.package.filter, package);
-		if(!packages) { return false };
+		if (!packages) { return false };
 
 		packages = lib.sort(packages, "code");
 
-		const pagination = { pageSize: 10, page: 0};
-		(function(){ lib.carousel.execute("product-package-filter-box", Product.view.package.filter, packages, pagination); }());
+		const pagination = { pageSize: 10, page: 0 };
+		(function () { lib.carousel.execute("product-package-filter-box", Product.view.package.filter, packages, pagination); }());
 	});
 };
 
@@ -67,17 +67,17 @@ Product.controller.package.product.dropdown = {
 		event.preventDefault();
 
 		let product = {
-			 code: "",
-			 name: input.value,
-			 color: "",
-			 brand: ""
+			code: "",
+			name: input.value,
+			color: "",
+			brand: ""
 		};
 
 		let properties = ["code", "name", "color", "size"];
 
-		if(product.name.length > 2){
+		if (product.name.length > 2) {
 			let products = await API.response(Product.filter, product);
-			if(!products){ return false; };
+			if (!products) { return false; };
 
 			lib.dropdown.render(products, input.id, dropdown_id, "input", "id", properties);
 		} else {
@@ -88,12 +88,12 @@ Product.controller.package.product.dropdown = {
 
 Product.controller.package.show = async (package_id) => {
 	let package = await API.response(Product.package.findById, package_id);
-	if(!package){ return false };
+	if (!package) { return false };
 
 	document.getElementById("product-package-id").value = package_id;
 	Product.view.package.show(package);
 
-	for(i in package.products){
+	for (i in package.products) {
 		let product_info = lib.splitTextBy(package.products[i].product_info, " | ");
 		package.products[i].code = product_info[0];
 		package.products[i].name = product_info[1];
@@ -116,7 +116,7 @@ Product.controller.package.product.update = async () => {
 	};
 
 	package = await API.response(Product.package.product.update, package);
-	if(!package){ return false };
+	if (!package) { return false };
 
 	Product.package.product.kart.update("code");
 	Product.package.product.kart.list("Product.package.product.kart", Product.package.product.kart.props);
@@ -124,7 +124,7 @@ Product.controller.package.product.update = async () => {
 
 Product.controller.package.edit = async (id) => {
 	let package = await API.response(Product.package.findById, id);
-	if(!package){ return false };
+	if (!package) { return false };
 
 	document.getElementById('product-package-create-form').elements.namedItem("id").value = package.id;
 	document.getElementById('product-package-create-form').elements.namedItem("code").value = package.code;
@@ -140,23 +140,23 @@ Product.controller.package.edit = async (id) => {
 
 Product.controller.package.delete = async (id) => {
 	let r = confirm('Deseja realmente excluir o pacote?');
-	if(r){
+	if (r) {
 		let response = await API.response(Product.package.delete, id);
-		if(!response){ return false };
+		if (!response) { return false };
 
 		document.getElementById("product-package-show-box").style.display = "none";
 		document.getElementById("product-package-filter-form").submit.click();
 	};
 };
 
-Product.package.product.kart = new lib.kart("product-package-product-kart", "Product.package.product.kart", [{"code":"Código"},{"name":"Nome"},{"color":"Cor"},{"size":"Tamanho"}]);
+Product.package.product.kart = new lib.kart("product-package-product-kart", "Product.package.product.kart", [{ "code": "Código" }, { "name": "Nome" }, { "color": "Cor" }, { "size": "Tamanho" }]);
 
 Product.package.product.kart.add = document.getElementById("product-package-product-kart-form");
-if(Product.package.product.kart.add){
+if (Product.package.product.kart.add) {
 	Product.package.product.kart.add.addEventListener("submit", async (event) => {
 		event.preventDefault();
 
-		if(!document.getElementById("product-package-product-kart-form").elements.namedItem("product").readOnly){ 
+		if (!document.getElementById("product-package-product-kart-form").elements.namedItem("product").readOnly) {
 			return alert("Produto inválido");
 		};
 
@@ -164,12 +164,12 @@ if(Product.package.product.kart.add){
 		let splitedProduct = product.value.split(" | ");
 		let amount = document.getElementById("product-package-product-kart-form").elements.namedItem("amount").value;
 
-		if(splitedProduct.length < 3 || !splitedProduct){
+		if (splitedProduct.length < 3 || !splitedProduct) {
 			alert("É necessário selecionar um produto.");
 			return;
 		};
 
-		if(amount < 0.01 || !amount){
+		if (amount < 0.01 || !amount) {
 			alert("É necessário preencher a quantidade do produto.");
 			return;
 		};
@@ -197,9 +197,9 @@ Product.controller.package.image = {};
 
 Product.controller.package.image.add = async (package_id) => {
 	let image_url = prompt("Preencha com a URL da imagem");
-	if(image_url){
-		if(image_url.length < 7){ return alert('URL inválida!'); };
-		if(image_url.length > 200){ return alert('URL inválida!'); };
+	if (image_url) {
+		if (image_url.length < 7) { return alert('URL inválida!'); };
+		if (image_url.length > 200) { return alert('URL inválida!'); };
 
 		let img = new Image();
 		img.src = image_url;
@@ -208,7 +208,7 @@ Product.controller.package.image.add = async (package_id) => {
 			let image = { package_id: package_id, url: image_url };
 
 			let response = await API.response(Product.package.image.add, image);
-			if(!response) { return false; }
+			if (!response) { return false; }
 
 			Product.controller.package.show(package_id);
 		};
@@ -219,10 +219,10 @@ Product.controller.package.image.add = async (package_id) => {
 
 Product.controller.package.image.remove = async (image_id, package_id) => {
 	let r = confirm("Deseja realmente excluir a image?");
-	if(r){
+	if (r) {
 
 		let response = await API.response(Product.package.image.remove, image_id);
-		if(!response) { return false; }
+		if (!response) { return false; }
 
 		Product.controller.package.show(package_id);
 	};
@@ -236,11 +236,11 @@ Product.controller.package.price.updatePrice = async (price_id, input_id) => {
 		price: parseFloat(document.getElementById(input_id).value)
 	};
 
-	if(isNaN(price.price) || price.price < 0){
+	if (isNaN(price.price) || price.price < 0) {
 		document.getElementById(input_id).value = document.getElementById(input_id).dataset.price;
 		return alert('Preço inválido');
 	};
 
 	price = await API.response(Product.package.price.update, price);
-	if(!price){ return false };
+	if (!price) { return false };
 };

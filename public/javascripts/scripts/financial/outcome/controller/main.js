@@ -1,18 +1,18 @@
-Outcome.controller = {};
+const OutcomeController = {};
 
-Outcome.controller.create = document.getElementById("outcome-create-form");
-if (Outcome.controller.create) {
-	Outcome.controller.create.addEventListener("submit", async event => {
+OutcomeController.create = document.getElementById("outcome-create-form");
+if (OutcomeController.create) {
+	OutcomeController.create.addEventListener("submit", async event => {
 		event.preventDefault();
 
 		let outcome = {
-			id: event.target.elements.namedItem("id").value,
-			date: lib.dateToTimestamp(event.target.elements.namedItem("date").value),
-			category_id: event.target.elements.namedItem("category-id").value,
-			origin_id: event.target.elements.namedItem("origin-id").value,
-			income_category_id: event.target.elements.namedItem("income-category-id").value,
-			cost: event.target.elements.namedItem("cost").value,
-			description: event.target.elements.namedItem("description").value
+			id: event.target.elements.namedItem("id").value || null,
+			date: lib.dateToTimestamp(event.target.elements.namedItem("date").value) || null,
+			category_id: event.target.elements.namedItem("category-id").value || null,
+			origin_id: event.target.elements.namedItem("origin-id").value || null,
+			income_category_id: event.target.elements.namedItem("income-category-id").value || null,
+			cost: event.target.elements.namedItem("cost").value || null,
+			description: event.target.elements.namedItem("description").value || null
 		};
 
 		outcome = await API.response(Outcome.save, outcome);
@@ -26,13 +26,13 @@ if (Outcome.controller.create) {
 		event.target.elements.namedItem("cost").value = "0.00";
 		event.target.elements.namedItem("description").value = "";
 
-		Outcome.controller.filter.submit.click();
+		OutcomeController.filter.submit.click();
 	});
 }
 
-Outcome.controller.filter = document.getElementById("outcome-filter-form");
-if (Outcome.controller.filter) {
-	Outcome.controller.filter.addEventListener("submit", async event => {
+OutcomeController.filter = document.getElementById("outcome-filter-form");
+if (OutcomeController.filter) {
+	OutcomeController.filter.addEventListener("submit", async event => {
 		event.preventDefault();
 
 		let outcome = {
@@ -57,7 +57,7 @@ if (Outcome.controller.filter) {
 	});
 }
 
-Outcome.controller.edit = async (id) => {
+OutcomeController.edit = async (id) => {
 	let outcome = await API.response(Outcome.findById, id);
 	if (!outcome) { return false };
 
@@ -66,30 +66,29 @@ Outcome.controller.edit = async (id) => {
 	document.getElementById("outcome-create-form").elements.namedItem("id").value = outcome.id;
 	document.getElementById("outcome-create-form").elements.namedItem("date").value = lib.convertDate(lib.timestampToDate(outcome.date));
 	document.getElementById("outcome-create-form").elements.namedItem("category-id").value = outcome.category_id;
-	await Outcome.controller.fillOriginSelect(document.getElementById("outcome-create-form").elements.namedItem("category-id").value, "outcome-create-form");
+	await OutcomeController.fillOriginSelect(document.getElementById("outcome-create-form").elements.namedItem("category-id").value, "outcome-create-form");
 	document.getElementById("outcome-create-form").elements.namedItem("origin-id").value = outcome.origin_id;
 	document.getElementById("outcome-create-form").elements.namedItem("income-category-id").value = outcome.income_category_id;
 	document.getElementById("outcome-create-form").elements.namedItem("description").value = outcome.description;
 	document.getElementById("outcome-create-form").elements.namedItem("cost").value = outcome.cost;
 };
 
-Outcome.controller.delete = async (id) => {
+OutcomeController.delete = async (id) => {
 	let outcome = await API.response(Outcome.findById, id);
 	if (!outcome) { return false };
-
-	console.log(outcome);
 
 	if (outcome.expense_id) { return alert("Não é possível excluir saídas criadas por despesas."); };
 
 	let r = confirm('Deseja realmente excluir a saída?');
 	if (r) {
-		if (!await API.response(Outcome.delete, id)) { return false };
+		let response = await API.response(Outcome.delete, id);
+		if (!response) { return false; }
 
-		Outcome.controller.filter.submit.click();
+		OutcomeController.filter.submit.click();
 	}
 };
 
-Outcome.controller.show = async (id) => {
+OutcomeController.show = async (id) => {
 	outcome = await API.response(Outcome.findById, id);
 	if (!outcome) { return false };
 
@@ -98,7 +97,7 @@ Outcome.controller.show = async (id) => {
 	Outcome.view.show(outcome);
 };
 
-Outcome.controller.fillOriginSelect = async (category_id, form) => {
+OutcomeController.fillOriginSelect = async (category_id, form) => {
 	let html = "";
 	if (category_id) {
 		let origins = await API.response(Outcome.origin.findByCategoryId, category_id);

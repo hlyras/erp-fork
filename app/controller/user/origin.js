@@ -1,6 +1,6 @@
 const lib = require("jarmlib");
 
-const Outcome = require('../../model/financial/outcome');
+const Outcome = require('../../model/financial/outcome/main');
 
 const originController = {};
 

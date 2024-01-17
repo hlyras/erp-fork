@@ -1,13 +1,7 @@
-const User = require('../../model/user');
 const userController = require('./../user/main');
-
-const lib = require("jarmlib");
 
 const Production = require('../../model/production/main');
 Production.product = require('../../model/production/product');
-
-const Outcome = require('../../model/financial/outcome');
-const Product = require('../../model/production/product');
 
 const externalDefectController = {};
 

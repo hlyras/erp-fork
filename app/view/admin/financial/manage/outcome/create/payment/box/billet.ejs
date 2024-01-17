@@ -1,0 +1,20 @@
+<div id="outcome-billet-form" class="box b1 container border-explicit-2 margin-top-5 padding-5" style="display:none;">
+  <input type='radio' name='origin_payment_id' class='mobile-box b9 center' value='Boleto'
+    onclick="setPaymentMethod('Boleto')">
+  <div class="mobile-box b8-9 underline lucida-grande bold margin-top-5 center">Boleto</div>
+  <div class="box b3 container margin-top-5">
+    <div class="box b3 em08 georgia">Banco</div>
+    <input type="text" name="billet_bank" class="box b1 georgia input-generic center" placeholder="Banco recebedor"
+      autocomplete="off" maxlength="45">
+  </div>
+  <div class="box b2-3 container margin-top-5">
+    <div class="box b1 em08 georgia">Favorecido</div>
+    <input type="text" name="billet_receiver" class="box b1 georgia input-generic center"
+      placeholder="Nome do beneficiário" autocomplete="off" maxlength="45">
+  </div>
+  <div class="box b1 container margin-top-5">
+    <div class="box b1 em08 georgia">Código de barras</div>
+    <textarea name="billet_code" class="box b1 georgia padding-10" placeholder="Código de barras" autocomplete="off"
+      maxlength="100"></textarea>
+  </div>
+</div>

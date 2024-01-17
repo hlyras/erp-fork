@@ -72,14 +72,14 @@ Sale.changeStatus = async (sale) => {
 };
 
 Sale.filter = (props, inners, period, params, strict_params, order_params, limit) => {
-	let query = new lib.Query().select().props(props).table("cms_wt_erp.ecommerce_sale ecommerce_sale")
+	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.ecommerce_sale ecommerce_sale")
 		.inners(inners)
 		.period(period)
 		.params(params)
 		.strictParams(strict_params)
 		.order(order_params)
-		.limit(limit).build().query;
-	return db(query);
+		.limit(limit).build();
+	return db(query, values);
 };
 
 Sale.findById = async (id) => {
@@ -229,8 +229,9 @@ Sale.after_sale = {
 		return db(query);
 	},
 	filter: (props, period, strict_params, order_params) => {
-		let query = lib.Query().select().props(props).table('cms_wt_erp.ecommerce_sale_after_sale ecommerce_sale_after_sale').period(period).strictParams(strict_params).order(order_params).build().query;
-		return db(query);
+		let { query, values } = lib.Query().select().props(props).table('cms_wt_erp.ecommerce_sale_after_sale ecommerce_sale_after_sale')
+			.period(period).strictParams(strict_params).order(order_params).build();
+		return db(query, values);
 	},
 	findById: async (id) => {
 		let query = "SELECT * FROM cms_wt_erp.ecommerce_sale_after_sale WHERE id='" + id + "';";
@@ -251,9 +252,9 @@ Sale.after_sale = {
 			return db(query);
 		},
 		filter: (props, period,) => {
-			let query = lib.Query().select().props(props).table("cms_wt_erp.ecommerce_sale_after_sale ecommerce_sale_after_sale").period(period).params(params).order(order_params).build().query;
-			// let query = lib.Query().build().query(properties, "cms_wt_erp.ecommerce_sale_after_sale", "cms_wt_erp.ecommerce_sale", inners, "cms_wt_erp.ecommerce_sale_after_sale.datetime", periodStart, periodEnd, params, values, strict_params, strict_values, "cms_wt_erp.ecommerce_sale_after_sale.datetime", "ASC");
-			return db(query);
+			let { query, values } = lib.Query().select().props(props).table("cms_wt_erp.ecommerce_sale_after_sale ecommerce_sale_after_sale")
+				.period(period).params(params).order(order_params).build();
+			return db(query, values);
 		},
 		update: async (sale) => {
 			let query = "UPDATE cms_wt_erp.ecommerce_sale_after_sale SET status='" + sale.status

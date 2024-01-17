@@ -14,9 +14,9 @@ const Product = function () {
     if (!this.amount) { return { err: "É necessário a quantidade de produtos." } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.production_product');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.production_product');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
@@ -26,21 +26,22 @@ const Product = function () {
     if (!this.amount) { return { err: "É necessário a quantidade de produtos." } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.production_product', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.production_product', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
-Product.filter = (props, inners, period, params, strict_params, order_params) => {
-  let query = new lib.Query().select().props(props).table("cms_wt_erp.production_product")
-    .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build().query;
-  return db(query);
+Product.filter = (options) => {
+  let { query, values } = new lib.Query().select().props(options.props).table("cms_wt_erp.production_product")
+    .inners(options.inners).period(options.period).params(options.params).strictParams(options.strict_params).order(options.order_params).build();
+  return db(query, values);
 };
 
 Product.remove = async (id) => {
-  let query = `DELETE FROM cms_wt_erp.production_product WHERE id='${id}';`;
-  return db(query);
+  let query = `DELETE FROM cms_wt_erp.production_product WHERE id= ?`;
+  console.log(query);
+  return db(query, [id]);
 };
 
 Product.defect = function () {
@@ -59,18 +60,18 @@ Product.defect = function () {
     if (!this.product_id) { return { err: "É necessário registrar o produto." } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.production_product_defect');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.production_product_defect');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
     if (!this.id) { return { err: "O id do produto é inválido." }; }
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.production_product_defect', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.production_product_defect', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
@@ -90,18 +91,18 @@ Product.filigran_defect = function () {
     if (!this.product_id) { return { err: "É necessário registrar o produto." } };
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.save(obj, 'cms_wt_erp.production_product_filigran_defect');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.production_product_filigran_defect');
 
-    return db(query);
+    return db(query, values);
   };
 
   this.update = () => {
     if (!this.id) { return { err: "O id do produto é inválido." }; }
 
     let obj = lib.convertTo.object(this);
-    let query = lib.Query.update(obj, 'cms_wt_erp.production_product_filigran_defect', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.production_product_filigran_defect', 'id');
 
-    return db(query);
+    return db(query, values);
   };
 };
 
