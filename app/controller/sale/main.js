@@ -97,6 +97,8 @@ saleController.save = async (req, res) => {
 	sale.weight = parseInt(req.body.sale.weight);
 	sale.obs = req.body.sale.obs;
 
+	console.log(req.body.sale.obs, req.body.sale.obs.length);
+
 	if (!sale.customer_id) { return res.send({ msg: "É necessário selecionar o cliente" }); };
 	if (sale.customer_address_id == undefined) { return res.send({ msg: "É necessário selecionar o endereço do cliente" }); };
 	if (!sale.sale_date) { return res.send({ msg: "É necessário selecionar a data da venda" }); };

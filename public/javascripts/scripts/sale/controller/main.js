@@ -65,16 +65,16 @@ if (Sale.controller.save) {
 			products: JSON.stringify(Sale.product.kart.items) || null,
 			packages: JSON.stringify(Sale.package.kart.items) || null,
 			weight: Sale.pos.total_weight || null,
-			obs: document.getElementById("sale-obs").value || null,
+			obs: document.getElementById("sale-obs").value,
 			shipment_method: document.getElementById("shipment-method").value || null,
 			payment_method: document.getElementById("payment-method").value || null,
 			payment_period: document.getElementById("payment-period").value || null,
 			status: document.getElementById("status").value || null,
-			product_value: Sale.product.kart.total_value || null,
-			package_value: Sale.package.kart.total_value || null,
-			shipment_value: Sale.pos.shipment_value || null,
-			discount_value: Sale.pos.discount_value || null,
-			value: Sale.pos.total_value || null
+			product_value: Sale.product.kart.total_value,
+			package_value: Sale.package.kart.total_value,
+			shipment_value: Sale.pos.shipment_value,
+			discount_value: Sale.pos.discount_value,
+			value: Sale.pos.total_value
 		};
 
 		if (customer.person_type == "legal-entity") { sale.customer_cnpj = customer[4]; }
