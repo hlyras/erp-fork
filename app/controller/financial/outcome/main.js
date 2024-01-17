@@ -94,11 +94,10 @@ outcomeController.create = async (req, res) => {
 			// 	if (outcome.id != outcome_user_id) { return res.send({ unauthorized: "Você não tem permissão para editar essa despesa!" }); }
 			// }
 
-			if (!outcome.date) { return res.send({ msg: "É necessário selecionar a data." }); }
+			if (!outcome.payment_date) { return res.send({ msg: "É necessário selecionar a data." }); }
 			if (!outcome.category_id) { return res.send({ msg: "É necessário selecionar a categoria." }); }
 			if (!outcome.origin_id) { return res.send({ msg: "É necessário selecionar a origem." }); }
 			if (!outcome.value || outcome.value < 0.01) { return res.send({ msg: "É necessário selecionar o valor da entrada." }); }
-			if (!outcome.income_category_id) { return res.send({ msg: "É necessário selecionar a categoria de entrada." }); }
 
 			let updateResponse = await outcome.update();
 			if (updateResponse.err) { return res.send({ msg: updateResponse.err }); }

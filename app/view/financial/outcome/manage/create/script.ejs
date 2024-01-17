@@ -13,8 +13,14 @@
     e.target.focus();
   });
 
+  console.log();
+
   document.getElementById("outcome-create-form").origin_id.addEventListener("change", async e => {
-    let payments = await API.response(OutcomeOriginPayment.filter, { origin_id: e.target.value }, e.target);
+    outcomePayments(e.target);
+  });
+
+  async function outcomePayments(input) {
+    let payments = await API.response(OutcomeOriginPayment.filter, { origin_id: input.value }, input);
 
     let payment_box = document.getElementById("origin-payment-box");
     payment_box.innerHTML = "";
@@ -44,8 +50,8 @@
       payment_box.append(payment_div);
     });
 
-    e.target.focus();
-  });
+    input.focus();
+  };
 
   document.getElementById("outcome-create-form").addEventListener("submit", async e => {
     e.preventDefault();
@@ -100,7 +106,7 @@
     e.target.payment_method.value = "";
     e.target.origin_payment_id.forEach(radio => radio.checked = false);
     e.target.description.value = "";
-    e.target.value.value = "";
+    e.target.value.value = (0).toFixed(2);
 
     e.target.check_bank.value = "";
     e.target.check_receiver.value = "";
@@ -114,4 +120,6 @@
 
     lib.message(response);
   });
+
+
 </script>

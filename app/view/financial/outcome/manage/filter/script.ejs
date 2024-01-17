@@ -1,4 +1,9 @@
 <script>
+  (() => {
+    document.getElementById("outcome-filter-form").period_start.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+    document.getElementById("outcome-filter-form").period_end.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+  })();
+
   document.getElementById("outcome-filter-form").category_id.addEventListener("change", async e => {
     let origins = await API.response(OutcomeOrigin.filter, { category_id: e.target.value }, e.target);
 
@@ -21,7 +26,7 @@
       category_id: lib.sanitize(e.target.category_id.value),
       origin_id: lib.sanitize(e.target.origin_id.value),
       period_start: lib.dateToTimestamp(e.target.period_start.value),
-      period_end: lib.dateToTimestamp(e.target.period_end.value),
+      period_end: lib.dateToTimestamp(e.target.period_end.value) + lib.timestampDay() - 1,
       status: lib.sanitize(e.target.status.value)
     };
 
@@ -39,14 +44,48 @@
     filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 margin-top-5 margin-bottom-5 center" }, `Valor total: R$${report_value.toFixed(2)}`));
 
     for (let i = pagination.page * pagination.pageSize; i < outcomes.length && i < (pagination.page + 1) * pagination.pageSize; i++) {
-      let outcome_div = lib.element.create("div", { class: "box b1 container border-bottom-st box-hover padding-3 pointer" });
-      outcome_div.addEventListener("click", e => { outcomeDetail(outcomes[i].id); });
-      outcome_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em09 bold center" }, outcomes[i].id));
-      outcome_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em07 bold v-center" }, lib.timestampToDate(outcomes[i].payment_date)));
-      outcome_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em08 v-center" }, outcomes[i].category_name));
-      outcome_div.append(lib.element.create("div", { class: "mobile-box b3 lucida-grande em08 v-center" }, outcomes[i].origin_name));
-      outcome_div.append(lib.element.create("div", { class: "mobile-box b6 lucida-grande em08 bold v-center" }, `R$${outcomes[i].value.toFixed(2)}`));
+      let outcome_div = lib.element.create("div", { class: "box b1 container border-bottom-st padding-3" });
+      outcome_div.append(lib.element.create("div", {
+        class: "mobile-box b8 lucida-grande em08 bold input-show border-lg-st padding-1 center pointer",
+        onclick: `outcomeDetail(${outcomes[i].id})`
+      }, outcomes[i].id));
+
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em08 padding-3 center" }, lib.timestampToDate(outcomes[i].payment_date)));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b3-8 lucida-grande em08 padding-3 v-center" }, outcomes[i].origin_name));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em08 bold padding-3 center" }, `R$${outcomes[i].value.toFixed(2)}`));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b3 lucida-grande em08 padding-3 v-center" }, outcomes[i].category_name));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em08 padding-3 center" }, outcomes[i].user_name));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em08 padding-3 center" }, outcomes[i].status));
+      outcome_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `outcomeEdit(${outcomes[i].id})`));
+      outcome_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `outcomeDelete(${outcomes[i].id})`));
+
       filter_div.append(outcome_div);
     };
+  };
+
+  const outcomeEdit = async (id) => {
+    const outcome = (await API.response(Outcome.filter, { id }))[0];
+
+    let origins = await API.response(OutcomeOrigin.filter, { category_id: outcome.category_id });
+
+    const outcome_form = document.getElementById("outcome-create-form");
+    outcome_form.id.value = outcome.id;
+    outcome_form.payment_date.value = lib.convertDate(lib.timestampToDate(outcome.payment_date));
+    outcome_form.category_id.value = outcome.category_id;
+    outcome_form.value.value = outcome.value;
+    outcome_form.description.value = outcome.description;
+
+    for (let i in origins) {
+      outcome_form.origin_id.append(lib.element.create("option", { value: origins[i].id }, origins[i].name));
+    };
+
+    outcome_form.origin_id.value = outcome.origin_id;
+
+    outcomePayments(outcome_form.origin_id);
+  };
+
+  const outcomeDelete = async (id) => {
+    const outcome = (await API.response(Outcome.filter, { id }));
+    console.log(outcome);
   };
 </script>
