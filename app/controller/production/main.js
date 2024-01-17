@@ -102,14 +102,14 @@ productionController.create = async (req, res) => {
 
 			if (!production.products.length) { return res.send({ msg: "É necessário incluir pelo menos 1 produto." }); }
 			// Production product
-			let product_props = ["production_product.*", "product.code", "product.name", "product.color", "product.size"];
-			let product_inners = [
+			let props = ["production_product.*", "product.code", "product.name", "product.color", "product.size"];
+			let inners = [
 				["cms_wt_erp.product", "production_product.product_id", "product.id"]
 			];
-			let product_strict_params = { keys: [], values: [] };
-			lib.Query.fillParam("production_product.production_id", production.id, product_strict_params);
+			let strict_params = { keys: [], values: [] };
+			lib.Query.fillParam("production_product.production_id", production.id, strict_params);
 
-			production_products = await Production.product.filter(product_props, product_inners, [], [], product_strict_params, []);
+			production_products = await Production.product.filter({ props, inners, strict_params });
 
 			let save_products = production.products.reduce((save_products, p) => {
 				for (let i in production_products) {
@@ -217,25 +217,27 @@ productionController.findById = async (req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	// Production
-	let production_props = ["production.*", "outcome_origin.name seamstress_name"];
-	let production_inners = [
-		["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "production.seamstress_id"]
-	];
-	let production_strict_params = { keys: [], values: [] };
-	lib.Query.fillParam("production.id", req.params.id, production_strict_params);
+	const production_options = {
+		props: ["production.*", "outcome_origin.name seamstress_name"],
+		inners: [
+			["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "production.seamstress_id"]
+		],
+		strict_params: { keys: [], values: [] }
+	};
+	lib.Query.fillParam("production.id", req.params.id, production_options.strict_params);
 
-	// Production product
-	let product_props = ["production_product.*", "product.code", "product.name", "product.color", "product.size"];
-	let product_inners = [
-		["cms_wt_erp.product", "production_product.product_id", "product.id"]
-	];
-	let product_strict_params = { keys: [], values: [] };
-	lib.Query.fillParam("production_product.production_id", req.params.id, product_strict_params);
+	const production_product_options = {
+		props: ["production_product.*", "product.code", "product.name", "product.color", "product.size"],
+		inners: [
+			["cms_wt_erp.product", "production_product.product_id", "product.id"]
+		],
+		strict_params: { keys: [], values: [] }
+	};
+	lib.Query.fillParam("production_product.production_id", req.params.id, production_product_options.strict_params);
 
 	try {
-		const production = (await Production.filter(production_props, production_inners, [], [], production_strict_params, [], 0))[0];
-		production.products = await Production.product.filter(product_props, product_inners, [], [], product_strict_params, []);
+		const production = (await Production.filter(production_options))[0];
+		production.products = await Production.product.filter(production_product_options);
 
 		res.send({ production });
 	} catch (err) {
@@ -269,7 +271,7 @@ productionController.filter = async (req, res) => {
 	else { order_params = [["production.id", "ASC"]]; }
 
 	try {
-		const productions = await Production.filter(props, inners, period, params, strict_params, order_params, 0);
+		const productions = await Production.filter({ props, inners, period, params, strict_params, order_params });
 		res.send({ productions });
 	} catch (err) {
 		console.log(err);

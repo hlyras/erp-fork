@@ -18,16 +18,22 @@ preparationController.index = async (req, res) => {
     return res.redirect('/');
   };
 
-  const internal_strict_params = { keys: [], values: [] };
-  lib.Query.fillParam("outcome_origin.category_id", 1, internal_strict_params);
-  lib.Query.fillParam("outcome_origin.role_id", 1, internal_strict_params);
+  const internal_options = {
+    strict_params: { keys: [], values: [] },
+    order_params: [['name', 'ASC']]
+  };
+  lib.Query.fillParam("outcome_origin.category_id", 1, internal_options.strict_params);
+  lib.Query.fillParam("outcome_origin.role_id", 1, internal_options.strict_params);
 
-  const external_strict_params = { keys: [], values: [] };
-  lib.Query.fillParam("outcome_origin.category_id", 10, external_strict_params);
+  const external_options = {
+    strict_params: { keys: [], values: [] },
+    order_params: [['name', 'ASC']]
+  };
+  lib.Query.fillParam("outcome_origin.category_id", 10, external_options.strict_params);
 
   try {
-    let internal_seamstresses = await OutcomeOrigin.filter([], [], internal_strict_params, [['name', 'ASC']]);
-    let external_seamstresses = await OutcomeOrigin.filter([], [], external_strict_params, [['name', 'ASC']]);
+    let internal_seamstresses = await OutcomeOrigin.filter(internal_options);
+    let external_seamstresses = await OutcomeOrigin.filter(external_options);
     res.render('production/preparation/index', { user: req.user, internal_seamstresses, external_seamstresses });
   } catch (err) {
     console.log(err);

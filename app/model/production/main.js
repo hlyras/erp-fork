@@ -47,7 +47,7 @@ Production.findById = async (id) => {
 	return db(query, [id]);
 };
 
-Production.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+Production.filter = ({ props, inners, period, params, strict_params, order_params, limit }) => {
 	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.production production")
 		.inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build();
 	return db(query, values);
