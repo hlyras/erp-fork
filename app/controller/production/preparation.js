@@ -46,29 +46,30 @@ preparationController.print = async (req, res) => {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 
-  // Production
-  let production_props = ["production.*", "outcome_origin.name seamstress_name"];
-  let production_inners = [
-    ["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "production.seamstress_id"]
-  ];
-  let production_strict_params = { keys: [], values: [] };
-  lib.Query.fillParam("production.id", req.params.id, production_strict_params);
+  const production_options = {
+    props: ["production.*", "outcome_origin.name seamstress_name"],
+    inners: [
+      ["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "production.seamstress_id"]
+    ],
+    strict_params: { keys: [], values: [] }
+  };
+  lib.Query.fillParam("production.id", req.params.id, production_options.strict_params);
 
-  // Production product
-  let product_props = ["production_product.*", "product.code", "product.name", "product.color", "product.size"];
-  let product_inners = [
-    ["cms_wt_erp.product", "production_product.product_id", "product.id"]
-  ];
-  let product_strict_params = { keys: [], values: [] };
-  lib.Query.fillParam("production_product.production_id", req.params.id, product_strict_params);
+  const product_options = {
+    props: ["production_product.*", "product.code", "product.name", "product.color", "product.size"],
+    inners: [
+      ["cms_wt_erp.product", "production_product.product_id", "product.id"]
+    ],
+    strict_params: { keys: [], values: [] }
+  };
+  lib.Query.fillParam("production_product.production_id", req.params.id, product_options.strict_params);
 
   try {
-    const production = (await Production.filter(production_props, production_inners, [], [], production_strict_params, [], 0))[0];
+    const production = (await Production.filter(production_options))[0];
     production.date = lib.date.timestamp.toDate(production.date).split(" ")[0];
     production.preparation_deadline = lib.date.timestamp.toDate(production.preparation_deadline).split(" ")[0];
     production.datetime = lib.date.timestamp.toDate(production.datetime).split(" ")[0];
-
-    production.products = await Production.product.filter(product_props, product_inners, [], [], product_strict_params, []);
+    production.products = await Production.product.filter(product_options);
 
     for (let i in production.products) {
       let feedstock_props = [

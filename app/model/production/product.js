@@ -40,7 +40,6 @@ Product.filter = (options) => {
 
 Product.remove = async (id) => {
   let query = `DELETE FROM cms_wt_erp.production_product WHERE id= ?`;
-  console.log(query);
   return db(query, [id]);
 };
 
