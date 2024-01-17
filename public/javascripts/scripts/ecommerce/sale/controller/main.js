@@ -11,17 +11,19 @@ if (Ecommerce.sale.controller.save) {
 			};
 		};
 
+		console.log();
+
 		let sale = {
-			id: lib.sanitize(e.target.id.value).trim() || null,
-			origin: lib.sanitize(e.target.origin.value) || null,
-			datetime: lib.datetimeToTimestamp(lib.sanitize(e.target.datetime.value)) || null,
-			code: lib.sanitize(e.target.code.value).trim() || null,
+			id: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("id").value).trim() || null,
+			origin: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("origin").value) || null,
+			datetime: lib.datetimeToTimestamp(lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("datetime").value)) || null,
+			code: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("code").value).trim() || null,
 			customer_user: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-user").value).trim() || null,
 			customer_name: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-name").value).trim() || null,
 			customer_phone: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-phone").value).trim() || null,
-			tracker: lib.sanitize(e.target.tracker.value).trim() || null,
-			status: lib.sanitize(e.target.status.value) || null,
-			obs: lib.sanitize(e.target.obs.value) || null,
+			tracker: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("tracker").value).trim() || null,
+			status: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("status").value) || null,
+			obs: lib.sanitize(document.getElementById("ecommerce-sale-create-form").elements.namedItem("obs").value) || null,
 			products: JSON.stringify(Ecommerce.sale.product.kart.items) || null,
 			packages: JSON.stringify(Ecommerce.sale.package.kart.items) || null
 		};
@@ -29,15 +31,15 @@ if (Ecommerce.sale.controller.save) {
 		sale = await API.response(Ecommerce.sale.save, sale);
 		if (!sale) { return false };
 
-		e.target.origin.value = "";
-		e.target.code.value = "";
+		document.getElementById("ecommerce-sale-create-form").elements.namedItem("origin").value = "";
+		document.getElementById("ecommerce-sale-create-form").elements.namedItem("code").value = "";
 		document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-user").value = "";
 		document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-name").value = "";
 		document.getElementById("ecommerce-sale-create-form").elements.namedItem("customer-phone").value = "";
-		e.target.datetime.value = "";
-		e.target.tracker.value = "";
-		e.target.status.value = "";
-		e.target.obs.value = "";
+		document.getElementById("ecommerce-sale-create-form").elements.namedItem("datetime").value = "";
+		document.getElementById("ecommerce-sale-create-form").elements.namedItem("tracker").value = "";
+		document.getElementById("ecommerce-sale-create-form").elements.namedItem("status").value = "";
+		document.getElementById("ecommerce-sale-create-form").elements.namedItem("obs").value = "";
 		Ecommerce.sale.product.kart.items = [];
 		Ecommerce.sale.package.kart.items = [];
 
