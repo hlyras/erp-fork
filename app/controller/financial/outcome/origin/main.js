@@ -11,8 +11,8 @@ originController.create = async (req, res) => {
   };
 
   let origin = new OutcomeOrigin();
-  origin.id = parseInt(req.body.id);
-  origin.category_id = parseInt(req.body.category_id);
+  origin.id = req.body.id;
+  origin.category_id = req.body.category_id;
   origin.name = req.body.name;
 
   if (!origin.name) { return res.send({ msg: "É necessário identificar a categoria." }); };

@@ -13,7 +13,7 @@ categoryController.create = async (req, res) => {
 	};
 
 	let category = new OutcomeCategory();
-	category.id = parseInt(req.body.id);
+	category.id = req.body.id;
 	category.name = req.body.name;
 
 	if (!category.name) { return res.send({ msg: "É necessário identificar a categoria." }); };
