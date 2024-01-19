@@ -24,6 +24,16 @@
     </select>
   </div>
 
+  <div class="box b1 container margin-top-5">
+    <div class="box b1 em08 lucida-grande bold">Banco do pagamento</div>
+    <select name="income_category_id" class="box b1 border-st padding-9 center">
+      <option value="">Banco do pagamento</option>
+      <% for(i in incomeCategories){ %>
+      <option value="<%= incomeCategories[i].id %>"><%= incomeCategories[i].name %></option>
+      <% } %>
+    </select>
+  </div>
+
   <div class="box b3 container margin-top-5">
     <div class="box b1 em08 lucida-grande bold">Data inicial</div>
     <input type="date" name="period_start" class="box b1 georgia border-st padding-10 center">

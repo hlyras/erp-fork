@@ -13,25 +13,12 @@ productController.filter = async (req, res) => {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 
-  // let props = ["production_product.*",
-  //   "production.id production_id", "production.seamstress_id seamstress_id",
-  //   "production.preparation_deadline", "production.shipment_datetime", "production.receipt_datetime", "production.status production_status",
-  //   "outcome_origin.name seamstress_name",
-  //   "product.code", "product.name", "product.color", "product.size"];
-
-  // let inners = [
-  //   ["cms_wt_erp.product product", "product.id", "production_product.product_id"],
-  //   ["cms_wt_erp.production production", "production.id", "production_product.production_id"],
-  //   ["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "production.seamstress_id"]
-  // ];
-
-  console.log(req.body);
-
   const props = [
     "production_product.*",
     "product.code",
     "product.name",
     "product.color",
+    "product.size",
     "production.id production_id",
     "production.seamstress_id seamstress_id",
     "outcome_origin.name seamstress_name",

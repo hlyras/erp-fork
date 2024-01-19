@@ -141,6 +141,7 @@ outcomeController.filter = async (req, res) => {
 	lib.Query.fillParam("outcome.id", req.body.id, strict_params);
 	lib.Query.fillParam("outcome.category_id", req.body.category_id, strict_params);
 	lib.Query.fillParam("outcome.origin_id", req.body.origin_id, strict_params);
+	lib.Query.fillParam("outcome.income_category_id", req.body.income_category_id, strict_params);
 	lib.Query.fillParam("outcome.status", req.body.status, strict_params);
 	lib.Query.fillParam("income_category.id", req.body.income_category_id, strict_params);
 	req.user.access != "adm" && lib.Query.fillParam("outcome.user_id", req.user.id, strict_params);
