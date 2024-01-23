@@ -51,18 +51,17 @@ storageController.create = async (req, res) => {
 		return res.redirect('/');
 	};
 
-	let insert = {
-		supplier_id: req.body.supplier_id,
-		feedstock_id: req.body.feedstock_id,
-		price: req.body.price
-	};
+	let storage = new FeedstockSupplierStorage();
+	storage.supplier_id = req.body.supplier_id;
+	storage.feedstock_id = req.body.feedstock_id;
+	storage.price = req.body.price;
 
-	let storage_strict_params = { keys: [], values: [] };
-	lib.Query.fillParam("supplier_storage.supplier_id", insert.supplier_id, storage_strict_params);
-	lib.Query.fillParam("supplier_storage.feedstock_id", insert.feedstock_id, storage_strict_params);
+	let strict_params = { keys: [], values: [] };
+	lib.Query.fillParam("supplier_storage.supplier_id", storage.supplier_id, strict_params);
+	lib.Query.fillParam("supplier_storage.feedstock_id", storage.feedstock_id, strict_params);
 
 	try {
-		let feedstocks = await FeedstockSupplierStorage.filter([], [], [], storage_strict_params, []);
+		let feedstocks = await FeedstockSupplierStorage.filter({ strict_params });
 		if (feedstocks.length) { return res.send({ msg: "Esta matéria-prima já está inserida no catálogo!\n \n Atualize o preço ao invés de incluir novamente!" }); }
 
 		let create_response = await storage.create();

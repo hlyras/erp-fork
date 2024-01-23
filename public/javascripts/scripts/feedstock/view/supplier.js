@@ -1,6 +1,6 @@
-Feedstock.supplier.view = {};
+const FeedstockSupplierView = {};
 
-Feedstock.supplier.view.filter = (suppliers, pagination) => {
+FeedstockSupplierView.filter = (suppliers, pagination) => {
 	let filter_box = document.getElementById("supplier-filter-box");
 	let filter_div = document.getElementById("supplier-filter-div");
 	filter_div.innerHTML = "";
@@ -19,7 +19,7 @@ Feedstock.supplier.view.filter = (suppliers, pagination) => {
 
 			div_supplier.appendChild(lib.element.create("div", {
 				class: "mobile-box b8 em11 tbl-show-link nowrap center bold",
-				onclick: "Feedstock.supplier.storage.controller.open(" + suppliers[i].id + ")"
+				onclick: "FeedstockSupplierStorageController.open(" + suppliers[i].id + ")"
 			}, suppliers[i].id));
 
 			suppliers[i].cnpj && div_center.appendChild(lib.element.info("b2", "CNPJ", suppliers[i].cnpj));
@@ -27,8 +27,8 @@ Feedstock.supplier.view.filter = (suppliers, pagination) => {
 			suppliers[i].brand && div_center.appendChild(lib.element.info("b2", "Marca", suppliers[i].brand));
 			suppliers[i].name && div_center.appendChild(lib.element.info("b2", "Responsável", suppliers[i].name));
 
-			div_right.appendChild(lib.element.icon('b1 padding-5', 20, "/images/icon/edit.png", "Feedstock.supplier.controller.edit(" + suppliers[i].id + ")"));
-			div_right.appendChild(lib.element.icon('b1 padding-5', 20, "/images/icon/trash.png", "Feedstock.supplier.controller.delete(" + suppliers[i].id + ")"));
+			div_right.appendChild(lib.element.icon('b1 padding-5', 20, "/images/icon/edit.png", "FeedstockSupplierController.edit(" + suppliers[i].id + ")"));
+			div_right.appendChild(lib.element.icon('b1 padding-5', 20, "/images/icon/trash.png", "FeedstockSupplierController.delete(" + suppliers[i].id + ")"));
 
 			div_supplier.appendChild(div_center);
 			div_supplier.appendChild(div_right);
@@ -41,9 +41,9 @@ Feedstock.supplier.view.filter = (suppliers, pagination) => {
 	};
 };
 
-Feedstock.supplier.storage.view = {};
+const FeedstockSupplierStorageView = {};
 
-Feedstock.supplier.storage.view.open = (supplier) => {
+FeedstockSupplierStorageView.open = (supplier) => {
 	//Supplier Information
 	let supplier_info_box = document.getElementById("supplier-storage-info"); supplier_info_box.innerHTML = "";
 
@@ -59,10 +59,10 @@ Feedstock.supplier.storage.view.open = (supplier) => {
 
 	//Supplier feedstocks
 	const pagination = { pageSize: 15, page: 0 };
-	(function () { lib.carousel.execute("supplier-feedstock-box", Feedstock.supplier.storage.view.filter, supplier.storage, pagination); }());
+	(function () { lib.carousel.execute("supplier-feedstock-box", FeedstockSupplierStorageView.filter, supplier.storage, pagination); }());
 };
 
-Feedstock.supplier.storage.view.filter = (feedstocks, pagination) => {
+FeedstockSupplierStorageView.filter = (feedstocks, pagination) => {
 	supplier_feedstock_div = document.getElementById("supplier-feedstock-div"); supplier_feedstock_div.innerHTML = "";
 
 	for (let i = pagination.page * pagination.pageSize; i < feedstocks.length && i < (pagination.page + 1) * pagination.pageSize; i++) {
@@ -80,8 +80,8 @@ Feedstock.supplier.storage.view.filter = (feedstocks, pagination) => {
 			value: feedstocks[i].price.toFixed(4),
 			step: 0.0001
 		}));
-		feedstock_div.appendChild(lib.element.icon('b12', 20, "/images/icon/save.png", "Feedstock.supplier.storage.controller.update(" + feedstocks[i].id + ")"));
-		feedstock_div.appendChild(lib.element.icon('b12', 20, "/images/icon/trash.png", "Feedstock.supplier.storage.controller.remove(" + feedstocks[i].id + ")"));
+		feedstock_div.appendChild(lib.element.icon('b12', 20, "/images/icon/save.png", "FeedstockSupplierStorageController.update(" + feedstocks[i].id + ")"));
+		feedstock_div.appendChild(lib.element.icon('b12', 20, "/images/icon/trash.png", "FeedstockSupplierStorageController.remove(" + feedstocks[i].id + ")"));
 
 		supplier_feedstock_div.appendChild(feedstock_div);
 	};
