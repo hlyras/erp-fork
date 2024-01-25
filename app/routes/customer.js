@@ -7,6 +7,8 @@ customerController.activity = require('../controller/customer/report/activity');
 customerController.report = require('../controller/customer/report/main');
 customerController.report.sale = require('../controller/customer/report/sale');
 
+const Timeline = require('../controller/customer/timeline/main');
+
 const addressController = require('../controller/customer/address');
 const leadController = require('../controller/customer/lead/main');
 leadController.mail = require('../controller/customer/lead/mail');
@@ -21,6 +23,11 @@ router.get('/id/:id', lib.route.toHttps, customerController.findById);
 router.get('/show/id/:id', lib.route.toHttps, customerController.show);
 router.delete('/delete', lib.route.toHttps, customerController.delete);
 router.post('/mail/send', lib.route.toHttps, customerController.mail.send);
+
+router.get('/timeline', lib.route.toHttps, Timeline.index);
+router.post('/timeline/create', lib.route.toHttps, Timeline.create);
+router.post('/timeline/filter', lib.route.toHttps, Timeline.filter);
+router.post('/timeline/update', lib.route.toHttps, Timeline.update);
 
 router.post('/address/save', lib.route.toHttps, addressController.save);
 router.get('/address/id/:id', lib.route.toHttps, addressController.findById);

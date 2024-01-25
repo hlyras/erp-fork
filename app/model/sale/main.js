@@ -64,9 +64,18 @@ Sale.cancel = async (sale) => {
 	return db(query);
 };
 
-Sale.filter = (props, inners, period, params, strict_params, order_params, limit) => {
-	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.sale sale")
-		.inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build();
+Sale.filter = (options) => {
+	let { query, values } = new lib.Query().select()
+		.props(options.props)
+		.table("cms_wt_erp.sale")
+		.inners(options.inners)
+		.lefts(options.lefts)
+		.period(options.period)
+		.params(options.params)
+		.strictParams(options.strict_params)
+		.order(options.order_params)
+		.limit(options.limit)
+		.build();
 	return db(query, values);
 };
 

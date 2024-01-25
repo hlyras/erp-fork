@@ -1,4 +1,3 @@
-const User = require('../../model/user');
 const userController = require('./../user/main');
 
 const Sale = require('../../model/sale/main');

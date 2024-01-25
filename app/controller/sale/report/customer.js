@@ -33,7 +33,7 @@ customerController.filter = async (req, res) => {
 	lib.Query.fillParam("sale.status", req.body.sale.status, strict_params);
 
 	try {
-		let sales = await Sale.filter(props, inners, period, params, strict_params, [], 0);
+		let sales = await Sale.filter({ props, inners, period, params, strict_params });
 		res.send({ sales });
 	} catch (err) {
 		console.log(err);

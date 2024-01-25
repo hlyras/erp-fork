@@ -136,7 +136,7 @@ Sale.view.show = (sale) => {
 	!sale.nf && sale_info_div.append(lib.element.createInfo("mobile-box b4-7 em09 padding-10", "Status", `${sale.status}`));
 	sale.nf && sale.nf.length < 20 && sale_info_div.append(lib.element.createInfo("mobile-box b4-7 em09 padding-10", "Status", `${sale.status}`));
 	sale.nf && sale.nf.length > 20 && sale_info_div.append(lib.element.createInfo("mobile-box b3-7 em09 padding-10", "Status", `${sale.status}`));
-	sale.nf && sale.nf.length > 20 && sale_info_div.append(lib.element.icon('mobile-box b7', 30, "https://spaces.jariomilitar.com/erp-images/icon/nf-e.png", "lib.openExternalLink('" + sale.nf + "')"));
+	sale.nf && sale.nf.length > 20 && sale_info_div.append(lib.element.icon('mobile-box b7', 30, "/images/icon/nf-e.png", "lib.openExternalLink('" + sale.nf + "')"));
 
 	!sale.billet_url && sale_info_div.append(lib.element.createInfo("mobile-box b4-7 em09 padding-10", "Método de pagamento", `${sale.payment_method || ''}`));
 	sale.billet_url && sale_info_div.append(lib.element.createInfo("mobile-box b3-7 em09 padding-10", "Método de pagamento", `${sale.payment_method || ''}`));

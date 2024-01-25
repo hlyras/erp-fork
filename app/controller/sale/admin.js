@@ -75,7 +75,7 @@ adminController.filter = async (req, res) => {
 	const limit = 0;
 
 	try {
-		let sales = await Sale.filter([], [], period, params, strict_params, order_params, limit);
+		let sales = await Sale.filter({ period, params, strict_params, order_params, limit });
 		res.send({ sales });
 	} catch (err) {
 		console.log(err);

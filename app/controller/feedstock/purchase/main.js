@@ -5,7 +5,8 @@ const lib = require("jarmlib");
 const FeedstockSupplier = require('../../../model/feedstock/supplier/main');
 const FeedstockPurchase = require('../../../model/feedstock/purchase/main');
 const FeedstockPurchaseFeedstock = require('../../../model/feedstock/purchase/feedstock');
-const { response } = require('express');
+
+const Outcome = require('../../../model/financial/outcome/main');
 
 const purchaseController = {};
 
@@ -210,26 +211,6 @@ purchaseController.filter = async (req, res) => {
 	};
 };
 
-purchaseController.update = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
-		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-	};
-
-	const purchase = new FeedstockPurchase();
-	purchase.id = req.body.id;
-	purchase.status = req.body.status;
-
-	try {
-		let update_response = await purchase.update();
-		if (update_response.err) { return res.send({ msg: update_response.err }); }
-
-		res.send({ done: 'Compra atualizada com sucesso!' });
-	} catch (err) {
-		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
-	};
-};
-
 purchaseController.delete = async (req, res) => {
 	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
@@ -274,8 +255,6 @@ purchaseController.checkout.confirm = async (req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	console.log('req.body', req.body);
-
 	let purchase = new FeedstockPurchase();
 	purchase.id = req.body.purchase_id;
 	purchase.payment_method = req.body.payment_method;
@@ -293,7 +272,54 @@ purchaseController.checkout.confirm = async (req, res) => {
 		if (!purchase.expenses) { return res.send({ done: "Pedido confirmado!" }); }
 
 		for (let i in purchase.expenses) {
-			console.log(`purchase.expenses[${i}]`, purchase.expenses[i]);
+			let outcome = new Outcome();
+			outcome.category_id = 2;
+			outcome.origin_id = req.body.origin_id;
+			outcome.value = purchase.expenses[i].cost;
+			outcome.description = purchase.expenses[i].description;
+			outcome.payment_method = purchase.expenses[i].method;
+			outcome.payment_date = purchase.expenses[i].date;
+
+			if (outcome.payment_method == "Boleto") {
+				outcome.billet_bank = purchase.expenses[i].billet_bank;
+				outcome.billet_receiver = purchase.expenses[i].billet_receiver;
+				outcome.billet_code = purchase.expenses[i].billet_code;
+
+				if (!outcome.billet_bank) { return res.send({ msg: "É necessário informar o banco recebedor do boleto." }); };
+				if (!outcome.billet_receiver) { return res.send({ msg: "É necessário informar o nome do beneficiário do boleto." }); };
+				if (!outcome.billet_code) { return res.send({ msg: "É necessário informar um código de barras válido." }); };
+			} else if (outcome.payment_method == "Cheque") {
+				outcome.check_bank = purchase.expenses[i].check_bank;
+				outcome.check_receiver = purchase.expenses[i].check_receiver;
+				outcome.check_number = purchase.expenses[i].check_number;
+
+				if (!outcome.check_bank) { return res.send({ msg: "É necessário informar o banco recebedor do cheque." }); };
+				if (!outcome.check_receiver) { return res.send({ msg: "É necessário informar o nome do beneficiário do cheque." }); };
+				if (!outcome.check_number) { return res.send({ msg: "É necessário informar o número do cheque." }); };
+			} else if (outcome.payment_method == "Pix") {
+				outcome.pix_receiver = purchase.expenses[i].pix_receiver;
+				outcome.pix_key = purchase.expenses[i].pix_key;
+
+				if (!outcome.pix_receiver) { return res.send({ msg: "É necessário informar o beneficiário do Pix." }); };
+				if (!outcome.pix_key) { return res.send({ msg: "É necessário informar a chave Pix." }); };
+			} else if (outcome.payment_method == "Transferência bancária") {
+				outcome.transfer_receiver = purchase.expenses[i].transfer_receiver;
+				outcome.transfer_register = purchase.expenses[i].transfer_register;
+				outcome.transfer_bank = purchase.expenses[i].transfer_bank;
+				outcome.transfer_agency = purchase.expenses[i].transfer_agency;
+				outcome.transfer_account = purchase.expenses[i].transfer_account;
+				outcome.transfer_account_type = purchase.expenses[i].transfer_account_type;
+
+				if (!outcome.transfer_receiver) { return res.send({ msg: "É necessário informar o beneficiário da conta." }); };
+				if (!outcome.transfer_register) { return res.send({ msg: "É necessário informar o CPF ou CNPJ do beneficiário." }); };
+				if (!outcome.transfer_bank) { return res.send({ msg: "É necessário informar o banco da conta." }); };
+				if (!outcome.transfer_agency) { return res.send({ msg: "É necessário informar a agência bancária." }); };
+				if (!outcome.transfer_account) { return res.send({ msg: "É necessário informar o número da conta." }); };
+				if (!outcome.transfer_account_type) { return res.send({ msg: "É necessário informar o tipo da conta." }); };
+			}
+
+			let outcome_response = await outcome.create();
+			if (outcome_response.err) { return res.send({ msg: outcome_response.err }); }
 		};
 
 		res.send({ done: "Pedido atualizado!" });

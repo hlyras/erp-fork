@@ -55,7 +55,7 @@ serviceOrderController.findById = async (req, res) => {
 
 		strict_params = { keys: [], values: [] };
 		lib.Query.fillParam("service_order_sale.service_order_id", req.params.id, strict_params);
-		serviceOrder.sales = await ServiceOrder.sale.filter(props, inners, [], strict_params, [], 0);
+		serviceOrder.sales = await ServiceOrder.sale.filter({ props, inners, strict_params });
 
 		props = ["user.name"];
 		if (serviceOrder.collect_user_id) {
@@ -137,7 +137,7 @@ serviceOrderController.shipment.index = async (req, res) => {
 	const order_params = [["id", "DESC"]];
 
 	try {
-		let sales = await Sale.filter([], [], [], [], strict_params, order_params, 0);
+		let sales = await Sale.filter({ strict_params, order_params });
 
 		for (let i in sales) {
 			if (sales[i].shipment_method == "Correios Pac") { metrics.correios++; }
@@ -222,7 +222,7 @@ serviceOrderController.shipment.print = async (req, res) => {
 		let strict_params = { keys: [], values: [] };
 		lib.Query.fillParam("cms_wt_erp.service_order_sale.service_order_id", req.params.id, strict_params);
 
-		serviceOrder.sales = await ServiceOrder.sale.filter(props, inners, [], strict_params, [], 0);
+		serviceOrder.sales = await ServiceOrder.sale.filter({ props, inners, strict_params });
 		res.render('sale/triage/shipment/print', { user: req.user, serviceOrder });
 	} catch (err) {
 		console.log(err);

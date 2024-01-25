@@ -54,7 +54,7 @@ saleController.manage = async (req, res) => {
 	};
 
 	try {
-		let sales = await Sale.filter([], [], [], [], strict_params, order_params, 0);
+		let sales = await Sale.filter({ strict_params, order_params });
 
 		for (let i in sales) {
 			if (sales[i].status == "Em negociação") { metrics.em_negociacao++; }
@@ -96,8 +96,6 @@ saleController.save = async (req, res) => {
 	sale.package_product_actions = { add: [], update: [], remove: [] };
 	sale.weight = parseInt(req.body.sale.weight);
 	sale.obs = req.body.sale.obs;
-
-	console.log(req.body.sale.obs, req.body.sale.obs.length);
 
 	if (!sale.customer_id) { return res.send({ msg: "É necessário selecionar o cliente" }); };
 	if (sale.customer_address_id == undefined) { return res.send({ msg: "É necessário selecionar o endereço do cliente" }); };
@@ -258,16 +256,27 @@ saleController.filter = async (req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
-	const props = [];
-	const inners = [];
+	const props = [
+		"sale.*",
+		"customer.id customer_id",
+		"customer.name customer_name",
+		"customer.cnpj customer_cnpj",
+		"customer.phone customer_phone",
+		"customer.cellphone customer_cellphone",
+	];
 
-	const period = { key: "sale_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
+	const inners = [
+		["cms_wt_erp.customer", "customer.id", "sale.customer_id"]
+	];
+
+	const period = { key: req.body.datetype || "sale_date", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
 	const params = { keys: [], values: [] };
 	const strict_params = { keys: [], values: [] };
 
 	lib.Query.fillParam("sale.id", req.body.sale.id, strict_params);
-	lib.Query.fillParam("sale.customer_name", req.body.sale.customer_name, params);
-	lib.Query.fillParam("sale.customer_cnpj", req.body.sale.customer_cnpj, params);
+	lib.Query.fillParam("sale.customer_id", req.body.sale.customer_id, strict_params);
+	lib.Query.fillParam("customer.name", req.body.sale.customer_name, params);
+	lib.Query.fillParam("customer.cnpj", req.body.sale.customer_cnpj, params);
 	lib.Query.fillParam("sale.status", req.body.sale.status, strict_params);
 	lib.Query.fillParam("sale.shipment_method", req.body.sale.shipment_method, strict_params);
 	lib.Query.fillParam("sale.user_id", req.body.sale.user_id, strict_params);
@@ -276,7 +285,7 @@ saleController.filter = async (req, res) => {
 	const limit = 0;
 
 	try {
-		let sales = await Sale.filter([], [], period, params, strict_params, order_params, limit);
+		let sales = await Sale.filter({ props, inners, period, params, strict_params, order_params, limit });
 		res.send({ sales });
 	} catch (err) {
 		console.log(err);
