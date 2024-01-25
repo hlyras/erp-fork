@@ -161,7 +161,7 @@ customerController.show = async (req, res) => {
 		let customer = await Customer.findBy.id(req.params.id);
 		customer[0].address = await Customer.address.findBy.customer_id(req.params.id);
 
-		let sales = await Sale.filter([], [], period, [], strict_params, order_params, 0);
+		let sales = await Sale.filter({ period, strict_params, order_params });
 		const saleStatistics = { totalValue: 0 };
 
 		for (let i in sales) { saleStatistics.totalValue += parseFloat(sales[i].value); };

@@ -77,6 +77,7 @@ if (Customer.controller.filter) {
 
 Customer.controller.show = async (id) => {
 	let customer = await API.response(Customer.show, id);
+	console.log(customer);
 
 	document.getElementById("customer-show-box").style.display = "";
 	Customer.view.show(customer, "customer-show-info-box");

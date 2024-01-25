@@ -3,7 +3,7 @@ const Rank = [];
 const soldado = {
 	id: 1,
 	name: "Soldado",
-	image: "https://spaces.jariomilitar.com/ja-images/ranks/r1.png",
+	image: "https://wt-images-cdn.sfo3.digitaloceanspaces.com/ja-images/ranks/r1.png",
 	min_value: 0,
 	max_value: 499.99,
 	discount: 0,
@@ -17,7 +17,7 @@ const soldado = {
 const sargento = {
 	id: 2,
 	name: "Sargento",
-	image: "https://spaces.jariomilitar.com/ja-images/ranks/r2.png",
+	image: "https://wt-images-cdn.sfo3.digitaloceanspaces.com/ja-images/ranks/r2.png",
 	min_value: 500,
 	max_value: 999.99,
 	discount: 0,
@@ -34,7 +34,7 @@ const sargento = {
 const capitao = {
 	id: 3,
 	name: "Capitão",
-	image: "https://spaces.jariomilitar.com/ja-images/ranks/r3.png",
+	image: "https://wt-images-cdn.sfo3.digitaloceanspaces.com/ja-images/ranks/r3.png",
 	min_value: 1000,
 	max_value: 2499.99,
 	discount: 0,
@@ -52,7 +52,7 @@ const capitao = {
 const coronel = {
 	id: 4,
 	name: "Coronel",
-	image: "https://spaces.jariomilitar.com/ja-images/ranks/r4.png",
+	image: "https://wt-images-cdn.sfo3.digitaloceanspaces.com/ja-images/ranks/r4.png",
 	min_value: 2500,
 	max_value: 4999.99,
 	discount: 0,
@@ -72,7 +72,7 @@ const coronel = {
 const general = {
 	id: 5,
 	name: "General",
-	image: "https://spaces.jariomilitar.com/ja-images/ranks/r5.png",
+	image: "https://wt-images-cdn.sfo3.digitaloceanspaces.com/ja-images/ranks/r5.png",
 	min_value: 5000,
 	max_value: 9999.99,
 	discount: 0,
@@ -93,7 +93,7 @@ const general = {
 const marechal = {
 	id: 6,
 	name: "Marechal",
-	image: "https://spaces.jariomilitar.com/ja-images/ranks/r6.png",
+	image: "https://wt-images-cdn.sfo3.digitaloceanspaces.com/ja-images/ranks/r6.png",
 	min_value: 10000,
 	max_value: 50000,
 	discount: 0,
