@@ -71,7 +71,7 @@ reportController.product.filter = async (req, res) => {
 
 	lib.Query.fillParam("cms_wt_erp.sale.id", req.body.sale.id, product_options.strict_params);
 	lib.Query.fillParam("cms_wt_erp.customer.id", req.body.sale.customer_id, product_options.strict_params);
-	lib.Query.fillParam("cms_wt_erp.product.name", req.body.sale.product_name, params);
+	lib.Query.fillParam("cms_wt_erp.product.name", req.body.sale.product_name, product_options.params);
 	lib.Query.fillParam("cms_wt_erp.product.color", req.body.sale.product_color, product_options.strict_params);
 	lib.Query.fillParam("cms_wt_erp.sale.status", req.body.sale.status, product_options.strict_params);
 
