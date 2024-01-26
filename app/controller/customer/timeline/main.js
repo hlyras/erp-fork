@@ -89,6 +89,7 @@ timelineController.filter = async (req, res) => {
 
   lib.Query.fillParam("timeline.customer_id", req.body.customer_id, strict_params);
   lib.Query.fillParam("timeline.status", req.body.status, strict_params);
+  req.body.user && lib.Query.fillParam("timeline.user_id", req.user.id, strict_params);
 
   let order_params = [["timeline.datetime", "DESC"], ["timeline.id", "DESC"]];
 

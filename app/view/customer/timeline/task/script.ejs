@@ -1,6 +1,6 @@
 <script>
   async function taskRender() {
-    let tasks = await API.response(CustomerTimeline.filter, { status: "Pendente" });
+    let tasks = await API.response(CustomerTimeline.filter, { status: "Pendente", user: true });
     if (!tasks) { return false }
 
     let task_box = document.getElementById("timeline-task-box");
@@ -14,8 +14,9 @@
       let task_div = lib.element.create("div", {
         class: "box b1 container ground border-st shadow-lg-st radius-5 padding-5 margin-top-5 pointer h-center"
       });
+      task_div.append(lib.element.createInfo("b5 em09", "ID do cliente", task.customer_id));
       task_div.append(lib.element.createInfo("b2-5 em09", "Nome do cliente", task.customer_name));
-      task_div.append(lib.element.createInfo("b2-5 em09", "Hora do agendamento", lib.timestampToFulldate(task.meeting_datetime)));
+      task_div.append(lib.element.createInfo("b5 em09", "Hora do agendamento", lib.timestampToFulldate(task.meeting_datetime)));
       task_div.append(lib.element.createInfo("b5 em09", "Status", task.status));
       task_div.append(lib.element.createInfo("b1 em09 border radius-5 padding-3 margin-top-5", "Descrição", task.content));
 
