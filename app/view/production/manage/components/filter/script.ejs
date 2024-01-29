@@ -129,7 +129,8 @@
             current_week_div.append(day_box);
 
             productionRender(productions, day, day_box, i);
-          } else {
+          }
+          else {
             let day = `${currentYear}-${MONTHS[previousMonth].id}-${MONTHS[previousMonth].days - (-currentSunday) + i}`;
 
             current_week_div.append(day_box);
@@ -137,14 +138,15 @@
             productionRender(productions, day, day_box, i);
           }
         }
-      } else if (currentSunday + i > MONTHS[currentMonth].days) {
-        console.log(nextMonth);
-        let day = `${currentYear}-${currentMonth + 1}-${currentSunday - MONTHS[currentMonth].days + i}`;
+      }
+      else if (currentSunday + i > MONTHS[currentMonth].days) {
+        let day = `${currentYear}-${currentMonth + 2}-${currentSunday - MONTHS[currentMonth].days + i}`;
 
         current_week_div.append(day_box);
 
         productionRender(productions, day, day_box, i);
-      } else {
+      }
+      else {
         let day = `${currentYear}-${currentMonth + 1}-${date.getDate() - date.getDay() + i}`;
 
         current_week_div.append(day_box);
