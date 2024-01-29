@@ -23,6 +23,7 @@
 
     let outcome = {
       id: lib.sanitize(e.target.id.value),
+      expense_id: lib.sanitize(e.target.expense_id.value),
       category_id: lib.sanitize(e.target.category_id.value),
       origin_id: lib.sanitize(e.target.origin_id.value),
       period_start: lib.dateToTimestamp(e.target.period_start.value),
@@ -46,13 +47,14 @@
     for (let i = pagination.page * pagination.pageSize; i < outcomes.length && i < (pagination.page + 1) * pagination.pageSize; i++) {
       let outcome_div = lib.element.create("div", { class: "box b1 container border-bottom-st padding-3" });
       outcome_div.append(lib.element.create("div", {
-        class: "mobile-box b8 lucida-grande em08 bold input-show border-lg-st padding-1 center pointer",
+        class: "mobile-box b10 lucida-grande em08 bold input-show border-lg-st padding-1 center pointer",
         onclick: `outcomeDetail(${outcomes[i].id})`
       }, outcomes[i].id));
 
-      outcome_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em08 padding-3 center" }, lib.timestampToDate(outcomes[i].payment_date)));
-      outcome_div.append(lib.element.create("div", { class: "mobile-box b3-8 lucida-grande em08 padding-3 v-center" }, outcomes[i].origin_name));
-      outcome_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em08 bold padding-3 center" }, `R$${outcomes[i].value.toFixed(2)}`));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b10 lucida-grande em08 center" }, outcomes[i].expense_id ? `D${outcomes[i].expense_id}` : 's/d'));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b5 lucida-grande em08 center" }, lib.timestampToDate(outcomes[i].payment_date)));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b2-5 lucida-grande em08 padding-3 v-center" }, outcomes[i].origin_name));
+      outcome_div.append(lib.element.create("div", { class: "mobile-box b5 lucida-grande em08 bold padding-3 center" }, `R$${outcomes[i].value.toFixed(2)}`));
       outcome_div.append(lib.element.create("div", { class: "mobile-box b3 lucida-grande em08 padding-3 v-center" }, outcomes[i].category_name));
       outcome_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em08 padding-3 center" }, outcomes[i].user_name));
       outcome_div.append(lib.element.create("div", { class: "mobile-box b4 lucida-grande em08 padding-3 center" }, outcomes[i].status));

@@ -139,6 +139,7 @@ outcomeController.filter = async (req, res) => {
 	let strict_params = { keys: [], values: [] }
 
 	lib.Query.fillParam("outcome.id", req.body.id, strict_params);
+	lib.Query.fillParam("outcome.expense_id", req.body.expense_id, strict_params);
 	lib.Query.fillParam("outcome.category_id", req.body.category_id, strict_params);
 	lib.Query.fillParam("outcome.origin_id", req.body.origin_id, strict_params);
 	lib.Query.fillParam("outcome.income_category_id", req.body.income_category_id, strict_params);
