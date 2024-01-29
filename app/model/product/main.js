@@ -16,6 +16,8 @@ const Product = function () {
 	this.announcement;
 
 	this.create = () => {
+		console.log(this);
+
 		if (!this.code) { return { err: "É necessário incluir o código do produto" } };
 		if (!this.name) { return { err: "É necessário incluir o nome do produto" } };
 		if (!this.color) { return { err: "É necessário incluir a cor do produto." } };

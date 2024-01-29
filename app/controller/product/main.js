@@ -52,7 +52,7 @@ productController.create = async (req, res) => {
 	};
 
 	const product = new Product();
-	product.id = req.body.id;
+	product.id = req.body.id || null;
 	product.code = req.body.code;
 	product.name = req.body.name;
 	product.color = req.body.color;
