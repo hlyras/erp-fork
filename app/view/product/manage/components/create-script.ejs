@@ -17,16 +17,16 @@
 		product.append('announcement', e.target.announcement.value);
 
 		const input = document.getElementById('files');
-		if(!input.files.length){ 
-			if(!confirm("Tem certeza que não deseja incluir imagens do produto?")) { return false; } 
+		if (!input.files.length) {
+			if (!confirm("Tem certeza que não deseja incluir imagens do produto?")) { return false; }
 		}
 
-		for(let i in input.files) {
+		for (let i in input.files) {
 			product.append('file', input.files[i]);
 		};
 
 		let response = await API.response(Product.create, product);
-		if(!response){ return false };
+		if (!response) { return false };
 
 		lib.display("product-image-box", "none");
 
@@ -45,9 +45,9 @@
 		clearFileList();
 	});
 
-	async function productEdit (id) {
+	async function productEdit(id) {
 		let product = await API.response(Product.findById, id);
-		if(!product){ return false };
+		if (!product) { return false };
 
 		lib.display("product-image-box", "");
 		drawImages(product.images);
@@ -68,10 +68,10 @@
 		clearFileList();
 	};
 
-	async function productDelete (id) {
+	async function productDelete(id) {
 		let r = confirm('Deseja realmente excluir o produto? Atenção, essa ação não pode ser desfeita!');
-		if(r){
-			if(!await API.response(Product.delete, id)){ return false; };
+		if (r) {
+			if (!await API.response(Product.delete, id)) { return false; };
 			document.getElementById("product-filter-form").submit.click();
 		}
 	};
