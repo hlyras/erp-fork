@@ -74,7 +74,7 @@ productController.create = async (req, res) => {
 			if (response.err) { return res.send({ msg: response.err }); }
 
 			for (let i in req.files) {
-				await imageController.upload(req.files[i], parseInt(response.insertId));
+				await imageController.upload(req.files[i], response.insertId);
 			};
 
 			res.send({ done: "Produto cadastrado com sucesso!" });
@@ -88,7 +88,7 @@ productController.create = async (req, res) => {
 			if (response.err) { return res.send({ msg: response.err }); }
 
 			for (let i in req.files) {
-				await imageController.upload(req.files[i], parseInt(product.id));
+				await imageController.upload(req.files[i], product.id);
 			};
 
 			res.send({ done: "Produto atualizado com sucesso!" });
