@@ -1,6 +1,11 @@
 <script>
   async function taskRender() {
-    let tasks = await API.response(CustomerTimeline.filter, { status: "Pendente", user: true });
+    let tasks = await API.response(CustomerTimeline.filter, {
+      status: "Pendente",
+      user: true,
+      date_prop: 'meeting_datetime',
+      order_prop: [["timeline.meeting_datetime", "DESC"]]
+    });
     if (!tasks) { return false }
 
     let task_box = document.getElementById("timeline-task-box");
@@ -11,18 +16,23 @@
     }, "Sem agendamentos"));
 
     tasks.forEach(task => {
+      let task_color;
+      if (task.meeting_datetime < lib.genTimestamp()) { task_color = "#ffafaf" } //afffc8
+      if (task.meeting_datetime > lib.genTimestamp()) { task_color = "#afffc8" }
+
       let task_div = lib.element.create("div", {
-        class: "box b1 container ground border-st shadow-lg-st radius-5 padding-5 margin-top-5 pointer h-center"
+        class: "box b1 container ground border-st shadow-lg-st radius-5 padding-5 margin-top-5 pointer h-center",
+        style: `background-color: ${task_color}`
       });
       task_div.append(lib.element.createInfo("b5 em09", "ID do cliente", task.customer_id));
       task_div.append(lib.element.createInfo("b2-5 em09", "Nome do cliente", task.customer_name));
       task_div.append(lib.element.createInfo("b5 em09", "Hora do agendamento", lib.timestampToFulldate(task.meeting_datetime)));
       task_div.append(lib.element.createInfo("b5 em09", "Status", task.status));
-      task_div.append(lib.element.createInfo("b1 em09 border radius-5 padding-3 margin-top-5", "Descrição", task.content));
+      task_div.append(lib.element.createInfo("b1 em09 border-st radius-5 padding-3 margin-top-5", "Descrição", task.content));
 
       task_div.addEventListener("click", async e => {
         taskDetail(task);
-      })
+      });
 
       task_box.append(task_div);
     });
@@ -30,14 +40,18 @@
 
   function taskDetail(task) {
     let task_div = lib.element.create("div", { class: "box b1 container padding-5 margin-top-5" });
-    task_div.append(lib.element.createInfo("b5", "Categoria", task.category));
-    task_div.append(lib.element.createInfo("b2-5", "Nome do cliente", task.customer_name));
-    task_div.append(lib.element.createInfo("b2-5", "Data para contato", task.meeting_datetime));
-    task_div.append(lib.element.createInfo("b5", "Vendedor", task.user_name));
-    task_div.append(lib.element.createInfo("b5", "Status", task.status));
-    task_div.append(lib.element.createInfo("b1", "Descrição", task.content));
+    task_div.append(lib.element.createInfo("b5 margin-top-10", "ID do cliente", task.customer_id));
+    task_div.append(lib.element.createInfo("b2-5 margin-top-10", "Nome do cliente", task.customer_name));
+    task_div.append(lib.element.createInfo("b2-5 margin-top-10", "Data para contato", lib.timestampToFulldate(task.meeting_datetime)));
+    task_div.append(lib.element.createInfo("b4 margin-top-10", "Telefone", task.customer_phone));
+    task_div.append(lib.element.createInfo("b4 margin-top-10", "WhatsApp", task.customer_cellphone));
+    task_div.append(lib.element.createInfo("b4 margin-top-10", "Vendedor", task.user_name));
+    task_div.append(lib.element.createInfo("b4 margin-top-10", "Status", task.status));
+    task_div.append(lib.element.createInfo("b1 margin-top-10", "Descrição do contato ou agendamento", task.content));
 
-    let form_container = lib.element.create("div", { class: "box b1 container padding-left-50 padding-right-50 h-center" });
+    task_div.append(lib.element.create("div", { class: "box b1 border-bottom-st margin-top-10" }));
+
+    let form_container = lib.element.create("div", { class: "box b1 container padding-left-50 padding-right-50 margin-top-10 h-center" });
     task_div.append(form_container);
 
     let timeline_form = timelineForm(task.customer_id);

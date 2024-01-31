@@ -75,15 +75,17 @@ timelineController.filter = async (req, res) => {
   let props = [
     "timeline.*",
     "customer.name customer_name",
+    "customer.phone customer_phone",
+    "customer.cellphone customer_cellphone",
     "user.name user_name"
-  ]
+  ];
 
   let inners = [
     ["cms_wt_erp.customer", "customer.id", "timeline.customer_id"],
     ["cms_wt_erp.user", "user.id", "timeline.user_id"]
   ];
 
-  let period = { key: "datetime", start: req.body.period_start, end: req.body.period_end };
+  let period = { key: req.body.date_prop || "datetime", start: req.body.period_start, end: req.body.period_end };
   let params = { keys: [], values: [] };
   let strict_params = { keys: [], values: [] };
 
@@ -91,7 +93,7 @@ timelineController.filter = async (req, res) => {
   lib.Query.fillParam("timeline.status", req.body.status, strict_params);
   req.body.user && lib.Query.fillParam("timeline.user_id", req.user.id, strict_params);
 
-  let order_params = [["timeline.datetime", "DESC"], ["timeline.id", "DESC"]];
+  let order_params = req.body.order_prop || [["timeline.datetime", "DESC"], ["timeline.id", "DESC"]];
 
   try {
     const timelines = await CustomerTimeline.filter({ props, inners, period, params, strict_params, order_params });

@@ -7,6 +7,7 @@ const FeedstockPurchase = require('../../../model/feedstock/purchase/main');
 const FeedstockPurchaseFeedstock = require('../../../model/feedstock/purchase/feedstock');
 
 const Outcome = require('../../../model/financial/outcome/main');
+const OutcomeOriginPayment = require('../../../model/financial/outcome/origin/payment');
 
 const purchaseController = {};
 
@@ -257,6 +258,7 @@ purchaseController.checkout.confirm = async (req, res) => {
 
 	let purchase = new FeedstockPurchase();
 	purchase.id = req.body.purchase_id;
+	purchase.supplier_id = req.body.origin_id;
 	purchase.payment_method = req.body.payment_method;
 	purchase.status = "Ag. recebimento";
 	purchase.confirmation_date = lib.date.timestamp.generate();
@@ -271,12 +273,22 @@ purchaseController.checkout.confirm = async (req, res) => {
 
 		if (!purchase.expenses) { return res.send({ done: "Pedido confirmado!" }); }
 
+		let strict_params = { keys: [], values: [] };
+		lib.Query.fillParam("outcome_origin_payment.id", req.body.origin_payment_id, strict_params);
+		let origin_payment = (await OutcomeOriginPayment.filter({ strict_params }))[0];
+
+		if (origin_payment.origin_id != purchase.supplier_id) {
+			return res.send({ msg: "O método de pagamento não pertence a esse beneficiário." });
+		}
+
 		for (let i in purchase.expenses) {
 			let outcome = new Outcome();
+			outcome.datetime = lib.date.timestamp.generate();
 			outcome.category_id = 2;
 			outcome.origin_id = req.body.origin_id;
 			outcome.value = purchase.expenses[i].cost;
 			outcome.description = purchase.expenses[i].description;
+			outcome.status = "Ag. aprovação";
 			outcome.payment_method = purchase.expenses[i].method;
 			outcome.payment_date = purchase.expenses[i].date;
 
@@ -297,18 +309,18 @@ purchaseController.checkout.confirm = async (req, res) => {
 				if (!outcome.check_receiver) { return res.send({ msg: "É necessário informar o nome do beneficiário do cheque." }); };
 				if (!outcome.check_number) { return res.send({ msg: "É necessário informar o número do cheque." }); };
 			} else if (outcome.payment_method == "Pix") {
-				outcome.pix_receiver = purchase.expenses[i].pix_receiver;
-				outcome.pix_key = purchase.expenses[i].pix_key;
+				outcome.pix_receiver = origin_payment.pix_receiver;
+				outcome.pix_key = origin_payment.pix_key;
 
 				if (!outcome.pix_receiver) { return res.send({ msg: "É necessário informar o beneficiário do Pix." }); };
 				if (!outcome.pix_key) { return res.send({ msg: "É necessário informar a chave Pix." }); };
 			} else if (outcome.payment_method == "Transferência bancária") {
-				outcome.transfer_receiver = purchase.expenses[i].transfer_receiver;
-				outcome.transfer_register = purchase.expenses[i].transfer_register;
-				outcome.transfer_bank = purchase.expenses[i].transfer_bank;
-				outcome.transfer_agency = purchase.expenses[i].transfer_agency;
-				outcome.transfer_account = purchase.expenses[i].transfer_account;
-				outcome.transfer_account_type = purchase.expenses[i].transfer_account_type;
+				outcome.transfer_receiver = origin_payment.transfer_receiver;
+				outcome.transfer_register = origin_payment.transfer_register;
+				outcome.transfer_bank = origin_payment.transfer_bank;
+				outcome.transfer_agency = origin_payment.transfer_agency;
+				outcome.transfer_account = origin_payment.transfer_account;
+				outcome.transfer_account_type = origin_payment.transfer_account_type;
 
 				if (!outcome.transfer_receiver) { return res.send({ msg: "É necessário informar o beneficiário da conta." }); };
 				if (!outcome.transfer_register) { return res.send({ msg: "É necessário informar o CPF ou CNPJ do beneficiário." }); };
