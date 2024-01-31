@@ -31,7 +31,7 @@ packageController.create = async (req, res) => {
 	};
 
 	let package = new Product.package();
-	package.id = req.body.id;
+	package.id = req.body.id || null;
 	package.code = req.body.code;
 	package.name = req.body.name;
 	package.color = req.body.color;
