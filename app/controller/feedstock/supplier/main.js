@@ -62,6 +62,7 @@ supplierController.filter = async (req, res) => {
 	let params = { keys: [], values: [] };
 	let strict_params = { keys: [], values: [] };
 
+	lib.Query.fillParam("supplier.id", req.body.id, params);
 	lib.Query.fillParam("supplier.cnpj", req.body.cnpj, params);
 	lib.Query.fillParam("supplier.trademark", req.body.trademark, params);
 	lib.Query.fillParam("supplier.brand", req.body.brand, params);

@@ -39,16 +39,16 @@
     <option value="Entregue">Entregue</option>
   </select>
 
-  <select name="dateProp" class="box b4 input-generic margin-top-5">
+  <select name="period_prop" class="box b4 input-generic margin-top-5">
     <option value="">Buscar por data</option>
-    <option value="Preparação">Data de Preparação</option>
-    <option value="Envio" seletect>Data de Envio ou Produção</option>
-    <option value="Recebimento">Data de recebimento ou conclusão</option>
+    <option value="preparation_datetime">Data de Preparação</option>
+    <option value="shipment_datetime" seletect>Data de Envio ou Produção</option>
+    <option value="receipt_datetime">Data de recebimento ou conclusão</option>
   </select>
 
-  <input type="date" name="periodStart" class="box b4 input-generic lucida-grande bold center margin-top-5"
+  <input type="date" name="period_start" class="box b4 input-generic lucida-grande bold center margin-top-5"
     autocomplete="off">
-  <input type="date" name="periodEnd" class="box b4 input-generic lucida-grande bold center margin-top-5"
+  <input type="date" name="period_end" class="box b4 input-generic lucida-grande bold center margin-top-5"
     autocomplete="off">
 
   <input type="submit" name="submit" value="Buscar" class="box b4 lucida-grande bold submit-generic margin-top-5">

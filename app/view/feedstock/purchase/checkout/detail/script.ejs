@@ -336,7 +336,7 @@
         let response = await API.response(FeedstockPurchase.checkout, checkout);
         if (!response) { return false; }
 
-        lib.message(response.done, () => { window.location.reload(); });
+        lib.message(response, () => { window.location.reload(); });
       });
     } else {
       for (let i in purchase_expenses) {
@@ -353,7 +353,7 @@
         let response = await API.response(FeedstockPurchase.checkout, checkout);
         if (!response) { return false; }
 
-        lib.message(response.done, () => { window.location.reload(); });
+        lib.message(response, () => { window.location.reload(); });
       });
     }
   };

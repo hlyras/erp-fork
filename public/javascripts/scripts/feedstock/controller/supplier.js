@@ -53,8 +53,8 @@ if (FeedstockSupplierController.filter) {
 	});
 }
 
-FeedstockSupplierController.edit = async (supplier_id) => {
-	let supplier = await API.response(FeedstockSupplier.findById, supplier_id);
+FeedstockSupplierController.edit = async (id) => {
+	let supplier = (await API.response(FeedstockSupplier.filter, { id }))[0];
 	if (!supplier) { return false; }
 
 	document.getElementById("supplier-create-form").elements.namedItem("id").value = supplier.id;

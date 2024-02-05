@@ -37,15 +37,17 @@ productController.filter = async (req, res) => {
   const params = { keys: [], values: [] };
   const strict_params = { keys: [], values: [] };
 
+  console.log(req.body);
+
   let period_prop = req.body.period_prop;
   if (period_prop != "preparation_datetime" && period_prop != "shipment_datetime" && period_prop != "receipt_datetime") {
     period_prop = null;
   }
 
   let period = {
-    key: period_prop ? `cms_wt_erp.${period_prop}` : `cms_wt_erp.shipment_datetime`,
-    start: req.body.periodStart,
-    end: req.body.periodEnd
+    key: period_prop ? `${period_prop}` : `shipment_datetime`,
+    start: req.body.period_start,
+    end: req.body.period_end
   };
 
   lib.Query.fillParam("product.id", req.body.id, strict_params);
@@ -56,10 +58,10 @@ productController.filter = async (req, res) => {
   lib.Query.fillParam("production.location", req.body.location, strict_params);
   lib.Query.fillParam("production.status", req.body.status, strict_params);
 
-  let order_params = [[`production.${req.body.order || 'id'}`, "ASC"]];
+  // let order_params = [[`production.${req.body.order || 'id'}`, "ASC"]];
 
   try {
-    let products = await Production.product.filter({ props, inners, period, params, strict_params, order_params });
+    let products = await Production.product.filter({ props, inners, period, params, strict_params });
     res.send({ products });
   } catch (err) {
     console.log(err);

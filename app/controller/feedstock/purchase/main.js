@@ -291,6 +291,7 @@ purchaseController.checkout.confirm = async (req, res) => {
 			outcome.status = "Ag. aprovação";
 			outcome.payment_method = purchase.expenses[i].method;
 			outcome.payment_date = purchase.expenses[i].date;
+			outcome.user_id = req.user.id;
 
 			if (outcome.payment_method == "Boleto") {
 				outcome.billet_bank = purchase.expenses[i].billet_bank;
@@ -337,7 +338,7 @@ purchaseController.checkout.confirm = async (req, res) => {
 		res.send({ done: "Pedido atualizado!" });
 	} catch (err) {
 		console.log(err);
-		res.send({ msg: "Ocorreu um erro ao cadastrar a matéria-prima." });
+		res.send({ msg: "Ocorreu um erro ao cadastrar a despesa." });
 	}
 };
 
