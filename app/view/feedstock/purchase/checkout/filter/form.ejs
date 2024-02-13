@@ -1,16 +1,11 @@
 <form id="purchase-filter-form" class="box b1 container padding-5">
   <div class="box b1 underline lucida-grande bold center">Pedidos Ag. confirmação</div>
 
-  <select name="supplier_id" class="box b3 lucida-grande bold padding-5 margin-top-5 center">
+  <select name="supplier_id" class="box b2-3 lucida-grande bold padding-5 margin-top-5 center">
     <option value="">Fornecedor</option>
     <% for(i in suppliers) { %>
     <option value="<%= suppliers[i].id %>"><%= suppliers[i].brand %></option>
     <% } %>
-  </select>
-
-  <select name="status" class="box b3 lucida-grande bold padding-5 margin-top-5 center">
-    <option value="Ag. aprovação">Ag. aprovação</option>
-    <option value="Confirmado">Confirmado</option>
   </select>
 
   <button name="submit"

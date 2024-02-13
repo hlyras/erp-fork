@@ -100,7 +100,8 @@ orderController.confirm = async (req, res) => {
 
   const purchase = new FeedstockPurchase();
   purchase.date = lib.date.timestamp.generate();
-  purchase.status = "Ag. aprovação";
+  purchase.status = "Ag. checkout";
+  purchase.receipt_status = "Ag. recebimento";
   purchase.supplier_id = req.body.supplier_id;
   purchase.user_id = req.user.id;
   purchase.value = 0;

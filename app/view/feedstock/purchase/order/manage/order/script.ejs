@@ -105,8 +105,6 @@
   };
 
   async function orderUpdate(id) {
-    console.log(id);
-
     let order = (await API.response(FeedstockPurchaseOrder.filter, { id }))[0];
     if (!order) { return false; }
 

@@ -1,0 +1,42 @@
+<script>
+  document.getElementById("purchase-filter-form").period_start.value = lib.convertDate(lib.firstDayOfMonth());
+  document.getElementById("purchase-filter-form").period_end.value = lib.convertDate(lib.timestampToDate(lib.genTimestamp()));
+
+  document.getElementById("purchase-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let purchase = {
+      id: e.target.id.value,
+      payment_method: e.target.payment_method.value,
+      supplier_id: e.target.supplier_id.value,
+      period_start: lib.dateToTimestamp(e.target.period_start.value),
+      period_end: lib.dateToTimestamp(e.target.period_end.value) + lib.timestampDay() - 1,
+      status: e.target.status.value,
+    };
+
+    let purchases = await API.response(FeedstockPurchase.filter, purchase);
+    if (!purchases) { return false; }
+
+    console.log(purchases);
+
+    lib.carousel.execute("purchase-filter-box", purchaseFilter, purchases, { pageSize: 10, page: 0 });
+  });
+
+  function purchaseFilter(purchases, pagination) {
+    let filter_div = document.getElementById("purchase-filter-div");
+    filter_div.innerHTML = "";
+
+    for (let i = pagination.page * pagination.pageSize; i < purchases.length && i < (pagination.page + 1) * pagination.pageSize; i++) {
+      let purchase_div = lib.element.create("div", {
+        class: "box b1 container ground border-st box-hover radius-5 padding-10 margin-top-5 pointer",
+        onclick: `purchaseDetail(${purchases[i].id})`
+      });
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b6 em09 bold center" }, purchases[i].id));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b3 em09 bold center" }, purchases[i].supplier_brand));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToDate(purchases[i].date)));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b6 em07 center" }, purchases[i].status));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b6 em09 bold center" }, `R$${purchases[i].total_value.toFixed(2)}`));
+      filter_div.append(purchase_div);
+    };
+  };
+</script>

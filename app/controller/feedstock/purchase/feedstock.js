@@ -2,7 +2,7 @@ const lib = require("jarmlib");
 
 const userController = require('./../../user/main');
 
-const FeedstockPurchaseStorage = require('../../../model/feedstock/purchase/feedstock');
+const FeedstockPurchaseFeedstock = require('../../../model/feedstock/purchase/feedstock');
 
 const feedstockController = {};
 
@@ -11,13 +11,16 @@ feedstockController.update = async (req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	const purchaseFeedstock = new FeedstockPurchaseStorage();
-	purchaseFeedstock.id = req.body.id;
-	purchaseFeedstock.price = req.body.price;
-	purchaseFeedstock.amount = req.body.amount;
+	const purchase_feedstock = new FeedstockPurchaseFeedstock();
+	purchase_feedstock.id = req.body.id;
+	purchase_feedstock.price = req.body.price;
+	purchase_feedstock.amount = req.body.amount;
+	purchase_feedstock.receipt_datetime = lib.date.timestamp.generate();
+	purchase_feedstock.receipt_amount = req.body.receipt_amount;
+	purchase_feedstock.receipt_amount && (purchase_feedstock.receipt_user_id = req.user.id);
 
 	try {
-		const response = await purchaseFeedstock.update();
+		const response = await purchase_feedstock.update();
 		if (response.err) { return res.send({ msg: response.err }); }
 
 		res.send({ done: "Matéria-prima atualizada com sucesso!" });
@@ -57,7 +60,7 @@ feedstockController.filter = async (req, res) => {
 	let order_params = [["feedstock.code", "ASC"]];
 
 	try {
-		let feedstocks = await FeedstockPurchaseStorage.filter({ props, inners, period, params, strict_params, order_params });
+		let feedstocks = await FeedstockPurchaseFeedstock.filter({ props, inners, period, params, strict_params, order_params });
 		res.send({ feedstocks });
 	} catch (err) {
 		console.log(err);

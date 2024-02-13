@@ -43,6 +43,7 @@ Purchase.filter = (options) => {
     .period(options.period)
     .params(options.params)
     .strictParams(options.strict_params)
+    .inParams(options.in_params)
     .order(options.order_params)
     .limit(options.limit)
     .build();

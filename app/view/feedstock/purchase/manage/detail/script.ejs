@@ -1,0 +1,66 @@
+<script>
+  async function purchaseDetail(id) {
+    let purchase = (await API.response(FeedstockPurchase.filter, { id }))[0];
+    purchase.feedstocks = await API.response(FeedstockPurchaseFeedstock.filter, { purchase_id: id });
+
+    let detail_div = lib.element.create("div", { class: "box b1 container max-height-500 scroll-y" });
+    let info_div = lib.element.create("div", { class: "box b2-3 container" });
+    info_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande center bold" }, "Informações do pedido"));
+    detail_div.append(info_div);
+    let financial_div = lib.element.create("div", { class: "box b3 container" });
+    financial_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande center bold" }, "Informações financeiras"));
+    detail_div.append(financial_div);
+    let feedstock_box = lib.element.create("div", { class: "box a1 container margin-top-10" });
+    detail_div.append(feedstock_box);
+
+    info_div.append(lib.element.createInfo("mobile-box b7 lucida-grande em09 margin-top-10", "ID", purchase.id));
+    info_div.append(lib.element.createInfo("mobile-box b4-7 lucida-grande em09 margin-top-10", "Empresa", purchase.supplier_brand));
+    info_div.append(lib.element.createInfo("mobile-box b2-7 lucida-grande em09 margin-top-10", "Data do pedido", lib.timestampToFulldate(purchase.date)));
+
+    info_div.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Comprador:", purchase.user_name));
+    info_div.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "status", purchase.status));
+    info_div.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Método de pagamento", purchase.payment_method));
+
+    purchase.confirmation_date && info_div.append(lib.element.create("div", { class: "box b1 underline margin-top-5" }));
+    purchase.confirmation_date && info_div.append(lib.element.createInfo("mobile-box b2 em09 margin-top-3 center", "Data do checkout", lib.timestampToFulldate(purchase.confirmation_date)));
+    purchase.confirmation_user_name && info_div.append(lib.element.createInfo("mobile-box b2 em09 margin-top-3 center", "Confirmado por:", purchase.confirmation_user_name));
+
+    purchase.receipt_date && info_div.append(lib.element.create("div", { class: "box b1 underline margin-top-5" }));
+    purchase.receipt_date && info_div.append(lib.element.createInfo("mobile-box b2 em09 margin-top-3 center", "Data de recebimento", lib.timestampToFulldate(purchase.receipt_date)));
+    purchase.receipt_user_name && info_div.append(lib.element.createInfo("mobile-box b2 em09 margin-top-3 center", "Recebido por:", purchase.receipt_user_name));
+
+    financial_div.append(lib.element.create("div", { class: "mobile-box b2 em08 right margin-top-10" }, "Insumos:"));
+    financial_div.append(lib.element.create("div", { class: "mobile-box b2 em09 margin-top-10" }, `R$${purchase.value.toFixed(2)}`));
+
+    financial_div.append(lib.element.create("div", { class: "mobile-box b2 em08 right" }, "Desconto:"));
+    financial_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, `R$${purchase.discount_value.toFixed(2)}`));
+
+    financial_div.append(lib.element.create("div", { class: "mobile-box b2 em08 right" }, "Aumento:"));
+    financial_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, `R$${purchase.addition_value.toFixed(2)}`));
+
+    financial_div.append(lib.element.create("div", { class: "mobile-box b2 em08 right" }, "Frete:"));
+    financial_div.append(lib.element.create("div", { class: "mobile-box b2 em09" }, `R$${purchase.shipment_value.toFixed(2)}`));
+
+    financial_div.append(lib.element.create("div", { class: "mobile-box b2 lucida-grande em09 right" }, "Total:"));
+    financial_div.append(lib.element.create("div", { class: "mobile-box b2 lucida-grande em09 bold" }, `R$${purchase.total_value.toFixed(2)}`));
+
+    // value
+    // discount_value
+    // addition_value
+    // shipment_value
+    // total_value
+
+    purchase.feedstocks.forEach(feedstock => {
+      let feedstock_div = lib.element.create("div", { class: "box a1 container border radius-5 padding-5 margin-1" });
+      feedstock_div.append(lib.element.createInfo("mobile-box b11 em09", "Cód.", feedstock.code));
+      feedstock_div.append(lib.element.createInfo("mobile-box b2-11 em09", "Insumo", feedstock.name));
+      feedstock_div.append(lib.element.createInfo("mobile-box b2-11 em09", "Cor", feedstock.color_name));
+      feedstock_div.append(lib.element.createInfo("mobile-box b2-11 em09", "Quantidade", `${feedstock.amount}${feedstock.uom == "cm" ? "m" : "un"}`));
+      feedstock_div.append(lib.element.createInfo("mobile-box b2-11 em09", "Preço", `R$${feedstock.price.toFixed(2)}`));
+      feedstock_div.append(lib.element.createInfo("mobile-box b2-11 em09", "Total", `R$${(feedstock.price * feedstock.amount).toFixed(2)}`));
+      feedstock_box.append(feedstock_div);
+    });
+
+    lib.popup(detail_div);
+  };
+</script>

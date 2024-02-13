@@ -4,7 +4,7 @@
 
     const purchase = {
       supplier_id: e.target.supplier_id.value,
-      status: e.target.status.value
+      status: "Ag. checkout"
     };
 
     const purchases = await API.response(FeedstockPurchase.filter, purchase, e.target.submit);

@@ -146,6 +146,8 @@ purchaseController.update = async (req, res) => {
 	purchase.addition_value = req.body.addition_value;
 	purchase.status = req.body.status;
 	purchase.payment_method = req.body.payment_method;
+	purchase.receipt_status = req.body.receipt_status;
+	purchase.receipt_status && (purchase.receipt_user_id = req.user.id);
 
 	try {
 		const response = await purchase.update();
@@ -178,7 +180,8 @@ purchaseController.filter = async (req, res) => {
 		"supplier.name supplier_name",
 		"supplier.trademark supplier_trademark",
 		"supplier.phone supplier_phone",
-		"supplier.origin_id",
+		"receipt_user.name receipt_user_name",
+		"outcome_origin.id origin_id",
 		"outcome_origin.category_id origin_category_id",
 		"user.name user_name",
 		"confirmation_user.name confirmation_user_name"
@@ -186,25 +189,29 @@ purchaseController.filter = async (req, res) => {
 
 	let inners = [
 		["cms_wt_erp.feedstock_supplier supplier", "supplier.id", "purchase.supplier_id"],
-		["cms_wt_erp.user", "user.id", "purchase.user_id"],
-		["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "supplier.origin_id"]
+		["cms_wt_erp.user", "user.id", "purchase.user_id"]
 	];
 
 	let lefts = [
-		["cms_wt_erp.user confirmation_user", "confirmation_user.id", "purchase.user_id"]
+		["cms_wt_erp.user confirmation_user", "confirmation_user.id", "purchase.confirmation_user_id"],
+		["cms_wt_erp.user receipt_user", "receipt_user.id", "purchase.receipt_user_id"],
+		["cms_wt_erp.financial_outcome_origin outcome_origin", "supplier.origin_id", "outcome_origin.id"]
 	];
 
 	let period = { key: "date", start: req.body.period_start, end: req.body.period_end };
 	let strict_params = { keys: [], values: [] };
+	let in_params = { keys: [], values: [] };
 
-	lib.Query.fillParam("purchase.id", req.body.id, strict_params);
+	lib.Query.fillParam("purchase.id", [req.body.id], in_params);
+	lib.Query.fillParam("purchase.payment_method", [req.body.payment_method], in_params);
+	lib.Query.fillParam("purchase.receipt_status", [req.body.receipt_status], in_params);
 	lib.Query.fillParam("purchase.supplier_id", req.body.supplier_id, strict_params);
-	lib.Query.fillParam("purchase.status", req.body.status, strict_params);
+	lib.Query.fillParam("purchase.status", [req.body.status], in_params);
 
 	let order_params = [["purchase.date", "DESC"]];
 
 	try {
-		let purchases = await FeedstockPurchase.filter({ props, inners, lefts, period, strict_params, order_params });
+		let purchases = await FeedstockPurchase.filter({ props, inners, lefts, period, strict_params, in_params, order_params });
 		res.send({ purchases });
 	} catch (err) {
 		console.log(err);
@@ -258,7 +265,7 @@ purchaseController.checkout.confirm = async (req, res) => {
 
 	let purchase = new FeedstockPurchase();
 	purchase.id = req.body.purchase_id;
-	purchase.supplier_id = req.body.origin_id;
+	purchase.supplier_id = req.body.supplier_id;
 	purchase.payment_method = req.body.payment_method;
 	purchase.status = "Ag. recebimento";
 	purchase.confirmation_date = lib.date.timestamp.generate();
@@ -277,7 +284,7 @@ purchaseController.checkout.confirm = async (req, res) => {
 		lib.Query.fillParam("outcome_origin_payment.id", req.body.origin_payment_id, strict_params);
 		let origin_payment = (await OutcomeOriginPayment.filter({ strict_params }))[0];
 
-		if (origin_payment.origin_id != purchase.supplier_id) {
+		if (origin_payment.origin_id != req.body.origin_id) {
 			return res.send({ msg: "O método de pagamento não pertence a esse beneficiário." });
 		}
 

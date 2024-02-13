@@ -12,14 +12,19 @@
     <%- include('./feedstock/create/form.ejs') %>
     <%- include('./feedstock/filter/form.ejs') %>
     <%- include('./feedstock/filter/box.ejs') %>
+    <%- include('./purchase/filter/box.ejs') %>
   </section>
 </body>
 <footer>
   <%- include('./../../../../partials/footer.ejs') %>
   <script src="/js/feedstock/main.js"></script>
+  <script src="/js/feedstock/purchase/main.js"></script>
   <script src="/js/feedstock/purchase/order.js"></script>
+  <script src="/js/feedstock/purchase/feedstock.js"></script>
   <%- include('./feedstock/create/script.ejs') %>
   <%- include('./feedstock/filter/script.ejs') %>
+  <%- include('./purchase/filter/script.ejs') %>
+  <%- include('./purchase/detail/script.ejs') %>
 
   <script>
     document.getElementById("feedstock-order-filter-form").submit.click();

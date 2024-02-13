@@ -90,7 +90,7 @@
 
     let expense_pos = parseInt(expense_form.id.value) - 1;
 
-    purchase_expenses[expense_pos].date = expense_form.date.value;
+    purchase_expenses[expense_pos].date = lib.dateToTimestamp(expense_form.date.value);
     purchase_expenses[expense_pos].description = expense_form.description.value;
     purchase_expenses[expense_pos].cost = expense_form.cost.value;
     purchase_expenses[expense_pos].method = checkout_form.payment_method.value;

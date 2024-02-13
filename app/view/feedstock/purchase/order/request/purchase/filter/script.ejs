@@ -1,0 +1,24 @@
+<script>
+  async function purchaseFilter() {
+    let purchases = await API.response(FeedstockPurchase.filter, { receipt_status: 'Ag. recebimento' });
+    if (!purchases) { return false; }
+
+    let filter_div = document.getElementById("purchase-filter-div");
+    filter_div.innerHTML = "";
+
+    purchases.forEach(purchase => {
+      let purchase_div = lib.element.create("div", {
+        class: "box b2-3 container ground border-st box-hover radius-5 padding-10 margin-top-5 pointer",
+        onclick: `purchaseDetail(${purchase.id})`
+      });
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b6 em09 bold center" }, purchase.id));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b3 em09 bold center" }, purchase.supplier_brand));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, lib.timestampToDate(purchase.date)));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b6 em07 center" }, purchase.receipt_status));
+      purchase_div.append(lib.element.create("div", { class: "mobile-box b6 em08 center" }, purchase.user_name));
+      filter_div.append(purchase_div);
+    });
+  };
+
+  purchaseFilter();
+</script>

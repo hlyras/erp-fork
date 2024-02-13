@@ -31,7 +31,7 @@
     e.preventDefault();
 
     let feedstock = {
-      id: e.target.id.value,
+      id: e.target.id.value || null,
       product_id: e.target.product_id.value,
       feedstock_id: e.target.feedstock.dataset.id,
       measure: e.target.measure.value,
@@ -40,10 +40,11 @@
       obs: e.target.obs.value
     };
 
+    console.log(feedstock);
+
     const response = await API.response(Product.feedstock.add, feedstock);
     if (!response) { return false; }
 
-    e.target.id.value = "";
     e.target.id.value = "";
     e.target.feedstock.dataset.id = "";
     e.target.feedstock.value = "";

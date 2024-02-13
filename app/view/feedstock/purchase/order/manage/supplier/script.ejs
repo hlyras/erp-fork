@@ -13,7 +13,7 @@
 
     let order_box = lib.element.create("div", { id: `supplier-${supplier.id}-order-box`, class: "box b1 container min-height-50 radius-5 padding-5 margin-top-1" });
 
-    lib.drag.drop(supplier_div, (element_id) => { updateOrderSupplier(lib.removeChar(element_id, "order-"), supplier.id); }, order_box);
+    lib.drag.drop(supplier_div, (element_id) => { updateOrderSupplier(lib.removeChar(element_id, "order-"), supplier.id); }, order_box, 'bg-light');
     supplier_div.append(order_box);
 
     let order_confirm = lib.element.create("div", { id: `supplier-${supplier.id}-purchase`, class: "box b2 btn-act lucida-grande bold padding-5 margin-top-5 noborder radius-5 center pointer" }, "Confirmar pedido");

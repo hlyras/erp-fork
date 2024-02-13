@@ -1,0 +1,113 @@
+<script>
+  async function purchaseDetail(id) {
+    let purchase = (await API.response(FeedstockPurchase.filter, { id }))[0];
+    purchase.feedstocks = await API.response(FeedstockPurchaseFeedstock.filter, { purchase_id: id });
+
+    let detail_div = lib.element.create("div", { class: "box b1 container max-height-500 scroll-y h-center" });
+
+    let info_div = lib.element.create("div", { class: "box b1 container" });
+    info_div.append(lib.element.create("div", { class: "box b1 underline lucida-grande center bold" }, "Informações do pedido"));
+    detail_div.append(info_div);
+
+    let feedstock_box = lib.element.create("div", { class: "box a1 container margin-top-10" });
+    detail_div.append(feedstock_box);
+
+    info_div.append(lib.element.createInfo("mobile-box b7 lucida-grande em09 margin-top-10", "ID", purchase.id));
+    info_div.append(lib.element.createInfo("mobile-box b4-7 lucida-grande em09 margin-top-10", "Empresa", purchase.supplier_brand));
+    info_div.append(lib.element.createInfo("mobile-box b2-7 lucida-grande em09 margin-top-10", "Data do pedido", lib.timestampToFulldate(purchase.date)));
+
+    info_div.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "Comprador:", purchase.user_name));
+    info_div.append(lib.element.createInfo("mobile-box b3 lucida-grande em09 margin-top-10", "status", purchase.receipt_status));
+
+    purchase.confirmation_date && info_div.append(lib.element.create("div", { class: "box b1 underline margin-top-5" }));
+    purchase.confirmation_date && info_div.append(lib.element.createInfo("mobile-box b2 em09 margin-top-3 center", "Data do checkout", lib.timestampToFulldate(purchase.confirmation_date)));
+    purchase.confirmation_user_name && info_div.append(lib.element.createInfo("mobile-box b2 em09 margin-top-3 center", "Confirmado por:", purchase.confirmation_user_name));
+
+    purchase.receipt_date && info_div.append(lib.element.create("div", { class: "box b1 underline margin-top-5" }));
+    purchase.receipt_date && info_div.append(lib.element.createInfo("mobile-box b2 em09 margin-top-3 center", "Data de recebimento", lib.timestampToFulldate(purchase.receipt_date)));
+    purchase.receipt_user_name && info_div.append(lib.element.createInfo("mobile-box b2 em09 margin-top-3 center", "Recebido por:", purchase.receipt_user_name));
+
+    purchase.feedstocks.forEach(feedstock => {
+      let purchase_feedstock_form = lib.element.create("form", { class: "box a1 container border radius-5 padding-5 margin-1" });
+      purchase_feedstock_form.append(lib.element.createInfo("mobile-box b10 em09 v-center", "Cód.", feedstock.code));
+      purchase_feedstock_form.append(lib.element.createInfo("mobile-box b5 em09 v-center", "Insumo", feedstock.name));
+      purchase_feedstock_form.append(lib.element.createInfo("mobile-box b5 em09 v-center", "Cor", feedstock.color_name));
+      purchase_feedstock_form.append(lib.element.createInfo("mobile-box b5 v-center", "Quantidade", `${feedstock.amount}${feedstock.uom == "cm" ? "m" : "un"}`));
+
+      let receipt_amount = lib.element.create("input", {
+        type: 'number',
+        name: 'receipt_amount',
+        class: "mobile-box b5 lucida-grande em11 border-bottom-lg-st padding-5 v-center center",
+        value: lib.isValidNumber(feedstock.receipt_amount) ? feedstock.receipt_amount : null,
+        step: '0.01',
+        min: 0,
+        placeholder: 'Rec.'
+      });
+      lib.isValidNumber(feedstock.receipt_amount) ? receipt_amount.disabled = true : receipt_amount.disabled = false;
+      purchase_feedstock_form.append(receipt_amount);
+
+      let submit_btn = lib.element.create("button", { name: 'submit', class: "mobile-box b10 noborder v-center" });
+      !lib.isValidNumber(feedstock.receipt_amount) && submit_btn.append(lib.element.create("img", {
+        src: '/images/icon/check.png',
+        class: "image-prop size-25 icon"
+      }));
+
+      !lib.isValidNumber(feedstock.receipt_amount) && purchase_feedstock_form.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        lib.confirm('Deseja confirmar o recebimento?', async r => {
+          if (!r) { return false; }
+
+          const response = await API.response(FeedstockPurchaseFeedstock.update, { id: feedstock.id, receipt_amount: e.target.receipt_amount.value });
+          if (!response) { return false; }
+
+          lib.message(response);
+
+          e.target.receipt_amount.disabled = true;
+          lib.display(submit_btn, "none");
+        });
+      });
+
+      purchase_feedstock_form.append(submit_btn);
+
+      feedstock_box.append(purchase_feedstock_form);
+    });
+
+    let purchase_receipt_btn = lib.element.create("div", {
+      class: "box b2-3 btn-act lucida-grande bold noborder radius-5 padding-5 margin-top-10 center pointer"
+    }, 'Finalizar recebimento');
+
+    purchase_receipt_btn.addEventListener("click", async e => {
+      e.preventDefault();
+
+      purchaseReceiptConfirm(purchase.id);
+    });
+
+    detail_div.append(purchase_receipt_btn);
+
+    lib.popup(detail_div);
+  };
+
+  async function purchaseReceiptConfirm(purchase_id) {
+    let purchase_feedstocks = (await API.response(FeedstockPurchaseFeedstock.filter, { purchase_id }));
+    console.log(purchase_feedstocks);
+
+    for (let i in purchase_feedstocks) {
+      if (!lib.isValidNumber(purchase_feedstocks[i].receipt_amount)) {
+        let message = `${purchase_feedstocks[i].code} ${purchase_feedstocks[i].name} ${purchase_feedstocks[i].color_name} está pendente.`
+        return lib.message(message);
+      }
+    };
+
+    lib.confirm("Deseja realmente finalizar o recebimento?", async r => {
+      if (!r) { return false; }
+
+      let response = await API.response(FeedstockPurchase.update, { id: purchase_id, receipt_status: "Recebido" });
+      if (!response) { return false; }
+
+      lib.message("Pedido confirmado com sucesso!", () => {
+        window.location.reload();
+      });
+    });
+  };
+</script>

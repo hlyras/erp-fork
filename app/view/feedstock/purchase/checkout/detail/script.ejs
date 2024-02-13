@@ -3,6 +3,8 @@
     const purchase = (await API.response(FeedstockPurchase.filter, { id: purchase_id }))[0];
     purchase.feedstocks = await API.response(FeedstockPurchaseFeedstock.filter, { purchase_id });
 
+    console.log(purchase);
+
     let detail_div = document.getElementById("purchase-detail-div");
     detail_div.innerHTML = "";
 
@@ -162,6 +164,7 @@
       class: "box b1 container border padding-5 margin-top-5 margin-bottom-20"
     });
     checkout_form.append(lib.element.create("input", { type: "hidden", name: "purchase_id", value: purchase.id }));
+    checkout_form.append(lib.element.create("input", { type: "hidden", name: "supplier_id", value: purchase.supplier_id }));
     checkout_form.append(lib.element.create("input", { type: "hidden", name: "origin_category_id", value: purchase.origin_category_id }));
     checkout_form.append(lib.element.create("input", { type: "hidden", name: "origin_id", value: purchase.origin_id }));
 
@@ -323,6 +326,7 @@
     let checkout = {
       purchase_id: checkout_form.purchase_id.value,
       payment_method: checkout_form.payment_method.value,
+      supplier_id: checkout_form.supplier_id.value,
       origin_category_id: checkout_form.origin_category_id.value,
       origin_id: checkout_form.origin_id.value,
       origin_payment_id: checkout_form.origin_payment_id.value,

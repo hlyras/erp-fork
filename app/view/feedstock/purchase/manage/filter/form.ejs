@@ -1,13 +1,29 @@
 <form id="purchase-filter-form" class="box b1 container ground padding-10">
-  <input type="text" name="id" class="box b8 input-generic margin-top-5 center" placeholder="Código">
-  <select name="supplier-id" class="box b4 input-generic margin-top-5"
-    onchange="Feedstock.purchase.controller.setSupplier(this.value)">
+  <input type="text" name="id" class="box b7 lucida-grande border padding-8 margin-top-5 center" placeholder="Código"
+    role="presentation" autocomplete="off">
+  <select name="supplier_id" class="box b2-7 lucida-grande border padding-7 margin-top-5">
     <option value="">Fornecedor</option>
     <% for(i in suppliers) { %>
     <option value="<%= suppliers[i].id %>"><%= suppliers[i].brand %></option>
     <% } %>
   </select>
-  <input type="date" name="period-start" class="box b4 input-generic center margin-top-5">
-  <input type="date" name="period-end" class="box b4 input-generic center margin-top-5">
-  <input type="submit" name="submit" class="box b8 submit-generic margin-top-5" value="Buscar">
+
+  <select name="payment_method" class="box b2-7 lucida-grande border padding-7 margin-top-5">
+    <option value="">Método de pagamento</option>
+    <option value="Pix">Pix</option>
+    <option value="Cheque">Cheque</option>
+    <option value="Boleto">Boleto</option>
+  </select>
+
+  <select name="status" class="box b2-7 lucida-grande border padding-7 margin-top-5">
+    <option value="">Status</option>
+    <option value="Em orçamento">Em orçamento</option>
+    <option value="Ag. aprovação">Ag. aprovação</option>
+    <option value="Ag. recebimento">Ag. recebimento</option>
+    <option value="Confirmado">Confirmado</option>
+  </select>
+
+  <input type="date" name="period_start" class="box b3 center lucida-grande border padding-7 margin-top-5">
+  <input type="date" name="period_end" class="box b3 center lucida-grande border padding-7 margin-top-5">
+  <input type="submit" name="submit" class="box b3 btn-act lucida-grande border padding-8 margin-top-5" value="Buscar">
 </form>

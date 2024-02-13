@@ -38,7 +38,7 @@
     if (!orders) { return false; }
 
     const order_box = document.getElementById("order-box");
-    lib.drag.drop(order_box, (element_id) => { updateOrderSupplier(lib.removeChar(element_id, "order-"), 0); });
+    lib.drag.drop(order_box, (element_id) => { updateOrderSupplier(lib.removeChar(element_id, "order-"), 0); }, null, 'bg-light');
 
     orders.forEach(async order => {
       if (!order.supplier_id) {
