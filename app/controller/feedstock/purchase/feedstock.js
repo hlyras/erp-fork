@@ -16,8 +16,8 @@ feedstockController.update = async (req, res) => {
 	purchase_feedstock.price = req.body.price;
 	purchase_feedstock.amount = req.body.amount;
 	purchase_feedstock.receipt_datetime = lib.date.timestamp.generate();
-	purchase_feedstock.receipt_amount = req.body.receipt_amount;
-	purchase_feedstock.receipt_amount && (purchase_feedstock.receipt_user_id = req.user.id);
+	!isNaN(parseFloat(req.body.receipt_amount)) && (purchase_feedstock.receipt_amount = req.body.receipt_amount);
+	!isNaN(parseFloat(req.body.receipt_amount)) && (purchase_feedstock.receipt_user_id = req.user.id);
 
 	try {
 		const response = await purchase_feedstock.update();

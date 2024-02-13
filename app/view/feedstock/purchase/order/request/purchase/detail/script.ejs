@@ -55,6 +55,8 @@
       !lib.isValidNumber(feedstock.receipt_amount) && purchase_feedstock_form.addEventListener('submit', async e => {
         e.preventDefault();
 
+        if (!lib.isValidNumber(e.target.receipt_amount.value)) { return false; }
+
         lib.confirm('Deseja confirmar o recebimento?', async r => {
           if (!r) { return false; }
 

@@ -44,12 +44,6 @@
     financial_div.append(lib.element.create("div", { class: "mobile-box b2 lucida-grande em09 right" }, "Total:"));
     financial_div.append(lib.element.create("div", { class: "mobile-box b2 lucida-grande em09 bold" }, `R$${purchase.total_value.toFixed(2)}`));
 
-    // value
-    // discount_value
-    // addition_value
-    // shipment_value
-    // total_value
-
     purchase.feedstocks.forEach(feedstock => {
       let feedstock_div = lib.element.create("div", { class: "box a1 container border radius-5 padding-5 margin-1" });
       feedstock_div.append(lib.element.createInfo("mobile-box b11 em09", "Cód.", feedstock.code));
