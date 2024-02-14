@@ -39,7 +39,7 @@ serviceOrderController.findById = async (req, res) => {
 
 		let strict_params = { keys: [], values: [] };
 		lib.Query.fillParam("service_order.id", req.params.id, strict_params);
-		let serviceOrder = (await ServiceOrder.filter(props, inners, [], [], strict_params, [], 0))[0];
+		let serviceOrder = (await ServiceOrder.filter({ props, inners, strict_params }))[0];
 
 		props = [
 			"service_order_sale.*",
@@ -61,19 +61,19 @@ serviceOrderController.findById = async (req, res) => {
 		if (serviceOrder.collect_user_id) {
 			strict_params = { keys: [], values: [] };
 			lib.Query.fillParam("user.id", serviceOrder.collect_user_id, strict_params);
-			serviceOrder.collect_user = (await User.filter(props, [], [], strict_params, []))[0];
+			serviceOrder.collect_user = (await User.filter({ props, strict_params }))[0];
 		}
 
 		if (serviceOrder.recept_user_id) {
 			strict_params = { keys: [], values: [] };
 			lib.Query.fillParam("user.id", serviceOrder.recept_user_id, strict_params);
-			serviceOrder.recept_user = (await User.filter(props, [], [], strict_params, []))[0];
+			serviceOrder.recept_user = (await User.filter({ props, strict_params }))[0];
 		}
 
 		if (serviceOrder.cancel_user_id) {
 			strict_params = { keys: [], values: [] };
 			lib.Query.fillParam("user.id", serviceOrder.cancel_user_id, strict_params);
-			serviceOrder.cancel_user = (await User.filter(props, [], [], strict_params, []))[0];
+			serviceOrder.cancel_user = (await User.filter({ props, strict_params }))[0];
 		}
 
 		res.send(serviceOrder);
@@ -84,7 +84,7 @@ serviceOrderController.findById = async (req, res) => {
 };
 
 serviceOrderController.filter = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'adm-man', 'adm-ass', 'adm-aud', 'pro-man', 'pro-ass', 'log-pac', 'fin-ass'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'adm-man', 'adm-ass', 'adm-aud', 'pro-man', 'pro-ass', 'log-pac', 'fin-ass', 'pro-dri'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -105,7 +105,7 @@ serviceOrderController.filter = async (req, res) => {
 	let orderParams = [["id", "DESC"]]
 
 	try {
-		let serviceOrders = await ServiceOrder.filter([], [], period, [], strict_params, orderParams, 0);
+		let serviceOrders = await ServiceOrder.filter({ period, strict_params, orderParams });
 		res.send(serviceOrders);
 	} catch (err) {
 		console.log(err);
@@ -233,7 +233,7 @@ serviceOrderController.shipment.print = async (req, res) => {
 serviceOrderController.transport = {};
 
 serviceOrderController.transport.index = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac', 'log-dri'])) {
 		return res.redirect('/');
 	};
 

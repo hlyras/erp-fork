@@ -8,7 +8,7 @@ const lib = require("jarmlib");
 const triageController = {};
 
 triageController.index = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac', 'pro-sto'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'log-pac', 'pro-sto', 'pro-dri'])) {
 		return res.redirect('/');
 	};
 
@@ -51,10 +51,6 @@ triageController.packment.confirm = async (req, res) => {
 
 	if (isNaN(sale.box_amount)) { return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" }); }
 	if (sale.box_amount <= 0) { return res.send({ msg: "O volume inserido é inválido." }); }
-
-	if ((await Sale.findById(sale.id))[0].shipment_method == "Retirada em Loja") {
-		sale.status = "Ag. envio p/ retirada";
-	}
 
 	let verifySalePaymentMethod = (await Sale.findById(req.body.sale_id))[0];
 	if (verifySalePaymentMethod.payment_method == "Boleto") { sale.status = "Ag. boletos"; }
