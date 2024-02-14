@@ -3,7 +3,7 @@
     e.preventDefault();
 
     let category = {
-      id: e.target.id.value,
+      id: e.target.id.value || null,
       product_id: e.target.product_id.value,
       name: e.target.name.value
     };

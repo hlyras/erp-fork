@@ -287,7 +287,7 @@ serviceOrderController.transport.save = async (req, res) => {
 serviceOrderController.collect = {};
 
 serviceOrderController.collect.index = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'pro-dri'])) {
 		return res.redirect('/');
 	};
 
@@ -295,7 +295,7 @@ serviceOrderController.collect.index = async (req, res) => {
 };
 
 serviceOrderController.collect.confirm = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-ass', 'pro-dri'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

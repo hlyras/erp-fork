@@ -1,7 +1,7 @@
 Sale.controller = {};
 
 Sale.controller.filter = document.getElementById("sale-filter-form");
-if(Sale.controller.filter){
+if (Sale.controller.filter) {
 	Sale.controller.filter.addEventListener("submit", async event => {
 		event.preventDefault();
 
@@ -16,20 +16,20 @@ if(Sale.controller.filter){
 		};
 
 		let sales = await API.response(Sale.filter, sale);
-		if(!sales){ return false; }
+		if (!sales) { return false; }
 
-  	lib.display("sale-filter-box", "");
-  	lib.display("sale-show-box", "none");
-		if(document.getElementById("sale-edit-box")){ document.getElementById("sale-edit-box").style.display = "none"; };
+		lib.display("sale-filter-box", "");
+		lib.display("sale-show-box", "none");
+		if (document.getElementById("sale-edit-box")) { document.getElementById("sale-edit-box").style.display = "none"; };
 
 		const setup = { pageSize: 10, page: 0, status: sale.status };
-		(function(){ lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, setup); }())
+		(function () { lib.carousel.execute("sale-filter-box", Sale.view.filter, sales, setup); }())
 	});
 };
 
 Sale.controller.show = async (sale_id) => {
 	let sale = await API.response(Sale.findById, sale_id);
-	if(!sale){ return false; }
+	if (!sale) { return false; }
 
 	Sale.view.show(sale);
 
@@ -40,7 +40,7 @@ Sale.controller.show = async (sale_id) => {
 Sale.packment.controller = {};
 
 Sale.packment.controller.confirm = document.getElementById("packment-confirm-form");
-if(Sale.packment.controller.confirm){
+if (Sale.packment.controller.confirm) {
 	Sale.packment.controller.confirm.addEventListener("submit", async e => {
 		e.preventDefault();
 
@@ -50,9 +50,9 @@ if(Sale.packment.controller.confirm){
 		};
 
 		let r = confirm("Deseja realmente confirmar o embalo?");
-		if(r){
+		if (r) {
 			let response = await API.response(Sale.packment.confirm, packmentInfo);
-			if(!response){ return false; }
+			if (!response) { return false; }
 
 			e.target.elements.namedItem("sale-id").value = "";
 			e.target.elements.namedItem("box-amount").value = "";
@@ -69,24 +69,25 @@ Sale.nf.controller.save = async e => {
 
 	let sale = {
 		id: e.target.elements.namedItem("id").value,
-		nf_code: e.target.elements.namedItem("code").value,
-		nf: e.target.elements.namedItem("url").value
+		nf_code: e.target.elements.namedItem("code").value || 0,
+		nf: e.target.elements.namedItem("url").value || "Sem nota fiscal"
 	};
 
 	let r = confirm("Deseja confirmar anexo da Nota Fiscal?");
 
-	if(r) {
-		if(!e.target.elements.namedItem("code").value && !e.target.elements.namedItem("url").value) {
+	if (r) {
+		if (!e.target.elements.namedItem("code").value && !e.target.elements.namedItem("url").value) {
 			r = confirm("Nenhuma Nota fiscal será incluída neste pedido, deseja prosseguir?");
-			if(!r) { return false; }
+			if (!r) { return false; }
+
 			let response = await API.response(Sale.nf.save, sale);
-			if(!response){ return false; };
+			if (!response) { return false; };
 
 			alert(response);
 			Sale.controller.filter.submit.click();
-		} else if(e.target.elements.namedItem("code").value && e.target.elements.namedItem("url").value.length > 10) {
+		} else if (e.target.elements.namedItem("code").value && e.target.elements.namedItem("url").value.length > 10) {
 			let response = await API.response(Sale.nf.save, sale);
-			if(!response){ return false; };
+			if (!response) { return false; };
 
 			alert(response);
 			Sale.controller.filter.submit.click();

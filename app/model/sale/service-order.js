@@ -8,7 +8,7 @@ ServiceOrder.save = (service_order) => {
 	return db(query);
 };
 
-ServiceOrder.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+ServiceOrder.filter = ({ props, inners, period, params, strict_params, order_params, limit }) => {
 	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.sale_service_order service_order")
 		.inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build();
 	return db(query, values);
@@ -36,7 +36,7 @@ ServiceOrder.sale.list = (service_order_id) => {
 	return db(query);
 };
 
-ServiceOrder.sale.filter = (props, inners, params, strict_params, order_params, limit) => {
+ServiceOrder.sale.filter = ({ props, inners, params, strict_params, order_params, limit }) => {
 	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.sale_service_order_sale service_order_sale")
 		.inners(inners).params(params).strictParams(strict_params).order(order_params).limit(limit).build();
 	return db(query, values);
