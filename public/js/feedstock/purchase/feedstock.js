@@ -25,3 +25,12 @@ FeedstockPurchaseFeedstock.filter = async purchase => {
 
   return response.feedstocks;
 };
+
+FeedstockPurchaseFeedstock.delete = async id => {
+  let response = await fetch(`/feedstock/purchase/feedstock/delete/${id}`, { method: 'DELETE' });
+  response = await response.json();
+
+  if (API.verifyResponse(response)) { return false };
+
+  return response.done;
+};

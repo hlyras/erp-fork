@@ -1,0 +1,25 @@
+<script>
+  async function feedstockDropdown(input) {
+    let feedstocks = await API.response(Feedstock.filter, { name: input.value });
+    if (!feedstocks) { return false; }
+
+    let properties = [["code", "Código", "b6"], ["name", "Descrição", "b2"], ["color_name", "Cor", "b3"]];
+
+    lib.dropdown.input(feedstocks, input, document.getElementById("feedstock-dropdown-content"), properties);
+  };
+
+  async function purchaseFeedstockAdd(feedstock) {
+    console.log(feedstock.id);
+    console.log(feedstock.purchase_id);
+    console.log(feedstock.amount);
+
+    //create
+  };
+
+  async function purchaseFeedstockDelete(purchase_feedstock_id, purchase_id) {
+    const response = await API.response(FeedstockPurchaseFeedstock.delete, purchase_feedstock_id);
+    if (!response) { return false; }
+
+    updatePurchaseValue(purchase_id);
+  };
+</script>

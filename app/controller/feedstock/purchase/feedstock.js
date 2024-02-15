@@ -68,4 +68,18 @@ feedstockController.filter = async (req, res) => {
 	};
 };
 
+feedstockController.delete = async (req, res) => {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+	};
+
+	try {
+		await FeedstockPurchaseFeedstock.delete(req.params.id);
+		res.send({ done: 'Excluído com sucesso!' });
+	} catch (err) {
+		console.log(err);
+		res.send({ msg: "Ocorreu um erro ao remover o produto, favor entrar em contato com o suporte." });
+	};
+};
+
 module.exports = feedstockController;

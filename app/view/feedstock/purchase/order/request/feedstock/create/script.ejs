@@ -1,11 +1,7 @@
 <script>
   async function productDropdown(input) {
-    console.log(input.value);
-
     let feedstocks = await API.response(Feedstock.filter, { name: input.value });
     if (!feedstocks) { return false; }
-
-    console.log(feedstocks);
 
     let properties = [["code", "Código", "b6"], ["name", "Descrição", "b2"], ["color_name", "Cor", "b3"]];
 

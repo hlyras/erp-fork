@@ -10,8 +10,8 @@ const User = function () {
   this.birth;
   this.department;
   this.role;
-  this.access = '000-000' //no access;
-  this.pass = null;
+  this.access;
+  this.pass;
 
   this.create = () => {
     if (!this.name) { return { err: "É necessário informar o nome do colaborador." } };
@@ -46,7 +46,7 @@ User.findByUsername = async (username) => {
   return db(query);
 };
 
-User.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+User.filter = ({ props, inners, period, params, strict_params, order_params, limit }) => {
   let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.user user")
     .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
   return db(query, values);

@@ -10,7 +10,7 @@ const User = function () {
 	this.birth;
 	this.department;
 	this.role;
-	this.access = '000-000' //no access;
+	this.access;
 	this.pass = null;
 };
 

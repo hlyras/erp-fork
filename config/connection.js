@@ -4,10 +4,10 @@ const dbconfig = require('./database');
 // environments: development | development
 const pool = mysql.createPool({
 	connectionLimit: 20,
-	host: dbconfig.development.database.host,
-	port: dbconfig.development.database.port,
-	user: dbconfig.development.database.user,
-	password: dbconfig.development.database.password
+	host: dbconfig.production.database.host,
+	port: dbconfig.production.database.port,
+	user: dbconfig.production.database.user,
+	password: dbconfig.production.database.password
 });
 
 const db = async (query, values) => {

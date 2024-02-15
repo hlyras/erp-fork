@@ -3,8 +3,6 @@
     const purchase = (await API.response(FeedstockPurchase.filter, { id: purchase_id }))[0];
     purchase.feedstocks = await API.response(FeedstockPurchaseFeedstock.filter, { purchase_id });
 
-    console.log(purchase);
-
     let detail_div = document.getElementById("purchase-detail-div");
     detail_div.innerHTML = "";
 
@@ -12,16 +10,57 @@
     lib.display("purchase-filter-box", "none");
 
     let purchase_div = lib.element.create("div", { class: "box b1 container padding-10 border" });
+    detail_div.append(purchase_div);
+
     purchase_div.append(lib.element.create("div", { class: "mobile-box b6 bold center em09" }, purchase.id));
     purchase_div.append(lib.element.create("div", { class: "mobile-box b3 bold center em09" }, purchase.supplier_brand));
     purchase_div.append(lib.element.create("div", { class: "mobile-box b3 bold center em09" }, purchase.status));
-    detail_div.append(purchase_div);
+
+    let feedstock_form = lib.element.create("form", {
+      id: `purchase-feedstock-form`,
+      class: "box b1 container border radius-5 padding-5 margin-top-5"
+    });
+    purchase_div.append(feedstock_form);
+
+    let feedstock_dropdown = lib.element.create("div", {
+      id: `feedstock-dropdown-box`,
+      class: "mobile-box b2-3 container dropdown ground margin-top-5"
+    });
+    feedstock_form.append(feedstock_dropdown);
+
+    feedstock_dropdown.append(lib.element.create("input", {
+      type: "text",
+      id: `feedstock-dropdown-input`,
+      name: "feedstock_id",
+      "data-id": "",
+      class: "mobile-box a1 input-generic border-lg-st nofocus lucida-grande bold center",
+      oninput: "feedstockDropdown(this)",
+      placeholder: "Nome da matéria-prima",
+      role: "presentation",
+      autocomplete: "off"
+    }));
+
+    feedstock_dropdown.append(lib.element.create("div", {
+      id: `feedstock-dropdown-content`,
+      class: "ground dropdown-content border"
+    }));
+
+    let feedstock_form_display = lib.element.create("img", {
+      class: "size-20 rotating-image opacity-out-06 center pointer",
+      src: '/images/icon/increase.png'
+    });
+    purchase_div.appendChild(feedstock_form_display);
+
+    feedstock_form_display.addEventListener("click", e => {
+      lib.element.rotate(feedstock_form_display, 135);
+      lib.displayDiv(feedstock_form, feedstock_form_display);
+    });
 
     purchase.feedstocks.forEach(feedstock => {
       let feedstock_div = lib.element.create("div", { class: "box b1 container padding-5 border-bottom-st" });
       purchase_div.append(feedstock_div);
 
-      feedstock_div.append(lib.element.create("div", { class: "mobile-box b3 center em09" }, feedstock.name));
+      feedstock_div.append(lib.element.create("div", { class: "mobile-box b4 center em09" }, feedstock.name));
       feedstock_div.append(lib.element.create("div", { class: "mobile-box b6 center em09" }, feedstock.color_name));
 
       let feedstock_amount = lib.element.create("input", {
@@ -73,6 +112,17 @@
       });
 
       feedstock_div.append(lib.element.create("div", { id: `feedstock-${feedstock.id}-value`, class: "mobile-box b6 center em09" }, `R$${(feedstock.amount * feedstock.price).toFixed(2)}`));
+
+      let delete_icon = lib.element.icon('b12', '20', '/images/icon/trash.png');
+      feedstock_div.append(delete_icon);
+
+      delete_icon.addEventListener("click", async e => {
+        lib.confirm("Deseja realmente retirar o insumo do pedido?", async r => {
+          if (!r) { return false; }
+          purchaseFeedstockDelete(feedstock.id, feedstock.purchase_id);
+          delete_icon.parentNode.remove();
+        });
+      });
     });
 
     let price_box = lib.element.create("div", { class: "box b1 container margin-top-5 margin-bottom-20" });

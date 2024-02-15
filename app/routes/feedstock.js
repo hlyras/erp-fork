@@ -36,6 +36,7 @@ router.post('/purchase/checkout', lib.route.toHttps, Purchase.checkout.confirm);
 
 router.put('/purchase/feedstock/update', lib.route.toHttps, Purchase.feedstock.update);
 router.post('/purchase/feedstock/filter', lib.route.toHttps, Purchase.feedstock.filter);
+router.delete('/purchase/feedstock/delete/:id', lib.route.toHttps, Purchase.feedstock.delete);
 
 router.get('/purchase/order', lib.route.toHttps, Purchase.order.index);
 router.post('/purchase/order/create', lib.route.toHttps, Purchase.order.create);
