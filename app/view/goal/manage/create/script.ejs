@@ -1,0 +1,22 @@
+<script>
+  document.getElementById("goal-create-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let goal = {
+      department_id: e.target.department_id.value,
+      category: e.target.category.value,
+      name: e.target.name.value,
+      date: lib.dateToTimestamp(e.target.date.value)
+    };
+
+    let response = await API.response(Goal.create, goal, e.target.submit);
+    if (!response) { return false; }
+
+    lib.message(response);
+
+    e.target.department_id.value = "";
+    e.target.category.value = "";
+    e.target.name.value = "";
+    e.target.date.value = "";
+  });
+</script>

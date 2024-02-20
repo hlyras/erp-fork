@@ -22,5 +22,6 @@ router.use("/sale", require("./sale"));
 router.use("/ecommerce", require("./ecommerce"));
 router.use("/financial", require("./financial"));
 router.use("/documentation", require("./documentation"));
+router.use("/goal", require("./goal"));
 
 module.exports = router;

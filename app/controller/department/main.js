@@ -20,9 +20,11 @@ departmentController.save = async (req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para acessar!" });
 	};
 
+	console.log(req.body);
+
 	const department = new Department();
 	department.name = req.body.name;
-	department.code = req.body.code.toUpperCase();
+	department.code = req.body.code;
 
 	try {
 		let result = await department.save();

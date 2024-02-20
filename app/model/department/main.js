@@ -12,10 +12,8 @@ class Department {
     if (!this.name) { return { err: "É necessário incluir o nome do departamento" } };
     if (!this.code) { return { err: "É necessário incluir a sigla do departamento" } };
 
-    if (this.cellphone.length > 13) { return { err: "Celular inválido." }; };
-
     let obj = lib.convertTo.object(this);
-    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.customer_mail');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.department');
 
     return db(query, values);
   }
@@ -35,11 +33,11 @@ class Department {
     return db(query, [code]);
   };
 
-  static filter(props, inners, params, strict_params, order_params) {
-    let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.department department")
+  static filter({ props, inners, params, strict_params, order_params }) {
+    let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.department")
       .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
     return db(query, values);
-  }
+  };
 };
 
 module.exports = Department;

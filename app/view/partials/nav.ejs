@@ -72,6 +72,12 @@
 		<option value="/ecommerce/sale/manage">Gerir Vendas</option>
 		<option value="/ecommerce/report">Relatórios</option>
 	</select>
+
+	<select class="mobile-box b1 em13 box-hover pointer padding-5 margin-top-5 georgia hide-disabled"
+		onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+		<option value="" disabled selected>Planejamento</option>
+		<option value="/goal/manage">Objetivos</option>
+	</select>
 </div>
 
 <div class="container">

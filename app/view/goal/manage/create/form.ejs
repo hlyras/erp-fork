@@ -1,0 +1,21 @@
+<form id="goal-create-form" class="box b2-3 container border padding-5 margin-top-5">
+  <input type="text" name="name" class="box b2-3 lucida-grande em12 border-st padding-9 margin-top-5 center"
+    placeholder="Descrição do Objetivo" role="presentation" autocomplete="off">
+  <input type="date" name="date" class="box b3 lucida-grande em11 border-st padding-9 margin-top-5 center">
+
+  <select name="department_id" class="box b3 lucida-grande em11 border-st padding-9 margin-top-5 center hide-disabled">
+    <option value="">Departamento</option>
+    <% for(let i in departments) { %>
+    <option value="<%= departments[i].id %>"><%= departments[i].name %></option>
+    <% } %>
+  </select>
+
+  <select name="category" class="box b3 lucida-grande em11 border-st padding-9 margin-top-5 center hide-disabled">
+    <option value="">Categoria</option>
+    <option value="Processo">Processo</option>
+    <option value="Conclusão">Conclusão</option>
+  </select>
+
+  <input type="submit" name="submit" class="box b3 btn-act lucida-grande em12 bold noborder padding-10 margin-top-5"
+    value="Criar">
+</form>
