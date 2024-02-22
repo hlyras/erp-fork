@@ -31,10 +31,9 @@ goalController.create = async (req, res) => {
     return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
   };
 
-
-
   const goal = new Goal();
   goal.department_id = req.body.department_id;
+  goal.datetime = lib.date.timestamp.generate();
   goal.category = req.body.category;
   goal.name = req.body.name;
   goal.date = req.body.date;
@@ -74,10 +73,10 @@ goalController.filter = async (req, res) => {
   lib.Query.fillParam("goal.department_id", req.body.department_id, strict_params);
   lib.Query.fillParam("goal.status", req.body.status, strict_params);
 
-  let order_params = [["goal.payment_date", "DESC"]];
+  let order_params = [["goal.date", "DESC"]];
 
   try {
-    const goals = await goal.filter({ props, inners, lefts, period, strict_params, order_params });
+    const goals = await Goal.filter({ props, inners, lefts, period, strict_params, order_params });
     res.send({ goals });
   } catch (err) {
     console.log(err);

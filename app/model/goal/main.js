@@ -4,6 +4,7 @@ const lib = require("jarmlib");
 class Goal {
   constructor() {
     this.id
+    this.datetime
     this.department_id
     this.category
     this.name

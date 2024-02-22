@@ -8,12 +8,12 @@
     lib.dropdown.input(feedstocks, input, document.getElementById("feedstock-dropdown-content"), properties);
   };
 
-  async function purchaseFeedstockAdd(feedstock) {
-    console.log(feedstock.id);
-    console.log(feedstock.purchase_id);
-    console.log(feedstock.amount);
+  async function purchaseFeedstockAdd(purchase_feedstock) {
+    let response = await API.response(FeedstockPurchaseFeedstock.create, purchase_feedstock);
+    if (!response) { return false; }
 
-    //create
+    purchaseDetail(purchase_feedstock.purchase_id);
+    updatePurchaseValue(purchase_feedstock.purchase_id);
   };
 
   async function purchaseFeedstockDelete(purchase_feedstock_id, purchase_id) {

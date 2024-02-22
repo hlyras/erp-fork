@@ -1,17 +1,23 @@
 <script>
-  document.getElementById("goal-filter-form").addEventListener("submit", async e => {
+  document.getElementById("goal-filter-form").addEventListener("submit", e => {
     e.preventDefault();
 
     let goal = {
       department_id: e.target.department_id.value,
       category: e.target.category.value,
       name: e.target.name.value,
-      date: lib.dateToTimestamp(e.target.date.value)
+      period_start: e.target.period_start.value,
+      period_end: e.target.period_end.value,
+      status: e.target.status.value
     };
 
-    let goals = await API.response(Goal.filter, goal, e.target.submit);
+    goalFilter(goal);
+  });
+
+  async function goalFilter(goal) {
+    let goals = await API.response(Goal.filter, goal);
     if (!goals) { return false; }
 
     console.log(goals);
-  });
+  };
 </script>

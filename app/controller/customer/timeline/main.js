@@ -9,20 +9,17 @@ const { response } = require('express');
 const timelineController = {};
 
 timelineController.index = async (req, res) => {
-  // if (!await userController.verifyAccess(req, res, ['adm'])) {
-  //   return res.redirect('/');
-  // };
+  if (!await userController.verifyAccess(req, res, ['adm', 'fin-ass', 'com-ass'])) {
+    return res.redirect('/');
+  };
 
   res.render('customer/timeline/index', { user: req.user });
 };
 
 timelineController.create = async (req, res) => {
-  // if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'com-pro'])) {
-  //   return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-  // };
-
-  //cliente x está sem atendimento
-  //cliente x está sendo atendido por user x
+  if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'com-pro', 'fin-ass'])) {
+    return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+  };
 
   const timeline = new CustomerTimeline();
   timeline.datetime = lib.date.timestamp.generate();
@@ -49,9 +46,9 @@ timelineController.create = async (req, res) => {
 };
 
 timelineController.update = async (req, res) => {
-  // if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'com-pro'])) {
-  //   return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-  // };
+  if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'fin-ass', 'com-ass', 'com-pro'])) {
+    return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+  };
 
   const timeline = new CustomerTimeline();
   timeline.id = req.body.id;
@@ -68,9 +65,9 @@ timelineController.update = async (req, res) => {
 };
 
 timelineController.filter = async (req, res) => {
-  // if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'com-ass', 'com-pro'])) {
-  //   return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
-  // };
+  if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', 'fin-ass', 'com-ass', 'com-pro'])) {
+    return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
+  };
 
   let props = [
     "timeline.*",

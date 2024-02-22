@@ -20,6 +20,8 @@
       id: `purchase-feedstock-form`,
       class: "box b1 container border radius-5 padding-5 margin-top-5"
     });
+
+    feedstock_form.append(lib.element.create("input", { type: "hidden", name: "purchase_id", value: purchase.id }));
     purchase_div.append(feedstock_form);
 
     let feedstock_dropdown = lib.element.create("div", {
@@ -33,7 +35,7 @@
       id: `feedstock-dropdown-input`,
       name: "feedstock_id",
       "data-id": "",
-      class: "mobile-box a1 input-generic border-lg-st nofocus lucida-grande bold center",
+      class: "mobile-box a1 padding-9 lucida-grande bold border-st radius-5 nofocus center",
       oninput: "feedstockDropdown(this)",
       placeholder: "Nome da matéria-prima",
       role: "presentation",
@@ -45,15 +47,33 @@
       class: "ground dropdown-content border"
     }));
 
-    let feedstock_form_display = lib.element.create("img", {
-      class: "size-20 rotating-image opacity-out-06 center pointer",
-      src: '/images/icon/increase.png'
-    });
-    purchase_div.appendChild(feedstock_form_display);
+    feedstock_form.append(lib.element.create("input", {
+      type: 'number',
+      name: "amount",
+      class: "mobile-box b4 lucida-grande bold border-st radius-5 nofocus padding-9 margin-top-5 center",
+      step: 0.01,
+      min: 0,
+      placeholder: '0.00'
+    }));
 
-    feedstock_form_display.addEventListener("click", e => {
-      lib.element.rotate(feedstock_form_display, 135);
-      lib.displayDiv(feedstock_form, feedstock_form_display);
+    let submit_btn = lib.element.create("button", {
+      name: "submit",
+      class: "mobile-box b12 noborder center"
+    });
+    feedstock_form.append(submit_btn);
+
+    let add_icon = lib.element.icon("", "25", "/images/icon/increase.png");
+    submit_btn.append(add_icon);
+
+    feedstock_form.addEventListener("submit", async e => {
+      e.preventDefault();
+
+      purchaseFeedstockAdd({
+        supplier_id: purchase.supplier_id,
+        feedstock_id: e.target.feedstock_id.dataset.id,
+        purchase_id: e.target.purchase_id.value,
+        amount: e.target.amount.value
+      });
     });
 
     purchase.feedstocks.forEach(feedstock => {
@@ -141,8 +161,6 @@
 
         return e.target.value = parseFloat(e.target.dataset.initial_value).toFixed(2);
       }
-
-      console.log(e.target.value);
 
       let response = await API.response(FeedstockPurchase.update, { id: purchase.id, discount_value: e.target.value });
       if (!response) { return false };
