@@ -35,13 +35,13 @@ goalController.create = async (req, res) => {
   goal.department_id = req.body.department_id;
   goal.datetime = lib.date.timestamp.generate();
   goal.category = req.body.category;
-  goal.name = req.body.name;
+  goal.description = req.body.description;
   goal.date = req.body.date;
   goal.user_id = req.user.id;
 
   try {
     let create_response = await goal.create();
-    if (create_response.err) { return res.send(create_response.err); }
+    if (create_response.err) { return res.send({ msg: create_response.err }); }
 
     res.send({ done: "Objetivo cadastrado." });
   } catch (err) {
@@ -57,10 +57,15 @@ goalController.filter = async (req, res) => {
     return res.send({ unauthorized: "Você não tem permissão para acessar!" });
   };
 
-  let props = [];
+  let props = [
+    "goal.*",
+    "user.name user_name",
+    "department.name department_name"
+  ];
 
   let inners = [
-    ["cms_wt_erp.user user", "goal.user_id", "user.id"]
+    ["cms_wt_erp.user", "goal.user_id", "user.id"],
+    ["cms_wt_erp.department", "goal.department_id", "department.id"]
   ];
 
   let lefts = [];

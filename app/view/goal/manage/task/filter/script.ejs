@@ -1,0 +1,23 @@
+<script>
+  async function taskFilter(task, box) {
+    let tasks = await API.response(GoalTask.filter, task, box);
+    if (!tasks) { return false; }
+
+    let task_box = lib.element.create("div", { class: "box b1 container max-height-400 scroll-y" });
+
+    tasks.forEach(async task => {
+      let task_div = lib.element.create("div", { class: "box b1 container border-lg-st radius padding-5 margin-top-5 pointer" });
+      task_div.append(lib.element.create("div", { class: "box b8 lucida-grande em08 bold center" }, task.id));
+      task_div.append(lib.element.create("div", { class: "box b3-8 lucida-grande em08 bold" }, task.user_name));
+      task_div.append(lib.element.create("div", { class: "box b4 lucida-grande em08 bold" }, lib.timestampToDate(task.date)));
+      task_div.append(lib.element.create("div", { class: "box b4 lucida-grande em08 bold" }, task.status));
+      task_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 padding-5 border radius-5" }, task.description));
+      task_box.append(task_div);
+
+      let timeline_box = await timelineFilter({ task_id: task.id }, task_div);
+      task_div.append(timeline_box);
+    });
+
+    return task_box;
+  };
+</script>

@@ -5,7 +5,7 @@
     let goal = {
       department_id: e.target.department_id.value,
       category: e.target.category.value,
-      name: e.target.name.value,
+      description: e.target.description.value,
       date: lib.dateToTimestamp(e.target.date.value)
     };
 
@@ -16,7 +16,7 @@
 
     e.target.department_id.value = "";
     e.target.category.value = "";
-    e.target.name.value = "";
+    e.target.description.value = "";
     e.target.date.value = "";
   });
 </script>

@@ -1,0 +1,10 @@
+<script>
+  async function timelineCreateForm(task_id) {
+    let timeline_form = lib.element.create("form", { class: "box b1 container border padding-5 margin-top-5" });
+    timeline_form.append(lib.element.create("input", { type: "hidden", name: "task_id", value: task_id }));
+    timeline_form.append(lib.element.create("textarea", { name: "description", class: "box b1 lucida-grande padding-3", placeholder: "Descrição da ação." }));
+    timeline_form.append(lib.element.create("button", { name: "update", class: "box b2 btn-act lucida-grande bold noborder padding-10 margin-top-5" }, "Atualizar tarefa"));
+    timeline_form.append(lib.element.create("button", { name: "complete", class: "box b2 btn-confirm lucida-grande bold noborder padding-10 margin-top-5" }, "Concluir tarefa"));
+    return timeline_form;
+  };
+</script>

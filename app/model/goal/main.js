@@ -7,17 +7,18 @@ class Goal {
     this.datetime
     this.department_id
     this.category
-    this.name
+    this.description
     this.date
     this.user_id
   }
 
   create() {
-    if (!this.department_id) { return { err: "É necessário incluir o nome do departamento" } };
-    if (!this.category) { return { err: "É necessário incluir a sigla do departamento" } };
-    if (!this.name) { return { err: "É necessário incluir a sigla do departamento" } };
-    if (!this.date) { return { err: "É necessário incluir a sigla do departamento" } };
-    if (!this.user_id) { return { err: "É necessário incluir a sigla do departamento" } };
+    if (!this.datetime) { return { err: "Não foi possível registrar o momento do cadastro." } };
+    if (!this.department_id) { return { err: "É necessário informar o nome do departamento" } };
+    if (!this.category) { return { err: "É necessário informar a categoria do objetivo" } };
+    if (!this.description) { return { err: "É necessário informar a descrição do objetivo" } };
+    if (!this.date) { return { err: "É necessário cadastrar a data para conclusão" } };
+    if (!this.user_id) { return { err: "É necessário registrar o usuário." } };
 
     let obj = lib.convertTo.object(this);
     let { query, values } = lib.Query.save(obj, 'cms_wt_erp.goal');

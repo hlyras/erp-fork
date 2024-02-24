@@ -18,6 +18,37 @@
     let goals = await API.response(Goal.filter, goal);
     if (!goals) { return false; }
 
-    console.log(goals);
+    let users = await API.response(User.filter, {});
+    if (!users) { return false; }
+
+    let filter_div = document.getElementById("goal-filter-div");
+    filter_div.innerHTML = "";
+
+    if (!goals.length) {
+      filter_div.append(lib.element.create("div", {
+        class: "box b1 lucida-grande bold center",
+      }, "Nenhum objetivo ativo"));
+    }
+
+    goals.forEach(async goal => {
+      let goal_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-10" });
+      let goal_info = lib.element.create("div", { class: "box b2 container margin-top-10" });
+      goal_div.append(goal_info);
+      goal_info.append(lib.element.createInfo("mobile-box b1 lucida-grande bold margin-top-10", "Descrição do objetivo", goal.description));
+      goal_info.append(lib.element.createInfo("mobile-box b1 lucida-grande em09 margin-top-10", "Departamento", goal.department_name));
+      goal_info.append(lib.element.createInfo("mobile-box b1 lucida-grande em09 margin-top-10", "Prazo para conclusão", lib.timestampToDate(goal.date)));
+      goal_info.append(lib.element.createInfo("mobile-box b1 lucida-grande em09 margin-top-10", "Categoria", goal.category));
+      goal_info.append(lib.element.createInfo("mobile-box b1 lucida-grande em09 margin-top-10", "Status", goal.status));
+      filter_div.append(goal_div);
+
+      let goal_task = lib.element.create("div", { class: "box b2 container" });
+      goal_div.append(goal_task);
+
+      let task_form = taskCreateForm(goal, users);
+      goal_task.append(task_form);
+
+      let task_box = await taskFilter({ goal_id: goal.id }, task_form);
+      goal_task.append(task_box);
+    });
   };
 </script>

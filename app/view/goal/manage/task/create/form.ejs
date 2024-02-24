@@ -1,0 +1,36 @@
+<script>
+  function taskCreateForm(goal, users) {
+    let task_form = lib.element.create("form", {
+      id: "task-create-form",
+      class: "box b1 container"
+    });
+
+    task_form.append(lib.element.create("input", { type: "hidden", name: "id", value: "" }));
+    task_form.append(lib.element.create("input", { type: "hidden", name: "goal_id", value: goal.id }));
+
+    let user_select = lib.element.create("select", { name: "user_id", class: "box b2 hide-disabled padding-5 margin-top-5 border" });
+    task_form.append(user_select);
+    user_select.append(lib.element.create("option", { value: "" }, "Responsável"));
+    users.forEach(user => { user_select.append(lib.element.create("option", { value: user.id }, user.name)); });
+
+    task_form.append(lib.element.create("input", { type: "date", name: "date", class: "box b2 border padding-5 margin-top-5" }));
+    task_form.append(lib.element.create("textarea", { name: "description", name: "description", class: "box b1 border nofocus padding-3 margin-top-5", placeholder: "Descrição da tarefa" }));
+    task_form.append(lib.element.create("button", { type: "submit", name: "submit", class: "box b1 btn-act lucida-grande bold noborder padding-5 margin-top-5 pointer" }, "Nova tarefa"));
+
+    task_form.addEventListener("submit", async e => {
+      e.preventDefault();
+
+      let goal_task = {
+        id: e.target.id.value,
+        goal_id: e.target.goal_id.value,
+        user_id: e.target.user_id.value,
+        date: lib.dateToTimestamp(e.target.date.value),
+        description: e.target.description.value
+      };
+
+      taskCreate(goal_task, e);
+    });
+
+    return task_form;
+  };
+</script>

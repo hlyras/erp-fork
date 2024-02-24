@@ -1,0 +1,14 @@
+<script>
+  async function taskCreate(goal_task, e) {
+    let response = await API.response(GoalTask.create, goal_task);
+    if (!response) { return false; }
+
+    lib.message(response, () => {
+      if (e) {
+        e.target.user_id.value = "";
+        e.target.date.value = null;
+        e.target.description.value = null;
+      }
+    });
+  }
+</script>

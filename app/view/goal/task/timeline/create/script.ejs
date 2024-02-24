@@ -1,0 +1,18 @@
+<script>
+  async function timelineUpdate(timeline) {
+    let timeline_create_response = await API.response(GoalTaskTimeline.create, timeline);
+    if (!timeline_create_response) { return false; }
+
+    lib.message(timeline_create_response);
+  };
+
+  async function timelineComplete(timeline) {
+    let timeline_create_response = await API.response(GoalTaskTimeline.create, timeline);
+    if (!timeline_create_response) { return false; }
+
+    let task_update_response = await API.response(GoalTask.update, { id: timeline.task_id, status: "Ag. conferêncisa" });
+    if (!task_update_response) { return false; }
+
+    lib.message(timeline_create_response);
+  };
+</script>

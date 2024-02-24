@@ -1,0 +1,62 @@
+<script>
+  document.getElementById("task-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let task = {
+      user_id: e.target.user_id.value
+    };
+
+    taskFilter(task);
+  });
+
+  async function taskFilter(task) {
+    let tasks = await API.response(GoalTask.filter, task);
+    if (!tasks) { return false; }
+
+    let task_box = document.getElementById("task-filter-div");
+    task_box.innerHTML = "";
+
+    tasks.forEach(async task => {
+      let task_div = lib.element.create("div", { class: "box b1 container border-lg-st radius padding-5 margin-top-5 pointer" });
+      task_div.append(lib.element.create("div", { class: "box b6 lucida-grande em08 bold" }, task.id));
+      task_div.append(lib.element.create("div", { class: "box b2 lucida-grande em08 bold" }, task.user_name));
+      task_div.append(lib.element.create("div", { class: "box b3 lucida-grande em08 bold" }, lib.timestampToDate(task.date)));
+      task_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 padding-5 border radius-5" }, task.description));
+      task_box.append(task_div);
+
+      let timeline_box = await timelineFilter({ task_id: task.id }, task_div);
+      task_div.append(timeline_box);
+
+      let timeline_form = await timelineCreateForm(task.id);
+      task_div.append(timeline_form);
+
+      timeline_form.addEventListener("submit", e => { e.preventDefault(); });
+
+      timeline_form.update.addEventListener("click", async e => {
+        let timeline = {
+          task_id: timeline_form.task_id.value,
+          description: timeline_form.description.value
+        };
+
+        await timelineUpdate(timeline);
+
+        timeline_form.description.value = "";
+
+        taskFilter({ user_id: task.user_id });
+      });
+
+      timeline_form.complete.addEventListener("click", async e => {
+        let timeline = {
+          task_id: timeline_form.task_id.value,
+          description: timeline_form.description.value
+        };
+
+        await timelineComplete(timeline);
+
+        timeline_form.description.value = "";
+
+        taskFilter({ user_id: task.user_id });
+      });
+    });
+  };
+</script>
