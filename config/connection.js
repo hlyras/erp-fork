@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const dbconfig = require('./database');
 
-// environments: development | development
+// environments: production | development
 const pool = mysql.createPool({
 	connectionLimit: 20,
 	host: dbconfig.production.database.host,

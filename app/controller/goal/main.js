@@ -38,6 +38,7 @@ goalController.create = async (req, res) => {
   goal.description = req.body.description;
   goal.date = req.body.date;
   goal.user_id = req.user.id;
+  goal.status = "Pendente";
 
   try {
     let create_response = await goal.create();
