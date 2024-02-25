@@ -25,16 +25,24 @@ receiptController.manage = async (req, res) => {
     return res.redirect('/');
   };
 
-  const internal_strict_params = { keys: [], values: [] };
-  lib.Query.fillParam("outcome_origin.category_id", 1, internal_strict_params);
-  lib.Query.fillParam("outcome_origin.role_id", 1, internal_strict_params);
+  let internal_options = {
+    strict_params: { keys: [], values: [] },
+    order_params: [['name', 'ASC']]
+  };
 
-  const external_strict_params = { keys: [], values: [] };
-  lib.Query.fillParam("outcome_origin.category_id", 10, external_strict_params);
+  lib.Query.fillParam("outcome_origin.category_id", 1, internal_options.strict_params);
+  lib.Query.fillParam("outcome_origin.role_id", 1, internal_options.strict_params);
+
+  let external_options = {
+    strict_params: { keys: [], values: [] },
+    order_params: [['name', 'ASC']]
+  };
+
+  lib.Query.fillParam("outcome_origin.category_id", 10, external_options.strict_params);
 
   try {
-    let internal_seamstresses = await OutcomeOrigin.filter([], [], internal_strict_params, [['name', 'ASC']]);
-    let external_seamstresses = await OutcomeOrigin.filter([], [], external_strict_params, [['name', 'ASC']]);
+    let internal_seamstresses = await OutcomeOrigin.filter(internal_options);
+    let external_seamstresses = await OutcomeOrigin.filter(external_options);
     res.render('production/receipt/manage/index', { user: req.user, internal_seamstresses, external_seamstresses });
   } catch (err) {
     console.log(err);
@@ -127,10 +135,10 @@ receiptController.filter = async (req, res) => {
   lib.Query.fillParam("production.location", req.body.location, strict_params);
   lib.Query.fillParam("production.seamstress_id", req.body.seamstress_id, strict_params);
 
-  let order_params = [["production_receipt.pouch", "ASC"]];
+  let order_params = [["production_receipt.datetime", "ASC"], ["production_receipt.production_id", "ASC"], ["production_receipt.pouch", "ASC"]];
 
   try {
-    const receipts = await Production.receipt.filter(props, inners, period, params, strict_params, order_params);
+    const receipts = await Production.receipt.filter({ props, inners, period, params, strict_params, order_params });
 
     res.send({ receipts });
   } catch (err) {
@@ -141,32 +149,41 @@ receiptController.filter = async (req, res) => {
 
 receiptController.findById = async (req, res) => {
   try {
-    const receipt_props = ["production.preparation_volume", "production_receipt.*", "financial_outcome_origin.name seamstress_name"];
-    const receipt_inners = [
-      ["cms_wt_erp.production", "production.id", "production_receipt.production_id"],
-      ["cms_wt_erp.financial_outcome_origin", "financial_outcome_origin.id", "production.seamstress_id"]
-    ];
-    const strict_params = { keys: [], values: [] };
-    lib.Query.fillParam("production_receipt.id", req.params.id, strict_params);
-    const receipt = (await Production.receipt.filter(receipt_props, receipt_inners, [], [], strict_params, []))[0];
+    let receipt_options = {
+      props: ["production.preparation_volume", "production_receipt.*", "financial_outcome_origin.name seamstress_name"],
+      inners: [
+        ["cms_wt_erp.production", "production.id", "production_receipt.production_id"],
+        ["cms_wt_erp.financial_outcome_origin", "financial_outcome_origin.id", "production.seamstress_id"]
+      ],
+      strict_params: { keys: [], values: [] }
+    };
 
-    const product_props = ["production_product.production_id", "production_product.product_id", "production_product.amount", "product.code", "product.name", "product.color", "product.size"];
-    const product_inners = [
-      ["cms_wt_erp.product", "product.id", "production_product.product_id"]
-    ];
-    const product_strict_params = { keys: [], values: [] };
-    lib.Query.fillParam("production_product.production_id", receipt.production_id, product_strict_params);
-    let product_order_params = [["production_product.id", "ASC"]];
-    receipt.products = await Production.product.filter(product_props, product_inners, [], [], product_strict_params, product_order_params);
+    lib.Query.fillParam("production_receipt.id", req.params.id, receipt_options.strict_params);
+    const receipt = (await Production.receipt.filter(receipt_options))[0];
 
-    const received_product_props = ["receipt_product.*", "product.code", "product.name", "product.color", "product.size"];
-    const received_product_inners = [
-      ["cms_wt_erp.product", "product.id", "receipt_product.product_id"]
-    ];
-    const received_product_strict_params = { keys: [], values: [] };
-    lib.Query.fillParam("receipt_product.receipt_id", receipt.id, received_product_strict_params);
-    let received_product_order_params = [["receipt_product.id", "ASC"]];
-    receipt.received_products = await Production.receipt.product.filter(received_product_props, received_product_inners, [], [], received_product_strict_params, received_product_order_params);
+    let product_options = {
+      props: ["production_product.production_id", "production_product.product_id", "production_product.amount", "product.code", "product.name", "product.color", "product.size"],
+      inners: [
+        ["cms_wt_erp.product", "product.id", "production_product.product_id"]
+      ],
+      strict_params: { keys: [], values: [] },
+      order_params: [["production_product.id", "ASC"]]
+    };
+
+    lib.Query.fillParam("production_product.production_id", receipt.production_id, product_options.strict_params);
+    receipt.products = await Production.product.filter(product_options);
+
+    let received_product_options = {
+      props: ["receipt_product.*", "product.code", "product.name", "product.color", "product.size"],
+      inners: [
+        ["cms_wt_erp.product", "product.id", "receipt_product.product_id"]
+      ],
+      strict_params: { keys: [], values: [] },
+      order_params: [["receipt_product.id", "ASC"]]
+    }
+
+    lib.Query.fillParam("receipt_product.receipt_id", receipt.id, received_product_options.strict_params);
+    receipt.received_products = await Production.receipt.product.filter(received_product_options);
 
     res.send({ receipt });
   } catch (err) {

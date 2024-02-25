@@ -62,7 +62,7 @@ productController.filter = async (req, res) => {
   let order_params = [["receipt_product.product_id", "ASC"]];
 
   try {
-    const products = await Production.receipt.product.filter(props, inners, period, params, strict_params, order_params);
+    const products = await Production.receipt.product.filter({ props, inners, period, params, strict_params, order_params });
 
     res.send({ products });
   } catch (err) {

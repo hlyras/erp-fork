@@ -36,7 +36,7 @@ const Receipt = function () {
   };
 };
 
-Receipt.filter = (props, inners, period, params, strict_params, order_params) => {
+Receipt.filter = ({ props, inners, period, params, strict_params, order_params }) => {
   let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt")
     .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build();
   return db(query, values);
@@ -75,7 +75,7 @@ Receipt.product = function () {
   };
 };
 
-Receipt.product.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+Receipt.product.filter = ({ props, inners, period, params, strict_params, order_params }) => {
   let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt_product receipt_product")
     .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).build();
   return db(query, values);
@@ -109,7 +109,7 @@ Receipt.count.findById = async (id) => {
   return db(query);
 };
 
-Receipt.count.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+Receipt.count.filter = ({ props, inners, period, params, strict_params, order_params, limit }) => {
   let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.production_receipt_count")
     .inners(inners).period(period).params(params).strictParams(strict_params).order(order_params).limit(limit).build();
   return db(query, values);

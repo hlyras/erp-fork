@@ -72,20 +72,21 @@ preparationController.print = async (req, res) => {
     production.products = await Production.product.filter(product_options);
 
     for (let i in production.products) {
-      let feedstock_props = [
-        "product_feedstock.*",
-        "feedstock.code", "feedstock.name", "product_color.name color", "feedstock.uom"
-      ];
+      let feedstock_options = {
+        props: [
+          "product_feedstock.*",
+          "feedstock.code", "feedstock.name", "product_color.name color", "feedstock.uom"
+        ],
+        inners: [
+          ["cms_wt_erp.feedstock", "feedstock.id", "product_feedstock.feedstock_id"],
+          ["cms_wt_erp.product_color", "product_color.id", "feedstock.color_id"]
+        ],
+        strict_params: { keys: [], values: [] }
+      };
 
-      let feedstock_inners = [
-        ["cms_wt_erp.feedstock", "feedstock.id", "product_feedstock.feedstock_id"],
-        ["cms_wt_erp.product_color", "product_color.id", "feedstock.color_id"]
-      ];
+      lib.Query.fillParam("product_feedstock.product_id", production.products[i].product_id, feedstock_options.strict_params);
 
-      let feedstock_strict_params = { keys: [], values: [] };
-      lib.Query.fillParam("product_feedstock.product_id", production.products[i].product_id, feedstock_strict_params);
-
-      let feedstocks = await Product.feedstock.filter(feedstock_props, feedstock_inners, [], feedstock_strict_params, []);
+      let feedstocks = await Product.feedstock.filter(feedstock_options);
 
       production.products[i].feedstocks = feedstocks.reduce((arr, feedstock) => {
         for (let j in arr) {

@@ -93,16 +93,18 @@ shipmentController.findById = async (req, res) => {
   try {
     let shipment = (await Production.shipment.findById(req.params.id))[0];
 
-    let production_props = ["production.*", "outcome_origin.name seamstress_name"];
-    let production_inners = [
-      ["cms_wt_erp.production", "shipment_production.production_id", "production.id"],
-      ["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "production.seamstress_id"]
-    ];
+    let production_options = {
+      props: ["production.*", "outcome_origin.name seamstress_name"],
+      inners: [
+        ["cms_wt_erp.production", "shipment_production.production_id", "production.id"],
+        ["cms_wt_erp.financial_outcome_origin outcome_origin", "outcome_origin.id", "production.seamstress_id"]
+      ],
+      strict_params: { keys: [], values: [] }
+    };
 
-    let production_strict_params = { keys: [], values: [] };
-    lib.Query.fillParam("shipment_production.shipment_id", shipment.id, production_strict_params);
+    lib.Query.fillParam("shipment_production.shipment_id", shipment.id, production_options.strict_params);
 
-    shipment.productions = await Production.shipment.production.filter(production_props, production_inners, [], production_strict_params, []);
+    shipment.productions = await Production.shipment.production.filter(production_options);
 
     res.send({ shipment });
   } catch (err) {
@@ -121,7 +123,7 @@ shipmentController.filter = async (req, res) => {
   lib.Query.fillParam("production_shipment.status", req.body.status, strict_params);
 
   try {
-    let shipments = await Production.shipment.filter([], [], [], strict_params, []);
+    let shipments = await Production.shipment.filter({ strict_params });
     res.send({ shipments });
   } catch (err) {
     console.log(err);
@@ -159,10 +161,13 @@ shipmentController.collect.confirm = async (req, res) => {
     let shipment_response = await shipment.update();
     if (shipment_response.err) { return res.send({ msg: shipment_response.err }); }
 
-    let production_strict_params = { keys: [], values: [] };
-    lib.Query.fillParam("shipment_production.shipment_id", shipment.id, production_strict_params);
+    let production_options = {
+      strict_params: { keys: [], values: [] }
+    };
 
-    shipment.productions = await Production.shipment.production.filter([], [], [], production_strict_params, []);
+    lib.Query.fillParam("shipment_production.shipment_id", shipment.id, production_options.strict_params);
+
+    shipment.productions = await Production.shipment.production.filter(production_options);
 
     shipment.productions.forEach(async p => {
       let production = new Production();
