@@ -5,13 +5,17 @@
 
     let task_box = lib.element.create("div", { class: "box b1 container max-height-400 scroll-y" });
 
+    if (!tasks.length) {
+      task_box.append(lib.element.create("div", { class: "box b1 lucida-grande center" }, "Nenhuma tarefa foi criada."));
+    }
+
     tasks.forEach(async task => {
       let task_div = lib.element.create("div", { class: "box b1 container border-st padding-5 margin-top-5 pointer" });
       task_div.append(lib.element.create("div", { class: "box b3-8 lucida-grande em08 bold" }, task.user_name));
       task_div.append(lib.element.create("div", { class: "box b4 lucida-grande em08 bold" }, lib.timestampToDate(task.date)));
       task_div.append(lib.element.create("div", { class: "box b4 lucida-grande em08 bold" }, task.status));
 
-      let comment_icon = lib.element.icon("b8", "25", "/images/icon/comment.png");
+      let comment_icon = lib.element.icon("b8", "20", "/images/icon/comment.png");
       task_div.append(comment_icon);
       comment_icon.addEventListener("click", () => { commentDetail(task.id); });
 
@@ -20,6 +24,9 @@
 
       let timeline_box = await timelineFilter({ task_id: task.id }, task_div);
       task_div.append(timeline_box);
+
+      let comment_box = await commentFilter({ task_id: task.id }, task_div);
+      task_div.append(comment_box);
     });
 
     return task_box;

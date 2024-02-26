@@ -3,7 +3,8 @@
     e.preventDefault();
 
     let task = {
-      user_id: e.target.user_id.value
+      user_id: e.target.user_id.value,
+      status: e.target.status.value
     };
 
     taskFilter(task);
@@ -17,15 +18,19 @@
     task_box.innerHTML = "";
 
     tasks.forEach(async task => {
-      let task_div = lib.element.create("div", { class: "box b1 container border-lg-st radius padding-5 margin-top-5 pointer" });
-      task_div.append(lib.element.create("div", { class: "box b6 lucida-grande em08 bold" }, task.id));
-      task_div.append(lib.element.create("div", { class: "box b2 lucida-grande em08 bold" }, task.user_name));
-      task_div.append(lib.element.create("div", { class: "box b3 lucida-grande em08 bold" }, lib.timestampToDate(task.date)));
+      let task_div = lib.element.create("div", { class: "box b1 container border-st radius padding-5 margin-top-5 pointer" });
+      task_div.append(lib.element.create("div", { class: "box b8 lucida-grande em08 bold" }, `#${task.id}`));
+      task_div.append(lib.element.create("div", { class: "box b3-8 lucida-grande em08 bold" }, task.user_name));
+      task_div.append(lib.element.create("div", { class: "box b4 lucida-grande em08 bold" }, lib.timestampToDate(task.date)));
+      task_div.append(lib.element.create("div", { class: "box b4 lucida-grande em08 bold" }, task.status));
       task_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 padding-5 border radius-5" }, task.description));
       task_box.append(task_div);
 
       let timeline_box = await timelineFilter({ task_id: task.id }, task_div);
       task_div.append(timeline_box);
+
+      let comment_box = await commentFilter({ task_id: task.id }, task_div);
+      task_div.append(comment_box);
 
       let timeline_form = await timelineCreateForm(task.id);
       task_div.append(timeline_form);
@@ -35,7 +40,8 @@
       timeline_form.update.addEventListener("click", async e => {
         let timeline = {
           task_id: timeline_form.task_id.value,
-          description: timeline_form.description.value
+          description: timeline_form.description.value,
+          action: "Atualizar"
         };
 
         await timelineUpdate(timeline);
@@ -48,7 +54,8 @@
       timeline_form.complete.addEventListener("click", async e => {
         let timeline = {
           task_id: timeline_form.task_id.value,
-          description: timeline_form.description.value
+          description: timeline_form.description.value,
+          action: "Finalizar"
         };
 
         await timelineComplete(timeline);

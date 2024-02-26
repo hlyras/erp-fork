@@ -5,9 +5,13 @@
 
     let timeline_box = lib.element.create("div", { class: "box b2 container" });
 
+    if (!timelines.length) {
+      timeline_box.append(lib.element.create("div", { class: "box b1 lucida-grande center" }, "Nenhuma ação foi realizada."));
+    }
+
     timelines.forEach(timeline => {
       let timeline_div = lib.element.create("div", { class: "box b1 container border padding-5 margin-top-5" });
-      timeline_div.append(lib.element.create("div", { class: "box b1 em07" }, `Descrição da ação - ${timeline.user_name} - ${lib.timestampToDate(timeline.datetime)}`));
+      timeline_div.append(lib.element.create("div", { class: "box b1 em07" }, `Descrição da ação - ${timeline.user_name} - ${timeline.action} - ${lib.timestampToFulldate(timeline.datetime)}`));
       timeline_div.append(lib.element.create("div", { class: "box b1" }, timeline.description));
       timeline_box.append(timeline_div);
     });

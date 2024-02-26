@@ -1,0 +1,21 @@
+<script>
+  async function commentFilter(comment, box) {
+    let comments = await API.response(GoalTaskComment.filter, comment, box);
+    if (!comments) { return false; }
+
+    let comment_box = lib.element.create("div", { class: "box b2 container" });
+
+    if (!comments.length) {
+      comment_box.append(lib.element.create("div", { class: "box b1 lucida-grande padding-10 border margin-top-5 center" }, "Nenhuma comentário"));
+    }
+
+    comments.forEach(comment => {
+      let comment_div = lib.element.create("div", { class: "box b1 container border padding-5 margin-top-5" });
+      comment_div.append(lib.element.create("div", { class: "box b1 em07" }, `Descrição da ação - ${comment.user_name} - ${lib.timestampToDate(comment.datetime)}`));
+      comment_div.append(lib.element.create("div", { class: "box b1" }, comment.description));
+      comment_box.append(comment_div);
+    });
+
+    return comment_box;
+  };
+</script>

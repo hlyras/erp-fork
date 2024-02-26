@@ -1,9 +1,8 @@
 <script>
   async function commentCreate(comment) {
-    console.log(comment);
     let response = await API.response(GoalTaskComment.create, comment);
     if (!response) { return false; }
 
-    console.log(response);
+    lib.message(response);
   };
 </script>

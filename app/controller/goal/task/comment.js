@@ -1,5 +1,5 @@
 const userController = require('./../../user/main');
-const GoalTaskComment = require('../../../model/goal/task/timeline');
+const GoalTaskComment = require('../../../model/goal/task/comment');
 
 const lib = require("jarmlib");
 

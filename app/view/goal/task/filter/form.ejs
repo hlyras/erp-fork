@@ -1,4 +1,8 @@
-<form id="task-filter-form" class="box b1 container">
+<form id="task-filter-form" class="box b2-3 container">
   <input type="hidden" name="user_id" value="<%= user.id %>">
-  <input type="submit" name="submit" value="Listar tarefas" class="box b3 btn-act padding-5 margin-top-5">
+  <select name="status" class="box b2-3 border padding-8">
+    <option value="Pendente">Pendente</option>
+    <option value="Ag. conferência">Ag. conferência</option>
+  </select>
+  <input type="submit" name="submit" value="Listar tarefas" class="box b3 btn-act noborder padding-10">
 </form>

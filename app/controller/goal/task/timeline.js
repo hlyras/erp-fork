@@ -20,7 +20,7 @@ taskTimelineController.create = async (req, res) => {
     let create_response = await task_timeline.create();
     if (create_response.err) { return res.send({ msg: create_response.err }); }
 
-    res.send({ done: "Tarefa cadastrada." });
+    res.send({ done: "Ação cadastrada." });
   } catch (err) {
     if (err.code == "ER_DUP_ENTRY") { return res.send({ msg: "Duplicidade para: " + err.sqlMessage.split("'")[1] }); }
     console.log(err);

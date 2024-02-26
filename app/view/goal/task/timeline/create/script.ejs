@@ -10,7 +10,7 @@
     let timeline_create_response = await API.response(GoalTaskTimeline.create, timeline);
     if (!timeline_create_response) { return false; }
 
-    let task_update_response = await API.response(GoalTask.update, { id: timeline.task_id, status: "Ag. conferêncisa" });
+    let task_update_response = await API.response(GoalTask.update, { id: timeline.task_id, status: "Ag. conferência" });
     if (!task_update_response) { return false; }
 
     lib.message(timeline_create_response);

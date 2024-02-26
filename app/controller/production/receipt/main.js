@@ -92,7 +92,7 @@ receiptController.create = async (req, res) => {
     const strict_params = { keys: [], values: [] };
     lib.Query.fillParam("production_receipt.production_id", req.body.production_id, strict_params);
 
-    const receipts = await Production.receipt.filter([], [], [], [], strict_params, []);
+    const receipts = await Production.receipt.filter({ strict_params });
     const production = (await Production.findById(req.body.production_id))[0];
 
     let volume_verify = receipts.reduce((vol, r) => {

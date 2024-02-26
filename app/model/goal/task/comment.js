@@ -1,7 +1,7 @@
 const db = require('../../../../config/connection');
 const lib = require("jarmlib");
 
-class GoalTaskTimeline {
+class GoalTaskComment {
   constructor() {
     this.id;
     this.task_id;
@@ -17,7 +17,7 @@ class GoalTaskTimeline {
     if (!this.user_id) { return { err: "É necessário registrar o usuário." } };
 
     let obj = lib.convertTo.object(this);
-    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.goal_task_timeline');
+    let { query, values } = lib.Query.save(obj, 'cms_wt_erp.goal_task_comment');
 
     return db(query, values);
   };
@@ -26,28 +26,28 @@ class GoalTaskTimeline {
     if (!this.id) { return { err: "O id do modelo é inválido" }; }
 
     let obj = lib.convertTo.object(this);
-    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.goal_task_timeline', 'id');
+    let { query, values } = lib.Query.update(obj, 'cms_wt_erp.goal_task_comment', 'id');
 
     return db(query, values);
   };
 
   static getById(id) {
-    let query = `SELECT * FROM cms_wt_erp.goal_task_timeline WHERE id = ?;`;
+    let query = `SELECT * FROM cms_wt_erp.goal_task_comment WHERE id = ?;`;
     return db(query, [id]);
   };
 
   static getByName(name) {
-    let query = `SELECT * FROM cms_wt_erp.goal_task_timeline WHERE name like ?;`;
+    let query = `SELECT * FROM cms_wt_erp.goal_task_comment WHERE name like ?;`;
     return db(query, [`%${name}%`]);
   };
 
   static getByCode(code) {
-    let query = `SELECT * FROM cms_wt_erp.goal_task_timeline WHERE code = ?;`;
+    let query = `SELECT * FROM cms_wt_erp.goal_task_comment WHERE code = ?;`;
     return db(query, [code]);
   };
 
   static filter(options) {
-    let { query, values } = new lib.Query().select().props(options.props).table("cms_wt_erp.goal_task_timeline task_timeline")
+    let { query, values } = new lib.Query().select().props(options.props).table("cms_wt_erp.goal_task_comment task_comment")
       .inners(options.inners)
       .lefts(options.lefts)
       .params(options.params)
@@ -59,4 +59,4 @@ class GoalTaskTimeline {
   };
 };
 
-module.exports = GoalTaskTimeline;
+module.exports = GoalTaskComment;

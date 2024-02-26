@@ -3,11 +3,15 @@
     let timelines = await API.response(GoalTaskTimeline.filter, timeline, box);
     if (!timelines) { return false; }
 
-    let timeline_box = lib.element.create("div", { class: "box b1 container" });
+    let timeline_box = lib.element.create("div", { class: "box b2 container" });
+
+    if (!timelines.length) {
+      timeline_box.append(lib.element.create("div", { class: "box b1 lucida-grande padding-10 border margin-top-5 center" }, "Nenhuma ação foi realizada"));
+    }
 
     timelines.forEach(timeline => {
-      let timeline_div = lib.element.create("div", { class: "box b1 container padding-5 margin-top-5" });
-      timeline_div.append(lib.element.create("div", { class: "box b1 em07" }, `Descrição da ação - ${timeline.user_name} - ${lib.timestampToDate(timeline.datetime)}`));
+      let timeline_div = lib.element.create("div", { class: "box b1 container border padding-5 margin-top-5" });
+      timeline_div.append(lib.element.create("div", { class: "box b1 em07" }, `Descrição da ação - ${timeline.user_name} - ${timeline.action} - ${lib.timestampToDate(timeline.datetime)}`));
       timeline_div.append(lib.element.create("div", { class: "box b1" }, timeline.description));
       timeline_box.append(timeline_div);
     });

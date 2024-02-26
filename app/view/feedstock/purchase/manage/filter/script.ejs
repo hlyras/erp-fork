@@ -17,14 +17,16 @@
     let purchases = await API.response(FeedstockPurchase.filter, purchase);
     if (!purchases) { return false; }
 
-    console.log(purchases);
-
     lib.carousel.execute("purchase-filter-box", purchaseFilter, purchases, { pageSize: 10, page: 0 });
   });
 
   function purchaseFilter(purchases, pagination) {
     let filter_div = document.getElementById("purchase-filter-div");
     filter_div.innerHTML = "";
+
+    let total_value = purchases.reduce((value, purchase) => { return value += purchase.total_value }, 0);
+
+    filter_div.append(lib.element.create("div", { class: "box b1 lucida-grande em09 bold center" }, `Total em compras: R$${total_value.toFixed(2)}`));
 
     for (let i = pagination.page * pagination.pageSize; i < purchases.length && i < (pagination.page + 1) * pagination.pageSize; i++) {
       let purchase_div = lib.element.create("div", {

@@ -5,7 +5,7 @@
     comment_create_form.append(lib.element.create("textarea", { name: "description", class: "box b1 lucida-grande border padding-5", placeholder: "Escreva um comentário em relação a essa tarefa" }));
     comment_create_form.append(lib.element.create("button", { name: "submit", class: "box b1 btn-act noborder padding-10 margin-top-5 pointer" }, "Novo comentário"));
 
-    comment_create_form.addEventListener("submit", e => {
+    comment_create_form.addEventListener("submit", async e => {
       e.preventDefault();
 
       let comment = {
@@ -13,7 +13,9 @@
         description: e.target.description.value
       };
 
-      commentCreate(comment);
+      await commentCreate(comment);
+
+      e.target.description.value = "";
     });
 
     return comment_create_form;

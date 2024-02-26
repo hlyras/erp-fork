@@ -58,7 +58,7 @@ class GoalTask {
       .lefts(options.lefts)
       .params(options.params)
       .strictParams(options.strict_params)
-      .inParams(options.strict_params)
+      .inParams(options.in_params)
       .order(options.order_params)
       .build();
     return db(query, values);
