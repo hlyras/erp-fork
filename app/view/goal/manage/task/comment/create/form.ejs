@@ -1,0 +1,21 @@
+<script>
+  async function commentCreateForm(task_id) {
+    let comment_create_form = lib.element.create("form", { class: "box b1 container" });
+    comment_create_form.append(lib.element.create("div", { class: "box b1 underline lucida-grande bold margin-top-5 center" }, "Registrar um comentário"));
+    comment_create_form.append(lib.element.create("textarea", { name: "description", class: "box b1 lucida-grande border padding-5", placeholder: "Escreva um comentário em relação a essa tarefa" }));
+    comment_create_form.append(lib.element.create("button", { name: "submit", class: "box b1 btn-act noborder padding-10 margin-top-5 pointer" }, "Novo comentário"));
+
+    comment_create_form.addEventListener("submit", e => {
+      e.preventDefault();
+
+      let comment = {
+        task_id: task_id,
+        description: e.target.description.value
+      };
+
+      commentCreate(comment);
+    });
+
+    return comment_create_form;
+  };
+</script>

@@ -36,7 +36,7 @@ Feedstock.findById = async (id) => {
   return db(query);
 };
 
-Feedstock.filter = (props, inners, params, strict_params, order_params) => {
+Feedstock.filter = ({ props, inners, params, strict_params, order_params }) => {
   let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_feedstock")
     .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
   return db(query, values);

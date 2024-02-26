@@ -32,7 +32,7 @@
 
     goals.forEach(async goal => {
       let goal_div = lib.element.create("div", { class: "box b1 container border-st radius-5 padding-5 margin-top-10" });
-      let goal_info = lib.element.create("div", { class: "box b2 container margin-top-10" });
+      let goal_info = lib.element.create("div", { class: "box b3 container margin-top-10" });
       goal_div.append(goal_info);
       goal_info.append(lib.element.createInfo("mobile-box b1 lucida-grande bold margin-top-10", "Descrição do objetivo", goal.description));
       goal_info.append(lib.element.createInfo("mobile-box b1 lucida-grande em09 margin-top-10", "Departamento", goal.department_name));
@@ -41,7 +41,7 @@
       goal_info.append(lib.element.createInfo("mobile-box b1 lucida-grande em09 margin-top-10", "Status", goal.status));
       filter_div.append(goal_div);
 
-      let goal_task = lib.element.create("div", { class: "box b2 container" });
+      let goal_task = lib.element.create("div", { class: "box b2-3 container" });
       goal_div.append(goal_task);
 
       let task_form = taskCreateForm(goal, users);

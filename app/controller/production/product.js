@@ -37,8 +37,6 @@ productController.filter = async (req, res) => {
   const params = { keys: [], values: [] };
   const strict_params = { keys: [], values: [] };
 
-  console.log(req.body);
-
   let period_prop = req.body.period_prop;
   if (period_prop != "preparation_datetime" && period_prop != "shipment_datetime" && period_prop != "receipt_datetime") {
     period_prop = null;
