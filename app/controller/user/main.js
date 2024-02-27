@@ -68,14 +68,14 @@ userController.verifyAccess = (req, res, access) => {
 };
 
 userController.filter = async (req, res) => {
-	let props = ["user.id", "user.name", "user.email", "user.phone", "user.department", "user.role"];
+	let props = ["user.id", "user.name", "user.username", "user.phone", "user.department", "user.role"];
 
 	const params = { keys: [], values: [] };
 	const strict_params = { keys: [], values: [] };
 
 	lib.Query.fillParam("user.id", req.body.id, strict_params);
 	lib.Query.fillParam("user.name", req.body.name, params);
-	lib.Query.fillParam("user.email", req.body.email, params);
+	lib.Query.fillParam("user.username", req.body.username, params);
 	lib.Query.fillParam("user.phone", req.body.phone, params);
 	lib.Query.fillParam("user.department", req.body.department, strict_params);
 	lib.Query.fillParam("user.role", req.body.role, strict_params);
