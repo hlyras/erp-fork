@@ -146,17 +146,17 @@ userController.updatePassword = async (req, res) => {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
-	let user = {
-		id: req.user.id,
-		password: bcrypt.hashSync(req.body.user.password, null, null),
-		password_confirm: bcrypt.hashSync(req.body.user.password_confirm, null, null),
-	}
+	let user = new User();
+	user.id = req.user.id;
+	user.password = bcrypt.hashSync(req.body.password, null, null);
 
-	if (!req.body.user.password || req.body.user.password.length < 4) { return res.send({ msg: 'Senha inválida.' }); };
-	if (req.body.user.password !== req.body.user.password_confirm) { return res.send({ msg: 'As senhas não correspondem.' }); }
+	if (!req.body.password || req.body.password < 4) { return res.send({ msg: 'Senha inválida.' }); };
+	if (req.body.password !== req.body.password_confirm) { return res.send({ msg: 'As senhas não correspondem.' }); }
 
 	try {
-		let row = await User.updatePassword(user);
+		let response = await user.update();
+		if (response.err) { return res.send(response.err); }
+
 		res.send({ done: "Senha alterada com sucesso.", user });
 	} catch (err) {
 		console.log(err);
