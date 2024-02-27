@@ -37,7 +37,7 @@ Filigran.findById = async (id) => {
   return db(query);
 };
 
-Filigran.filter = (props, inners, params, strict_params, order_params) => {
+Filigran.filter = ({ props, inners, params, strict_params, order_params }) => {
   let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_filigran product_filigran")
     .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
   return db(query, values);

@@ -60,7 +60,7 @@ datasheetController.feedstock = async (req, res) => {
 	lib.Query.fillParam("product_feedstock.product_id", req.params.product_id, strict_params);
 
 	try {
-		let feedstocks = await Product.feedstock.filter(props, inners, [], strict_params, []);
+		let feedstocks = await Product.feedstock.filter({ props, inners, strict_params });
 		res.send({ feedstocks });
 	} catch (err) {
 		console.log(err);

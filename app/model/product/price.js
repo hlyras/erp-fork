@@ -22,7 +22,7 @@ Product.price = {
 		let query = "SELECT * FROM cms_wt_erp.product_price where category_id='" + price.category_id + "' AND product_id='" + price.product_id + "' ORDER BY id ASC;";
 		return db(query);
 	},
-	filter: (props, inners, params, strict_params, order_params) => {
+	filter: ({ props, inners, params, strict_params, order_params }) => {
 		let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_price product_price")
 			.inners(inners).params(params).strictParams(strict_params).order(order_params).build();
 		return db(query, values);
@@ -48,7 +48,7 @@ Product.price = {
 			let query = "SELECT * FROM cms_wt_erp.product_price_category ORDER BY id ASC;";
 			return db(query);
 		},
-		filter: async (params, order_params) => {
+		filter: async ({ params, order_params }) => {
 			let { query, values } = new lib.Query().select().table("cms_wt_erp.product_price_category price_category")
 				.params(params).order(order_params).build();
 			return db(query, values);

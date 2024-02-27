@@ -81,7 +81,7 @@ seamController.filter = async (req, res) => {
   lib.Query.fillParam("product_seam.name", req.body.name, params);
 
   try {
-    let seams = await Product.seam.filter(props, inners, params, strict_params, []);
+    let seams = await Product.seam.filter({ props, inners, params, strict_params });
     res.send({ seams });
   } catch (err) {
     console.log(err);
@@ -101,7 +101,7 @@ seamController.findById = async (req, res) => {
   lib.Query.fillParam("product_seam.id", req.params.id, strict_params);
 
   try {
-    let seam = (await Product.seam.filter(props, inners, [], strict_params, []))[0];
+    let seam = (await Product.seam.filter({ props, inners, strict_params }))[0];
     res.send({ seam });
   } catch (err) {
     console.log(err);

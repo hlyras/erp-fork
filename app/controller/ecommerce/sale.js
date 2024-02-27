@@ -250,7 +250,7 @@ saleController.filter = async (req, res) => {
 	let limit = 0;
 
 	try {
-		let sales = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
+		let sales = await Sale.filter({ props, inners, period, params, strict_params, order_params, limit });
 		res.send({ sales });
 	} catch (err) {
 		console.log(err);

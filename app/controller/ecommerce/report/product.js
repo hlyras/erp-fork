@@ -22,49 +22,55 @@ productController.filter = async (req, res) => {
     return res.send({ unauthorized: "Você não tem permissão para acessar!" });
   };
 
-  let period = { key: "packing_datetime", start: req.body.sale.periodStart, end: req.body.sale.periodEnd };
-  let params = { keys: [], values: [] }
-  let strict_params = { keys: [], values: [] }
+  let product_options = {
+    props: ["ecommerce_sale.id",
+      "product.code",
+      "product.name",
+      "product.color",
+      "product.size",
+      "ecommerce_sale_product.product_id",
+      "ecommerce_sale_product.amount"
+    ],
+    inners: [
+      ["cms_wt_erp.ecommerce_sale_product ecommerce_sale_product", "cms_wt_erp.ecommerce_sale.id", "cms_wt_erp.ecommerce_sale_product.sale_id"],
+      ["cms_wt_erp.product product", "cms_wt_erp.product.id", "cms_wt_erp.ecommerce_sale_product.product_id"]
+    ],
+    period: { key: "packing_datetime", start: req.body.sale.periodStart, end: req.body.sale.periodEnd },
+    params: { keys: [], values: [] },
+    strict_params: { keys: [], values: [] }
+  };
 
-  let product_props = ["ecommerce_sale.id",
-    "product.code",
-    "product.name",
-    "product.color",
-    "product.size",
-    "ecommerce_sale_product.product_id",
-    "ecommerce_sale_product.amount"
-  ];
+  let package_options = {
+    props: ["ecommerce_sale.id",
+      "product.code",
+      "product.name",
+      "product.color",
+      "product.size",
+      "ecommerce_sale_package_product.product_id",
+      "ecommerce_sale_package_product.amount"
+    ],
+    inners: [
+      ["cms_wt_erp.ecommerce_sale_package_product ecommerce_sale_package_product", "cms_wt_erp.ecommerce_sale.id", "cms_wt_erp.ecommerce_sale_package_product.sale_id"],
+      ["cms_wt_erp.product product", "cms_wt_erp.product.id", "cms_wt_erp.ecommerce_sale_package_product.product_id"]
+    ],
+    period: { key: "packing_datetime", start: req.body.sale.periodStart, end: req.body.sale.periodEnd },
+    params: { keys: [], values: [] },
+    strict_params: { keys: [], values: [] }
+  };
 
-  let package_product_props = ["ecommerce_sale.id",
-    "product.code",
-    "product.name",
-    "product.color",
-    "product.size",
-    "ecommerce_sale_package_product.product_id",
-    "ecommerce_sale_package_product.amount"
-  ];
+  lib.Query.fillParam("origin", req.body.sale.origin, product_options.params);
+  lib.Query.fillParam("product.name", req.body.sale.product_name, product_options.params);
+  lib.Query.fillParam("product.color", req.body.sale.product_color, product_options.params);
+  lib.Query.fillParam("ecommerce_sale.status", req.body.sale.status, product_options.strict_params);
 
-  let product_inners = [
-    ["cms_wt_erp.ecommerce_sale_product ecommerce_sale_product", "cms_wt_erp.ecommerce_sale.id", "cms_wt_erp.ecommerce_sale_product.sale_id"],
-    ["cms_wt_erp.product product", "cms_wt_erp.product.id", "cms_wt_erp.ecommerce_sale_product.product_id"]
-  ];
-
-  let package_product_inners = [
-    ["cms_wt_erp.ecommerce_sale_package_product ecommerce_sale_package_product", "cms_wt_erp.ecommerce_sale.id", "cms_wt_erp.ecommerce_sale_package_product.sale_id"],
-    ["cms_wt_erp.product product", "cms_wt_erp.product.id", "cms_wt_erp.ecommerce_sale_package_product.product_id"]
-  ];
-
-  lib.Query.fillParam("origin", req.body.sale.origin, params);
-  lib.Query.fillParam("product.name", req.body.sale.product_name, params);
-  lib.Query.fillParam("product.color", req.body.sale.product_color, params);
-  lib.Query.fillParam("ecommerce_sale.status", req.body.sale.status, strict_params);
-
-  let order_params = [["ecommerce_sale.id", "DESC"]];
-  let limit = 0;
+  lib.Query.fillParam("origin", req.body.sale.origin, package_options.params);
+  lib.Query.fillParam("product.name", req.body.sale.product_name, package_options.params);
+  lib.Query.fillParam("product.color", req.body.sale.product_color, package_options.params);
+  lib.Query.fillParam("ecommerce_sale.status", req.body.sale.status, package_options.strict_params);
 
   try {
-    let sale_products = await Sale.filter(product_props, product_inners, period, params, strict_params, order_params, limit);
-    let sale_package_products = await Sale.filter(package_product_props, package_product_inners, period, params, strict_params, order_params, limit);
+    let sale_products = await Sale.filter(product_options);
+    let sale_package_products = await Sale.filter(package_options);
     res.send({ sale_products: sale_products, sale_package_products: sale_package_products });
   } catch (err) {
     console.log(err);

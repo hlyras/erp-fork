@@ -101,7 +101,7 @@ packageController.filter = async (req, res) => {
 	let order_params = [["package.code", "ASC"]];
 
 	try {
-		const packages = await Product.package.filter([], [], params, strict_params, order_params);
+		const packages = await Product.package.filter({ params, strict_params, order_params });
 		res.send({ packages });
 	} catch (err) {
 		console.log(err);

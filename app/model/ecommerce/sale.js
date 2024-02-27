@@ -71,7 +71,7 @@ Sale.changeStatus = async (sale) => {
 	return db(query);
 };
 
-Sale.filter = (props, inners, period, params, strict_params, order_params, limit) => {
+Sale.filter = ({ props, inners, period, params, strict_params, order_params, limit }) => {
 	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.ecommerce_sale ecommerce_sale")
 		.inners(inners)
 		.period(period)
@@ -228,7 +228,7 @@ Sale.after_sale = {
 			+ sale.user_name + "');";
 		return db(query);
 	},
-	filter: (props, period, strict_params, order_params) => {
+	filter: ({ props, period, strict_params, order_params }) => {
 		let { query, values } = lib.Query().select().props(props).table('cms_wt_erp.ecommerce_sale_after_sale ecommerce_sale_after_sale')
 			.period(period).strictParams(strict_params).order(order_params).build();
 		return db(query, values);
@@ -251,7 +251,7 @@ Sale.after_sale = {
 				+ sale.user_name + "');";
 			return db(query);
 		},
-		filter: (props, period,) => {
+		filter: ({ props, period }) => {
 			let { query, values } = lib.Query().select().props(props).table("cms_wt_erp.ecommerce_sale_after_sale ecommerce_sale_after_sale")
 				.period(period).params(params).order(order_params).build();
 			return db(query, values);

@@ -81,7 +81,7 @@ filigranController.filter = async (req, res) => {
   lib.Query.fillParam("product_filigran.name", req.body.name, params);
 
   try {
-    let filigrans = await Product.filigran.filter(props, inners, params, strict_params, []);
+    let filigrans = await Product.filigran.filter({ props, inners, params, strict_params });
     res.send({ filigrans });
   } catch (err) {
     console.log(err);
@@ -101,7 +101,7 @@ filigranController.findById = async (req, res) => {
   lib.Query.fillParam("product_filigran.id", req.params.id, strict_params);
 
   try {
-    let filigran = (await Product.filigran.filter(props, inners, [], strict_params, []))[0];
+    let filigran = (await Product.filigran.filter({ props, inners, strict_params }))[0];
     res.send({ filigran });
   } catch (err) {
     console.log(err);

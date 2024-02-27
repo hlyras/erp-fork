@@ -31,7 +31,7 @@ gatheringController.filter = async (req, res) => {
   let order_params = [["ecommerce_sale.date", "DESC"]];
 
   try {
-    let sale_gatherings = await Sale.filter([], [], period, [], strict_params, order_params, 0);
+    let sale_gatherings = await Sale.filter({ period, strict_params, order_params });
     res.send({ sale_gatherings });
   } catch (err) {
     console.log(err);

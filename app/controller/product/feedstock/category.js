@@ -85,7 +85,7 @@ categoryController.filter = async (req, res) => {
   lib.Query.fillParam("product_feedstock_category.product_id", req.body.product_id, strict_params);
 
   try {
-    let categories = await Product.feedstock.category.filter([], [], [], strict_params, []);
+    let categories = await Product.feedstock.category.filter({ strict_params });
     res.send({ categories });
   } catch (err) {
     console.log(err);

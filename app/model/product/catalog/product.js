@@ -34,7 +34,7 @@ Product.findById = async (id) => {
   return db(query);
 };
 
-Product.filter = (props, inners, params, strict_params, order_params) => {
+Product.filter = ({ props, inners, params, strict_params, order_params }) => {
   let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_price catalog_product")
     .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
   return db(query, values);

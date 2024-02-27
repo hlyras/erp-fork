@@ -38,7 +38,7 @@ productController.print = async (req, res) => {
 	let order_params = [["product.code", "ASC"]];
 
 	try {
-		const products = await Product.filter([], [], [], strict_params, order_params);
+		const products = await Product.filter({ strict_params, order_params });
 		res.render('product/print', { user: req.user, products });
 	} catch (err) {
 		console.log(err);
@@ -136,7 +136,7 @@ productController.filter = async (req, res) => {
 	let order_params = [["product.code", "ASC"]];
 
 	try {
-		const products = await Product.filter(props, inners, params, strict_params, order_params);
+		const products = await Product.filter({ props, inners, params, strict_params, order_params });
 		res.send({ products });
 	} catch (err) {
 		console.log(err);

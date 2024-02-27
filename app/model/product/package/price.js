@@ -28,7 +28,7 @@ Price.find = (price) => {
 	return db(query);
 };
 
-Price.filter = (props, inners, params, strict_params, order_params) => {
+Price.filter = ({ props, inners, params, strict_params, order_params }) => {
 	let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_package_price package_price")
 		.inners(inners).params(params).strictParams(strict_params).order(order_params).build();
 	return db(query, values);

@@ -88,7 +88,7 @@ feedstockController.filter = async (req, res) => {
 	lib.Query.fillParam("product_feedstock.category_id", req.body.category_id, strict_params);
 
 	try {
-		let feedstocks = await Product.feedstock.filter(props, inners, [], strict_params, []);
+		let feedstocks = await Product.feedstock.filter({ props, inners, strict_params });
 		res.send({ feedstocks });
 	} catch (err) {
 		console.log(err);
@@ -115,7 +115,7 @@ feedstockController.findById = async (req, res) => {
 	lib.Query.fillParam("product_feedstock.id", req.params.id, strict_params);
 
 	try {
-		let feedstock = (await Product.feedstock.filter(props, inners, [], strict_params, []))[0];
+		let feedstock = (await Product.feedstock.filter({ props, inners, strict_params }))[0];
 		res.send({ feedstock });
 	} catch (err) {
 		console.log(err);

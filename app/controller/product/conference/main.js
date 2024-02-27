@@ -87,7 +87,7 @@ conferenceController.filter = async (req, res) => {
 	let order_params = [["product_conference.id", "ASC"]];
 
 	try {
-		const conferences = await Product.conference.filter(props, inners, params, strict_params, order_params);
+		const conferences = await Product.conference.filter({ props, inners, params, strict_params, order_params });
 		res.send({ conferences });
 	} catch (err) {
 		console.log(err);

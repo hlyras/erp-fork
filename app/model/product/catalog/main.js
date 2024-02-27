@@ -36,7 +36,7 @@ Catalog.findByCode = async (code) => {
   return db(query);
 };
 
-Catalog.filter = (props, inners, params, strict_params, order_params) => {
+Catalog.filter = ({ props, inners, params, strict_params, order_params }) => {
   let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_price_category catalog")
     .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
   return db(query, values);

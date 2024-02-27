@@ -83,7 +83,7 @@ userController.filter = async (req, res) => {
 	let order_params = [["user.id", "ASC"]];
 
 	try {
-		const users = await User.filter(props, [], params, strict_params, order_params);
+		const users = await User.filter({ props, params, strict_params, order_params });
 		res.send({ users });
 	} catch (err) {
 		console.log(err);

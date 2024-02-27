@@ -38,7 +38,7 @@ packmentController.filter = async (req, res) => {
   let limit = 0;
 
   try {
-    let sale_packments = await Sale.filter(props, inners, period, params, strict_params, order_params, limit);
+    let sale_packments = await Sale.filter({ props, inners, period, params, strict_params, order_params, limit });
     res.send({ sale_packments });
   } catch (err) {
     console.log(err);

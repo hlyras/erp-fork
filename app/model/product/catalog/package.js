@@ -34,7 +34,7 @@ Package.findById = async (id) => {
   return db(query);
 };
 
-Package.filter = (props, inners, params, strict_params, order_params) => {
+Package.filter = ({ props, inners, params, strict_params, order_params }) => {
   let { query, values } = new lib.Query().select().props(props).table("cms_wt_erp.product_package_price catalog_package")
     .inners(inners).params(params).strictParams(strict_params).order(order_params).build();
   return db(query, values);
