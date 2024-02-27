@@ -4,6 +4,8 @@
       let detail_div = document.getElementById("order-detail-div");
       detail_div.innerHTML = "";
 
+      console.log(pass);
+
       if (!pass) {
         detail_div.innerHTML = "";
         detail_div.append(lib.element.create("div", {
@@ -11,12 +13,12 @@
           onclick: 'getOrders()'
         }, "Carregar pedido"));
       } else {
-        let supplier = (await API.response(Feedstock.supplier.filter, { pass }))[0];
+        let supplier = (await API.response(FeedstockSupplier.filter, { pass }))[0];
         if (!supplier) { return lib.message("Não autorizado!", getOrders); }
 
         detail_div.append(lib.element.create("div", { class: "box b1 lucida-grande bold padding-10 margin-top-10 center" }, `Ag. pedido de ${supplier.trademark}`));
 
-        const orders = await API.response(Feedstock.purchase.order.filter, { supplier_id: supplier.id, status: "Ag. pedido" });
+        const orders = await API.response(FeedstockPurchaseOrder.filter, { supplier_id: supplier.id, status: "Ag. pedido" });
         orders.forEach(async order => {
           let order_div = await renderOrder(order);
           detail_div.append(order_div);
@@ -68,8 +70,8 @@
 
       e.target.value = parseFloat(e.target.value).toFixed(4);
 
-      let supplier_feedstock = await API.response(Feedstock.supplier.storage.filter, { supplier_id: order.supplier_id, feedstock_id: order.feedstock_id });
-      let response = await API.response(Feedstock.supplier.storage.update, { id: supplier_feedstock[0].id, price: e.target.value });
+      let supplier_feedstock = await API.response(FeedstockSupplierStorage.filter, { supplier_id: order.supplier_id, feedstock_id: order.feedstock_id });
+      let response = await API.response(FeedstockSupplierStorage.update, { id: supplier_feedstock[0].id, price: e.target.value });
       if (!response) { return false; }
 
       e.target.dataset.initial_price = e.target.value;
@@ -81,7 +83,7 @@
   };
 
   async function orderCostUpdate(order_id) {
-    let order = (await API.response(Feedstock.purchase.order.filter, { id: order_id }))[0];
+    let order = (await API.response(FeedstockPurchaseOrder.filter, { id: order_id }))[0];
     !order && (document.getElementById(`order-${order.id}-cost`).innerHTML = `Erro ao calcular`);
 
     order.price && order.amount &&
@@ -91,7 +93,7 @@
   async function purchaseCostRender(supplier_id) {
     let purchase_div = document.getElementById("purchase-detail-div");
 
-    let orders = await API.response(Feedstock.purchase.order.filter, { supplier_id, status: "Ag. pedido" });
+    let orders = await API.response(FeedstockPurchaseOrder.filter, { supplier_id, status: "Ag. pedido" });
 
     purchase_div.append(lib.element.create("div", { class: "mobile-box lucida-grande padding-5 right" }, `Valor do pedido:`));
     purchase_div.append(lib.element.create("div", {
