@@ -10,7 +10,7 @@ Product.seam = require('../../../model/product/seam/main');
 const seamController = {};
 
 seamController.index = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-dev'])) {
     return res.redirect('/');
   };
 
@@ -23,7 +23,7 @@ seamController.index = async (req, res) => {
 };
 
 seamController.manage = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-dev'])) {
     return res.redirect('/');
   };
 
@@ -37,7 +37,7 @@ seamController.manage = async (req, res) => {
 };
 
 seamController.create = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-dev'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
@@ -66,7 +66,7 @@ seamController.create = async (req, res) => {
 };
 
 seamController.filter = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-dev'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
@@ -90,7 +90,7 @@ seamController.filter = async (req, res) => {
 };
 
 seamController.findById = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-dev'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
@@ -110,7 +110,7 @@ seamController.findById = async (req, res) => {
 };
 
 seamController.delete = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-dev'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 

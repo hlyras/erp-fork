@@ -11,7 +11,7 @@ Product.color = require('../../../model/product/color');
 const supplierController = {};
 
 supplierController.manage = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man', 'pro-dev'])) {
 		return res.redirect('/');
 	};
 
@@ -30,7 +30,7 @@ supplierController.manage = async (req, res) => {
 };
 
 supplierController.create = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man', 'pro-dev'])) {
 		return res.redirect('/');
 	};
 

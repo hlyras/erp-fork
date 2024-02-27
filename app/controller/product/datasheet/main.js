@@ -9,7 +9,7 @@ Product.color = require('../../../model/product/color');
 const datasheetController = {};
 
 datasheetController.index = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-dev'])) {
 		return res.redirect('/');
 	};
 
@@ -22,7 +22,7 @@ datasheetController.index = async (req, res) => {
 };
 
 datasheetController.cost = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-dev'])) {
 		return res.redirect('/');
 	};
 
@@ -36,7 +36,7 @@ datasheetController.cost = async (req, res) => {
 };
 
 datasheetController.feedstock = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-dev'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
 	};
 

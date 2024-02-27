@@ -10,7 +10,7 @@ Product.feedstock = require('../../../model/product/feedstock/main');
 const feedstockController = {};
 
 feedstockController.index = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-pro'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-pro', 'pro-dev'])) {
 		return res.redirect('/');
 	};
 
@@ -23,7 +23,7 @@ feedstockController.index = async (req, res) => {
 };
 
 feedstockController.manage = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-pro'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-pro', 'pro-dev'])) {
 		return res.redirect('/');
 	};
 
@@ -37,7 +37,7 @@ feedstockController.manage = async (req, res) => {
 };
 
 feedstockController.add = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro', 'pro-dev'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
 	};
 
@@ -67,7 +67,7 @@ feedstockController.add = async (req, res) => {
 };
 
 feedstockController.filter = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro', 'pro-man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro', 'pro-man', 'pro-dev'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
 	};
 
@@ -97,7 +97,7 @@ feedstockController.filter = async (req, res) => {
 };
 
 feedstockController.findById = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro', 'pro-man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro', 'pro-man', 'pro-dev'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
 	};
 
@@ -124,7 +124,7 @@ feedstockController.findById = async (req, res) => {
 };
 
 feedstockController.remove = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-pro', 'pro-dev'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
 	};
 

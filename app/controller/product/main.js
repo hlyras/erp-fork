@@ -14,7 +14,7 @@ const imageController = require('./image');
 const productController = {};
 
 productController.manage = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'man', 'adm-man', 'COR-GER', 'com-ass', 'adm-vis'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'man', 'adm-man', 'COR-GER', 'com-ass', 'adm-vis', 'pro-dev'])) {
 		return res.redirect("/");
 	};
 
@@ -28,7 +28,7 @@ productController.manage = async (req, res) => {
 };
 
 productController.print = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', "adm-man", "adm-ass", "adm-aud", 'COR-GER', 'log-pac', "fin-ass"])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'com-sel', "adm-man", "adm-ass", "adm-aud", 'COR-GER', 'log-pac', "fin-ass", 'pro-dev'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 
@@ -47,7 +47,7 @@ productController.print = async (req, res) => {
 };
 
 productController.create = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'adm-vis', 'adm-man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'adm-vis', 'adm-man', 'pro-dev'])) {
 		return res.send({ unauthorized: "Você não tem permissão para realizar esta ação!" });
 	};
 

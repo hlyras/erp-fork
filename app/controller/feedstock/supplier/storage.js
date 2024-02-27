@@ -9,7 +9,7 @@ const FeedstockSupplierStorage = require('../../../model/feedstock/supplier/stor
 const storageController = {};
 
 storageController.open = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man', 'pro-dev'])) {
 		return res.redirect('/');
 	};
 
@@ -47,7 +47,7 @@ storageController.open = async (req, res) => {
 };
 
 storageController.create = async (req, res) => {
-	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man'])) {
+	if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'man', 'pro-dev'])) {
 		return res.redirect('/');
 	};
 

@@ -10,7 +10,7 @@ Product.filigran = require('../../../model/product/seam/filigran');
 const filigranController = {};
 
 filigranController.index = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-dev'])) {
     return res.redirect('/');
   };
 
@@ -23,7 +23,7 @@ filigranController.index = async (req, res) => {
 };
 
 filigranController.manage = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-man', 'pro-dev'])) {
     return res.redirect('/');
   };
 
@@ -37,7 +37,7 @@ filigranController.manage = async (req, res) => {
 };
 
 filigranController.create = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-dev'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
@@ -66,7 +66,7 @@ filigranController.create = async (req, res) => {
 };
 
 filigranController.filter = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-dev'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
@@ -90,7 +90,7 @@ filigranController.filter = async (req, res) => {
 };
 
 filigranController.findById = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-dev'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
@@ -110,7 +110,7 @@ filigranController.findById = async (req, res) => {
 };
 
 filigranController.delete = async (req, res) => {
-  if (!await userController.verifyAccess(req, res, ['adm'])) {
+  if (!await userController.verifyAccess(req, res, ['adm', 'pro-dev'])) {
     return res.send({ unauthorized: "Você não tem permissão para realizar essa ação." });
   };
 
