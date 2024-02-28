@@ -22,7 +22,7 @@ packageController.add = async (req, res) => {
   lib.Query.fillParam("catalog_package.package_id", package.package_id, strict_params);
 
   try {
-    let packages = await Product.catalog.package.filter([], [], [], strict_params, []);
+    let packages = await Product.catalog.package.filter({ strict_params });
     if (packages.length) { return res.send({ msg: "Este pacote já está incluso no catálogo." }); }
 
     let response = await package.add();

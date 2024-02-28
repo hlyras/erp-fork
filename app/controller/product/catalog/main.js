@@ -66,7 +66,7 @@ catalogController.filter = async (req, res) => {
   };
 
   try {
-    let catalogs = await Product.catalog.filter([], [], [], [], []);
+    let catalogs = await Product.catalog.filter({});
     res.send({ catalogs });
   } catch (err) {
     console.log(err);
@@ -80,21 +80,25 @@ catalogController.findById = async (req, res) => {
   };
 
   // Produtos
-  let product_props = ["catalog_product.*", "product.code", "product.name", "product.color", "product.size"];
-  let product_inners = [["cms_wt_erp.product product", "catalog_product.product_id", "product.id"]];
-  let product_strict_params = { keys: [], values: [] };
-  lib.Query.fillParam("catalog_product.category_id", req.params.id, product_strict_params);
+  let product_options = {
+    props: ["catalog_product.*", "product.code", "product.name", "product.color", "product.size"],
+    inners: [["cms_wt_erp.product product", "catalog_product.product_id", "product.id"]],
+    strict_params: { keys: [], values: [] }
+  };
+  lib.Query.fillParam("catalog_product.category_id", req.params.id, product_options.strict_params);
 
   // Pacotes
-  let package_props = ["catalog_package.*", "package.code", "package.name", "package.color"];
-  let package_inners = [["cms_wt_erp.product_package package", "catalog_package.package_id", "package.id"]];
-  let package_strict_params = { keys: [], values: [] };
-  lib.Query.fillParam("catalog_package.category_id", req.params.id, package_strict_params);
+  let package_options = {
+    props: ["catalog_package.*", "package.code", "package.name", "package.color"],
+    inners: [["cms_wt_erp.product_package package", "catalog_package.package_id", "package.id"]],
+    strict_params: { keys: [], values: [] }
+  };
+  lib.Query.fillParam("catalog_package.category_id", req.params.id, package_options.strict_params);
 
   try {
     let catalog = (await Product.catalog.findById(req.params.id))[0];
-    catalog.products = await Product.catalog.product.filter(product_props, product_inners, [], product_strict_params, []);
-    catalog.packages = await Product.catalog.package.filter(package_props, package_inners, [], package_strict_params, []);
+    catalog.products = await Product.catalog.product.filter(product_options);
+    catalog.packages = await Product.catalog.package.filter(package_options);
 
     res.send({ catalog });
   } catch (err) {

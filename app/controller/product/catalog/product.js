@@ -23,7 +23,7 @@ productController.add = async (req, res) => {
   lib.Query.fillParam("catalog_product.product_id", product.product_id, strict_params);
 
   try {
-    let products = await Product.catalog.product.filter([], [], [], strict_params, []);
+    let products = await Product.catalog.product.filter({ strict_params });
     if (products.length) { return res.send({ msg: "Este produto já está incluso no catálogo." }); }
 
     let response = await product.add();
@@ -60,28 +60,32 @@ productController.filter = async (req, res) => {
   };
 
   // Products
-  let product_props = ["catalog_product.*", "product.code", "product.name", "product.color", "product.size"];
-  let product_inners = [["cms_wt_erp.product product", "catalog_product.product_id", "product.id"]];
-  let product_params = { keys: [], values: [] };
-  let product_strict_params = { keys: [], values: [] };
+  let product_options = {
+    props: ["catalog_product.*", "product.code", "product.name", "product.color", "product.size"],
+    inners: [["cms_wt_erp.product product", "catalog_product.product_id", "product.id"]],
+    params: { keys: [], values: [] },
+    strict_params: { keys: [], values: [] }
+  };
 
-  lib.Query.fillParam("catalog_product.category_id", req.body.catalog_id, product_strict_params);
-  lib.Query.fillParam("product.code", req.body.code, product_strict_params);
-  lib.Query.fillParam("product.name", req.body.name, product_params);
+  lib.Query.fillParam("catalog_product.category_id", req.body.catalog_id, product_options.strict_params);
+  lib.Query.fillParam("product.code", req.body.code, product_options.strict_params);
+  lib.Query.fillParam("product.name", req.body.name, product_options.params);
 
   // Packages
-  let package_props = ["catalog_package.*", "package.code", "package.name", "package.color"];
-  let package_inners = [["cms_wt_erp.product_package package", "catalog_package.package_id", "package.id"]];
-  let package_params = { keys: [], values: [] };
-  let package_strict_params = { keys: [], values: [] };
+  let package_options = {
+    props: ["catalog_package.*", "package.code", "package.name", "package.color"],
+    inners: [["cms_wt_erp.product_package package", "catalog_package.package_id", "package.id"]],
+    params: { keys: [], values: [] },
+    strict_params: { keys: [], values: [] }
+  };
 
-  lib.Query.fillParam("catalog_package.category_id", req.body.catalog_id, package_strict_params);
-  lib.Query.fillParam("package.code", req.body.code, package_strict_params);
-  lib.Query.fillParam("package.name", req.body.name, package_params);
+  lib.Query.fillParam("catalog_package.category_id", req.body.catalog_id, package_options.strict_params);
+  lib.Query.fillParam("package.code", req.body.code, package_options.strict_params);
+  lib.Query.fillParam("package.name", req.body.name, package_options.params);
 
   try {
-    let products = await Product.catalog.product.filter(product_props, product_inners, product_params, product_strict_params, []);
-    let packages = await Product.catalog.package.filter(package_props, package_inners, package_params, package_strict_params, []);
+    let products = await Product.catalog.product.filter(product_options);
+    let packages = await Product.catalog.package.filter(package_options);
     res.send({ products, packages });
   } catch (err) {
     console.log(err);
