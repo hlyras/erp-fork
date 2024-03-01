@@ -3,7 +3,7 @@
 		e.preventDefault();
 
 		let mail = {
-			id: e.target.elements.namedItem("id").value,
+			id: e.target.elements.namedItem("id").value || null,
 			title: e.target.elements.namedItem("title").value,
 			description: e.target.elements.namedItem("description").value,
 			subject: e.target.elements.namedItem("subject").value,
@@ -12,7 +12,7 @@
 		};
 
 		const response = await API.response(Mail.create, mail);
-		if(!response) { return false; }
+		if (!response) { return false; }
 
 		e.target.elements.namedItem("id").value = "";
 		e.target.elements.namedItem("title").value = "";
@@ -40,19 +40,19 @@
 
 	async function mailPreview(mail_id) {
 		const mail = await API.response(Mail.findById, mail_id);
-		if(!mail) { return false; }
+		if (!mail) { return false; }
 
 		lib.display("mail-preview-window", "");
 
 		rendermail(mail);
 	};
 
-	function rendermail (mail) {
+	function rendermail(mail) {
 		let splitedContent = lib.splitTextBy(mail.content, "\n");
 		let templatedContent = "";
 
-		for(let i in splitedContent) {
-			if(i == 0) {
+		for (let i in splitedContent) {
+			if (i == 0) {
 				templatedContent += splitedContent[i] == "" ? "<br>" : `<p style='margin-left:10px;font-family:georgia;font-size:0.8em;'>${splitedContent[i]}</p>`;
 			} else {
 				templatedContent += splitedContent[i] == "" ? "<br>" : `<p style='margin-left:10px;margin-top:10px;font-family:georgia;font-size:0.8em;'>${splitedContent[i]}</p>`;
@@ -68,14 +68,14 @@
 		let content_box = document.getElementById("mail-preview-content");
 		content_box.innerHTML = "";
 
-		for(let i in templatedContent) {
+		for (let i in templatedContent) {
 			content_box.innerHTML = templatedContent;
 		};
 	};
 
 	async function mailEdit(mail_id) {
 		const mail = await API.response(Mail.findById, mail_id);
-		if(!mail) { return false; }
+		if (!mail) { return false; }
 
 		lib.display("mail-create-form", "");
 		lib.display("mail-filter-box", "none");
@@ -90,10 +90,10 @@
 	};
 
 	async function mailDelete(mail_id) {
-		if(!confirm("Tem certeza que deseja excluir este e-mail? Essa ação não pode ser desfeita?")) { return; }
+		if (!confirm("Tem certeza que deseja excluir este e-mail? Essa ação não pode ser desfeita?")) { return; }
 
 		const mail = await API.response(Mail.delete, mail_id);
-		if(!mail) { return false; }
+		if (!mail) { return false; }
 
 		document.getElementById("mail-filter-form").submit.click();
 	};
