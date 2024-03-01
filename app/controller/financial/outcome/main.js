@@ -145,7 +145,7 @@ outcomeController.filter = async (req, res) => {
 	lib.Query.fillParam("outcome.income_category_id", req.body.income_category_id, strict_params);
 	lib.Query.fillParam("outcome.status", req.body.status, strict_params);
 	lib.Query.fillParam("income_category.id", req.body.income_category_id, strict_params);
-	req.user.access != "adm" && lib.Query.fillParam("outcome.user_id", req.user.id, strict_params);
+	req.user.access != "adm" && req.body.category_id != 10 && lib.Query.fillParam("outcome.user_id", req.user.id, strict_params);
 
 	let order_params = [["outcome.payment_date", "DESC"]];
 
